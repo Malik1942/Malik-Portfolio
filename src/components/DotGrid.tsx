@@ -205,8 +205,8 @@ const DotGrid = () => {
 
     // ── 3. Gravitational orbs ──
     const orbs = orbsRef.current;
-    const G = 8; // gravitational constant
-    const minDist = 100; // minimum approach distance
+    const G = 8;
+    const minDist = 100;
 
     // Apply gravitational forces between orbs
     for (let i = 0; i < orbs.length; i++) {
@@ -222,15 +222,12 @@ const DotGrid = () => {
         const fx = (dx / dist) * force;
         const fy = (dy / dist) * force;
 
-        // Attract then repel at close range
         if (dist < minDist * 1.5) {
-          // Repel
           a.vx -= fx * 0.002;
           a.vy -= fy * 0.002;
           b.vx += fx * 0.002;
           b.vy += fy * 0.002;
         } else {
-          // Attract gently
           a.vx += fx * 0.0003;
           a.vy += fy * 0.0003;
           b.vx -= fx * 0.0003;
@@ -241,12 +238,60 @@ const DotGrid = () => {
 
     let newHoveredOrb: string | null = null;
 
+    // Detect hovered orb first
+    orbs.forEach((orb) => {
+      const orbDx = mx - orb.x;
+      const orbDy = my - orb.y;
+      const orbDist = Math.sqrt(orbDx * orbDx + orbDy * orbDy);
+      if (orbDist < 30) newHoveredOrb = orb.id;
+    });
+
+    // Draw connection lines between same-color orbs on hover
+    if (newHoveredOrb) {
+      const hovOrb = orbs.find((o) => o.id === newHoveredOrb);
+      if (hovOrb) {
+        orbs.forEach((orb) => {
+          if (orb.id === newHoveredOrb) return;
+          if (orb.color !== hovOrb.color) return;
+          const dx = orb.x - hovOrb.x;
+          const dy = orb.y - hovOrb.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist > 500) return;
+          const alpha = Math.max(0, 0.12 * (1 - dist / 500));
+          const col = hovOrb.color === "red" ? RED : GOLD;
+          ctx.beginPath();
+          ctx.moveTo(hovOrb.x, hovOrb.y);
+          ctx.lineTo(orb.x, orb.y);
+          ctx.strokeStyle = `rgba(${col}, ${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        });
+      }
+    }
+
+    // Gravitational pull on nearby stars toward hovered orb
+    if (newHoveredOrb) {
+      const hovOrb = orbs.find((o) => o.id === newHoveredOrb);
+      if (hovOrb) {
+        starsRef.current.forEach((star) => {
+          const dx = hovOrb.x - star.x;
+          const dy = hovOrb.y - star.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120 && dist > 2) {
+            const pull = 0.15 * (1 - dist / 120);
+            star.x += (dx / dist) * pull;
+            star.y += (dy / dist) * pull;
+          }
+        });
+      }
+    }
+
     orbs.forEach((orb) => {
       // Move
       orb.x += orb.vx;
       orb.y += orb.vy;
 
-      // Soft edge bounce — keep orbs above bottom menu area (bottom 15%)
+      // Soft edge bounce
       const pad = 80;
       const bottomLimit = h * 0.82;
       if (orb.x < pad) { orb.vx += 0.02; orb.x = Math.max(pad, orb.x); }
@@ -254,68 +299,72 @@ const DotGrid = () => {
       if (orb.y < pad) { orb.vy += 0.02; orb.y = Math.max(pad, orb.y); }
       if (orb.y > bottomLimit) { orb.vy -= 0.02; orb.y = Math.min(bottomLimit, orb.y); }
 
-      // Tiny drift
-      orb.vx += (Math.random() - 0.5) * 0.005;
-      orb.vy += (Math.random() - 0.5) * 0.005;
+      // Drift — AI projects get more dynamic drift
+      const isAI = orb.color === "gold";
+      const driftAmt = isAI ? 0.008 : 0.004;
+      orb.vx += (Math.random() - 0.5) * driftAmt;
+      orb.vy += (Math.random() - 0.5) * driftAmt;
 
-      // Clamp speed — slow and cosmic
-      const maxSpeed = 0.2;
+      // Speed — AI projects slightly faster
+      const maxSpeed = isAI ? 0.28 : 0.18;
       const speed = Math.sqrt(orb.vx * orb.vx + orb.vy * orb.vy);
       if (speed > maxSpeed) {
         orb.vx = (orb.vx / speed) * maxSpeed;
         orb.vy = (orb.vy / speed) * maxSpeed;
       }
 
-      // Damping
-      orb.vx *= 0.998;
-      orb.vy *= 0.998;
+      // Damping — main projects more grounded
+      orb.vx *= isAI ? 0.996 : 0.993;
+      orb.vy *= isAI ? 0.996 : 0.993;
 
       const col = orb.color === "red" ? RED : GOLD;
-      const pulse = 0.85 + Math.sin(time * 0.8 + orb.mass * 3) * 0.15;
 
-      // Check hover — use orb center as the hitbox center
+      // Breathing animation — slow, calm scale + opacity pulse
+      // AI projects breathe slightly faster and with more range
+      const breathSpeed = isAI ? 1.2 : 0.6;
+      const breathAmp = isAI ? 0.2 : 0.12;
+      const breath = 1 - breathAmp / 2 + Math.sin(time * breathSpeed + orb.mass * 3) * breathAmp;
+      const opacityBreath = 0.85 + Math.sin(time * breathSpeed * 0.7 + orb.mass * 2) * 0.15;
+
       const orbDx = mx - orb.x;
       const orbDy = my - orb.y;
       const orbDist = Math.sqrt(orbDx * orbDx + orbDy * orbDy);
       const isHovered = orbDist < 30;
-      if (isHovered) newHoveredOrb = orb.id;
 
-      // Magnetic field: nearby background dots get subtly attracted
-      const fieldRadius = isHovered ? 55 : 45;
       const hoverScale = isHovered ? 1.25 : 1;
-      const ringAlpha = isHovered ? 0.25 : 0.1;
+      const ringAlpha = isHovered ? 0.25 : 0.08 * opacityBreath;
       const glowRadius = isHovered ? 55 : 42;
 
       // Glow
       const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, glowRadius);
-      grad.addColorStop(0, `rgba(${col}, ${(isHovered ? 0.22 : 0.15) * pulse})`);
+      grad.addColorStop(0, `rgba(${col}, ${(isHovered ? 0.22 : 0.12 * opacityBreath) * breath})`);
       grad.addColorStop(1, `rgba(${col}, 0)`);
       ctx.beginPath();
       ctx.arc(orb.x, orb.y, glowRadius, 0, Math.PI * 2);
       ctx.fillStyle = grad;
       ctx.fill();
 
-      // Single soft ring — no crosshair
+      // Ring
       ctx.beginPath();
-      ctx.arc(orb.x, orb.y, 24 * hoverScale, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(200, 200, 210, ${ringAlpha * pulse})`;
+      ctx.arc(orb.x, orb.y, 24 * hoverScale * breath, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(200, 200, 210, ${ringAlpha})`;
       ctx.lineWidth = isHovered ? 0.8 : 0.5;
       ctx.stroke();
 
       // Core dot
       ctx.beginPath();
-      ctx.arc(orb.x, orb.y, orb.baseSize * pulse * hoverScale, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${col}, ${0.9 * pulse})`;
+      ctx.arc(orb.x, orb.y, orb.baseSize * breath * hoverScale, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${col}, ${(isHovered ? 0.95 : 0.85) * opacityBreath})`;
       ctx.fill();
 
       // Label
-      ctx.font = `${isHovered ? "500" : "500"} 12px 'Space Grotesk', sans-serif`;
-      ctx.fillStyle = `rgba(${col}, ${isHovered ? 0.95 : 0.8})`;
+      ctx.font = "500 12px 'Space Grotesk', sans-serif";
+      ctx.fillStyle = `rgba(${col}, ${(isHovered ? 0.95 : 0.75) * opacityBreath})`;
       ctx.fillText(orb.label, orb.x + 16, orb.y - 3);
 
       // Subtitle
       ctx.font = "400 9px 'Space Grotesk', sans-serif";
-      ctx.fillStyle = `rgba(${col}, ${isHovered ? 0.6 : 0.45})`;
+      ctx.fillStyle = `rgba(${col}, ${(isHovered ? 0.6 : 0.4) * opacityBreath})`;
       ctx.fillText(orb.subtitle, orb.x + 16, orb.y + 10);
     });
 
