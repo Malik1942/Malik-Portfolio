@@ -23,7 +23,7 @@ const selectedWork = [
     role: "Product Designer, Maker",
     coverImage: neuralyfeCover,
     year: "2025",
-    details: "Led early-stage ideation and defined the problem space for NeuraLyfe, framing how invisible cumulative brain trauma could be made perceptible and actionable.\n\nDesigned and prompted the AI-driven Impact Replay interface, translating impact data into intuitive, emotionally resonant visual narratives.\n\nContributed to the end-to-end system, including interaction design, visual direction, and the design, rendering, and prototyping of the physical device.\n\nThe project was recognized with 1st Place at FigBuild 2026, validating its strength in concept, execution, and system-level thinking.",
+    details: "Led ideation and defined the problem scope for NeuraLyfe, designing the AI-driven Impact Replay interface and contributing across both digital and physical product development.\n\nAwarded 1st Place at FigBuild 2026, recognizing the project’s concept, execution, and system design.",
   },
   {
     id: "flowprint",
