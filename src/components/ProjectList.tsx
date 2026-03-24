@@ -67,14 +67,21 @@ const ProjectRow = ({ project, index, dotClass }: { project: Project; index: num
 
       {/* Expandable details */}
       <div
-        className="overflow-hidden"
+        className="grid"
         style={{
-          maxHeight: isHovered ? contentHeight : 0,
-          opacity: isHovered ? 1 : 0,
-          transition: "max-height 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease",
+          gridTemplateRows: isHovered ? "1fr" : "0fr",
+          transition: "grid-template-rows 0.6s cubic-bezier(0.4, 0, 0, 1)",
         }}
       >
-        <div ref={contentRef} className="pb-10 ml-14">
+        <div className="overflow-hidden">
+          <div
+            className="pb-10 ml-14"
+            style={{
+              opacity: isHovered ? 1 : 0,
+              transform: isHovered ? "translateY(0)" : "translateY(-8px)",
+              transition: "opacity 0.5s ease 0.1s, transform 0.5s cubic-bezier(0.4, 0, 0, 1) 0.1s",
+            }}
+          >
           <div className="flex flex-col md:flex-row gap-8">
             {/* Cover image placeholder */}
             <div className="w-full md:w-[320px] shrink-0">
