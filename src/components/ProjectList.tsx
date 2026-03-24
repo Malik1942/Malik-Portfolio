@@ -151,7 +151,7 @@ const ProjectList = ({ id, sectionTitle, sectionSubtitle, dotColor, projects }: 
 
       <div>
         {projects.map((project, i) => (
-          <ProjectRow key={project.title} project={project} index={i} dotClass={dotClass} />
+          <ProjectRow key={project.title} project={project} index={i} dotClass={dotClass} projectId={project.id} />
         ))}
         <div className="border-t border-border" />
       </div>
