@@ -4,6 +4,7 @@ import ProjectList from "@/components/ProjectList";
 import auraCover from "@/assets/aura-cover.png";
 import neuralyfeCover from "@/assets/neuralyfe-cover.png";
 import flowprintCover from "@/assets/flowprint-cover.png";
+import tubularCover from "@/assets/tubular-cover.jpg";
 
 const selectedWork = [
   {
