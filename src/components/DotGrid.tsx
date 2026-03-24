@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback } from "react";
 
-// ── Project orbs that wander ──
+// ── Project orbs ──
 interface Orb {
   label: string;
   subtitle: string;
@@ -10,21 +10,22 @@ interface Orb {
   vx: number;
   vy: number;
   baseSize: number;
+  mass: number;
+  id: string;
 }
 
 const ORB_DEFS = [
-  { label: "Aura", subtitle: "Selected Work", color: "red" as const, rx: 0.12, ry: 0.28 },
-  { label: "NeuraLyfe", subtitle: "Selected Work", color: "red" as const, rx: 0.35, ry: 0.65 },
-  { label: "FlowPrint", subtitle: "Selected Work", color: "red" as const, rx: 0.8, ry: 0.78 },
-  { label: "ContentForge", subtitle: "Built with AI", color: "gold" as const, rx: 0.55, ry: 0.22 },
-  { label: "InsightLens", subtitle: "Built with AI", color: "gold" as const, rx: 0.5, ry: 0.48 },
-  { label: "OneAdvisory", subtitle: "Built with AI", color: "gold" as const, rx: 0.82, ry: 0.38 },
+  { label: "Aura", subtitle: "Main Projects", color: "red" as const, rx: 0.12, ry: 0.28, id: "aura" },
+  { label: "NeuraLyfe", subtitle: "Main Projects", color: "red" as const, rx: 0.35, ry: 0.65, id: "neuralyfe" },
+  { label: "FlowPrint", subtitle: "Main Projects", color: "red" as const, rx: 0.8, ry: 0.78, id: "flowprint" },
+  { label: "ContentForge", subtitle: "Built with AI", color: "gold" as const, rx: 0.55, ry: 0.22, id: "contentforge" },
+  { label: "InsightLens", subtitle: "Built with AI", color: "gold" as const, rx: 0.5, ry: 0.48, id: "insightlens" },
+  { label: "OneAdvisory", subtitle: "Built with AI", color: "gold" as const, rx: 0.82, ry: 0.38, id: "oneadvisory" },
 ];
 
 const RED = "220, 50, 47";
 const GOLD = "250, 200, 50";
 
-// ── Background star dots ──
 interface StarDot {
   x: number;
   y: number;
@@ -34,12 +35,13 @@ interface StarDot {
   ringRadius: number;
 }
 
-// ── Text dot particle ──
 interface TextDot {
   x: number;
   y: number;
   baseX: number;
   baseY: number;
+  vx: number;
+  vy: number;
 }
 
 const DotGrid = () => {
@@ -52,6 +54,7 @@ const DotGrid = () => {
   const textDotsRef = useRef<TextDot[]>([]);
   const sizeRef = useRef({ w: 0, h: 0 });
   const initRef = useRef(false);
+  const hoveredOrbRef = useRef<string | null>(null);
 
   const initScene = useCallback((w: number, h: number) => {
     // Random star dots
@@ -70,14 +73,15 @@ const DotGrid = () => {
     }
     starsRef.current = stars;
 
-    // Orbs
+    // Orbs with mass for gravitational interaction
     orbsRef.current = ORB_DEFS.map((d) => ({
       ...d,
       x: d.rx * w,
       y: d.ry * h,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
+      vx: (Math.random() - 0.5) * 0.12,
+      vy: (Math.random() - 0.5) * 0.12,
       baseSize: 5 + Math.random() * 2,
+      mass: 1 + Math.random() * 2,
     }));
 
     // Text dots — dense dot-matrix for "Malik Zhang"
@@ -93,23 +97,17 @@ const DotGrid = () => {
       ctx.textBaseline = "middle";
       ctx.fillStyle = "white";
 
-      // Two lines
       const lineGap = fontSize * 1.05;
       ctx.fillText("Malik", w / 2, h * 0.38 - lineGap * 0.25);
       ctx.fillText("Zhang", w / 2, h * 0.38 + lineGap * 0.75);
 
       const imageData = ctx.getImageData(0, 0, w, h);
-      const gap = 4; // dense
+      const gap = 4;
       for (let y = 0; y < h; y += gap) {
         for (let x = 0; x < w; x += gap) {
           const i = (y * w + x) * 4;
           if (imageData.data[i + 3] > 100) {
-            textDots.push({
-              x: x,
-              y: y,
-              baseX: x,
-              baseY: y,
-            });
+            textDots.push({ x, y, baseX: x, baseY: y, vx: 0, vy: 0 });
           }
         }
       }
@@ -142,12 +140,10 @@ const DotGrid = () => {
     starsRef.current.forEach((star) => {
       const twinkle = Math.sin(time * 1.5 + star.x * 0.01 + star.y * 0.01) * 0.15 + 0.85;
       const alpha = star.opacity * twinkle;
-
       ctx.beginPath();
       ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(200, 200, 210, ${alpha})`;
       ctx.fill();
-
       if (star.hasRing) {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.ringRadius, 0, Math.PI * 2);
@@ -157,94 +153,185 @@ const DotGrid = () => {
       }
     });
 
-    // ── 2. Text dots with splash interaction ──
-    const splashRadius = 120;
-    const splashForce = 0.6;
+    // ── 2. Text dots — dynamic splash with velocity ──
+    const splashRadius = 150;
     textDotsRef.current.forEach((p) => {
       const dx = mx - p.baseX;
       const dy = my - p.baseY;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      if (dist < splashRadius) {
+      if (dist < splashRadius && dist > 0) {
         const force = (splashRadius - dist) / splashRadius;
-        const ease = force * force * force; // cubic for snappy splash
-        p.x = p.baseX - dx * ease * splashForce;
-        p.y = p.baseY - dy * ease * splashForce;
-      } else {
-        // Spring back
-        p.x += (p.baseX - p.x) * 0.08;
-        p.y += (p.baseY - p.y) * 0.08;
+        const power = force * force * force;
+        // Explosive outward velocity
+        const angle = Math.atan2(p.baseY - my, p.baseX - mx);
+        p.vx += Math.cos(angle) * power * 3.5;
+        p.vy += Math.sin(angle) * power * 3.5;
       }
+
+      // Spring force back to base
+      const returnDx = p.baseX - p.x;
+      const returnDy = p.baseY - p.y;
+      p.vx += returnDx * 0.04;
+      p.vy += returnDy * 0.04;
+
+      // Damping
+      p.vx *= 0.88;
+      p.vy *= 0.88;
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Distance from base for opacity variation
+      const displacement = Math.sqrt((p.x - p.baseX) ** 2 + (p.y - p.baseY) ** 2);
+      const glowAlpha = Math.min(0.85, 0.6 + displacement * 0.008);
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, 1.3, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(225, 222, 215, 0.65)";
+      ctx.fillStyle = `rgba(225, 222, 215, ${glowAlpha})`;
       ctx.fill();
     });
 
-    // ── 3. Wandering project orbs ──
-    orbsRef.current.forEach((orb) => {
-      // Wander movement
+    // ── 3. Gravitational orbs ──
+    const orbs = orbsRef.current;
+    const G = 8; // gravitational constant
+    const minDist = 100; // minimum approach distance
+
+    // Apply gravitational forces between orbs
+    for (let i = 0; i < orbs.length; i++) {
+      for (let j = i + 1; j < orbs.length; j++) {
+        const a = orbs[i];
+        const b = orbs[j];
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < minDist) dist = minDist;
+
+        const force = (G * a.mass * b.mass) / (dist * dist);
+        const fx = (dx / dist) * force;
+        const fy = (dy / dist) * force;
+
+        // Attract then repel at close range
+        if (dist < minDist * 1.5) {
+          // Repel
+          a.vx -= fx * 0.002;
+          a.vy -= fy * 0.002;
+          b.vx += fx * 0.002;
+          b.vy += fy * 0.002;
+        } else {
+          // Attract gently
+          a.vx += fx * 0.0003;
+          a.vy += fy * 0.0003;
+          b.vx -= fx * 0.0003;
+          b.vy -= fy * 0.0003;
+        }
+      }
+    }
+
+    let newHoveredOrb: string | null = null;
+
+    orbs.forEach((orb) => {
+      // Move
       orb.x += orb.vx;
       orb.y += orb.vy;
 
-      // Bounce off edges with padding
+      // Soft edge bounce
       const pad = 80;
-      if (orb.x < pad || orb.x > w - pad) {
-        orb.vx *= -1;
-        orb.x = Math.max(pad, Math.min(w - pad, orb.x));
-      }
-      if (orb.y < pad || orb.y > h - pad) {
-        orb.vy *= -1;
-        orb.y = Math.max(pad, Math.min(h - pad, orb.y));
-      }
+      if (orb.x < pad) { orb.vx += 0.02; orb.x = Math.max(pad, orb.x); }
+      if (orb.x > w - pad) { orb.vx -= 0.02; orb.x = Math.min(w - pad, orb.x); }
+      if (orb.y < pad) { orb.vy += 0.02; orb.y = Math.max(pad, orb.y); }
+      if (orb.y > h - pad) { orb.vy -= 0.02; orb.y = Math.min(h - pad, orb.y); }
 
-      // Slight random drift
-      orb.vx += (Math.random() - 0.5) * 0.02;
-      orb.vy += (Math.random() - 0.5) * 0.02;
-      // Clamp speed
-      const maxSpeed = 0.5;
+      // Tiny drift
+      orb.vx += (Math.random() - 0.5) * 0.005;
+      orb.vy += (Math.random() - 0.5) * 0.005;
+
+      // Clamp speed — slow and cosmic
+      const maxSpeed = 0.2;
       const speed = Math.sqrt(orb.vx * orb.vx + orb.vy * orb.vy);
       if (speed > maxSpeed) {
         orb.vx = (orb.vx / speed) * maxSpeed;
         orb.vy = (orb.vy / speed) * maxSpeed;
       }
 
+      // Damping
+      orb.vx *= 0.998;
+      orb.vy *= 0.998;
+
       const col = orb.color === "red" ? RED : GOLD;
-      const pulse = 0.85 + Math.sin(time * 1.2 + orb.x * 0.01) * 0.15;
+      const pulse = 0.85 + Math.sin(time * 0.8 + orb.mass * 3) * 0.15;
+
+      // Check hover
+      const orbDx = mx - orb.x;
+      const orbDy = my - orb.y;
+      const orbDist = Math.sqrt(orbDx * orbDx + orbDy * orbDy);
+      const isHovered = orbDist < 35;
+      if (isHovered) newHoveredOrb = orb.id;
+
+      const hoverScale = isHovered ? 1.4 : 1;
+      const ringAlpha = isHovered ? 0.3 : 0.1;
+      const glowRadius = isHovered ? 60 : 45;
 
       // Glow
-      const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, 45);
-      grad.addColorStop(0, `rgba(${col}, ${0.15 * pulse})`);
+      const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, glowRadius);
+      grad.addColorStop(0, `rgba(${col}, ${(isHovered ? 0.25 : 0.15) * pulse})`);
       grad.addColorStop(1, `rgba(${col}, 0)`);
       ctx.beginPath();
-      ctx.arc(orb.x, orb.y, 45, 0, Math.PI * 2);
+      ctx.arc(orb.x, orb.y, glowRadius, 0, Math.PI * 2);
       ctx.fillStyle = grad;
       ctx.fill();
 
-      // Ring
+      // Outer ring
       ctx.beginPath();
-      ctx.arc(orb.x, orb.y, 24, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(200, 200, 210, ${0.1 * pulse})`;
-      ctx.lineWidth = 0.6;
+      ctx.arc(orb.x, orb.y, 28 * hoverScale, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(200, 200, 210, ${ringAlpha * pulse})`;
+      ctx.lineWidth = isHovered ? 1 : 0.6;
       ctx.stroke();
+
+      // Inner ring (aiming crosshair) on hover
+      if (isHovered) {
+        ctx.beginPath();
+        ctx.arc(orb.x, orb.y, 16, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${col}, 0.25)`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+
+        // Crosshair lines
+        const ch = 6;
+        ctx.strokeStyle = `rgba(${col}, 0.2)`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(orb.x - ch, orb.y); ctx.lineTo(orb.x + ch, orb.y);
+        ctx.moveTo(orb.x, orb.y - ch); ctx.lineTo(orb.x, orb.y + ch);
+        ctx.stroke();
+      }
 
       // Core
       ctx.beginPath();
-      ctx.arc(orb.x, orb.y, orb.baseSize * pulse, 0, Math.PI * 2);
+      ctx.arc(orb.x, orb.y, orb.baseSize * pulse * hoverScale, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${col}, ${0.9 * pulse})`;
       ctx.fill();
 
       // Label
-      ctx.font = "500 12px 'Space Grotesk', sans-serif";
-      ctx.fillStyle = `rgba(${col}, ${0.8 * pulse})`;
-      ctx.fillText(orb.label, orb.x + 16, orb.y - 3);
+      ctx.font = `${isHovered ? "600" : "500"} ${isHovered ? 13 : 12}px 'Space Grotesk', sans-serif`;
+      ctx.fillStyle = `rgba(${col}, ${isHovered ? 0.95 : 0.8} )`;
+      ctx.fillText(orb.label, orb.x + 18 * hoverScale, orb.y - 3);
 
       // Subtitle
       ctx.font = "400 9px 'Space Grotesk', sans-serif";
-      ctx.fillStyle = `rgba(${col}, ${0.45 * pulse})`;
-      ctx.fillText(orb.subtitle, orb.x + 16, orb.y + 10);
+      ctx.fillStyle = `rgba(${col}, ${isHovered ? 0.6 : 0.45})`;
+      ctx.fillText(orb.subtitle, orb.x + 18 * hoverScale, orb.y + 10);
     });
+
+    hoveredOrbRef.current = newHoveredOrb;
+
+    // Update canvas cursor style
+    if (canvas) {
+      canvas.style.cursor = newHoveredOrb ? "none" : "none";
+    }
+
+    // Dispatch custom event for cursor component
+    window.dispatchEvent(new CustomEvent("orb-hover", { detail: { hovering: !!newHoveredOrb } }));
 
     animRef.current = requestAnimationFrame(draw);
   }, []);
@@ -270,12 +357,27 @@ const DotGrid = () => {
     };
     window.addEventListener("mousemove", onMove);
 
+    // Click handler for orbs
+    const onClick = () => {
+      const id = hoveredOrbRef.current;
+      if (id) {
+        // Navigate to project section
+        const orb = ORB_DEFS.find(o => o.id === id);
+        if (orb) {
+          const sectionId = orb.color === "red" ? "projects" : "ai-projects";
+          document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    };
+    canvas.addEventListener("click", onClick);
+
     animRef.current = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(animRef.current);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
+      canvas.removeEventListener("click", onClick);
     };
   }, [draw, initScene]);
 
