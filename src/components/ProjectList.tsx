@@ -94,7 +94,7 @@ const ProjectRow = ({ project, index, dotClass, projectId }: { project: Project;
                   <img
                     src={project.coverImage}
                     alt={project.title}
-                    className="w-full h-[200px] object-cover rounded-sm bg-secondary"
+                    className={`w-full h-[200px] rounded-sm bg-secondary ${project.coverFit === "contain" ? "object-contain" : "object-cover"}`}
                   />
                 ) : (
                   <div className="w-full h-[200px] rounded-sm bg-secondary/50 border border-border flex items-center justify-center">
