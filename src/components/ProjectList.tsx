@@ -28,7 +28,7 @@ const ProjectList = ({ id, sectionTitle, sectionSubtitle, dotColor, projects }: 
           }
         });
       },
-      { threshold: 0.15, rootMargin: "-40px" }
+      { threshold: 0.1, rootMargin: "-20px" }
     );
 
     const els = sectionRef.current?.querySelectorAll(".reveal");
@@ -38,12 +38,12 @@ const ProjectList = ({ id, sectionTitle, sectionSubtitle, dotColor, projects }: 
   }, []);
 
   return (
-    <section id={id} ref={sectionRef} className="px-6 md:px-16 lg:px-24 py-28">
+    <section id={id} ref={sectionRef} className="px-6 md:px-16 lg:px-24 py-24">
       {/* Section header */}
-      <div className="reveal mb-20">
-        <div className="flex items-center gap-3 mb-1">
+      <div className="reveal mb-16">
+        <div className="flex items-center gap-3 mb-2">
           <span className={`w-2 h-2 rounded-full ${dotClass}`} />
-          <h2 className="text-2xl md:text-3xl font-semibold text-foreground text-display">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground text-display">
             {sectionTitle}
           </h2>
         </div>
@@ -58,27 +58,26 @@ const ProjectList = ({ id, sectionTitle, sectionSubtitle, dotColor, projects }: 
             className="reveal border-t border-border group"
             style={{ transitionDelay: `${i * 80}ms` }}
           >
-            <div className="py-8 md:py-10 flex items-start justify-between gap-6 cursor-pointer">
+            <div className="py-8 md:py-10 flex items-start justify-between gap-4">
               {/* Left */}
               <div className="flex-1 min-w-0">
-                <div className="flex items-baseline gap-4 mb-1.5">
-                  <span className="text-muted-foreground text-xs text-mono tabular-nums shrink-0">
+                <div className="flex items-center gap-4 mb-2">
+                  <span className={`w-2 h-2 rounded-full flex-shrink-0 ${dotClass}`} />
+                  <span className="text-muted-foreground text-xs text-mono">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="text-xl md:text-2xl lg:text-3xl font-medium text-foreground text-display group-hover:text-muted-foreground transition-colors duration-500 truncate">
+                  <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground text-display group-hover:text-muted-foreground transition-colors duration-500">
                     {project.title}
                   </h3>
                 </div>
-                <p className="text-muted-foreground text-sm ml-10 max-w-lg">{project.description}</p>
+                <p className="text-muted-foreground text-sm ml-14">{project.description}</p>
               </div>
 
               {/* Right */}
-              <div className="flex items-center gap-6 text-sm text-muted-foreground text-body mt-1 shrink-0">
+              <div className="flex items-center gap-6 text-sm text-muted-foreground text-body mt-2 shrink-0">
                 <span className="hidden md:block">{project.role}</span>
                 <span className="text-mono text-xs">{project.year}</span>
-                <span
-                  className="text-lg text-muted-foreground group-hover:text-foreground group-hover:rotate-45 transition-all duration-500"
-                >
+                <span className="text-lg text-muted-foreground group-hover:text-foreground group-hover:rotate-45 transition-all duration-500">
                   ↗
                 </span>
               </div>
