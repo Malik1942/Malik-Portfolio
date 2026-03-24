@@ -13,6 +13,7 @@ const selectedWork = [
     role: "Product Designer",
     year: "2025",
     coverImage: auraCover,
+    coverFit: "contain" as const,
     details: "Led the end-to-end design of a fintech app that simplifies budgeting, investing, and saving for young professionals.\n\nConducted user research with 200+ participants, developed a design system from scratch, and shipped an MVP that grew to 50K users in 3 months.",
   },
   {
@@ -30,6 +31,7 @@ const selectedWork = [
     description: "A frictionless 3D printing system that removes complexity for beginners.",
     role: "Lead Product Designer",
     coverImage: flowprintCover,
+    coverFit: "contain" as const,
     year: "2026",
     details: "Led product design for a consumer 3D printing experience that reduced setup time from 2 hours to 15 minutes.\n\nDesigned onboarding flows, real-time print monitoring UI, and a material recommendation engine.",
   },
