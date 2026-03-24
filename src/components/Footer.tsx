@@ -39,7 +39,6 @@ const Footer = () => {
                 Email
               </a>
             </li>
-            </li>
             <li>
               <a
                 href="https://linkedin.com"
