@@ -1,6 +1,7 @@
 import CustomCursor from "@/components/CustomCursor";
 import HeroSection from "@/components/HeroSection";
 import ProjectList from "@/components/ProjectList";
+import auraCover from "@/assets/aura-cover.png";
 
 const selectedWork = [
   {
@@ -9,6 +10,7 @@ const selectedWork = [
     description: "A calm, proactive system for preventing motion sickness in motion.",
     role: "Product Designer",
     year: "2025",
+    coverImage: auraCover,
     details: "Led the end-to-end design of a fintech app that simplifies budgeting, investing, and saving for young professionals.\n\nConducted user research with 200+ participants, developed a design system from scratch, and shipped an MVP that grew to 50K users in 3 months.",
   },
   {
