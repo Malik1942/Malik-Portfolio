@@ -7,6 +7,7 @@ interface Project {
   role: string;
   year: string;
   coverImage?: string;
+  coverVideo?: string;
   details?: string;
 }
 
