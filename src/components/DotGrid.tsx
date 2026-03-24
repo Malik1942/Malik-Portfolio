@@ -15,12 +15,13 @@ interface Orb {
 }
 
 const ORB_DEFS = [
-  { label: "Aura", subtitle: "Main Projects", color: "red" as const, rx: 0.12, ry: 0.28, id: "aura" },
-  { label: "NeuraLyfe", subtitle: "Main Projects", color: "red" as const, rx: 0.35, ry: 0.65, id: "neuralyfe" },
-  { label: "FlowPrint", subtitle: "Main Projects", color: "red" as const, rx: 0.8, ry: 0.78, id: "flowprint" },
-  { label: "ContentForge", subtitle: "Built with AI", color: "gold" as const, rx: 0.55, ry: 0.22, id: "contentforge" },
-  { label: "InsightLens", subtitle: "Built with AI", color: "gold" as const, rx: 0.5, ry: 0.48, id: "insightlens" },
-  { label: "OneAdvisory", subtitle: "Built with AI", color: "gold" as const, rx: 0.82, ry: 0.38, id: "oneadvisory" },
+  { label: "Aura", subtitle: "Main Projects", color: "red" as const, rx: 0.1, ry: 0.25, id: "aura" },
+  { label: "NeuraLyfe", subtitle: "Main Projects", color: "red" as const, rx: 0.3, ry: 0.65, id: "neuralyfe" },
+  { label: "FlowPrint", subtitle: "Main Projects", color: "red" as const, rx: 0.75, ry: 0.75, id: "flowprint" },
+  { label: "Tubular", subtitle: "Main Projects", color: "red" as const, rx: 0.18, ry: 0.8, id: "tubular" },
+  { label: "Inspire Ocean", subtitle: "Built with AI", color: "gold" as const, rx: 0.55, ry: 0.2, id: "inspireocean" },
+  { label: "Studio Waters", subtitle: "Built with AI", color: "gold" as const, rx: 0.5, ry: 0.48, id: "studiowaters" },
+  { label: "OneAdvisory", subtitle: "Built with AI", color: "gold" as const, rx: 0.85, ry: 0.35, id: "oneadvisory" },
 ];
 
 const RED = "220, 50, 47";
