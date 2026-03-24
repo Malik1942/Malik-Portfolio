@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import ProjectList from "@/components/ProjectList";
 import auraCover from "@/assets/aura-cover.png";
 import neuralyfeCover from "@/assets/neuralyfe-cover.png";
+import flowprintCover from "@/assets/flowprint-cover.png";
 
 const selectedWork = [
   {
