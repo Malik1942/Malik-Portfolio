@@ -246,12 +246,13 @@ const DotGrid = () => {
       orb.x += orb.vx;
       orb.y += orb.vy;
 
-      // Soft edge bounce
+      // Soft edge bounce — keep orbs above bottom menu area (bottom 15%)
       const pad = 80;
+      const bottomLimit = h * 0.82;
       if (orb.x < pad) { orb.vx += 0.02; orb.x = Math.max(pad, orb.x); }
       if (orb.x > w - pad) { orb.vx -= 0.02; orb.x = Math.min(w - pad, orb.x); }
       if (orb.y < pad) { orb.vy += 0.02; orb.y = Math.max(pad, orb.y); }
-      if (orb.y > h - pad) { orb.vy -= 0.02; orb.y = Math.min(h - pad, orb.y); }
+      if (orb.y > bottomLimit) { orb.vy -= 0.02; orb.y = Math.min(bottomLimit, orb.y); }
 
       // Tiny drift
       orb.vx += (Math.random() - 0.5) * 0.005;
