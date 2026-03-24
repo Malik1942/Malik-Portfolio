@@ -23,7 +23,7 @@ const selectedWork = [
     role: "Product Designer, Maker",
     coverImage: neuralyfeCover,
     year: "2025",
-    details: "Designed and prototyped a diagnostic platform that visualizes brain injury data for clinicians.\n\nCreated interactive data dashboards, patient journey flows, and a design system that unified medical complexity into intuitive interfaces.",
+    details: "Led early-stage ideation and defined the problem space for NeuraLyfe, framing how invisible cumulative brain trauma could be made perceptible and actionable.\n\nDesigned and prompted the AI-driven Impact Replay interface, translating impact data into intuitive, emotionally resonant visual narratives.\n\nContributed to the end-to-end system, including interaction design, visual direction, and the design, rendering, and prototyping of the physical device.\n\nThe project was recognized with 1st Place at FigBuild 2026, validating its strength in concept, execution, and system-level thinking.",
   },
   {
     id: "flowprint",
