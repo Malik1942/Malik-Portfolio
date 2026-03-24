@@ -161,3 +161,8 @@
   transform: scaleX(1);
   transform-origin: left;
 }
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
