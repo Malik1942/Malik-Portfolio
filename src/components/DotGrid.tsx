@@ -12,6 +12,7 @@ interface Orb {
   baseSize: number;
   mass: number;
   id: string;
+  hoverT: number; // 0..1 smoothly interpolated hover intensity
 }
 
 const ORB_DEFS = [
