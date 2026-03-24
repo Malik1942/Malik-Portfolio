@@ -165,7 +165,7 @@ const DotGrid = () => {
     });
 
     // ── 2. Text dots — intense continuous splash ──
-    const splashRadius = 200;
+    const splashRadius = 90;
     textDotsRef.current.forEach((p) => {
       const dx = mx - p.baseX;
       const dy = my - p.baseY;
@@ -175,24 +175,21 @@ const DotGrid = () => {
         const force = (splashRadius - dist) / splashRadius;
         const power = force * force;
         const angle = Math.atan2(p.baseY - my, p.baseX - mx);
-        // Varying amplitude — randomized per frame for chaotic energy
-        const amp = 6 + Math.random() * 8;
+        const amp = 4 + Math.random() * 5;
         p.vx += Math.cos(angle) * power * amp;
         p.vy += Math.sin(angle) * power * amp;
-        // Heavy turbulence — varying directions
-        p.vx += (Math.random() - 0.5) * power * 5;
-        p.vy += (Math.random() - 0.5) * power * 5;
+        p.vx += (Math.random() - 0.5) * power * 3;
+        p.vy += (Math.random() - 0.5) * power * 3;
       }
 
-      // Very weak spring — dots fly far and return slowly
+      // Stronger spring to keep dots closer to origin
       const returnDx = p.baseX - p.x;
       const returnDy = p.baseY - p.y;
-      p.vx += returnDx * 0.015;
-      p.vy += returnDy * 0.015;
+      p.vx += returnDx * 0.035;
+      p.vy += returnDy * 0.035;
 
-      // Low damping — particles stay energized
-      p.vx *= 0.94;
-      p.vy *= 0.94;
+      p.vx *= 0.91;
+      p.vy *= 0.91;
 
       p.x += p.vx;
       p.y += p.vy;
