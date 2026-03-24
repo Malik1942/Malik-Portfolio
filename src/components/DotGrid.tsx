@@ -58,15 +58,16 @@ const DotGrid = () => {
 
   const initScene = useCallback((w: number, h: number) => {
     // Random star dots
-    const starCount = Math.floor((w * h) / 2800);
+    const starCount = Math.floor((w * h) / 2400);
     const stars: StarDot[] = [];
     for (let i = 0; i < starCount; i++) {
       const hasRing = Math.random() < 0.12;
+      const isBright = Math.random() < 0.15;
       stars.push({
         x: Math.random() * w,
         y: Math.random() * h,
-        size: Math.random() * 1.6 + 0.5,
-        opacity: Math.random() * 0.4 + 0.1,
+        size: isBright ? Math.random() * 2 + 1.2 : Math.random() * 1.4 + 0.5,
+        opacity: isBright ? Math.random() * 0.3 + 0.65 : Math.random() * 0.35 + 0.2,
         hasRing,
         ringRadius: hasRing ? Math.random() * 8 + 8 : 0,
       });
