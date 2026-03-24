@@ -358,11 +358,9 @@ const DotGrid = () => {
     const onClick = () => {
       const id = hoveredOrbRef.current;
       if (id) {
-        // Navigate to project section
-        const orb = ORB_DEFS.find(o => o.id === id);
-        if (orb) {
-          const sectionId = orb.color === "red" ? "projects" : "ai-projects";
-          document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+        const el = document.getElementById(`project-${id}`);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
         }
       }
     };
