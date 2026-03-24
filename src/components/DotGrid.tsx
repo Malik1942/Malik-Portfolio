@@ -164,8 +164,8 @@ const DotGrid = () => {
       }
     });
 
-    // ── 2. Text dots — dynamic splash with velocity ──
-    const splashRadius = 150;
+    // ── 2. Text dots — continuous splash while hovering ──
+    const splashRadius = 160;
     textDotsRef.current.forEach((p) => {
       const dx = mx - p.baseX;
       const dy = my - p.baseY;
@@ -174,28 +174,31 @@ const DotGrid = () => {
       if (dist < splashRadius && dist > 0) {
         const force = (splashRadius - dist) / splashRadius;
         const power = force * force * force;
-        // Explosive outward velocity
         const angle = Math.atan2(p.baseY - my, p.baseX - mx);
-        p.vx += Math.cos(angle) * power * 3.5;
-        p.vy += Math.sin(angle) * power * 3.5;
+        // Continuous push — keeps splashing as long as cursor is near
+        p.vx += Math.cos(angle) * power * 4.5;
+        p.vy += Math.sin(angle) * power * 4.5;
+        // Add slight turbulence for organic feel
+        p.vx += (Math.random() - 0.5) * power * 2;
+        p.vy += (Math.random() - 0.5) * power * 2;
       }
 
-      // Spring force back to base
+      // Spring force back to base — weaker so dots stay displaced longer
       const returnDx = p.baseX - p.x;
       const returnDy = p.baseY - p.y;
-      p.vx += returnDx * 0.04;
-      p.vy += returnDy * 0.04;
+      p.vx += returnDx * 0.025;
+      p.vy += returnDy * 0.025;
 
-      // Damping
-      p.vx *= 0.88;
-      p.vy *= 0.88;
+      // Less damping for more floaty, continuous movement
+      p.vx *= 0.92;
+      p.vy *= 0.92;
 
       p.x += p.vx;
       p.y += p.vy;
 
-      // Distance from base for opacity variation
-      const displacement = Math.sqrt((p.x - p.baseX) ** 2 + (p.y - p.baseY) ** 2);
-      const glowAlpha = Math.min(0.85, 0.6 + displacement * 0.008);
+      // Glow based on velocity for dynamic feel
+      const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+      const glowAlpha = Math.min(0.9, 0.55 + speed * 0.06);
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, 1.3, 0, Math.PI * 2);
