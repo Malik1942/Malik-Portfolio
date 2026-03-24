@@ -16,12 +16,11 @@ interface Orb {
 
 const ORB_DEFS = [
   { label: "Aura", subtitle: "Main Projects", color: "red" as const, rx: 0.1, ry: 0.25, id: "aura" },
-  { label: "NeuraLyfe", subtitle: "Main Projects", color: "red" as const, rx: 0.3, ry: 0.65, id: "neuralyfe" },
-  { label: "FlowPrint", subtitle: "Main Projects", color: "red" as const, rx: 0.75, ry: 0.75, id: "flowprint" },
-  { label: "Tubular", subtitle: "Main Projects", color: "red" as const, rx: 0.18, ry: 0.8, id: "tubular" },
+  { label: "NeuraLyfe", subtitle: "Main Projects", color: "red" as const, rx: 0.3, ry: 0.55, id: "neuralyfe" },
+  { label: "FlowPrint", subtitle: "Main Projects", color: "red" as const, rx: 0.75, ry: 0.45, id: "flowprint" },
+  { label: "Tubular", subtitle: "Main Projects", color: "red" as const, rx: 0.18, ry: 0.7, id: "tubular" },
   { label: "Inspire Ocean", subtitle: "Built with AI", color: "gold" as const, rx: 0.55, ry: 0.2, id: "inspireocean" },
-  { label: "Studio Waters", subtitle: "Built with AI", color: "gold" as const, rx: 0.5, ry: 0.48, id: "studiowaters" },
-  { label: "OneAdvisory", subtitle: "Built with AI", color: "gold" as const, rx: 0.85, ry: 0.35, id: "oneadvisory" },
+  { label: "Studio Waters", subtitle: "Built with AI", color: "gold" as const, rx: 0.5, ry: 0.38, id: "studiowaters" },
 ];
 
 const RED = "200, 82, 82";
@@ -247,12 +246,13 @@ const DotGrid = () => {
       orb.x += orb.vx;
       orb.y += orb.vy;
 
-      // Soft edge bounce
+      // Soft edge bounce — keep orbs above bottom menu area (bottom 15%)
       const pad = 80;
+      const bottomLimit = h * 0.82;
       if (orb.x < pad) { orb.vx += 0.02; orb.x = Math.max(pad, orb.x); }
       if (orb.x > w - pad) { orb.vx -= 0.02; orb.x = Math.min(w - pad, orb.x); }
       if (orb.y < pad) { orb.vy += 0.02; orb.y = Math.max(pad, orb.y); }
-      if (orb.y > h - pad) { orb.vy -= 0.02; orb.y = Math.min(h - pad, orb.y); }
+      if (orb.y > bottomLimit) { orb.vy -= 0.02; orb.y = Math.min(bottomLimit, orb.y); }
 
       // Tiny drift
       orb.vx += (Math.random() - 0.5) * 0.005;

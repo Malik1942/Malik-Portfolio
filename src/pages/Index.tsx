@@ -54,14 +54,6 @@ const aiProjects = [
     year: "2024",
     details: "Created a data visualization tool that transforms complex predictive models into clear, actionable insights.\n\nDesigned interactive charts and customizable dashboard layouts.",
   },
-  {
-    id: "oneadvisory",
-    title: "OneAdvisory",
-    description: "Voice-first smart home control.",
-    role: "Designer + Builder",
-    year: "2024",
-    details: "Exploring voice-first interaction patterns for smart home environments.\n\nMore details coming soon.",
-  },
 ];
 
 const Index = () => {
