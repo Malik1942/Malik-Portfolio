@@ -19,14 +19,6 @@ interface ProjectListProps {
 
 const ProjectRow = ({ project, index, dotClass }: { project: Project; index: number; dotClass: string }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [contentHeight, setContentHeight] = useState(0);
-
-  useEffect(() => {
-    if (contentRef.current) {
-      setContentHeight(contentRef.current.scrollHeight);
-    }
-  }, [project.details]);
 
   return (
     <div
@@ -57,7 +49,7 @@ const ProjectRow = ({ project, index, dotClass }: { project: Project; index: num
             className="text-lg text-muted-foreground group-hover:text-foreground transition-all duration-500"
             style={{
               transform: isHovered ? "rotate(45deg)" : "rotate(0deg)",
-              transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1)",
+              transition: "transform 0.5s cubic-bezier(0.4, 0, 0, 1)",
             }}
           >
             ↗
@@ -65,7 +57,7 @@ const ProjectRow = ({ project, index, dotClass }: { project: Project; index: num
         </div>
       </div>
 
-      {/* Expandable details */}
+      {/* Expandable details — CSS grid trick for smooth height animation */}
       <div
         className="grid"
         style={{
@@ -82,36 +74,37 @@ const ProjectRow = ({ project, index, dotClass }: { project: Project; index: num
               transition: "opacity 0.5s ease 0.1s, transform 0.5s cubic-bezier(0.4, 0, 0, 1) 0.1s",
             }}
           >
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Cover image placeholder */}
-            <div className="w-full md:w-[320px] shrink-0">
-              {project.coverImage ? (
-                <img
-                  src={project.coverImage}
-                  alt={project.title}
-                  className="w-full h-[200px] object-cover rounded-sm bg-secondary"
-                />
-              ) : (
-                <div className="w-full h-[200px] rounded-sm bg-secondary/50 border border-border flex items-center justify-center">
-                  <div className="text-center text-muted-foreground">
-                    <svg className="w-8 h-8 mx-auto mb-2 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span className="text-xs">Image / GIF / Video</span>
+            <div className="flex flex-col md:flex-row gap-8">
+              {/* Cover image */}
+              <div className="w-full md:w-[320px] shrink-0">
+                {project.coverImage ? (
+                  <img
+                    src={project.coverImage}
+                    alt={project.title}
+                    className="w-full h-[200px] object-cover rounded-sm bg-secondary"
+                  />
+                ) : (
+                  <div className="w-full h-[200px] rounded-sm bg-secondary/50 border border-border flex items-center justify-center">
+                    <div className="text-center text-muted-foreground">
+                      <svg className="w-8 h-8 mx-auto mb-2 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span className="text-xs">Image / GIF / Video</span>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
 
-            {/* Description */}
-            <div className="flex-1">
-              <p className="text-foreground/80 text-sm leading-relaxed whitespace-pre-line text-body">
-                {project.details || "Project details coming soon."}
-              </p>
-              <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground text-mono uppercase tracking-wider">
-                <span>{project.role}</span>
-                <span>·</span>
-                <span>{project.year}</span>
+              {/* Description */}
+              <div className="flex-1">
+                <p className="text-foreground/80 text-sm leading-relaxed whitespace-pre-line text-body">
+                  {project.details || "Project details coming soon."}
+                </p>
+                <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground text-mono uppercase tracking-wider">
+                  <span>{project.role}</span>
+                  <span>·</span>
+                  <span>{project.year}</span>
+                </div>
               </div>
             </div>
           </div>
