@@ -8,6 +8,7 @@ interface Project {
   year: string;
   coverImage?: string;
   coverVideo?: string;
+  coverFit?: "cover" | "contain";
   details?: string;
 }
 
