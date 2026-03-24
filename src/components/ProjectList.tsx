@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 interface Project {
+  id?: string;
   title: string;
   description: string;
   role: string;
