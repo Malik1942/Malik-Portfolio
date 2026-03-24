@@ -272,66 +272,50 @@ const DotGrid = () => {
       const col = orb.color === "red" ? RED : GOLD;
       const pulse = 0.85 + Math.sin(time * 0.8 + orb.mass * 3) * 0.15;
 
-      // Check hover
+      // Check hover — use orb center as the hitbox center
       const orbDx = mx - orb.x;
       const orbDy = my - orb.y;
       const orbDist = Math.sqrt(orbDx * orbDx + orbDy * orbDy);
-      const isHovered = orbDist < 35;
+      const isHovered = orbDist < 30;
       if (isHovered) newHoveredOrb = orb.id;
 
-      const hoverScale = isHovered ? 1.4 : 1;
-      const ringAlpha = isHovered ? 0.3 : 0.1;
-      const glowRadius = isHovered ? 60 : 45;
+      // Magnetic field: nearby background dots get subtly attracted
+      const fieldRadius = isHovered ? 55 : 45;
+      const hoverScale = isHovered ? 1.25 : 1;
+      const ringAlpha = isHovered ? 0.25 : 0.1;
+      const glowRadius = isHovered ? 55 : 42;
 
       // Glow
       const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, glowRadius);
-      grad.addColorStop(0, `rgba(${col}, ${(isHovered ? 0.25 : 0.15) * pulse})`);
+      grad.addColorStop(0, `rgba(${col}, ${(isHovered ? 0.22 : 0.15) * pulse})`);
       grad.addColorStop(1, `rgba(${col}, 0)`);
       ctx.beginPath();
       ctx.arc(orb.x, orb.y, glowRadius, 0, Math.PI * 2);
       ctx.fillStyle = grad;
       ctx.fill();
 
-      // Outer ring
+      // Single soft ring — no crosshair
       ctx.beginPath();
-      ctx.arc(orb.x, orb.y, 28 * hoverScale, 0, Math.PI * 2);
+      ctx.arc(orb.x, orb.y, 24 * hoverScale, 0, Math.PI * 2);
       ctx.strokeStyle = `rgba(200, 200, 210, ${ringAlpha * pulse})`;
-      ctx.lineWidth = isHovered ? 1 : 0.6;
+      ctx.lineWidth = isHovered ? 0.8 : 0.5;
       ctx.stroke();
 
-      // Inner ring (aiming crosshair) on hover
-      if (isHovered) {
-        ctx.beginPath();
-        ctx.arc(orb.x, orb.y, 16, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${col}, 0.25)`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-
-        // Crosshair lines
-        const ch = 6;
-        ctx.strokeStyle = `rgba(${col}, 0.2)`;
-        ctx.lineWidth = 0.5;
-        ctx.beginPath();
-        ctx.moveTo(orb.x - ch, orb.y); ctx.lineTo(orb.x + ch, orb.y);
-        ctx.moveTo(orb.x, orb.y - ch); ctx.lineTo(orb.x, orb.y + ch);
-        ctx.stroke();
-      }
-
-      // Core
+      // Core dot
       ctx.beginPath();
       ctx.arc(orb.x, orb.y, orb.baseSize * pulse * hoverScale, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${col}, ${0.9 * pulse})`;
       ctx.fill();
 
       // Label
-      ctx.font = `${isHovered ? "600" : "500"} ${isHovered ? 13 : 12}px 'Space Grotesk', sans-serif`;
-      ctx.fillStyle = `rgba(${col}, ${isHovered ? 0.95 : 0.8} )`;
-      ctx.fillText(orb.label, orb.x + 18 * hoverScale, orb.y - 3);
+      ctx.font = `${isHovered ? "500" : "500"} 12px 'Space Grotesk', sans-serif`;
+      ctx.fillStyle = `rgba(${col}, ${isHovered ? 0.95 : 0.8})`;
+      ctx.fillText(orb.label, orb.x + 16, orb.y - 3);
 
       // Subtitle
       ctx.font = "400 9px 'Space Grotesk', sans-serif";
       ctx.fillStyle = `rgba(${col}, ${isHovered ? 0.6 : 0.45})`;
-      ctx.fillText(orb.subtitle, orb.x + 18 * hoverScale, orb.y + 10);
+      ctx.fillText(orb.subtitle, orb.x + 16, orb.y + 10);
     });
 
     hoveredOrbRef.current = newHoveredOrb;
