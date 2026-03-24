@@ -1,16 +1,42 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import CustomCursor from "@/components/CustomCursor";
+import HeroSection from "@/components/HeroSection";
+import ProjectList from "@/components/ProjectList";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const selectedWork = [
+  { title: "Aura", description: "A calm, proactive system for preventing motion sickness in motion.", role: "Product Designer", year: "2025" },
+  { title: "NeuraLyfe", description: "Making invisible brain trauma visible — before it becomes irreversible.", role: "Product Designer, Maker", year: "2025" },
+  { title: "FlowPrint", description: "A frictionless 3D printing system that removes complexity for beginners.", role: "Lead Product Designer", year: "2026" },
+  { title: "Tubular", description: "Defy gravity. Shape the path.", role: "Product Designer, Maker", year: "2026" },
+];
+
+const aiProjects = [
+  { title: "NeuraLyfe", description: "Making invisible brain trauma visible — before it becomes irreversible.", role: "Designer + Builder", year: "2025" },
+  { title: "Inspire Ocean", description: "AI content generation for creators.", role: "Designer + Builder", year: "2025" },
+  { title: "Studio Waters", description: "Predictive analytics made visual.", role: "Designer + Builder", year: "2024" },
+  { title: "...", description: "Voice-first smart home control.", role: "Designer + Builder", year: "2024" },
+];
+
+const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen bg-background">
+      <CustomCursor />
+      <HeroSection />
+      <ProjectList
+        id="projects"
+        sectionTitle="Selected Work"
+        sectionSubtitle="Major projects that shaped products and teams."
+        dotColor="red"
+        projects={selectedWork}
+      />
+      <ProjectList
+        id="ai-projects"
+        sectionTitle="Built with AI"
+        sectionSubtitle="Side projects where I design and ship with AI tools."
+        dotColor="gold"
+        projects={aiProjects}
+      />
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
