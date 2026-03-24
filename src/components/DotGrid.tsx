@@ -164,8 +164,8 @@ const DotGrid = () => {
       }
     });
 
-    // ── 2. Text dots — continuous splash while hovering ──
-    const splashRadius = 160;
+    // ── 2. Text dots — intense continuous splash ──
+    const splashRadius = 200;
     textDotsRef.current.forEach((p) => {
       const dx = mx - p.baseX;
       const dy = my - p.baseY;
@@ -173,32 +173,32 @@ const DotGrid = () => {
 
       if (dist < splashRadius && dist > 0) {
         const force = (splashRadius - dist) / splashRadius;
-        const power = force * force * force;
+        const power = force * force;
         const angle = Math.atan2(p.baseY - my, p.baseX - mx);
-        // Continuous push — keeps splashing as long as cursor is near
-        p.vx += Math.cos(angle) * power * 4.5;
-        p.vy += Math.sin(angle) * power * 4.5;
-        // Add slight turbulence for organic feel
-        p.vx += (Math.random() - 0.5) * power * 2;
-        p.vy += (Math.random() - 0.5) * power * 2;
+        // Varying amplitude — randomized per frame for chaotic energy
+        const amp = 6 + Math.random() * 8;
+        p.vx += Math.cos(angle) * power * amp;
+        p.vy += Math.sin(angle) * power * amp;
+        // Heavy turbulence — varying directions
+        p.vx += (Math.random() - 0.5) * power * 5;
+        p.vy += (Math.random() - 0.5) * power * 5;
       }
 
-      // Spring force back to base — weaker so dots stay displaced longer
+      // Very weak spring — dots fly far and return slowly
       const returnDx = p.baseX - p.x;
       const returnDy = p.baseY - p.y;
-      p.vx += returnDx * 0.025;
-      p.vy += returnDy * 0.025;
+      p.vx += returnDx * 0.015;
+      p.vy += returnDy * 0.015;
 
-      // Less damping for more floaty, continuous movement
-      p.vx *= 0.92;
-      p.vy *= 0.92;
+      // Low damping — particles stay energized
+      p.vx *= 0.94;
+      p.vy *= 0.94;
 
       p.x += p.vx;
       p.y += p.vy;
 
-      // Glow based on velocity for dynamic feel
       const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      const glowAlpha = Math.min(0.9, 0.55 + speed * 0.06);
+      const glowAlpha = Math.min(0.95, 0.5 + speed * 0.04);
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, 1.3, 0, Math.PI * 2);
