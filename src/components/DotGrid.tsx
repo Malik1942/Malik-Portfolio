@@ -84,6 +84,7 @@ const DotGrid = () => {
       vy: (Math.random() - 0.5) * 0.12,
       baseSize: 5 + Math.random() * 2,
       mass: 1 + Math.random() * 2,
+      hoverT: 0,
     }));
 
     // Text dots — dense dot-matrix for "Malik Zhang"
