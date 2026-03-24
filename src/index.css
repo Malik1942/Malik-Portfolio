@@ -7,32 +7,32 @@
 @layer base {
   :root {
     --background: 0 0% 4%;
-    --foreground: 40 10% 85%;
+    --foreground: 40 6% 90%;
 
     --card: 0 0% 6%;
-    --card-foreground: 40 10% 85%;
+    --card-foreground: 40 6% 90%;
 
     --popover: 0 0% 6%;
-    --popover-foreground: 40 10% 85%;
+    --popover-foreground: 40 6% 90%;
 
-    --primary: 40 10% 85%;
+    --primary: 40 6% 90%;
     --primary-foreground: 0 0% 4%;
 
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 40 10% 85%;
+    --secondary: 0 0% 8%;
+    --secondary-foreground: 40 6% 90%;
 
     --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 50%;
+    --muted-foreground: 0 0% 42%;
 
     --accent: 0 0% 14%;
-    --accent-foreground: 40 10% 85%;
+    --accent-foreground: 40 6% 90%;
 
     --destructive: 3 82% 53%;
-    --destructive-foreground: 40 10% 95%;
+    --destructive-foreground: 40 6% 95%;
 
-    --border: 0 0% 14%;
+    --border: 0 0% 12%;
     --input: 0 0% 14%;
-    --ring: 40 10% 85%;
+    --ring: 40 6% 90%;
 
     --radius: 0.5rem;
 
@@ -44,13 +44,13 @@
     --text-mono: 'JetBrains Mono', monospace;
 
     --sidebar-background: 0 0% 6%;
-    --sidebar-foreground: 40 10% 85%;
-    --sidebar-primary: 40 10% 85%;
+    --sidebar-foreground: 40 6% 90%;
+    --sidebar-primary: 40 6% 90%;
     --sidebar-primary-foreground: 0 0% 4%;
     --sidebar-accent: 0 0% 14%;
-    --sidebar-accent-foreground: 40 10% 85%;
+    --sidebar-accent-foreground: 40 6% 90%;
     --sidebar-border: 0 0% 14%;
-    --sidebar-ring: 40 10% 85%;
+    --sidebar-ring: 40 6% 90%;
   }
 }
 
@@ -62,15 +62,13 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--text-body);
-    cursor: none;
-  }
-
-  a, button {
-    cursor: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   .text-display {
     font-family: var(--text-display);
+    letter-spacing: -0.02em;
   }
 
   .text-body {
@@ -79,5 +77,83 @@
 
   .text-mono {
     font-family: var(--text-mono);
+    letter-spacing: -0.01em;
   }
+}
+
+/* Staggered fade-in animation */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes line-reveal {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out both;
+}
+
+.animate-line-reveal {
+  animation: line-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Stagger delays */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.35s; }
+.delay-4 { animation-delay: 0.5s; }
+.delay-5 { animation-delay: 0.65s; }
+.delay-6 { animation-delay: 0.8s; }
+
+/* Scroll-triggered reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Subtle link hover */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: hsl(var(--foreground));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
