@@ -86,6 +86,7 @@ const Index = () => {
         dotColor="gold"
         projects={aiProjects}
       />
+      <Footer />
     </div>
   );
 };
