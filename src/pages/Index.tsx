@@ -14,7 +14,7 @@ const selectedWork = [
     year: "2025",
     coverImage: auraCover,
     coverFit: "contain" as const,
-    details: "Led the end-to-end design of a fintech app that simplifies budgeting, investing, and saving for young professionals.\n\nConducted user research with 200+ participants, developed a design system from scratch, and shipped an MVP that grew to 50K users in 3 months.",
+    details: "Led the end-to-end design of Aura, defining its concept, system scope, and interaction model as a proactive, AI-driven wearable for motion sickness.\n\nTranslated research into a cohesive product strategy, prioritizing features within technical constraints and shaping a seamless end-to-end experience from onboarding to real-time relief.\n\nDesigned the user flow and interaction across hardware and software, contributing to both the industrial design of the device and its integration with the mobile app.\n\nDefined the role of ambient AI in sensing context, predicting discomfort, and delivering timely, adaptive support.",
   },
   {
     id: "neuralyfe",
