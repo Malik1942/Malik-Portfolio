@@ -30,13 +30,12 @@
     --destructive: 3 82% 53%;
     --destructive-foreground: 40 6% 95%;
 
-    --border: 0 0% 12%;
+    --border: 0 0% 14%;
     --input: 0 0% 14%;
     --ring: 40 6% 90%;
 
     --radius: 0.5rem;
 
-    /* Custom portfolio tokens */
     --dot-red: 3 82% 53%;
     --dot-gold: 44 95% 59%;
     --text-display: 'Space Grotesk', sans-serif;
@@ -62,8 +61,13 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--text-body);
+    cursor: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  a, button, [role="button"] {
+    cursor: none;
   }
 
   .text-display {
@@ -81,7 +85,7 @@
   }
 }
 
-/* Staggered fade-in animation */
+/* Animations */
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -113,9 +117,9 @@
 
 .animate-line-reveal {
   animation: line-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: left;
 }
 
-/* Stagger delays */
 .delay-1 { animation-delay: 0.1s; }
 .delay-2 { animation-delay: 0.2s; }
 .delay-3 { animation-delay: 0.35s; }
@@ -123,7 +127,7 @@
 .delay-5 { animation-delay: 0.65s; }
 .delay-6 { animation-delay: 0.8s; }
 
-/* Scroll-triggered reveal */
+/* Scroll reveal */
 .reveal {
   opacity: 0;
   transform: translateY(16px);
@@ -135,7 +139,7 @@
   transform: translateY(0);
 }
 
-/* Subtle link hover */
+/* Nav link underline */
 .nav-link {
   position: relative;
 }
