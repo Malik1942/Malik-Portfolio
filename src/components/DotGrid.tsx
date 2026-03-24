@@ -333,13 +333,24 @@ const DotGrid = () => {
       const orbDist = Math.sqrt(orbDx * orbDx + orbDy * orbDy);
       const isHovered = orbDist < 30;
 
-      const hoverScale = isHovered ? 1.25 : 1;
-      const ringAlpha = isHovered ? 0.25 : 0.08 * opacityBreath;
-      const glowRadius = isHovered ? 55 : 42;
+      // Smooth interpolation of hover intensity
+      const targetT = isHovered ? 1 : 0;
+      const lerpSpeed = isHovered ? 0.08 : 0.04; // faster in, slower out
+      orb.hoverT += (targetT - orb.hoverT) * lerpSpeed;
+      const t = orb.hoverT;
+
+      // Eased hover value (ease-out cubic)
+      const eased = 1 - Math.pow(1 - t, 3);
+
+      const hoverScale = 1 + eased * 0.3;
+      const ringAlpha = 0.08 * opacityBreath + eased * 0.2;
+      const glowRadius = 42 + eased * 18;
+      const glowIntensity = (0.12 * opacityBreath + eased * 0.12) * breath;
+      const ringWidth = 0.5 + eased * 0.4;
 
       // Glow
       const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, glowRadius);
-      grad.addColorStop(0, `rgba(${col}, ${(isHovered ? 0.22 : 0.12 * opacityBreath) * breath})`);
+      grad.addColorStop(0, `rgba(${col}, ${glowIntensity})`);
       grad.addColorStop(1, `rgba(${col}, 0)`);
       ctx.beginPath();
       ctx.arc(orb.x, orb.y, glowRadius, 0, Math.PI * 2);
@@ -350,23 +361,23 @@ const DotGrid = () => {
       ctx.beginPath();
       ctx.arc(orb.x, orb.y, 24 * hoverScale * breath, 0, Math.PI * 2);
       ctx.strokeStyle = `rgba(200, 200, 210, ${ringAlpha})`;
-      ctx.lineWidth = isHovered ? 0.8 : 0.5;
+      ctx.lineWidth = ringWidth;
       ctx.stroke();
 
       // Core dot
       ctx.beginPath();
       ctx.arc(orb.x, orb.y, orb.baseSize * breath * hoverScale, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${col}, ${(isHovered ? 0.95 : 0.85) * opacityBreath})`;
+      ctx.fillStyle = `rgba(${col}, ${(0.85 + eased * 0.1) * opacityBreath})`;
       ctx.fill();
 
       // Label
       ctx.font = "500 12px 'Space Grotesk', sans-serif";
-      ctx.fillStyle = `rgba(${col}, ${(isHovered ? 0.95 : 0.75) * opacityBreath})`;
+      ctx.fillStyle = `rgba(${col}, ${(0.75 + eased * 0.2) * opacityBreath})`;
       ctx.fillText(orb.label, orb.x + 16, orb.y - 3);
 
       // Subtitle
       ctx.font = "400 9px 'Space Grotesk', sans-serif";
-      ctx.fillStyle = `rgba(${col}, ${(isHovered ? 0.6 : 0.4) * opacityBreath})`;
+      ctx.fillStyle = `rgba(${col}, ${(0.4 + eased * 0.2) * opacityBreath})`;
       ctx.fillText(orb.subtitle, orb.x + 16, orb.y + 10);
     });
 
