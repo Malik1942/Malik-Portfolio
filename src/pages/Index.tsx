@@ -33,7 +33,7 @@ const selectedWork = [
     coverImage: flowprintCover,
     coverFit: "contain" as const,
     year: "2026",
-    details: "Led product design for a consumer 3D printing experience that reduced setup time from 2 hours to 15 minutes.\n\nDesigned onboarding flows, real-time print monitoring UI, and a material recommendation engine.",
+    details: "Led product design for a consumer 3D printing experience that reduced setup time from 1 hours to 15 minutes.\n\nDesigned onboarding flows, real-time print monitoring UI, and a material recommendation engine.",
   },
   {
     id: "tubular",
