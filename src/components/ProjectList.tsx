@@ -17,11 +17,12 @@ interface ProjectListProps {
   projects: Project[];
 }
 
-const ProjectRow = ({ project, index, dotClass }: { project: Project; index: number; dotClass: string }) => {
+const ProjectRow = ({ project, index, dotClass, projectId }: { project: Project; index: number; dotClass: string; projectId?: string }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
+      id={projectId ? `project-${projectId}` : undefined}
       className="reveal border-t border-border group"
       style={{ transitionDelay: `${index * 80}ms` }}
       onMouseEnter={() => setIsHovered(true)}
