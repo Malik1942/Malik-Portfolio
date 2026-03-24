@@ -2,6 +2,7 @@ import CustomCursor from "@/components/CustomCursor";
 import HeroSection from "@/components/HeroSection";
 import ProjectList from "@/components/ProjectList";
 import auraCover from "@/assets/aura-cover.png";
+import neuralyfeCover from "@/assets/neuralyfe-cover.png";
 
 const selectedWork = [
   {
@@ -18,6 +19,7 @@ const selectedWork = [
     title: "NeuraLyfe",
     description: "Making invisible brain trauma visible — before it becomes irreversible.",
     role: "Product Designer, Maker",
+    coverImage: neuralyfeCover,
     year: "2025",
     details: "Designed and prototyped a diagnostic platform that visualizes brain injury data for clinicians.\n\nCreated interactive data dashboards, patient journey flows, and a design system that unified medical complexity into intuitive interfaces.",
   },
