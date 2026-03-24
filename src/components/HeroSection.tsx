@@ -1,19 +1,12 @@
+import DotGrid from "./DotGrid";
+
 const HeroSection = () => {
   return (
-    <section className="relative w-full h-screen flex flex-col justify-between bg-background overflow-hidden">
-      {/* Top spacer */}
-      <div />
+    <section className="relative w-full h-screen overflow-hidden bg-background">
+      <DotGrid />
 
-      {/* Center name */}
-      <div className="flex-1 flex items-center justify-center px-6">
-        <h1 className="text-[clamp(3.5rem,12vw,11rem)] font-bold tracking-[-0.04em] text-foreground text-display leading-[0.9] animate-fade-up">
-          MALIK
-        </h1>
-      </div>
-
-      {/* Bottom bar */}
-      <div className="px-6 md:px-16 lg:px-24 pb-10">
-        {/* Divider line */}
+      {/* Bottom bar overlay */}
+      <div className="absolute bottom-0 left-0 right-0 px-6 md:px-16 lg:px-24 pb-10 z-10">
         <div className="h-px bg-border mb-8 animate-line-reveal delay-3" />
 
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
