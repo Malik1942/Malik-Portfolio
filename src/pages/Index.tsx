@@ -2,6 +2,7 @@ import CustomCursor from "@/components/CustomCursor";
 import HeroSection from "@/components/HeroSection";
 import ProjectList from "@/components/ProjectList";
 import auraCover from "@/assets/aura-cover.png";
+import neuralyfeCover from "@/assets/neuralyfe-cover.png";
 
 const selectedWork = [
   {
