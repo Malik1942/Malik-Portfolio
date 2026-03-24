@@ -1,3 +1,4 @@
+import CustomCursor from "@/components/CustomCursor";
 import HeroSection from "@/components/HeroSection";
 import ProjectList from "@/components/ProjectList";
 
@@ -18,6 +19,7 @@ const aiProjects = [
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <CustomCursor />
       <HeroSection />
       <ProjectList
         id="projects"
