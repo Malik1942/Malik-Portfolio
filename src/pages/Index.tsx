@@ -14,7 +14,7 @@ const selectedWork = [
     year: "2025",
     coverImage: auraCover,
     coverFit: "contain" as const,
-    details: "Led the end-to-end design of Aura, defining its concept, system scope, and interaction model as a proactive, AI-driven wearable for motion sickness.\n\nTranslated research into a cohesive product strategy, prioritizing features within technical constraints and shaping a seamless end-to-end experience from onboarding to real-time relief.\n\nDesigned the user flow and interaction across hardware and software, contributing to both the industrial design of the device and its integration with the mobile app.\n\nDefined the role of ambient AI in sensing context, predicting discomfort, and delivering timely, adaptive support.",
+    details: "Led the end-to-end design of a proactive, AI-driven wearable for motion sickness, defining its concept, system, and interaction model.\n\nShaped a seamless cross-device experience, integrating ambient AI to anticipate discomfort and deliver real-time support.",
   },
   {
     id: "neuralyfe",
