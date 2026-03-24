@@ -23,7 +23,7 @@ const Index = () => {
       <HeroSection />
       <ProjectList
         id="projects"
-        sectionTitle="Selected Work"
+        sectionTitle="Main Projects"
         sectionSubtitle="Major projects that shaped products and teams."
         dotColor="red"
         projects={selectedWork}

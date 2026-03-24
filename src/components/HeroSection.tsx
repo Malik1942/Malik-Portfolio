@@ -23,7 +23,7 @@ const HeroSection = () => {
           {/* Nav */}
           <nav className="flex gap-7 text-xs text-muted-foreground text-body animate-fade-up delay-4">
             <a href="#projects" className="nav-link hover:text-foreground transition-colors duration-500">
-              Selected Work
+              Main Projects
             </a>
             <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500">
               Built with AI
