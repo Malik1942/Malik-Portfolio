@@ -24,8 +24,8 @@ const ORB_DEFS = [
   { label: "OneAdvisory", subtitle: "Built with AI", color: "gold" as const, rx: 0.85, ry: 0.35, id: "oneadvisory" },
 ];
 
-const RED = "220, 50, 47";
-const GOLD = "250, 200, 50";
+const RED = "200, 82, 82";
+const GOLD = "201, 169, 110";
 
 interface StarDot {
   x: number;
