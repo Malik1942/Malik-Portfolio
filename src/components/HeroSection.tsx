@@ -5,28 +5,28 @@ const HeroSection = () => {
     <section className="relative w-full h-screen overflow-hidden bg-background">
       <DotGrid />
 
-      {/* Bottom bar overlay */}
-      <div className="absolute bottom-0 left-0 right-0 px-6 md:px-16 lg:px-24 pb-10 z-10">
-        <div className="h-px bg-border mb-8 animate-line-reveal delay-3" />
+      {/* Bottom bar */}
+      <div className="absolute bottom-0 left-0 right-0 px-6 md:px-16 lg:px-24 pb-8 z-10">
+        <div className="h-px bg-border/40 mb-7 animate-line-reveal delay-3" />
 
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-          {/* Left — role & tagline */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          {/* Left */}
           <div className="animate-fade-up delay-3">
-            <p className="text-foreground text-xs tracking-[0.2em] uppercase text-mono mb-3">
+            <p className="text-foreground/70 text-[10px] tracking-[0.25em] uppercase text-mono mb-2">
               Product Designer
             </p>
-            <p className="text-muted-foreground text-sm max-w-xs leading-relaxed text-body">
+            <p className="text-muted-foreground text-xs max-w-[260px] leading-relaxed text-body">
               Designing products that bridge human needs and digital possibilities.
             </p>
           </div>
 
-          {/* Center — nav */}
-          <nav className="flex gap-8 text-sm text-muted-foreground text-body animate-fade-up delay-4">
+          {/* Nav */}
+          <nav className="flex gap-7 text-xs text-muted-foreground text-body animate-fade-up delay-4">
             <a href="#projects" className="nav-link hover:text-foreground transition-colors duration-500">
-              Work
+              Selected Work
             </a>
             <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500">
-              AI Projects
+              Built with AI
             </a>
             <a href="#about" className="nav-link hover:text-foreground transition-colors duration-500">
               About
@@ -36,15 +36,15 @@ const HeroSection = () => {
             </a>
           </nav>
 
-          {/* Right — legend */}
-          <div className="flex gap-6 text-xs text-body animate-fade-up delay-5">
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-dot-red" />
-              <span className="text-muted-foreground">Selected</span>
+          {/* Legend */}
+          <div className="flex gap-5 text-[10px] text-body animate-fade-up delay-5">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-dot-red" />
+              <span className="text-muted-foreground">Major Projects</span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-dot-gold" />
-              <span className="text-muted-foreground">AI Built</span>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-dot-gold" />
+              <span className="text-muted-foreground">Built with AI</span>
             </div>
           </div>
         </div>
