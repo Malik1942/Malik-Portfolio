@@ -4,6 +4,7 @@ import ProjectList from "@/components/ProjectList";
 import auraCover from "@/assets/aura-cover.png";
 import neuralyfeCover from "@/assets/neuralyfe-cover.png";
 import flowprintCover from "@/assets/flowprint-cover.png";
+import tubularCover from "@/assets/tubular-cover.jpg";
 
 const selectedWork = [
   {
@@ -40,6 +41,7 @@ const selectedWork = [
     title: "Tubular",
     description: "Defy gravity. Shape the path.",
     role: "Product Designer, Maker",
+    coverImage: tubularCover,
     year: "2026",
     details: "Conceptualized and built an experimental physics-based toy that teaches fluid dynamics through play.\n\nCombined industrial design with digital prototyping to create an intuitive, tactile learning experience.",
   },
