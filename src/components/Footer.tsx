@@ -36,8 +36,9 @@ const Footer = () => {
                 href="mailto:malikzhang19@gmail.com"
                 className="text-foreground/70 hover:text-foreground text-sm text-body transition-colors duration-300"
               >
-                malikzhang19@gmail.com
+                Email
               </a>
+            </li>
             </li>
             <li>
               <a
