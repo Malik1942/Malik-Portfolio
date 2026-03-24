@@ -348,7 +348,8 @@ const DotGrid = () => {
     window.addEventListener("resize", resize);
 
     const onMove = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
     };
     window.addEventListener("mousemove", onMove);
 
