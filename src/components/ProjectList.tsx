@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 interface Project {
+  id?: string;
   title: string;
   description: string;
   role: string;
@@ -17,11 +18,12 @@ interface ProjectListProps {
   projects: Project[];
 }
 
-const ProjectRow = ({ project, index, dotClass }: { project: Project; index: number; dotClass: string }) => {
+const ProjectRow = ({ project, index, dotClass, projectId }: { project: Project; index: number; dotClass: string; projectId?: string }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
+      id={projectId ? `project-${projectId}` : undefined}
       className="reveal border-t border-border group"
       style={{ transitionDelay: `${index * 80}ms` }}
       onMouseEnter={() => setIsHovered(true)}
@@ -150,7 +152,7 @@ const ProjectList = ({ id, sectionTitle, sectionSubtitle, dotColor, projects }: 
 
       <div>
         {projects.map((project, i) => (
-          <ProjectRow key={project.title} project={project} index={i} dotClass={dotClass} />
+          <ProjectRow key={project.title} project={project} index={i} dotClass={dotClass} projectId={project.id} />
         ))}
         <div className="border-t border-border" />
       </div>
