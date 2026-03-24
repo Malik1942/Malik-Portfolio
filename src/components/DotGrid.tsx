@@ -137,18 +137,28 @@ const DotGrid = () => {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
 
-    // ── 1. Background stars ──
+    // ── 1. Background stars — bright like real stars ──
     starsRef.current.forEach((star) => {
-      const twinkle = Math.sin(time * 1.5 + star.x * 0.01 + star.y * 0.01) * 0.15 + 0.85;
+      const twinkle = Math.sin(time * 2 + star.x * 0.013 + star.y * 0.009) * 0.2 + 0.8;
       const alpha = star.opacity * twinkle;
+
+      // Bright stars get a subtle glow
+      if (star.opacity > 0.5) {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(220, 220, 235, ${alpha * 0.08})`;
+        ctx.fill();
+      }
+
       ctx.beginPath();
       ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(200, 200, 210, ${alpha})`;
+      ctx.fillStyle = `rgba(240, 240, 250, ${alpha})`;
       ctx.fill();
+
       if (star.hasRing) {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.ringRadius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(200, 200, 210, ${0.08 * twinkle})`;
+        ctx.strokeStyle = `rgba(220, 220, 230, ${0.12 * twinkle})`;
         ctx.lineWidth = 0.6;
         ctx.stroke();
       }
