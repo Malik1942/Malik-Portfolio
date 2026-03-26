@@ -2,10 +2,10 @@ import { useEffect, useRef, useCallback } from "react";
 
 // ── Cluster definitions for About mode (pushed to edges) ──
 const CLUSTER_DEFS = [
-  { rx: 0.12, ry: 0.22 },
-  { rx: 0.88, ry: 0.18 },
-  { rx: 0.10, ry: 0.82 },
-  { rx: 0.90, ry: 0.80 },
+  { rx: 0.08, ry: 0.20 },
+  { rx: 0.92, ry: 0.18 },
+  { rx: 0.07, ry: 0.82 },
+  { rx: 0.93, ry: 0.80 },
 ];
 
 // Portrait attractor position (center-right of screen)
