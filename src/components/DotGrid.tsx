@@ -51,6 +51,10 @@ interface StarDot {
 interface StaticDot {
   x: number;
   y: number;
+  baseX: number;
+  baseY: number;
+  vx: number;
+  vy: number;
 }
 
 interface ParticleDot {
