@@ -8,6 +8,7 @@ import auraCover from "@/assets/aura-cover.png";
 import neuralyfeCover from "@/assets/neuralyfe-cover.png";
 import flowprintCover from "@/assets/flowprint-cover.png";
 import tubularCover from "@/assets/tubular-cover.jpg";
+import moodmuseCover from "@/assets/moodmuse-cover.png";
 
 const selectedWork = [
   {
