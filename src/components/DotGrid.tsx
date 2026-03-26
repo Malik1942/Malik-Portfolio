@@ -279,26 +279,37 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       ctx.fill();
     });
 
-    // ── 3. Cluster glows (visible during/after transition) ──
+    // ── 3. Portrait attractor field (about mode) ──
+    if (eased > 0.3) {
+      const portrait = portraitPosRef.current;
+      const attractRadius = 180;
+      const attractStrength = 0.08 * eased;
+      
+      starsRef.current.forEach((star) => {
+        const dx = portrait.x - star.x;
+        const dy = portrait.y - star.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < attractRadius && dist > 20) {
+          const pull = attractStrength * (1 - dist / attractRadius) * (1 - dist / attractRadius);
+          star.x += (dx / dist) * pull;
+          star.y += (dy / dist) * pull;
+        }
+      });
+    }
+
+    // ── 4. Cluster glows (dimmed, secondary) ──
     if (eased > 0.05) {
       clusters.forEach((cluster) => {
-        const breathe = 1 + Math.sin(time * 0.4) * 0.08;
-        const glowR = 55 * breathe;
+        const breathe = 1 + Math.sin(time * 0.3) * 0.06;
+        const glowR = 40 * breathe;
         const grad = ctx.createRadialGradient(cluster.x, cluster.y, 0, cluster.x, cluster.y, glowR);
-        grad.addColorStop(0, `rgba(210, 210, 225, ${0.045 * eased})`);
-        grad.addColorStop(0.6, `rgba(210, 210, 225, ${0.015 * eased})`);
+        grad.addColorStop(0, `rgba(210, 210, 225, ${0.025 * eased})`);
+        grad.addColorStop(0.6, `rgba(210, 210, 225, ${0.008 * eased})`);
         grad.addColorStop(1, `rgba(210, 210, 225, 0)`);
         ctx.beginPath();
         ctx.arc(cluster.x, cluster.y, glowR, 0, Math.PI * 2);
         ctx.fillStyle = grad;
         ctx.fill();
-
-        // Subtle ring
-        ctx.beginPath();
-        ctx.arc(cluster.x, cluster.y, 35 * breathe, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(200, 200, 215, ${0.06 * eased})`;
-        ctx.lineWidth = 0.4;
-        ctx.stroke();
       });
     }
 
