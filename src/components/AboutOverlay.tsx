@@ -16,25 +16,25 @@ const CLUSTER_TEXTS: ClusterTextData[] = [
   {
     label: "Who I Am",
     lines: ["Maker", "Product designer", "Systems thinker"],
-    position: { left: "12%", top: "18%" },
+    position: { left: "28%", top: "22%" },
     index: 0,
   },
   {
     label: "Outside of Design",
     lines: ["Photography", "Travel", "Basketball", "Cycling", "Swimming", "Food"],
-    position: { left: "88%", top: "18%" },
+    position: { left: "78%", top: "20%" },
     index: 1,
   },
   {
     label: "How I Build",
     lines: ["Experimentation", "Prototyping early", "Learning through craft"],
-    position: { left: "12%", top: "82%" },
+    position: { left: "24%", top: "78%" },
     index: 2,
   },
   {
     label: "What I Care About",
     lines: ["Design as behavior", "Systems as language", "Meaningful interaction", "Prototyping to think"],
-    position: { left: "88%", top: "82%" },
+    position: { left: "74%", top: "68%" },
     index: 3,
   },
 ];
