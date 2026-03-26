@@ -54,6 +54,7 @@ const selectedWork = [
     title: "Mood Muse",
     description: "An emotional expression aid designed for autistic children.",
     role: "Product Designer",
+    coverImage: moodmuseCover,
     year: "2024",
     details: "A system that helps children externalize and communicate their internal emotional states through intuitive interactions, reducing frustration and enabling clearer social connection.",
   },
