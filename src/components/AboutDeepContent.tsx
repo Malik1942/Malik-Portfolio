@@ -317,29 +317,8 @@ const DailyTag = ({ label, index }: { label: string; index: number }) => {
   );
 };
 
-// ── Scroll indicator ──
-const ScrollIndicator = () => (
-  <motion.div
-    className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.8, delay: 2.8 }}
-  >
-    <span className="text-[8px] uppercase tracking-[0.3em] text-foreground/15">
-      Scroll
-    </span>
-    <motion.div
-      className="w-px h-6 bg-foreground/10"
-      animate={{ scaleY: [0.4, 1, 0.4], opacity: [0.1, 0.2, 0.1] }}
-      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-    />
-  </motion.div>
-);
-
 // ── Main component ──
 const AboutDeepContent = ({ isVisible }: { isVisible: boolean }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   if (!isVisible) return null;
 
   return (
