@@ -8,6 +8,7 @@ import auraCover from "@/assets/aura-cover.png";
 import neuralyfeCover from "@/assets/neuralyfe-cover.png";
 import flowprintCover from "@/assets/flowprint-cover.png";
 import tubularCover from "@/assets/tubular-cover.jpg";
+import moodmuseCover from "@/assets/moodmuse-cover.png";
 
 const selectedWork = [
   {
@@ -53,6 +54,7 @@ const selectedWork = [
     title: "Mood Muse",
     description: "An emotional expression aid designed for autistic children.",
     role: "Product Designer",
+    coverImage: moodmuseCover,
     year: "2024",
     details: "A system that helps children externalize and communicate their internal emotional states through intuitive interactions, reducing frustration and enabling clearer social connection.",
   },
