@@ -8,9 +8,6 @@ const CLUSTER_DEFS = [
   { rx: 0.93, ry: 0.80 },
 ];
 
-// Portrait attractor position (center-right of screen)
-const PORTRAIT_POS = { rx: 0.56, ry: 0.5 };
-
 // ── Project orbs ──
 interface Orb {
   label: string;
@@ -78,7 +75,6 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
   const aboutModeRef = useRef(aboutMode);
   const transitionRef = useRef(0);
   const clusterPosRef = useRef<{ x: number; y: number }[]>([]);
-  const portraitPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   useEffect(() => {
     aboutModeRef.current = aboutMode;
@@ -119,9 +115,6 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       x: d.rx * w,
       y: d.ry * h,
     }));
-
-    // Portrait attractor position
-    portraitPosRef.current = { x: PORTRAIT_POS.rx * w, y: PORTRAIT_POS.ry * h };
 
     // Text dots
     const textDots: TextDot[] = [];
@@ -269,23 +262,9 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       const drawX = p.x + (aboutX - p.x) * eased;
       const drawY = p.y + (aboutY - p.y) * eased;
 
-      // In about mode, reduce opacity for particles near center
       const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
       const baseAlpha = Math.min(0.95, 0.5 + speed * 0.04);
       let dotAlpha = baseAlpha * (0.55 + 0.45 * (1 - eased * 0.2));
-
-      if (eased > 0.3) {
-        const cx = w * 0.5;
-        const cy = h * 0.48;
-        const cdx = drawX - cx;
-        const cdy = drawY - cy;
-        const cDist = Math.sqrt(cdx * cdx + cdy * cdy);
-        const clearRadius = Math.min(w, h) * 0.28;
-        if (cDist < clearRadius) {
-          const fade = cDist / clearRadius;
-          dotAlpha *= 0.15 + 0.85 * fade;
-        }
-      }
 
       ctx.beginPath();
       ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);
@@ -293,25 +272,7 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       ctx.fill();
     });
 
-    // ── 3. Portrait attractor field (about mode) ──
-    if (eased > 0.3) {
-      const portrait = portraitPosRef.current;
-      const attractRadius = 180;
-      const attractStrength = 0.08 * eased;
-      
-      starsRef.current.forEach((star) => {
-        const dx = portrait.x - star.x;
-        const dy = portrait.y - star.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < attractRadius && dist > 20) {
-          const pull = attractStrength * (1 - dist / attractRadius) * (1 - dist / attractRadius);
-          star.x += (dx / dist) * pull;
-          star.y += (dy / dist) * pull;
-        }
-      });
-    }
-
-    // ── 4. Cluster glows (dimmed, secondary) ──
+    // ── 3. Cluster glows (dimmed, secondary) ──
     if (eased > 0.05) {
       clusters.forEach((cluster) => {
         const breathe = 1 + Math.sin(time * 0.3) * 0.06;
