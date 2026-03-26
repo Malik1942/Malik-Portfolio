@@ -393,7 +393,6 @@ const AboutDeepContent = ({ isVisible }: { isVisible: boolean }) => {
             <div className="w-[3px] h-[3px] rounded-full bg-foreground/10" />
           </motion.div>
         </div>
-      </div>
     </div>
   );
 };
