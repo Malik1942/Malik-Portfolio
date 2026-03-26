@@ -6,10 +6,10 @@ import { useEffect, useRef, useCallback } from "react";
 // 2: How I Build — lower-left, tertiary (balanced)
 // 3: What I Care About — right, primary (closest to center)
 const CLUSTER_DEFS = [
-  { rx: 0.28, ry: 0.22, density: 0.7, radiusMult: 1.0 },   // Who I Am
-  { rx: 0.78, ry: 0.20, density: 0.5, radiusMult: 0.85 },   // Outside of Design (lighter)
-  { rx: 0.24, ry: 0.78, density: 0.5, radiusMult: 0.85 },   // How I Build (lighter)
-  { rx: 0.74, ry: 0.68, density: 0.85, radiusMult: 1.15 },   // What I Care About (primary)
+  { rx: 0.28, ry: 0.22, density: 0.65, radiusMult: 1.0, innerMult: 1.0 },   // Who I Am (secondary)
+  { rx: 0.78, ry: 0.20, density: 0.45, radiusMult: 0.85, innerMult: 0.9 },   // Outside of Design (tertiary)
+  { rx: 0.24, ry: 0.78, density: 0.45, radiusMult: 0.85, innerMult: 0.9 },   // How I Build (tertiary)
+  { rx: 0.80, ry: 0.74, density: 0.75, radiusMult: 1.2, innerMult: 1.15 },   // What I Care About (primary, pushed right+down)
 ];
 
 // ── Project orbs ──
@@ -247,30 +247,33 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
 
     // 2. Text dots — precise grid typography in hero, cluster orbits in about
     const clusters = clusterPosRef.current;
-    const INNER_RADIUS = 55;
-    const BASE_ORBIT = 90;
-    const SPLASH_ORBIT = 140;
+    const INNER_RADIUS = 80;
+    const BASE_ORBIT = 115;
+    const SPLASH_ORBIT = 170;
 
     textDotsRef.current.forEach((p) => {
-      // In hero mode (eased near 0): dots sit exactly at baseX/baseY — no physics
-      // In about mode (eased near 1): dots orbit cluster centers
-
-      // Cluster orbit target
       const cluster = clusters[p.clusterIndex];
       if (!cluster) return;
+      const clusterDef = CLUSTER_DEFS[p.clusterIndex];
 
       p.orbitAngle += p.orbitSpeed;
       const clusterSplash = splashes[p.clusterIndex];
-      const effectiveRadius = Math.max(INNER_RADIUS, p.orbitRadius) + clusterSplash * (SPLASH_ORBIT - BASE_ORBIT);
+      const innerR = INNER_RADIUS * (clusterDef?.innerMult ?? 1);
+      const effectiveRadius = Math.max(innerR, p.orbitRadius) + clusterSplash * (SPLASH_ORBIT - BASE_ORBIT);
       const aboutX = cluster.x + Math.cos(p.orbitAngle) * effectiveRadius;
       const aboutY = cluster.y + Math.sin(p.orbitAngle) * effectiveRadius;
 
-      // Blend: exact grid position → cluster orbit position
       const drawX = p.baseX + (aboutX - p.baseX) * eased;
       const drawY = p.baseY + (aboutY - p.baseY) * eased;
 
-      // Subtle opacity variation for depth, but no position noise
-      const dotAlpha = (0.6 + p.orbitRadius * 0.003) * (1 - eased * 0.15);
+      // Fade out particles that are too close to cluster center (text-safe masking)
+      let dotAlpha = (0.6 + p.orbitRadius * 0.003) * (1 - eased * 0.15);
+      if (eased > 0.01) {
+        const distToCenter = Math.sqrt((drawX - cluster.x) ** 2 + (drawY - cluster.y) ** 2);
+        if (distToCenter < innerR * 0.9) {
+          dotAlpha *= Math.max(0, distToCenter / (innerR * 0.9));
+        }
+      }
 
       ctx.beginPath();
       ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);

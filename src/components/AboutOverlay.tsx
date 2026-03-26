@@ -34,7 +34,7 @@ const CLUSTER_TEXTS: ClusterTextData[] = [
   {
     label: "What I Care About",
     lines: ["Design as behavior", "Systems as language", "Meaningful interaction", "Prototyping to think"],
-    position: { left: "74%", top: "68%" },
+    position: { left: "80%", top: "74%" },
     index: 3,
   },
 ];
