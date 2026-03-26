@@ -1,12 +1,15 @@
 import { useEffect, useRef, useCallback } from "react";
 
-// ── Cluster definitions for About mode ──
+// ── Cluster definitions for About mode (pushed to edges) ──
 const CLUSTER_DEFS = [
-  { rx: 0.28, ry: 0.32 },
-  { rx: 0.72, ry: 0.28 },
-  { rx: 0.28, ry: 0.7 },
-  { rx: 0.72, ry: 0.68 },
+  { rx: 0.12, ry: 0.22 },
+  { rx: 0.88, ry: 0.18 },
+  { rx: 0.10, ry: 0.82 },
+  { rx: 0.90, ry: 0.80 },
 ];
+
+// Portrait attractor position (center-right of screen)
+const PORTRAIT_POS = { rx: 0.56, ry: 0.5 };
 
 // ── Project orbs ──
 interface Orb {
@@ -75,6 +78,7 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
   const aboutModeRef = useRef(aboutMode);
   const transitionRef = useRef(0);
   const clusterPosRef = useRef<{ x: number; y: number }[]>([]);
+  const portraitPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   useEffect(() => {
     aboutModeRef.current = aboutMode;
@@ -115,6 +119,9 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       x: d.rx * w,
       y: d.ry * h,
     }));
+
+    // Portrait attractor position
+    portraitPosRef.current = { x: PORTRAIT_POS.rx * w, y: PORTRAIT_POS.ry * h };
 
     // Text dots
     const textDots: TextDot[] = [];
@@ -272,26 +279,37 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       ctx.fill();
     });
 
-    // ── 3. Cluster glows (visible during/after transition) ──
+    // ── 3. Portrait attractor field (about mode) ──
+    if (eased > 0.3) {
+      const portrait = portraitPosRef.current;
+      const attractRadius = 180;
+      const attractStrength = 0.08 * eased;
+      
+      starsRef.current.forEach((star) => {
+        const dx = portrait.x - star.x;
+        const dy = portrait.y - star.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < attractRadius && dist > 20) {
+          const pull = attractStrength * (1 - dist / attractRadius) * (1 - dist / attractRadius);
+          star.x += (dx / dist) * pull;
+          star.y += (dy / dist) * pull;
+        }
+      });
+    }
+
+    // ── 4. Cluster glows (dimmed, secondary) ──
     if (eased > 0.05) {
       clusters.forEach((cluster) => {
-        const breathe = 1 + Math.sin(time * 0.4) * 0.08;
-        const glowR = 55 * breathe;
+        const breathe = 1 + Math.sin(time * 0.3) * 0.06;
+        const glowR = 40 * breathe;
         const grad = ctx.createRadialGradient(cluster.x, cluster.y, 0, cluster.x, cluster.y, glowR);
-        grad.addColorStop(0, `rgba(210, 210, 225, ${0.045 * eased})`);
-        grad.addColorStop(0.6, `rgba(210, 210, 225, ${0.015 * eased})`);
+        grad.addColorStop(0, `rgba(210, 210, 225, ${0.025 * eased})`);
+        grad.addColorStop(0.6, `rgba(210, 210, 225, ${0.008 * eased})`);
         grad.addColorStop(1, `rgba(210, 210, 225, 0)`);
         ctx.beginPath();
         ctx.arc(cluster.x, cluster.y, glowR, 0, Math.PI * 2);
         ctx.fillStyle = grad;
         ctx.fill();
-
-        // Subtle ring
-        ctx.beginPath();
-        ctx.arc(cluster.x, cluster.y, 35 * breathe, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(200, 200, 215, ${0.06 * eased})`;
-        ctx.lineWidth = 0.4;
-        ctx.stroke();
       });
     }
 
