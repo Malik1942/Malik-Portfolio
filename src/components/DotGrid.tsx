@@ -32,6 +32,7 @@ const ORB_DEFS = [
   { label: "NeuraLyfe", subtitle: "Main Projects", color: "red" as const, rx: 0.3, ry: 0.55, id: "neuralyfe" },
   { label: "FlowPrint", subtitle: "Main Projects", color: "red" as const, rx: 0.75, ry: 0.45, id: "flowprint" },
   { label: "Tubular", subtitle: "Main Projects", color: "red" as const, rx: 0.18, ry: 0.7, id: "tubular" },
+  { label: "Mood Muse", subtitle: "Main Projects", color: "red" as const, rx: 0.88, ry: 0.3, id: "moodmuse" },
   { label: "Inspire Ocean", subtitle: "Built with AI", color: "gold" as const, rx: 0.55, ry: 0.2, id: "inspireocean" },
   { label: "Studio Waters", subtitle: "Built with AI", color: "gold" as const, rx: 0.5, ry: 0.38, id: "studiowaters" },
 ];

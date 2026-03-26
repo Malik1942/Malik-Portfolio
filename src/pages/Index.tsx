@@ -48,6 +48,14 @@ const selectedWork = [
     year: "2026",
     details: "Conceptualized and built an experimental physics-based toy that teaches fluid dynamics through play.\n\nCombined industrial design with digital prototyping to create an intuitive, tactile learning experience.",
   },
+  {
+    id: "moodmuse",
+    title: "Mood Muse",
+    description: "An emotional expression aid designed for autistic children.",
+    role: "Product Designer",
+    year: "2024",
+    details: "A system that helps children externalize and communicate their internal emotional states through intuitive interactions, reducing frustration and enabling clearer social connection.",
+  },
 ];
 
 const aiProjects = [
