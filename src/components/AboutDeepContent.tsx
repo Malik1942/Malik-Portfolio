@@ -322,12 +322,7 @@ const AboutDeepContent = ({ isVisible }: { isVisible: boolean }) => {
   if (!isVisible) return null;
 
   return (
-    <>
-      {/* Scroll hint on the hero viewport */}
-      <ScrollIndicator />
-
-      {/* Deep content sections */}
-      <div ref={containerRef} className="relative bg-background">
+    <div className="relative bg-background">
         {/* Gradient transition from particle canvas to content */}
         <div
           className="absolute top-0 left-0 right-0 h-32 pointer-events-none z-10"
