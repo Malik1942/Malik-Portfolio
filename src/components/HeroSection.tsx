@@ -1,12 +1,26 @@
 import DotGrid from "./DotGrid";
+import AboutOverlay from "./AboutOverlay";
+import { motion } from "framer-motion";
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  isAboutOpen: boolean;
+  onAboutClick: () => void;
+  onAboutBack: () => void;
+}
+
+const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProps) => {
   return (
     <section className="relative w-full h-screen overflow-hidden bg-background">
-      <DotGrid />
+      <DotGrid aboutMode={isAboutOpen} />
+      <AboutOverlay isVisible={isAboutOpen} onBack={onAboutBack} />
 
       {/* Bottom bar */}
-      <div className="absolute bottom-0 left-0 right-0 px-6 md:px-16 lg:px-24 pb-10 z-10">
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 px-6 md:px-16 lg:px-24 pb-10 z-10"
+        animate={{ opacity: isAboutOpen ? 0 : 1, y: isAboutOpen ? 20 : 0 }}
+        transition={{ duration: 0.6, delay: isAboutOpen ? 0 : 0.8 }}
+        style={{ pointerEvents: isAboutOpen ? "none" : "auto" }}
+      >
         <div className="h-px bg-border/40 mb-8 animate-line-reveal delay-3" />
 
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
@@ -28,7 +42,14 @@ const HeroSection = () => {
             <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500">
               Built with AI
             </a>
-            <a href="#about" className="nav-link hover:text-foreground transition-colors duration-500">
+            <a
+              href="#about"
+              className="nav-link hover:text-foreground transition-colors duration-500"
+              onClick={(e) => {
+                e.preventDefault();
+                onAboutClick();
+              }}
+            >
               About
             </a>
             <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">
@@ -48,7 +69,7 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
