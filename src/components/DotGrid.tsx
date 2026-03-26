@@ -201,12 +201,12 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
 
     // Transition interpolation
     const targetT = aboutModeRef.current ? 1 : 0;
-    transitionRef.current += (targetT - transitionRef.current) * 0.018;
+    transitionRef.current += (targetT - transitionRef.current) * 0.012;
     if (Math.abs(transitionRef.current - targetT) < 0.001) transitionRef.current = targetT;
     const tVal = transitionRef.current;
     const eased = tVal < 0.5
-      ? 4 * tVal * tVal * tVal
-      : 1 - Math.pow(-2 * tVal + 2, 3) / 2;
+      ? 2 * tVal * tVal
+      : 1 - Math.pow(-2 * tVal + 2, 2) / 2;
 
     // Cluster splash interpolation per cluster
     const splashes = clusterSplashRef.current;
@@ -302,14 +302,22 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
 
       // Alpha: visible in both states, fade near cluster center in about mode
       const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      let dotAlpha = Math.min(0.95, 0.5 + speed * 0.04);
-      if (particleT > 0.3) {
-        dotAlpha = 0.55 + p.orbitRadius * 0.003;
-        const distToCenter = Math.sqrt((drawX - cluster.x) ** 2 + (drawY - cluster.y) ** 2);
-        if (distToCenter < innerR * 0.9) {
-          dotAlpha *= Math.max(0, distToCenter / (innerR * 0.9));
-        }
+      // Alpha: text dots stay solid, cluster edge dots fade out
+      const heroAlpha = Math.min(0.95, 0.5 + speed * 0.04);
+      let clusterAlpha = 0.55 + p.orbitRadius * 0.003;
+      // Fade near cluster center (text-safe zone)
+      const distToCenter = Math.sqrt((aboutX - cluster.x) ** 2 + (aboutY - cluster.y) ** 2);
+      if (distToCenter < innerR * 0.9) {
+        clusterAlpha *= Math.max(0, distToCenter / (innerR * 0.9));
       }
+      // Fade on outer edge of orbit ring for soft boundary
+      const maxOrbit = effectiveRadius * 1.15;
+      if (distToCenter > effectiveRadius * 0.85) {
+        const edgeFade = 1 - Math.min(1, (distToCenter - effectiveRadius * 0.85) / (maxOrbit - effectiveRadius * 0.85));
+        clusterAlpha *= 0.3 + edgeFade * 0.7;
+      }
+      // Blend alpha: hero (solid) → cluster (edge-faded)
+      let dotAlpha = heroAlpha + (clusterAlpha - heroAlpha) * particleT;
 
       ctx.beginPath();
       ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);
