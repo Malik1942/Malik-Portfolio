@@ -55,17 +55,11 @@ const ClusterNode = ({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Center dot */}
       <motion.div
         className="w-[4px] h-[4px] rounded-full bg-foreground/15"
-        animate={{
-          scale: hovered ? 2 : 1,
-          opacity: hovered ? 0.5 : 0.15,
-        }}
+        animate={{ scale: hovered ? 2 : 1, opacity: hovered ? 0.5 : 0.15 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       />
-
-      {/* Label */}
       <motion.span
         className="text-[9px] uppercase tracking-[0.3em] text-foreground/20 whitespace-nowrap"
         animate={{ opacity: hovered ? 0.6 : 0.2 }}
@@ -73,15 +67,10 @@ const ClusterNode = ({
       >
         {cluster.label}
       </motion.span>
-
-      {/* Content reveal */}
       <motion.div
         className="max-w-[190px] text-center"
         initial={false}
-        animate={{
-          opacity: hovered ? 1 : 0,
-          y: hovered ? 0 : 6,
-        }}
+        animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 6 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         style={{ pointerEvents: hovered ? "auto" : "none" }}
       >
@@ -93,10 +82,7 @@ const ClusterNode = ({
         {cluster.items && (
           <div className="flex flex-wrap justify-center gap-x-2.5 gap-y-1">
             {cluster.items.map((item) => (
-              <span
-                key={item}
-                className="text-[10px] text-foreground/30 font-light"
-              >
+              <span key={item} className="text-[10px] text-foreground/30 font-light">
                 {item}
               </span>
             ))}
@@ -137,7 +123,6 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
       {isVisible && (
         <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
           <div className="flex items-center gap-8 md:gap-12 px-6">
-            {/* Text — left side */}
             <div className="flex flex-col items-end text-right max-w-[340px]">
               <motion.h2
                 className="text-[18px] sm:text-[22px] md:text-[26px] text-foreground/90 font-light leading-[1.5] tracking-wide"
@@ -157,51 +142,52 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
               </motion.p>
             </div>
 
-            {/* Portrait — right side, particle-integrated */}
             <motion.div
               className="relative flex-shrink-0"
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.4, delay: 1.2, ease: "easeOut" }}
             >
-              {/* Outer glow layers */}
               <div className="absolute -inset-8 rounded-full opacity-30"
-                style={{
-                  background: "radial-gradient(circle, rgba(200,200,220,0.08) 0%, transparent 70%)",
-                }}
+                style={{ background: "radial-gradient(circle, rgba(200,200,220,0.08) 0%, transparent 70%)" }}
               />
               <div className="absolute -inset-4 rounded-full opacity-50"
-                style={{
-                  background: "radial-gradient(circle, rgba(200,200,220,0.05) 0%, transparent 60%)",
-                }}
+                style={{ background: "radial-gradient(circle, rgba(200,200,220,0.05) 0%, transparent 60%)" }}
               />
-              
-              {/* Image with soft dissolving edge */}
               <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full overflow-hidden"
                 style={{
                   maskImage: "radial-gradient(circle, black 45%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0.2) 75%, transparent 90%)",
                   WebkitMaskImage: "radial-gradient(circle, black 45%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0.2) 75%, transparent 90%)",
                 }}
               >
-                <img
-                  src={profileImage}
-                  alt="Malik Zhang"
-                  className="w-full h-full object-cover object-top"
-                />
+                <img src={profileImage} alt="Malik Zhang" className="w-full h-full object-cover object-top" />
               </div>
-
-              {/* Inner ring hint */}
               <div className="absolute inset-0 rounded-full"
-                style={{
-                  boxShadow: "inset 0 0 20px rgba(200,200,220,0.06), 0 0 40px rgba(200,200,220,0.04)",
-                }}
+                style={{ boxShadow: "inset 0 0 20px rgba(200,200,220,0.06), 0 0 40px rgba(200,200,220,0.04)" }}
               />
             </motion.div>
           </div>
         </div>
       )}
 
-      {/* Cluster nodes — far edges, dimmed as secondary */}
+      {/* Scroll indicator */}
+      {isVisible && (
+        <motion.div
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 2.8 }}
+        >
+          <span className="text-[8px] uppercase tracking-[0.3em] text-foreground/15">Scroll</span>
+          <motion.div
+            className="w-px h-6 bg-foreground/10"
+            animate={{ scaleY: [0.4, 1, 0.4], opacity: [0.1, 0.2, 0.1] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+      )}
+
+      {/* Cluster nodes */}
       {isVisible &&
         CLUSTERS.map((cluster, i) => (
           <ClusterNode key={cluster.label} cluster={cluster} index={i} />

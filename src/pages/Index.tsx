@@ -3,6 +3,7 @@ import CustomCursor from "@/components/CustomCursor";
 import HeroSection from "@/components/HeroSection";
 import ProjectList from "@/components/ProjectList";
 import Footer from "@/components/Footer";
+import AboutDeepContent from "@/components/AboutDeepContent";
 import auraCover from "@/assets/aura-cover.png";
 import neuralyfeCover from "@/assets/neuralyfe-cover.png";
 import flowprintCover from "@/assets/flowprint-cover.png";
@@ -72,7 +73,7 @@ const Index = () => {
   const [isAboutOpen, setIsAboutOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background" style={{ overflow: isAboutOpen ? "hidden" : undefined }}>
+    <div className="min-h-screen bg-background">
       <CustomCursor />
       <HeroSection
         isAboutOpen={isAboutOpen}
@@ -80,13 +81,23 @@ const Index = () => {
           window.scrollTo({ top: 0, behavior: "smooth" });
           setIsAboutOpen(true);
         }}
-        onAboutBack={() => setIsAboutOpen(false)}
+        onAboutBack={() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          setIsAboutOpen(false);
+        }}
       />
+
+      {/* About deep content — below hero, only when about is open */}
+      {isAboutOpen && <AboutDeepContent isVisible={isAboutOpen} />}
+
+      {/* Regular portfolio content — hidden when about is open */}
       <div
         style={{
           opacity: isAboutOpen ? 0 : 1,
           transition: "opacity 0.6s ease",
           pointerEvents: isAboutOpen ? "none" : "auto",
+          height: isAboutOpen ? 0 : "auto",
+          overflow: isAboutOpen ? "hidden" : "visible",
         }}
       >
         <ProjectList
