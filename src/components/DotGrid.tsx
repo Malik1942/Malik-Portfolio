@@ -48,22 +48,18 @@ interface StarDot {
   ringRadius: number;
 }
 
-interface StaticDot {
+interface Dot {
   x: number;
   y: number;
   baseX: number;
   baseY: number;
   vx: number;
   vy: number;
-}
-
-interface ParticleDot {
-  baseX: number;
-  baseY: number;
   clusterIndex: number;
   orbitAngle: number;
   orbitRadius: number;
   orbitSpeed: number;
+  delay: number; // stagger delay for transition
 }
 
 interface DotGridProps {
@@ -77,8 +73,7 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
   const dprRef = useRef(1);
   const starsRef = useRef<StarDot[]>([]);
   const orbsRef = useRef<Orb[]>([]);
-  const staticDotsRef = useRef<StaticDot[]>([]);
-  const particleDotsRef = useRef<ParticleDot[]>([]);
+  const dotsRef = useRef<Dot[]>([]);
   const sizeRef = useRef({ w: 0, h: 0 });
   const initRef = useRef(false);
   const hoveredOrbRef = useRef<string | null>(null);
@@ -136,9 +131,8 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       y: d.ry * h,
     }));
 
-    // Text dots for "Malik Zhang" — two layers
-    const staticDots: StaticDot[] = [];
-    const particleDots: ParticleDot[] = [];
+    // Single unified particle array for "Malik Zhang"
+    const dots: Dot[] = [];
     const offscreen = document.createElement("canvas");
     offscreen.width = w;
     offscreen.height = h;
@@ -151,8 +145,10 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       ctx.fillStyle = "white";
 
       const lineGap = fontSize * 1.05;
-      ctx.fillText("Malik", w / 2, h * 0.38 - lineGap * 0.25);
-      ctx.fillText("Zhang", w / 2, h * 0.38 + lineGap * 0.75);
+      const centerX = w / 2;
+      const centerY = h * 0.38;
+      ctx.fillText("Malik", centerX, centerY - lineGap * 0.25);
+      ctx.fillText("Zhang", centerX, centerY + lineGap * 0.75);
 
       const imageData = ctx.getImageData(0, 0, w, h);
       const gap = 4;
@@ -161,29 +157,28 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
         for (let x = 0; x < w; x += gap) {
           const i = (y * w + x) * 4;
           if (imageData.data[i + 3] > 100) {
-            // ALL dots go to static layer (full typography)
-            staticDots.push({ x, y, baseX: x, baseY: y, vx: 0, vy: 0 });
-
-            // Subset goes to particle layer for cluster animation
             const ci = dotIndex % 4;
-            const keep = Math.random() < CLUSTER_DEFS[ci].density;
-            if (keep) {
-              const rMult = CLUSTER_DEFS[ci].radiusMult;
-              particleDots.push({
-                baseX: x, baseY: y,
-                clusterIndex: ci,
-                orbitAngle: Math.random() * Math.PI * 2,
-                orbitRadius: (85 + Math.random() * 55) * rMult,
-                orbitSpeed: 0.0003 + Math.random() * 0.0006,
-              });
-            }
+            const rMult = CLUSTER_DEFS[ci].radiusMult;
+            // Stagger delay based on distance from center (center dissolves first)
+            const distFromCenter = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
+            const maxDist = Math.sqrt(centerX * centerX + centerY * centerY);
+            const delay = (distFromCenter / maxDist) * 0.35;
+            dots.push({
+              x, y,
+              baseX: x, baseY: y,
+              vx: 0, vy: 0,
+              clusterIndex: ci,
+              orbitAngle: Math.random() * Math.PI * 2,
+              orbitRadius: (85 + Math.random() * 55) * rMult,
+              orbitSpeed: 0.0003 + Math.random() * 0.0006,
+              delay,
+            });
             dotIndex++;
           }
         }
       }
     }
-    staticDotsRef.current = staticDots;
-    particleDotsRef.current = particleDots;
+    dotsRef.current = dots;
     sizeRef.current = { w, h };
     initRef.current = true;
   }, []);
@@ -250,81 +245,77 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       }
     });
 
-    // 2a. Static text dots — full typography with explosive splash interaction
-    const textAlpha = 0.75 * (1 - eased * 0.65);
-    if (textAlpha > 0.01) {
-      const splashRadius = 90;
-      staticDotsRef.current.forEach((p) => {
-        // Mouse splash (hero mode only)
-        if (eased < 0.95) {
-          const dx = mx - p.baseX;
-          const dy = my - p.baseY;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < splashRadius && dist > 0) {
-            const force = (splashRadius - dist) / splashRadius;
-            const power = force * force;
-            const angle = Math.atan2(p.baseY - my, p.baseX - mx);
-            const amp = 4 + Math.random() * 5;
-            p.vx += Math.cos(angle) * power * amp;
-            p.vy += Math.sin(angle) * power * amp;
-            p.vx += (Math.random() - 0.5) * power * 3;
-            p.vy += (Math.random() - 0.5) * power * 3;
-          }
-        }
-
-        // Spring back to base position
-        p.vx += (p.baseX - p.x) * 0.035;
-        p.vy += (p.baseY - p.y) * 0.035;
-        p.vx *= 0.91;
-        p.vy *= 0.91;
-        p.x += p.vx;
-        p.y += p.vy;
-
-        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-        const dotAlpha = Math.min(0.95, 0.5 + speed * 0.04) * textAlpha / 0.75;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(225, 222, 215, ${dotAlpha})`;
-        ctx.fill();
-      });
-    }
-
-    // 2b. Particle dots — animate from text positions to cluster orbits
+    // 2. Unified dot system — text ↔ cluster morph
     const clusters = clusterPosRef.current;
     const INNER_RADIUS = 80;
     const BASE_ORBIT = 115;
     const SPLASH_ORBIT = 170;
+    const splashRadius = 90;
 
-    if (eased > 0.01) {
-      particleDotsRef.current.forEach((p) => {
-        const cluster = clusters[p.clusterIndex];
-        if (!cluster) return;
-        const clusterDef = CLUSTER_DEFS[p.clusterIndex];
+    dotsRef.current.forEach((p) => {
+      const cluster = clusters[p.clusterIndex];
+      if (!cluster) return;
+      const clusterDef = CLUSTER_DEFS[p.clusterIndex];
 
-        p.orbitAngle += p.orbitSpeed;
-        const clusterSplash = splashes[p.clusterIndex];
-        const innerR = INNER_RADIUS * (clusterDef?.innerMult ?? 1);
-        const effectiveRadius = Math.max(innerR, p.orbitRadius) + clusterSplash * (SPLASH_ORBIT - BASE_ORBIT);
-        const aboutX = cluster.x + Math.cos(p.orbitAngle) * effectiveRadius;
-        const aboutY = cluster.y + Math.sin(p.orbitAngle) * effectiveRadius;
+      // Per-particle staggered transition (center breaks first, edges last)
+      const staggeredEased = Math.max(0, Math.min(1, (eased - p.delay) / (1 - p.delay)));
+      const particleT = staggeredEased < 0.5
+        ? 4 * staggeredEased * staggeredEased * staggeredEased
+        : 1 - Math.pow(-2 * staggeredEased + 2, 3) / 2;
 
-        const drawX = p.baseX + (aboutX - p.baseX) * eased;
-        const drawY = p.baseY + (aboutY - p.baseY) * eased;
+      // Mouse splash (hero mode — fades out as particles leave)
+      if (particleT < 0.8) {
+        const dx = mx - p.baseX;
+        const dy = my - p.baseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < splashRadius && dist > 0) {
+          const force = (splashRadius - dist) / splashRadius;
+          const power = force * force * (1 - particleT);
+          const angle = Math.atan2(p.baseY - my, p.baseX - mx);
+          const amp = 4 + Math.random() * 5;
+          p.vx += Math.cos(angle) * power * amp;
+          p.vy += Math.sin(angle) * power * amp;
+          p.vx += (Math.random() - 0.5) * power * 3;
+          p.vy += (Math.random() - 0.5) * power * 3;
+        }
+      }
 
-        // Fade out particles too close to cluster center
-        let dotAlpha = (0.65 + p.orbitRadius * 0.003) * eased;
+      // Spring physics toward base position (text shape)
+      p.vx += (p.baseX - p.x) * 0.035;
+      p.vy += (p.baseY - p.y) * 0.035;
+      p.vx *= 0.91;
+      p.vy *= 0.91;
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Cluster orbit target
+      p.orbitAngle += p.orbitSpeed;
+      const clusterSplash = splashes[p.clusterIndex];
+      const innerR = INNER_RADIUS * (clusterDef?.innerMult ?? 1);
+      const effectiveRadius = Math.max(innerR, p.orbitRadius) + clusterSplash * (SPLASH_ORBIT - BASE_ORBIT);
+      const aboutX = cluster.x + Math.cos(p.orbitAngle) * effectiveRadius;
+      const aboutY = cluster.y + Math.sin(p.orbitAngle) * effectiveRadius;
+
+      // Morph: spring-physics text position → cluster orbit position
+      const drawX = p.x + (aboutX - p.x) * particleT;
+      const drawY = p.y + (aboutY - p.y) * particleT;
+
+      // Alpha: visible in both states, fade near cluster center in about mode
+      const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+      let dotAlpha = Math.min(0.95, 0.5 + speed * 0.04);
+      if (particleT > 0.3) {
+        dotAlpha = 0.55 + p.orbitRadius * 0.003;
         const distToCenter = Math.sqrt((drawX - cluster.x) ** 2 + (drawY - cluster.y) ** 2);
         if (distToCenter < innerR * 0.9) {
           dotAlpha *= Math.max(0, distToCenter / (innerR * 0.9));
         }
+      }
 
-        ctx.beginPath();
-        ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(225, 222, 215, ${dotAlpha})`;
-        ctx.fill();
-      });
-    }
+      ctx.beginPath();
+      ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(225, 222, 215, ${dotAlpha})`;
+      ctx.fill();
+    });
 
     // 3. Gravitational orbs (fade out during about transition)
     const orbFade = 1 - eased;
