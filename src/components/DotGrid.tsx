@@ -137,18 +137,18 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
     offscreen.height = h;
     const ctx = offscreen.getContext("2d");
     if (ctx) {
-      const fontSize = Math.min(w * 0.12, 160);
-      ctx.font = `700 ${fontSize}px 'Space Grotesk', sans-serif`;
+      const fontSize = Math.min(w * 0.14, 200);
+      ctx.font = `800 ${fontSize}px 'Space Grotesk', sans-serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillStyle = "white";
 
-      const lineGap = fontSize * 1.05;
-      ctx.fillText("Malik", w / 2, h * 0.38 - lineGap * 0.25);
-      ctx.fillText("Zhang", w / 2, h * 0.38 + lineGap * 0.75);
+      const lineGap = fontSize * 1.15;
+      ctx.fillText("Malik", w / 2, h * 0.36 - lineGap * 0.2);
+      ctx.fillText("Zhang", w / 2, h * 0.36 + lineGap * 0.8);
 
       const imageData = ctx.getImageData(0, 0, w, h);
-      const gap = 4;
+      const gap = 7;
       let dotIndex = 0;
       const clusterDotCounts = [0, 0, 0, 0];
       for (let y = 0; y < h; y += gap) {
@@ -269,11 +269,11 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       const drawX = p.baseX + (aboutX - p.baseX) * eased;
       const drawY = p.baseY + (aboutY - p.baseY) * eased;
 
-      // Subtle opacity variation for depth, but no position noise
-      const dotAlpha = (0.6 + p.orbitRadius * 0.003) * (1 - eased * 0.15);
+      // Clean, uniform dots — like an LED dot-matrix display
+      const dotAlpha = 0.75 * (1 - eased * 0.15);
 
       ctx.beginPath();
-      ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);
+      ctx.arc(drawX, drawY, 2, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(225, 222, 215, ${dotAlpha})`;
       ctx.fill();
     });
