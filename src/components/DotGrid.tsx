@@ -78,6 +78,7 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
   const aboutModeRef = useRef(aboutMode);
   const transitionRef = useRef(0);
   const clusterPosRef = useRef<{ x: number; y: number }[]>([]);
+  const portraitPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   useEffect(() => {
     aboutModeRef.current = aboutMode;
