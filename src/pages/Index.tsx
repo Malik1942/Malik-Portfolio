@@ -1,3 +1,4 @@
+import { useState } from "react";
 import CustomCursor from "@/components/CustomCursor";
 import HeroSection from "@/components/HeroSection";
 import ProjectList from "@/components/ProjectList";
@@ -25,7 +26,7 @@ const selectedWork = [
     role: "Product Designer, Maker",
     coverImage: neuralyfeCover,
     year: "2025",
-    details: "Led ideation and defined the problem scope for NeuraLyfe, designing the AI-driven Impact Replay interface and contributing across both digital and physical product development.\n\nAwarded 1st Place at FigBuild 2026, recognizing the project’s concept, execution, and system design.",
+    details: "Led ideation and defined the problem scope for NeuraLyfe, designing the AI-driven Impact Replay interface and contributing across both digital and physical product development.\n\nAwarded 1st Place at FigBuild 2026, recognizing the project's concept, execution, and system design.",
   },
   {
     id: "flowprint",
@@ -68,25 +69,42 @@ const aiProjects = [
 ];
 
 const Index = () => {
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" style={{ overflow: isAboutOpen ? "hidden" : undefined }}>
       <CustomCursor />
-      <HeroSection />
-      <ProjectList
-        id="projects"
-        sectionTitle="Main Projects"
-        sectionSubtitle="Major projects that shaped products and teams."
-        dotColor="red"
-        projects={selectedWork}
+      <HeroSection
+        isAboutOpen={isAboutOpen}
+        onAboutClick={() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          setIsAboutOpen(true);
+        }}
+        onAboutBack={() => setIsAboutOpen(false)}
       />
-      <ProjectList
-        id="ai-projects"
-        sectionTitle="Built with AI"
-        sectionSubtitle="Side projects where I design and ship with AI tools."
-        dotColor="gold"
-        projects={aiProjects}
-      />
-      <Footer />
+      <div
+        style={{
+          opacity: isAboutOpen ? 0 : 1,
+          transition: "opacity 0.6s ease",
+          pointerEvents: isAboutOpen ? "none" : "auto",
+        }}
+      >
+        <ProjectList
+          id="projects"
+          sectionTitle="Main Projects"
+          sectionSubtitle="Major projects that shaped products and teams."
+          dotColor="red"
+          projects={selectedWork}
+        />
+        <ProjectList
+          id="ai-projects"
+          sectionTitle="Built with AI"
+          sectionSubtitle="Side projects where I design and ship with AI tools."
+          dotColor="gold"
+          projects={aiProjects}
+        />
+        <Footer />
+      </div>
     </div>
   );
 };

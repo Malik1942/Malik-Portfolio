@@ -1,5 +1,13 @@
 import { useEffect, useRef, useCallback } from "react";
 
+// ── Cluster definitions for About mode ──
+const CLUSTER_DEFS = [
+  { rx: 0.28, ry: 0.32 },
+  { rx: 0.72, ry: 0.28 },
+  { rx: 0.28, ry: 0.7 },
+  { rx: 0.72, ry: 0.68 },
+];
+
 // ── Project orbs ──
 interface Orb {
   label: string;
@@ -12,7 +20,7 @@ interface Orb {
   baseSize: number;
   mass: number;
   id: string;
-  hoverT: number; // 0..1 smoothly interpolated hover intensity
+  hoverT: number;
 }
 
 const ORB_DEFS = [
@@ -43,9 +51,17 @@ interface TextDot {
   baseY: number;
   vx: number;
   vy: number;
+  clusterIndex: number;
+  orbitAngle: number;
+  orbitRadius: number;
+  orbitSpeed: number;
 }
 
-const DotGrid = () => {
+interface DotGridProps {
+  aboutMode: boolean;
+}
+
+const DotGrid = ({ aboutMode }: DotGridProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -500, y: -500 });
   const animRef = useRef(0);
@@ -56,6 +72,13 @@ const DotGrid = () => {
   const sizeRef = useRef({ w: 0, h: 0 });
   const initRef = useRef(false);
   const hoveredOrbRef = useRef<string | null>(null);
+  const aboutModeRef = useRef(aboutMode);
+  const transitionRef = useRef(0);
+  const clusterPosRef = useRef<{ x: number; y: number }[]>([]);
+
+  useEffect(() => {
+    aboutModeRef.current = aboutMode;
+  }, [aboutMode]);
 
   const initScene = useCallback((w: number, h: number) => {
     // Random star dots
@@ -75,7 +98,7 @@ const DotGrid = () => {
     }
     starsRef.current = stars;
 
-    // Orbs with mass for gravitational interaction
+    // Orbs
     orbsRef.current = ORB_DEFS.map((d) => ({
       ...d,
       x: d.rx * w,
@@ -87,7 +110,13 @@ const DotGrid = () => {
       hoverT: 0,
     }));
 
-    // Text dots — dense dot-matrix for "Malik Zhang"
+    // Cluster positions
+    clusterPosRef.current = CLUSTER_DEFS.map((d) => ({
+      x: d.rx * w,
+      y: d.ry * h,
+    }));
+
+    // Text dots
     const textDots: TextDot[] = [];
     const offscreen = document.createElement("canvas");
     offscreen.width = w;
@@ -106,11 +135,24 @@ const DotGrid = () => {
 
       const imageData = ctx.getImageData(0, 0, w, h);
       const gap = 4;
+      let dotIndex = 0;
       for (let y = 0; y < h; y += gap) {
         for (let x = 0; x < w; x += gap) {
           const i = (y * w + x) * 4;
           if (imageData.data[i + 3] > 100) {
-            textDots.push({ x, y, baseX: x, baseY: y, vx: 0, vy: 0 });
+            textDots.push({
+              x,
+              y,
+              baseX: x,
+              baseY: y,
+              vx: 0,
+              vy: 0,
+              clusterIndex: dotIndex % 4,
+              orbitAngle: Math.random() * Math.PI * 2,
+              orbitRadius: 25 + Math.random() * 85,
+              orbitSpeed: 0.001 + Math.random() * 0.003,
+            });
+            dotIndex++;
           }
         }
       }
@@ -136,15 +178,26 @@ const DotGrid = () => {
     const my = mouseRef.current.y;
     const time = performance.now() / 1000;
 
+    // ── Transition interpolation ──
+    const targetT = aboutModeRef.current ? 1 : 0;
+    transitionRef.current += (targetT - transitionRef.current) * 0.018;
+    if (Math.abs(transitionRef.current - targetT) < 0.001) transitionRef.current = targetT;
+    const tVal = transitionRef.current;
+    // Ease in-out cubic
+    const eased =
+      tVal < 0.5
+        ? 4 * tVal * tVal * tVal
+        : 1 - Math.pow(-2 * tVal + 2, 3) / 2;
+
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
 
-    // ── 1. Background stars — bright like real stars ──
+    // ── 1. Background stars ──
+    const starAlpha = 0.65 + 0.35 * (1 - eased);
     starsRef.current.forEach((star) => {
       const twinkle = Math.sin(time * 2 + star.x * 0.013 + star.y * 0.009) * 0.2 + 0.8;
-      const alpha = star.opacity * twinkle;
+      const alpha = star.opacity * twinkle * starAlpha;
 
-      // Bright stars get a subtle glow
       if (star.opacity > 0.5) {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);
@@ -160,236 +213,261 @@ const DotGrid = () => {
       if (star.hasRing) {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.ringRadius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(220, 220, 230, ${0.12 * twinkle})`;
+        ctx.strokeStyle = `rgba(220, 220, 230, ${0.12 * twinkle * starAlpha})`;
         ctx.lineWidth = 0.6;
         ctx.stroke();
       }
     });
 
-    // ── 2. Text dots — intense continuous splash ──
+    // ── 2. Text dots — blend between hero and about positions ──
     const splashRadius = 90;
-    textDotsRef.current.forEach((p) => {
-      const dx = mx - p.baseX;
-      const dy = my - p.baseY;
-      const dist = Math.sqrt(dx * dx + dy * dy);
+    const clusters = clusterPosRef.current;
 
-      if (dist < splashRadius && dist > 0) {
-        const force = (splashRadius - dist) / splashRadius;
-        const power = force * force;
-        const angle = Math.atan2(p.baseY - my, p.baseX - mx);
-        const amp = 4 + Math.random() * 5;
-        p.vx += Math.cos(angle) * power * amp;
-        p.vy += Math.sin(angle) * power * amp;
-        p.vx += (Math.random() - 0.5) * power * 3;
-        p.vy += (Math.random() - 0.5) * power * 3;
+    textDotsRef.current.forEach((p) => {
+      // Hero spring physics (always runs to keep hero positions ready)
+      if (tVal < 0.95) {
+        const dx = mx - p.baseX;
+        const dy = my - p.baseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < splashRadius && dist > 0) {
+          const force = (splashRadius - dist) / splashRadius;
+          const power = force * force;
+          const angle = Math.atan2(p.baseY - my, p.baseX - mx);
+          const amp = 4 + Math.random() * 5;
+          p.vx += Math.cos(angle) * power * amp;
+          p.vy += Math.sin(angle) * power * amp;
+          p.vx += (Math.random() - 0.5) * power * 3;
+          p.vy += (Math.random() - 0.5) * power * 3;
+        }
       }
 
-      // Stronger spring to keep dots closer to origin
       const returnDx = p.baseX - p.x;
       const returnDy = p.baseY - p.y;
       p.vx += returnDx * 0.035;
       p.vy += returnDy * 0.035;
-
       p.vx *= 0.91;
       p.vy *= 0.91;
-
       p.x += p.vx;
       p.y += p.vy;
 
+      // Orbit position
+      p.orbitAngle += p.orbitSpeed;
+      const cluster = clusters[p.clusterIndex];
+      if (!cluster) return;
+      const aboutX = cluster.x + Math.cos(p.orbitAngle) * p.orbitRadius;
+      const aboutY = cluster.y + Math.sin(p.orbitAngle) * p.orbitRadius;
+
+      // Blend positions
+      const drawX = p.x + (aboutX - p.x) * eased;
+      const drawY = p.y + (aboutY - p.y) * eased;
+
       const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      const glowAlpha = Math.min(0.95, 0.5 + speed * 0.04);
+      const baseAlpha = Math.min(0.95, 0.5 + speed * 0.04);
+      const dotAlpha = baseAlpha * (0.55 + 0.45 * (1 - eased * 0.2));
 
       ctx.beginPath();
-      ctx.arc(p.x, p.y, 1.3, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(225, 222, 215, ${glowAlpha})`;
+      ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(225, 222, 215, ${dotAlpha})`;
       ctx.fill();
     });
 
-    // ── 3. Gravitational orbs ──
-    const orbs = orbsRef.current;
-    const G = 8;
-    const minDist = 100;
+    // ── 3. Cluster glows (visible during/after transition) ──
+    if (eased > 0.05) {
+      clusters.forEach((cluster) => {
+        const breathe = 1 + Math.sin(time * 0.4) * 0.08;
+        const glowR = 55 * breathe;
+        const grad = ctx.createRadialGradient(cluster.x, cluster.y, 0, cluster.x, cluster.y, glowR);
+        grad.addColorStop(0, `rgba(210, 210, 225, ${0.045 * eased})`);
+        grad.addColorStop(0.6, `rgba(210, 210, 225, ${0.015 * eased})`);
+        grad.addColorStop(1, `rgba(210, 210, 225, 0)`);
+        ctx.beginPath();
+        ctx.arc(cluster.x, cluster.y, glowR, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
 
-    // Apply gravitational forces between orbs
-    for (let i = 0; i < orbs.length; i++) {
-      for (let j = i + 1; j < orbs.length; j++) {
-        const a = orbs[i];
-        const b = orbs[j];
-        const dx = b.x - a.x;
-        const dy = b.y - a.y;
-        let dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < minDist) dist = minDist;
+        // Subtle ring
+        ctx.beginPath();
+        ctx.arc(cluster.x, cluster.y, 35 * breathe, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(200, 200, 215, ${0.06 * eased})`;
+        ctx.lineWidth = 0.4;
+        ctx.stroke();
+      });
+    }
 
-        const force = (G * a.mass * b.mass) / (dist * dist);
-        const fx = (dx / dist) * force;
-        const fy = (dy / dist) * force;
+    // ── 4. Gravitational orbs (fade out during transition) ──
+    const orbFade = 1 - eased;
 
-        if (dist < minDist * 1.5) {
-          a.vx -= fx * 0.002;
-          a.vy -= fy * 0.002;
-          b.vx += fx * 0.002;
-          b.vy += fy * 0.002;
-        } else {
-          a.vx += fx * 0.0003;
-          a.vy += fy * 0.0003;
-          b.vx -= fx * 0.0003;
-          b.vy -= fy * 0.0003;
+    if (orbFade > 0.01) {
+      ctx.save();
+      ctx.globalAlpha = orbFade;
+
+      const orbs = orbsRef.current;
+      const G = 8;
+      const minDist = 100;
+
+      for (let i = 0; i < orbs.length; i++) {
+        for (let j = i + 1; j < orbs.length; j++) {
+          const a = orbs[i];
+          const b = orbs[j];
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < minDist) dist = minDist;
+
+          const force = (G * a.mass * b.mass) / (dist * dist);
+          const fx = (dx / dist) * force;
+          const fy = (dy / dist) * force;
+
+          if (dist < minDist * 1.5) {
+            a.vx -= fx * 0.002;
+            a.vy -= fy * 0.002;
+            b.vx += fx * 0.002;
+            b.vy += fy * 0.002;
+          } else {
+            a.vx += fx * 0.0003;
+            a.vy += fy * 0.0003;
+            b.vx -= fx * 0.0003;
+            b.vy -= fy * 0.0003;
+          }
         }
       }
-    }
 
-    let newHoveredOrb: string | null = null;
+      let newHoveredOrb: string | null = null;
 
-    // Detect hovered orb first
-    orbs.forEach((orb) => {
-      const orbDx = mx - orb.x;
-      const orbDy = my - orb.y;
-      const orbDist = Math.sqrt(orbDx * orbDx + orbDy * orbDy);
-      if (orbDist < 30) newHoveredOrb = orb.id;
-    });
+      orbs.forEach((orb) => {
+        const orbDx = mx - orb.x;
+        const orbDy = my - orb.y;
+        const orbDist = Math.sqrt(orbDx * orbDx + orbDy * orbDy);
+        if (orbDist < 30) newHoveredOrb = orb.id;
+      });
 
-    // Draw connection lines between same-color orbs on hover
-    if (newHoveredOrb) {
-      const hovOrb = orbs.find((o) => o.id === newHoveredOrb);
-      if (hovOrb) {
-        orbs.forEach((orb) => {
-          if (orb.id === newHoveredOrb) return;
-          if (orb.color !== hovOrb.color) return;
-          const dx = orb.x - hovOrb.x;
-          const dy = orb.y - hovOrb.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist > 500) return;
-          const alpha = Math.max(0, 0.12 * (1 - dist / 500));
-          const col = hovOrb.color === "red" ? RED : GOLD;
-          ctx.beginPath();
-          ctx.moveTo(hovOrb.x, hovOrb.y);
-          ctx.lineTo(orb.x, orb.y);
-          ctx.strokeStyle = `rgba(${col}, ${alpha})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        });
-      }
-    }
-
-    // Gravitational pull on nearby stars toward hovered orb
-    if (newHoveredOrb) {
-      const hovOrb = orbs.find((o) => o.id === newHoveredOrb);
-      if (hovOrb) {
-        starsRef.current.forEach((star) => {
-          const dx = hovOrb.x - star.x;
-          const dy = hovOrb.y - star.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120 && dist > 2) {
-            const pull = 0.15 * (1 - dist / 120);
-            star.x += (dx / dist) * pull;
-            star.y += (dy / dist) * pull;
-          }
-        });
-      }
-    }
-
-    orbs.forEach((orb) => {
-      // Move
-      orb.x += orb.vx;
-      orb.y += orb.vy;
-
-      // Soft edge bounce
-      const pad = 80;
-      const bottomLimit = h * 0.82;
-      if (orb.x < pad) { orb.vx += 0.02; orb.x = Math.max(pad, orb.x); }
-      if (orb.x > w - pad) { orb.vx -= 0.02; orb.x = Math.min(w - pad, orb.x); }
-      if (orb.y < pad) { orb.vy += 0.02; orb.y = Math.max(pad, orb.y); }
-      if (orb.y > bottomLimit) { orb.vy -= 0.02; orb.y = Math.min(bottomLimit, orb.y); }
-
-      // Drift — AI projects get more dynamic drift
-      const isAI = orb.color === "gold";
-      const driftAmt = isAI ? 0.008 : 0.004;
-      orb.vx += (Math.random() - 0.5) * driftAmt;
-      orb.vy += (Math.random() - 0.5) * driftAmt;
-
-      // Speed — AI projects slightly faster
-      const maxSpeed = isAI ? 0.28 : 0.18;
-      const speed = Math.sqrt(orb.vx * orb.vx + orb.vy * orb.vy);
-      if (speed > maxSpeed) {
-        orb.vx = (orb.vx / speed) * maxSpeed;
-        orb.vy = (orb.vy / speed) * maxSpeed;
+      if (newHoveredOrb) {
+        const hovOrb = orbs.find((o) => o.id === newHoveredOrb);
+        if (hovOrb) {
+          orbs.forEach((orb) => {
+            if (orb.id === newHoveredOrb) return;
+            if (orb.color !== hovOrb.color) return;
+            const dx = orb.x - hovOrb.x;
+            const dy = orb.y - hovOrb.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist > 500) return;
+            const alpha = Math.max(0, 0.12 * (1 - dist / 500));
+            const col = hovOrb.color === "red" ? RED : GOLD;
+            ctx.beginPath();
+            ctx.moveTo(hovOrb.x, hovOrb.y);
+            ctx.lineTo(orb.x, orb.y);
+            ctx.strokeStyle = `rgba(${col}, ${alpha})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          });
+        }
       }
 
-      // Damping — main projects more grounded
-      orb.vx *= isAI ? 0.996 : 0.993;
-      orb.vy *= isAI ? 0.996 : 0.993;
+      if (newHoveredOrb) {
+        const hovOrb = orbs.find((o) => o.id === newHoveredOrb);
+        if (hovOrb) {
+          starsRef.current.forEach((star) => {
+            const dx = hovOrb.x - star.x;
+            const dy = hovOrb.y - star.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 120 && dist > 2) {
+              const pull = 0.15 * (1 - dist / 120);
+              star.x += (dx / dist) * pull;
+              star.y += (dy / dist) * pull;
+            }
+          });
+        }
+      }
 
-      const col = orb.color === "red" ? RED : GOLD;
+      orbs.forEach((orb) => {
+        orb.x += orb.vx;
+        orb.y += orb.vy;
 
-      // Breathing animation — slow, calm scale + opacity pulse
-      // AI projects breathe slightly faster and with more range
-      const breathSpeed = isAI ? 1.2 : 0.6;
-      const breathAmp = isAI ? 0.2 : 0.12;
-      const breath = 1 - breathAmp / 2 + Math.sin(time * breathSpeed + orb.mass * 3) * breathAmp;
-      const opacityBreath = 0.85 + Math.sin(time * breathSpeed * 0.7 + orb.mass * 2) * 0.15;
+        const pad = 80;
+        const bottomLimit = h * 0.82;
+        if (orb.x < pad) { orb.vx += 0.02; orb.x = Math.max(pad, orb.x); }
+        if (orb.x > w - pad) { orb.vx -= 0.02; orb.x = Math.min(w - pad, orb.x); }
+        if (orb.y < pad) { orb.vy += 0.02; orb.y = Math.max(pad, orb.y); }
+        if (orb.y > bottomLimit) { orb.vy -= 0.02; orb.y = Math.min(bottomLimit, orb.y); }
 
-      const orbDx = mx - orb.x;
-      const orbDy = my - orb.y;
-      const orbDist = Math.sqrt(orbDx * orbDx + orbDy * orbDy);
-      const isHovered = orbDist < 30;
+        const isAI = orb.color === "gold";
+        const driftAmt = isAI ? 0.008 : 0.004;
+        orb.vx += (Math.random() - 0.5) * driftAmt;
+        orb.vy += (Math.random() - 0.5) * driftAmt;
 
-      // Smooth interpolation of hover intensity
-      const targetT = isHovered ? 1 : 0;
-      const lerpSpeed = isHovered ? 0.08 : 0.04; // faster in, slower out
-      orb.hoverT += (targetT - orb.hoverT) * lerpSpeed;
-      const t = orb.hoverT;
+        const maxSpeed = isAI ? 0.28 : 0.18;
+        const speed = Math.sqrt(orb.vx * orb.vx + orb.vy * orb.vy);
+        if (speed > maxSpeed) {
+          orb.vx = (orb.vx / speed) * maxSpeed;
+          orb.vy = (orb.vy / speed) * maxSpeed;
+        }
 
-      // Eased hover value (ease-out cubic)
-      const eased = 1 - Math.pow(1 - t, 3);
+        orb.vx *= isAI ? 0.996 : 0.993;
+        orb.vy *= isAI ? 0.996 : 0.993;
 
-      const hoverScale = 1 + eased * 0.3;
-      const ringAlpha = 0.08 * opacityBreath + eased * 0.2;
-      const glowRadius = 42 + eased * 18;
-      const glowIntensity = (0.12 * opacityBreath + eased * 0.12) * breath;
-      const ringWidth = 0.5 + eased * 0.4;
+        const col = orb.color === "red" ? RED : GOLD;
+        const breathSpeed = isAI ? 1.2 : 0.6;
+        const breathAmp = isAI ? 0.2 : 0.12;
+        const breath = 1 - breathAmp / 2 + Math.sin(time * breathSpeed + orb.mass * 3) * breathAmp;
+        const opacityBreath = 0.85 + Math.sin(time * breathSpeed * 0.7 + orb.mass * 2) * 0.15;
 
-      // Glow
-      const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, glowRadius);
-      grad.addColorStop(0, `rgba(${col}, ${glowIntensity})`);
-      grad.addColorStop(1, `rgba(${col}, 0)`);
-      ctx.beginPath();
-      ctx.arc(orb.x, orb.y, glowRadius, 0, Math.PI * 2);
-      ctx.fillStyle = grad;
-      ctx.fill();
+        const orbDx = mx - orb.x;
+        const orbDy = my - orb.y;
+        const orbDist = Math.sqrt(orbDx * orbDx + orbDy * orbDy);
+        const isHovered = orbDist < 30;
 
-      // Ring
-      ctx.beginPath();
-      ctx.arc(orb.x, orb.y, 24 * hoverScale * breath, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(200, 200, 210, ${ringAlpha})`;
-      ctx.lineWidth = ringWidth;
-      ctx.stroke();
+        const tgtT = isHovered ? 1 : 0;
+        const lerpSpd = isHovered ? 0.08 : 0.04;
+        orb.hoverT += (tgtT - orb.hoverT) * lerpSpd;
+        const t = orb.hoverT;
+        const easedH = 1 - Math.pow(1 - t, 3);
 
-      // Core dot
-      ctx.beginPath();
-      ctx.arc(orb.x, orb.y, orb.baseSize * breath * hoverScale, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${col}, ${(0.85 + eased * 0.1) * opacityBreath})`;
-      ctx.fill();
+        const hoverScale = 1 + easedH * 0.3;
+        const ringAlpha = 0.08 * opacityBreath + easedH * 0.2;
+        const glowRadius = 42 + easedH * 18;
+        const glowIntensity = (0.12 * opacityBreath + easedH * 0.12) * breath;
+        const ringWidth = 0.5 + easedH * 0.4;
 
-      // Label
-      ctx.font = "500 12px 'Space Grotesk', sans-serif";
-      ctx.fillStyle = `rgba(${col}, ${(0.75 + eased * 0.2) * opacityBreath})`;
-      ctx.fillText(orb.label, orb.x + 16, orb.y - 3);
+        const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, glowRadius);
+        grad.addColorStop(0, `rgba(${col}, ${glowIntensity})`);
+        grad.addColorStop(1, `rgba(${col}, 0)`);
+        ctx.beginPath();
+        ctx.arc(orb.x, orb.y, glowRadius, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
 
-      // Subtitle
-      ctx.font = "400 9px 'Space Grotesk', sans-serif";
-      ctx.fillStyle = `rgba(${col}, ${(0.4 + eased * 0.2) * opacityBreath})`;
-      ctx.fillText(orb.subtitle, orb.x + 16, orb.y + 10);
-    });
+        ctx.beginPath();
+        ctx.arc(orb.x, orb.y, 24 * hoverScale * breath, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(200, 200, 210, ${ringAlpha})`;
+        ctx.lineWidth = ringWidth;
+        ctx.stroke();
 
-    hoveredOrbRef.current = newHoveredOrb;
+        ctx.beginPath();
+        ctx.arc(orb.x, orb.y, orb.baseSize * breath * hoverScale, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${col}, ${(0.85 + easedH * 0.1) * opacityBreath})`;
+        ctx.fill();
 
-    // Update canvas cursor style
+        ctx.font = "500 12px 'Space Grotesk', sans-serif";
+        ctx.fillStyle = `rgba(${col}, ${(0.75 + easedH * 0.2) * opacityBreath})`;
+        ctx.fillText(orb.label, orb.x + 16, orb.y - 3);
+
+        ctx.font = "400 9px 'Space Grotesk', sans-serif";
+        ctx.fillStyle = `rgba(${col}, ${(0.4 + easedH * 0.2) * opacityBreath})`;
+        ctx.fillText(orb.subtitle, orb.x + 16, orb.y + 10);
+      });
+
+      hoveredOrbRef.current = newHoveredOrb;
+      ctx.restore();
+
+      window.dispatchEvent(new CustomEvent("orb-hover", { detail: { hovering: !!newHoveredOrb } }));
+    } else {
+      hoveredOrbRef.current = null;
+    }
+
     if (canvas) {
-      canvas.style.cursor = newHoveredOrb ? "none" : "none";
+      canvas.style.cursor = "none";
     }
-
-    // Dispatch custom event for cursor component
-    window.dispatchEvent(new CustomEvent("orb-hover", { detail: { hovering: !!newHoveredOrb } }));
 
     animRef.current = requestAnimationFrame(draw);
   }, []);
@@ -416,8 +494,8 @@ const DotGrid = () => {
     };
     window.addEventListener("mousemove", onMove);
 
-    // Click handler for orbs
     const onClick = () => {
+      if (aboutModeRef.current) return;
       const id = hoveredOrbRef.current;
       if (id) {
         const el = document.getElementById(`project-${id}`);
