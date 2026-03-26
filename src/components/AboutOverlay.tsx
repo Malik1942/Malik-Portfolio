@@ -37,143 +37,133 @@ const SPLASH_CLUSTERS: SplashClusterData[] = [
 interface DotParticle {
   angle: number;
   radius: number;
-  baseX: number;
-  baseY: number;
   x: number;
   y: number;
   size: number;
 }
 
+const CONTAINER_SIZE = 280;
+const DOT_COUNT = 90;
+const INNER_RADIUS = 40;
+const ORBIT_RADIUS = 80;
+const SPLASH_RADIUS = 120;
+
 const SplashCluster = ({ data, delay }: { data: SplashClusterData; delay: number }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [hovered, setHovered] = useState(false);
   const hoveredRef = useRef(false);
   const dotsRef = useRef<DotParticle[]>([]);
+  const particleElsRef = useRef<HTMLDivElement>(null);
   const animRef = useRef(0);
   const splashRef = useRef(0);
-
-  const DOT_COUNT = 55;
-  const INNER_RADIUS = 32; // orbit inner edge — particles stay outside this to frame text
-  const ORBIT_RADIUS = 55; // default orbit band
-  const SPLASH_RADIUS = 88; // hover splash radius
-  const CANVAS_SIZE = 220;
-  const CENTER = CANVAS_SIZE / 2;
 
   useEffect(() => {
     const dots: DotParticle[] = [];
     for (let i = 0; i < DOT_COUNT; i++) {
       const angle = (Math.PI * 2 * i) / DOT_COUNT + (Math.random() - 0.5) * 0.6;
-      // Distribute in a ring between INNER_RADIUS and ORBIT_RADIUS
       const r = INNER_RADIUS + Math.random() * (ORBIT_RADIUS - INNER_RADIUS);
-      dots.push({
-        angle,
-        radius: r,
-        baseX: CENTER + Math.cos(angle) * r,
-        baseY: CENTER + Math.sin(angle) * r,
-        x: CENTER + Math.cos(angle) * r,
-        y: CENTER + Math.sin(angle) * r,
-        size: 0.7 + Math.random() * 1.1,
-      });
+      dots.push({ angle, radius: r, x: 0, y: 0, size: 0.8 + Math.random() * 1.2 });
     }
     dotsRef.current = dots;
   }, []);
 
-  const draw = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+  const tick = useCallback(() => {
+    const container = particleElsRef.current;
+    if (!container) return;
+    const children = container.children as HTMLCollectionOf<HTMLElement>;
+    if (children.length === 0) { animRef.current = requestAnimationFrame(tick); return; }
 
-    const dpr = window.devicePixelRatio || 1;
     const targetSplash = hoveredRef.current ? 1 : 0;
-    splashRef.current += (targetSplash - splashRef.current) * 0.055;
-
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-
+    splashRef.current += (targetSplash - splashRef.current) * 0.06;
     const t = splashRef.current;
     const time = performance.now() / 1000;
 
     dotsRef.current.forEach((dot, i) => {
-      // Slow orbit rotation
+      if (!children[i]) return;
       const orbitAngle = dot.angle + time * 0.08 + i * 0.001;
 
-      // Default: ring orbit around center (framing the title)
       const defaultR = dot.radius;
-      const defaultX = CENTER + Math.cos(orbitAngle) * defaultR;
-      const defaultY = CENTER + Math.sin(orbitAngle) * defaultR;
-
-      // Splash: push outward to larger ring
       const splashR = SPLASH_RADIUS + Math.sin(orbitAngle * 3 + time * 0.4) * 8;
-      const splashX = CENTER + Math.cos(orbitAngle) * splashR;
-      const splashY = CENTER + Math.sin(orbitAngle) * splashR;
+      const currentR = defaultR + (splashR - defaultR) * t;
 
-      // Blend
-      const targetX = defaultX + (splashX - defaultX) * t;
-      const targetY = defaultY + (splashY - defaultY) * t;
+      const targetX = Math.cos(orbitAngle) * currentR;
+      const targetY = Math.sin(orbitAngle) * currentR;
 
       dot.x += (targetX - dot.x) * 0.1;
       dot.y += (targetY - dot.y) * 0.1;
 
-      // Subtle breathing drift
-      dot.x += Math.sin(time * 0.6 + dot.angle * 2) * 0.1;
-      dot.y += Math.cos(time * 0.5 + dot.angle * 3) * 0.1;
+      dot.x += Math.sin(time * 0.6 + dot.angle * 2) * 0.12;
+      dot.y += Math.cos(time * 0.5 + dot.angle * 3) * 0.12;
 
-      const alpha = 0.1 + t * 0.06;
-      ctx.beginPath();
-      ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(225, 222, 215, ${alpha})`;
-      ctx.fill();
+      const alpha = 0.12 + t * 0.06;
+      children[i].style.transform = `translate(${dot.x}px, ${dot.y}px)`;
+      children[i].style.opacity = String(alpha);
     });
 
-    // Subtle orbit ring
-    const ringR = ORBIT_RADIUS + (SPLASH_RADIUS - ORBIT_RADIUS) * t;
-    ctx.beginPath();
-    ctx.arc(CENTER, CENTER, ringR, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(200, 200, 215, ${0.025 + t * 0.025})`;
-    ctx.lineWidth = 0.4;
-    ctx.stroke();
-
-    animRef.current = requestAnimationFrame(draw);
+    animRef.current = requestAnimationFrame(tick);
   }, []);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = CANVAS_SIZE * dpr;
-    canvas.height = CANVAS_SIZE * dpr;
-    animRef.current = requestAnimationFrame(draw);
+    animRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animRef.current);
-  }, [draw]);
+  }, [tick]);
 
-  useEffect(() => {
-    hoveredRef.current = hovered;
-  }, [hovered]);
+  useEffect(() => { hoveredRef.current = hovered; }, [hovered]);
 
   return (
     <motion.div
       className="absolute cursor-default select-none"
-      style={{ ...data.position, width: CANVAS_SIZE, height: CANVAS_SIZE }}
+      style={{ ...data.position, width: CONTAINER_SIZE, height: CONTAINER_SIZE }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.2, delay, ease: "easeOut" }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <canvas
-        ref={canvasRef}
-        style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}
+      {/* Particle shell */}
+      <div
+        ref={particleElsRef}
         className="absolute inset-0"
-      />
+        style={{ pointerEvents: "none" }}
+      >
+        {dotsRef.current.length === 0
+          ? Array.from({ length: DOT_COUNT }).map((_, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  left: "50%",
+                  top: "50%",
+                  width: 2,
+                  height: 2,
+                  background: "rgba(225,222,215,0.12)",
+                  willChange: "transform",
+                }}
+              />
+            ))
+          : dotsRef.current.map((dot, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  left: "50%",
+                  top: "50%",
+                  width: dot.size * 2,
+                  height: dot.size * 2,
+                  marginLeft: -dot.size,
+                  marginTop: -dot.size,
+                  background: "rgba(225,222,215,0.12)",
+                  willChange: "transform",
+                }}
+              />
+            ))}
+      </div>
 
-      {/* Text core — always centered inside the particle shell */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        {/* Title — default state, sits inside particle ring */}
+      {/* Text core */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
         <motion.span
-          className="text-[9px] uppercase tracking-[0.25em] text-foreground/40 whitespace-nowrap absolute"
+          className="text-[9px] uppercase tracking-[0.25em] text-foreground/50 whitespace-nowrap absolute"
           animate={{
-            opacity: hovered ? 0 : 0.4,
+            opacity: hovered ? 0 : 0.5,
             scale: hovered ? 0.92 : 1,
             filter: hovered ? "blur(3px)" : "blur(0px)",
           }}
@@ -182,15 +172,14 @@ const SplashCluster = ({ data, delay }: { data: SplashClusterData; delay: number
           {data.label}
         </motion.span>
 
-        {/* Expanded content — replaces title on hover */}
         <div className="flex flex-col items-center gap-1.5 absolute">
           {data.lines.map((line, i) => (
             <motion.span
               key={line}
-              className="text-[11px] text-foreground/70 font-light tracking-wide whitespace-nowrap"
+              className="text-[11px] text-foreground/80 font-light tracking-wide whitespace-nowrap"
               initial={false}
               animate={{
-                opacity: hovered ? 0.7 : 0,
+                opacity: hovered ? 0.8 : 0,
                 y: hovered ? 0 : 2,
                 filter: hovered ? "blur(0px)" : "blur(4px)",
               }}
