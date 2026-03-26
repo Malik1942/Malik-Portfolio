@@ -150,14 +150,19 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
         for (let x = 0; x < w; x += gap) {
           const i = (y * w + x) * 4;
           if (imageData.data[i + 3] > 100) {
+            // Skip ~40% of dots to reduce cluster density
+            if (dotIndex % 5 < 2) {
+              dotIndex++;
+              continue;
+            }
             textDots.push({
               x, y,
               baseX: x, baseY: y,
               vx: 0, vy: 0,
               clusterIndex: dotIndex % 4,
               orbitAngle: Math.random() * Math.PI * 2,
-              orbitRadius: 30 + Math.random() * 70,
-              orbitSpeed: 0.002 + Math.random() * 0.004,
+              orbitRadius: 55 + Math.random() * 50,
+              orbitSpeed: 0.0015 + Math.random() * 0.003,
             });
             dotIndex++;
           }
@@ -234,8 +239,9 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
     // 2. Text dots — blend between hero text and cluster orbit positions
     const splashRadius = 90;
     const clusters = clusterPosRef.current;
-    const BASE_ORBIT = 70;
-    const SPLASH_ORBIT = 120;
+    const INNER_RADIUS = 55;
+    const BASE_ORBIT = 90;
+    const SPLASH_ORBIT = 140;
 
     textDotsRef.current.forEach((p) => {
       // Mouse interaction (hero mode only)
@@ -272,9 +278,10 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
 
       p.orbitAngle += p.orbitSpeed;
       const clusterSplash = splashes[p.clusterIndex];
-      const orbitR = p.orbitRadius * (BASE_ORBIT / 70) + clusterSplash * (SPLASH_ORBIT - BASE_ORBIT);
-      const aboutX = cluster.x + Math.cos(p.orbitAngle) * orbitR;
-      const aboutY = cluster.y + Math.sin(p.orbitAngle) * orbitR;
+      // Enforce inner radius — particles never closer than INNER_RADIUS to center
+      const effectiveRadius = Math.max(INNER_RADIUS, p.orbitRadius) + clusterSplash * (SPLASH_ORBIT - BASE_ORBIT);
+      const aboutX = cluster.x + Math.cos(p.orbitAngle) * effectiveRadius;
+      const aboutY = cluster.y + Math.sin(p.orbitAngle) * effectiveRadius;
 
       // Blend: hero position → cluster orbit position
       const drawX = p.x + (aboutX - p.x) * eased;
