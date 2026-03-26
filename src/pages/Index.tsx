@@ -16,7 +16,7 @@ const selectedWork = [
     title: "Aura",
     description: "A calm, proactive system for preventing motion sickness in motion.",
     role: "Product Designer",
-    year: "2025",
+    year: "2026",
     coverImage: auraCover,
     coverFit: "contain" as const,
     details: "Led the end-to-end design of a proactive, AI-driven wearable for motion sickness, defining its concept, system, and interaction model.\n\nShaped a seamless cross-device experience, integrating ambient AI to anticipate discomfort and deliver real-time support.",
@@ -27,7 +27,7 @@ const selectedWork = [
     description: "Making invisible brain trauma visible — before it becomes irreversible.",
     role: "Product Designer, Maker",
     coverImage: neuralyfeCover,
-    year: "2025",
+    year: "2026",
     details: "Led ideation and defined the problem scope for NeuraLyfe, designing the AI-driven Impact Replay interface and contributing across both digital and physical product development.\n\nAwarded 1st Place at FigBuild 2026, recognizing the project's concept, execution, and system design.",
   },
   {
@@ -55,7 +55,7 @@ const selectedWork = [
     description: "An emotional expression aid designed for autistic children.",
     role: "Product Designer",
     coverImage: moodmuseCover,
-    year: "2024",
+    year: "2026",
     details: "A system that helps children externalize and communicate their internal emotional states through intuitive interactions, reducing frustration and enabling clearer social connection.",
   },
 ];
@@ -74,7 +74,7 @@ const aiProjects = [
     title: "Studio Waters",
     description: "Predictive analytics made visual.",
     role: "Designer + Builder",
-    year: "2024",
+    year: "2026",
     details: "Created a data visualization tool that transforms complex predictive models into clear, actionable insights.\n\nDesigned interactive charts and customizable dashboard layouts.",
   },
 ];
