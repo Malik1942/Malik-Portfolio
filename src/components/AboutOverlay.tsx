@@ -213,14 +213,6 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
       style={{ pointerEvents: isVisible ? "auto" : "none" }}
     >
       {/* Center clean field */}
-      {isVisible && (
-        <div
-          className="absolute inset-0 pointer-events-none z-[1]"
-          style={{
-            background: "radial-gradient(ellipse 55% 50% at 50% 48%, rgba(8,8,10,0.6) 0%, rgba(8,8,10,0.2) 50%, transparent 100%)",
-          }}
-        />
-      )}
 
       {/* Back button */}
       <motion.button
@@ -263,8 +255,6 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.4, delay: 1.1, ease: "easeOut" }}
             >
-              <div className="absolute -inset-20" style={{ background: "radial-gradient(circle, rgba(200,200,220,0.05) 0%, rgba(200,200,220,0.015) 40%, transparent 65%)", borderRadius: "50%" }} />
-              <div className="absolute -inset-10" style={{ background: "radial-gradient(circle, rgba(200,200,220,0.03) 0%, transparent 55%)", borderRadius: "50%" }} />
               <div
                 className="relative w-44 h-56 sm:w-52 sm:h-64 md:w-60 md:h-72 overflow-hidden"
                 style={{
@@ -275,12 +265,6 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
               >
                 <img src={profileImage} alt="Malik Zhang" className="w-full h-full object-cover object-top" />
               </div>
-              <motion.div
-                className="absolute inset-0"
-                style={{ borderRadius: "28px", boxShadow: "0 0 60px rgba(200,200,220,0.025), 0 0 120px rgba(200,200,220,0.012)" }}
-                animate={{ opacity: [0.6, 1, 0.6] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              />
             </motion.div>
           </div>
         </div>
