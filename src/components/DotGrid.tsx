@@ -1,12 +1,15 @@
 import { useEffect, useRef, useCallback } from "react";
 
-// ── Cluster definitions for About mode ──
+// ── Cluster definitions for About mode (pushed to edges) ──
 const CLUSTER_DEFS = [
-  { rx: 0.28, ry: 0.32 },
-  { rx: 0.72, ry: 0.28 },
-  { rx: 0.28, ry: 0.7 },
-  { rx: 0.72, ry: 0.68 },
+  { rx: 0.12, ry: 0.22 },
+  { rx: 0.88, ry: 0.18 },
+  { rx: 0.10, ry: 0.82 },
+  { rx: 0.90, ry: 0.80 },
 ];
+
+// Portrait attractor position (center-right of screen)
+const PORTRAIT_POS = { rx: 0.56, ry: 0.5 };
 
 // ── Project orbs ──
 interface Orb {
