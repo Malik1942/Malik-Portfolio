@@ -278,9 +278,10 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
 
       p.orbitAngle += p.orbitSpeed;
       const clusterSplash = splashes[p.clusterIndex];
-      const orbitR = p.orbitRadius * (BASE_ORBIT / 70) + clusterSplash * (SPLASH_ORBIT - BASE_ORBIT);
-      const aboutX = cluster.x + Math.cos(p.orbitAngle) * orbitR;
-      const aboutY = cluster.y + Math.sin(p.orbitAngle) * orbitR;
+      // Enforce inner radius — particles never closer than INNER_RADIUS to center
+      const effectiveRadius = Math.max(INNER_RADIUS, p.orbitRadius) + clusterSplash * (SPLASH_ORBIT - BASE_ORBIT);
+      const aboutX = cluster.x + Math.cos(p.orbitAngle) * effectiveRadius;
+      const aboutY = cluster.y + Math.sin(p.orbitAngle) * effectiveRadius;
 
       // Blend: hero position → cluster orbit position
       const drawX = p.x + (aboutX - p.x) * eased;
