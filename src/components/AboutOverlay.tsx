@@ -22,24 +22,24 @@ const CLUSTER_TEXTS: ClusterTextData[] = [
   {
     label: "Outside of Design",
     lines: ["Photography", "Travel", "Basketball", "Cycling", "Swimming", "Food"],
-    position: { right: "12%", top: "18%" },
+    position: { left: "88%", top: "18%" },
     index: 1,
   },
   {
     label: "How I Build",
     lines: ["Experimentation", "Prototyping early", "Learning through craft"],
-    position: { left: "12%", bottom: "18%" },
+    position: { left: "12%", top: "82%" },
     index: 2,
   },
   {
     label: "What I Care About",
     lines: ["Design as behavior", "Systems as language", "Meaningful interaction", "Prototyping to think"],
-    position: { right: "12%", bottom: "18%" },
+    position: { left: "88%", top: "82%" },
     index: 3,
   },
 ];
 
-const HOVER_ZONE_SIZE = 180;
+const HOVER_ZONE_SIZE = 200;
 
 // ── Text-only cluster label (no particles — those live in DotGrid) ──
 const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number }) => {
