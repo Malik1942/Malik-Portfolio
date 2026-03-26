@@ -394,7 +394,7 @@ const AboutDeepContent = ({ isVisible }: { isVisible: boolean }) => {
           </motion.div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
