@@ -3,95 +3,37 @@ import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import profileImage from "@/assets/profile-malik.jpg";
 
-// ── Values for the bottom-right dot cluster ──
-const VALUES = [
-  "Design as behavior",
-  "Systems as language",
-  "Meaningful interaction",
-  "Prototyping to think",
-];
-
-// ── Edge clusters (secondary) ──
-interface ClusterData {
+// ── All four dot-splash clusters ──
+interface SplashClusterData {
   label: string;
-  position: { left: string; top: string };
-  lines?: string[];
+  lines: string[];
+  position: { right?: string; left?: string; top?: string; bottom?: string };
 }
 
-const CLUSTERS: ClusterData[] = [
+const SPLASH_CLUSTERS: SplashClusterData[] = [
   {
     label: "Who I Am",
-    position: { left: "8%", top: "20%" },
     lines: ["Maker", "Product designer", "Systems thinker"],
+    position: { left: "3%", top: "10%" },
   },
   {
     label: "Outside of Design",
-    position: { left: "92%", top: "18%" },
     lines: ["Photography", "Travel", "Basketball", "Cycling", "Swimming", "Food"],
+    position: { right: "3%", top: "10%" },
   },
   {
     label: "How I Build",
-    position: { left: "7%", top: "82%" },
     lines: ["Experimentation", "Prototyping early", "Learning through craft"],
+    position: { left: "3%", bottom: "10%" },
+  },
+  {
+    label: "What I Care About",
+    lines: ["Design as behavior", "Systems as language", "Meaningful interaction", "Prototyping to think"],
+    position: { right: "3%", bottom: "10%" },
   },
 ];
 
-const ClusterNode = ({
-  cluster,
-  index,
-}: {
-  cluster: ClusterData;
-  index: number;
-}) => {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <motion.div
-      className="absolute flex flex-col items-center gap-2 -translate-x-1/2 -translate-y-1/2 cursor-default select-none"
-      style={{ left: cluster.position.left, top: cluster.position.top }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1, delay: 2.4 + index * 0.1, ease: "easeOut" }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <motion.div
-        className="w-[3px] h-[3px] rounded-full bg-foreground/8"
-        animate={{ scale: hovered ? 3 : 1, opacity: hovered ? 0.3 : 0.08 }}
-        transition={{ duration: 0.5 }}
-      />
-      <motion.span
-        className="text-[8px] uppercase tracking-[0.3em] text-foreground/12 whitespace-nowrap"
-        animate={{ opacity: hovered ? 0.4 : 0.12 }}
-        transition={{ duration: 0.4 }}
-      >
-        {cluster.label}
-      </motion.span>
-      {cluster.lines && (
-        <div className="flex flex-col items-center gap-1 mt-1">
-          {cluster.lines.map((line, li) => (
-            <motion.span
-              key={line}
-              className="text-[10px] text-foreground/50 font-light whitespace-nowrap"
-              initial={false}
-              animate={{
-                opacity: hovered ? 0.55 : 0,
-                y: hovered ? 0 : 4,
-                filter: hovered ? "blur(0px)" : "blur(3px)",
-              }}
-              transition={{ duration: 0.4, delay: hovered ? li * 0.05 : 0, ease: "easeOut" }}
-            >
-              {line}
-            </motion.span>
-          ))}
-        </div>
-      )}
-    </motion.div>
-  );
-};
-
-// ── Values Dot Cluster (bottom-right) ──
-// Circle of dots that splash outward on hover, revealing text in the center
+// ── Reusable dot-splash cluster component ──
 interface DotParticle {
   angle: number;
   radius: number;
@@ -102,21 +44,20 @@ interface DotParticle {
   size: number;
 }
 
-const ValuesCluster = () => {
+const SplashCluster = ({ data, delay }: { data: SplashClusterData; delay: number }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [hovered, setHovered] = useState(false);
   const hoveredRef = useRef(false);
   const dotsRef = useRef<DotParticle[]>([]);
   const animRef = useRef(0);
-  const splashRef = useRef(0); // 0 = gathered, 1 = splashed
+  const splashRef = useRef(0);
 
-  const DOT_COUNT = 60;
-  const CLUSTER_RADIUS = 45;
-  const SPLASH_RADIUS = 90;
-  const CANVAS_SIZE = 240;
+  const DOT_COUNT = 50;
+  const CLUSTER_RADIUS = 40;
+  const SPLASH_RADIUS = 82;
+  const CANVAS_SIZE = 210;
   const CENTER = CANVAS_SIZE / 2;
 
-  // Initialize dots in a filled circle
   useEffect(() => {
     const dots: DotParticle[] = [];
     for (let i = 0; i < DOT_COUNT; i++) {
@@ -129,7 +70,7 @@ const ValuesCluster = () => {
         baseY: CENTER + Math.sin(angle) * r,
         x: CENTER + Math.cos(angle) * r,
         y: CENTER + Math.sin(angle) * r,
-        size: 1 + Math.random() * 1.2,
+        size: 0.8 + Math.random() * 1.2,
       });
     }
     dotsRef.current = dots;
@@ -152,31 +93,27 @@ const ValuesCluster = () => {
     const time = performance.now() / 1000;
 
     dotsRef.current.forEach((dot) => {
-      // Splashed position: push outward
-      const splashedR = SPLASH_RADIUS + Math.sin(dot.angle * 3 + time * 0.5) * 12;
+      const splashedR = SPLASH_RADIUS + Math.sin(dot.angle * 3 + time * 0.5) * 10;
       const splashedX = CENTER + Math.cos(dot.angle) * splashedR;
       const splashedY = CENTER + Math.sin(dot.angle) * splashedR;
 
-      // Interpolate
-      dot.x += ((dot.baseX + (splashedX - dot.baseX) * t) - dot.x) * 0.12;
-      dot.y += ((dot.baseY + (splashedY - dot.baseY) * t) - dot.y) * 0.12;
+      dot.x += ((dot.baseX + (splashedX - dot.baseX) * t) - dot.x) * 0.1;
+      dot.y += ((dot.baseY + (splashedY - dot.baseY) * t) - dot.y) * 0.1;
 
-      // Subtle drift
-      dot.x += Math.sin(time * 0.8 + dot.angle * 2) * 0.15;
-      dot.y += Math.cos(time * 0.6 + dot.angle * 3) * 0.15;
+      dot.x += Math.sin(time * 0.7 + dot.angle * 2) * 0.12;
+      dot.y += Math.cos(time * 0.5 + dot.angle * 3) * 0.12;
 
-      const alpha = 0.12 + t * 0.08;
+      const alpha = 0.1 + t * 0.08;
       ctx.beginPath();
       ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(225, 222, 215, ${alpha})`;
       ctx.fill();
     });
 
-    // Draw a subtle ring
     ctx.beginPath();
     ctx.arc(CENTER, CENTER, CLUSTER_RADIUS + (SPLASH_RADIUS - CLUSTER_RADIUS) * t, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(200, 200, 215, ${0.04 + t * 0.03})`;
-    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = `rgba(200, 200, 215, ${0.03 + t * 0.03})`;
+    ctx.lineWidth = 0.4;
     ctx.stroke();
 
     animRef.current = requestAnimationFrame(draw);
@@ -199,10 +136,10 @@ const ValuesCluster = () => {
   return (
     <motion.div
       className="absolute cursor-default select-none"
-      style={{ right: "6%", bottom: "12%", width: CANVAS_SIZE, height: CANVAS_SIZE }}
+      style={{ ...data.position, width: CANVAS_SIZE, height: CANVAS_SIZE }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 1.2, delay: 2.0, ease: "easeOut" }}
+      transition={{ duration: 1.2, delay, ease: "easeOut" }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -212,37 +149,44 @@ const ValuesCluster = () => {
         className="absolute inset-0"
       />
 
-      {/* Label below */}
-      <motion.span
-        className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-[8px] uppercase tracking-[0.3em] text-foreground/12 whitespace-nowrap"
-        animate={{ opacity: hovered ? 0.4 : 0.12 }}
-        transition={{ duration: 0.4 }}
-      >
-        What I Care About
-      </motion.span>
-
-      {/* Center text — revealed when dots splash */}
+      {/* Center content: title (default) / lines (hovered) */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="flex flex-col items-center gap-2">
-          {VALUES.map((value, i) => (
-            <motion.span
-              key={value}
-              className="text-[11px] text-foreground/65 font-light tracking-wide whitespace-nowrap"
-              initial={false}
-              animate={{
-                opacity: hovered ? 0.7 : 0,
-                y: hovered ? 0 : 3,
-                filter: hovered ? "blur(0px)" : "blur(4px)",
-              }}
-              transition={{
-                duration: 0.5,
-                delay: hovered ? 0.15 + i * 0.08 : 0,
-                ease: "easeOut",
-              }}
-            >
-              {value}
-            </motion.span>
-          ))}
+        {/* Title — visible when NOT hovered */}
+        <motion.span
+          className="text-[9px] uppercase tracking-[0.25em] text-foreground/35 whitespace-nowrap"
+          animate={{
+            opacity: hovered ? 0 : 0.35,
+            scale: hovered ? 0.9 : 1,
+            filter: hovered ? "blur(3px)" : "blur(0px)",
+          }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
+          {data.label}
+        </motion.span>
+
+        {/* Lines — visible when hovered */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-1.5">
+            {data.lines.map((line, i) => (
+              <motion.span
+                key={line}
+                className="text-[11px] text-foreground/60 font-light tracking-wide whitespace-nowrap"
+                initial={false}
+                animate={{
+                  opacity: hovered ? 0.65 : 0,
+                  y: hovered ? 0 : 3,
+                  filter: hovered ? "blur(0px)" : "blur(4px)",
+                }}
+                transition={{
+                  duration: 0.45,
+                  delay: hovered ? 0.12 + i * 0.06 : 0,
+                  ease: "easeOut",
+                }}
+              >
+                {line}
+              </motion.span>
+            ))}
+          </div>
         </div>
       </div>
     </motion.div>
@@ -289,7 +233,6 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
       {isVisible && (
         <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
           <div className="flex items-center gap-6 md:gap-8 px-6">
-            {/* Text — left of portrait */}
             <div className="flex flex-col items-end text-right max-w-[380px]">
               <motion.h2
                 className="text-[22px] sm:text-[26px] md:text-[30px] text-foreground font-normal leading-[1.4] tracking-wide"
@@ -309,7 +252,6 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
               </motion.p>
             </div>
 
-            {/* Portrait */}
             <motion.div
               className="relative flex-shrink-0"
               initial={{ opacity: 0, scale: 0.88 }}
@@ -356,14 +298,11 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
         </motion.div>
       )}
 
-      {/* Edge cluster nodes */}
+      {/* Four dot-splash clusters in corners */}
       {isVisible &&
-        CLUSTERS.map((cluster, i) => (
-          <ClusterNode key={cluster.label} cluster={cluster} index={i} />
+        SPLASH_CLUSTERS.map((cluster, i) => (
+          <SplashCluster key={cluster.label} data={cluster} delay={2.0 + i * 0.15} />
         ))}
-
-      {/* Values dot cluster — bottom right */}
-      {isVisible && <ValuesCluster />}
     </motion.div>
   );
 };
