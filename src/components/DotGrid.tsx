@@ -1,13 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
 
-// ── Cluster definitions for About mode (pushed to edges) ──
-const CLUSTER_DEFS = [
-  { rx: 0.08, ry: 0.20 },
-  { rx: 0.92, ry: 0.18 },
-  { rx: 0.07, ry: 0.82 },
-  { rx: 0.93, ry: 0.80 },
-];
-
 // ── Project orbs ──
 interface Orb {
   label: string;
@@ -51,10 +43,6 @@ interface TextDot {
   baseY: number;
   vx: number;
   vy: number;
-  clusterIndex: number;
-  orbitAngle: number;
-  orbitRadius: number;
-  orbitSpeed: number;
 }
 
 interface DotGridProps {
@@ -74,14 +62,12 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
   const hoveredOrbRef = useRef<string | null>(null);
   const aboutModeRef = useRef(aboutMode);
   const transitionRef = useRef(0);
-  const clusterPosRef = useRef<{ x: number; y: number }[]>([]);
 
   useEffect(() => {
     aboutModeRef.current = aboutMode;
   }, [aboutMode]);
 
   const initScene = useCallback((w: number, h: number) => {
-    // Random star dots
     const starCount = Math.floor((w * h) / 2400);
     const stars: StarDot[] = [];
     for (let i = 0; i < starCount; i++) {
@@ -98,7 +84,6 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
     }
     starsRef.current = stars;
 
-    // Orbs
     orbsRef.current = ORB_DEFS.map((d) => ({
       ...d,
       x: d.rx * w,
@@ -110,13 +95,7 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       hoverT: 0,
     }));
 
-    // Cluster positions
-    clusterPosRef.current = CLUSTER_DEFS.map((d) => ({
-      x: d.rx * w,
-      y: d.ry * h,
-    }));
-
-    // Text dots
+    // Text dots for "Malik Zhang"
     const textDots: TextDot[] = [];
     const offscreen = document.createElement("canvas");
     offscreen.width = w;
@@ -135,24 +114,15 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
 
       const imageData = ctx.getImageData(0, 0, w, h);
       const gap = 4;
-      let dotIndex = 0;
       for (let y = 0; y < h; y += gap) {
         for (let x = 0; x < w; x += gap) {
           const i = (y * w + x) * 4;
           if (imageData.data[i + 3] > 100) {
             textDots.push({
-              x,
-              y,
-              baseX: x,
-              baseY: y,
-              vx: 0,
-              vy: 0,
-              clusterIndex: dotIndex % 4,
-              orbitAngle: Math.random() * Math.PI * 2,
-              orbitRadius: 25 + Math.random() * 85,
-              orbitSpeed: 0.001 + Math.random() * 0.003,
+              x, y,
+              baseX: x, baseY: y,
+              vx: 0, vy: 0,
             });
-            dotIndex++;
           }
         }
       }
@@ -178,21 +148,19 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
     const my = mouseRef.current.y;
     const time = performance.now() / 1000;
 
-    // ── Transition interpolation ──
+    // Transition interpolation
     const targetT = aboutModeRef.current ? 1 : 0;
     transitionRef.current += (targetT - transitionRef.current) * 0.018;
     if (Math.abs(transitionRef.current - targetT) < 0.001) transitionRef.current = targetT;
     const tVal = transitionRef.current;
-    // Ease in-out cubic
-    const eased =
-      tVal < 0.5
-        ? 4 * tVal * tVal * tVal
-        : 1 - Math.pow(-2 * tVal + 2, 3) / 2;
+    const eased = tVal < 0.5
+      ? 4 * tVal * tVal * tVal
+      : 1 - Math.pow(-2 * tVal + 2, 3) / 2;
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
 
-    // ── 1. Background stars ──
+    // 1. Background stars
     const starAlpha = 0.65 + 0.35 * (1 - eased);
     starsRef.current.forEach((star) => {
       const twinkle = Math.sin(time * 2 + star.x * 0.013 + star.y * 0.009) * 0.2 + 0.8;
@@ -219,12 +187,11 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       }
     });
 
-    // ── 2. Text dots — blend between hero and about positions ──
+    // 2. Text dots — in about mode they fade/disperse, no corner clusters
     const splashRadius = 90;
-    const clusters = clusterPosRef.current;
 
     textDotsRef.current.forEach((p) => {
-      // Hero spring physics (always runs to keep hero positions ready)
+      // Mouse interaction (hero mode only)
       if (tVal < 0.95) {
         const dx = mx - p.baseX;
         const dy = my - p.baseY;
@@ -251,44 +218,20 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       p.x += p.vx;
       p.y += p.vy;
 
-      // Orbit position
-      p.orbitAngle += p.orbitSpeed;
-      const cluster = clusters[p.clusterIndex];
-      if (!cluster) return;
-      const aboutX = cluster.x + Math.cos(p.orbitAngle) * p.orbitRadius;
-      const aboutY = cluster.y + Math.sin(p.orbitAngle) * p.orbitRadius;
-
-      // Blend positions
-      const drawX = p.x + (aboutX - p.x) * eased;
-      const drawY = p.y + (aboutY - p.y) * eased;
-
+      // Fade out text dots in about mode
       const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
       const baseAlpha = Math.min(0.95, 0.5 + speed * 0.04);
-      let dotAlpha = baseAlpha * (0.55 + 0.45 * (1 - eased * 0.2));
+      const dotAlpha = baseAlpha * (1 - eased * 0.7);
 
-      ctx.beginPath();
-      ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(225, 222, 215, ${dotAlpha})`;
-      ctx.fill();
+      if (dotAlpha > 0.01) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 1.3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(225, 222, 215, ${dotAlpha})`;
+        ctx.fill();
+      }
     });
 
-    // ── 3. Cluster glows (dimmed, secondary) ──
-    if (eased > 0.05) {
-      clusters.forEach((cluster) => {
-        const breathe = 1 + Math.sin(time * 0.3) * 0.06;
-        const glowR = 40 * breathe;
-        const grad = ctx.createRadialGradient(cluster.x, cluster.y, 0, cluster.x, cluster.y, glowR);
-        grad.addColorStop(0, `rgba(210, 210, 225, ${0.025 * eased})`);
-        grad.addColorStop(0.6, `rgba(210, 210, 225, ${0.008 * eased})`);
-        grad.addColorStop(1, `rgba(210, 210, 225, 0)`);
-        ctx.beginPath();
-        ctx.arc(cluster.x, cluster.y, glowR, 0, Math.PI * 2);
-        ctx.fillStyle = grad;
-        ctx.fill();
-      });
-    }
-
-    // ── 4. Gravitational orbs (fade out during transition) ──
+    // 3. Gravitational orbs (fade out during about transition)
     const orbFade = 1 - eased;
 
     if (orbFade > 0.01) {
