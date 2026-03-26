@@ -48,13 +48,14 @@ interface StarDot {
   ringRadius: number;
 }
 
-interface TextDot {
+interface StaticDot {
   x: number;
   y: number;
+}
+
+interface ParticleDot {
   baseX: number;
   baseY: number;
-  vx: number;
-  vy: number;
   clusterIndex: number;
   orbitAngle: number;
   orbitRadius: number;
@@ -72,7 +73,8 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
   const dprRef = useRef(1);
   const starsRef = useRef<StarDot[]>([]);
   const orbsRef = useRef<Orb[]>([]);
-  const textDotsRef = useRef<TextDot[]>([]);
+  const staticDotsRef = useRef<StaticDot[]>([]);
+  const particleDotsRef = useRef<ParticleDot[]>([]);
   const sizeRef = useRef({ w: 0, h: 0 });
   const initRef = useRef(false);
   const hoveredOrbRef = useRef<string | null>(null);
@@ -130,8 +132,9 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       y: d.ry * h,
     }));
 
-    // Text dots for "Malik Zhang"
-    const textDots: TextDot[] = [];
+    // Text dots for "Malik Zhang" — two layers
+    const staticDots: StaticDot[] = [];
+    const particleDots: ParticleDot[] = [];
     const offscreen = document.createElement("canvas");
     offscreen.width = w;
     offscreen.height = h;
@@ -150,35 +153,33 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       const imageData = ctx.getImageData(0, 0, w, h);
       const gap = 4;
       let dotIndex = 0;
-      const clusterDotCounts = [0, 0, 0, 0];
       for (let y = 0; y < h; y += gap) {
         for (let x = 0; x < w; x += gap) {
           const i = (y * w + x) * 4;
           if (imageData.data[i + 3] > 100) {
+            // ALL dots go to static layer (full typography)
+            staticDots.push({ x, y });
+
+            // Subset goes to particle layer for cluster animation
             const ci = dotIndex % 4;
-            // Per-cluster density filtering
             const keep = Math.random() < CLUSTER_DEFS[ci].density;
-            if (!keep) {
-              dotIndex++;
-              continue;
+            if (keep) {
+              const rMult = CLUSTER_DEFS[ci].radiusMult;
+              particleDots.push({
+                baseX: x, baseY: y,
+                clusterIndex: ci,
+                orbitAngle: Math.random() * Math.PI * 2,
+                orbitRadius: (85 + Math.random() * 55) * rMult,
+                orbitSpeed: 0.0003 + Math.random() * 0.0006,
+              });
             }
-            const rMult = CLUSTER_DEFS[ci].radiusMult;
-            textDots.push({
-              x, y,
-              baseX: x, baseY: y,
-              vx: 0, vy: 0,
-              clusterIndex: ci,
-              orbitAngle: Math.random() * Math.PI * 2,
-              orbitRadius: (85 + Math.random() * 55) * rMult,
-              orbitSpeed: 0.0003 + Math.random() * 0.0006,
-            });
-            clusterDotCounts[ci]++;
             dotIndex++;
           }
         }
       }
     }
-    textDotsRef.current = textDots;
+    staticDotsRef.current = staticDots;
+    particleDotsRef.current = particleDots;
     sizeRef.current = { w, h };
     initRef.current = true;
   }, []);
@@ -245,41 +246,52 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       }
     });
 
-    // 2. Text dots — precise grid typography in hero, cluster orbits in about
+    // 2a. Static text dots — always visible, never move (fade down in about mode)
+    const textAlpha = 0.75 * (1 - eased * 0.65);
+    if (textAlpha > 0.01) {
+      ctx.fillStyle = `rgba(225, 222, 215, ${textAlpha})`;
+      staticDotsRef.current.forEach((p) => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 1.3, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    // 2b. Particle dots — animate from text positions to cluster orbits
     const clusters = clusterPosRef.current;
     const INNER_RADIUS = 80;
     const BASE_ORBIT = 115;
     const SPLASH_ORBIT = 170;
 
-    textDotsRef.current.forEach((p) => {
-      const cluster = clusters[p.clusterIndex];
-      if (!cluster) return;
-      const clusterDef = CLUSTER_DEFS[p.clusterIndex];
+    if (eased > 0.01) {
+      particleDotsRef.current.forEach((p) => {
+        const cluster = clusters[p.clusterIndex];
+        if (!cluster) return;
+        const clusterDef = CLUSTER_DEFS[p.clusterIndex];
 
-      p.orbitAngle += p.orbitSpeed;
-      const clusterSplash = splashes[p.clusterIndex];
-      const innerR = INNER_RADIUS * (clusterDef?.innerMult ?? 1);
-      const effectiveRadius = Math.max(innerR, p.orbitRadius) + clusterSplash * (SPLASH_ORBIT - BASE_ORBIT);
-      const aboutX = cluster.x + Math.cos(p.orbitAngle) * effectiveRadius;
-      const aboutY = cluster.y + Math.sin(p.orbitAngle) * effectiveRadius;
+        p.orbitAngle += p.orbitSpeed;
+        const clusterSplash = splashes[p.clusterIndex];
+        const innerR = INNER_RADIUS * (clusterDef?.innerMult ?? 1);
+        const effectiveRadius = Math.max(innerR, p.orbitRadius) + clusterSplash * (SPLASH_ORBIT - BASE_ORBIT);
+        const aboutX = cluster.x + Math.cos(p.orbitAngle) * effectiveRadius;
+        const aboutY = cluster.y + Math.sin(p.orbitAngle) * effectiveRadius;
 
-      const drawX = p.baseX + (aboutX - p.baseX) * eased;
-      const drawY = p.baseY + (aboutY - p.baseY) * eased;
+        const drawX = p.baseX + (aboutX - p.baseX) * eased;
+        const drawY = p.baseY + (aboutY - p.baseY) * eased;
 
-      // Fade out particles that are too close to cluster center (text-safe masking)
-      let dotAlpha = (0.6 + p.orbitRadius * 0.003) * (1 - eased * 0.15);
-      if (eased > 0.01) {
+        // Fade out particles too close to cluster center
+        let dotAlpha = (0.65 + p.orbitRadius * 0.003) * eased;
         const distToCenter = Math.sqrt((drawX - cluster.x) ** 2 + (drawY - cluster.y) ** 2);
         if (distToCenter < innerR * 0.9) {
           dotAlpha *= Math.max(0, distToCenter / (innerR * 0.9));
         }
-      }
 
-      ctx.beginPath();
-      ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(225, 222, 215, ${dotAlpha})`;
-      ctx.fill();
-    });
+        ctx.beginPath();
+        ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(225, 222, 215, ${dotAlpha})`;
+        ctx.fill();
+      });
+    }
 
     // 3. Gravitational orbs (fade out during about transition)
     const orbFade = 1 - eased;
