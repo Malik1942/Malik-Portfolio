@@ -245,41 +245,15 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       }
     });
 
-    // 2. Text dots — blend between hero text and cluster orbit positions
-    const splashRadius = 90;
+    // 2. Text dots — precise grid typography in hero, cluster orbits in about
     const clusters = clusterPosRef.current;
     const INNER_RADIUS = 55;
     const BASE_ORBIT = 90;
     const SPLASH_ORBIT = 140;
 
     textDotsRef.current.forEach((p) => {
-      // Mouse interaction (hero mode only)
-      if (tVal < 0.95) {
-        const dx = mx - p.baseX;
-        const dy = my - p.baseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < splashRadius && dist > 0) {
-          const force = (splashRadius - dist) / splashRadius;
-          const power = force * force;
-          const angle = Math.atan2(p.baseY - my, p.baseX - mx);
-          const amp = 4 + Math.random() * 5;
-          p.vx += Math.cos(angle) * power * amp;
-          p.vy += Math.sin(angle) * power * amp;
-          p.vx += (Math.random() - 0.5) * power * 3;
-          p.vy += (Math.random() - 0.5) * power * 3;
-        }
-      }
-
-      // Spring back to text position
-      const returnDx = p.baseX - p.x;
-      const returnDy = p.baseY - p.y;
-      p.vx += returnDx * 0.035;
-      p.vy += returnDy * 0.035;
-      p.vx *= 0.91;
-      p.vy *= 0.91;
-      p.x += p.vx;
-      p.y += p.vy;
+      // In hero mode (eased near 0): dots sit exactly at baseX/baseY — no physics
+      // In about mode (eased near 1): dots orbit cluster centers
 
       // Cluster orbit target
       const cluster = clusters[p.clusterIndex];
@@ -287,18 +261,16 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
 
       p.orbitAngle += p.orbitSpeed;
       const clusterSplash = splashes[p.clusterIndex];
-      // Enforce inner radius — particles never closer than INNER_RADIUS to center
       const effectiveRadius = Math.max(INNER_RADIUS, p.orbitRadius) + clusterSplash * (SPLASH_ORBIT - BASE_ORBIT);
       const aboutX = cluster.x + Math.cos(p.orbitAngle) * effectiveRadius;
       const aboutY = cluster.y + Math.sin(p.orbitAngle) * effectiveRadius;
 
-      // Blend: hero position → cluster orbit position
-      const drawX = p.x + (aboutX - p.x) * eased;
-      const drawY = p.y + (aboutY - p.y) * eased;
+      // Blend: exact grid position → cluster orbit position
+      const drawX = p.baseX + (aboutX - p.baseX) * eased;
+      const drawY = p.baseY + (aboutY - p.baseY) * eased;
 
-      const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      const baseAlpha = Math.min(0.95, 0.5 + speed * 0.04);
-      const dotAlpha = baseAlpha * (0.55 + 0.45 * (1 - eased * 0.15));
+      // Subtle opacity variation for depth, but no position noise
+      const dotAlpha = (0.6 + p.orbitRadius * 0.003) * (1 - eased * 0.15);
 
       ctx.beginPath();
       ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);
