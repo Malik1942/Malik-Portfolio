@@ -269,9 +269,23 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       const drawX = p.x + (aboutX - p.x) * eased;
       const drawY = p.y + (aboutY - p.y) * eased;
 
+      // In about mode, reduce opacity for particles near center
       const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
       const baseAlpha = Math.min(0.95, 0.5 + speed * 0.04);
-      const dotAlpha = baseAlpha * (0.55 + 0.45 * (1 - eased * 0.2));
+      let dotAlpha = baseAlpha * (0.55 + 0.45 * (1 - eased * 0.2));
+
+      if (eased > 0.3) {
+        const cx = w * 0.5;
+        const cy = h * 0.48;
+        const cdx = drawX - cx;
+        const cdy = drawY - cy;
+        const cDist = Math.sqrt(cdx * cdx + cdy * cdy);
+        const clearRadius = Math.min(w, h) * 0.28;
+        if (cDist < clearRadius) {
+          const fade = cDist / clearRadius;
+          dotAlpha *= 0.15 + 0.85 * fade;
+        }
+      }
 
       ctx.beginPath();
       ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);
