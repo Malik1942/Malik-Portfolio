@@ -162,7 +162,7 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
           const i = (y * w + x) * 4;
           if (imageData.data[i + 3] > 100) {
             // ALL dots go to static layer (full typography)
-            staticDots.push({ x, y });
+            staticDots.push({ x, y, baseX: x, baseY: y, vx: 0, vy: 0 });
 
             // Subset goes to particle layer for cluster animation
             const ci = dotIndex % 4;
@@ -250,26 +250,42 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       }
     });
 
-    // 2a. Static text dots — always visible, hover ripple in hero mode
+    // 2a. Static text dots — full typography with explosive splash interaction
     const textAlpha = 0.75 * (1 - eased * 0.65);
     if (textAlpha > 0.01) {
-      const hoverRadius = 80;
+      const splashRadius = 90;
       staticDotsRef.current.forEach((p) => {
-        let dx = 0, dy = 0;
-        // Mouse ripple only in hero mode
-        if (eased < 0.5) {
-          const dmx = p.x - mx;
-          const dmy = p.y - my;
-          const dist = Math.sqrt(dmx * dmx + dmy * dmy);
-          if (dist < hoverRadius && dist > 1) {
-            const force = (1 - dist / hoverRadius) * 12 * (1 - eased * 2);
-            dx = (dmx / dist) * force;
-            dy = (dmy / dist) * force;
+        // Mouse splash (hero mode only)
+        if (eased < 0.95) {
+          const dx = mx - p.baseX;
+          const dy = my - p.baseY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < splashRadius && dist > 0) {
+            const force = (splashRadius - dist) / splashRadius;
+            const power = force * force;
+            const angle = Math.atan2(p.baseY - my, p.baseX - mx);
+            const amp = 4 + Math.random() * 5;
+            p.vx += Math.cos(angle) * power * amp;
+            p.vy += Math.sin(angle) * power * amp;
+            p.vx += (Math.random() - 0.5) * power * 3;
+            p.vy += (Math.random() - 0.5) * power * 3;
           }
         }
+
+        // Spring back to base position
+        p.vx += (p.baseX - p.x) * 0.035;
+        p.vy += (p.baseY - p.y) * 0.035;
+        p.vx *= 0.91;
+        p.vy *= 0.91;
+        p.x += p.vx;
+        p.y += p.vy;
+
+        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+        const dotAlpha = Math.min(0.95, 0.5 + speed * 0.04) * textAlpha / 0.75;
+
         ctx.beginPath();
-        ctx.arc(p.x + dx, p.y + dy, 1.3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(225, 222, 215, ${textAlpha})`;
+        ctx.arc(p.x, p.y, 1.3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(225, 222, 215, ${dotAlpha})`;
         ctx.fill();
       });
     }
