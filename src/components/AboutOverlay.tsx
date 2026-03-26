@@ -52,17 +52,19 @@ const SplashCluster = ({ data, delay }: { data: SplashClusterData; delay: number
   const animRef = useRef(0);
   const splashRef = useRef(0);
 
-  const DOT_COUNT = 50;
-  const CLUSTER_RADIUS = 40;
-  const SPLASH_RADIUS = 82;
-  const CANVAS_SIZE = 210;
+  const DOT_COUNT = 55;
+  const INNER_RADIUS = 32; // orbit inner edge — particles stay outside this to frame text
+  const ORBIT_RADIUS = 55; // default orbit band
+  const SPLASH_RADIUS = 88; // hover splash radius
+  const CANVAS_SIZE = 220;
   const CENTER = CANVAS_SIZE / 2;
 
   useEffect(() => {
     const dots: DotParticle[] = [];
     for (let i = 0; i < DOT_COUNT; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const r = Math.random() * CLUSTER_RADIUS;
+      const angle = (Math.PI * 2 * i) / DOT_COUNT + (Math.random() - 0.5) * 0.6;
+      // Distribute in a ring between INNER_RADIUS and ORBIT_RADIUS
+      const r = INNER_RADIUS + Math.random() * (ORBIT_RADIUS - INNER_RADIUS);
       dots.push({
         angle,
         radius: r,
@@ -70,7 +72,7 @@ const SplashCluster = ({ data, delay }: { data: SplashClusterData; delay: number
         baseY: CENTER + Math.sin(angle) * r,
         x: CENTER + Math.cos(angle) * r,
         y: CENTER + Math.sin(angle) * r,
-        size: 0.8 + Math.random() * 1.2,
+        size: 0.7 + Math.random() * 1.1,
       });
     }
     dotsRef.current = dots;
@@ -84,7 +86,7 @@ const SplashCluster = ({ data, delay }: { data: SplashClusterData; delay: number
 
     const dpr = window.devicePixelRatio || 1;
     const targetSplash = hoveredRef.current ? 1 : 0;
-    splashRef.current += (targetSplash - splashRef.current) * 0.06;
+    splashRef.current += (targetSplash - splashRef.current) * 0.055;
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
@@ -92,27 +94,43 @@ const SplashCluster = ({ data, delay }: { data: SplashClusterData; delay: number
     const t = splashRef.current;
     const time = performance.now() / 1000;
 
-    dotsRef.current.forEach((dot) => {
-      const splashedR = SPLASH_RADIUS + Math.sin(dot.angle * 3 + time * 0.5) * 10;
-      const splashedX = CENTER + Math.cos(dot.angle) * splashedR;
-      const splashedY = CENTER + Math.sin(dot.angle) * splashedR;
+    dotsRef.current.forEach((dot, i) => {
+      // Slow orbit rotation
+      const orbitAngle = dot.angle + time * 0.08 + i * 0.001;
 
-      dot.x += ((dot.baseX + (splashedX - dot.baseX) * t) - dot.x) * 0.1;
-      dot.y += ((dot.baseY + (splashedY - dot.baseY) * t) - dot.y) * 0.1;
+      // Default: ring orbit around center (framing the title)
+      const defaultR = dot.radius;
+      const defaultX = CENTER + Math.cos(orbitAngle) * defaultR;
+      const defaultY = CENTER + Math.sin(orbitAngle) * defaultR;
 
-      dot.x += Math.sin(time * 0.7 + dot.angle * 2) * 0.12;
-      dot.y += Math.cos(time * 0.5 + dot.angle * 3) * 0.12;
+      // Splash: push outward to larger ring
+      const splashR = SPLASH_RADIUS + Math.sin(orbitAngle * 3 + time * 0.4) * 8;
+      const splashX = CENTER + Math.cos(orbitAngle) * splashR;
+      const splashY = CENTER + Math.sin(orbitAngle) * splashR;
 
-      const alpha = 0.1 + t * 0.08;
+      // Blend
+      const targetX = defaultX + (splashX - defaultX) * t;
+      const targetY = defaultY + (splashY - defaultY) * t;
+
+      dot.x += (targetX - dot.x) * 0.1;
+      dot.y += (targetY - dot.y) * 0.1;
+
+      // Subtle breathing drift
+      dot.x += Math.sin(time * 0.6 + dot.angle * 2) * 0.1;
+      dot.y += Math.cos(time * 0.5 + dot.angle * 3) * 0.1;
+
+      const alpha = 0.1 + t * 0.06;
       ctx.beginPath();
       ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(225, 222, 215, ${alpha})`;
       ctx.fill();
     });
 
+    // Subtle orbit ring
+    const ringR = ORBIT_RADIUS + (SPLASH_RADIUS - ORBIT_RADIUS) * t;
     ctx.beginPath();
-    ctx.arc(CENTER, CENTER, CLUSTER_RADIUS + (SPLASH_RADIUS - CLUSTER_RADIUS) * t, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(200, 200, 215, ${0.03 + t * 0.03})`;
+    ctx.arc(CENTER, CENTER, ringR, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(200, 200, 215, ${0.025 + t * 0.025})`;
     ctx.lineWidth = 0.4;
     ctx.stroke();
 
@@ -149,44 +167,42 @@ const SplashCluster = ({ data, delay }: { data: SplashClusterData; delay: number
         className="absolute inset-0"
       />
 
-      {/* Center content: title (default) / lines (hovered) */}
+      {/* Text core — always centered inside the particle shell */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        {/* Title — visible when NOT hovered */}
+        {/* Title — default state, sits inside particle ring */}
         <motion.span
-          className="text-[9px] uppercase tracking-[0.25em] text-foreground/35 whitespace-nowrap"
+          className="text-[9px] uppercase tracking-[0.25em] text-foreground/40 whitespace-nowrap absolute"
           animate={{
-            opacity: hovered ? 0 : 0.35,
-            scale: hovered ? 0.9 : 1,
+            opacity: hovered ? 0 : 0.4,
+            scale: hovered ? 0.92 : 1,
             filter: hovered ? "blur(3px)" : "blur(0px)",
           }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
         >
           {data.label}
         </motion.span>
 
-        {/* Lines — visible when hovered */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="flex flex-col items-center gap-1.5">
-            {data.lines.map((line, i) => (
-              <motion.span
-                key={line}
-                className="text-[11px] text-foreground/60 font-light tracking-wide whitespace-nowrap"
-                initial={false}
-                animate={{
-                  opacity: hovered ? 0.65 : 0,
-                  y: hovered ? 0 : 3,
-                  filter: hovered ? "blur(0px)" : "blur(4px)",
-                }}
-                transition={{
-                  duration: 0.45,
-                  delay: hovered ? 0.12 + i * 0.06 : 0,
-                  ease: "easeOut",
-                }}
-              >
-                {line}
-              </motion.span>
-            ))}
-          </div>
+        {/* Expanded content — replaces title on hover */}
+        <div className="flex flex-col items-center gap-1.5 absolute">
+          {data.lines.map((line, i) => (
+            <motion.span
+              key={line}
+              className="text-[11px] text-foreground/70 font-light tracking-wide whitespace-nowrap"
+              initial={false}
+              animate={{
+                opacity: hovered ? 0.7 : 0,
+                y: hovered ? 0 : 2,
+                filter: hovered ? "blur(0px)" : "blur(4px)",
+              }}
+              transition={{
+                duration: 0.4,
+                delay: hovered ? 0.1 + i * 0.055 : 0,
+                ease: "easeOut",
+              }}
+            >
+              {line}
+            </motion.span>
+          ))}
         </div>
       </div>
     </motion.div>
