@@ -119,6 +119,9 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       y: d.ry * h,
     }));
 
+    // Portrait attractor position
+    portraitPosRef.current = { x: PORTRAIT_POS.rx * w, y: PORTRAIT_POS.ry * h };
+
     // Text dots
     const textDots: TextDot[] = [];
     const offscreen = document.createElement("canvas");
