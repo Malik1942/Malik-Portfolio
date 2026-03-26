@@ -240,11 +240,19 @@ const SportNode = ({ sport, index }: { sport: SportData; index: number }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
 
-  const motionVariant = {
-    bounce: { y: [0, -6, 0], transition: { duration: 1.2, repeat: Infinity, ease: "easeInOut" } },
-    circular: { rotate: [0, 360], transition: { duration: 8, repeat: Infinity, ease: "linear" } },
-    wave: { x: [0, 5, -5, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut" } },
-  };
+  const bounceAnim = { y: [0, -6, 0] };
+  const circularAnim = { rotate: [0, 360] };
+  const waveAnim = { x: [0, 5, -5, 0] };
+
+  const motionAnim = sport.motionType === "bounce" ? bounceAnim 
+    : sport.motionType === "circular" ? circularAnim 
+    : waveAnim;
+
+  const motionTransition = sport.motionType === "bounce" 
+    ? { duration: 1.2, repeat: Infinity, ease: "easeInOut" as const }
+    : sport.motionType === "circular"
+    ? { duration: 8, repeat: Infinity, ease: "linear" as const }
+    : { duration: 3, repeat: Infinity, ease: "easeInOut" as const };
 
   return (
     <motion.div
@@ -266,10 +274,11 @@ const SportNode = ({ sport, index }: { sport: SportData; index: number }) => {
         <motion.div
           className="w-[6px] h-[6px] rounded-full bg-foreground/20"
           animate={{
-            ...motionVariant[sport.motionType],
+            ...motionAnim,
             scale: hovered ? 1.8 : 1,
             opacity: hovered ? 0.6 : 0.2,
           }}
+          transition={motionTransition}
         />
       </div>
 
