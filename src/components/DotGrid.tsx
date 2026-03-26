@@ -169,7 +169,7 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
               vx: 0, vy: 0,
               clusterIndex: ci,
               orbitAngle: Math.random() * Math.PI * 2,
-              orbitRadius: (55 + Math.random() * 50) * rMult,
+              orbitRadius: (85 + Math.random() * 55) * rMult,
               orbitSpeed: 0.0015 + Math.random() * 0.003,
             });
             clusterDotCounts[ci]++;
