@@ -246,13 +246,26 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       }
     });
 
-    // 2a. Static text dots — always visible, never move (fade down in about mode)
+    // 2a. Static text dots — always visible, hover ripple in hero mode
     const textAlpha = 0.75 * (1 - eased * 0.65);
     if (textAlpha > 0.01) {
-      ctx.fillStyle = `rgba(225, 222, 215, ${textAlpha})`;
+      const hoverRadius = 80;
       staticDotsRef.current.forEach((p) => {
+        let dx = 0, dy = 0;
+        // Mouse ripple only in hero mode
+        if (eased < 0.5) {
+          const dmx = p.x - mx;
+          const dmy = p.y - my;
+          const dist = Math.sqrt(dmx * dmx + dmy * dmy);
+          if (dist < hoverRadius && dist > 1) {
+            const force = (1 - dist / hoverRadius) * 12 * (1 - eased * 2);
+            dx = (dmx / dist) * force;
+            dy = (dmy / dist) * force;
+          }
+        }
         ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.3, 0, Math.PI * 2);
+        ctx.arc(p.x + dx, p.y + dy, 1.3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(225, 222, 215, ${textAlpha})`;
         ctx.fill();
       });
     }
