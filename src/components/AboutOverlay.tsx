@@ -14,89 +14,99 @@ const SPLASH_CLUSTERS: SplashClusterData[] = [
   {
     label: "Who I Am",
     lines: ["Maker", "Product designer", "Systems thinker"],
-    position: { left: "3%", top: "10%" },
+    position: { left: "8%", top: "14%" },
   },
   {
     label: "Outside of Design",
     lines: ["Photography", "Travel", "Basketball", "Cycling", "Swimming", "Food"],
-    position: { right: "3%", top: "10%" },
+    position: { right: "8%", top: "14%" },
   },
   {
     label: "How I Build",
     lines: ["Experimentation", "Prototyping early", "Learning through craft"],
-    position: { left: "3%", bottom: "10%" },
+    position: { left: "8%", bottom: "14%" },
   },
   {
     label: "What I Care About",
     lines: ["Design as behavior", "Systems as language", "Meaningful interaction", "Prototyping to think"],
-    position: { right: "3%", bottom: "10%" },
+    position: { right: "8%", bottom: "14%" },
   },
 ];
 
 // ── Reusable dot-splash cluster component ──
 interface DotParticle {
   angle: number;
-  radius: number;
+  baseRadius: number;
   x: number;
   y: number;
   size: number;
+  phase: number;
 }
 
-const CONTAINER_SIZE = 280;
-const DOT_COUNT = 90;
-const INNER_RADIUS = 40;
-const ORBIT_RADIUS = 80;
-const SPLASH_RADIUS = 120;
+const CONTAINER_SIZE = 260;
+const DOT_COUNT = 92;
+const TEXT_SAFE_RADIUS = 52;
+const BASE_RADIUS = 80;
+const SPLASH_RADIUS = 122;
 
 const SplashCluster = ({ data, delay }: { data: SplashClusterData; delay: number }) => {
   const [hovered, setHovered] = useState(false);
   const hoveredRef = useRef(false);
   const dotsRef = useRef<DotParticle[]>([]);
-  const particleElsRef = useRef<HTMLDivElement>(null);
+  const particleRefs = useRef<(HTMLDivElement | null)[]>([]);
   const animRef = useRef(0);
   const splashRef = useRef(0);
 
   useEffect(() => {
-    const dots: DotParticle[] = [];
-    for (let i = 0; i < DOT_COUNT; i++) {
-      const angle = (Math.PI * 2 * i) / DOT_COUNT + (Math.random() - 0.5) * 0.6;
-      const r = INNER_RADIUS + Math.random() * (ORBIT_RADIUS - INNER_RADIUS);
-      dots.push({ angle, radius: r, x: 0, y: 0, size: 0.8 + Math.random() * 1.2 });
-    }
-    dotsRef.current = dots;
+    dotsRef.current = Array.from({ length: DOT_COUNT }).map((_, i) => {
+      const angle = (Math.PI * 2 * i) / DOT_COUNT + (Math.random() - 0.5) * 0.4;
+      const phase = Math.random() * Math.PI * 2;
+      const baseRadius = BASE_RADIUS + (Math.random() - 0.5) * 12;
+      return {
+        angle,
+        baseRadius,
+        x: Math.cos(angle) * baseRadius,
+        y: Math.sin(angle) * baseRadius,
+        size: 0.7 + Math.random() * 1.3,
+        phase,
+      };
+    });
   }, []);
 
   const tick = useCallback(() => {
-    const container = particleElsRef.current;
-    if (!container) return;
-    const children = container.children as HTMLCollectionOf<HTMLElement>;
-    if (children.length === 0) { animRef.current = requestAnimationFrame(tick); return; }
+    const dots = dotsRef.current;
+    if (dots.length === 0) {
+      animRef.current = requestAnimationFrame(tick);
+      return;
+    }
 
     const targetSplash = hoveredRef.current ? 1 : 0;
-    splashRef.current += (targetSplash - splashRef.current) * 0.06;
+    splashRef.current += (targetSplash - splashRef.current) * 0.08;
+
     const t = splashRef.current;
     const time = performance.now() / 1000;
 
-    dotsRef.current.forEach((dot, i) => {
-      if (!children[i]) return;
-      const orbitAngle = dot.angle + time * 0.08 + i * 0.001;
+    dots.forEach((dot, i) => {
+      const node = particleRefs.current[i];
+      if (!node) return;
 
-      const defaultR = dot.radius;
-      const splashR = SPLASH_RADIUS + Math.sin(orbitAngle * 3 + time * 0.4) * 8;
-      const currentR = defaultR + (splashR - defaultR) * t;
+      const orbitAngle = dot.angle + time * 0.12 + i * 0.0016;
+      const defaultR = Math.max(TEXT_SAFE_RADIUS, dot.baseRadius + Math.sin(time * 0.55 + dot.phase) * 2.6);
+      const splashR = SPLASH_RADIUS + Math.sin(orbitAngle * 2.8 + time * 0.85 + dot.phase) * 10;
+      const radius = defaultR + (splashR - defaultR) * t;
 
-      const targetX = Math.cos(orbitAngle) * currentR;
-      const targetY = Math.sin(orbitAngle) * currentR;
+      const targetX = Math.cos(orbitAngle) * radius;
+      const targetY = Math.sin(orbitAngle) * radius;
 
-      dot.x += (targetX - dot.x) * 0.1;
-      dot.y += (targetY - dot.y) * 0.1;
+      dot.x += (targetX - dot.x) * 0.16;
+      dot.y += (targetY - dot.y) * 0.16;
 
-      dot.x += Math.sin(time * 0.6 + dot.angle * 2) * 0.12;
-      dot.y += Math.cos(time * 0.5 + dot.angle * 3) * 0.12;
+      dot.x += Math.sin(time * 0.9 + dot.phase) * 0.08;
+      dot.y += Math.cos(time * 0.85 + dot.phase) * 0.08;
 
-      const alpha = 0.12 + t * 0.06;
-      children[i].style.transform = `translate(${dot.x}px, ${dot.y}px)`;
-      children[i].style.opacity = String(alpha);
+      const scale = dot.size * (1 + t * 0.16);
+      node.style.transform = `translate(-50%, -50%) translate(${dot.x}px, ${dot.y}px) scale(${scale})`;
+      node.style.opacity = String(0.24 + t * 0.18);
     });
 
     animRef.current = requestAnimationFrame(tick);
@@ -107,7 +117,9 @@ const SplashCluster = ({ data, delay }: { data: SplashClusterData; delay: number
     return () => cancelAnimationFrame(animRef.current);
   }, [tick]);
 
-  useEffect(() => { hoveredRef.current = hovered; }, [hovered]);
+  useEffect(() => {
+    hoveredRef.current = hovered;
+  }, [hovered]);
 
   return (
     <motion.div
@@ -119,55 +131,35 @@ const SplashCluster = ({ data, delay }: { data: SplashClusterData; delay: number
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Particle shell */}
-      <div
-        ref={particleElsRef}
-        className="absolute inset-0"
-        style={{ pointerEvents: "none" }}
-      >
-        {dotsRef.current.length === 0
-          ? Array.from({ length: DOT_COUNT }).map((_, i) => (
-              <div
-                key={i}
-                className="absolute rounded-full"
-                style={{
-                  left: "50%",
-                  top: "50%",
-                  width: 2,
-                  height: 2,
-                  background: "rgba(225,222,215,0.12)",
-                  willChange: "transform",
-                }}
-              />
-            ))
-          : dotsRef.current.map((dot, i) => (
-              <div
-                key={i}
-                className="absolute rounded-full"
-                style={{
-                  left: "50%",
-                  top: "50%",
-                  width: dot.size * 2,
-                  height: dot.size * 2,
-                  marginLeft: -dot.size,
-                  marginTop: -dot.size,
-                  background: "rgba(225,222,215,0.12)",
-                  willChange: "transform",
-                }}
-              />
-            ))}
+      <div className="absolute inset-0 pointer-events-none">
+        {Array.from({ length: DOT_COUNT }).map((_, i) => (
+          <div
+            key={i}
+            ref={(el) => {
+              particleRefs.current[i] = el;
+            }}
+            className="absolute left-1/2 top-1/2 rounded-full"
+            style={{
+              width: 2,
+              height: 2,
+              opacity: 0.24,
+              background: "hsl(var(--foreground) / 0.72)",
+              transform: "translate(-50%, -50%)",
+              willChange: "transform, opacity",
+            }}
+          />
+        ))}
       </div>
 
-      {/* Text core */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
         <motion.span
-          className="text-[9px] uppercase tracking-[0.25em] text-foreground/50 whitespace-nowrap absolute"
+          className="text-[9px] uppercase tracking-[0.25em] text-foreground/65 whitespace-nowrap absolute"
           animate={{
-            opacity: hovered ? 0 : 0.5,
-            scale: hovered ? 0.92 : 1,
+            opacity: hovered ? 0 : 0.65,
+            scale: hovered ? 0.94 : 1,
             filter: hovered ? "blur(3px)" : "blur(0px)",
           }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
+          transition={{ duration: 0.32, ease: "easeOut" }}
         >
           {data.label}
         </motion.span>
@@ -176,16 +168,16 @@ const SplashCluster = ({ data, delay }: { data: SplashClusterData; delay: number
           {data.lines.map((line, i) => (
             <motion.span
               key={line}
-              className="text-[11px] text-foreground/80 font-light tracking-wide whitespace-nowrap"
+              className="text-[11px] text-foreground/90 font-light tracking-wide whitespace-nowrap"
               initial={false}
               animate={{
-                opacity: hovered ? 0.8 : 0,
+                opacity: hovered ? 0.9 : 0,
                 y: hovered ? 0 : 2,
                 filter: hovered ? "blur(0px)" : "blur(4px)",
               }}
               transition={{
-                duration: 0.4,
-                delay: hovered ? 0.1 + i * 0.055 : 0,
+                duration: 0.38,
+                delay: hovered ? 0.1 + i * 0.05 : 0,
                 ease: "easeOut",
               }}
             >
