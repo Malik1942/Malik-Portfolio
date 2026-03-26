@@ -1,5 +1,13 @@
 import { useEffect, useRef, useCallback } from "react";
 
+// ── Cluster target positions (matching AboutOverlay text positions) ──
+const CLUSTER_DEFS = [
+  { rx: 0.12, ry: 0.18 },  // top-left
+  { rx: 0.88, ry: 0.18 },  // top-right
+  { rx: 0.12, ry: 0.82 },  // bottom-left
+  { rx: 0.88, ry: 0.82 },  // bottom-right
+];
+
 // ── Project orbs ──
 interface Orb {
   label: string;
@@ -43,6 +51,10 @@ interface TextDot {
   baseY: number;
   vx: number;
   vy: number;
+  clusterIndex: number;
+  orbitAngle: number;
+  orbitRadius: number;
+  orbitSpeed: number;
 }
 
 interface DotGridProps {
@@ -62,10 +74,23 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
   const hoveredOrbRef = useRef<string | null>(null);
   const aboutModeRef = useRef(aboutMode);
   const transitionRef = useRef(0);
+  const clusterPosRef = useRef<{ x: number; y: number }[]>([]);
+  const clusterHoverRef = useRef<number | null>(null);
+  const clusterSplashRef = useRef<number[]>([0, 0, 0, 0]);
 
   useEffect(() => {
     aboutModeRef.current = aboutMode;
   }, [aboutMode]);
+
+  // Listen for cluster hover events from AboutOverlay
+  useEffect(() => {
+    const onClusterHover = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      clusterHoverRef.current = detail.index ?? null;
+    };
+    window.addEventListener("cluster-hover", onClusterHover);
+    return () => window.removeEventListener("cluster-hover", onClusterHover);
+  }, []);
 
   const initScene = useCallback((w: number, h: number) => {
     const starCount = Math.floor((w * h) / 2400);
@@ -95,6 +120,12 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       hoverT: 0,
     }));
 
+    // Cluster positions
+    clusterPosRef.current = CLUSTER_DEFS.map((d) => ({
+      x: d.rx * w,
+      y: d.ry * h,
+    }));
+
     // Text dots for "Malik Zhang"
     const textDots: TextDot[] = [];
     const offscreen = document.createElement("canvas");
@@ -114,6 +145,7 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
 
       const imageData = ctx.getImageData(0, 0, w, h);
       const gap = 4;
+      let dotIndex = 0;
       for (let y = 0; y < h; y += gap) {
         for (let x = 0; x < w; x += gap) {
           const i = (y * w + x) * 4;
@@ -122,7 +154,12 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
               x, y,
               baseX: x, baseY: y,
               vx: 0, vy: 0,
+              clusterIndex: dotIndex % 4,
+              orbitAngle: Math.random() * Math.PI * 2,
+              orbitRadius: 30 + Math.random() * 70,
+              orbitSpeed: 0.002 + Math.random() * 0.004,
             });
+            dotIndex++;
           }
         }
       }
@@ -157,6 +194,13 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       ? 4 * tVal * tVal * tVal
       : 1 - Math.pow(-2 * tVal + 2, 3) / 2;
 
+    // Cluster splash interpolation per cluster
+    const splashes = clusterSplashRef.current;
+    for (let ci = 0; ci < 4; ci++) {
+      const targetSplash = clusterHoverRef.current === ci ? 1 : 0;
+      splashes[ci] += (targetSplash - splashes[ci]) * 0.06;
+    }
+
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
 
@@ -187,8 +231,11 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       }
     });
 
-    // 2. Text dots — in about mode they fade/disperse, no corner clusters
+    // 2. Text dots — blend between hero text and cluster orbit positions
     const splashRadius = 90;
+    const clusters = clusterPosRef.current;
+    const BASE_ORBIT = 70;
+    const SPLASH_ORBIT = 120;
 
     textDotsRef.current.forEach((p) => {
       // Mouse interaction (hero mode only)
@@ -209,6 +256,7 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
         }
       }
 
+      // Spring back to text position
       const returnDx = p.baseX - p.x;
       const returnDy = p.baseY - p.y;
       p.vx += returnDx * 0.035;
@@ -218,17 +266,28 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       p.x += p.vx;
       p.y += p.vy;
 
-      // Fade out text dots in about mode
+      // Cluster orbit target
+      const cluster = clusters[p.clusterIndex];
+      if (!cluster) return;
+
+      p.orbitAngle += p.orbitSpeed;
+      const clusterSplash = splashes[p.clusterIndex];
+      const orbitR = p.orbitRadius * (BASE_ORBIT / 70) + clusterSplash * (SPLASH_ORBIT - BASE_ORBIT);
+      const aboutX = cluster.x + Math.cos(p.orbitAngle) * orbitR;
+      const aboutY = cluster.y + Math.sin(p.orbitAngle) * orbitR;
+
+      // Blend: hero position → cluster orbit position
+      const drawX = p.x + (aboutX - p.x) * eased;
+      const drawY = p.y + (aboutY - p.y) * eased;
+
       const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
       const baseAlpha = Math.min(0.95, 0.5 + speed * 0.04);
-      const dotAlpha = baseAlpha * (1 - eased * 0.7);
+      const dotAlpha = baseAlpha * (0.55 + 0.45 * (1 - eased * 0.15));
 
-      if (dotAlpha > 0.01) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(225, 222, 215, ${dotAlpha})`;
-        ctx.fill();
-      }
+      ctx.beginPath();
+      ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(225, 222, 215, ${dotAlpha})`;
+      ctx.fill();
     });
 
     // 3. Gravitational orbs (fade out during about transition)
