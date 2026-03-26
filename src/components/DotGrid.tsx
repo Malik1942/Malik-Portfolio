@@ -1,11 +1,15 @@
 import { useEffect, useRef, useCallback } from "react";
 
-// ── Cluster target positions (matching AboutOverlay text positions) ──
+// ── Cluster positions: organic radial layout with hierarchy ──
+// 0: Who I Am — upper-left, secondary (closer)
+// 1: Outside of Design — upper-right, tertiary (further, lighter)
+// 2: How I Build — lower-left, tertiary (balanced)
+// 3: What I Care About — right, primary (closest to center)
 const CLUSTER_DEFS = [
-  { rx: 0.12, ry: 0.18 },  // top-left
-  { rx: 0.88, ry: 0.18 },  // top-right
-  { rx: 0.12, ry: 0.82 },  // bottom-left
-  { rx: 0.88, ry: 0.82 },  // bottom-right
+  { rx: 0.28, ry: 0.22, density: 0.7, radiusMult: 1.0 },   // Who I Am
+  { rx: 0.78, ry: 0.20, density: 0.5, radiusMult: 0.85 },   // Outside of Design (lighter)
+  { rx: 0.24, ry: 0.78, density: 0.5, radiusMult: 0.85 },   // How I Build (lighter)
+  { rx: 0.74, ry: 0.68, density: 0.85, radiusMult: 1.15 },   // What I Care About (primary)
 ];
 
 // ── Project orbs ──
@@ -146,24 +150,29 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       const imageData = ctx.getImageData(0, 0, w, h);
       const gap = 4;
       let dotIndex = 0;
+      const clusterDotCounts = [0, 0, 0, 0];
       for (let y = 0; y < h; y += gap) {
         for (let x = 0; x < w; x += gap) {
           const i = (y * w + x) * 4;
           if (imageData.data[i + 3] > 100) {
-            // Skip ~40% of dots to reduce cluster density
-            if (dotIndex % 5 < 2) {
+            const ci = dotIndex % 4;
+            // Per-cluster density filtering
+            const keep = Math.random() < CLUSTER_DEFS[ci].density;
+            if (!keep) {
               dotIndex++;
               continue;
             }
+            const rMult = CLUSTER_DEFS[ci].radiusMult;
             textDots.push({
               x, y,
               baseX: x, baseY: y,
               vx: 0, vy: 0,
-              clusterIndex: dotIndex % 4,
+              clusterIndex: ci,
               orbitAngle: Math.random() * Math.PI * 2,
-              orbitRadius: 55 + Math.random() * 50,
+              orbitRadius: (55 + Math.random() * 50) * rMult,
               orbitSpeed: 0.0015 + Math.random() * 0.003,
             });
+            clusterDotCounts[ci]++;
             dotIndex++;
           }
         }
