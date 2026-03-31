@@ -531,7 +531,7 @@ const AboutDeepContent = ({ isVisible }: { isVisible: boolean }) => {
           <section className="mb-40">
             <SectionLabel delay={0.1}>Movement</SectionLabel>
             <div className="flex justify-center gap-16 md:gap-24">
-              {SPORTS.map((sport, i) => (
+              {SPORTS_DATA.map((sport, i) => (
                 <SportNode key={sport.name} sport={sport} index={i} />
               ))}
             </div>
