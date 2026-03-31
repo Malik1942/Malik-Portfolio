@@ -188,7 +188,7 @@ const LifeEventNode = ({ event, index }: { event: LifeEvent; index: number }) =>
       onMouseLeave={() => setHovered(false)}
     >
       {/* Year */}
-      <span className="text-[10px] text-foreground/20 font-light tracking-wider w-10 pt-0.5 flex-shrink-0">
+      <span className="text-[13px] text-foreground/60 font-light tracking-wider w-12 pt-0.5 flex-shrink-0">
         {event.year}
       </span>
 
