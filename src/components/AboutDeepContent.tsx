@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 
 // ── Ambient floating dots for background continuity ──
@@ -223,36 +223,217 @@ const LifeEventNode = ({ event, index }: { event: LifeEvent; index: number }) =>
   );
 };
 
-// ── Movement / Sport Node ──
-interface SportData {
-  name: string;
-  motionType: "bounce" | "circular" | "wave";
+// ── Resilient Movement System ──
+// Each sport has particles forming a stable shape that periodically breaks and recovers.
+
+interface ResilientParticle {
+  x: number; y: number;
+  homeX: number; homeY: number;
+  vx: number; vy: number;
 }
 
-const SPORTS: SportData[] = [
-  { name: "Basketball", motionType: "bounce" },
-  { name: "Cycling", motionType: "circular" },
-  { name: "Swimming", motionType: "wave" },
+type SportType = "basketball" | "cycling" | "snowboarding";
+
+const SPORTS_DATA: { name: string; type: SportType }[] = [
+  { name: "Basketball", type: "basketball" },
+  { name: "Cycling", type: "cycling" },
+  { name: "Snowboarding", type: "snowboarding" },
 ];
 
-const SportNode = ({ sport, index }: { sport: SportData; index: number }) => {
+function createParticles(type: SportType, cx: number, cy: number, r: number): ResilientParticle[] {
+  const particles: ResilientParticle[] = [];
+  const count = 28;
+
+  for (let i = 0; i < count; i++) {
+    const t = i / count;
+    let hx: number, hy: number;
+
+    if (type === "basketball") {
+      // Circle formation
+      const angle = t * Math.PI * 2;
+      hx = cx + Math.cos(angle) * r;
+      hy = cy + Math.sin(angle) * r;
+    } else if (type === "cycling") {
+      // Figure-8 / orbit
+      const angle = t * Math.PI * 2;
+      hx = cx + Math.cos(angle) * r;
+      hy = cy + Math.sin(angle * 2) * r * 0.5;
+    } else {
+      // Wave formation
+      hx = cx - r + t * r * 2;
+      hy = cy + Math.sin(t * Math.PI * 3) * r * 0.6;
+    }
+
+    particles.push({ x: hx, y: hy, homeX: hx, homeY: hy, vx: 0, vy: 0 });
+  }
+  return particles;
+}
+
+const ResilienceCanvas = ({ type, isHovered }: { type: SportType; isHovered: boolean }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const particlesRef = useRef<ResilientParticle[]>([]);
+  const animRef = useRef(0);
+  const phaseRef = useRef<"stable" | "disrupted" | "recovering">("stable");
+  const timerRef = useRef(0);
+  const hoveredRef = useRef(false);
+
+  useEffect(() => { hoveredRef.current = isHovered; }, [isHovered]);
+
+  const init = useCallback(() => {
+    const size = 120;
+    particlesRef.current = createParticles(type, size / 2, size / 2, 36);
+    phaseRef.current = "stable";
+    timerRef.current = 0;
+  }, [type]);
+
+  useEffect(() => {
+    init();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = 120 * dpr;
+    canvas.height = 120 * dpr;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let lastTime = performance.now();
+
+    const loop = () => {
+      const now = performance.now();
+      const dt = (now - lastTime) / 1000;
+      lastTime = now;
+
+      const particles = particlesRef.current;
+      const phase = phaseRef.current;
+
+      // Phase state machine
+      timerRef.current += dt;
+
+      if (hoveredRef.current && phase === "stable") {
+        // Hover triggers immediate disruption
+        phaseRef.current = "disrupted";
+        timerRef.current = 0;
+        particles.forEach(p => {
+          const angle = Math.atan2(p.y - 60, p.x - 60) + (Math.random() - 0.5) * 1.5;
+          const force = 60 + Math.random() * 40;
+          p.vx += Math.cos(angle) * force;
+          p.vy += Math.sin(angle) * force;
+        });
+      }
+
+      if (phase === "stable" && timerRef.current > 3.5) {
+        // Periodic disruption
+        phaseRef.current = "disrupted";
+        timerRef.current = 0;
+        particles.forEach(p => {
+          const angle = Math.random() * Math.PI * 2;
+          const force = 25 + Math.random() * 35;
+          p.vx += Math.cos(angle) * force;
+          p.vy += Math.sin(angle) * force;
+        });
+      }
+
+      if (phase === "disrupted" && timerRef.current > 0.4) {
+        phaseRef.current = "recovering";
+        timerRef.current = 0;
+      }
+
+      if (phase === "recovering" && timerRef.current > 1.2) {
+        phaseRef.current = "stable";
+        timerRef.current = 0;
+      }
+
+      // Physics update
+      const springK = phase === "recovering" ? 12 : phase === "stable" ? 8 : 0.5;
+      const damping = phase === "recovering" ? 0.88 : 0.92;
+
+      particles.forEach(p => {
+        // Spring toward home
+        const dx = p.homeX - p.x;
+        const dy = p.homeY - p.y;
+        p.vx += dx * springK * dt;
+        p.vy += dy * springK * dt;
+        p.vx *= damping;
+        p.vy *= damping;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+      });
+
+      // Draw
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, 120, 120);
+
+      // Stable guide shape (faint)
+      if (phase === "stable") {
+        ctx.globalAlpha = 0.06;
+        ctx.beginPath();
+        particles.forEach((p, i) => {
+          if (i === 0) ctx.moveTo(p.homeX, p.homeY);
+          else ctx.lineTo(p.homeX, p.homeY);
+        });
+        ctx.closePath();
+        ctx.strokeStyle = "rgba(225, 222, 215, 1)";
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+
+      // Particles
+      particles.forEach(p => {
+        const distFromHome = Math.sqrt((p.x - p.homeX) ** 2 + (p.y - p.homeY) ** 2);
+        const displaced = Math.min(1, distFromHome / 30);
+        
+        // Color shifts: stable = calm white, displaced = warmer/stressed
+        const r = Math.round(225 + displaced * 30);
+        const g = Math.round(222 - displaced * 40);
+        const b = Math.round(215 - displaced * 60);
+        const alpha = 0.5 + displaced * 0.4;
+        const size = 1.5 + displaced * 0.8;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        ctx.fill();
+      });
+
+      // Connection lines (only when stable or recovering)
+      if (phase !== "disrupted") {
+        ctx.globalAlpha = phase === "stable" ? 0.08 : 0.04;
+        for (let i = 0; i < particles.length; i++) {
+          const next = particles[(i + 1) % particles.length];
+          const p = particles[i];
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(next.x, next.y);
+          ctx.strokeStyle = "rgba(225, 222, 215, 1)";
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      animRef.current = requestAnimationFrame(loop);
+    };
+
+    animRef.current = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(animRef.current);
+  }, [init]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="w-[120px] h-[120px]"
+      style={{ imageRendering: "auto" }}
+    />
+  );
+};
+
+const SportNode = ({ sport, index }: { sport: typeof SPORTS_DATA[0]; index: number }) => {
   const [hovered, setHovered] = useState(false);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
-
-  const bounceAnim = { y: [0, -6, 0] };
-  const circularAnim = { rotate: [0, 360] };
-  const waveAnim = { x: [0, 5, -5, 0] };
-
-  const motionAnim = sport.motionType === "bounce" ? bounceAnim 
-    : sport.motionType === "circular" ? circularAnim 
-    : waveAnim;
-
-  const motionTransition = sport.motionType === "bounce" 
-    ? { duration: 1.2, repeat: Infinity, ease: "easeInOut" as const }
-    : sport.motionType === "circular"
-    ? { duration: 8, repeat: Infinity, ease: "linear" as const }
-    : { duration: 3, repeat: Infinity, ease: "easeInOut" as const };
 
   return (
     <motion.div
@@ -264,27 +445,10 @@ const SportNode = ({ sport, index }: { sport: SportData; index: number }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Orbit trail */}
-      <div className="relative w-16 h-16 flex items-center justify-center">
-        <motion.div
-          className="absolute w-10 h-10 rounded-full border border-foreground/[0.05]"
-          animate={{ scale: hovered ? 1.2 : 1, opacity: hovered ? 0.12 : 0.05 }}
-          transition={{ duration: 0.6 }}
-        />
-        <motion.div
-          className="w-[6px] h-[6px] rounded-full bg-foreground/20"
-          animate={{
-            ...motionAnim,
-            scale: hovered ? 1.8 : 1,
-            opacity: hovered ? 0.6 : 0.2,
-          }}
-          transition={motionTransition}
-        />
-      </div>
-
+      <ResilienceCanvas type={sport.type} isHovered={hovered} />
       <motion.span
-        className="text-[11px] uppercase tracking-[0.3em] text-foreground/50"
-        animate={{ opacity: hovered ? 0.8 : 0.5 }}
+        className="text-[12px] uppercase tracking-[0.3em] text-foreground/50"
+        animate={{ opacity: hovered ? 0.9 : 0.5 }}
         transition={{ duration: 0.4 }}
       >
         {sport.name}
@@ -367,7 +531,7 @@ const AboutDeepContent = ({ isVisible }: { isVisible: boolean }) => {
           <section className="mb-40">
             <SectionLabel delay={0.1}>Movement</SectionLabel>
             <div className="flex justify-center gap-16 md:gap-24">
-              {SPORTS.map((sport, i) => (
+              {SPORTS_DATA.map((sport, i) => (
                 <SportNode key={sport.name} sport={sport} index={i} />
               ))}
             </div>
