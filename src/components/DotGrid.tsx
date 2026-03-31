@@ -220,7 +220,9 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
     const splashes = clusterSplashRef.current;
     for (let ci = 0; ci < 4; ci++) {
       const targetSplash = clusterHoverRef.current === ci ? 1 : 0;
-      splashes[ci] += (targetSplash - splashes[ci]) * 0.06;
+      // Faster recovery than expansion → resilience feel
+      const lerpRate = targetSplash > splashes[ci] ? 0.06 : 0.09;
+      splashes[ci] += (targetSplash - splashes[ci]) * lerpRate;
     }
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
