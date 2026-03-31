@@ -58,11 +58,11 @@ const SectionLabel = ({ children, delay = 0 }: { children: string; delay?: numbe
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay, ease: "easeOut" }}
     >
-      <div className="w-[4px] h-[4px] rounded-full bg-foreground/20" />
-      <span className="text-[9px] uppercase tracking-[0.35em] text-foreground/25">
+      <div className="w-[5px] h-[5px] rounded-full bg-foreground/50" />
+      <span className="text-[11px] uppercase tracking-[0.35em] text-foreground/70">
         {children}
       </span>
-      <div className="flex-1 h-px bg-foreground/[0.04]" />
+      <div className="flex-1 h-px bg-foreground/[0.08]" />
     </motion.div>
   );
 };
@@ -138,7 +138,7 @@ const PhotoNode = ({ photo, index }: { photo: typeof PHOTO_PLACEHOLDERS[0]; inde
           }}
         />
         <div className="absolute inset-0 flex items-end p-3">
-          <span className="text-[9px] text-foreground/30 uppercase tracking-[0.2em]">
+          <span className="text-[11px] text-foreground/60 uppercase tracking-[0.2em]">
             Photo {index + 1}
           </span>
         </div>
@@ -188,13 +188,13 @@ const LifeEventNode = ({ event, index }: { event: LifeEvent; index: number }) =>
       onMouseLeave={() => setHovered(false)}
     >
       {/* Year */}
-      <span className="text-[10px] text-foreground/20 font-light tracking-wider w-10 pt-0.5 flex-shrink-0">
+      <span className="text-[13px] text-foreground/60 font-light tracking-wider w-12 pt-0.5 flex-shrink-0">
         {event.year}
       </span>
 
       {/* Node dot */}
       <motion.div
-        className={`w-[5px] h-[5px] rounded-full mt-1 flex-shrink-0 ${dotColor}`}
+        className={`w-[6px] h-[6px] rounded-full mt-1 flex-shrink-0 ${dotColor}`}
         animate={{
           scale: hovered ? 2 : 1,
           opacity: hovered ? 0.8 : undefined,
@@ -205,15 +205,15 @@ const LifeEventNode = ({ event, index }: { event: LifeEvent; index: number }) =>
       {/* Content */}
       <div className="flex flex-col gap-0.5">
         <motion.span
-          className="text-[12px] text-foreground/50 font-light"
-          animate={{ opacity: hovered ? 0.85 : 0.5 }}
+          className="text-[15px] text-foreground/80 font-light"
+          animate={{ opacity: hovered ? 0.95 : 0.8 }}
           transition={{ duration: 0.4 }}
         >
           {event.title}
         </motion.span>
         <motion.span
-          className="text-[10px] text-foreground/20 font-light"
-          animate={{ opacity: hovered ? 0.45 : 0.2 }}
+          className="text-[13px] text-foreground/50 font-light"
+          animate={{ opacity: hovered ? 0.7 : 0.5 }}
           transition={{ duration: 0.4 }}
         >
           {event.caption}
@@ -283,8 +283,8 @@ const SportNode = ({ sport, index }: { sport: SportData; index: number }) => {
       </div>
 
       <motion.span
-        className="text-[9px] uppercase tracking-[0.3em] text-foreground/20"
-        animate={{ opacity: hovered ? 0.55 : 0.2 }}
+        className="text-[11px] uppercase tracking-[0.3em] text-foreground/50"
+        animate={{ opacity: hovered ? 0.8 : 0.5 }}
         transition={{ duration: 0.4 }}
       >
         {sport.name}
@@ -307,7 +307,7 @@ const DailyTag = ({ label, index }: { label: string; index: number }) => {
   return (
     <motion.span
       ref={ref}
-      className="text-[10px] text-foreground/15 font-light px-3 py-1.5 rounded-full border border-foreground/[0.04] hover:text-foreground/40 hover:border-foreground/[0.1] transition-all duration-500 cursor-default"
+      className="text-[13px] text-foreground/50 font-light px-4 py-2 rounded-full border border-foreground/[0.1] hover:text-foreground/80 hover:border-foreground/[0.2] transition-all duration-500 cursor-default"
       initial={{ opacity: 0, scale: 0.9 }}
       animate={inView ? { opacity: 1, scale: 1 } : {}}
       transition={{ duration: 0.5, delay: index * 0.04 }}
@@ -343,7 +343,7 @@ const AboutDeepContent = ({ isVisible }: { isVisible: boolean }) => {
               ))}
             </div>
             <motion.p
-              className="text-[10px] text-foreground/15 font-light mt-6 text-center tracking-wider"
+              className="text-[12px] text-foreground/50 font-light mt-6 text-center tracking-wider"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
