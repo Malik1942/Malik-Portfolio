@@ -283,8 +283,8 @@ const SportNode = ({ sport, index }: { sport: SportData; index: number }) => {
       </div>
 
       <motion.span
-        className="text-[9px] uppercase tracking-[0.3em] text-foreground/20"
-        animate={{ opacity: hovered ? 0.55 : 0.2 }}
+        className="text-[11px] uppercase tracking-[0.3em] text-foreground/50"
+        animate={{ opacity: hovered ? 0.8 : 0.5 }}
         transition={{ duration: 0.4 }}
       >
         {sport.name}
