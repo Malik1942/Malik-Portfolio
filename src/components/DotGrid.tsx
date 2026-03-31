@@ -60,7 +60,11 @@ interface Dot {
   orbitAngle: number;
   orbitRadius: number;
   orbitSpeed: number;
-  delay: number; // stagger delay for transition
+  delay: number;
+  // Resilience: disturbance offset
+  distX: number;
+  distY: number;
+  distPhase: number; // unique phase for periodic disturbance timing
 }
 
 interface DotGridProps {
