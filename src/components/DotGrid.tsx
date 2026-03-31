@@ -271,6 +271,21 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
         ? 4 * staggeredEased * staggeredEased * staggeredEased
         : 1 - Math.pow(-2 * staggeredEased + 2, 3) / 2;
 
+      // ── Resilience: periodic micro-disturbance ──
+      // A subtle wave of disruption passes through particles periodically
+      const disturbCycle = time * 0.4 + p.distPhase; // slow cycle, unique per particle
+      const disturbWave = Math.sin(disturbCycle) * Math.sin(disturbCycle * 0.37);
+      // Only disturb when the wave peaks (intermittent, not constant)
+      const disturbStrength = Math.max(0, disturbWave - 0.3) * 3.5; // 0 most of time, peaks briefly
+      const disturbAmp = 2.5; // max displacement in px — subtle
+      const targetDistX = Math.cos(disturbCycle * 2.1) * disturbStrength * disturbAmp;
+      const targetDistY = Math.sin(disturbCycle * 1.7) * disturbStrength * disturbAmp;
+      // Spring recovery — disturbance offset always pulls back to zero
+      p.distX += (targetDistX - p.distX) * 0.08;
+      p.distY += (targetDistY - p.distY) * 0.08;
+      p.distX *= 0.96;
+      p.distY *= 0.96;
+
       // Mouse splash (hero mode — fades out as particles leave)
       if (particleT < 0.8) {
         const dx = mx - p.baseX;
@@ -288,11 +303,12 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
         }
       }
 
-      // Spring physics toward base position (text shape)
-      p.vx += (p.baseX - p.x) * 0.035;
-      p.vy += (p.baseY - p.y) * 0.035;
-      p.vx *= 0.91;
-      p.vy *= 0.91;
+      // Spring physics toward base position (text shape) — resilience recovery
+      const springK = 0.04; // slightly stronger spring for snappy recovery
+      p.vx += (p.baseX - p.x) * springK;
+      p.vy += (p.baseY - p.y) * springK;
+      p.vx *= 0.90;
+      p.vy *= 0.90;
       p.x += p.vx;
       p.y += p.vy;
 
@@ -304,9 +320,9 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       const aboutX = cluster.x + Math.cos(p.orbitAngle) * effectiveRadius;
       const aboutY = cluster.y + Math.sin(p.orbitAngle) * effectiveRadius;
 
-      // Morph: spring-physics text position → cluster orbit position
-      const drawX = p.x + (aboutX - p.x) * particleT;
-      const drawY = p.y + (aboutY - p.y) * particleT;
+      // Morph: spring-physics text position → cluster orbit position + disturbance offset
+      const drawX = p.x + (aboutX - p.x) * particleT + p.distX;
+      const drawY = p.y + (aboutY - p.y) * particleT + p.distY;
 
       // Alpha: visible in both states, fade near cluster center in about mode
       const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
