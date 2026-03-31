@@ -138,7 +138,7 @@ const PhotoNode = ({ photo, index }: { photo: typeof PHOTO_PLACEHOLDERS[0]; inde
           }}
         />
         <div className="absolute inset-0 flex items-end p-3">
-          <span className="text-[9px] text-foreground/30 uppercase tracking-[0.2em]">
+          <span className="text-[11px] text-foreground/60 uppercase tracking-[0.2em]">
             Photo {index + 1}
           </span>
         </div>
