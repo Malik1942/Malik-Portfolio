@@ -62,7 +62,7 @@ const SectionLabel = ({ children, delay = 0 }: { children: string; delay?: numbe
       <span className="text-[11px] uppercase tracking-[0.35em] text-foreground/70">
         {children}
       </span>
-      <div className="flex-1 h-px bg-foreground/[0.04]" />
+      <div className="flex-1 h-px bg-foreground/[0.08]" />
     </motion.div>
   );
 };
