@@ -90,7 +90,7 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
         {data.lines.map((line, i) => (
           <motion.span
             key={line}
-            className="text-[11px] text-foreground/90 font-light tracking-wide whitespace-nowrap"
+            className="text-[14px] text-foreground/90 font-light tracking-wide whitespace-nowrap"
             initial={false}
             animate={{
               opacity: hovered ? 0.9 : 0,
