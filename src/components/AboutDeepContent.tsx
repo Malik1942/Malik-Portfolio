@@ -295,9 +295,9 @@ const SportNode = ({ sport, index }: { sport: SportData; index: number }) => {
 
 // ── Food / Daily life tags ──
 const DAILY_ITEMS = [
-  "Coffee rituals", "Street food", "Ramen", "Night markets",
-  "Home cooking", "Bakeries", "Film photography", "Long walks",
-  "Bookstores", "Vinyl records",
+  "Coffee rituals", "Home cooking (Asian flavors)", "Vinyl & R&B",
+  "Driving / long night rides", "Film photography", "Outdoor escapes",
+  "Basketball", "Cycling", "Snowboarding",
 ];
 
 const DailyTag = ({ label, index }: { label: string; index: number }) => {
