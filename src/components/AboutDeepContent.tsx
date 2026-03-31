@@ -307,7 +307,7 @@ const DailyTag = ({ label, index }: { label: string; index: number }) => {
   return (
     <motion.span
       ref={ref}
-      className="text-[10px] text-foreground/15 font-light px-3 py-1.5 rounded-full border border-foreground/[0.04] hover:text-foreground/40 hover:border-foreground/[0.1] transition-all duration-500 cursor-default"
+      className="text-[13px] text-foreground/50 font-light px-4 py-2 rounded-full border border-foreground/[0.1] hover:text-foreground/80 hover:border-foreground/[0.2] transition-all duration-500 cursor-default"
       initial={{ opacity: 0, scale: 0.9 }}
       animate={inView ? { opacity: 1, scale: 1 } : {}}
       transition={{ duration: 0.5, delay: index * 0.04 }}
