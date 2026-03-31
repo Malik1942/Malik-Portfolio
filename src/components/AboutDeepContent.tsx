@@ -58,7 +58,7 @@ const SectionLabel = ({ children, delay = 0 }: { children: string; delay?: numbe
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay, ease: "easeOut" }}
     >
-      <div className="w-[4px] h-[4px] rounded-full bg-foreground/20" />
+      <div className="w-[5px] h-[5px] rounded-full bg-foreground/50" />
       <span className="text-[11px] uppercase tracking-[0.35em] text-foreground/70">
         {children}
       </span>
