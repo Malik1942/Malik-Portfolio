@@ -205,8 +205,8 @@ const LifeEventNode = ({ event, index }: { event: LifeEvent; index: number }) =>
       {/* Content */}
       <div className="flex flex-col gap-0.5">
         <motion.span
-          className="text-[12px] text-foreground/50 font-light"
-          animate={{ opacity: hovered ? 0.85 : 0.5 }}
+          className="text-[15px] text-foreground/80 font-light"
+          animate={{ opacity: hovered ? 0.95 : 0.8 }}
           transition={{ duration: 0.4 }}
         >
           {event.title}
