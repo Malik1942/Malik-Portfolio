@@ -74,7 +74,7 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
     >
       {/* Default label */}
       <motion.span
-        className="text-[9px] uppercase tracking-[0.25em] text-foreground/60 whitespace-nowrap absolute pointer-events-none"
+        className="text-[11px] uppercase tracking-[0.25em] text-foreground/60 whitespace-nowrap absolute pointer-events-none"
         animate={{
           opacity: hovered ? 0 : 0.6,
           scale: hovered ? 0.94 : 1,
