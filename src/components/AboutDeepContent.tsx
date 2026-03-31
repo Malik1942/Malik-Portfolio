@@ -212,8 +212,8 @@ const LifeEventNode = ({ event, index }: { event: LifeEvent; index: number }) =>
           {event.title}
         </motion.span>
         <motion.span
-          className="text-[10px] text-foreground/20 font-light"
-          animate={{ opacity: hovered ? 0.45 : 0.2 }}
+          className="text-[13px] text-foreground/50 font-light"
+          animate={{ opacity: hovered ? 0.7 : 0.5 }}
           transition={{ duration: 0.4 }}
         >
           {event.caption}
