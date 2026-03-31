@@ -177,6 +177,9 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
               orbitRadius: (85 + Math.random() * 55) * rMult,
               orbitSpeed: 0.0003 + Math.random() * 0.0006,
               delay,
+              distX: 0,
+              distY: 0,
+              distPhase: Math.random() * Math.PI * 2,
             });
             dotIndex++;
           }
