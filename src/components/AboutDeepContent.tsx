@@ -59,7 +59,7 @@ const SectionLabel = ({ children, delay = 0 }: { children: string; delay?: numbe
       transition={{ duration: 0.8, delay, ease: "easeOut" }}
     >
       <div className="w-[4px] h-[4px] rounded-full bg-foreground/20" />
-      <span className="text-[9px] uppercase tracking-[0.35em] text-foreground/25">
+      <span className="text-[11px] uppercase tracking-[0.35em] text-foreground/70">
         {children}
       </span>
       <div className="flex-1 h-px bg-foreground/[0.04]" />
