@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 
 // ── Ambient floating dots for background continuity ──
