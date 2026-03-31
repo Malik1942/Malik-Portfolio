@@ -7,8 +7,8 @@ import { useEffect, useRef, useCallback } from "react";
 // 3: What I Care About — right, primary (closest to center)
 const CLUSTER_DEFS = [
   { rx: 0.28, ry: 0.22, density: 0.65, radiusMult: 1.0, innerMult: 1.0 },   // Who I Am (secondary)
-  { rx: 0.78, ry: 0.20, density: 0.45, radiusMult: 0.90, innerMult: 0.95 },   // Outside of Design (tertiary)
-  { rx: 0.24, ry: 0.78, density: 0.45, radiusMult: 0.85, innerMult: 0.9 },   // How I Build (tertiary)
+  { rx: 0.24, ry: 0.78, density: 0.45, radiusMult: 0.95, innerMult: 1.0 },   // Outside of Design (swapped to lower-left, 5% bigger)
+  { rx: 0.78, ry: 0.20, density: 0.45, radiusMult: 0.85, innerMult: 0.9 },   // How I Build (swapped to upper-right)
   { rx: 0.80, ry: 0.74, density: 0.75, radiusMult: 1.2, innerMult: 1.15 },   // What I Care About (primary, pushed right+down)
 ];
 

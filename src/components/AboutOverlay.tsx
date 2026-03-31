@@ -22,13 +22,13 @@ const CLUSTER_TEXTS: ClusterTextData[] = [
   {
     label: "Outside of Design",
     lines: ["Photography", "Travel", "Basketball", "Cycling", "Swimming", "Food"],
-    position: { left: "78%", top: "20%" },
+    position: { left: "24%", top: "78%" },
     index: 1,
   },
   {
     label: "How I Build",
     lines: ["Experimentation", "Prototyping early", "Learning through craft"],
-    position: { left: "24%", top: "78%" },
+    position: { left: "78%", top: "20%" },
     index: 2,
   },
   {
