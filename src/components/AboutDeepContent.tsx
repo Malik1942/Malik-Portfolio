@@ -194,7 +194,7 @@ const LifeEventNode = ({ event, index }: { event: LifeEvent; index: number }) =>
 
       {/* Node dot */}
       <motion.div
-        className={`w-[5px] h-[5px] rounded-full mt-1 flex-shrink-0 ${dotColor}`}
+        className={`w-[6px] h-[6px] rounded-full mt-1 flex-shrink-0 ${dotColor}`}
         animate={{
           scale: hovered ? 2 : 1,
           opacity: hovered ? 0.8 : undefined,
