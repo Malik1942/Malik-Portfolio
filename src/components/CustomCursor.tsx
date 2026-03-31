@@ -57,7 +57,7 @@ const CustomCursor = () => {
   }, [visible]);
 
   const isActive = hovering || aiming;
-  const fieldSize = aiming ? 44 : hovering ? 38 : 28;
+  const fieldSize = aiming ? 48 : hovering ? 42 : 32;
 
   return (
     <>
@@ -69,9 +69,9 @@ const CustomCursor = () => {
           width: fieldSize,
           height: fieldSize,
           background: isActive
-            ? `radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)`
-            : "transparent",
-          border: `${isActive ? 0.8 : 0.6}px solid rgba(200, 200, 210, ${isActive ? 0.2 : 0.12})`,
+            ? `radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)`
+            : `radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)`,
+          border: `${isActive ? 1.2 : 1}px solid rgba(220, 220, 225, ${isActive ? 0.4 : 0.25})`,
           transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
           opacity: visible ? 1 : 0,
         }}
@@ -81,9 +81,10 @@ const CustomCursor = () => {
         ref={dotRef}
         className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full"
         style={{
-          width: isActive ? 5 : 3,
-          height: isActive ? 5 : 3,
-          backgroundColor: `rgba(240, 238, 230, ${isActive ? 0.9 : 0.7})`,
+          width: isActive ? 6 : 4,
+          height: isActive ? 6 : 4,
+          backgroundColor: `rgba(245, 243, 237, ${isActive ? 1 : 0.85})`,
+          boxShadow: `0 0 ${isActive ? 8 : 4}px rgba(245, 243, 237, ${isActive ? 0.4 : 0.2})`,
           transition: "all 0.3s cubic-bezier(0.16,1,0.3,1)",
           opacity: visible ? 1 : 0,
         }}
