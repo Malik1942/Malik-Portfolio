@@ -343,7 +343,7 @@ const AboutDeepContent = ({ isVisible }: { isVisible: boolean }) => {
               ))}
             </div>
             <motion.p
-              className="text-[10px] text-foreground/15 font-light mt-6 text-center tracking-wider"
+              className="text-[12px] text-foreground/50 font-light mt-6 text-center tracking-wider"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
