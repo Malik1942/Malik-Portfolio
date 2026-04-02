@@ -460,7 +460,7 @@ const SportNode = ({ sport, index }: { sport: typeof SPORTS_DATA[0]; index: numb
 // ── Food / Daily life tags ──
 const DAILY_ITEMS = [
   "Coffee rituals", "Home cooking (Asian flavors)", "Vinyl & R&B",
-  "Driving / long night rides", "Film photography", "Outdoor escapes",
+  "Driving / long night rides", "Photography", "Outdoor escapes",
   "Basketball", "Cycling", "Snowboarding",
 ];
 
