@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, useInView } from "framer-motion";
+import { AnimatePresence, motion, useInView } from "framer-motion";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 // ── Ambient floating dots for background continuity ──
 const AmbientDots = ({ count = 40 }: { count?: number }) => {
@@ -68,81 +69,187 @@ const SectionLabel = ({ children, delay = 0 }: { children: string; delay?: numbe
 };
 
 // ── Photography Gallery ──
-const PHOTO_PLACEHOLDERS = Array.from({ length: 10 }, (_, i) => ({
-  id: i,
-  aspect: [1, 1.4, 0.75, 1.2, 0.8, 1, 1.3, 0.9, 1.1, 0.7][i],
-  hue: [220, 280, 200, 320, 180, 260, 240, 300, 210, 190][i],
-}));
+interface PhotoItem {
+  id: number;
+  src: string;
+  alt: string;
+  priority?: boolean;
+  gridClassName?: string;
+  thumbAspectRatio?: number;
+}
 
-const PhotoNode = ({ photo, index }: { photo: typeof PHOTO_PLACEHOLDERS[0]; index: number }) => {
-  const [hovered, setHovered] = useState(false);
+const PHOTOS: PhotoItem[] = [
+  { id: 1, src: "/images/photography/1.jpg", alt: "Photography image 1", priority: true, gridClassName: "md:col-span-3", thumbAspectRatio: 1.68 },
+  { id: 2, src: "/images/photography/2.jpg", alt: "Photography image 2", gridClassName: "md:col-span-2", thumbAspectRatio: 1.18 },
+  { id: 3, src: "/images/photography/3.jpg", alt: "Photography image 3", thumbAspectRatio: 1 },
+  { id: 4, src: "/images/photography/4.jpg", alt: "Photography image 4", gridClassName: "md:col-span-2", thumbAspectRatio: 1.5 },
+  { id: 5, src: "/images/photography/5.jpg", alt: "Photography image 5", thumbAspectRatio: 0.82 },
+  { id: 6, src: "/images/photography/6.jpg", alt: "Photography image 6", thumbAspectRatio: 1 },
+  { id: 7, src: "/images/photography/7.jpg", alt: "Photography image 7", gridClassName: "md:col-span-2", thumbAspectRatio: 1.45 },
+  { id: 8, src: "/images/photography/8.jpg", alt: "Photography image 8" },
+];
+
+const TOP_GRID_ORDER = [2, 4, 3, 5, 1, 6, 7];
+const TOP_GRID_PHOTOS = TOP_GRID_ORDER.map((id) => PHOTOS.find((photo) => photo.id === id)!).filter(Boolean);
+const FEATURED_PHOTO = PHOTOS.find((photo) => photo.id === 8)!;
+
+const preloadImage = (src: string) => {
+  const image = new Image();
+  image.src = src;
+};
+
+const PhotographyLightbox = ({
+  photos,
+  activeIndex,
+  onClose,
+  onNavigate,
+}: {
+  photos: PhotoItem[];
+  activeIndex: number;
+  onClose: () => void;
+  onNavigate: (direction: -1 | 1) => void;
+}) => {
+  const touchStartXRef = useRef<number | null>(null);
+  const activePhoto = photos[activeIndex];
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+      if (event.key === "ArrowLeft") onNavigate(-1);
+      if (event.key === "ArrowRight") onNavigate(1);
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    preloadImage(photos[(activeIndex - 1 + photos.length) % photos.length].src);
+    preloadImage(photos[(activeIndex + 1) % photos.length].src);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [activeIndex, onClose, onNavigate, photos]);
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        className="fixed inset-0 z-[100] bg-background/92 backdrop-blur-md"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.24, ease: "easeOut" }}
+        onClick={onClose}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-5 right-5 z-[101] flex h-10 w-10 items-center justify-center rounded-full text-foreground/55 transition-colors duration-300 hover:text-foreground cursor-none"
+          aria-label="Close photography lightbox"
+        >
+          <X className="h-4 w-4" />
+        </button>
+
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            onNavigate(-1);
+          }}
+          className="absolute left-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground/45 transition-colors duration-300 hover:text-foreground md:flex cursor-none"
+          aria-label="Previous image"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            onNavigate(1);
+          }}
+          className="absolute right-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground/45 transition-colors duration-300 hover:text-foreground md:flex cursor-none"
+          aria-label="Next image"
+        >
+          <ChevronRight className="h-5 w-5" />
+        </button>
+
+        <div
+          className="absolute inset-0 flex items-center justify-center p-5 md:p-10"
+          onClick={(event) => event.stopPropagation()}
+          onTouchStart={(event) => {
+            touchStartXRef.current = event.changedTouches[0]?.clientX ?? null;
+          }}
+          onTouchEnd={(event) => {
+            const startX = touchStartXRef.current;
+            const endX = event.changedTouches[0]?.clientX ?? null;
+            touchStartXRef.current = null;
+            if (startX === null || endX === null) return;
+
+            const delta = endX - startX;
+            if (Math.abs(delta) < 45) return;
+            onNavigate(delta > 0 ? -1 : 1);
+          }}
+        >
+          <motion.img
+            key={activePhoto.src}
+            src={activePhoto.src}
+            alt={activePhoto.alt}
+            className="max-h-full max-w-full object-contain select-none"
+            initial={{ opacity: 0, scale: 0.985 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.99 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            draggable={false}
+          />
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+const PhotoNode = ({
+  photo,
+  index,
+  onOpen,
+  featured = false,
+}: {
+  photo: PhotoItem;
+  index: number;
+  onOpen: () => void;
+  featured?: boolean;
+}) => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
     <motion.div
       ref={ref}
-      className="relative cursor-pointer group"
+      className={`group relative ${featured ? "" : photo.gridClassName ?? ""}`}
       initial={{ opacity: 0, scale: 0.9 }}
       animate={inView ? { opacity: 1, scale: 1 } : {}}
       transition={{ duration: 0.8, delay: index * 0.06, ease: "easeOut" }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
-      {/* Dot cluster (default state) */}
-      <motion.div
-        className="relative overflow-hidden rounded-sm"
-        style={{ aspectRatio: photo.aspect }}
-        animate={{
-          opacity: hovered ? 0 : 1,
-        }}
-        transition={{ duration: 0.5 }}
+      <button
+        type="button"
+        onClick={onOpen}
+        className="block w-full text-left cursor-none"
+        aria-label={`Open ${photo.alt}`}
       >
-        <div className="absolute inset-0 flex flex-wrap items-center justify-center gap-[3px] p-3">
-          {Array.from({ length: 24 }).map((_, di) => (
-            <motion.div
-              key={di}
-              className="rounded-full bg-foreground/[0.08]"
-              style={{ width: 2 + Math.random() * 2, height: 2 + Math.random() * 2 }}
-              animate={{
-                opacity: [0.05, 0.12, 0.05],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                delay: Math.random() * 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Image reveal (hover state) */}
-      <motion.div
-        className="absolute inset-0 rounded-sm overflow-hidden"
-        style={{ aspectRatio: photo.aspect }}
-        animate={{
-          opacity: hovered ? 1 : 0,
-          scale: hovered ? 1 : 0.95,
-        }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        <div
-          className="w-full h-full"
-          style={{
-            background: `linear-gradient(${135 + index * 20}deg, 
-              hsl(${photo.hue}, 15%, 12%) 0%, 
-              hsl(${photo.hue + 30}, 12%, 18%) 50%,
-              hsl(${photo.hue - 10}, 10%, 8%) 100%)`,
-          }}
-        />
-        <div className="absolute inset-0 flex items-end p-3">
-          <span className="text-[11px] text-foreground/60 uppercase tracking-[0.2em]">
-            Photo {index + 1}
-          </span>
-        </div>
-      </motion.div>
+        <motion.div
+          className="relative overflow-hidden bg-secondary/10"
+          style={featured ? undefined : { aspectRatio: photo.thumbAspectRatio }}
+          whileHover={{ scale: featured ? 1.01 : 1.018, filter: "brightness(1.045)" }}
+          transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <img
+            src={photo.src}
+            alt={photo.alt}
+            className={featured ? "block w-full h-auto" : "block w-full h-full object-cover"}
+            loading={photo.priority ? "eager" : "lazy"}
+          />
+          <div className={`absolute inset-0 bg-gradient-to-t from-background/24 via-transparent to-transparent transition-opacity duration-500 group-hover:opacity-15 ${featured ? "opacity-25" : "opacity-35"}`} />
+        </motion.div>
+      </button>
     </motion.div>
   );
 };
@@ -483,7 +590,18 @@ const DailyTag = ({ label, index }: { label: string; index: number }) => {
 
 // ── Main component ──
 const AboutDeepContent = ({ isVisible }: { isVisible: boolean }) => {
+  const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
+
   if (!isVisible) return null;
+
+  const openPhoto = (index: number) => setActivePhotoIndex(index);
+  const closePhoto = () => setActivePhotoIndex(null);
+  const navigatePhoto = (direction: -1 | 1) => {
+    setActivePhotoIndex((current) => {
+      if (current === null) return current;
+      return (current + direction + PHOTOS.length) % PHOTOS.length;
+    });
+  };
 
   return (
     <div className="relative bg-background">
@@ -501,20 +619,40 @@ const AboutDeepContent = ({ isVisible }: { isVisible: boolean }) => {
           {/* ── Photography ── */}
           <section className="mb-40">
             <SectionLabel>Photography</SectionLabel>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
-              {PHOTO_PLACEHOLDERS.map((photo, i) => (
-                <PhotoNode key={photo.id} photo={photo} index={i} />
-              ))}
+            <div className="mx-auto max-w-5xl">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-6 md:gap-5">
+                {TOP_GRID_PHOTOS.map((photo, i) => (
+                  <PhotoNode
+                    key={photo.id}
+                    photo={photo}
+                    index={i}
+                    onOpen={() => openPhoto(i)}
+                  />
+                ))}
+              </div>
+              <div className="mt-10 md:mt-14">
+                <PhotoNode
+                  photo={FEATURED_PHOTO}
+                  index={TOP_GRID_PHOTOS.length}
+                  featured
+                  onOpen={() => openPhoto(PHOTOS.findIndex((photo) => photo.id === FEATURED_PHOTO.id))}
+                />
+              </div>
             </div>
-            <motion.p
-              className="text-[12px] text-foreground/50 font-light mt-6 text-center tracking-wider"
+            <motion.div
+              className="mt-7 flex items-center justify-between gap-4 border-t border-foreground/[0.08] pt-4"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Hover to reveal · Gallery coming soon
-            </motion.p>
+              <span className="text-[11px] uppercase tracking-[0.28em] text-foreground/42">
+                Photography archive
+              </span>
+              <span className="text-[11px] text-foreground/32 tracking-[0.18em] uppercase">
+                8 selected frames · tap to expand
+              </span>
+            </motion.div>
           </section>
 
           {/* ── Life / Events ── */}
@@ -557,6 +695,15 @@ const AboutDeepContent = ({ isVisible }: { isVisible: boolean }) => {
             <div className="w-[3px] h-[3px] rounded-full bg-foreground/10" />
           </motion.div>
         </div>
+
+        {activePhotoIndex !== null && (
+          <PhotographyLightbox
+            photos={PHOTOS}
+            activeIndex={activePhotoIndex}
+            onClose={closePhoto}
+            onNavigate={navigatePhoto}
+          />
+        )}
     </div>
   );
 };

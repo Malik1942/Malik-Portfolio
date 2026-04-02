@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface Project {
@@ -23,6 +23,49 @@ interface ProjectListProps {
 
 const ProjectRow = ({ project, index, dotClass, projectId }: { project: Project; index: number; dotClass: string; projectId?: string }) => {
   const navigate = useNavigate();
+  const rowRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isArriving, setIsArriving] = useState(false);
+
+  useEffect(() => {
+    const row = rowRef.current;
+    if (!row) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "-20px" }
+    );
+
+    observer.observe(row);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const onArrive = (event: Event) => {
+      const { id } = (event as CustomEvent<{ id?: string }>).detail ?? {};
+      const matches = !!projectId && id === projectId;
+
+      if (matches) {
+        setIsVisible(true);
+        setIsArriving(true);
+      } else {
+        setIsArriving(false);
+      }
+    };
+
+    window.addEventListener("project-dot-arrive", onArrive);
+
+    return () => {
+      window.removeEventListener("project-dot-arrive", onArrive);
+    };
+  }, [projectId]);
 
   const handleClick = () => {
     if (projectId) {
@@ -32,10 +75,13 @@ const ProjectRow = ({ project, index, dotClass, projectId }: { project: Project;
 
   return (
     <div
+      ref={rowRef}
       id={projectId ? `project-${projectId}` : undefined}
-      className="reveal border-t border-border group cursor-pointer"
+      className={`reveal project-row border-t border-border group cursor-none ${isVisible ? "visible" : ""} ${isArriving ? "project-row-arriving" : ""}`}
       style={{ transitionDelay: `${index * 80}ms` }}
+      data-clickable="true"
       onClick={handleClick}
+      onAnimationEnd={() => setIsArriving(false)}
     >
       {/* Header row */}
       <div className="py-8 md:py-10 flex items-start justify-between gap-4">
@@ -55,8 +101,23 @@ const ProjectRow = ({ project, index, dotClass, projectId }: { project: Project;
         <div className="flex items-center gap-6 text-sm text-muted-foreground text-body mt-2 shrink-0">
           <span className="hidden md:block">{project.role}</span>
           <span className="text-mono text-xs">{project.year}</span>
-          <span className="text-lg text-muted-foreground group-hover:text-foreground transition-all duration-500 group-hover:rotate-45">
-            ↗
+          <span className="relative block w-[18px] h-[18px] text-muted-foreground group-hover:text-foreground transition-colors duration-500">
+            <svg
+              className="absolute inset-0 w-[18px] h-[18px] -rotate-45 transition-transform duration-500 group-hover:rotate-0 group-hover:translate-x-[1px]"
+              style={{ transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)", transformOrigin: "50% 50%" }}
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                d="M4.75 9H13.25M10.25 6L13.25 9L10.25 12"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </span>
         </div>
       </div>
@@ -113,6 +174,7 @@ const ProjectRow = ({ project, index, dotClass, projectId }: { project: Project;
 const ProjectList = ({ id, sectionTitle, sectionSubtitle, dotColor, projects }: ProjectListProps) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const dotClass = dotColor === "red" ? "bg-dot-red" : "bg-dot-gold";
+  const [isSectionArriving, setIsSectionArriving] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -132,9 +194,26 @@ const ProjectList = ({ id, sectionTitle, sectionSubtitle, dotColor, projects }: 
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const onSectionArrive = (event: Event) => {
+      const { id: arrivedId } = (event as CustomEvent<{ id?: string }>).detail ?? {};
+      if (arrivedId === id) {
+        setIsSectionArriving(true);
+      }
+    };
+
+    window.addEventListener("section-nav-arrive", onSectionArrive);
+    return () => window.removeEventListener("section-nav-arrive", onSectionArrive);
+  }, [id]);
+
   return (
-    <section id={id} ref={sectionRef} className="px-6 md:px-16 lg:px-24 py-24">
-      <div className="reveal mb-16">
+    <section
+      id={id}
+      ref={sectionRef}
+      className={`project-section px-6 md:px-16 lg:px-24 py-24 ${isSectionArriving ? "project-section-arriving" : ""}`}
+      onAnimationEnd={() => setIsSectionArriving(false)}
+    >
+      <div className="reveal mb-16" data-section-header="true">
         <div className="flex items-center gap-3 mb-2">
           <span className={`w-2 h-2 rounded-full ${dotClass}`} />
           <h2 className="text-3xl md:text-4xl font-bold text-foreground text-display">
