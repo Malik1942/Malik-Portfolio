@@ -1,15 +1,15 @@
 import { useEffect, useRef, useCallback } from "react";
 
-// ── Cluster positions: organic radial layout with hierarchy ──
-// 0: Who I Am — upper-left, secondary (closer)
-// 1: Outside of Design — upper-right, tertiary (further, lighter)
-// 2: How I Build — lower-left, tertiary (balanced)
-// 3: What I Care About — right, primary (closest to center)
+// ── Cluster positions: balanced quadrant layout ──
+// 0: Who I Am — upper-left
+// 1: Outside of Design — lower-left
+// 2: How I Build — upper-right
+// 3: What I Care About — lower-right
 const CLUSTER_DEFS = [
-  { rx: 0.28, ry: 0.22, density: 0.65, radiusMult: 1.0, innerMult: 1.0 },   // Who I Am (secondary)
-  { rx: 0.24, ry: 0.78, density: 0.45, radiusMult: 0.95, innerMult: 1.0 },   // Outside of Design (swapped to lower-left, 5% bigger)
-  { rx: 0.78, ry: 0.20, density: 0.45, radiusMult: 0.85, innerMult: 0.9 },   // How I Build (swapped to upper-right)
-  { rx: 0.80, ry: 0.74, density: 0.75, radiusMult: 1.2, innerMult: 1.15 },   // What I Care About (primary, pushed right+down)
+  { rx: 0.25, ry: 0.25, density: 0.6, radiusMult: 1.0, innerMult: 1.0 },    // Who I Am (upper-left)
+  { rx: 0.25, ry: 0.75, density: 0.6, radiusMult: 1.0, innerMult: 1.0 },    // Outside of Design (lower-left)
+  { rx: 0.75, ry: 0.25, density: 0.6, radiusMult: 1.0, innerMult: 1.0 },    // How I Build (upper-right)
+  { rx: 0.75, ry: 0.75, density: 0.6, radiusMult: 1.0, innerMult: 1.0 },    // What I Care About (lower-right)
 ];
 
 // ── Project orbs ──
