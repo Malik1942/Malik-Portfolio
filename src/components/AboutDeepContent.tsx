@@ -1,6 +1,15 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import Footer from "@/components/Footer";
+import {
+  AboutEditorialSection,
+  aboutEditorialItemVariants,
+  aboutEditorialStaggerVariants,
+  aboutEditorialTextVariants,
+} from "@/components/AboutEditorialSection";
+
+const easeOutExpo: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // ── Ambient floating dots for background continuity ──
 const AmbientDots = ({ count = 40 }: { count?: number }) => {
@@ -46,52 +55,68 @@ const AmbientDots = ({ count = 40 }: { count?: number }) => {
   );
 };
 
-// ── Section label ──
-const SectionLabel = ({ children, delay = 0 }: { children: string; delay?: number }) => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  
-  return (
-    <motion.div
-      ref={ref}
-      className="flex items-center gap-4 mb-16"
-      initial={{ opacity: 0, y: 12 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: "easeOut" }}
-    >
-      <div className="w-[5px] h-[5px] rounded-full bg-foreground/50" />
-      <span className="text-[11px] uppercase tracking-[0.35em] text-foreground/70">
-        {children}
-      </span>
-      <div className="flex-1 h-px bg-foreground/[0.08]" />
-    </motion.div>
-  );
-};
-
 // ── Photography Gallery ──
 interface PhotoItem {
   id: number;
   src: string;
   alt: string;
   priority?: boolean;
-  gridClassName?: string;
-  thumbAspectRatio?: number;
 }
 
 const PHOTOS: PhotoItem[] = [
-  { id: 1, src: "/images/photography/1.jpg", alt: "Photography image 1", priority: true, gridClassName: "md:col-span-3", thumbAspectRatio: 1.68 },
-  { id: 2, src: "/images/photography/2.jpg", alt: "Photography image 2", gridClassName: "md:col-span-2", thumbAspectRatio: 1.18 },
-  { id: 3, src: "/images/photography/3.jpg", alt: "Photography image 3", thumbAspectRatio: 1 },
-  { id: 4, src: "/images/photography/4.jpg", alt: "Photography image 4", gridClassName: "md:col-span-2", thumbAspectRatio: 1.5 },
-  { id: 5, src: "/images/photography/5.jpg", alt: "Photography image 5", thumbAspectRatio: 0.82 },
-  { id: 6, src: "/images/photography/6.jpg", alt: "Photography image 6", thumbAspectRatio: 1 },
-  { id: 7, src: "/images/photography/7.jpg", alt: "Photography image 7", gridClassName: "md:col-span-2", thumbAspectRatio: 1.45 },
+  { id: 1, src: "/images/photography/1.jpg", alt: "Photography image 1", priority: true },
+  { id: 2, src: "/images/photography/2.jpg", alt: "Photography image 2" },
+  { id: 3, src: "/images/photography/3.jpg", alt: "Photography image 3" },
+  { id: 4, src: "/images/photography/4.jpg", alt: "Photography image 4" },
+  { id: 5, src: "/images/photography/5.jpg", alt: "Photography image 5" },
+  { id: 6, src: "/images/photography/6.jpg", alt: "Photography image 6" },
+  { id: 7, src: "/images/photography/7.jpg", alt: "Photography image 7" },
   { id: 8, src: "/images/photography/8.jpg", alt: "Photography image 8" },
 ];
 
-const TOP_GRID_ORDER = [2, 4, 3, 5, 1, 6, 7];
-const TOP_GRID_PHOTOS = TOP_GRID_ORDER.map((id) => PHOTOS.find((photo) => photo.id === id)!).filter(Boolean);
-const FEATURED_PHOTO = PHOTOS.find((photo) => photo.id === 8)!;
+/** Rows 1–4: two equal landscape frames per row (images 1–8). Row 5: image 8 again as a wide panoramic close. */
+const PHOTO_EDITORIAL_PAIR_ROWS: PhotoItem[][] = [
+  [PHOTOS[0], PHOTOS[1]],
+  [PHOTOS[2], PHOTOS[3]],
+  [PHOTOS[4], PHOTOS[5]],
+  [PHOTOS[6], PHOTOS[7]],
+];
+const PHOTO_EDITORIAL_PANORAMIC = PHOTOS[7];
+
+const photoIndexById = (id: number) => PHOTOS.findIndex((p) => p.id === id);
+
+// Editorial grid: stagger by row (calm, continuous)
+const photoEditorialGridVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.07,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const photoEditorialRowVariants = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.68, ease: easeOutExpo },
+  },
+};
+
+const photoFooterBarVariants = {
+  hidden: { opacity: 0, y: 8 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.65,
+      delay: 0.52,
+      ease: easeOutExpo,
+    },
+  },
+};
 
 const preloadImage = (src: string) => {
   const image = new Image();
@@ -194,7 +219,7 @@ const PhotographyLightbox = ({
             key={activePhoto.src}
             src={activePhoto.src}
             alt={activePhoto.alt}
-            className="max-h-full max-w-full object-contain select-none"
+            className="max-h-full max-w-full object-contain select-none rounded-[10px]"
             initial={{ opacity: 0, scale: 0.985 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.99 }}
@@ -207,52 +232,38 @@ const PhotographyLightbox = ({
   );
 };
 
-const PhotoNode = ({
+/** Editorial frame — uniform landscape cells, minimal treatment */
+const EditorialPhotoFrame = ({
   photo,
-  index,
   onOpen,
-  featured = false,
+  layout,
 }: {
   photo: PhotoItem;
-  index: number;
   onOpen: () => void;
-  featured?: boolean;
-}) => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      className={`group relative ${featured ? "" : photo.gridClassName ?? ""}`}
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={inView ? { opacity: 1, scale: 1 } : {}}
-      transition={{ duration: 0.8, delay: index * 0.06, ease: "easeOut" }}
+  layout: "pair" | "panoramic";
+}) => (
+  <button
+    type="button"
+    onClick={onOpen}
+    className="group block w-full cursor-none rounded-[10px] text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20"
+    aria-label={`Open ${photo.alt}`}
+  >
+    <div
+      className={`relative w-full overflow-hidden rounded-[10px] bg-secondary/[0.08] ${
+        layout === "pair" ? "aspect-[16/10]" : "aspect-[2.35/1] max-h-[min(30vh,340px)]"
+      }`}
     >
-      <button
-        type="button"
-        onClick={onOpen}
-        className="block w-full text-left cursor-none"
-        aria-label={`Open ${photo.alt}`}
-      >
-        <motion.div
-          className="relative overflow-hidden bg-secondary/10"
-          style={featured ? undefined : { aspectRatio: photo.thumbAspectRatio }}
-          whileHover={{ scale: featured ? 1.01 : 1.018, filter: "brightness(1.045)" }}
-          transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <img
-            src={photo.src}
-            alt={photo.alt}
-            className={featured ? "block w-full h-auto" : "block w-full h-full object-cover"}
-            loading={photo.priority ? "eager" : "lazy"}
-          />
-          <div className={`absolute inset-0 bg-gradient-to-t from-background/24 via-transparent to-transparent transition-opacity duration-500 group-hover:opacity-15 ${featured ? "opacity-25" : "opacity-35"}`} />
-        </motion.div>
-      </button>
-    </motion.div>
-  );
-};
+      <img
+        src={photo.src}
+        alt={photo.alt}
+        className="h-full w-full rounded-[10px] object-cover object-center transition-[filter] duration-[420ms] ease-out group-hover:brightness-[1.03]"
+        loading={photo.priority ? "eager" : "lazy"}
+        decoding="async"
+        sizes={layout === "pair" ? "(min-width: 1024px) 42vw, 50vw" : "100vw"}
+      />
+    </div>
+  </button>
+);
 
 // ── Life Event Node ──
 interface LifeEvent {
@@ -273,10 +284,8 @@ const LIFE_EVENTS: LifeEvent[] = [
   { year: "2023", title: "Started Building", caption: "First experiments with design + code", type: "education" },
 ];
 
-const LifeEventNode = ({ event, index }: { event: LifeEvent; index: number }) => {
+const LifeEventRow = ({ event }: { event: LifeEvent }) => {
   const [hovered, setHovered] = useState(false);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   const dotColor = event.type === "award" 
     ? "bg-amber-400/40" 
@@ -286,11 +295,8 @@ const LifeEventNode = ({ event, index }: { event: LifeEvent; index: number }) =>
 
   return (
     <motion.div
-      ref={ref}
+      variants={aboutEditorialItemVariants}
       className="flex items-start gap-4 group cursor-default"
-      initial={{ opacity: 0, x: -10 }}
-      animate={inView ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.08, ease: "easeOut" }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -537,18 +543,13 @@ const ResilienceCanvas = ({ type, isHovered }: { type: SportType; isHovered: boo
   );
 };
 
-const SportNode = ({ sport, index }: { sport: typeof SPORTS_DATA[0]; index: number }) => {
+const SportNode = ({ sport }: { sport: (typeof SPORTS_DATA)[0] }) => {
   const [hovered, setHovered] = useState(false);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
     <motion.div
-      ref={ref}
-      className="flex flex-col items-center gap-3 cursor-default"
-      initial={{ opacity: 0, scale: 0.85 }}
-      animate={inView ? { opacity: 1, scale: 1 } : {}}
-      transition={{ duration: 0.8, delay: index * 0.15, ease: "easeOut" }}
+      variants={aboutEditorialItemVariants}
+      className="flex flex-col items-center gap-3 cursor-default w-[132px] flex-shrink-0"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -571,26 +572,31 @@ const DAILY_ITEMS = [
   "Basketball", "Cycling", "Snowboarding",
 ];
 
-const DailyTag = ({ label, index }: { label: string; index: number }) => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-30px" });
-
-  return (
-    <motion.span
-      ref={ref}
-      className="text-[13px] text-foreground/50 font-light px-4 py-2 rounded-full border border-foreground/[0.1] hover:text-foreground/80 hover:border-foreground/[0.2] transition-all duration-500 cursor-default"
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={inView ? { opacity: 1, scale: 1 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.04 }}
-    >
-      {label}
-    </motion.span>
-  );
-};
+const DailyTag = ({ label }: { label: string }) => (
+  <span className="text-[13px] text-foreground/50 font-light px-4 py-2.5 rounded-sm border border-foreground/[0.1] hover:text-foreground/80 hover:border-foreground/[0.18] transition-colors duration-300 cursor-default">
+    {label}
+  </span>
+);
 
 // ── Main component ──
-const AboutDeepContent = ({ isVisible }: { isVisible: boolean }) => {
+const AboutDeepContent = ({
+  isVisible,
+  onMainProjectsClick,
+}: {
+  isVisible: boolean;
+  onMainProjectsClick?: () => void;
+}) => {
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
+  const photoSectionRef = useRef<HTMLElement>(null);
+  const lifeSectionRef = useRef<HTMLElement>(null);
+  const movementSectionRef = useRef<HTMLElement>(null);
+  const dailySectionRef = useRef<HTMLElement>(null);
+
+  const inViewOpts = { once: true, margin: "0px 0px -6% 0px" as const, amount: 0.15 as const };
+  const photoInView = useInView(photoSectionRef, inViewOpts);
+  const lifeInView = useInView(lifeSectionRef, inViewOpts);
+  const movementInView = useInView(movementSectionRef, inViewOpts);
+  const dailyInView = useInView(dailySectionRef, inViewOpts);
 
   if (!isVisible) return null;
 
@@ -615,85 +621,137 @@ const AboutDeepContent = ({ isVisible }: { isVisible: boolean }) => {
 
         <AmbientDots count={50} />
 
-        <div className="relative z-20 max-w-3xl mx-auto px-8 py-32">
-          {/* ── Photography ── */}
-          <section className="mb-40">
-            <SectionLabel>Photography</SectionLabel>
-            <div className="mx-auto max-w-5xl">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-6 md:gap-5">
-                {TOP_GRID_PHOTOS.map((photo, i) => (
-                  <PhotoNode
-                    key={photo.id}
-                    photo={photo}
-                    index={i}
-                    onOpen={() => openPhoto(i)}
-                  />
-                ))}
-              </div>
-              <div className="mt-10 md:mt-14">
-                <PhotoNode
-                  photo={FEATURED_PHOTO}
-                  index={TOP_GRID_PHOTOS.length}
-                  featured
-                  onOpen={() => openPhoto(PHOTOS.findIndex((photo) => photo.id === FEATURED_PHOTO.id))}
-                />
-              </div>
-            </div>
+        <div className="relative z-20 max-w-3xl mx-auto px-8 pt-32 pb-8">
+          {/* ── Photography — shared editorial shell + image grid ── */}
+          <AboutEditorialSection
+            sectionRef={photoSectionRef}
+            inView={photoInView}
+            eyebrow="Photography"
+            title="Selected frames"
+            description="Personal stills from travel and everyday light — composed quietly, without narrative noise."
+            footer={
+              <motion.div
+                className="mt-10 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-foreground/[0.07] pt-5"
+                variants={photoFooterBarVariants}
+                initial="hidden"
+                animate={photoInView ? "show" : "hidden"}
+              >
+                <span className="text-[10px] uppercase tracking-[0.28em] text-foreground/38">
+                  Archive · 8 frames
+                </span>
+                <span className="text-[10px] text-foreground/32 tracking-[0.12em]">
+                  Tap any image to view full size
+                </span>
+              </motion.div>
+            }
+          >
             <motion.div
-              className="mt-7 flex items-center justify-between gap-4 border-t border-foreground/[0.08] pt-4"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              className="min-w-0 flex-1 flex flex-col gap-3 md:gap-4"
+              variants={photoEditorialGridVariants}
+              initial="hidden"
+              animate={photoInView ? "show" : "hidden"}
             >
-              <span className="text-[11px] uppercase tracking-[0.28em] text-foreground/42">
-                Photography archive
-              </span>
-              <span className="text-[11px] text-foreground/32 tracking-[0.18em] uppercase">
-                8 selected frames · tap to expand
-              </span>
-            </motion.div>
-          </section>
-
-          {/* ── Life / Events ── */}
-          <section className="mb-40">
-            <SectionLabel delay={0.1}>Life &amp; Events</SectionLabel>
-            <div className="flex flex-col gap-5 ml-2">
-              {LIFE_EVENTS.map((event, i) => (
-                <LifeEventNode key={event.title} event={event} index={i} />
+              {PHOTO_EDITORIAL_PAIR_ROWS.map((pair, rowIdx) => (
+                <motion.div
+                  key={rowIdx}
+                  variants={photoEditorialRowVariants}
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4"
+                >
+                  {pair.map((photo) => (
+                    <EditorialPhotoFrame
+                      key={photo.id}
+                      photo={photo}
+                      layout="pair"
+                      onOpen={() => openPhoto(photoIndexById(photo.id))}
+                    />
+                  ))}
+                </motion.div>
               ))}
-            </div>
-          </section>
+              <motion.div variants={photoEditorialRowVariants}>
+                <EditorialPhotoFrame
+                  photo={PHOTO_EDITORIAL_PANORAMIC}
+                  layout="panoramic"
+                  onOpen={() => openPhoto(photoIndexById(PHOTO_EDITORIAL_PANORAMIC.id))}
+                />
+              </motion.div>
+            </motion.div>
+          </AboutEditorialSection>
+
+          {/* ── Life & Events ── */}
+          <AboutEditorialSection
+            sectionRef={lifeSectionRef}
+            inView={lifeInView}
+            eyebrow="Life & Events"
+            title="Path and milestones"
+            description="A loose chronology of study, craft, and shipped work — awards, roles, and the experiments that led here."
+          >
+            <motion.div
+              className="min-w-0 flex-1 space-y-6 md:space-y-7 border-l border-foreground/[0.08] pl-6 md:pl-7"
+              variants={aboutEditorialStaggerVariants}
+              initial="hidden"
+              animate={lifeInView ? "show" : "hidden"}
+            >
+              {LIFE_EVENTS.map((event) => (
+                <LifeEventRow key={event.title} event={event} />
+              ))}
+            </motion.div>
+          </AboutEditorialSection>
 
           {/* ── Movement ── */}
-          <section className="mb-40">
-            <SectionLabel delay={0.1}>Movement</SectionLabel>
-            <div className="flex justify-center gap-16 md:gap-24">
-              {SPORTS_DATA.map((sport, i) => (
-                <SportNode key={sport.name} sport={sport} index={i} />
+          <AboutEditorialSection
+            sectionRef={movementSectionRef}
+            inView={movementInView}
+            eyebrow="Movement"
+            title="Body and rhythm"
+            description="Sports as a small resilience metaphor — structure that holds, breaks, and comes back together."
+          >
+            <motion.div
+              className="min-w-0 w-full flex-1 flex flex-wrap content-start items-start justify-start gap-x-16 gap-y-12 md:gap-x-20 md:gap-y-14 lg:gap-x-24"
+              variants={aboutEditorialStaggerVariants}
+              initial="hidden"
+              animate={movementInView ? "show" : "hidden"}
+            >
+              {SPORTS_DATA.map((sport) => (
+                <SportNode key={sport.name} sport={sport} />
               ))}
-            </div>
-          </section>
+            </motion.div>
+          </AboutEditorialSection>
 
           {/* ── Daily Life ── */}
-          <section className="mb-20">
-            <SectionLabel delay={0.1}>Daily Life</SectionLabel>
-            <div className="flex flex-wrap gap-2 justify-center">
-              {DAILY_ITEMS.map((item, i) => (
-                <DailyTag key={item} label={item} index={i} />
+          <AboutEditorialSection
+            sectionRef={dailySectionRef}
+            inView={dailyInView}
+            rowCrossAlign="center"
+            compactBottom
+            eyebrow="Daily Life"
+            title="Outside the studio"
+            description="The rituals, media, and motion that keep thinking grounded — nothing performative, just what actually shows up."
+          >
+            <motion.div
+              className="min-w-0 flex-1 w-full max-w-full flex flex-wrap content-start items-start justify-start gap-3 md:gap-4"
+              variants={aboutEditorialTextVariants}
+              initial="hidden"
+              animate={dailyInView ? "show" : "hidden"}
+            >
+              {DAILY_ITEMS.map((item) => (
+                <DailyTag key={item} label={item} />
               ))}
-            </div>
-          </section>
+            </motion.div>
+          </AboutEditorialSection>
 
           {/* Terminal dot */}
           <motion.div
-            className="flex justify-center pt-16 pb-8"
+            className="flex justify-center pt-8 pb-2"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
             <div className="w-[3px] h-[3px] rounded-full bg-foreground/10" />
           </motion.div>
+        </div>
+
+        <div className="relative z-20">
+          <Footer onMainProjectsClick={onMainProjectsClick} />
         </div>
 
         {activePhotoIndex !== null && (

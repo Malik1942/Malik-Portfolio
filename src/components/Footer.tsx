@@ -1,4 +1,9 @@
-const Footer = () => {
+interface FooterProps {
+  /** Same behavior as hero “Projects”: smooth scroll to that section; parent may close About first. */
+  onMainProjectsClick?: () => void;
+}
+
+const Footer = ({ onMainProjectsClick }: FooterProps) => {
   return (
     <footer className="px-6 md:px-16 lg:px-24 pt-32 pb-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-20 mb-24">
@@ -8,10 +13,22 @@ const Footer = () => {
             Explore
           </span>
           <ul className="space-y-4">
+            <li>
+              <a
+                href="#projects"
+                className="text-foreground/70 hover:text-foreground text-sm text-body transition-colors duration-300"
+                onClick={(event) => {
+                  if (!onMainProjectsClick) return;
+                  event.preventDefault();
+                  onMainProjectsClick();
+                }}
+              >
+                Projects
+              </a>
+            </li>
             {[
-              { label: "Projects", href: "#projects" },
               { label: "About", href: "#about" },
-              { label: "Resume", href: "#resume" },
+              { label: "Resume", href: "/resume" },
             ].map((item) => (
               <li key={item.label}>
                 <a
