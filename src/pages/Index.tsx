@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
 import CustomCursor from "@/components/CustomCursor";
 import HeroSection from "@/components/HeroSection";
 import ProjectList from "@/components/ProjectList";
@@ -82,8 +83,17 @@ const aiProjects = [
 const Index = () => {
   const [isAboutOpen, setIsAboutOpen] = useState(false);
 
+  const navigateToMainProjects = useCallback(() => {
+    setIsAboutOpen(false);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        scrollToSectionNavTarget("projects");
+      });
+    });
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`bg-background ${isAboutOpen ? "" : "min-h-screen"}`}>
       <CustomCursor />
       <HeroSection
         isAboutOpen={isAboutOpen}
@@ -98,7 +108,9 @@ const Index = () => {
       />
 
       {/* About deep content — below hero, only when about is open */}
-      {isAboutOpen && <AboutDeepContent isVisible={isAboutOpen} />}
+      {isAboutOpen && (
+        <AboutDeepContent isVisible={isAboutOpen} onMainProjectsClick={navigateToMainProjects} />
+      )}
 
       {/* Regular portfolio content — hidden when about is open */}
       <div
@@ -124,7 +136,7 @@ const Index = () => {
           dotColor="gold"
           projects={aiProjects}
         />
-        <Footer />
+        <Footer onMainProjectsClick={navigateToMainProjects} />
       </div>
     </div>
   );

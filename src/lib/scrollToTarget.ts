@@ -73,3 +73,19 @@ export const scrollToTarget = ({
 
   activeScrollRaf = requestAnimationFrame(step);
 };
+
+/** Scroll to a `<section id="…">` using the same header target + offset as hero nav. */
+export const scrollToSectionNavTarget = (sectionId: string) => {
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+  const target =
+    (section.querySelector("[data-section-header='true']") as HTMLElement | null) ?? section;
+
+  scrollToTarget({
+    element: target,
+    align: "start",
+    startOffset: 72,
+    arrivalEventName: "section-nav-arrive",
+    arrivalDetail: { id: sectionId },
+  });
+};
