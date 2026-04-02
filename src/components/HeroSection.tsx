@@ -1,6 +1,8 @@
+import type { MouseEvent } from "react";
 import DotGrid from "./DotGrid";
 import AboutOverlay from "./AboutOverlay";
 import { motion } from "framer-motion";
+import { scrollToTarget } from "@/lib/scrollToTarget";
 
 interface HeroSectionProps {
   isAboutOpen: boolean;
@@ -9,6 +11,23 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProps) => {
+  const handleSectionNavClick = (event: MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+    event.preventDefault();
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    const target =
+      (section.querySelector("[data-section-header='true']") as HTMLElement | null) ?? section;
+    if (!target) return;
+
+    scrollToTarget({
+      element: target,
+      align: "start",
+      startOffset: 72,
+      arrivalEventName: "section-nav-arrive",
+      arrivalDetail: { id: sectionId },
+    });
+  };
+
   return (
     <section className="relative w-full h-screen overflow-hidden bg-background">
       <DotGrid aboutMode={isAboutOpen} />
@@ -36,10 +55,18 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
 
           {/* Nav */}
           <nav className="flex gap-8 text-sm text-muted-foreground text-body animate-fade-up delay-4">
-            <a href="#projects" className="nav-link hover:text-foreground transition-colors duration-500">
+            <a
+              href="#projects"
+              className="nav-link hover:text-foreground transition-colors duration-500"
+              onClick={(event) => handleSectionNavClick(event, "projects")}
+            >
               Main Projects
             </a>
-            <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500">
+            <a
+              href="#ai-projects"
+              className="nav-link hover:text-foreground transition-colors duration-500"
+              onClick={(event) => handleSectionNavClick(event, "ai-projects")}
+            >
               Built with AI
             </a>
             <a

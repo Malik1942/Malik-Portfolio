@@ -139,6 +139,105 @@
   transform: translateY(0);
 }
 
+.project-section {
+  position: relative;
+}
+
+.project-section-arriving {
+  animation: project-section-arrival 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes project-section-arrival {
+  0% {
+    background: linear-gradient(90deg, transparent 0%, hsl(var(--foreground) / 0) 50%, transparent 100%);
+  }
+  45% {
+    background: linear-gradient(90deg, transparent 0%, hsl(var(--foreground) / 0.018) 50%, transparent 100%);
+  }
+  100% {
+    background: linear-gradient(90deg, transparent 0%, hsl(var(--foreground) / 0) 50%, transparent 100%);
+  }
+}
+
+.project-row {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  transition:
+    background-color 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-row::before,
+.project-row::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-row::before {
+  z-index: 0;
+  inset: -6px -24px;
+  background: radial-gradient(
+    82% 120% at 50% 50%,
+    hsl(var(--foreground) / 0.028) 0%,
+    hsl(var(--foreground) / 0.018) 28%,
+    hsl(var(--foreground) / 0.008) 48%,
+    transparent 68%
+  );
+  filter: blur(12px);
+  transform: scale(0.985);
+}
+
+.project-row::after {
+  display: none;
+}
+
+.project-row > * {
+  position: relative;
+  z-index: 1;
+}
+
+.project-row:hover {
+  border-color: hsl(var(--foreground) / 0.08);
+  box-shadow: none;
+}
+
+.project-row:hover::before,
+.project-row:hover::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.project-row-target {
+  border-color: hsl(var(--foreground) / 0.1);
+}
+
+.project-row-arriving {
+  animation: project-row-arrival 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes project-row-arrival {
+  0% {
+    background-color: hsl(var(--foreground) / 0);
+    box-shadow: inset 0 0 0 1px hsl(var(--foreground) / 0);
+  }
+  45% {
+    background-color: hsl(var(--foreground) / 0.014);
+    box-shadow: inset 0 0 0 1px hsl(var(--foreground) / 0.035);
+  }
+  100% {
+    background-color: hsl(var(--foreground) / 0);
+    box-shadow: inset 0 0 0 1px hsl(var(--foreground) / 0);
+  }
+}
+
 /* Nav link underline */
 .nav-link {
   position: relative;

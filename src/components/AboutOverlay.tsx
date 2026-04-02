@@ -2,13 +2,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import profileImage from "@/assets/profile-malik.jpg";
+import { ABOUT_CLUSTER_DEFS } from "@/lib/aboutClusters";
 
 // ── Cluster data — text only, particles come from DotGrid ──
 interface ClusterTextData {
   label: string;
   lines: string[];
-  // CSS position matching DotGrid CLUSTER_DEFS ratios
-  position: { left?: string; right?: string; top?: string; bottom?: string };
   index: number;
 }
 
@@ -16,25 +15,21 @@ const CLUSTER_TEXTS: ClusterTextData[] = [
   {
     label: "Who I Am",
     lines: ["Maker", "Product designer", "Systems thinker"],
-    position: { left: "28%", top: "22%" },
     index: 0,
   },
   {
     label: "Outside of Design",
     lines: ["Photography", "Travel", "Basketball", "Cycling", "Swimming", "Food"],
-    position: { left: "24%", top: "78%" },
     index: 1,
   },
   {
     label: "How I Build",
     lines: ["Experimentation", "Prototyping early", "Learning through craft"],
-    position: { left: "78%", top: "20%" },
     index: 2,
   },
   {
     label: "What I Care About",
     lines: ["Design as behavior", "Systems as language", "Meaningful interaction", "Prototyping to think"],
-    position: { left: "80%", top: "74%" },
     index: 3,
   },
 ];
@@ -55,7 +50,8 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
     <motion.div
       className="absolute cursor-default select-none flex items-center justify-center"
       style={{
-        ...data.position,
+        left: `${ABOUT_CLUSTER_DEFS[data.index].rx * 100}%`,
+        top: `${ABOUT_CLUSTER_DEFS[data.index].ry * 100}%`,
         width: HOVER_ZONE_SIZE,
         height: HOVER_ZONE_SIZE,
         transform: "translate(-50%, -50%)",
