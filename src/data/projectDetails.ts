@@ -24,8 +24,38 @@ const aura: ProjectDetailDocument = {
   sections: [
     {
       id: "context",
-      label: "Intro / Context",
-      body: "Motion sickness affects millions in vehicles, VR, and daily transit — yet most products react only after someone already feels unwell. Aura asks what it would mean to design for prevention, not recovery.\n\nThe project sits at the intersection of wearable hardware, ambient intelligence, and calm interaction design.",
+      label: "Intro",
+      body: "",
+      introBlock: {
+        openingParagraph:
+          "Aura is an AI-powered motion sickness relief system designed for travelers. As the product and industrial designer, I developed the concept, structured the user flow, and shaped the overall experience. By combining wearable interaction and proactive sensory support, Aura explores a more anticipatory and personalized approach to motion sickness relief.",
+        contextCards: [
+          {
+            title: "Reactive by default",
+            body: "Most motion sickness solutions only respond after discomfort begins.",
+          },
+          {
+            title: "Travel is unpredictable",
+            body: "Symptoms can escalate quickly across flights, cars, and other transit contexts.",
+          },
+          {
+            title: "Relief is rarely personalized",
+            body: "Existing remedies often ignore individual triggers and situational differences.",
+          },
+        ],
+        infoCards: [
+          { label: "Role", value: "Product Designer, Industrial Designer" },
+          { label: "Timeline", value: "2025" },
+          { label: "Project Type", value: "Concept Project" },
+          { label: "Focus", value: "Travel wellness, wearable interaction, AI-assisted support" },
+        ],
+        whatIDid: [
+          "Defined the opportunity space around motion sickness during travel",
+          "Structured the end-to-end user flow and intervention logic",
+          "Designed the physical and digital system concept",
+          "Developed Aura Buds as the final product direction",
+        ],
+      },
     },
     {
       id: "research",
