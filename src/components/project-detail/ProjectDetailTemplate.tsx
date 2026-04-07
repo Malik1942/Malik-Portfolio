@@ -1,8 +1,118 @@
 import { useSectionScrollSpy } from "@/hooks/useSectionScrollSpy";
 import { scrollToProjectSection } from "@/lib/projectDetailScroll";
-import type { ProjectDetailDocument } from "@/types/projectDetail";
+import type { ProjectDetailDocument, ProjectSectionFigure, IntroBlock } from "@/types/projectDetail";
+
+function toEmbedUrl(url: string): string {
+  // YouTube: watch?v=ID or youtu.be/ID → embed/ID
+  const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`;
+  // Vimeo: vimeo.com/ID → player.vimeo.com/video/ID
+  const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+  if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+  return url;
+}
+
+function SectionFigure({ fig }: { fig: ProjectSectionFigure }) {
+  if (fig.type === "video") {
+    return (
+      <figure className="overflow-hidden rounded-sm border border-border/45 bg-secondary/10">
+        <video
+          src={fig.src}
+          poster={fig.poster}
+          controls
+          playsInline
+          className="w-full max-h-[min(520px,60vh)] object-cover"
+        />
+      </figure>
+    );
+  }
+  if (fig.type === "embed") {
+    return (
+      <figure className="overflow-hidden rounded-sm border border-border/45 bg-secondary/10 aspect-video">
+        <iframe
+          src={toEmbedUrl(fig.url)}
+          title={fig.title ?? "Video"}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="w-full h-full"
+        />
+      </figure>
+    );
+  }
+  return (
+    <figure className="overflow-hidden rounded-sm border border-border/45 bg-secondary/10">
+      <img
+        src={fig.src}
+        alt={fig.alt}
+        className="w-full object-cover max-h-[min(520px,60vh)]"
+      />
+    </figure>
+  );
+}
 
 const sectionDomId = (id: string) => `project-section-${id}`;
+
+function SectionIntroBlock({ block }: { block: IntroBlock }) {
+  return (
+    <div className="space-y-10">
+      {/* Opening paragraph */}
+      <p className="text-[15px] md:text-base font-light leading-[1.75] text-foreground/78 text-body">
+        {block.openingParagraph}
+      </p>
+
+      {/* Context cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {block.contextCards.map((card) => (
+          <div
+            key={card.title}
+            className="border border-border/50 bg-secondary/[0.08] rounded-sm px-4 py-4"
+          >
+            <p className="text-[11px] uppercase tracking-[0.18em] text-foreground/60 text-mono mb-2">
+              {card.title}
+            </p>
+            <p className="text-[13px] font-light leading-relaxed text-foreground/65 text-body">
+              {card.body}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* Project info cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {block.infoCards.map((card) => (
+          <div
+            key={card.label}
+            className="border border-border/40 bg-transparent rounded-sm px-4 py-3"
+          >
+            <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50 text-mono mb-1.5">
+              {card.label}
+            </p>
+            <p className="text-[13px] font-light leading-snug text-foreground/75 text-body">
+              {card.value}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* What I Did */}
+      <div>
+        <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground/50 text-mono mb-5">
+          What I Did
+        </p>
+        <ul className="space-y-3">
+          {block.whatIDid.map((item, i) => (
+            <li key={i} className="flex items-start gap-3">
+              <span className="mt-[0.45em] w-1 h-1 rounded-full bg-foreground/25 flex-shrink-0" />
+              <span className="text-[14px] md:text-[15px] font-light leading-relaxed text-foreground/72 text-body">
+                {item}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
 
 function SectionBody({ text }: { text: string }) {
   const blocks = text.split(/\n\n+/).filter(Boolean);
@@ -169,20 +279,15 @@ export function ProjectDetailTemplate({ project, onBack }: ProjectDetailTemplate
                     </span>
                     {s.label}
                   </h2>
-                  <SectionBody text={s.body} />
+                  {s.introBlock ? (
+                    <SectionIntroBlock block={s.introBlock} />
+                  ) : (
+                    <SectionBody text={s.body} />
+                  )}
                   {s.figures?.length ? (
                     <div className="mt-10 space-y-6">
                       {s.figures.map((fig, fi) => (
-                        <figure
-                          key={fi}
-                          className="overflow-hidden rounded-sm border border-border/45 bg-secondary/10"
-                        >
-                          <img
-                            src={fig.src}
-                            alt={fig.alt}
-                            className="w-full object-cover max-h-[min(520px,60vh)]"
-                          />
-                        </figure>
+                        <SectionFigure key={fi} fig={fig} />
                       ))}
                     </div>
                   ) : null}

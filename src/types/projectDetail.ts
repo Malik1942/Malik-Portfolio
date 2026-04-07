@@ -3,10 +3,22 @@ export type ProjectMetaCard = {
   value: string;
 };
 
-export type ProjectSectionFigure = {
-  src: string;
-  alt: string;
+export type IntroContextCard = {
+  title: string;
+  body: string;
 };
+
+export type IntroBlock = {
+  openingParagraph: string;
+  contextCards: IntroContextCard[];
+  infoCards: ProjectMetaCard[];
+  whatIDid: string[];
+};
+
+export type ProjectSectionFigure =
+  | { type?: "image"; src: string; alt: string }
+  | { type: "video"; src: string; poster?: string }
+  | { type: "embed"; url: string; title?: string };
 
 export type ProjectContentSection = {
   id: string;
@@ -15,6 +27,8 @@ export type ProjectContentSection = {
   body: string;
   /** Optional in-section images / artifacts */
   figures?: ProjectSectionFigure[];
+  /** Optional structured intro block — replaces plain body rendering when present */
+  introBlock?: IntroBlock;
 };
 
 export type ProjectDetailDocument = {
