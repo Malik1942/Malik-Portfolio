@@ -25,7 +25,7 @@ const aura: ProjectDetailDocument = {
     {
       id: "research",
       label: "Research",
-      body: "I reviewed literature and product patterns around nausea onset, sensory conflict theory, and how people currently cope (medication, breaks, avoiding travel). Interviews highlighted shame, unpredictability, and distrust of “wellness” gimmicks.\n\nKey insight: trust and subtlety matter as much as efficacy — systems must feel supportive without surveillance or alarm.",
+      body: "I reviewed literature and product patterns around nausea onset, sensory conflict theory, and how people currently cope (medication, breaks, avoiding travel). Interviews highlighted shame, unpredictability, and distrust of 'wellness' gimmicks.\n\nKey insight: trust and subtlety matter as much as efficacy — systems must feel supportive without surveillance or alarm.",
     },
     {
       id: "problem",
@@ -33,24 +33,24 @@ const aura: ProjectDetailDocument = {
       body: "How might we help people stay comfortable in motion without demanding constant attention, manual logging, or clinical framing?\n\nConstraints included limited onboard UI, need for low cognitive load, and a brand voice that feels human — not clinical or gadgety.",
     },
     {
-      id: “process”,
-      label: “Aura”,
-      body: “I iterated through journey maps, system diagrams, and low-fidelity flows for onboarding, anticipation, and escalation. Prototypes explored how much to show vs. infer, and how the wearable, phone, and environment might divide responsibility.\n\nNarrative and motion studies helped align stakeholders on a single coherent “calm proactive” story.”,
+      id: 'process',
+      label: 'Aura',
+      body: 'I iterated through journey maps, system diagrams, and low-fidelity flows for onboarding, anticipation, and escalation. Prototypes explored how much to show vs. infer, and how the wearable, phone, and environment might divide responsibility.\n\nNarrative and motion studies helped align stakeholders on a single coherent 'calm proactive' story.',
     },
     {
-      id: “final-design”,
-      label: “Aura Buds”,
-      body: “Led the end-to-end design of a proactive, AI-driven wearable for motion sickness, defining its concept, system, and interaction model.\n\nShaped a seamless cross-device experience, integrating ambient AI to anticipate discomfort and deliver real-time support.”,
+      id: 'final-design',
+      label: 'Aura Buds',
+      body: 'Led the end-to-end design of a proactive, AI-driven wearable for motion sickness, defining its concept, system, and interaction model.\n\nShaped a seamless cross-device experience, integrating ambient AI to anticipate discomfort and deliver real-time support.',
     },
     {
-      id: “impact”,
-      label: “Impact”,
-      body: “The work gives the team a shared vocabulary for proactive vs. reactive care, a testable interaction model, and a foundation for partnership conversations with hardware and clinical advisors.\n\nIt positions Aura as a system — not a single-screen app.”,
+      id: 'impact',
+      label: 'Impact',
+      body: 'The work gives the team a shared vocabulary for proactive vs. reactive care, a testable interaction model, and a foundation for partnership conversations with hardware and clinical advisors.\n\nIt positions Aura as a system — not a single-screen app.',
     },
     {
-      id: “reflection”,
-      label: “Conclusion”,
-      body: “Designing for bodies in motion reinforced how much “invisible” suffering product teams overlook. Ambient AI is only as good as the trust layer around it; that layer is design work.\n\nI’d push further into validation with longitudinal studies and edge cases (migraine overlap, medication interactions).”,
+      id: 'reflection',
+      label: 'Conclusion',
+      body: 'Designing for bodies in motion reinforced how much 'invisible' suffering product teams overlook. Ambient AI is only as good as the trust layer around it; that layer is design work.\n\nI’d push further into validation with longitudinal studies and edge cases (migraine overlap, medication interactions).',
     },
   ],
 };
@@ -84,7 +84,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "problem",
       label: "Problem",
-      body: "How do we make “invisible” trauma tangible without fear-mongering or oversimplifying medical complexity?\n\nThe interface had to support trust, clarity, and action — for both lay users and skeptical professionals.",
+      body: "How do we make 'invisible' trauma tangible without fear-mongering or oversimplifying medical complexity?\n\nThe interface had to support trust, clarity, and action — for both lay users and skeptical professionals.",
     },
     {
       id: "process",
@@ -104,7 +104,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "reflection",
       label: "Reflection",
-      body: "Health-adjacent work demands humility: design can clarify but must not replace clinical judgment. I’d invest more in co-design with providers and clearer regulatory framing next.\n\nNeuraLyfe reinforced that “making visible” is as much about narrative as pixels.",
+      body: "Health-adjacent work demands humility: design can clarify but must not replace clinical judgment. I’d invest more in co-design with providers and clearer regulatory framing next.\n\nNeuraLyfe reinforced that 'making visible' is as much about narrative as pixels.",
     },
   ],
 };
@@ -134,7 +134,7 @@ const flowprint: ProjectDetailDocument = {
     {
       id: "research",
       label: "Research",
-      body: "I synthesized support tickets, forum pain points, and novice interviews. Failure modes clustered around setup, first print, and “what do I do now?” moments after errors.\n\nCompetitive products either exposed too much engineering detail or hid so much that users felt blind when something broke.",
+      body: "I synthesized support tickets, forum pain points, and novice interviews. Failure modes clustered around setup, first print, and 'what do I do now?' moments after errors.\n\nCompetitive products either exposed too much engineering detail or hid so much that users felt blind when something broke.",
     },
     {
       id: "problem",
@@ -144,7 +144,7 @@ const flowprint: ProjectDetailDocument = {
     {
       id: "process",
       label: "Design Process",
-      body: "Journey maps separated “setup,” “first print,” and “steady use.” I prototyped onboarding as a checklist with live device state, and monitoring as a timeline + clear next actions.\n\nMaterial recommendation emerged as a high-leverage moment to reduce choice paralysis.",
+      body: "Journey maps separated 'setup,' 'first print,' and 'steady use.' I prototyped onboarding as a checklist with live device state, and monitoring as a timeline + clear next actions.\n\nMaterial recommendation emerged as a high-leverage moment to reduce choice paralysis.",
     },
     {
       id: "final-design",
@@ -198,7 +198,7 @@ const tubular: ProjectDetailDocument = {
     {
       id: "process",
       label: "Design Process",
-      body: "Sketches moved quickly into volumetric studies and simple digital prototypes to test affordances. I iterated joint geometry, path visibility, and how “success” should feel in the hand.\n\nNarrative and key visuals aligned around gravity, control, and delight.",
+      body: "Sketches moved quickly into volumetric studies and simple digital prototypes to test affordances. I iterated joint geometry, path visibility, and how 'success' should feel in the hand.\n\nNarrative and key visuals aligned around gravity, control, and delight.",
     },
     {
       id: "final-design",
@@ -208,7 +208,7 @@ const tubular: ProjectDetailDocument = {
     {
       id: "impact",
       label: "Impact",
-      body: "The project sharpens my maker-designer fluency: fewer handoffs between “idea,” “form,” and “story.”\n\nIt also works as a portfolio anchor for systems thinking in a non-screen-first domain.",
+      body: "The project sharpens my maker-designer fluency: fewer handoffs between 'idea,' 'form,' and 'story.'\n\nIt also works as a portfolio anchor for systems thinking in a non-screen-first domain.",
     },
     {
       id: "reflection",
@@ -242,7 +242,7 @@ const moodmuse: ProjectDetailDocument = {
     {
       id: "research",
       label: "Research",
-      body: "I reviewed AAC patterns, emotion-wheel simplifications, and failure modes of “mood tracker” apps built for neurotypical norms. Caregiver forums highlighted timing: interventions work better before meltdown than during.\n\nSensory sensitivity ruled out loud feedback and high-contrast chaos.",
+      body: "I reviewed AAC patterns, emotion-wheel simplifications, and failure modes of 'mood tracker' apps built for neurotypical norms. Caregiver forums highlighted timing: interventions work better before meltdown than during.\n\nSensory sensitivity ruled out loud feedback and high-contrast chaos.",
     },
     {
       id: "problem",
@@ -252,7 +252,7 @@ const moodmuse: ProjectDetailDocument = {
     {
       id: "process",
       label: "Design Process",
-      body: "Flows moved from abstract “states” to concrete gestures, colors, and haptics explored on paper first. I storyboarded classroom and home moments to test plausibility.\n\nIterations reduced steps to the minimum viable expression loop.",
+      body: "Flows moved from abstract 'states' to concrete gestures, colors, and haptics explored on paper first. I storyboarded classroom and home moments to test plausibility.\n\nIterations reduced steps to the minimum viable expression loop.",
     },
     {
       id: "final-design",
@@ -295,12 +295,12 @@ const inspireocean: ProjectDetailDocument = {
     {
       id: "research",
       label: "Research",
-      body: "I audited generic AI writers vs. creator-specific tools. Gaps included weak preview affordances and unclear ownership of tone. Users wanted “suggest, don’t replace.”\n\nPatterns from design tools (history, variants) informed the interaction model.",
+      body: "I audited generic AI writers vs. creator-specific tools. Gaps included weak preview affordances and unclear ownership of tone. Users wanted 'suggest, don’t replace.'\n\nPatterns from design tools (history, variants) informed the interaction model.",
     },
     {
       id: "problem",
       label: "Problem",
-      body: "How do we keep generation fast while still feeling controlled — so creators trust the output enough to post?\n\nThe UI had to foreground preview, diffing, and light editing rather than a single opaque “generate” button.",
+      body: "How do we keep generation fast while still feeling controlled — so creators trust the output enough to post?\n\nThe UI had to foreground preview, diffing, and light editing rather than a single opaque 'generate' button.",
     },
     {
       id: "process",
@@ -348,7 +348,7 @@ const studiowaters: ProjectDetailDocument = {
     {
       id: "research",
       label: "Research",
-      body: "I compared BI tools, notebook exports, and newer “AI analyst” products. Users repeatedly lost trust when charts hid assumptions or mixed forecast horizons.\n\nAccessibility and export needs appeared early as non-negotiables.",
+      body: "I compared BI tools, notebook exports, and newer 'AI analyst' products. Users repeatedly lost trust when charts hid assumptions or mixed forecast horizons.\n\nAccessibility and export needs appeared early as non-negotiables.",
     },
     {
       id: "problem",
