@@ -9,52 +9,17 @@ const aura: ProjectDetailDocument = {
   slug: "aura",
   listSection: "Main Projects",
   title: "Aura",
-  heroSummary: "A calm, proactive system for preventing motion sickness in motion.",
-  heroSubtitle: "Ambient AI that anticipates discomfort and supports people before symptoms take over.",
-  heroImage: auraCover,
-  heroImageFit: "contain",
-  metaCards: [
-    { label: "Role", value: "Product Designer" },
-    { label: "Timeline", value: "2026 · concept to system model" },
-    { label: "Team", value: "Cross-functional (product, engineering, research)" },
-    { label: "Scope", value: "Wearable + cross-device experience, interaction model, AI behaviors" },
-    { label: "Outcome", value: "Defined end-to-end concept for proactive, anticipatory support in motion" },
-    { label: "Tools", value: "Figma, prototyping, narrative + system specs" },
-  ],
+  heroSummary: "An AI-powered motion sickness relief system designed for travelers.",
   sections: [
     {
       id: "context",
       label: "Intro",
       body: "",
       introBlock: {
+        coverImage: auraCover,
+        coverImageFit: "contain",
         openingParagraph:
           "Aura is an AI-powered motion sickness relief system designed for travelers. As the product and industrial designer, I developed the concept, structured the user flow, and shaped the overall experience. By combining wearable interaction and proactive sensory support, Aura explores a more anticipatory and personalized approach to motion sickness relief.",
-        contextCards: [
-          {
-            title: "Reactive by default",
-            body: "Most motion sickness solutions only respond after discomfort begins.",
-          },
-          {
-            title: "Travel is unpredictable",
-            body: "Symptoms can escalate quickly across flights, cars, and other transit contexts.",
-          },
-          {
-            title: "Relief is rarely personalized",
-            body: "Existing remedies often ignore individual triggers and situational differences.",
-          },
-        ],
-        infoCards: [
-          { label: "Role", value: "Product Designer, Industrial Designer" },
-          { label: "Timeline", value: "2025" },
-          { label: "Project Type", value: "Concept Project" },
-          { label: "Focus", value: "Travel wellness, wearable interaction, AI-assisted support" },
-        ],
-        whatIDid: [
-          "Defined the opportunity space around motion sickness during travel",
-          "Structured the end-to-end user flow and intervention logic",
-          "Designed the physical and digital system concept",
-          "Developed Aura Buds as the final product direction",
-        ],
       },
     },
     {

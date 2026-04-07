@@ -10,9 +10,12 @@ export type IntroContextCard = {
 
 export type IntroBlock = {
   openingParagraph: string;
-  contextCards: IntroContextCard[];
-  infoCards: ProjectMetaCard[];
-  whatIDid: string[];
+  /** Optional wide image rendered above the section heading */
+  coverImage?: string;
+  coverImageFit?: "cover" | "contain";
+  contextCards?: IntroContextCard[];
+  infoCards?: ProjectMetaCard[];
+  whatIDid?: string[];
 };
 
 export type ProjectSectionFigure =
@@ -42,6 +45,7 @@ export type ProjectDetailDocument = {
   heroSubtitle?: string;
   heroImage?: string;
   heroImageFit?: "cover" | "contain";
-  metaCards: ProjectMetaCard[];
+  /** Omit entirely to hide the overview card grid */
+  metaCards?: ProjectMetaCard[];
   sections: ProjectContentSection[];
 };
