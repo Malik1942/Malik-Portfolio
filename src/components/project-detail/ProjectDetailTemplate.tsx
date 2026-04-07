@@ -60,56 +60,62 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
         {block.openingParagraph}
       </p>
 
-      {/* Context cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {block.contextCards.map((card) => (
-          <div
-            key={card.title}
-            className="border border-border/50 bg-secondary/[0.08] rounded-sm px-4 py-4"
-          >
-            <p className="text-[11px] uppercase tracking-[0.18em] text-foreground/60 text-mono mb-2">
-              {card.title}
-            </p>
-            <p className="text-[13px] font-light leading-relaxed text-foreground/65 text-body">
-              {card.body}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* Project info cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {block.infoCards.map((card) => (
-          <div
-            key={card.label}
-            className="border border-border/40 bg-transparent rounded-sm px-4 py-3"
-          >
-            <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50 text-mono mb-1.5">
-              {card.label}
-            </p>
-            <p className="text-[13px] font-light leading-snug text-foreground/75 text-body">
-              {card.value}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* What I Did */}
-      <div>
-        <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground/50 text-mono mb-5">
-          What I Did
-        </p>
-        <ul className="space-y-3">
-          {block.whatIDid.map((item, i) => (
-            <li key={i} className="flex items-start gap-3">
-              <span className="mt-[0.45em] w-1 h-1 rounded-full bg-foreground/25 flex-shrink-0" />
-              <span className="text-[14px] md:text-[15px] font-light leading-relaxed text-foreground/72 text-body">
-                {item}
-              </span>
-            </li>
+      {/* Context cards — optional */}
+      {block.contextCards?.length ? (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {block.contextCards.map((card) => (
+            <div
+              key={card.title}
+              className="border border-border/50 bg-secondary/[0.08] rounded-sm px-4 py-4"
+            >
+              <p className="text-[11px] uppercase tracking-[0.18em] text-foreground/60 text-mono mb-2">
+                {card.title}
+              </p>
+              <p className="text-[13px] font-light leading-relaxed text-foreground/65 text-body">
+                {card.body}
+              </p>
+            </div>
           ))}
-        </ul>
-      </div>
+        </div>
+      ) : null}
+
+      {/* Project info cards — optional */}
+      {block.infoCards?.length ? (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {block.infoCards.map((card) => (
+            <div
+              key={card.label}
+              className="border border-border/40 bg-transparent rounded-sm px-4 py-3"
+            >
+              <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50 text-mono mb-1.5">
+                {card.label}
+              </p>
+              <p className="text-[13px] font-light leading-snug text-foreground/75 text-body">
+                {card.value}
+              </p>
+            </div>
+          ))}
+        </div>
+      ) : null}
+
+      {/* What I Did — optional */}
+      {block.whatIDid?.length ? (
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground/50 text-mono mb-5">
+            What I Did
+          </p>
+          <ul className="space-y-3">
+            {block.whatIDid.map((item, i) => (
+              <li key={i} className="flex items-start gap-3">
+                <span className="mt-[0.45em] w-1 h-1 rounded-full bg-foreground/25 flex-shrink-0" />
+                <span className="text-[14px] md:text-[15px] font-light leading-relaxed text-foreground/72 text-body">
+                  {item}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -197,20 +203,22 @@ export function ProjectDetailTemplate({ project, onBack }: ProjectDetailTemplate
         ) : null}
       </header>
 
-      {/* 2 — Intro cards */}
-      <section
-        aria-label="Project overview"
-        className="px-6 md:px-16 lg:px-24 pb-20 md:pb-24 border-t border-border/40 pt-14 md:pt-16"
-      >
-        <div className="max-w-[1200px] mx-auto">
-          <h2 className="sr-only">Overview</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
-            {project.metaCards.map((card) => (
-              <MetaCard key={card.label} label={card.label} value={card.value} />
-            ))}
+      {/* 2 — Overview cards (optional) */}
+      {project.metaCards?.length ? (
+        <section
+          aria-label="Project overview"
+          className="px-6 md:px-16 lg:px-24 pb-20 md:pb-24 border-t border-border/40 pt-14 md:pt-16"
+        >
+          <div className="max-w-[1200px] mx-auto">
+            <h2 className="sr-only">Overview</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
+              {project.metaCards.map((card) => (
+                <MetaCard key={card.label} label={card.label} value={card.value} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       {/* 3 — Body: sticky nav + sections */}
       <section aria-label="Case study" className="px-6 md:px-16 lg:px-24 pb-28 md:pb-36 border-t border-border/30 pt-16 md:pt-20">
@@ -273,6 +281,18 @@ export function ProjectDetailTemplate({ project, onBack }: ProjectDetailTemplate
                   id={sectionDomId(s.id)}
                   className="scroll-mt-28 md:scroll-mt-32 mb-20 md:mb-24 last:mb-0"
                 >
+                  {/* Cover image above heading — used in intro-style sections */}
+                  {s.introBlock?.coverImage ? (
+                    <div className="mb-10 overflow-hidden rounded-sm border border-border/45 bg-secondary/10">
+                      <img
+                        src={s.introBlock.coverImage}
+                        alt=""
+                        className={`w-full max-h-[min(68vh,760px)] min-h-[180px] ${
+                          s.introBlock.coverImageFit === "cover" ? "object-cover" : "object-contain"
+                        } object-center`}
+                      />
+                    </div>
+                  ) : null}
                   <h2 className="text-xl md:text-2xl font-light text-foreground/92 text-display tracking-tight mb-8 md:mb-10">
                     <span className="text-muted-foreground/35 text-mono text-sm tabular-nums mr-3 font-normal">
                       {String(index + 1).padStart(2, "0")}
