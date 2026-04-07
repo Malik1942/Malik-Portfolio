@@ -1,6 +1,7 @@
 import { useSectionScrollSpy } from "@/hooks/useSectionScrollSpy";
 import { scrollToProjectSection } from "@/lib/projectDetailScroll";
 import type { ProjectDetailDocument, ProjectSectionFigure, IntroBlock } from "@/types/projectDetail";
+import Footer from "@/components/Footer";
 
 function toEmbedUrl(url: string): string {
   // YouTube: watch?v=ID or youtu.be/ID → embed/ID
@@ -149,9 +150,10 @@ function MetaCard({ label, value }: { label: string; value: string }) {
 interface ProjectDetailTemplateProps {
   project: ProjectDetailDocument;
   onBack: () => void;
+  onMainProjectsClick?: () => void;
 }
 
-export function ProjectDetailTemplate({ project, onBack }: ProjectDetailTemplateProps) {
+export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: ProjectDetailTemplateProps) {
   const sectionIds = project.sections.map((s) => s.id);
   const activeSectionId = useSectionScrollSpy(sectionIds);
 
@@ -317,6 +319,8 @@ export function ProjectDetailTemplate({ project, onBack }: ProjectDetailTemplate
           </div>
         </div>
       </section>
+
+      <Footer onMainProjectsClick={onMainProjectsClick} />
     </div>
   );
 }
