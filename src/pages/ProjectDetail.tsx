@@ -29,7 +29,12 @@ const ProjectDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <CustomCursor />
-      <ProjectDetailTemplate key={project.slug} project={project} onBack={() => navigate("/")} />
+      <ProjectDetailTemplate
+        key={project.slug}
+        project={project}
+        onBack={() => navigate("/")}
+        onMainProjectsClick={() => navigate("/#projects")}
+      />
     </div>
   );
 };

@@ -17,7 +17,7 @@ const selectedWork = [
     title: "Aura",
     description: "A calm, proactive system for preventing motion sickness in motion.",
     role: "Product Designer",
-    year: "2026",
+    year: "2025",
     coverImage: auraCover,
     coverFit: "contain" as const,
     details: "Led the end-to-end design of a proactive, AI-driven wearable for motion sickness, defining its concept, system, and interaction model.\n\nShaped a seamless cross-device experience, integrating ambient AI to anticipate discomfort and deliver real-time support.",
