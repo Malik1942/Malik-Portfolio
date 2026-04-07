@@ -35,7 +35,7 @@ const aura: ProjectDetailDocument = {
     {
       id: 'process',
       label: 'Aura',
-      body: 'I iterated through journey maps, system diagrams, and low-fidelity flows for onboarding, anticipation, and escalation. Prototypes explored how much to show vs. infer, and how the wearable, phone, and environment might divide responsibility.\n\nNarrative and motion studies helped align stakeholders on a single coherent 'calm proactive' story.',
+      body: "I iterated through journey maps, system diagrams, and low-fidelity flows for onboarding, anticipation, and escalation. Prototypes explored how much to show vs. infer, and how the wearable, phone, and environment might divide responsibility.\n\nNarrative and motion studies helped align stakeholders on a single coherent 'calm proactive' story.",
     },
     {
       id: 'final-design',
@@ -50,7 +50,7 @@ const aura: ProjectDetailDocument = {
     {
       id: 'reflection',
       label: 'Conclusion',
-      body: 'Designing for bodies in motion reinforced how much 'invisible' suffering product teams overlook. Ambient AI is only as good as the trust layer around it; that layer is design work.\n\nI’d push further into validation with longitudinal studies and edge cases (migraine overlap, medication interactions).',
+      body: "Designing for bodies in motion reinforced how much ‘invisible’ suffering product teams overlook. Ambient AI is only as good as the trust layer around it; that layer is design work.\n\nI’d push further into validation with longitudinal studies and edge cases (migraine overlap, medication interactions).",
     },
   ],
 };
