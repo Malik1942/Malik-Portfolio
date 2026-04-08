@@ -14,7 +14,7 @@ const aura: ProjectDetailDocument = {
   heroImageFit: "contain",
   metaCards: [
     { label: "Role", value: "Product Design · Industrial Design" },
-    { label: "Timeline", value: "2025.9–12" },
+    { label: "Timeline", value: "3 Months · Fall 2025" },
     { label: "Tools", value: "Figma · Prototyping · Systems · Narrative" },
     { label: "Contribution", value: "Concept · User Flow · Wearable · Digital System" },
   ],
