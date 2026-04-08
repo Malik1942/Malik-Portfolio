@@ -130,7 +130,7 @@ function SectionBody({ text, leadFirst }: { text: string; leadFirst?: boolean })
           key={i}
           className={
             leadFirst && i === 0
-              ? "text-[1rem] md:text-[1.05rem] font-semibold leading-[1.7] text-foreground/88 text-body"
+              ? "text-[1.1rem] md:text-[1.25rem] font-semibold leading-[1.65] text-foreground/88 text-body"
               : `${i > 0 ? "mt-4 md:mt-5" : ""} text-[15px] md:text-base font-light leading-[1.75] text-foreground/58 text-body`
           }
         >
