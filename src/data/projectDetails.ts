@@ -24,7 +24,7 @@ const aura: ProjectDetailDocument = {
       label: "Context",
       subtitle: "Intro",
       showProjectMeta: true,
-      body: "An AI-powered motion sickness relief system designed for travelers.\n\nAs the product and industrial designer, I developed the concept, structured the user flow, and shaped the overall experience. By combining wearable interaction and proactive sensory support, Aura explores a more anticipatory and personalized approach to motion sickness relief.",
+      body: "As the product and industrial designer, I developed the concept, structured the user flow, and shaped the overall experience. By combining wearable interaction and proactive sensory support, Aura explores a more anticipatory and personalized approach to motion sickness relief.",
     },
     {
       id: "process",
