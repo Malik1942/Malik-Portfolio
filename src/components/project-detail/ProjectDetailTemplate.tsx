@@ -121,12 +121,19 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
   );
 }
 
-function SectionBody({ text }: { text: string }) {
+function SectionBody({ text, leadFirst }: { text: string; leadFirst?: boolean }) {
   const blocks = text.split(/\n\n+/).filter(Boolean);
   return (
-    <div className="space-y-5">
+    <div>
       {blocks.map((para, i) => (
-        <p key={i} className="text-[15px] md:text-base font-light leading-[1.75] text-foreground/78 text-body">
+        <p
+          key={i}
+          className={
+            leadFirst && i === 0
+              ? "text-lg md:text-[1.25rem] font-light leading-[1.55] text-foreground/88 text-body"
+              : `${i > 0 ? "mt-4 md:mt-5" : ""} text-[15px] md:text-base font-light leading-[1.75] text-foreground/58 text-body`
+          }
+        >
           {para}
         </p>
       ))}
@@ -134,15 +141,25 @@ function SectionBody({ text }: { text: string }) {
   );
 }
 
-function MetaCard({ label, value }: { label: string; value: string }) {
+function MetaItem({ label, value }: { label: string; value: string }) {
   return (
-    <div className="border border-border/70 bg-secondary/[0.15] px-5 py-4 md:px-6 md:py-5 rounded-sm">
-      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground/60 text-mono mb-2.5">
+    <div>
+      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground/38 text-mono mb-2">
         {label}
       </p>
-      <p className="text-sm md:text-[15px] font-light leading-relaxed text-foreground/85 text-body">
+      <p className="text-[13px] md:text-sm font-light leading-snug text-foreground/70 text-body">
         {value}
       </p>
+    </div>
+  );
+}
+
+function MetaGrid({ cards }: { cards: { label: string; value: string }[] }) {
+  return (
+    <div className="border-t border-border/20 pt-6 md:pt-8 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-6 md:gap-y-8">
+      {cards.map((card) => (
+        <MetaItem key={card.label} label={card.label} value={card.value} />
+      ))}
     </div>
   );
 }
@@ -216,14 +233,10 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         </div>
       )}
 
-      {/* 4 — Standalone metadata cards (only when no section owns them) */}
+      {/* 4 — Standalone metadata (only when no section owns it) */}
       {!hasIntroSection && project.metaCards?.length ? (
         <div className="px-6 md:px-16 lg:px-24 mt-10 md:mt-14 max-w-[1200px] mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {project.metaCards.map((card) => (
-              <MetaCard key={card.label} label={card.label} value={card.value} />
-            ))}
-          </div>
+          <MetaGrid cards={project.metaCards} />
         </div>
       ) : null}
 
@@ -289,20 +302,18 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                   className="scroll-mt-28 md:scroll-mt-32 mb-20 md:mb-24 last:mb-0"
                 >
                   {s.subtitle ? (
-                    /* Subtitle section layout: label + subtitle heading + body + optional cards */
+                    /* Subtitle section: CONTEXT label → Intro heading → lead + body → MetaGrid */
                     <>
-                      <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground/45 text-mono mb-3">
+                      <p className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground/38 text-mono mb-2">
                         {s.label}
                       </p>
-                      <h2 className="text-2xl md:text-3xl font-light text-foreground/92 text-display tracking-tight mb-8 md:mb-10">
+                      <h2 className="text-[1.75rem] md:text-[2.25rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.15] mb-6 md:mb-8">
                         {s.subtitle}
                       </h2>
-                      <SectionBody text={s.body} />
+                      <SectionBody text={s.body} leadFirst />
                       {s.showProjectMeta && project.metaCards?.length ? (
-                        <div className="mt-10 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3">
-                          {project.metaCards.map((card) => (
-                            <MetaCard key={card.label} label={card.label} value={card.value} />
-                          ))}
+                        <div className="mt-10 md:mt-14">
+                          <MetaGrid cards={project.metaCards} />
                         </div>
                       ) : null}
                     </>
