@@ -10,8 +10,6 @@ const aura: ProjectDetailDocument = {
   listSection: "Main Projects",
   title: "Aura",
   heroSummary: "An AI-powered motion sickness relief system designed for travelers.",
-  description:
-    "As the product and industrial designer, I developed the concept, structured the user flow, and shaped the overall experience. By combining wearable interaction and proactive sensory support, Aura explores a more anticipatory and personalized approach to motion sickness relief.",
   heroImage: auraCover,
   heroImageFit: "contain",
   metaCards: [
@@ -22,9 +20,26 @@ const aura: ProjectDetailDocument = {
   ],
   sections: [
     {
+      id: "context",
+      label: "Context",
+      subtitle: "Intro",
+      showProjectMeta: true,
+      body: "An AI-powered motion sickness relief system designed for travelers.\n\nAs the product and industrial designer, I developed the concept, structured the user flow, and shaped the overall experience. By combining wearable interaction and proactive sensory support, Aura explores a more anticipatory and personalized approach to motion sickness relief.",
+    },
+    {
+      id: "process",
+      label: "Aura",
+      body: "I iterated through journey maps, system diagrams, and low-fidelity flows for onboarding, anticipation, and escalation. Prototypes explored how much to show vs. infer, and how the wearable, phone, and environment might divide responsibility.\n\nNarrative and motion studies helped align stakeholders on a single coherent ‘calm proactive’ story.",
+    },
+    {
+      id: "final-design",
+      label: "Aura Buds",
+      body: "Led the end-to-end design of a proactive, AI-driven wearable for motion sickness, defining its concept, system, and interaction model.\n\nShaped a seamless cross-device experience, integrating ambient AI to anticipate discomfort and deliver real-time support.",
+    },
+    {
       id: "research",
       label: "Research",
-      body: "I reviewed literature and product patterns around nausea onset, sensory conflict theory, and how people currently cope (medication, breaks, avoiding travel). Interviews highlighted shame, unpredictability, and distrust of 'wellness' gimmicks.\n\nKey insight: trust and subtlety matter as much as efficacy — systems must feel supportive without surveillance or alarm.",
+      body: "I reviewed literature and product patterns around nausea onset, sensory conflict theory, and how people currently cope (medication, breaks, avoiding travel). Interviews highlighted shame, unpredictability, and distrust of ‘wellness’ gimmicks.\n\nKey insight: trust and subtlety matter as much as efficacy — systems must feel supportive without surveillance or alarm.",
     },
     {
       id: "problem",
@@ -32,23 +47,13 @@ const aura: ProjectDetailDocument = {
       body: "How might we help people stay comfortable in motion without demanding constant attention, manual logging, or clinical framing?\n\nConstraints included limited onboard UI, need for low cognitive load, and a brand voice that feels human — not clinical or gadgety.",
     },
     {
-      id: 'process',
-      label: 'Aura',
-      body: "I iterated through journey maps, system diagrams, and low-fidelity flows for onboarding, anticipation, and escalation. Prototypes explored how much to show vs. infer, and how the wearable, phone, and environment might divide responsibility.\n\nNarrative and motion studies helped align stakeholders on a single coherent 'calm proactive' story.",
+      id: "impact",
+      label: "Impact",
+      body: "The work gives the team a shared vocabulary for proactive vs. reactive care, a testable interaction model, and a foundation for partnership conversations with hardware and clinical advisors.\n\nIt positions Aura as a system — not a single-screen app.",
     },
     {
-      id: 'final-design',
-      label: 'Aura Buds',
-      body: 'Led the end-to-end design of a proactive, AI-driven wearable for motion sickness, defining its concept, system, and interaction model.\n\nShaped a seamless cross-device experience, integrating ambient AI to anticipate discomfort and deliver real-time support.',
-    },
-    {
-      id: 'impact',
-      label: 'Impact',
-      body: 'The work gives the team a shared vocabulary for proactive vs. reactive care, a testable interaction model, and a foundation for partnership conversations with hardware and clinical advisors.\n\nIt positions Aura as a system — not a single-screen app.',
-    },
-    {
-      id: 'reflection',
-      label: 'Conclusion',
+      id: "reflection",
+      label: "Conclusion",
       body: "Designing for bodies in motion reinforced how much ‘invisible’ suffering product teams overlook. Ambient AI is only as good as the trust layer around it; that layer is design work.\n\nI’d push further into validation with longitudinal studies and edge cases (migraine overlap, medication interactions).",
     },
   ],

@@ -25,9 +25,14 @@ export type ProjectSectionFigure =
 
 export type ProjectContentSection = {
   id: string;
+  /** Used in sidebar navigation */
   label: string;
+  /** Optional subtitle shown as the section heading inside content (e.g. "Intro") */
+  subtitle?: string;
   /** Plain text; paragraphs separated by blank lines (\\n\\n) */
   body: string;
+  /** When true, renders the document's metaCards grid at the bottom of this section */
+  showProjectMeta?: boolean;
   /** Optional in-section images / artifacts */
   figures?: ProjectSectionFigure[];
   /** Optional structured intro block — replaces plain body rendering when present */
