@@ -130,7 +130,7 @@ function SectionBody({ text, leadFirst }: { text: string; leadFirst?: boolean })
           key={i}
           className={
             leadFirst && i === 0
-              ? "text-lg md:text-[1.25rem] font-light leading-[1.55] text-foreground/88 text-body"
+              ? "text-[1rem] md:text-[1.05rem] font-normal leading-[1.7] text-foreground/88 text-body"
               : `${i > 0 ? "mt-4 md:mt-5" : ""} text-[15px] md:text-base font-light leading-[1.75] text-foreground/58 text-body`
           }
         >
@@ -143,11 +143,11 @@ function SectionBody({ text, leadFirst }: { text: string; leadFirst?: boolean })
 
 function MetaItem({ label, value }: { label: string; value: string }) {
   return (
-    <div>
-      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground/38 text-mono mb-2">
+    <div className="border border-border/40 bg-secondary/[0.07] rounded-sm px-5 py-5 md:px-6 md:py-6">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground/45 text-mono mb-3">
         {label}
       </p>
-      <p className="text-[13px] md:text-sm font-light leading-snug text-foreground/70 text-body">
+      <p className="text-[13px] md:text-sm font-light leading-relaxed text-foreground/78 text-body">
         {value}
       </p>
     </div>
@@ -156,7 +156,7 @@ function MetaItem({ label, value }: { label: string; value: string }) {
 
 function MetaGrid({ cards }: { cards: { label: string; value: string }[] }) {
   return (
-    <div className="border-t border-border/20 pt-6 md:pt-8 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-6 md:gap-y-8">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
       {cards.map((card) => (
         <MetaItem key={card.label} label={card.label} value={card.value} />
       ))}
@@ -189,7 +189,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         </button>
       </div>
 
-      {/* 1 — Title */}
+      {/* 1 — Title + hook */}
       <header className="px-6 md:px-16 lg:px-24 pt-8 md:pt-10 max-w-[1400px] mx-auto">
         <p className="text-muted-foreground text-[11px] text-mono uppercase tracking-[0.2em] mb-4">
           {project.listSection}
@@ -197,6 +197,11 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         <h1 className="text-4xl md:text-6xl lg:text-[4.25rem] font-light text-foreground text-display tracking-[-0.03em] leading-[1.08]">
           {project.title}
         </h1>
+        {project.heroSummary ? (
+          <p className="mt-4 md:mt-5 text-base md:text-lg font-light text-foreground/55 text-body max-w-2xl leading-relaxed">
+            {project.heroSummary}
+          </p>
+        ) : null}
       </header>
 
       {/* 2 — Hero image */}
@@ -214,24 +219,21 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         </div>
       ) : null}
 
-      {/* 3 — Standalone intro + description (only when no section owns intro content) */}
-      {!hasIntroSection && (
+      {/* 3 — Standalone secondary copy (only when no section owns intro content) */}
+      {!hasIntroSection && (project.heroSubtitle || project.description) ? (
         <div className={`px-6 md:px-16 lg:px-24 max-w-[860px] ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-10"}`}>
-          <p className="text-lg md:text-xl text-foreground/80 font-light leading-relaxed text-body">
-            {project.heroSummary}
-          </p>
           {project.heroSubtitle ? (
-            <p className="mt-3 text-sm md:text-base text-muted-foreground font-light leading-relaxed text-body">
+            <p className="text-sm md:text-base text-muted-foreground font-light leading-relaxed text-body">
               {project.heroSubtitle}
             </p>
           ) : null}
           {project.description ? (
-            <p className="mt-4 md:mt-5 text-[15px] md:text-base font-light leading-[1.75] text-foreground/65 text-body">
+            <p className={`${project.heroSubtitle ? "mt-4 md:mt-5" : ""} text-[15px] md:text-base font-light leading-[1.75] text-foreground/65 text-body`}>
               {project.description}
             </p>
           ) : null}
         </div>
-      )}
+      ) : null}
 
       {/* 4 — Standalone metadata (only when no section owns it) */}
       {!hasIntroSection && project.metaCards?.length ? (
