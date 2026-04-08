@@ -13,10 +13,10 @@ const aura: ProjectDetailDocument = {
   heroImage: auraCover,
   heroImageFit: "contain",
   metaCards: [
-    { label: "Role", value: "Product Designer, Industrial Designer" },
+    { label: "Role", value: "Product Design · Industrial Design" },
     { label: "Timeline", value: "2025" },
-    { label: "Tools", value: "Figma, prototyping, narrative + system specs" },
-    { label: "Contribution", value: "Concept, user flow, wearable + digital system design" },
+    { label: "Tools", value: "Figma · Prototyping · Systems · Narrative" },
+    { label: "Contribution", value: "Concept · User Flow · Wearable · Digital System" },
   ],
   sections: [
     {
