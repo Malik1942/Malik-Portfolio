@@ -39,8 +39,10 @@ export type ProjectDetailDocument = {
   /** Shown as eyebrow — e.g. Main Projects / Built with AI */
   listSection: string;
   title: string;
-  /** Short value proposition under the title */
+  /** Short one-line subtitle shown below the hero image */
   heroSummary: string;
+  /** Optional longer description paragraph shown below heroSummary */
+  description?: string;
   /** Optional second line — impact, scope, or positioning */
   heroSubtitle?: string;
   heroImage?: string;
