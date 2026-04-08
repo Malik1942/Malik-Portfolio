@@ -321,9 +321,6 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                         </div>
                       ) : null}
                       <h2 className="text-xl md:text-2xl font-light text-foreground/92 text-display tracking-tight mb-8 md:mb-10">
-                        <span className="text-muted-foreground/35 text-mono text-sm tabular-nums mr-3 font-normal">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
                         {s.label}
                       </h2>
                       {s.introBlock ? (
