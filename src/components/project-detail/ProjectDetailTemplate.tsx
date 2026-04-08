@@ -130,7 +130,7 @@ function SectionBody({ text, leadFirst }: { text: string; leadFirst?: boolean })
           key={i}
           className={
             leadFirst && i === 0
-              ? "text-[1.1rem] md:text-[1.25rem] font-semibold leading-[1.65] text-foreground/88 text-body"
+              ? "text-[1.1rem] md:text-[1.25rem] font-bold leading-[1.65] text-foreground/88 text-body"
               : `${i > 0 ? "mt-4 md:mt-5" : ""} text-[15px] md:text-base font-light leading-[1.75] text-foreground/58 text-body`
           }
         >
@@ -156,7 +156,7 @@ function MetaItem({ label, value }: { label: string; value: string }) {
 
 function MetaGrid({ cards }: { cards: { label: string; value: string }[] }) {
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+    <div className="grid grid-cols-2 gap-3 md:gap-4">
       {cards.map((card) => (
         <MetaItem key={card.label} label={card.label} value={card.value} />
       ))}
