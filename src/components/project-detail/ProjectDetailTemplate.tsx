@@ -156,6 +156,8 @@ interface ProjectDetailTemplateProps {
 export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: ProjectDetailTemplateProps) {
   const sectionIds = project.sections.map((s) => s.id);
   const activeSectionId = useSectionScrollSpy(sectionIds);
+  // When any section owns the intro content via subtitle, skip the standalone block
+  const hasIntroSection = project.sections.some((s) => s.subtitle);
 
   return (
     <div className="min-h-screen bg-background">
@@ -195,25 +197,27 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         </div>
       ) : null}
 
-      {/* 3 — Intro + Description */}
-      <div className={`px-6 md:px-16 lg:px-24 max-w-[860px] ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-10"}`}>
-        <p className="text-lg md:text-xl text-foreground/80 font-light leading-relaxed text-body">
-          {project.heroSummary}
-        </p>
-        {project.heroSubtitle ? (
-          <p className="mt-3 text-sm md:text-base text-muted-foreground font-light leading-relaxed text-body">
-            {project.heroSubtitle}
+      {/* 3 — Standalone intro + description (only when no section owns intro content) */}
+      {!hasIntroSection && (
+        <div className={`px-6 md:px-16 lg:px-24 max-w-[860px] ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-10"}`}>
+          <p className="text-lg md:text-xl text-foreground/80 font-light leading-relaxed text-body">
+            {project.heroSummary}
           </p>
-        ) : null}
-        {project.description ? (
-          <p className="mt-4 md:mt-5 text-[15px] md:text-base font-light leading-[1.75] text-foreground/65 text-body">
-            {project.description}
-          </p>
-        ) : null}
-      </div>
+          {project.heroSubtitle ? (
+            <p className="mt-3 text-sm md:text-base text-muted-foreground font-light leading-relaxed text-body">
+              {project.heroSubtitle}
+            </p>
+          ) : null}
+          {project.description ? (
+            <p className="mt-4 md:mt-5 text-[15px] md:text-base font-light leading-[1.75] text-foreground/65 text-body">
+              {project.description}
+            </p>
+          ) : null}
+        </div>
+      )}
 
-      {/* 4 — Metadata cards */}
-      {project.metaCards?.length ? (
+      {/* 4 — Standalone metadata cards (only when no section owns them) */}
+      {!hasIntroSection && project.metaCards?.length ? (
         <div className="px-6 md:px-16 lg:px-24 mt-10 md:mt-14 max-w-[1200px] mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {project.metaCards.map((card) => (
@@ -284,28 +288,50 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                   id={sectionDomId(s.id)}
                   className="scroll-mt-28 md:scroll-mt-32 mb-20 md:mb-24 last:mb-0"
                 >
-                  {/* Cover image above heading — used in intro-style sections */}
-                  {s.introBlock?.coverImage ? (
-                    <div className="mb-10 overflow-hidden rounded-sm border border-border/45 bg-secondary/10">
-                      <img
-                        src={s.introBlock.coverImage}
-                        alt=""
-                        className={`w-full max-h-[min(68vh,760px)] min-h-[180px] ${
-                          s.introBlock.coverImageFit === "cover" ? "object-cover" : "object-contain"
-                        } object-center`}
-                      />
-                    </div>
-                  ) : null}
-                  <h2 className="text-xl md:text-2xl font-light text-foreground/92 text-display tracking-tight mb-8 md:mb-10">
-                    <span className="text-muted-foreground/35 text-mono text-sm tabular-nums mr-3 font-normal">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    {s.label}
-                  </h2>
-                  {s.introBlock ? (
-                    <SectionIntroBlock block={s.introBlock} />
+                  {s.subtitle ? (
+                    /* Subtitle section layout: label + subtitle heading + body + optional cards */
+                    <>
+                      <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground/45 text-mono mb-3">
+                        {s.label}
+                      </p>
+                      <h2 className="text-2xl md:text-3xl font-light text-foreground/92 text-display tracking-tight mb-8 md:mb-10">
+                        {s.subtitle}
+                      </h2>
+                      <SectionBody text={s.body} />
+                      {s.showProjectMeta && project.metaCards?.length ? (
+                        <div className="mt-10 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3">
+                          {project.metaCards.map((card) => (
+                            <MetaCard key={card.label} label={card.label} value={card.value} />
+                          ))}
+                        </div>
+                      ) : null}
+                    </>
                   ) : (
-                    <SectionBody text={s.body} />
+                    /* Standard numbered section */
+                    <>
+                      {s.introBlock?.coverImage ? (
+                        <div className="mb-10 overflow-hidden rounded-sm border border-border/45 bg-secondary/10">
+                          <img
+                            src={s.introBlock.coverImage}
+                            alt=""
+                            className={`w-full max-h-[min(68vh,760px)] min-h-[180px] ${
+                              s.introBlock.coverImageFit === "cover" ? "object-cover" : "object-contain"
+                            } object-center`}
+                          />
+                        </div>
+                      ) : null}
+                      <h2 className="text-xl md:text-2xl font-light text-foreground/92 text-display tracking-tight mb-8 md:mb-10">
+                        <span className="text-muted-foreground/35 text-mono text-sm tabular-nums mr-3 font-normal">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        {s.label}
+                      </h2>
+                      {s.introBlock ? (
+                        <SectionIntroBlock block={s.introBlock} />
+                      ) : (
+                        <SectionBody text={s.body} />
+                      )}
+                    </>
                   )}
                   {s.figures?.length ? (
                     <div className="mt-10 space-y-6">
