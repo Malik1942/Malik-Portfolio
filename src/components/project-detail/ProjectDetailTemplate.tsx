@@ -160,7 +160,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
   return (
     <div className="min-h-screen bg-background">
       {/* Back */}
-      <div className="px-6 md:px-16 lg:px-24 pt-8 pb-4 max-w-[1600px] mx-auto">
+      <div className="px-6 md:px-16 lg:px-24 pt-8 pb-0 max-w-[1600px] mx-auto">
         <button
           type="button"
           onClick={onBack}
@@ -170,10 +170,20 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         </button>
       </div>
 
-      {/* 1 — Hero visual */}
+      {/* 1 — Title */}
+      <header className="px-6 md:px-16 lg:px-24 pt-8 md:pt-10 max-w-[1400px] mx-auto">
+        <p className="text-muted-foreground text-[11px] text-mono uppercase tracking-[0.2em] mb-4">
+          {project.listSection}
+        </p>
+        <h1 className="text-4xl md:text-6xl lg:text-[4.25rem] font-light text-foreground text-display tracking-[-0.03em] leading-[1.08]">
+          {project.title}
+        </h1>
+      </header>
+
+      {/* 2 — Hero image */}
       {project.heroImage ? (
-        <div className="px-6 md:px-16 lg:px-24 pb-10 md:pb-14">
-          <div className="max-w-[1400px] mx-auto overflow-hidden rounded-sm border border-border/45 bg-secondary/10">
+        <div className="px-6 md:px-16 lg:px-24 mt-8 md:mt-10 max-w-[1400px] mx-auto">
+          <div className="overflow-hidden rounded-sm border border-border/45 bg-secondary/10">
             <img
               src={project.heroImage}
               alt={`${project.title} — project visual`}
@@ -185,45 +195,36 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         </div>
       ) : null}
 
-      {/* Hero copy */}
-      <header
-        className={`px-6 md:px-16 lg:px-24 max-w-4xl ${project.heroImage ? "pb-14 md:pb-16" : "pt-8 pb-14 md:pb-16"}`}
-      >
-        <p className="text-muted-foreground text-[11px] text-mono uppercase tracking-[0.2em] mb-5">
-          {project.listSection}
-        </p>
-        <h1 className="text-4xl md:text-6xl lg:text-[4.25rem] font-light text-foreground text-display mb-7 tracking-[-0.03em] leading-[1.08]">
-          {project.title}
-        </h1>
-        <p className="text-lg md:text-xl text-foreground/80 font-light leading-relaxed text-body max-w-2xl mb-5">
+      {/* 3 — Intro + Description */}
+      <div className={`px-6 md:px-16 lg:px-24 max-w-[860px] ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-10"}`}>
+        <p className="text-lg md:text-xl text-foreground/80 font-light leading-relaxed text-body">
           {project.heroSummary}
         </p>
         {project.heroSubtitle ? (
-          <p className="text-sm md:text-base text-muted-foreground font-light leading-relaxed max-w-2xl text-body">
+          <p className="mt-3 text-sm md:text-base text-muted-foreground font-light leading-relaxed text-body">
             {project.heroSubtitle}
           </p>
         ) : null}
-      </header>
+        {project.description ? (
+          <p className="mt-4 md:mt-5 text-[15px] md:text-base font-light leading-[1.75] text-foreground/65 text-body">
+            {project.description}
+          </p>
+        ) : null}
+      </div>
 
-      {/* 2 — Overview cards (optional) */}
+      {/* 4 — Metadata cards */}
       {project.metaCards?.length ? (
-        <section
-          aria-label="Project overview"
-          className="px-6 md:px-16 lg:px-24 pb-20 md:pb-24 border-t border-border/40 pt-14 md:pt-16"
-        >
-          <div className="max-w-[1200px] mx-auto">
-            <h2 className="sr-only">Overview</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
-              {project.metaCards.map((card) => (
-                <MetaCard key={card.label} label={card.label} value={card.value} />
-              ))}
-            </div>
+        <div className="px-6 md:px-16 lg:px-24 mt-10 md:mt-14 max-w-[1200px] mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {project.metaCards.map((card) => (
+              <MetaCard key={card.label} label={card.label} value={card.value} />
+            ))}
           </div>
-        </section>
+        </div>
       ) : null}
 
-      {/* 3 — Body: sticky nav + sections */}
-      <section aria-label="Case study" className="px-6 md:px-16 lg:px-24 pb-28 md:pb-36 border-t border-border/30 pt-16 md:pt-20">
+      {/* 5 — Body: sticky nav + sections */}
+      <section aria-label="Case study" className="px-6 md:px-16 lg:px-24 pb-28 md:pb-36 border-t border-border/30 mt-16 md:mt-20 pt-16 md:pt-20">
         <div className="max-w-[1200px] mx-auto">
           {/* Mobile / tablet: horizontal section nav */}
           <nav
