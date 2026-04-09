@@ -94,7 +94,7 @@ const ProjectRow = ({ project, index, dotClass, projectId }: { project: Project;
             <span className="text-muted-foreground text-xs text-mono">
               {String(index + 1).padStart(2, "0")}
             </span>
-            <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-muted-foreground text-display group-hover:text-foreground transition-colors duration-500">
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground/70 text-display group-hover:text-foreground transition-colors duration-500">
               {project.title}
             </h3>
           </div>
