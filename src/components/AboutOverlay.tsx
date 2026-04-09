@@ -147,11 +147,11 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
               >
                 <span className="block">
                   I design through{" "}
-                  <span className="text-[1.35em] font-semibold text-foreground tracking-tight">MAKING</span>
+                  <span style={{ fontWeight: 600, letterSpacing: "-0.01em" }}>making</span>
                 </span>
                 <span className="block">
                   shaping systems{" "}
-                  <span className="text-[1.35em] font-semibold text-foreground tracking-tight">BEYOND</span>
+                  <span style={{ fontWeight: 600, letterSpacing: "-0.01em" }}>beyond</span>
                   {" "}screens
                 </span>
               </motion.h2>
