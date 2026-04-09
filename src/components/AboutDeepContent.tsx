@@ -571,7 +571,7 @@ const SportNode = ({ sport }: { sport: (typeof SPORTS_DATA)[0] }) => {
 const DAILY_ITEMS = [
   "Coffee rituals", "Home cooking (Asian flavors)", "Vinyl & R&B",
   "Driving / long night rides", "Photography", "Outdoor escapes",
-  "Basketball", "Cycling", "Snowboarding", "Swimming",
+  "Basketball", "Cycling", "Snowboarding", "Swimming", "Climbing",
 ];
 
 const DailyTag = ({ label }: { label: string }) => (
