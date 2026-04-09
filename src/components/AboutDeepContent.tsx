@@ -168,7 +168,7 @@ const PhotographyLightbox = ({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-5 right-5 z-[101] flex h-10 w-10 items-center justify-center rounded-full text-foreground/55 transition-colors duration-300 hover:text-foreground cursor-none"
+          className="absolute top-5 right-5 z-[101] flex h-10 w-10 items-center justify-center rounded-full text-foreground/55 transition-colors duration-300 hover:text-foreground cursor-pointer"
           aria-label="Close photography lightbox"
         >
           <X className="h-4 w-4" />
@@ -180,7 +180,7 @@ const PhotographyLightbox = ({
             event.stopPropagation();
             onNavigate(-1);
           }}
-          className="absolute left-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground/45 transition-colors duration-300 hover:text-foreground md:flex cursor-none"
+          className="absolute left-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground/45 transition-colors duration-300 hover:text-foreground md:flex cursor-pointer"
           aria-label="Previous image"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -192,7 +192,7 @@ const PhotographyLightbox = ({
             event.stopPropagation();
             onNavigate(1);
           }}
-          className="absolute right-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground/45 transition-colors duration-300 hover:text-foreground md:flex cursor-none"
+          className="absolute right-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground/45 transition-colors duration-300 hover:text-foreground md:flex cursor-pointer"
           aria-label="Next image"
         >
           <ChevronRight className="h-5 w-5" />
@@ -245,7 +245,7 @@ const EditorialPhotoFrame = ({
   <button
     type="button"
     onClick={onOpen}
-    className="group block w-full cursor-none rounded-[10px] text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20"
+    className="group block w-full cursor-pointer rounded-[10px] text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20"
     aria-label={`Open ${photo.alt}`}
   >
     <div

@@ -61,13 +61,12 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--text-body);
-    cursor: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   a, button, [role="button"] {
-    cursor: none;
+    cursor: pointer;
   }
 
   .text-display {

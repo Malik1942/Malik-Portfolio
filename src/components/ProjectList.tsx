@@ -77,7 +77,7 @@ const ProjectRow = ({ project, index, dotClass, projectId }: { project: Project;
     <div
       ref={rowRef}
       id={projectId ? `project-${projectId}` : undefined}
-      className={`reveal project-row border-t border-border group cursor-none ${isVisible ? "visible" : ""} ${isArriving ? "project-row-arriving" : ""}`}
+      className={`reveal project-row border-t border-border group cursor-pointer ${isVisible ? "visible" : ""} ${isArriving ? "project-row-arriving" : ""}`}
       style={{ transitionDelay: `${index * 80}ms` }}
       data-clickable="true"
       onClick={handleClick}

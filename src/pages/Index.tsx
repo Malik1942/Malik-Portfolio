@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
-import CustomCursor from "@/components/CustomCursor";
 import HeroSection from "@/components/HeroSection";
 import ProjectList from "@/components/ProjectList";
 import Footer from "@/components/Footer";
@@ -94,7 +93,6 @@ const Index = () => {
 
   return (
     <div className={`bg-background ${isAboutOpen ? "" : "min-h-screen"}`}>
-      <CustomCursor />
       <HeroSection
         isAboutOpen={isAboutOpen}
         onAboutClick={() => {
