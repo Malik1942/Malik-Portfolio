@@ -67,12 +67,12 @@ const neuralyfe: ProjectDetailDocument = {
   heroSubtitle: "FigBuild 2026 · 1st place — concept, execution, and system design.",
   heroImage: neuralyfeCover,
   metaCards: [
-    { label: "Role", value: "Product Designer, Maker" },
-    { label: "Timeline", value: "2025–2026" },
-    { label: "Team", value: "Collaborative build; design + physical + digital" },
-    { label: "Scope", value: "Problem framing, Impact Replay interface, product narrative" },
-    { label: "Outcome", value: "1st Place — FigBuild 2026" },
-    { label: "Tools", value: "Figma, prototyping, presentation, build support" },
+    { label: "Role", value: "Product Designer · Maker" },
+    { label: "Timeline", value: "Fall 2025 · Spring 2026" },
+    { label: "Team", value: "Design · Physical · Digital" },
+    { label: "Scope", value: "Problem Framing · Impact Replay · Product Narrative" },
+    { label: "Outcome", value: "1st Place · FigBuild 2026" },
+    { label: "Tools", value: "Figma · Prototyping · Presentation · Build" },
   ],
   sections: [
     {
@@ -125,11 +125,11 @@ const flowprint: ProjectDetailDocument = {
   heroImageFit: "contain",
   metaCards: [
     { label: "Role", value: "Lead Product Designer" },
-    { label: "Timeline", value: "2026" },
-    { label: "Team", value: "Product, engineering, manufacturing partners" },
-    { label: "Scope", value: "Onboarding, monitoring UI, material guidance" },
-    { label: "Outcome", value: "Reduced perceived setup from ~1 hour to ~15 minutes (target journey)" },
-    { label: "Tools", value: "Figma, flows, specs, usability notes" },
+    { label: "Timeline", value: "Spring 2026" },
+    { label: "Team", value: "Product · Engineering · Manufacturing" },
+    { label: "Scope", value: "Onboarding · Monitoring UI · Material Guidance" },
+    { label: "Outcome", value: "~1 hr Setup → ~15 min · Target Journey" },
+    { label: "Tools", value: "Figma · Flows · Specs · Usability" },
   ],
   sections: [
     {
@@ -180,12 +180,12 @@ const tubular: ProjectDetailDocument = {
   heroSubtitle: "A tactile, experimental toy that teaches fluid dynamics through play.",
   heroImage: tubularCover,
   metaCards: [
-    { label: "Role", value: "Product Designer, Maker" },
-    { label: "Timeline", value: "2026" },
-    { label: "Team", value: "Solo design + build exploration" },
-    { label: "Scope", value: "Concept, industrial form, digital prototyping" },
-    { label: "Outcome", value: "Coherent product narrative + physical-digital prototype direction" },
-    { label: "Tools", value: "CAD-adjacent workflows, prototyping, motion studies" },
+    { label: "Role", value: "Product Designer · Maker" },
+    { label: "Timeline", value: "Spring 2026" },
+    { label: "Team", value: "Solo · Design + Build" },
+    { label: "Scope", value: "Concept · Industrial Form · Digital Prototyping" },
+    { label: "Outcome", value: "Product Narrative · Physical-Digital Prototype" },
+    { label: "Tools", value: "CAD · Prototyping · Motion Studies" },
   ],
   sections: [
     {
@@ -237,11 +237,11 @@ const moodmuse: ProjectDetailDocument = {
   heroImage: moodmuseCover,
   metaCards: [
     { label: "Role", value: "Product Designer" },
-    { label: "Timeline", value: "2026" },
-    { label: "Team", value: "Design-led concept (collaboration-ready)" },
-    { label: "Scope", value: "Interaction model, visual language, caregiver touchpoints" },
-    { label: "Outcome", value: "Clear system for expressing emotion without heavy cognitive load" },
-    { label: "Tools", value: "Figma, storyboards, accessibility heuristics" },
+    { label: "Timeline", value: "Spring 2026" },
+    { label: "Team", value: "Design-led · Collaboration-ready" },
+    { label: "Scope", value: "Interaction · Visual Language · Caregiver UX" },
+    { label: "Outcome", value: "Low-load Emotion Expression System" },
+    { label: "Tools", value: "Figma · Storyboards · A11y Heuristics" },
   ],
   sections: [
     {
@@ -291,12 +291,12 @@ const inspireocean: ProjectDetailDocument = {
   heroSummary: "AI content generation for creators.",
   heroSubtitle: "Shipped end-to-end with AI-assisted build workflows.",
   metaCards: [
-    { label: "Role", value: "Designer + Builder" },
-    { label: "Timeline", value: "2025" },
-    { label: "Team", value: "Solo build with AI coding tools" },
-    { label: "Scope", value: "Prompt UI, preview, creator workflow" },
-    { label: "Outcome", value: "Working platform for social content generation" },
-    { label: "Tools", value: "Figma, AI IDEs, LLM APIs" },
+    { label: "Role", value: "Designer · Builder" },
+    { label: "Timeline", value: "Fall 2025" },
+    { label: "Team", value: "Solo · AI-assisted Build" },
+    { label: "Scope", value: "Prompt UI · Preview · Creator Workflow" },
+    { label: "Outcome", value: "Shipped · Social Content Platform" },
+    { label: "Tools", value: "Figma · AI IDEs · LLM APIs" },
   ],
   sections: [
     {
@@ -346,12 +346,12 @@ const studiowaters: ProjectDetailDocument = {
   heroSummary: "Predictive analytics made visual.",
   heroSubtitle: "Turning complex models into layouts people can actually use.",
   metaCards: [
-    { label: "Role", value: "Designer + Builder" },
-    { label: "Timeline", value: "2026" },
-    { label: "Team", value: "Solo concept + build" },
-    { label: "Scope", value: "Charts, dashboards, customization" },
-    { label: "Outcome", value: "Clear visualization grammar for predictive outputs" },
-    { label: "Tools", value: "Figma, front-end stack, data viz libraries" },
+    { label: "Role", value: "Designer · Builder" },
+    { label: "Timeline", value: "Spring 2026" },
+    { label: "Team", value: "Solo · Concept + Build" },
+    { label: "Scope", value: "Charts · Dashboards · Customization" },
+    { label: "Outcome", value: "Predictive Visualization Grammar" },
+    { label: "Tools", value: "Figma · Front-end · Data Viz" },
   ],
   sections: [
     {
