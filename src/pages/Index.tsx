@@ -65,7 +65,7 @@ const aiProjects = [
   {
     id: "inspireocean",
     title: "Inspire Ocean",
-    description: "AI content generation for creators.",
+    description: "A personal utility for collecting and reorganizing inspirations.",
     role: "Designer + Builder",
     year: "2025",
     coverImage: inspireoceanCover,
