@@ -219,8 +219,8 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         </div>
       ) : null}
 
-      {/* 3 — Standalone secondary copy (only when no section owns intro content) */}
-      {!hasIntroSection && (project.heroSubtitle || project.description) ? (
+      {/* 3 — Secondary copy below hero */}
+      {(project.heroSubtitle || project.description) ? (
         <div className={`px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-10"}`}>
           <div className="max-w-[860px]">
           {project.heroSubtitle ? (
@@ -306,11 +306,8 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                   className="scroll-mt-28 md:scroll-mt-32 mb-20 md:mb-24 last:mb-0"
                 >
                   {s.subtitle ? (
-                    /* Subtitle section: CONTEXT label → Intro heading → lead + body → MetaGrid */
+                    /* Subtitle section: Intro heading → lead + body → MetaGrid */
                     <>
-                      <p className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground/38 text-mono mb-2">
-                        {s.label}
-                      </p>
                       <h2 className="text-[1.75rem] md:text-[2.25rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.15] mb-6 md:mb-8">
                         {s.subtitle}
                       </h2>
