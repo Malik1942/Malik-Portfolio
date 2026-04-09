@@ -525,7 +525,7 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
     }
 
     if (canvas) {
-      canvas.style.cursor = "none";
+      canvas.style.cursor = newHoveredOrb ? "pointer" : "default";
     }
 
     animRef.current = requestAnimationFrame(draw);
