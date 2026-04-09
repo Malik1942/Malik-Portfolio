@@ -140,12 +140,20 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
           <div className="flex items-center gap-6 md:gap-8 px-6">
             <div className="flex flex-col items-end text-right max-w-[380px]">
               <motion.h2
-                className="text-[22px] sm:text-[26px] md:text-[30px] text-foreground font-normal leading-[1.4] tracking-wide"
+                className="text-[22px] sm:text-[26px] md:text-[30px] text-foreground font-normal leading-[1.5] tracking-wide"
                 initial={{ opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.2, delay: 1.0, ease: "easeOut" }}
               >
-                I design through making, shaping systems beyond screens.
+                <span className="block">
+                  I design through{" "}
+                  <span className="text-[1.35em] font-semibold text-foreground tracking-tight">MAKING</span>
+                </span>
+                <span className="block">
+                  shaping systems{" "}
+                  <span className="text-[1.35em] font-semibold text-foreground tracking-tight">BEYOND</span>
+                  {" "}screens
+                </span>
               </motion.h2>
               <motion.p
                 className="text-[10px] text-foreground/30 font-light uppercase tracking-[0.2em] mt-3"
