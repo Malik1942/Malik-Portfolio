@@ -345,12 +345,12 @@ interface ResilientParticle {
   vx: number; vy: number;
 }
 
-type SportType = "basketball" | "cycling" | "snowboarding";
+type SportType = "basketball" | "cycling" | "swimming";
 
 const SPORTS_DATA: { name: string; type: SportType }[] = [
   { name: "Basketball", type: "basketball" },
   { name: "Cycling", type: "cycling" },
-  { name: "Snowboarding", type: "snowboarding" },
+  { name: "Swimming", type: "swimming" },
 ];
 
 function createParticles(type: SportType, cx: number, cy: number, r: number): ResilientParticle[] {
@@ -372,9 +372,11 @@ function createParticles(type: SportType, cx: number, cy: number, r: number): Re
       hx = cx + Math.cos(angle) * r;
       hy = cy + Math.sin(angle * 2) * r * 0.5;
     } else {
-      // Wave formation
-      hx = cx - r + t * r * 2;
-      hy = cy + Math.sin(t * Math.PI * 3) * r * 0.6;
+      // Swimming — dual sine lanes (stroke rhythm)
+      const lane = i < count / 2 ? -1 : 1;
+      const lt = (i % (count / 2)) / (count / 2);
+      hx = cx - r + lt * r * 2;
+      hy = cy + lane * r * 0.32 + Math.sin(lt * Math.PI * 2) * r * 0.28;
     }
 
     particles.push({ x: hx, y: hy, homeX: hx, homeY: hy, vx: 0, vy: 0 });
@@ -569,7 +571,7 @@ const SportNode = ({ sport }: { sport: (typeof SPORTS_DATA)[0] }) => {
 const DAILY_ITEMS = [
   "Coffee rituals", "Home cooking (Asian flavors)", "Vinyl & R&B",
   "Driving / long night rides", "Photography", "Outdoor escapes",
-  "Basketball", "Cycling", "Snowboarding",
+  "Basketball", "Cycling", "Snowboarding", "Swimming",
 ];
 
 const DailyTag = ({ label }: { label: string }) => (
