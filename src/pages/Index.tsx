@@ -70,7 +70,7 @@ const aiProjects = [
     year: "2025",
     coverImage: inspireoceanCover,
     externalUrl: "https://inspired-sea-drift.lovable.app/",
-    details: "Designed and shipped an AI-powered content generation platform for social media creators.\n\nBuilt end-to-end with AI coding tools, focusing on intuitive prompt interfaces and real-time preview.",
+    details: "Designed a personal inspiration utility that resurfaces forgotten ideas at the right moment — not on demand, but through behavioral adaptation.\n\nThe system learns how you collect and browse, then quietly surfaces what you've lost track of before it becomes irrelevant.",
   },
   {
     id: "studiowaters",
