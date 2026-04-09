@@ -145,7 +145,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.2, delay: 1.0, ease: "easeOut" }}
               >
-                I design through making — shaping systems beyond screens.
+                I design through making, shaping systems beyond screens.
               </motion.h2>
               <motion.p
                 className="text-[10px] text-foreground/30 font-light uppercase tracking-[0.2em] mt-3"
