@@ -67,10 +67,12 @@ const neuralyfe: ProjectDetailDocument = {
   heroSubtitle: "FigBuild 2026 · 1st place — concept, execution, and system design.",
   heroImage: neuralyfeCover,
   metaCards: [
-    { label: "Role", value: "Product Designer · Maker" },
+    { label: "Role", value: "Product Designer, Maker" },
     { label: "Timeline", value: "2025–2026" },
-    { label: "Outcome", value: "1st Place · FigBuild 2026" },
-    { label: "Tools", value: "Figma · Prototyping · Build Support" },
+    { label: "Team", value: "Collaborative build; design + physical + digital" },
+    { label: "Scope", value: "Problem framing, Impact Replay interface, product narrative" },
+    { label: "Outcome", value: "1st Place — FigBuild 2026" },
+    { label: "Tools", value: "Figma, prototyping, presentation, build support" },
   ],
   sections: [
     {
@@ -124,8 +126,10 @@ const flowprint: ProjectDetailDocument = {
   metaCards: [
     { label: "Role", value: "Lead Product Designer" },
     { label: "Timeline", value: "2026" },
-    { label: "Outcome", value: "Setup ~1 hr → ~15 min" },
-    { label: "Tools", value: "Figma · Flows · Specs" },
+    { label: "Team", value: "Product, engineering, manufacturing partners" },
+    { label: "Scope", value: "Onboarding, monitoring UI, material guidance" },
+    { label: "Outcome", value: "Reduced perceived setup from ~1 hour to ~15 minutes (target journey)" },
+    { label: "Tools", value: "Figma, flows, specs, usability notes" },
   ],
   sections: [
     {
@@ -176,10 +180,12 @@ const tubular: ProjectDetailDocument = {
   heroSubtitle: "A tactile, experimental toy that teaches fluid dynamics through play.",
   heroImage: tubularCover,
   metaCards: [
-    { label: "Role", value: "Product Designer · Maker" },
+    { label: "Role", value: "Product Designer, Maker" },
     { label: "Timeline", value: "2026" },
-    { label: "Scope", value: "Concept · Form · Prototyping" },
-    { label: "Outcome", value: "Physical-digital prototype direction" },
+    { label: "Team", value: "Solo design + build exploration" },
+    { label: "Scope", value: "Concept, industrial form, digital prototyping" },
+    { label: "Outcome", value: "Coherent product narrative + physical-digital prototype direction" },
+    { label: "Tools", value: "CAD-adjacent workflows, prototyping, motion studies" },
   ],
   sections: [
     {
@@ -232,8 +238,10 @@ const moodmuse: ProjectDetailDocument = {
   metaCards: [
     { label: "Role", value: "Product Designer" },
     { label: "Timeline", value: "2026" },
-    { label: "Scope", value: "Interaction · Visual Language · Caregiver UX" },
-    { label: "Tools", value: "Figma · Storyboards · A11y Heuristics" },
+    { label: "Team", value: "Design-led concept (collaboration-ready)" },
+    { label: "Scope", value: "Interaction model, visual language, caregiver touchpoints" },
+    { label: "Outcome", value: "Clear system for expressing emotion without heavy cognitive load" },
+    { label: "Tools", value: "Figma, storyboards, accessibility heuristics" },
   ],
   sections: [
     {
@@ -285,8 +293,10 @@ const inspireocean: ProjectDetailDocument = {
   metaCards: [
     { label: "Role", value: "Designer + Builder" },
     { label: "Timeline", value: "2025" },
-    { label: "Outcome", value: "Working content generation platform" },
-    { label: "Tools", value: "Figma · AI IDEs · LLM APIs" },
+    { label: "Team", value: "Solo build with AI coding tools" },
+    { label: "Scope", value: "Prompt UI, preview, creator workflow" },
+    { label: "Outcome", value: "Working platform for social content generation" },
+    { label: "Tools", value: "Figma, AI IDEs, LLM APIs" },
   ],
   sections: [
     {
@@ -338,8 +348,10 @@ const studiowaters: ProjectDetailDocument = {
   metaCards: [
     { label: "Role", value: "Designer + Builder" },
     { label: "Timeline", value: "2026" },
-    { label: "Scope", value: "Charts · Dashboards · Customization" },
-    { label: "Tools", value: "Figma · Front-end · Data Viz" },
+    { label: "Team", value: "Solo concept + build" },
+    { label: "Scope", value: "Charts, dashboards, customization" },
+    { label: "Outcome", value: "Clear visualization grammar for predictive outputs" },
+    { label: "Tools", value: "Figma, front-end stack, data viz libraries" },
   ],
   sections: [
     {
