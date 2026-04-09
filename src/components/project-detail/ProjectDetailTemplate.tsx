@@ -221,7 +221,8 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
 
       {/* 3 — Standalone secondary copy (only when no section owns intro content) */}
       {!hasIntroSection && (project.heroSubtitle || project.description) ? (
-        <div className={`px-6 md:px-16 lg:px-24 max-w-[860px] ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-10"}`}>
+        <div className={`px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-10"}`}>
+          <div className="max-w-[860px]">
           {project.heroSubtitle ? (
             <p className="text-sm md:text-base text-muted-foreground font-light leading-relaxed text-body">
               {project.heroSubtitle}
@@ -232,6 +233,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
               {project.description}
             </p>
           ) : null}
+          </div>
         </div>
       ) : null}
 
