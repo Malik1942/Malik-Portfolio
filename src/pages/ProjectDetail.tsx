@@ -27,7 +27,6 @@ const ProjectDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <CustomCursor />
       <ProjectDetailTemplate
         key={project.slug}
         project={project}
