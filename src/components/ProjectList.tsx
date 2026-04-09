@@ -11,6 +11,7 @@ interface Project {
   coverVideo?: string;
   coverFit?: "cover" | "contain";
   details?: string;
+  externalUrl?: string;
 }
 
 interface ProjectListProps {
@@ -68,7 +69,9 @@ const ProjectRow = ({ project, index, dotClass, projectId }: { project: Project;
   }, [projectId]);
 
   const handleClick = () => {
-    if (projectId) {
+    if (project.externalUrl) {
+      window.open(project.externalUrl, "_blank", "noopener,noreferrer");
+    } else if (projectId) {
       navigate(`/project/${projectId}`);
     }
   };

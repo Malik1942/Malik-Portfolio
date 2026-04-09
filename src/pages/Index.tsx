@@ -9,6 +9,7 @@ import neuralyfeCover from "@/assets/neuralyfe-cover.png";
 import flowprintCover from "@/assets/flowprint-cover.png";
 import tubularCover from "@/assets/tubular-cover.jpg";
 import moodmuseCover from "@/assets/moodmuse-cover.png";
+import inspireoceanCover from "@/assets/inspireocean-cover.png";
 
 const selectedWork = [
   {
@@ -67,6 +68,8 @@ const aiProjects = [
     description: "AI content generation for creators.",
     role: "Designer + Builder",
     year: "2025",
+    coverImage: inspireoceanCover,
+    externalUrl: "https://inspired-sea-drift.lovable.app/",
     details: "Designed and shipped an AI-powered content generation platform for social media creators.\n\nBuilt end-to-end with AI coding tools, focusing on intuitive prompt interfaces and real-time preview.",
   },
   {
