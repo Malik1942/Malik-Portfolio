@@ -19,7 +19,7 @@ export type IntroBlock = {
 };
 
 export type ProjectSectionFigure =
-  | { type?: "image"; src: string; alt: string }
+  | { type?: "image"; src: string; alt: string; full?: boolean }
   | { type: "video"; src: string; poster?: string }
   | { type: "embed"; url: string; title?: string };
 
