@@ -35,7 +35,7 @@ const aura: ProjectDetailDocument = {
       label: "Aura",
       body: "I iterated through journey maps, system diagrams, and low-fidelity flows for onboarding, anticipation, and escalation. Prototypes explored how much to show vs. infer, and how the wearable, phone, and environment might divide responsibility.\n\nNarrative and motion studies helped align stakeholders on a single coherent ‘calm proactive’ story.",
       figures: [
-        { type: "image", src: auraDetail2, alt: "Aura — design process" },
+        { type: "image", src: auraDetail2, alt: "Aura — design process", full: true },
       ],
     },
     {

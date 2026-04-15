@@ -16,7 +16,7 @@ function toEmbedUrl(url: string): string {
 function SectionFigure({ fig }: { fig: ProjectSectionFigure }) {
   if (fig.type === "video") {
     return (
-      <figure className="overflow-hidden rounded-sm border border-border/45 bg-secondary/10">
+      <figure className="overflow-hidden rounded-2xl bg-secondary/10">
         <video
           src={fig.src}
           poster={fig.poster}
@@ -29,7 +29,7 @@ function SectionFigure({ fig }: { fig: ProjectSectionFigure }) {
   }
   if (fig.type === "embed") {
     return (
-      <figure className="overflow-hidden rounded-sm border border-border/45 bg-secondary/10 aspect-video">
+      <figure className="overflow-hidden rounded-2xl bg-secondary/10 aspect-video">
         <iframe
           src={toEmbedUrl(fig.url)}
           title={fig.title ?? "Video"}
@@ -41,11 +41,11 @@ function SectionFigure({ fig }: { fig: ProjectSectionFigure }) {
     );
   }
   return (
-    <figure className="overflow-hidden rounded-sm border border-border/45 bg-secondary/10">
+    <figure className="overflow-hidden rounded-2xl bg-secondary/10">
       <img
         src={fig.src}
         alt={fig.alt}
-        className="w-full object-cover max-h-[min(520px,60vh)]"
+        className={`w-full object-cover ${fig.full ? "" : "max-h-[min(520px,60vh)]"}`}
       />
     </figure>
   );
@@ -207,7 +207,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
       {/* 2 — Hero image */}
       {project.heroImage ? (
         <div className="px-6 md:px-16 lg:px-24 mt-8 md:mt-10 max-w-[1400px] mx-auto">
-          <div className="overflow-hidden rounded-sm border border-border/45 bg-secondary/10">
+          <div className="overflow-hidden rounded-2xl bg-secondary/10">
             <img
               src={project.heroImage}
               alt={`${project.title} — project visual`}
@@ -322,7 +322,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                     /* Standard numbered section */
                     <>
                       {s.introBlock?.coverImage ? (
-                        <div className="mb-10 overflow-hidden rounded-sm border border-border/45 bg-secondary/10">
+                        <div className="mb-10 overflow-hidden rounded-2xl bg-secondary/10">
                           <img
                             src={s.introBlock.coverImage}
                             alt=""
