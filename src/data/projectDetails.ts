@@ -1,5 +1,9 @@
 import type { ProjectDetailDocument } from "@/types/projectDetail";
 import auraCover from "@/assets/aura-cover.png";
+import auraDetail1 from "@/assets/aura-detail-1.png";
+import auraDetail2 from "@/assets/aura-detail-2.png";
+import auraDetail5 from "@/assets/aura-detail-5.png";
+import auraDetail6 from "@/assets/aura-detail-6.png";
 import neuralyfeCover from "@/assets/neuralyfe-cover.png";
 import flowprintCover from "@/assets/flowprint-cover.png";
 import tubularCover from "@/assets/tubular-cover.jpg";
@@ -10,8 +14,8 @@ const aura: ProjectDetailDocument = {
   listSection: "Main Projects",
   title: "Aura",
   heroSummary: "An AI-powered motion sickness relief system designed for travelers.",
-  heroImage: auraCover,
-  heroImageFit: "contain",
+  heroImage: auraDetail1,
+  heroImageFit: "cover",
   metaCards: [
     { label: "Role", value: "Product Design · Industrial Design" },
     { label: "Timeline", value: "3 Months · Fall 2025" },
@@ -30,11 +34,18 @@ const aura: ProjectDetailDocument = {
       id: "process",
       label: "Aura",
       body: "I iterated through journey maps, system diagrams, and low-fidelity flows for onboarding, anticipation, and escalation. Prototypes explored how much to show vs. infer, and how the wearable, phone, and environment might divide responsibility.\n\nNarrative and motion studies helped align stakeholders on a single coherent ‘calm proactive’ story.",
+      figures: [
+        { type: "image", src: auraDetail2, alt: "Aura — design process" },
+      ],
     },
     {
       id: "final-design",
       label: "Aura Buds",
       body: "Led the end-to-end design of a proactive, AI-driven wearable for motion sickness, defining its concept, system, and interaction model.\n\nShaped a seamless cross-device experience, integrating ambient AI to anticipate discomfort and deliver real-time support.",
+      figures: [
+        { type: "image", src: auraDetail5, alt: "Aura Buds — detail view 1" },
+        { type: "image", src: auraDetail6, alt: "Aura Buds — detail view 2" },
+      ],
     },
     {
       id: "research",
