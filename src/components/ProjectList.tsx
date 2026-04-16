@@ -44,26 +44,22 @@ function getGridMarginTop(index: number): string {
 }
 
 // ─── Media helper (shared) ────────────────────────────────────────────────────
-// Container sized by aspect-ratio — no fixed px height. Width comes from the grid column,
-// height follows naturally. object-cover fills the frame (clay.global approach).
+// No fixed height or aspect-ratio — the image renders at its natural dimensions
+// (w-full h-auto), so the container scales exactly to the image's own ratio.
+// overflow-hidden clips the hover scale without distorting layout.
 const CardMedia = ({
   project,
   hovered,
-  aspectRatio,
 }: {
   project: Project;
   hovered: boolean;
-  aspectRatio: string;
 }) => (
-  <div
-    className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-4 w-full shrink-0"
-    style={{ aspectRatio }}
-  >
+  <div className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-4 w-full">
     {project.coverVideo ? (
       <video
         src={project.coverVideo}
         autoPlay loop muted playsInline
-        className="w-full h-full object-cover"
+        className="w-full h-auto block"
         style={{
           transform: hovered ? "scale(1.03)" : "scale(1)",
           transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
@@ -73,14 +69,14 @@ const CardMedia = ({
       <img
         src={project.coverImage}
         alt={project.title}
-        className="w-full h-full object-cover"
+        className="w-full h-auto block"
         style={{
           transform: hovered ? "scale(1.03)" : "scale(1)",
           transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
         }}
       />
     ) : (
-      <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full aspect-video flex items-center justify-center">
         <span className="text-foreground/15 text-xs text-mono uppercase tracking-[0.2em]">
           No image
         </span>
@@ -99,7 +95,6 @@ const ProjectCard = ({
   project,
   projectId,
   dotClass,
-  aspectRatio,
   globalIndex,
   rowDelay = 0,
   metadataLabel,
@@ -107,7 +102,6 @@ const ProjectCard = ({
   project: Project;
   projectId?: string;
   dotClass: string;
-  aspectRatio: string;
   globalIndex: number;
   rowDelay?: number;
   metadataLabel?: string;
@@ -138,23 +132,23 @@ const ProjectCard = ({
       onMouseLeave={() => setHovered(false)}
       data-clickable="true"
     >
-      <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
+      <CardMedia project={project} hovered={hovered} />
 
       {/* Title */}
       <h3
-        className="text-base font-semibold leading-snug tracking-tight mb-1 transition-colors duration-300"
-        style={{ color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.8)" }}
+        className="text-lg font-semibold leading-snug tracking-tight mb-1.5 transition-colors duration-300"
+        style={{ color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.82)" }}
       >
         {project.title}
       </h3>
 
       {/* Description */}
-      <p className="text-sm text-foreground/45 leading-relaxed line-clamp-1 mb-2">
+      <p className="text-[0.9375rem] text-foreground/50 leading-relaxed line-clamp-1 mb-2">
         {project.description}
       </p>
 
       {/* Metadata */}
-      <p className="text-xs text-mono text-foreground/30 mt-auto">
+      <p className="text-[13px] text-mono text-foreground/35 mt-auto">
         {metadataLabel ?? project.role} · {project.year}
       </p>
     </motion.div>
@@ -191,7 +185,6 @@ const TwoColGrid = ({
           project={p}
           projectId={p.id}
           dotClass={dotClass}
-          aspectRatio={getGridAspectRatio(i)}
           globalIndex={startGlobalIndex + i}
           rowDelay={(i % 2) * 0.06}
           metadataLabel={aiVariant && p.builtWith ? `Built with ${p.builtWith}` : undefined}
@@ -215,7 +208,7 @@ const SectionLabel = ({ title, dotClass }: { title: string; dotClass: string }) 
       className="flex items-center gap-2 mb-10"
     >
       <span className={`w-1.5 h-1.5 rounded-full ${dotClass} opacity-60`} />
-      <span className="text-xs text-mono text-foreground/45 uppercase tracking-[0.14em]">
+      <span className="text-sm text-mono text-foreground/55 uppercase tracking-[0.12em] font-medium">
         {title}
       </span>
     </motion.div>
@@ -244,27 +237,25 @@ const MainProjectList = ({
     <section id={id} className="px-6 md:px-16 lg:px-24 pt-24">
       <SectionLabel title={sectionTitle} dotClass={dotClass} />
 
-      {/* ── Hero 1: Aura — wide landscape ── */}
+      {/* ── Hero 1: Aura ── */}
       {hero1 && (
         <div className="mb-14 md:mb-16">
           <ProjectCard
             project={hero1}
             projectId={hero1.id}
             dotClass={dotClass}
-            aspectRatio="16/9"
             globalIndex={0}
           />
         </div>
       )}
 
-      {/* ── Hero 2: Neuralyfe — slightly tighter landscape ── */}
+      {/* ── Hero 2: Neuralyfe ── */}
       {hero2 && (
         <div className="mb-14 md:mb-16">
           <ProjectCard
             project={hero2}
             projectId={hero2.id}
             dotClass={dotClass}
-            aspectRatio="3/2"
             globalIndex={1}
             rowDelay={0.06}
           />
