@@ -14,7 +14,7 @@ const aura: ProjectDetailDocument = {
   listSection: "Main Projects",
   title: "Aura",
   heroSummary: "An AI-powered anticipatory motion sickness relief system designed for travelers.",
-  heroSubtitle: "Wearable hardware and adaptive software — a closed-loop system that senses, predicts, and intervenes before symptoms emerge.",
+  heroSubtitle: "A closed-loop system — senses, predicts, and intervenes before symptoms emerge.",
   heroImage: auraDetail1,
   heroImageFit: "cover",
   metaCards: [
