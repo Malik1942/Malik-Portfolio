@@ -50,11 +50,16 @@ function getGridMarginTop(index: number): string {
 const CardMedia = ({
   project,
   hovered,
+  maxHeight,
 }: {
   project: Project;
   hovered: boolean;
+  maxHeight?: string;
 }) => (
-  <div className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-4 w-full">
+  <div
+    className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-4 w-full"
+    style={maxHeight ? { maxHeight } : undefined}
+  >
     {project.coverVideo ? (
       <video
         src={project.coverVideo}
@@ -98,6 +103,7 @@ const ProjectCard = ({
   globalIndex,
   rowDelay = 0,
   metadataLabel,
+  maxHeight,
 }: {
   project: Project;
   projectId?: string;
@@ -105,6 +111,7 @@ const ProjectCard = ({
   globalIndex: number;
   rowDelay?: number;
   metadataLabel?: string;
+  maxHeight?: string;
 }) => {
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
@@ -132,7 +139,7 @@ const ProjectCard = ({
       onMouseLeave={() => setHovered(false)}
       data-clickable="true"
     >
-      <CardMedia project={project} hovered={hovered} />
+      <CardMedia project={project} hovered={hovered} maxHeight={maxHeight} />
 
       {/* Title */}
       <h3
@@ -245,6 +252,7 @@ const MainProjectList = ({
             projectId={hero1.id}
             dotClass={dotClass}
             globalIndex={0}
+            maxHeight="clamp(340px, 36vw, 520px)"
           />
         </div>
       )}
