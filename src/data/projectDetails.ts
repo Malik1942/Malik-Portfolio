@@ -17,7 +17,7 @@ const aura: ProjectDetailDocument = {
   heroImage: auraDetail1,
   heroImageFit: "cover",
   metaCards: [
-    { label: "Role", value: "Product · Industrial · System & Interaction Design" },
+    { label: "Role", value: "Product Designer · Industrial Designer" },
     { label: "Timeline", value: "2 Months · Oct–Dec 2025" },
     { label: "Team", value: "Collaborative · Multi-designer" },
     { label: "Output", value: "Aura Buds · Aura App · System Architecture" },
