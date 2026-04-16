@@ -1,10 +1,11 @@
 interface FooterProps {
   onMainProjectsClick?: () => void;
+  onAboutClick?: () => void;
   /** false = no max-width wrapper, aligns with full-bleed page padding. Default true. */
   constrained?: boolean;
 }
 
-const Footer = ({ onMainProjectsClick, constrained = true }: FooterProps) => {
+const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: FooterProps) => {
   return (
     <footer className="px-6 md:px-16 lg:px-24 pt-32 pb-12">
       <div className={constrained ? 'max-w-[1200px] mx-auto' : ''}>
@@ -28,19 +29,28 @@ const Footer = ({ onMainProjectsClick, constrained = true }: FooterProps) => {
                   Projects
                 </a>
               </li>
-              {[
-                { label: 'About', href: '#about' },
-                { label: 'Resume', href: '/resume' },
-              ].map((item) => (
-                <li key={item.label}>
-                  <a
-                    href={item.href}
-                    className="text-foreground/70 hover:text-foreground text-sm text-body transition-colors duration-300"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onAboutClick) {
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                      onAboutClick();
+                    }
+                  }}
+                  className="text-foreground/70 hover:text-foreground text-sm text-body transition-colors duration-300"
+                >
+                  About
+                </button>
+              </li>
+              <li>
+                <a
+                  href="/resume"
+                  className="text-foreground/70 hover:text-foreground text-sm text-body transition-colors duration-300"
+                >
+                  Resume
+                </a>
+              </li>
             </ul>
           </div>
 

@@ -44,56 +44,63 @@ function getGridMarginTop(index: number): string {
 }
 
 // ─── Media helper (shared) ────────────────────────────────────────────────────
-// No fixed height or aspect-ratio — the image renders at its natural dimensions
-// (w-full h-auto), so the container scales exactly to the image's own ratio.
-// overflow-hidden clips the hover scale without distorting layout.
+// Default: w-full h-auto — container scales to the image's natural ratio.
+// When aspectRatio is provided the container uses that fixed ratio with object-cover,
+// so the image fills the shape without distortion.
 const CardMedia = ({
   project,
   hovered,
-  maxHeight,
+  aspectRatio,
 }: {
   project: Project;
   hovered: boolean;
-  maxHeight?: string;
-}) => (
-  <div
-    className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-4 w-full"
-    style={maxHeight ? { maxHeight } : undefined}
-  >
-    {project.coverVideo ? (
-      <video
-        src={project.coverVideo}
-        autoPlay loop muted playsInline
-        className="w-full h-auto block"
-        style={{
-          transform: hovered ? "scale(1.03)" : "scale(1)",
-          transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
-        }}
+  aspectRatio?: string;
+}) => {
+  const forced = !!aspectRatio;
+  const mediaClass = forced
+    ? "w-full h-full object-cover"
+    : "w-full h-auto block";
+
+  return (
+    <div
+      className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-4 w-full"
+      style={forced ? { aspectRatio } : undefined}
+    >
+      {project.coverVideo ? (
+        <video
+          src={project.coverVideo}
+          autoPlay loop muted playsInline
+          className={mediaClass}
+          style={{
+            transform: hovered ? "scale(1.03)" : "scale(1)",
+            transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
+          }}
+        />
+      ) : project.coverImage ? (
+        <img
+          src={project.coverImage}
+          alt={project.title}
+          className={mediaClass}
+          style={{
+            transform: hovered ? "scale(1.03)" : "scale(1)",
+            transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
+          }}
+        />
+      ) : (
+        <div className="w-full aspect-video flex items-center justify-center">
+          <span className="text-foreground/15 text-xs text-mono uppercase tracking-[0.2em]">
+            No image
+          </span>
+        </div>
+      )}
+      <motion.div
+        className="absolute inset-0 bg-foreground/[0.04] pointer-events-none"
+        animate={{ opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.35 }}
       />
-    ) : project.coverImage ? (
-      <img
-        src={project.coverImage}
-        alt={project.title}
-        className="w-full h-auto block"
-        style={{
-          transform: hovered ? "scale(1.03)" : "scale(1)",
-          transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
-        }}
-      />
-    ) : (
-      <div className="w-full aspect-video flex items-center justify-center">
-        <span className="text-foreground/15 text-xs text-mono uppercase tracking-[0.2em]">
-          No image
-        </span>
-      </div>
-    )}
-    <motion.div
-      className="absolute inset-0 bg-foreground/[0.04] pointer-events-none"
-      animate={{ opacity: hovered ? 1 : 0 }}
-      transition={{ duration: 0.35 }}
-    />
-  </div>
-);
+    </div>
+  );
+};
 
 // ─── Project card (unified) ───────────────────────────────────────────────────
 const ProjectCard = ({
@@ -103,7 +110,8 @@ const ProjectCard = ({
   globalIndex,
   rowDelay = 0,
   metadataLabel,
-  maxHeight,
+  aspectRatio,
+  maxWidth,
 }: {
   project: Project;
   projectId?: string;
@@ -111,7 +119,8 @@ const ProjectCard = ({
   globalIndex: number;
   rowDelay?: number;
   metadataLabel?: string;
-  maxHeight?: string;
+  aspectRatio?: string;
+  maxWidth?: string;
 }) => {
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
@@ -134,12 +143,13 @@ const ProjectCard = ({
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.7, delay: rowDelay + globalIndex * 0.05, ease }}
       className="cursor-pointer group flex flex-col"
+      style={maxWidth ? { maxWidth } : undefined}
       onClick={handleClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       data-clickable="true"
     >
-      <CardMedia project={project} hovered={hovered} maxHeight={maxHeight} />
+      <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
 
       {/* Title */}
       <h3
@@ -252,7 +262,8 @@ const MainProjectList = ({
             projectId={hero1.id}
             dotClass={dotClass}
             globalIndex={0}
-            maxHeight="clamp(340px, 36vw, 520px)"
+            aspectRatio="3/4"
+            maxWidth="80%"
           />
         </div>
       )}
