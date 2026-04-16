@@ -29,42 +29,43 @@ const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-// Grid alternates: even pair → left tall / right short; odd pair → left short / right tall
-function getGridImageHeight(index: number): string {
-  const pair = Math.floor(index / 2);
-  const pos  = index % 2; // 0 = left, 1 = right
-  const tall = pair % 2 === 0 ? pos === 0 : pos === 1;
-  return tall
-    ? "clamp(300px, 27vw, 390px)"  // tall card
-    : "clamp(220px, 20vw, 290px)"; // short card
+// Grid alternates portrait/landscape per pair — creates height rhythm without fixed px.
+// Pair 0: left=portrait, right=landscape. Pair 1: left=landscape, right=portrait. etc.
+function getGridAspectRatio(index: number): string {
+  const pair    = Math.floor(index / 2);
+  const pos     = index % 2;
+  const portrait = pair % 2 === 0 ? pos === 0 : pos === 1;
+  return portrait ? "4/5" : "3/2";
 }
 
-// Right-column cards (odd index) stagger down
+// Right-column cards stagger down for organic rhythm
 function getGridMarginTop(index: number): string {
   return index % 2 === 1 ? "clamp(24px, 3vw, 44px)" : "0px";
 }
 
 // ─── Media helper (shared) ────────────────────────────────────────────────────
+// Container sized by aspect-ratio — no fixed px height. Width comes from the grid column,
+// height follows naturally. object-cover fills the frame (clay.global approach).
 const CardMedia = ({
   project,
   hovered,
-  imageHeight,
+  aspectRatio,
 }: {
   project: Project;
   hovered: boolean;
-  imageHeight: string;
+  aspectRatio: string;
 }) => (
   <div
     className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-4 w-full shrink-0"
-    style={{ height: imageHeight }}
+    style={{ aspectRatio }}
   >
     {project.coverVideo ? (
       <video
         src={project.coverVideo}
         autoPlay loop muted playsInline
-        className="w-full h-full object-contain"
+        className="w-full h-full object-cover"
         style={{
-          transform: hovered ? "scale(1.035)" : "scale(1)",
+          transform: hovered ? "scale(1.03)" : "scale(1)",
           transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
         }}
       />
@@ -72,9 +73,9 @@ const CardMedia = ({
       <img
         src={project.coverImage}
         alt={project.title}
-        className="w-full h-full object-contain"
+        className="w-full h-full object-cover"
         style={{
-          transform: hovered ? "scale(1.035)" : "scale(1)",
+          transform: hovered ? "scale(1.03)" : "scale(1)",
           transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
         }}
       />
@@ -94,13 +95,11 @@ const CardMedia = ({
 );
 
 // ─── Project card (unified) ───────────────────────────────────────────────────
-// Single card component used for all projects. Visual hierarchy comes from
-// imageHeight alone — typography is identical across every card.
 const ProjectCard = ({
   project,
   projectId,
   dotClass,
-  imageHeight,
+  aspectRatio,
   globalIndex,
   rowDelay = 0,
   metadataLabel,
@@ -108,7 +107,7 @@ const ProjectCard = ({
   project: Project;
   projectId?: string;
   dotClass: string;
-  imageHeight: string;
+  aspectRatio: string;
   globalIndex: number;
   rowDelay?: number;
   metadataLabel?: string;
@@ -130,47 +129,34 @@ const ProjectCard = ({
     <motion.div
       ref={ref}
       id={projectId ? `project-${projectId}` : undefined}
-      initial={{ opacity: 0, y: 36 }}
+      initial={{ opacity: 0, y: 32 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay: rowDelay + globalIndex * 0.05, ease }}
+      transition={{ duration: 0.7, delay: rowDelay + globalIndex * 0.05, ease }}
       className="cursor-pointer group flex flex-col"
       onClick={handleClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       data-clickable="true"
     >
-      <CardMedia project={project} hovered={hovered} imageHeight={imageHeight} />
+      <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
 
+      {/* Title */}
       <h3
-        className="text-display font-semibold leading-[1.07] tracking-[-0.02em] mb-2 transition-colors duration-500"
-        style={{
-          fontSize: "clamp(1.25rem, 2vw, 1.75rem)",
-          color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.78)",
-        }}
+        className="text-base font-semibold leading-snug tracking-tight mb-1 transition-colors duration-300"
+        style={{ color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.8)" }}
       >
         {project.title}
       </h3>
 
-      <p className="text-foreground/40 text-body leading-relaxed mb-3 text-sm line-clamp-2">
+      {/* Description */}
+      <p className="text-sm text-foreground/45 leading-relaxed line-clamp-1 mb-2">
         {project.description}
       </p>
 
-      <div className="flex items-center justify-between mt-auto">
-        <div className="flex items-center gap-3">
-          <span className={`w-1.5 h-1.5 rounded-full ${dotClass} opacity-45`} />
-          <span className="text-[11px] text-mono text-foreground/28 uppercase tracking-wider">
-            {metadataLabel ?? project.role}
-          </span>
-          <span className="text-[11px] text-mono text-foreground/22">{project.year}</span>
-        </div>
-        <motion.span
-          animate={{ x: hovered ? 4 : 0, opacity: hovered ? 0.8 : 0.18 }}
-          transition={{ duration: 0.3, ease }}
-          className="text-foreground text-sm text-mono"
-        >
-          →
-        </motion.span>
-      </div>
+      {/* Metadata */}
+      <p className="text-xs text-mono text-foreground/30 mt-auto">
+        {metadataLabel ?? project.role} · {project.year}
+      </p>
     </motion.div>
   );
 };
@@ -205,7 +191,7 @@ const TwoColGrid = ({
           project={p}
           projectId={p.id}
           dotClass={dotClass}
-          imageHeight={getGridImageHeight(i)}
+          aspectRatio={getGridAspectRatio(i)}
           globalIndex={startGlobalIndex + i}
           rowDelay={(i % 2) * 0.06}
           metadataLabel={aiVariant && p.builtWith ? `Built with ${p.builtWith}` : undefined}
@@ -216,19 +202,20 @@ const TwoColGrid = ({
 );
 
 // ─── Section label ────────────────────────────────────────────────────────────
+// Subtitle-weight — labels the section without competing with project content.
 const SectionLabel = ({ title, dotClass }: { title: string; dotClass: string }) => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 16 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, ease }}
-      className="flex items-center gap-2.5 mb-14"
+      initial={{ opacity: 0 }}
+      animate={inView ? { opacity: 1 } : {}}
+      transition={{ duration: 0.5, ease }}
+      className="flex items-center gap-2 mb-10"
     >
-      <span className={`w-1.5 h-1.5 rounded-full ${dotClass} opacity-70`} />
-      <span className="text-sm font-semibold text-foreground tracking-tight text-display">
+      <span className={`w-1.5 h-1.5 rounded-full ${dotClass} opacity-60`} />
+      <span className="text-xs text-mono text-foreground/45 uppercase tracking-[0.14em]">
         {title}
       </span>
     </motion.div>
@@ -257,27 +244,27 @@ const MainProjectList = ({
     <section id={id} className="px-6 md:px-16 lg:px-24 pt-24">
       <SectionLabel title={sectionTitle} dotClass={dotClass} />
 
-      {/* ── Hero 1: Aura ── */}
+      {/* ── Hero 1: Aura — wide landscape ── */}
       {hero1 && (
-        <div className="mb-16 md:mb-20">
+        <div className="mb-14 md:mb-16">
           <ProjectCard
             project={hero1}
             projectId={hero1.id}
             dotClass={dotClass}
-            imageHeight="clamp(520px, 52vw, 700px)"
+            aspectRatio="16/9"
             globalIndex={0}
           />
         </div>
       )}
 
-      {/* ── Hero 2: Neuralyfe ── */}
+      {/* ── Hero 2: Neuralyfe — slightly tighter landscape ── */}
       {hero2 && (
-        <div className="mb-16 md:mb-20">
+        <div className="mb-14 md:mb-16">
           <ProjectCard
             project={hero2}
             projectId={hero2.id}
             dotClass={dotClass}
-            imageHeight="clamp(480px, 46vw, 640px)"
+            aspectRatio="3/2"
             globalIndex={1}
             rowDelay={0.06}
           />
