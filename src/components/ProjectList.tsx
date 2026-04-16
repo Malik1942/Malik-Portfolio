@@ -232,19 +232,18 @@ const MainProjectList = ({
   dotClass: string;
   projects: Project[];
 }) => {
-  // Tier assignment by position
-  const hero          = projects[0];               // Aura
-  const secondaryHero = projects[1];               // Neuralyfe
-  const secondary     = projects.slice(2, 4);      // FlowPrint, Tubular
-  const minor         = projects.slice(4);         // Mood Muse…
+  const hero          = projects[0];          // Aura
+  const secondaryHero = projects[1];          // Neuralyfe
+  const secondary     = projects.slice(2, 4); // FlowPrint, Tubular
+  const minor         = projects.slice(4);    // Mood Muse
 
   return (
     <section id={id} className="px-6 md:px-16 lg:px-24 pt-24">
       <SectionLabel title={sectionTitle} dotClass={dotClass} />
 
-      {/* ── Tier 1: Hero (full width) ── */}
+      {/* ── Aura: full width ── */}
       {hero && (
-        <div className="mb-20 md:mb-24">
+        <div className="mb-20 md:mb-28">
           <ProjectCard
             project={hero}
             projectId={hero.id}
@@ -255,43 +254,38 @@ const MainProjectList = ({
         </div>
       )}
 
-      {/* ── Tier 1: Secondary-hero (9/12 cols, offset right) ── */}
+      {/* ── Neuralyfe: offset right (cols 3–12 on lg) ── */}
       {secondaryHero && (
         <div
-          className="mb-[140px]"
+          className="mb-20 md:mb-28"
           style={{ display: "grid", gridTemplateColumns: "repeat(12,1fr)", gap: "1.5rem" }}
         >
-          <div
-            style={{
-              gridColumn: "1 / 13",
-            }}
-            className="lg:[grid-column:4_/_13]"
-          >
-            {/* Use inline style for the lg offset since Tailwind arbitrary grid-column isn't reliable */}
-            <div className="lg:ml-[25%]">
-              <ProjectCard
-                project={secondaryHero}
-                projectId={secondaryHero.id}
-                dotClass={dotClass}
-                tier="secondary-hero"
-                globalIndex={1}
-                rowDelay={0.05}
-              />
-            </div>
+          <div style={{ gridColumn: "1 / 13" }} className="lg:[grid-column:3_/_13]">
+            <ProjectCard
+              project={secondaryHero}
+              projectId={secondaryHero.id}
+              dotClass={dotClass}
+              tier="secondary-hero"
+              globalIndex={1}
+              rowDelay={0.05}
+            />
           </div>
         </div>
       )}
 
-      {/* ── Tier 2: Secondary pair (6/12 each) ── */}
+      {/* ── FlowPrint + Tubular: 6/6 pair, right card staggered down ── */}
       {secondary.length > 0 && (
         <div
-          className="mb-[140px]"
-          style={{ display: "grid", gridTemplateColumns: "repeat(12,1fr)", gap: "1.5rem 2rem" }}
+          className="mb-20 md:mb-28"
+          style={{ display: "grid", gridTemplateColumns: "repeat(12,1fr)", gap: "1.5rem 2rem", alignItems: "start" }}
         >
           {secondary.map((p, i) => (
             <div
               key={p.title}
-              style={{ gridColumn: "span 12" }}
+              style={{
+                gridColumn: "span 12",
+                marginTop: i === 1 ? "clamp(30px, 4vw, 56px)" : undefined,
+              }}
               className="md:[grid-column:span_6]"
             >
               <ProjectCard
@@ -307,7 +301,7 @@ const MainProjectList = ({
         </div>
       )}
 
-      {/* ── Tier 3: Minor (5/12 cols) ── */}
+      {/* ── Mood Muse: solo 6 cols, left-aligned, right stays empty ── */}
       {minor.length > 0 && (
         <div
           className="pb-10"
@@ -317,7 +311,7 @@ const MainProjectList = ({
             <div
               key={p.title}
               style={{ gridColumn: "span 12" }}
-              className="md:[grid-column:span_7] lg:[grid-column:span_5]"
+              className="md:[grid-column:span_6]"
             >
               <ProjectCard
                 project={p}
@@ -335,7 +329,8 @@ const MainProjectList = ({
   );
 };
 
-// ─── AI tiered layout ─────────────────────────────────────────────────────────
+// ─── AI layout ───────────────────────────────────────────────────────────────
+// Two per row (6/6). Odd last card stays at 6 cols left-aligned — right empty.
 const AIProjectList = ({
   id,
   sectionTitle,
@@ -356,15 +351,15 @@ const AIProjectList = ({
         <div
           key={p.title}
           style={{ gridColumn: "span 12" }}
-          className="sm:[grid-column:span_6] lg:[grid-column:span_4]"
+          className="md:[grid-column:span_6]"
         >
           <ProjectCard
             project={p}
             projectId={p.id}
             dotClass={dotClass}
-            tier="minor"
+            tier="secondary"
             globalIndex={i}
-            rowDelay={i * 0.07}
+            rowDelay={(i % 2) * 0.07}
           />
         </div>
       ))}
