@@ -49,22 +49,20 @@ const CardMedia = ({
   project,
   hovered,
   imageHeight,
-  radius = "rounded-2xl",
 }: {
   project: Project;
   hovered: boolean;
   imageHeight: string;
-  radius?: string;
 }) => (
   <div
-    className={`overflow-hidden ${radius} bg-secondary/15 relative mb-4 w-full shrink-0`}
+    className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-4 w-full shrink-0"
     style={{ height: imageHeight }}
   >
     {project.coverVideo ? (
       <video
         src={project.coverVideo}
         autoPlay loop muted playsInline
-        className="w-full h-full object-cover"
+        className="w-full h-full object-contain"
         style={{
           transform: hovered ? "scale(1.035)" : "scale(1)",
           transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
@@ -74,7 +72,7 @@ const CardMedia = ({
       <img
         src={project.coverImage}
         alt={project.title}
-        className={`w-full h-full ${project.coverFit === "contain" ? "object-contain" : "object-cover"}`}
+        className="w-full h-full object-contain"
         style={{
           transform: hovered ? "scale(1.035)" : "scale(1)",
           transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
@@ -95,88 +93,10 @@ const CardMedia = ({
   </div>
 );
 
-// ─── Hero card ────────────────────────────────────────────────────────────────
-// Full-width, dominant. Aura and Neuralyfe only.
-const HeroCard = ({
-  project,
-  projectId,
-  dotClass,
-  imageHeight,
-  globalIndex,
-  rowDelay = 0,
-}: {
-  project: Project;
-  projectId?: string;
-  dotClass: string;
-  imageHeight: string;
-  globalIndex: number;
-  rowDelay?: number;
-}) => {
-  const navigate = useNavigate();
-  const [hovered, setHovered] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
-
-  const handleClick = () => {
-    if (project.externalUrl) {
-      window.open(project.externalUrl, "_blank", "noopener,noreferrer");
-    } else if (projectId) {
-      navigate(`/project/${projectId}`);
-    }
-  };
-
-  return (
-    <motion.div
-      ref={ref}
-      id={projectId ? `project-${projectId}` : undefined}
-      initial={{ opacity: 0, y: 44 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.85, delay: rowDelay + globalIndex * 0.05, ease }}
-      className="cursor-pointer group flex flex-col"
-      onClick={handleClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      data-clickable="true"
-    >
-      <CardMedia project={project} hovered={hovered} imageHeight={imageHeight} />
-
-      <h3
-        className="text-display font-semibold leading-[1.06] tracking-[-0.025em] mb-2 transition-colors duration-500"
-        style={{
-          fontSize: "clamp(2rem, 3.4vw, 3rem)",
-          color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.82)",
-        }}
-      >
-        {project.title}
-      </h3>
-
-      <p className="text-foreground/40 text-body leading-relaxed mb-3 text-[0.9rem] line-clamp-2">
-        {project.description}
-      </p>
-
-      <div className="flex items-center justify-between mt-auto">
-        <div className="flex items-center gap-3">
-          <span className={`w-1.5 h-1.5 rounded-full ${dotClass} opacity-45`} />
-          <span className="text-[11px] text-mono text-foreground/28 uppercase tracking-wider">
-            {project.role}
-          </span>
-          <span className="text-[11px] text-mono text-foreground/22">{project.year}</span>
-        </div>
-        <motion.span
-          animate={{ x: hovered ? 4 : 0, opacity: hovered ? 0.8 : 0.18 }}
-          transition={{ duration: 0.3, ease }}
-          className="text-foreground text-sm text-mono"
-        >
-          →
-        </motion.span>
-      </div>
-    </motion.div>
-  );
-};
-
-// ─── Grid card ────────────────────────────────────────────────────────────────
-// Smaller cards — clearly subordinate to heroes. Used for all non-hero projects.
-const GridCard = ({
+// ─── Project card (unified) ───────────────────────────────────────────────────
+// Single card component used for all projects. Visual hierarchy comes from
+// imageHeight alone — typography is identical across every card.
+const ProjectCard = ({
   project,
   projectId,
   dotClass,
@@ -191,7 +111,7 @@ const GridCard = ({
   imageHeight: string;
   globalIndex: number;
   rowDelay?: number;
-  metadataLabel?: string; // override for "Built with X" in AI section
+  metadataLabel?: string;
 }) => {
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
@@ -210,41 +130,41 @@ const GridCard = ({
     <motion.div
       ref={ref}
       id={projectId ? `project-${projectId}` : undefined}
-      initial={{ opacity: 0, y: 32 }}
+      initial={{ opacity: 0, y: 36 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: rowDelay + globalIndex * 0.05, ease }}
+      transition={{ duration: 0.75, delay: rowDelay + globalIndex * 0.05, ease }}
       className="cursor-pointer group flex flex-col"
       onClick={handleClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       data-clickable="true"
     >
-      <CardMedia project={project} hovered={hovered} imageHeight={imageHeight} radius="rounded-xl" />
+      <CardMedia project={project} hovered={hovered} imageHeight={imageHeight} />
 
       <h3
-        className="text-display font-semibold leading-[1.08] tracking-[-0.02em] mb-1.5 transition-colors duration-500"
+        className="text-display font-semibold leading-[1.07] tracking-[-0.02em] mb-2 transition-colors duration-500"
         style={{
-          fontSize: "clamp(1.15rem, 1.8vw, 1.6rem)",
-          color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.72)",
+          fontSize: "clamp(1.25rem, 2vw, 1.75rem)",
+          color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.78)",
         }}
       >
         {project.title}
       </h3>
 
-      <p className="text-foreground/38 text-body leading-relaxed mb-3 text-[0.8125rem] line-clamp-1">
+      <p className="text-foreground/40 text-body leading-relaxed mb-3 text-sm line-clamp-2">
         {project.description}
       </p>
 
       <div className="flex items-center justify-between mt-auto">
-        <div className="flex items-center gap-2.5">
-          <span className={`w-1.5 h-1.5 rounded-full ${dotClass} opacity-40`} />
-          <span className="text-[10.5px] text-mono text-foreground/26 uppercase tracking-wider">
+        <div className="flex items-center gap-3">
+          <span className={`w-1.5 h-1.5 rounded-full ${dotClass} opacity-45`} />
+          <span className="text-[11px] text-mono text-foreground/28 uppercase tracking-wider">
             {metadataLabel ?? project.role}
           </span>
-          <span className="text-[10.5px] text-mono text-foreground/20">{project.year}</span>
+          <span className="text-[11px] text-mono text-foreground/22">{project.year}</span>
         </div>
         <motion.span
-          animate={{ x: hovered ? 3 : 0, opacity: hovered ? 0.75 : 0.16 }}
+          animate={{ x: hovered ? 4 : 0, opacity: hovered ? 0.8 : 0.18 }}
           transition={{ duration: 0.3, ease }}
           className="text-foreground text-sm text-mono"
         >
@@ -281,7 +201,7 @@ const TwoColGrid = ({
         key={p.id ?? p.title}
         style={{ marginTop: getGridMarginTop(i) }}
       >
-        <GridCard
+        <ProjectCard
           project={p}
           projectId={p.id}
           dotClass={dotClass}
@@ -340,7 +260,7 @@ const MainProjectList = ({
       {/* ── Hero 1: Aura ── */}
       {hero1 && (
         <div className="mb-16 md:mb-20">
-          <HeroCard
+          <ProjectCard
             project={hero1}
             projectId={hero1.id}
             dotClass={dotClass}
@@ -353,7 +273,7 @@ const MainProjectList = ({
       {/* ── Hero 2: Neuralyfe ── */}
       {hero2 && (
         <div className="mb-16 md:mb-20">
-          <HeroCard
+          <ProjectCard
             project={hero2}
             projectId={hero2.id}
             dotClass={dotClass}
