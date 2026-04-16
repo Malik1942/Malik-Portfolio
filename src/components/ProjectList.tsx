@@ -25,6 +25,16 @@ interface ProjectListProps {
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+// Each layout shifts the card's horizontal anchor and image width
+// creating a staggered, "placed" rhythm instead of a uniform list
+const LAYOUTS = [
+  { paddingLeft: "0%",  paddingRight: "10%", imageWidth: "100%" },
+  { paddingLeft: "16%", paddingRight: "0%",  imageWidth: "100%" },
+  { paddingLeft: "6%",  paddingRight: "14%", imageWidth: "100%" },
+  { paddingLeft: "20%", paddingRight: "0%",  imageWidth: "100%" },
+  { paddingLeft: "2%",  paddingRight: "8%",  imageWidth: "100%" },
+];
+
 const ProjectCard = ({
   project,
   index,
@@ -41,6 +51,8 @@ const ProjectCard = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const inView = useInView(cardRef, { once: true, margin: "0px 0px -60px 0px" });
 
+  const layout = LAYOUTS[index % LAYOUTS.length];
+
   const handleClick = () => {
     if (project.externalUrl) {
       window.open(project.externalUrl, "_blank", "noopener,noreferrer");
@@ -53,94 +65,102 @@ const ProjectCard = ({
     <motion.div
       ref={cardRef}
       id={projectId ? `project-${projectId}` : undefined}
-      initial={{ opacity: 0, y: 48 }}
+      initial={{ opacity: 0, y: 52 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay: index * 0.08, ease }}
+      transition={{ duration: 0.8, delay: index * 0.06, ease }}
       className="mb-20 md:mb-28 cursor-pointer group"
+      style={{
+        paddingLeft: layout.paddingLeft,
+        paddingRight: layout.paddingRight,
+      }}
       onClick={handleClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       data-clickable="true"
     >
-      {/* Header: number + title + meta */}
-      <div className="flex items-end justify-between gap-6 mb-5">
-        <div className="flex items-baseline gap-4 min-w-0">
-          <span className="text-[11px] text-mono text-foreground/22 flex-shrink-0 tabular-nums pb-1">
-            {String(index + 1).padStart(2, "0")}
+      {/* Number — floats above as a textural element */}
+      <div className="flex items-baseline justify-between gap-4 mb-3">
+        <span className="text-[11px] text-mono text-foreground/20 tabular-nums">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <div className="flex items-center gap-4">
+          <span className="hidden md:block text-[11px] text-foreground/30 text-body tracking-wide">
+            {project.role}
           </span>
-          <h3
-            className="text-[2rem] md:text-[2.75rem] lg:text-[3.25rem] font-semibold text-display leading-[1.05] tracking-[-0.02em] transition-colors duration-500"
-            style={{ color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.72)" }}
-          >
-            {project.title}
-          </h3>
-        </div>
-
-        <div className="flex items-center gap-4 pb-1 shrink-0">
-          <span className="hidden md:block text-xs text-foreground/35 text-body">{project.role}</span>
-          <span className="text-[11px] text-mono text-foreground/28">{project.year}</span>
-          <motion.span
-            animate={{ x: hovered ? 4 : 0, opacity: hovered ? 1 : 0.3 }}
-            transition={{ duration: 0.4, ease }}
-            className="text-foreground text-base leading-none"
-          >
-            →
-          </motion.span>
+          <span className="text-[11px] text-mono text-foreground/25">{project.year}</span>
         </div>
       </div>
 
-      {/* Cover image / video — full width, tall */}
-      <div className="overflow-hidden rounded-2xl bg-secondary/20 relative">
+      {/* Title */}
+      <div className="mb-5">
+        <h3
+          className="text-[2.1rem] md:text-[2.8rem] lg:text-[3.4rem] font-semibold text-display leading-[1.04] tracking-[-0.025em] transition-colors duration-500"
+          style={{ color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.68)" }}
+        >
+          {project.title}
+        </h3>
+      </div>
+
+      {/* Image — constrained to layout width, feels "placed" */}
+      <div
+        className="overflow-hidden rounded-2xl bg-secondary/15 relative"
+        style={{ width: layout.imageWidth }}
+      >
         {project.coverVideo ? (
           <video
             src={project.coverVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full object-cover"
+            autoPlay loop muted playsInline
+            className="w-full object-cover block"
             style={{
-              height: "clamp(260px, 48vw, 560px)",
+              height: "clamp(240px, 44vw, 520px)",
               transform: hovered ? "scale(1.04)" : "scale(1)",
-              transition: "transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
+              transition: "transform 0.85s cubic-bezier(0.22, 1, 0.36, 1)",
             }}
           />
         ) : project.coverImage ? (
           <img
             src={project.coverImage}
             alt={project.title}
-            className={`w-full ${project.coverFit === "contain" ? "object-contain" : "object-cover"}`}
+            className={`w-full block ${project.coverFit === "contain" ? "object-contain" : "object-cover"}`}
             style={{
-              height: "clamp(260px, 48vw, 560px)",
+              height: "clamp(240px, 44vw, 520px)",
               transform: hovered ? "scale(1.04)" : "scale(1)",
-              transition: "transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
+              transition: "transform 0.85s cubic-bezier(0.22, 1, 0.36, 1)",
             }}
           />
         ) : (
           <div
             className="w-full flex items-center justify-center"
-            style={{ height: "clamp(260px, 48vw, 560px)" }}
+            style={{ height: "clamp(240px, 44vw, 520px)" }}
           >
-            <span className="text-foreground/15 text-sm text-mono uppercase tracking-widest">
+            <span className="text-foreground/15 text-xs text-mono uppercase tracking-[0.2em]">
               No image
             </span>
           </div>
         )}
 
-        {/* Subtle hover scrim */}
         <motion.div
-          className="absolute inset-0 bg-foreground/[0.04] pointer-events-none rounded-2xl"
+          className="absolute inset-0 bg-foreground/[0.035] pointer-events-none"
           animate={{ opacity: hovered ? 1 : 0 }}
           transition={{ duration: 0.4 }}
         />
       </div>
 
-      {/* Footer: description + dot */}
+      {/* Footer: description + arrow */}
       <div className="mt-4 flex items-start justify-between gap-6">
-        <p className="text-foreground/42 text-sm text-body leading-relaxed max-w-lg">
+        <p className="text-foreground/38 text-sm text-body leading-relaxed max-w-sm">
           {project.description}
         </p>
-        <span className={`w-2 h-2 rounded-full flex-shrink-0 mt-1.5 ${dotClass} opacity-50`} />
+        <div className="flex items-center gap-2 shrink-0 pt-0.5">
+          <span className={`w-1.5 h-1.5 rounded-full ${dotClass} opacity-50`} />
+          <motion.span
+            animate={{ x: hovered ? 4 : 0, opacity: hovered ? 0.9 : 0.25 }}
+            transition={{ duration: 0.35, ease }}
+            className="text-foreground text-sm text-mono"
+          >
+            →
+          </motion.span>
+        </div>
       </div>
     </motion.div>
   );
@@ -162,23 +182,23 @@ const ProjectList = ({
       {/* Section header */}
       <motion.div
         ref={headerRef}
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={headerInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.65, ease }}
-        className="flex items-end justify-between gap-6 mb-16 pb-6 border-b border-border/40"
+        transition={{ duration: 0.6, ease }}
+        className="flex items-end justify-between gap-6 mb-16 pb-5 border-b border-border/35"
       >
         <div className="flex items-center gap-3">
           <span className={`w-2 h-2 rounded-full flex-shrink-0 ${dotClass}`} />
-          <h2 className="text-2xl md:text-3xl font-semibold text-foreground text-display tracking-tight">
+          <h2 className="text-xl md:text-2xl font-semibold text-foreground text-display tracking-tight">
             {sectionTitle}
           </h2>
         </div>
-        <p className="text-foreground/38 text-sm text-body text-right max-w-xs hidden md:block">
+        <p className="text-foreground/32 text-xs text-body text-right max-w-[220px] hidden md:block leading-relaxed">
           {sectionSubtitle}
         </p>
       </motion.div>
 
-      {/* Cards */}
+      {/* Staggered cards */}
       <div>
         {projects.map((project, i) => (
           <ProjectCard
