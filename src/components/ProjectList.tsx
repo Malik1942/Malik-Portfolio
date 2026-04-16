@@ -13,7 +13,6 @@ interface Project {
   coverFit?: "cover" | "contain";
   details?: string;
   externalUrl?: string;
-  builtWith?: string;
 }
 
 interface ProjectListProps {
@@ -22,110 +21,60 @@ interface ProjectListProps {
   sectionSubtitle: string;
   dotColor: "red" | "gold";
   projects: Project[];
-  variant?: "main" | "ai";
 }
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-// ─── Tier config ──────────────────────────────────────────────────────────────
-type Tier = "hero" | "secondary-hero" | "secondary" | "minor";
+// Group flat list into rows: pairs + optional solo at end
+function groupIntoRows(projects: Project[]): Project[][] {
+  const rows: Project[][] = [];
+  let i = 0;
+  while (i < projects.length) {
+    if (i + 1 < projects.length) {
+      rows.push([projects[i], projects[i + 1]]);
+      i += 2;
+    } else {
+      rows.push([projects[i]]);
+      i += 1;
+    }
+  }
+  return rows;
+}
 
-const TIER: Record<Tier, {
-  imageHeight: string;
-  titleSize: string;
-  titleWeight: string;
-  titleColor: string;
-  titleHoverColor: string;
-}> = {
-  // Hero tiers: obviously dominant. Push sizes large so the jump is unmistakable.
-  hero: {
-    imageHeight: "clamp(600px, 55vw, 720px)",
-    titleSize: "clamp(2.6rem, 4.2vw, 4rem)",
-    titleWeight: "700",
-    titleColor: "hsl(var(--foreground) / 0.82)",
-    titleHoverColor: "hsl(var(--foreground))",
-  },
-  "secondary-hero": {
-    imageHeight: "clamp(560px, 50vw, 640px)",
-    titleSize: "clamp(2rem, 3.2vw, 3rem)",
-    titleWeight: "600",
-    titleColor: "hsl(var(--foreground) / 0.75)",
-    titleHoverColor: "hsl(var(--foreground))",
-  },
-  // Secondary: clearly smaller than heroes
-  secondary: {
-    imageHeight: "clamp(400px, 35vw, 460px)",
-    titleSize: "clamp(1.55rem, 2.4vw, 2.25rem)",
-    titleWeight: "600",
-    titleColor: "hsl(var(--foreground) / 0.68)",
-    titleHoverColor: "hsl(var(--foreground) / 0.92)",
-  },
-  // Minor: noticeably smaller — signals closing/gallery
-  minor: {
-    imageHeight: "clamp(280px, 26vw, 340px)",
-    titleSize: "clamp(1.2rem, 1.8vw, 1.6rem)",
-    titleWeight: "500",
-    titleColor: "hsl(var(--foreground) / 0.58)",
-    titleHoverColor: "hsl(var(--foreground) / 0.85)",
-  },
-};
+// Alternating split: row 0 → [62%, 38%], row 1 → [38%, 62%], solo → [100%]
+function getRowFractions(rowIndex: number, count: number): string {
+  if (count === 1) return "1fr";
+  return rowIndex % 2 === 0 ? "1.65fr 1fr" : "1fr 1.65fr";
+}
 
-// ─── Section heading ──────────────────────────────────────────────────────────
-// Structural anchor — bold, large, primary color. Not muted.
-const SectionHeading = ({
-  title,
-}: {
-  title: string;
-}) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, ease }}
-      className="mb-20"
-    >
-      <h2
-        className="font-bold tracking-tight text-foreground leading-none"
-        style={{ fontSize: "clamp(1.75rem, 4vw, 3.5rem)" }}
-      >
-        {title}
-      </h2>
-    </motion.div>
-  );
-};
+// Taller image for the larger card in a pair
+function getImageHeight(isBig: boolean, isSolo: boolean): string {
+  if (isSolo) return "clamp(280px, 40vw, 540px)";
+  if (isBig)  return "clamp(300px, 38vw, 520px)";
+  return "clamp(220px, 28vw, 400px)";
+}
 
-// ─── Single card ──────────────────────────────────────────────────────────────
 const ProjectCard = ({
   project,
   projectId,
   dotClass,
-  tier,
   globalIndex,
-  rowDelay = 0,
-  cardVariant = "main",
+  isBig,
+  isSolo,
 }: {
   project: Project;
   projectId?: string;
   dotClass: string;
-  tier: Tier;
   globalIndex: number;
-  rowDelay?: number;
-  cardVariant?: "main" | "ai";
+  isBig: boolean;
+  isSolo: boolean;
 }) => {
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "0px 0px -60px 0px" });
-  const cfg = TIER[tier];
+  const cardRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(cardRef, { once: true, margin: "0px 0px -60px 0px" });
 
-  const isAi = cardVariant === "ai";
-  const imageRadius = isAi ? "rounded-2xl" : "rounded-xl";
-  const cardPadding = isAi ? "p-4 md:p-5" : "";
-  const cardBg = isAi ? "bg-foreground/[0.03]" : "";
-  const cardRadius = isAi ? "rounded-2xl" : "";
+  const imageHeight = getImageHeight(isBig, isSolo);
 
   const handleClick = () => {
     if (project.externalUrl) {
@@ -137,21 +86,36 @@ const ProjectCard = ({
 
   return (
     <motion.div
-      ref={ref}
+      ref={cardRef}
       id={projectId ? `project-${projectId}` : undefined}
-      initial={{ opacity: 0, y: 36 }}
+      initial={{ opacity: 0, y: 44 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay: rowDelay + globalIndex * 0.04, ease }}
-      className={`cursor-pointer group flex flex-col ${cardBg} ${cardRadius} ${cardPadding}`}
+      transition={{ duration: 0.75, delay: globalIndex * 0.07, ease }}
+      className="cursor-pointer group flex flex-col"
       onClick={handleClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       data-clickable="true"
     >
-      {/* Cover media */}
+      {/* Index + meta */}
+      <div className="flex items-baseline justify-between mb-3">
+        <span className="text-[10px] text-mono text-foreground/22 tabular-nums">
+          {String(globalIndex + 1).padStart(2, "0")}
+        </span>
+        <div className="flex items-center gap-3">
+          {isBig && (
+            <span className="hidden md:block text-[11px] text-foreground/28 text-body">
+              {project.role}
+            </span>
+          )}
+          <span className="text-[10px] text-mono text-foreground/22">{project.year}</span>
+        </div>
+      </div>
+
+      {/* Image */}
       <div
-        className={`overflow-hidden ${imageRadius} bg-secondary/15 relative mb-4 w-full`}
-        style={{ height: cfg.imageHeight }}
+        className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-4"
+        style={{ height: imageHeight }}
       >
         {project.coverVideo ? (
           <video
@@ -159,8 +123,8 @@ const ProjectCard = ({
             autoPlay loop muted playsInline
             className="w-full h-full object-cover"
             style={{
-              transform: hovered ? "scale(1.04)" : "scale(1)",
-              transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
+              transform: hovered ? "scale(1.045)" : "scale(1)",
+              transition: "transform 0.85s cubic-bezier(0.22,1,0.36,1)",
             }}
           />
         ) : project.coverImage ? (
@@ -169,8 +133,8 @@ const ProjectCard = ({
             alt={project.title}
             className={`w-full h-full ${project.coverFit === "contain" ? "object-contain" : "object-cover"}`}
             style={{
-              transform: hovered ? "scale(1.04)" : "scale(1)",
-              transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
+              transform: hovered ? "scale(1.045)" : "scale(1)",
+              transition: "transform 0.85s cubic-bezier(0.22,1,0.36,1)",
             }}
           />
         ) : (
@@ -189,268 +153,104 @@ const ProjectCard = ({
 
       {/* Title */}
       <h3
-        className="text-display leading-[1.06] tracking-[-0.02em] mb-2 transition-colors duration-500"
+        className="text-display font-semibold leading-[1.08] tracking-[-0.02em] mb-2 transition-colors duration-500"
         style={{
-          fontSize: cfg.titleSize,
-          fontWeight: cfg.titleWeight,
-          color: hovered ? cfg.titleHoverColor : cfg.titleColor,
+          fontSize: isBig || isSolo ? "clamp(1.5rem, 2.4vw, 2.2rem)" : "clamp(1.2rem, 1.8vw, 1.65rem)",
+          color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.7)",
         }}
       >
         {project.title}
       </h3>
 
-      {/* Description */}
-      <p
-        className="text-foreground/40 text-body leading-relaxed mb-3 line-clamp-2"
-        style={{ fontSize: tier === "hero" || tier === "secondary-hero" ? "0.9rem" : "0.8125rem" }}
-      >
-        {project.description}
-      </p>
-
-      {/* Metadata + arrow */}
-      <div className="flex items-center justify-between mt-auto">
-        <div className="flex items-center gap-3">
-          <span className={`w-1.5 h-1.5 rounded-full ${dotClass} opacity-45`} />
-          {isAi && project.builtWith ? (
-            <>
-              <span className="text-[11px] text-mono text-foreground/28 uppercase tracking-wider">
-                Built with {project.builtWith}
-              </span>
-              <span className="text-[11px] text-mono text-foreground/22">{project.year}</span>
-            </>
-          ) : (
-            <>
-              <span className="text-[11px] text-mono text-foreground/28 uppercase tracking-wider">
-                {project.role}
-              </span>
-              <span className="text-[11px] text-mono text-foreground/22">{project.year}</span>
-            </>
-          )}
+      {/* Description + arrow */}
+      <div className="flex items-start justify-between gap-4 mt-auto">
+        <p className="text-foreground/38 text-sm text-body leading-relaxed">
+          {project.description}
+        </p>
+        <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
+          <span className={`w-1.5 h-1.5 rounded-full ${dotClass} opacity-50`} />
+          <motion.span
+            animate={{ x: hovered ? 3 : 0, opacity: hovered ? 0.85 : 0.2 }}
+            transition={{ duration: 0.3, ease }}
+            className="text-foreground text-sm text-mono"
+          >
+            →
+          </motion.span>
         </div>
-        <motion.span
-          animate={{ x: hovered ? 4 : 0, opacity: hovered ? 0.8 : 0.18 }}
-          transition={{ duration: 0.3, ease }}
-          className="text-foreground text-sm text-mono"
-        >
-          →
-        </motion.span>
       </div>
     </motion.div>
   );
 };
 
-// ─── Main tiered layout ───────────────────────────────────────────────────────
-const MainProjectList = ({
+const ProjectList = ({
   id,
   sectionTitle,
-  dotClass,
+  sectionSubtitle,
+  dotColor,
   projects,
-}: {
-  id: string;
-  sectionTitle: string;
-  dotClass: string;
-  projects: Project[];
-}) => {
-  const hero          = projects[0];          // Aura
-  const secondaryHero = projects[1];          // Neuralyfe
-  const secondary     = projects.slice(2, 4); // FlowPrint, Tubular
-  const minor         = projects.slice(4);    // Mood Muse
+}: ProjectListProps) => {
+  const dotClass = dotColor === "red" ? "bg-dot-red" : "bg-dot-gold";
+  const headerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useInView(headerRef, { once: true, margin: "0px 0px -40px 0px" });
+  const rows = groupIntoRows(projects);
 
   return (
-    <section id={id} className="px-6 md:px-16 lg:px-24 pt-40">
-      {/* 160px above title (pt-40), 80px below (mb-20 in SectionHeading) */}
-      <SectionHeading title={sectionTitle} />
-
-      {/* ── Aura: full width, dominant hero ── */}
-      {hero && (
-        <div className="mb-[140px]">
-          <ProjectCard
-            project={hero}
-            projectId={hero.id}
-            dotClass={dotClass}
-            tier="hero"
-            globalIndex={0}
-          />
-        </div>
-      )}
-
-      {/* ── Neuralyfe: cols 3–12 offset right ── */}
-      {secondaryHero && (
-        <div
-          className="mb-[140px]"
-          style={{ display: "grid", gridTemplateColumns: "repeat(12,1fr)", gap: "1.5rem" }}
-        >
-          <div style={{ gridColumn: "1 / 13" }} className="lg:[grid-column:3_/_13]">
-            <ProjectCard
-              project={secondaryHero}
-              projectId={secondaryHero.id}
-              dotClass={dotClass}
-              tier="secondary-hero"
-              globalIndex={1}
-              rowDelay={0.05}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* ── FlowPrint + Tubular: 6/6, right card staggered down 50px ── */}
-      {secondary.length > 0 && (
-        <div
-          className="mb-[140px]"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(12,1fr)",
-            gap: "1.5rem 2rem",
-            alignItems: "start",
-          }}
-        >
-          {secondary.map((p, i) => (
-            <div
-              key={p.title}
-              style={{
-                gridColumn: "span 12",
-                marginTop: i === 1 ? "clamp(40px, 4.5vw, 60px)" : undefined,
-              }}
-              className="md:[grid-column:span_6]"
-            >
-              <ProjectCard
-                project={p}
-                projectId={p.id}
-                dotClass={dotClass}
-                tier="secondary"
-                globalIndex={2 + i}
-                rowDelay={i * 0.08}
-              />
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* ── Mood Muse: 6 cols left-aligned, right stays empty ── */}
-      {minor.length > 0 && (
-        <div
-          className="pb-0"
-          style={{ display: "grid", gridTemplateColumns: "repeat(12,1fr)", gap: "1.5rem 2rem" }}
-        >
-          {minor.map((p, i) => (
-            <div
-              key={p.title}
-              style={{ gridColumn: "span 12" }}
-              className="md:[grid-column:span_6]"
-            >
-              <ProjectCard
-                project={p}
-                projectId={p.id}
-                dotClass={dotClass}
-                tier="minor"
-                globalIndex={4 + i}
-                rowDelay={i * 0.06}
-              />
-            </div>
-          ))}
-        </div>
-      )}
-    </section>
-  );
-};
-
-// ─── AI layout ────────────────────────────────────────────────────────────────
-// 2-up grid, uniform, slight stagger. Tinted cards signal "gallery / built set."
-const AIProjectList = ({
-  id,
-  sectionTitle,
-  dotClass,
-  projects,
-}: {
-  id: string;
-  sectionTitle: string;
-  dotClass: string;
-  projects: Project[];
-}) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "0px 0px -40px 0px" });
-
-  return (
-    <section id={id} className="px-6 md:px-16 lg:px-24 pt-[200px] pb-24">
-      {/* Thin divider spanning ~1/3 width — signals section boundary, not full-width */}
+    <section id={id} className="px-6 md:px-16 lg:px-24 pt-24 pb-10">
+      {/* Section header */}
       <motion.div
-        ref={ref}
-        initial={{ scaleX: 0 }}
-        animate={inView ? { scaleX: 1 } : {}}
-        transition={{ duration: 0.7, ease }}
-        className="origin-left border-t border-foreground/10 mb-20"
-        style={{ width: "clamp(120px, 33%, 400px)" }}
-      />
-
-      {/* 160px above title (pt-[200px] on section covers both divider + title spacing),
-          80px below (mb-20 in SectionHeading) */}
-      <SectionHeading title={sectionTitle} />
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(12,1fr)",
-          gap: "1.5rem 2rem",
-          alignItems: "start",
-        }}
+        ref={headerRef}
+        initial={{ opacity: 0, y: 20 }}
+        animate={headerInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, ease }}
+        className="flex items-end justify-between gap-6 mb-14 pb-5 border-b border-border/35"
       >
-        {projects.map((p, i) => {
-          const isRight = i % 2 === 1;
+        <div className="flex items-center gap-3">
+          <span className={`w-2 h-2 rounded-full flex-shrink-0 ${dotClass}`} />
+          <h2 className="text-xl md:text-2xl font-semibold text-foreground text-display tracking-tight">
+            {sectionTitle}
+          </h2>
+        </div>
+        <p className="text-foreground/32 text-xs text-body text-right max-w-[200px] hidden md:block leading-relaxed">
+          {sectionSubtitle}
+        </p>
+      </motion.div>
+
+      {/* Mosaic grid rows */}
+      <div className="flex flex-col gap-6 md:gap-8">
+        {rows.map((row, rowIdx) => {
+          const isSoloRow = row.length === 1;
+          const fractions = getRowFractions(rowIdx, row.length);
+          // Determine which card in the row is "big"
+          const bigIndex = rowIdx % 2 === 0 ? 0 : 1;
+
+          // Accumulate global index for stagger
+          let globalBase = 0;
+          for (let r = 0; r < rowIdx; r++) globalBase += rows[r].length;
+
           return (
             <div
-              key={p.title}
+              key={rowIdx}
+              className="grid gap-4 md:gap-6"
               style={{
-                gridColumn: "span 12",
-                marginTop: isRight ? "clamp(30px, 3.5vw, 50px)" : undefined,
+                gridTemplateColumns: `${fractions}`,
               }}
-              className="md:[grid-column:span_6]"
             >
-              <ProjectCard
-                project={p}
-                projectId={p.id}
-                dotClass={dotClass}
-                tier="minor"
-                globalIndex={i}
-                rowDelay={(i % 2) * 0.07}
-                cardVariant="ai"
-              />
+              {row.map((project, colIdx) => (
+                <ProjectCard
+                  key={project.title}
+                  project={project}
+                  projectId={project.id}
+                  dotClass={dotClass}
+                  globalIndex={globalBase + colIdx}
+                  isBig={isSoloRow || colIdx === bigIndex}
+                  isSolo={isSoloRow}
+                />
+              ))}
             </div>
           );
         })}
       </div>
     </section>
-  );
-};
-
-// ─── Public component ─────────────────────────────────────────────────────────
-const ProjectList = ({
-  id,
-  sectionTitle,
-  sectionSubtitle: _unused,
-  dotColor,
-  projects,
-  variant = "main",
-}: ProjectListProps) => {
-  const dotClass = dotColor === "red" ? "bg-dot-red" : "bg-dot-gold";
-
-  if (variant === "ai") {
-    return (
-      <AIProjectList
-        id={id}
-        sectionTitle={sectionTitle}
-        dotClass={dotClass}
-        projects={projects}
-      />
-    );
-  }
-
-  return (
-    <MainProjectList
-      id={id}
-      sectionTitle={sectionTitle}
-      dotClass={dotClass}
-      projects={projects}
-    />
   );
 };
 
