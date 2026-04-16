@@ -262,7 +262,7 @@ const MainProjectList = ({
             projectId={hero1.id}
             dotClass={dotClass}
             globalIndex={0}
-            aspectRatio="3/4"
+            aspectRatio="4/3"
             maxWidth="80%"
           />
         </div>
