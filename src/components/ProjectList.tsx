@@ -262,7 +262,7 @@ const MainProjectList = ({
             projectId={hero1.id}
             dotClass={dotClass}
             globalIndex={0}
-            maxWidth="80%"
+            maxWidth="72%"
           />
         </div>
       )}
