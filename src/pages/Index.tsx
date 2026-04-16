@@ -70,6 +70,7 @@ const aiProjects = [
     year: "2025",
     coverImage: inspireoceanCover,
     externalUrl: "https://inspired-sea-drift.lovable.app/",
+    builtWith: "Lovable",
     details: "Designed a personal inspiration utility that resurfaces forgotten ideas at the right moment — not on demand, but through behavioral adaptation.\n\nThe system learns how you collect and browse, then quietly surfaces what you've lost track of before it becomes irrelevant.",
   },
   {
@@ -78,6 +79,7 @@ const aiProjects = [
     description: "Predictive analytics made visual.",
     role: "Designer + Builder",
     year: "2026",
+    builtWith: "Claude + Cursor",
     details: "Created a data visualization tool that transforms complex predictive models into clear, actionable insights.\n\nDesigned interactive charts and customizable dashboard layouts.",
   },
 ];
