@@ -140,7 +140,11 @@ const Index = () => {
           projects={aiProjects}
           variant="ai"
         />
-        <Footer onMainProjectsClick={navigateToMainProjects} constrained={false} />
+        <Footer
+          onMainProjectsClick={navigateToMainProjects}
+          onAboutClick={() => setIsAboutOpen(true)}
+          constrained={false}
+        />
       </div>
     </div>
   );
