@@ -136,6 +136,7 @@ const Index = () => {
           sectionSubtitle="Side projects where I design and ship with AI tools."
           dotColor="gold"
           projects={aiProjects}
+          variant="ai"
         />
         <Footer onMainProjectsClick={navigateToMainProjects} />
       </div>
