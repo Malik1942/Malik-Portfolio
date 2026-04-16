@@ -140,7 +140,7 @@ const Index = () => {
           projects={aiProjects}
           variant="ai"
         />
-        <Footer onMainProjectsClick={navigateToMainProjects} />
+        <Footer onMainProjectsClick={navigateToMainProjects} constrained={false} />
       </div>
     </div>
   );
