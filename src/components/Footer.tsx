@@ -6,6 +6,7 @@ interface FooterProps {
 const Footer = ({ onMainProjectsClick }: FooterProps) => {
   return (
     <footer className="px-6 md:px-16 lg:px-24 pt-32 pb-12">
+      <div className="max-w-[1200px] mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-20 mb-24">
         {/* Left — Explore */}
         <div>
@@ -85,6 +86,7 @@ const Footer = ({ onMainProjectsClick }: FooterProps) => {
         <span className="text-xs text-muted-foreground/40 text-mono">
           © 2026 Malik Zhang
         </span>
+      </div>
       </div>
     </footer>
   );
