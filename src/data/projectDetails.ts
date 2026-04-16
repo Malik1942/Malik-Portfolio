@@ -13,14 +13,15 @@ const aura: ProjectDetailDocument = {
   slug: "aura",
   listSection: "Main Projects",
   title: "Aura",
-  heroSummary: "An AI-powered motion sickness relief system designed for travelers.",
+  heroSummary: "An AI-powered anticipatory motion sickness relief system designed for travelers.",
+  heroSubtitle: "Wearable hardware and adaptive software — a closed-loop system that senses, predicts, and intervenes before symptoms emerge.",
   heroImage: auraDetail1,
   heroImageFit: "cover",
   metaCards: [
-    { label: "Role", value: "Product Design · Industrial Design" },
-    { label: "Timeline", value: "3 Months · Fall 2025" },
-    { label: "Tools", value: "Figma · Prototyping · Systems · Narrative" },
-    { label: "Contribution", value: "Concept · User Flow · Wearable · Digital System" },
+    { label: "Role", value: "Product · Industrial · System & Interaction Design" },
+    { label: "Timeline", value: "2 Months · Oct–Dec 2025" },
+    { label: "Team", value: "Collaborative · Multi-designer" },
+    { label: "Output", value: "Aura Buds · Aura App · System Architecture" },
   ],
   sections: [
     {
@@ -28,44 +29,44 @@ const aura: ProjectDetailDocument = {
       label: "Context",
       subtitle: "Intro",
       showProjectMeta: true,
-      body: "As the product and industrial designer, I developed the concept, structured the user flow, and shaped the overall experience. By combining wearable interaction and proactive sensory support, Aura explores a more anticipatory and personalized approach to motion sickness relief.",
+      body: "Aura reframes motion sickness from a reactive problem into one that can be sensed, predicted, and gently managed before symptoms emerge. Rather than relying on medication, patches, or fragmented over-the-counter solutions, Aura proposes a quieter and more supportive travel experience — ambient support integrated seamlessly into how people already move through the world.\n\nThe system pairs Aura Buds, a discreet ear-adjacent wearable, with the Aura App, which helps users prepare for travel without adding cognitive burden. As a product, industrial, system, and interaction designer on the team, I worked across the full design arc — from early problem framing and concept convergence through physical form development, system architecture, and interaction design.",
+    },
+    {
+      id: "research",
+      label: "Research",
+      body: "Motion sickness is not just discomfort — it shapes how people experience travel. Travelers often arrive fatigued and disengaged, not from the journey itself, but from the anxiety and physical strain that precede it. Existing solutions are reactive: medication taken too late, patches applied as a last resort, advice that comes after discomfort has already set in.\n\nResearch into the emotional and physical realities of travel-related motion sickness surfaced a consistent pattern: symptoms begin physiologically before users consciously feel them. The vestibular system registers sensory conflict well before nausea is perceived. This gap — between physiological onset and conscious awareness — became the core design opportunity.\n\nA primary persona emerged: a frequent traveler who experiences motion sickness during flights and long trips. Someone who has adapted their behavior around the problem rather than being genuinely supported through it. The guiding question that shaped the project: how might we reduce motion sickness during travel without adding cognitive or physical burden?",
+    },
+    {
+      id: "problem",
+      label: "Problem",
+      body: "Current solutions respond too late. They require users to recognize symptoms, reach for an intervention, and wait for it to take effect — all while already uncomfortable. The design task was to invert this model entirely.\n\nThe system needed to work proactively rather than reactively. It had to integrate into real travel behavior without demanding attention or input. And it had to feel subtle, supportive, and non-intrusive — not clinical, not alarming, not like another device to manage.\n\nDesign constraints were deliberate: no real-time input required during travel, no interface that competes with the experience of being in motion, and no form factor that draws social attention or causes physical fatigue over long wear.",
     },
     {
       id: "process",
       label: "Aura",
-      body: "I iterated through journey maps, system diagrams, and low-fidelity flows for onboarding, anticipation, and escalation. Prototypes explored how much to show vs. infer, and how the wearable, phone, and environment might divide responsibility.\n\nNarrative and motion studies helped align stakeholders on a single coherent ‘calm proactive’ story.",
+      body: "Early ideation ranged widely. Concepts were organized into a 2×2 matrix mapping user value against implementation difficulty. A pattern emerged independently across multiple directions: interventions consistently clustered around the ear. The ear sits adjacent to the vestibular system, offers a socially acceptable and already-familiar form factor, and enables subtle sonic interaction without demanding visual attention. That convergence defined the direction.\n\nFrom there, the work shifted to system architecture. The Aura ecosystem was structured as a closed loop: sensing input — heart rate, HRV, motion data (IMU), and environmental signals — feeds a processing layer that detects early physiological changes and predicts discomfort onset, which then triggers non-intrusive output: low-frequency grounding tones (~100 Hz), breathing guidance, or calming soundscapes. The system runs continuously and adaptively in the background, without requiring user action mid-travel.",
       figures: [
-        { type: "image", src: auraDetail2, alt: "Aura — design process", full: true },
+        { type: "image", src: auraDetail2, alt: "Aura — system architecture and design process", full: true },
       ],
     },
     {
       id: "final-design",
       label: "Aura Buds",
-      body: "Led the end-to-end design of a proactive, AI-driven wearable for motion sickness, defining its concept, system, and interaction model.\n\nShaped a seamless cross-device experience, integrating ambient AI to anticipate discomfort and deliver real-time support.",
+      body: "Wearability determines adoption. A wearable that causes discomfort or draws unwanted attention defeats its own purpose.\n\nPrototype iterations explored shape, stem length, angle, and fit across users with varying ear shapes, hairstyles, and wearing habits. Testing happened in realistic contexts — during head movement, conversation, and extended sitting — not in isolated lab conditions. Critique sessions and comfort-focused evaluations surfaced pressure points and stability issues that sketches and renders couldn’t predict.\n\nThe key learning was counterintuitive: novel forms increased friction. Familiar silhouettes improved acceptance. Rather than designing for visual distinction, the form converged on a quiet, recognizable earbud silhouette — one that users would feel comfortable wearing in public for hours, that communicates calm and reliability before any interaction is made.",
       figures: [
         { type: "image", src: auraDetail5, alt: "Aura Buds — detail view 1" },
         { type: "image", src: auraDetail6, alt: "Aura Buds — detail view 2" },
       ],
     },
     {
-      id: "research",
-      label: "Research",
-      body: "I reviewed literature and product patterns around nausea onset, sensory conflict theory, and how people currently cope (medication, breaks, avoiding travel). Interviews highlighted shame, unpredictability, and distrust of ‘wellness’ gimmicks.\n\nKey insight: trust and subtlety matter as much as efficacy — systems must feel supportive without surveillance or alarm.",
-    },
-    {
-      id: "problem",
-      label: "Problem",
-      body: "How might we help people stay comfortable in motion without demanding constant attention, manual logging, or clinical framing?\n\nConstraints included limited onboard UI, need for low cognitive load, and a brand voice that feels human — not clinical or gadgety.",
-    },
-    {
       id: "impact",
       label: "Impact",
-      body: "The work gives the team a shared vocabulary for proactive vs. reactive care, a testable interaction model, and a foundation for partnership conversations with hardware and clinical advisors.\n\nIt positions Aura as a system — not a single-screen app.",
+      body: "The Aura App was designed around a single interaction principle: guided, not demanding. Onboarding is simple setup and pairing. Trips are added in advance — no real-time input is required mid-flight. Sound profiles are adjustable but default to sensible states. Status feedback reassures without creating a surveillance feeling.\n\nTo make the value of an invisible system legible, the team created storyboard scenarios grounded in specific travel moments: pre-takeoff breathing guidance paired with a 100 Hz grounding tone; a predictive alert before anticipated turbulence transitioning into a calming soundscape. The goal was to position Aura as an invisible companion rather than another tool to manage.\n\nThe project delivers a proof-of-concept that reframes motion sickness as predictable and manageable — with implications that extend to autonomous travel, health-aware environments, and AI-powered proactive sensing at scale.",
     },
     {
       id: "reflection",
       label: "Conclusion",
-      body: "Designing for bodies in motion reinforced how much ‘invisible’ suffering product teams overlook. Ambient AI is only as good as the trust layer around it; that layer is design work.\n\nI’d push further into validation with longitudinal studies and edge cases (migraine overlap, medication interactions).",
+      body: "Aura reflects how I approach design: at the intersection of human-centered framing, systems thinking, and product form. The project required restraint as much as invention — knowing when to move toward the familiar rather than the novel, and recognizing that ambient support is often more valuable than expressive interaction.\n\nWorking across hardware and software simultaneously reinforced that the two can’t be designed in isolation. The form of Aura Buds and the logic of the Aura App had to carry the same design intention — calm, proactive, and nearly invisible — or the system would contradict itself.\n\nI’d push further into longitudinal validation next: understanding how the system performs across different travel frequencies, environments, and user physiologies. The core insight holds: in ambient AI, trust is the real design material. Building that trust is design work, not engineering.",
     },
   ],
 };
