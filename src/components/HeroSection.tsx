@@ -58,12 +58,8 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
               Built with AI
             </a>
             <a
-              href="#about"
+              href="/about"
               className="nav-link hover:text-foreground transition-colors duration-500"
-              onClick={(e) => {
-                e.preventDefault();
-                onAboutClick();
-              }}
             >
               About
             </a>
