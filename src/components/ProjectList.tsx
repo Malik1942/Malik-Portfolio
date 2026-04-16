@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion, useInView } from "framer-motion";
 
 interface Project {
   id?: string;
@@ -22,51 +23,23 @@ interface ProjectListProps {
   projects: Project[];
 }
 
-const ProjectRow = ({ project, index, dotClass, projectId }: { project: Project; index: number; dotClass: string; projectId?: string }) => {
+const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const ProjectCard = ({
+  project,
+  index,
+  dotClass,
+  projectId,
+}: {
+  project: Project;
+  index: number;
+  dotClass: string;
+  projectId?: string;
+}) => {
   const navigate = useNavigate();
-  const rowRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isArriving, setIsArriving] = useState(false);
-
-  useEffect(() => {
-    const row = rowRef.current;
-    if (!row) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "-20px" }
-    );
-
-    observer.observe(row);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const onArrive = (event: Event) => {
-      const { id } = (event as CustomEvent<{ id?: string }>).detail ?? {};
-      const matches = !!projectId && id === projectId;
-
-      if (matches) {
-        setIsVisible(true);
-        setIsArriving(true);
-      } else {
-        setIsArriving(false);
-      }
-    };
-
-    window.addEventListener("project-dot-arrive", onArrive);
-
-    return () => {
-      window.removeEventListener("project-dot-arrive", onArrive);
-    };
-  }, [projectId]);
+  const [hovered, setHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(cardRef, { once: true, margin: "0px 0px -60px 0px" });
 
   const handleClick = () => {
     if (project.externalUrl) {
@@ -77,160 +50,145 @@ const ProjectRow = ({ project, index, dotClass, projectId }: { project: Project;
   };
 
   return (
-    <div
-      ref={rowRef}
+    <motion.div
+      ref={cardRef}
       id={projectId ? `project-${projectId}` : undefined}
-      className={`reveal project-row border-t border-border group cursor-pointer ${isVisible ? "visible" : ""} ${isArriving ? "project-row-arriving" : ""}`}
-      style={{ transitionDelay: `${index * 80}ms` }}
-      data-clickable="true"
+      initial={{ opacity: 0, y: 48 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.75, delay: index * 0.08, ease }}
+      className="mb-20 md:mb-28 cursor-pointer group"
       onClick={handleClick}
-      onAnimationEnd={() => setIsArriving(false)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      data-clickable="true"
     >
-      {/* Header row */}
-      <div className="py-8 md:py-10 flex items-start justify-between gap-4">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-4 mb-2">
-            <span className={`w-2 h-2 rounded-full flex-shrink-0 ${dotClass}`} />
-            <span className="text-muted-foreground text-xs text-mono">
-              {String(index + 1).padStart(2, "0")}
-            </span>
-            <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground/70 text-display group-hover:text-foreground transition-colors duration-500">
-              {project.title}
-            </h3>
-          </div>
-          <p className="text-muted-foreground text-sm ml-14">{project.description}</p>
-        </div>
-
-        <div className="flex items-center gap-6 text-sm text-muted-foreground text-body mt-2 shrink-0">
-          <span className="hidden md:block">{project.role}</span>
-          <span className="text-mono text-xs">{project.year}</span>
-          <span className="relative block w-[18px] h-[18px] text-muted-foreground group-hover:text-foreground transition-colors duration-500">
-            <svg
-              className="absolute inset-0 w-[18px] h-[18px] -rotate-45 transition-transform duration-500 group-hover:rotate-0 group-hover:translate-x-[1px]"
-              style={{ transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)", transformOrigin: "50% 50%" }}
-              viewBox="0 0 18 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                d="M4.75 9H13.25M10.25 6L13.25 9L10.25 12"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+      {/* Header: number + title + meta */}
+      <div className="flex items-end justify-between gap-6 mb-5">
+        <div className="flex items-baseline gap-4 min-w-0">
+          <span className="text-[11px] text-mono text-foreground/22 flex-shrink-0 tabular-nums pb-1">
+            {String(index + 1).padStart(2, "0")}
           </span>
+          <h3
+            className="text-[2rem] md:text-[2.75rem] lg:text-[3.25rem] font-semibold text-display leading-[1.05] tracking-[-0.02em] transition-colors duration-500"
+            style={{ color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.72)" }}
+          >
+            {project.title}
+          </h3>
+        </div>
+
+        <div className="flex items-center gap-4 pb-1 shrink-0">
+          <span className="hidden md:block text-xs text-foreground/35 text-body">{project.role}</span>
+          <span className="text-[11px] text-mono text-foreground/28">{project.year}</span>
+          <motion.span
+            animate={{ x: hovered ? 4 : 0, opacity: hovered ? 1 : 0.3 }}
+            transition={{ duration: 0.4, ease }}
+            className="text-foreground text-base leading-none"
+          >
+            →
+          </motion.span>
         </div>
       </div>
 
-      {/* Always visible details */}
-      <div className="pb-10 ml-14">
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Cover media */}
-          <div className="w-full md:w-[320px] shrink-0">
-            {project.coverVideo ? (
-              <video
-                src={project.coverVideo}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-[200px] object-cover rounded-sm bg-secondary"
-              />
-            ) : project.coverImage ? (
-              <img
-                src={project.coverImage}
-                alt={project.title}
-                className={`w-full h-[200px] rounded-sm bg-background ${project.coverFit === "contain" ? "object-contain" : "object-cover"}`}
-              />
-            ) : (
-              <div className="w-full h-[200px] rounded-sm bg-secondary/50 border border-border flex items-center justify-center">
-                <div className="text-center text-muted-foreground">
-                  <svg className="w-8 h-8 mx-auto mb-2 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span className="text-xs text-muted-foreground/60">Image / GIF / Video</span>
-                </div>
-              </div>
-            )}
+      {/* Cover image / video — full width, tall */}
+      <div className="overflow-hidden rounded-2xl bg-secondary/20 relative">
+        {project.coverVideo ? (
+          <video
+            src={project.coverVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full object-cover"
+            style={{
+              height: "clamp(260px, 48vw, 560px)",
+              transform: hovered ? "scale(1.04)" : "scale(1)",
+              transition: "transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
+            }}
+          />
+        ) : project.coverImage ? (
+          <img
+            src={project.coverImage}
+            alt={project.title}
+            className={`w-full ${project.coverFit === "contain" ? "object-contain" : "object-cover"}`}
+            style={{
+              height: "clamp(260px, 48vw, 560px)",
+              transform: hovered ? "scale(1.04)" : "scale(1)",
+              transition: "transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
+            }}
+          />
+        ) : (
+          <div
+            className="w-full flex items-center justify-center"
+            style={{ height: "clamp(260px, 48vw, 560px)" }}
+          >
+            <span className="text-foreground/15 text-sm text-mono uppercase tracking-widest">
+              No image
+            </span>
           </div>
+        )}
 
-          {/* Description */}
-          <div className="flex-1">
-            <p className="text-foreground/80 text-sm leading-relaxed whitespace-pre-line text-body">
-              {project.details || "Project details coming soon."}
-            </p>
-            <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground text-mono uppercase tracking-wider">
-              <span>{project.role}</span>
-              <span>·</span>
-              <span>{project.year}</span>
-            </div>
-          </div>
-        </div>
+        {/* Subtle hover scrim */}
+        <motion.div
+          className="absolute inset-0 bg-foreground/[0.04] pointer-events-none rounded-2xl"
+          animate={{ opacity: hovered ? 1 : 0 }}
+          transition={{ duration: 0.4 }}
+        />
       </div>
-    </div>
+
+      {/* Footer: description + dot */}
+      <div className="mt-4 flex items-start justify-between gap-6">
+        <p className="text-foreground/42 text-sm text-body leading-relaxed max-w-lg">
+          {project.description}
+        </p>
+        <span className={`w-2 h-2 rounded-full flex-shrink-0 mt-1.5 ${dotClass} opacity-50`} />
+      </div>
+    </motion.div>
   );
 };
 
-const ProjectList = ({ id, sectionTitle, sectionSubtitle, dotColor, projects }: ProjectListProps) => {
-  const sectionRef = useRef<HTMLDivElement>(null);
+const ProjectList = ({
+  id,
+  sectionTitle,
+  sectionSubtitle,
+  dotColor,
+  projects,
+}: ProjectListProps) => {
   const dotClass = dotColor === "red" ? "bg-dot-red" : "bg-dot-gold";
-  const [isSectionArriving, setIsSectionArriving] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "-20px" }
-    );
-
-    const els = sectionRef.current?.querySelectorAll(".reveal");
-    els?.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const onSectionArrive = (event: Event) => {
-      const { id: arrivedId } = (event as CustomEvent<{ id?: string }>).detail ?? {};
-      if (arrivedId === id) {
-        setIsSectionArriving(true);
-      }
-    };
-
-    window.addEventListener("section-nav-arrive", onSectionArrive);
-    return () => window.removeEventListener("section-nav-arrive", onSectionArrive);
-  }, [id]);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useInView(headerRef, { once: true, margin: "0px 0px -40px 0px" });
 
   return (
-    <section
-      id={id}
-      ref={sectionRef}
-      className={`project-section px-6 md:px-16 lg:px-24 py-24 ${isSectionArriving ? "project-section-arriving" : ""}`}
-      onAnimationEnd={() => setIsSectionArriving(false)}
-    >
-      <div className="reveal mb-16" data-section-header="true">
-        <div className="flex items-center gap-3 mb-2">
-          <span className={`w-2 h-2 rounded-full ${dotClass}`} />
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground text-display">
+    <section id={id} className="px-6 md:px-16 lg:px-24 pt-24 pb-10">
+      {/* Section header */}
+      <motion.div
+        ref={headerRef}
+        initial={{ opacity: 0, y: 24 }}
+        animate={headerInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.65, ease }}
+        className="flex items-end justify-between gap-6 mb-16 pb-6 border-b border-border/40"
+      >
+        <div className="flex items-center gap-3">
+          <span className={`w-2 h-2 rounded-full flex-shrink-0 ${dotClass}`} />
+          <h2 className="text-2xl md:text-3xl font-semibold text-foreground text-display tracking-tight">
             {sectionTitle}
           </h2>
         </div>
-        <p className="ml-5 text-muted-foreground text-sm text-body">{sectionSubtitle}</p>
-      </div>
+        <p className="text-foreground/38 text-sm text-body text-right max-w-xs hidden md:block">
+          {sectionSubtitle}
+        </p>
+      </motion.div>
 
+      {/* Cards */}
       <div>
         {projects.map((project, i) => (
-          <ProjectRow key={project.title} project={project} index={i} dotClass={dotClass} projectId={project.id} />
+          <ProjectCard
+            key={project.title}
+            project={project}
+            index={i}
+            dotClass={dotClass}
+            projectId={project.id}
+          />
         ))}
-        <div className="border-t border-border" />
       </div>
     </section>
   );
