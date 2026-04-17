@@ -15,6 +15,7 @@ const selectedWork = [
   {
     id: "aura",
     title: "Aura",
+    signal: "AI-powered anticipatory motion sickness relief",
     description: "A calm, proactive system for preventing motion sickness in motion.",
     role: "Product Designer",
     year: "2025",
@@ -24,6 +25,7 @@ const selectedWork = [
   {
     id: "neuralyfe",
     title: "NeuraLyfe",
+    signal: "Brain impact visualization for athletes and medical teams",
     description: "Making invisible brain trauma visible — before it becomes irreversible.",
     role: "Product Designer, Maker",
     coverImage: neuralyfeCover,

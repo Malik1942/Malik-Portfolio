@@ -6,6 +6,7 @@ interface Project {
   id?: string;
   title: string;
   description: string;
+  signal?: string;
   role: string;
   year: string;
   coverImage?: string;
@@ -139,24 +140,19 @@ const ProjectCard = ({
     }
   };
 
-  const textBlock = (inHorizontal = false) => (
+  // ── Vertical card text (grid cards) ──
+  const textBlock = () => (
     <>
       <h3
-        className="font-semibold leading-snug tracking-tight mb-3 transition-colors duration-300"
-        style={{
-          fontSize: inHorizontal ? "clamp(1.4rem, 2vw, 2rem)" : "1.125rem",
-          color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.85)",
-        }}
+        className="text-lg font-semibold leading-snug tracking-tight mb-1.5 transition-colors duration-300"
+        style={{ color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.82)" }}
       >
         {project.title}
       </h3>
-      <p
-        className="text-foreground/55 leading-relaxed mb-4"
-        style={{ fontSize: inHorizontal ? "0.9375rem" : "0.9375rem" }}
-      >
+      <p className="text-[0.9375rem] text-foreground/50 leading-relaxed line-clamp-1 mb-2">
         {project.description}
       </p>
-      <p className="text-[13px] text-mono text-foreground/38 mt-auto">
+      <p className="text-[13px] text-mono text-foreground/35 mt-auto">
         {metadataLabel ?? project.role} · {project.year}
       </p>
     </>
@@ -168,9 +164,64 @@ const ProjectCard = ({
         <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
       </div>
     );
+
+    // ── Editorial text column for hero rows ──
+    // Positioned slightly below true center; max-width constrains line length.
     const textCol = (
-      <div className="flex flex-col justify-center flex-1 min-w-0 py-4">
-        {textBlock(true)}
+      <div className="flex flex-col flex-1 min-w-0 justify-center" style={{ paddingTop: "8%" }}>
+        <div style={{ maxWidth: "380px" }}>
+          {/* Level 1 — Title */}
+          <h3
+            className="font-bold leading-[1.05] transition-colors duration-300"
+            style={{
+              fontSize: "clamp(1.6rem, 2.2vw, 2.4rem)",
+              letterSpacing: "-0.03em",
+              marginBottom: "0.375rem",
+              color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.9)",
+            }}
+          >
+            {project.title}
+          </h3>
+
+          {/* Level 2 — Signal line */}
+          {project.signal && (
+            <p
+              className="font-medium leading-snug"
+              style={{
+                fontSize: "0.9375rem",
+                letterSpacing: "-0.01em",
+                marginBottom: "1rem",
+                color: "hsl(var(--foreground) / 0.58)",
+              }}
+            >
+              {project.signal}
+            </p>
+          )}
+
+          {/* Level 3 — Description */}
+          <p
+            className="leading-relaxed line-clamp-2"
+            style={{
+              fontSize: "0.875rem",
+              marginBottom: "1.75rem",
+              color: "hsl(var(--foreground) / 0.38)",
+            }}
+          >
+            {project.description}
+          </p>
+
+          {/* Level 4 — Metadata */}
+          <p
+            className="text-mono"
+            style={{
+              fontSize: "0.6875rem",
+              letterSpacing: "0.09em",
+              color: "hsl(var(--foreground) / 0.28)",
+            }}
+          >
+            {metadataLabel ?? project.role} · {project.year}
+          </p>
+        </div>
       </div>
     );
 
@@ -208,7 +259,7 @@ const ProjectCard = ({
       data-clickable="true"
     >
       <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
-      {textBlock()}
+      <div className="flex flex-col">{textBlock()}</div>
     </motion.div>
   );
 };
