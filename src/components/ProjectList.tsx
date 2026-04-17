@@ -64,7 +64,7 @@ const CardMedia = ({
 
   return (
     <div
-      className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-4 w-full"
+      className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-5 w-full"
       style={forced ? { aspectRatio } : undefined}
     >
       {project.coverVideo ? (
@@ -143,16 +143,40 @@ const ProjectCard = ({
   // ── Vertical card text (grid cards) ──
   const textBlock = () => (
     <>
+      {/* Title — confident, readable, clearly dominant within the card */}
       <h3
-        className="text-lg font-semibold leading-snug tracking-tight mb-1.5 transition-colors duration-300"
-        style={{ color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.82)" }}
+        className="font-bold leading-snug transition-colors duration-300"
+        style={{
+          fontSize: "clamp(1.2rem, 1.6vw, 1.4rem)",
+          letterSpacing: "-0.025em",
+          marginBottom: "0.375rem",
+          color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.88)",
+        }}
       >
         {project.title}
       </h3>
-      <p className="text-[0.9375rem] text-foreground/50 leading-relaxed line-clamp-1 mb-2">
+
+      {/* Description — secondary, clearly softer */}
+      <p
+        className="leading-relaxed line-clamp-2"
+        style={{
+          fontSize: "0.8125rem",
+          marginBottom: "0.875rem",
+          color: "hsl(var(--foreground) / 0.42)",
+        }}
+      >
         {project.description}
       </p>
-      <p className="text-[13px] text-mono text-foreground/35 mt-auto">
+
+      {/* Metadata — subtle, smallest, sits at bottom */}
+      <p
+        className="text-mono mt-auto"
+        style={{
+          fontSize: "0.6875rem",
+          letterSpacing: "0.06em",
+          color: "hsl(var(--foreground) / 0.28)",
+        }}
+      >
         {metadataLabel ?? project.role} · {project.year}
       </p>
     </>
