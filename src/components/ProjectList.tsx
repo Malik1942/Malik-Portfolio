@@ -113,6 +113,7 @@ const ProjectCard = ({
   aspectRatio,
   maxWidth,
   horizontal = false,
+  imageRight = false,
 }: {
   project: Project;
   projectId?: string;
@@ -123,6 +124,7 @@ const ProjectCard = ({
   aspectRatio?: string;
   maxWidth?: string;
   horizontal?: boolean;
+  imageRight?: boolean;
 }) => {
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
@@ -137,25 +139,41 @@ const ProjectCard = ({
     }
   };
 
-  const textBlock = (
+  const textBlock = (inHorizontal = false) => (
     <>
       <h3
-        className="text-lg font-semibold leading-snug tracking-tight mb-1.5 transition-colors duration-300"
-        style={{ color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.82)" }}
+        className="font-semibold leading-snug tracking-tight mb-3 transition-colors duration-300"
+        style={{
+          fontSize: inHorizontal ? "clamp(1.4rem, 2vw, 2rem)" : "1.125rem",
+          color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.85)",
+        }}
       >
         {project.title}
       </h3>
-      <p className="text-[0.9375rem] text-foreground/50 leading-relaxed line-clamp-2 mb-2">
+      <p
+        className="text-foreground/55 leading-relaxed mb-4"
+        style={{ fontSize: inHorizontal ? "0.9375rem" : "0.9375rem" }}
+      >
         {project.description}
       </p>
-      <p className="text-[13px] text-mono text-foreground/35 mt-auto">
+      <p className="text-[13px] text-mono text-foreground/38 mt-auto">
         {metadataLabel ?? project.role} · {project.year}
       </p>
     </>
   );
 
-  if (horizontal) {
-    // Image left (72% of row), text right in the remaining space
+  if (horizontal || imageRight) {
+    const imageCol = (
+      <div style={{ width: "65%", flexShrink: 0 }}>
+        <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
+      </div>
+    );
+    const textCol = (
+      <div className="flex flex-col justify-center flex-1 min-w-0 py-4">
+        {textBlock(true)}
+      </div>
+    );
+
     return (
       <motion.div
         ref={ref}
@@ -163,20 +181,14 @@ const ProjectCard = ({
         initial={{ opacity: 0, y: 32 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.7, delay: rowDelay + globalIndex * 0.05, ease }}
-        className="cursor-pointer group flex flex-row items-start gap-8"
+        className="cursor-pointer group flex flex-row items-stretch gap-10"
         onClick={handleClick}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         data-clickable="true"
       >
-        {/* Image — 72% of the row */}
-        <div style={{ width: "72%", flexShrink: 0 }}>
-          <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
-        </div>
-        {/* Text — remaining space to the right */}
-        <div className="flex flex-col justify-start pt-1 flex-1 min-w-0">
-          {textBlock}
-        </div>
+        {imageRight ? textCol : imageCol}
+        {imageRight ? imageCol : textCol}
       </motion.div>
     );
   }
@@ -196,7 +208,7 @@ const ProjectCard = ({
       data-clickable="true"
     >
       <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
-      {textBlock}
+      {textBlock()}
     </motion.div>
   );
 };
@@ -305,6 +317,7 @@ const MainProjectList = ({
             dotClass={dotClass}
             globalIndex={1}
             rowDelay={0.06}
+            imageRight
           />
         </div>
       )}
