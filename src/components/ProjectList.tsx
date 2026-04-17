@@ -149,7 +149,7 @@ const ProjectCard = ({
         style={{
           fontSize: "clamp(1.2rem, 1.6vw, 1.4rem)",
           letterSpacing: "-0.025em",
-          marginBottom: "0.5rem",
+          marginBottom: "0.3rem",
           color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.88)",
         }}
       >
