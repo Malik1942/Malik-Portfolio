@@ -166,9 +166,9 @@ const ProjectCard = ({
     );
 
     // ── Editorial text column for hero rows ──
-    // Positioned slightly below true center; max-width constrains line length.
+    // Bottom-anchored: text rests at the same baseline as the image bottom.
     const textCol = (
-      <div className="flex flex-col flex-1 min-w-0 justify-center" style={{ paddingTop: "8%" }}>
+      <div className="flex flex-col flex-1 min-w-0 justify-end" style={{ paddingBottom: "48px" }}>
         <div style={{ maxWidth: "380px" }}>
           {/* Level 1 — Title */}
           <h3
