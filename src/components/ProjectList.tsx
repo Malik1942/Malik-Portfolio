@@ -64,7 +64,7 @@ const CardMedia = ({
 
   return (
     <div
-      className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-5 w-full"
+      className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-6 w-full"
       style={forced ? { aspectRatio } : undefined}
     >
       {project.coverVideo ? (
@@ -143,34 +143,34 @@ const ProjectCard = ({
   // ── Vertical card text (grid cards) ──
   const textBlock = () => (
     <>
-      {/* Title — confident, readable, clearly dominant within the card */}
+      {/* Title — confident anchor of the card */}
       <h3
         className="font-bold leading-snug transition-colors duration-300"
         style={{
           fontSize: "clamp(1.2rem, 1.6vw, 1.4rem)",
           letterSpacing: "-0.025em",
-          marginBottom: "0.375rem",
+          marginBottom: "0.5rem",
           color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.88)",
         }}
       >
         {project.title}
       </h3>
 
-      {/* Description — secondary, clearly softer */}
+      {/* Description — concise, one line, clearly softer */}
       <p
-        className="leading-relaxed line-clamp-2"
+        className="leading-snug line-clamp-1"
         style={{
           fontSize: "0.8125rem",
-          marginBottom: "0.875rem",
+          marginBottom: "1rem",
           color: "hsl(var(--foreground) / 0.42)",
         }}
       >
         {project.description}
       </p>
 
-      {/* Metadata — subtle, smallest, sits at bottom */}
+      {/* Metadata — quiet closing layer */}
       <p
-        className="text-mono mt-auto"
+        className="text-mono"
         style={{
           fontSize: "0.6875rem",
           letterSpacing: "0.06em",
