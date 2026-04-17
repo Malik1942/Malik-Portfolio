@@ -194,47 +194,46 @@ const ProjectCard = ({
     const textCol = (
       <div className="flex flex-col flex-1 min-w-0 justify-end" style={{ paddingBottom: "48px" }}>
         <div style={{ maxWidth: "380px" }}>
-          {/* Level 1 — Title */}
+          {/* Level 1 — Title: isolated anchor, large gap below */}
           <h3
             className="font-bold leading-[1.05] transition-colors duration-300"
             style={{
               fontSize: "clamp(1.6rem, 2.2vw, 2.4rem)",
               letterSpacing: "-0.03em",
-              marginBottom: "0.375rem",
+              marginBottom: "1.5rem",
               color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.9)",
             }}
           >
             {project.title}
           </h3>
 
-          {/* Level 2 — Signal line */}
-          {project.signal && (
+          {/* Levels 2 + 3 — Signal + description grouped tightly */}
+          <div style={{ marginBottom: "1.75rem" }}>
+            {project.signal && (
+              <p
+                className="font-medium leading-snug"
+                style={{
+                  fontSize: "0.9375rem",
+                  letterSpacing: "-0.01em",
+                  marginBottom: "0.375rem",
+                  color: "hsl(var(--foreground) / 0.58)",
+                }}
+              >
+                {project.signal}
+              </p>
+            )}
             <p
-              className="font-medium leading-snug"
+              className="leading-relaxed line-clamp-2"
               style={{
-                fontSize: "0.9375rem",
-                letterSpacing: "-0.01em",
-                marginBottom: "1rem",
-                color: "hsl(var(--foreground) / 0.58)",
+                fontSize: "0.875rem",
+                color: "hsl(var(--foreground) / 0.38)",
               }}
             >
-              {project.signal}
+              {project.description}
             </p>
-          )}
+          </div>
 
-          {/* Level 3 — Description */}
-          <p
-            className="leading-relaxed line-clamp-2"
-            style={{
-              fontSize: "0.875rem",
-              marginBottom: "1.75rem",
-              color: "hsl(var(--foreground) / 0.38)",
-            }}
-          >
-            {project.description}
-          </p>
-
-          {/* Level 4 — Metadata */}
+          {/* Level 4 — Metadata: separate, subtle */}
           <p
             className="text-mono"
             style={{
