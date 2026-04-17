@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 
 interface Project {
   id?: string;
@@ -252,9 +252,12 @@ const ProjectCard = ({
       <motion.div
         ref={ref}
         id={projectId ? `project-${projectId}` : undefined}
-        initial={{ opacity: 0, y: 32 }}
+        initial={{ opacity: 0, y: 64 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, delay: rowDelay + globalIndex * 0.05, ease }}
+        transition={{
+          y: { type: "spring", stiffness: 48, damping: 14, delay: rowDelay + globalIndex * 0.07 },
+          opacity: { duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: rowDelay + globalIndex * 0.07 },
+        }}
         className="cursor-pointer group flex flex-row items-stretch gap-10"
         onClick={handleClick}
         onMouseEnter={() => setHovered(true)}
@@ -271,9 +274,12 @@ const ProjectCard = ({
     <motion.div
       ref={ref}
       id={projectId ? `project-${projectId}` : undefined}
-      initial={{ opacity: 0, y: 32 }}
+      initial={{ opacity: 0, y: 64 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: rowDelay + globalIndex * 0.05, ease }}
+      transition={{
+        y: { type: "spring", stiffness: 48, damping: 14, delay: rowDelay + globalIndex * 0.07 },
+        opacity: { duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: rowDelay + globalIndex * 0.07 },
+      }}
       className="cursor-pointer group flex flex-col"
       style={maxWidth ? { maxWidth } : undefined}
       onClick={handleClick}
@@ -283,6 +289,54 @@ const ProjectCard = ({
     >
       <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
       <div className="flex flex-col">{textBlock()}</div>
+    </motion.div>
+  );
+};
+
+// ─── Parallax wrapper for each grid card ─────────────────────────────────────
+// Right column travels faster than left — creates the depth rhythm of Clay/Shopify.
+const TwoColCard = ({
+  project,
+  index,
+  dotClass,
+  startGlobalIndex,
+  aiVariant,
+}: {
+  project: Project;
+  index: number;
+  dotClass: string;
+  startGlobalIndex: number;
+  aiVariant: boolean;
+}) => {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: wrapRef,
+    offset: ["start end", "end start"],
+  });
+  const isRight = index % 2 === 1;
+  const parallaxY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    isRight ? ["5%", "-5%"] : ["2%", "-2%"]
+  );
+
+  return (
+    <motion.div
+      ref={wrapRef}
+      style={{ marginTop: getGridMarginTop(index), y: parallaxY }}
+    >
+      <ProjectCard
+        project={project}
+        projectId={project.id}
+        dotClass={dotClass}
+        globalIndex={startGlobalIndex + index}
+        rowDelay={(index % 2) * 0.06}
+        metadataLabel={
+          aiVariant && project.builtWith
+            ? `Built with ${project.builtWith}`
+            : undefined
+        }
+      />
     </motion.div>
   );
 };
@@ -309,19 +363,14 @@ const TwoColGrid = ({
     className="grid-cols-1 md:grid-cols-2"
   >
     {projects.map((p, i) => (
-      <div
+      <TwoColCard
         key={p.id ?? p.title}
-        style={{ marginTop: getGridMarginTop(i) }}
-      >
-        <ProjectCard
-          project={p}
-          projectId={p.id}
-          dotClass={dotClass}
-          globalIndex={startGlobalIndex + i}
-          rowDelay={(i % 2) * 0.06}
-          metadataLabel={aiVariant && p.builtWith ? `Built with ${p.builtWith}` : undefined}
-        />
-      </div>
+        project={p}
+        index={i}
+        dotClass={dotClass}
+        startGlobalIndex={startGlobalIndex}
+        aiVariant={aiVariant}
+      />
     ))}
   </div>
 );
@@ -334,9 +383,9 @@ const SectionLabel = ({ title, dotClass }: { title: string; dotClass: string }) 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0 }}
-      animate={inView ? { opacity: 1 } : {}}
-      transition={{ duration: 0.5, ease }}
+      initial={{ opacity: 0, y: 16 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, ease }}
       className="flex items-center gap-2 mb-10"
     >
       <span className={`w-1.5 h-1.5 rounded-full ${dotClass} opacity-60`} />
