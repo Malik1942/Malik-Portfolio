@@ -200,7 +200,7 @@ const ProjectCard = ({
             style={{
               fontSize: "clamp(1.6rem, 2.2vw, 2.4rem)",
               letterSpacing: "-0.03em",
-              marginBottom: "1.5rem",
+              marginBottom: "1rem",
               color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.9)",
             }}
           >
@@ -208,14 +208,14 @@ const ProjectCard = ({
           </h3>
 
           {/* Levels 2 + 3 — Signal + description grouped tightly */}
-          <div style={{ marginBottom: "1.75rem" }}>
+          <div style={{ marginBottom: "1.375rem" }}>
             {project.signal && (
               <p
                 className="font-medium leading-snug"
                 style={{
                   fontSize: "0.9375rem",
                   letterSpacing: "-0.01em",
-                  marginBottom: "0.375rem",
+                  marginBottom: "0.5rem",
                   color: "hsl(var(--foreground) / 0.58)",
                 }}
               >
