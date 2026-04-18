@@ -130,7 +130,7 @@ const ProjectCard = ({
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "0px 0px -60px 0px" });
+  const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
 
   const handleClick = () => {
     if (project.externalUrl) {
@@ -252,11 +252,13 @@ const ProjectCard = ({
       <motion.div
         ref={ref}
         id={projectId ? `project-${projectId}` : undefined}
-        initial={{ opacity: 0, y: 64 }}
-        animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 64 }}
+        initial={{ opacity: 0, scale: 0.94, y: 40 }}
+        animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.94, y: inView ? 0 : 40 }}
         transition={{
-          y: { type: "spring", stiffness: 48, damping: 14, delay: rowDelay + globalIndex * 0.07 },
-          opacity: { duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: rowDelay + globalIndex * 0.07 },
+          duration: 0.75,
+          ease: [0.16, 1, 0.3, 1],
+          delay: rowDelay + globalIndex * 0.1,
+          opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
         }}
         className="cursor-pointer group flex flex-row items-stretch gap-10"
         onClick={handleClick}
@@ -274,11 +276,13 @@ const ProjectCard = ({
     <motion.div
       ref={ref}
       id={projectId ? `project-${projectId}` : undefined}
-      initial={{ opacity: 0, y: 64 }}
-      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 64 }}
+      initial={{ opacity: 0, scale: 0.94, y: 40 }}
+      animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.94, y: inView ? 0 : 40 }}
       transition={{
-        y: { type: "spring", stiffness: 48, damping: 14, delay: rowDelay + globalIndex * 0.07 },
-        opacity: { duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: rowDelay + globalIndex * 0.07 },
+        duration: 0.75,
+        ease: [0.16, 1, 0.3, 1],
+        delay: rowDelay + globalIndex * 0.1,
+        opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
       }}
       className="cursor-pointer group flex flex-col"
       style={maxWidth ? { maxWidth } : undefined}
@@ -384,8 +388,8 @@ const SectionLabel = ({ title, dotClass }: { title: string; dotClass: string }) 
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 16 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, ease }}
+      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 16 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className="flex items-center gap-2 mb-10"
     >
       <span className={`w-1.5 h-1.5 rounded-full ${dotClass} opacity-60`} />
