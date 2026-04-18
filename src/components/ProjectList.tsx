@@ -253,7 +253,7 @@ const ProjectCard = ({
         ref={ref}
         id={projectId ? `project-${projectId}` : undefined}
         initial={{ opacity: 0, y: 64 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
+        animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 64 }}
         transition={{
           y: { type: "spring", stiffness: 48, damping: 14, delay: rowDelay + globalIndex * 0.07 },
           opacity: { duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: rowDelay + globalIndex * 0.07 },
@@ -275,7 +275,7 @@ const ProjectCard = ({
       ref={ref}
       id={projectId ? `project-${projectId}` : undefined}
       initial={{ opacity: 0, y: 64 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
+      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 64 }}
       transition={{
         y: { type: "spring", stiffness: 48, damping: 14, delay: rowDelay + globalIndex * 0.07 },
         opacity: { duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: rowDelay + globalIndex * 0.07 },
@@ -317,7 +317,7 @@ const TwoColCard = ({
   const parallaxY = useTransform(
     scrollYProgress,
     [0, 1],
-    isRight ? ["5%", "-5%"] : ["2%", "-2%"]
+    isRight ? ["48px", "-48px"] : ["20px", "-20px"]
   );
 
   return (
