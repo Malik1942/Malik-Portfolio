@@ -26,7 +26,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: Foote
                     onMainProjectsClick();
                   }}
                 >
-                  Projects
+                  Selected Work
                 </a>
               </li>
               <li>
