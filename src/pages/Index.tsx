@@ -78,11 +78,11 @@ const aiProjects = [
   {
     id: "studiowaters",
     title: "Studio Waters",
-    description: "Predictive analytics made visual.",
+    description: "A CPX-powered interactive game built through vibe coding",
     role: "Designer + Builder",
     year: "2026",
     coverImage: studioWatersCover,
-    builtWith: "Claude + Cursor",
+    builtWith: "Claude + p5.js",
     details: "Created a data visualization tool that transforms complex predictive models into clear, actionable insights.\n\nDesigned interactive charts and customizable dashboard layouts.",
   },
 ];
