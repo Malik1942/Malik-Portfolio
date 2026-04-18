@@ -145,7 +145,7 @@ const ProjectCard = ({
     <>
       {/* Title — confident anchor of the card */}
       <h3
-        className="font-bold leading-snug transition-colors duration-300"
+        className="text-display font-bold leading-snug transition-colors duration-300"
         style={{
           fontSize: "clamp(1.2rem, 1.6vw, 1.4rem)",
           letterSpacing: "-0.025em",
@@ -158,7 +158,7 @@ const ProjectCard = ({
 
       {/* Description — concise, one line, clearly softer */}
       <p
-        className="leading-snug line-clamp-1"
+        className="text-body leading-snug line-clamp-1"
         style={{
           fontSize: "0.8125rem",
           marginBottom: "1rem",
@@ -196,7 +196,7 @@ const ProjectCard = ({
         <div style={{ maxWidth: "380px" }}>
           {/* Level 1 — Title: isolated anchor, large gap below */}
           <h3
-            className="font-bold leading-[1.05] transition-colors duration-300"
+            className="text-display font-bold leading-[1.05] transition-colors duration-300"
             style={{
               fontSize: "clamp(1.6rem, 2.2vw, 2.4rem)",
               letterSpacing: "-0.03em",
@@ -211,7 +211,7 @@ const ProjectCard = ({
           <div style={{ marginBottom: "1.375rem" }}>
             {project.signal && (
               <p
-                className="font-medium leading-snug"
+                className="text-body font-medium leading-snug"
                 style={{
                   fontSize: "0.9375rem",
                   letterSpacing: "-0.01em",
@@ -223,7 +223,7 @@ const ProjectCard = ({
               </p>
             )}
             <p
-              className="leading-relaxed line-clamp-2"
+              className="text-body leading-relaxed line-clamp-2"
               style={{
                 fontSize: "0.875rem",
                 color: "hsl(var(--foreground) / 0.38)",
