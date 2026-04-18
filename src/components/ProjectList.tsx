@@ -252,13 +252,13 @@ const ProjectCard = ({
       <motion.div
         ref={ref}
         id={projectId ? `project-${projectId}` : undefined}
-        initial={{ opacity: 0, y: 28 }}
-        animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 28 }}
+        initial={{ opacity: 0, scale: 0.94, y: 40 }}
+        animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.94, y: inView ? 0 : 40 }}
         transition={{
-          duration: 0.7,
-          ease: [0.22, 1, 0.36, 1],
-          delay: rowDelay + globalIndex * 0.06,
-          opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.06 },
+          duration: 0.75,
+          ease: [0.16, 1, 0.3, 1],
+          delay: rowDelay + globalIndex * 0.1,
+          opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
         }}
         className="cursor-pointer group flex flex-row items-stretch gap-10"
         onClick={handleClick}
@@ -276,13 +276,13 @@ const ProjectCard = ({
     <motion.div
       ref={ref}
       id={projectId ? `project-${projectId}` : undefined}
-      initial={{ opacity: 0, x: slideIn === "right" ? "60vw" : "-60vw" }}
-      animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : (slideIn === "right" ? "60vw" : "-60vw") }}
+      initial={{ opacity: 0, scale: 0.94, y: 40 }}
+      animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.94, y: inView ? 0 : 40 }}
       transition={{
-        duration: 0.9,
+        duration: 0.75,
         ease: [0.16, 1, 0.3, 1],
-        delay: rowDelay + globalIndex * 0.08,
-        opacity: { duration: 0.45, ease: "easeOut", delay: rowDelay + globalIndex * 0.08 },
+        delay: rowDelay + globalIndex * 0.1,
+        opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
       }}
       className="cursor-pointer group flex flex-col"
       style={maxWidth ? { maxWidth } : undefined}
@@ -333,8 +333,8 @@ const TwoColCard = ({
         project={project}
         projectId={project.id}
         dotClass={dotClass}
-        globalIndex={index % 2}
-        rowDelay={0}
+        globalIndex={startGlobalIndex + index}
+        rowDelay={(index % 2) * 0.06}
         metadataLabel={
           aiVariant && project.builtWith
             ? `Built with ${project.builtWith}`
