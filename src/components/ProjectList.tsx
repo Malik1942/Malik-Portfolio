@@ -89,7 +89,7 @@ const CardMedia = ({
         />
       ) : (
         <div className="w-full aspect-video flex items-center justify-center">
-          <span className="text-foreground/15 text-xs text-mono uppercase tracking-[0.2em]">
+          <span className="text-foreground/15 text-xs text-body uppercase tracking-[0.2em]">
             No image
           </span>
         </div>
@@ -145,7 +145,7 @@ const ProjectCard = ({
     <>
       {/* Title — confident anchor of the card */}
       <h3
-        className="text-display font-bold leading-snug transition-colors duration-300"
+        className="text-display font-semibold leading-snug transition-colors duration-300"
         style={{
           fontSize: "clamp(1.2rem, 1.6vw, 1.4rem)",
           letterSpacing: "-0.025em",
@@ -170,7 +170,7 @@ const ProjectCard = ({
 
       {/* Metadata — quiet closing layer */}
       <p
-        className="text-mono"
+        className="text-body"
         style={{
           fontSize: "0.6875rem",
           letterSpacing: "0.06em",
@@ -196,7 +196,7 @@ const ProjectCard = ({
         <div style={{ maxWidth: "380px" }}>
           {/* Level 1 — Title: isolated anchor, large gap below */}
           <h3
-            className="text-display font-bold leading-[1.05] transition-colors duration-300"
+            className="text-display font-semibold leading-[1.05] transition-colors duration-300"
             style={{
               fontSize: "clamp(1.6rem, 2.2vw, 2.4rem)",
               letterSpacing: "-0.03em",
@@ -235,7 +235,7 @@ const ProjectCard = ({
 
           {/* Level 4 — Metadata: separate, subtle */}
           <p
-            className="text-mono"
+            className="text-body"
             style={{
               fontSize: "0.6875rem",
               letterSpacing: "0.09em",
@@ -406,11 +406,11 @@ const SectionLabel = ({
         className={`rounded-full ${dotClass} ${isPrimary ? "w-1.5 h-1.5 opacity-70" : "w-1 h-1 opacity-35"}`}
       />
       {isPrimary ? (
-        <span className="text-sm text-mono text-foreground/55 uppercase tracking-[0.12em] font-medium">
+        <span className="text-sm text-body text-foreground/55 uppercase tracking-[0.12em] font-medium">
           {title}
         </span>
       ) : (
-        <span className="text-sm text-mono text-foreground/35 uppercase tracking-[0.12em] font-medium">
+        <span className="text-sm text-body text-foreground/35 uppercase tracking-[0.12em] font-medium">
           {title}
         </span>
       )}

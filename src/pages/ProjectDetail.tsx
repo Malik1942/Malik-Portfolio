@@ -16,7 +16,7 @@ const ProjectDetail = () => {
           <button
             type="button"
             onClick={() => navigate("/")}
-            className="text-muted-foreground hover:text-foreground transition-colors text-sm text-mono"
+            className="text-muted-foreground hover:text-foreground transition-colors text-sm text-body"
           >
             ← Back to home
           </button>
