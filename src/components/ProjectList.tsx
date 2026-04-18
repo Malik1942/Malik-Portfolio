@@ -407,15 +407,15 @@ const SectionLabel = ({
       />
       {isPrimary ? (
         <span
-          className="text-mono text-foreground/72 uppercase font-semibold"
-          style={{ fontSize: "0.6875rem", letterSpacing: "0.22em" }}
+          className="text-mono text-foreground/85 uppercase font-light"
+          style={{ fontSize: "0.9375rem", letterSpacing: "0.06em" }}
         >
           {title}
         </span>
       ) : (
         <span
-          className="text-mono text-foreground/32 font-light"
-          style={{ fontSize: "0.75rem", letterSpacing: "0.05em" }}
+          className="text-mono text-foreground/45 font-light"
+          style={{ fontSize: "0.875rem", letterSpacing: "0.03em" }}
         >
           {title}
         </span>
