@@ -130,14 +130,14 @@ const Index = () => {
       >
         <ProjectList
           id="projects"
-          sectionTitle="Main Projects"
+          sectionTitle="Selected Work"
           sectionSubtitle="Major projects that shaped products and teams."
           dotColor="red"
           projects={selectedWork}
         />
         <ProjectList
           id="ai-projects"
-          sectionTitle="Built with AI"
+          sectionTitle="AI Explorations"
           sectionSubtitle="Side projects where I design and ship with AI tools."
           dotColor="gold"
           projects={aiProjects}

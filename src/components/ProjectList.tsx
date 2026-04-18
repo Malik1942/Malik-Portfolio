@@ -380,22 +380,46 @@ const TwoColGrid = ({
 );
 
 // ─── Section label ────────────────────────────────────────────────────────────
-// Subtitle-weight — labels the section without competing with project content.
-const SectionLabel = ({ title, dotClass }: { title: string; dotClass: string }) => {
+// "primary" = SELECTED WORK — tight caps, wide tracking, confident weight.
+// "secondary" = AI Explorations — mixed case, quieter, clearly subordinate.
+const SectionLabel = ({
+  title,
+  dotClass,
+  variant = "primary",
+}: {
+  title: string;
+  dotClass: string;
+  variant?: "primary" | "secondary";
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
+  const isPrimary = variant === "primary";
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 16 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="flex items-center gap-2 mb-10"
+      className="flex items-center gap-3 mb-10"
     >
-      <span className={`w-1.5 h-1.5 rounded-full ${dotClass} opacity-60`} />
-      <span className="text-sm text-mono text-foreground/55 uppercase tracking-[0.12em] font-medium">
-        {title}
-      </span>
+      <span
+        className={`rounded-full ${dotClass} ${isPrimary ? "w-1.5 h-1.5 opacity-70" : "w-1 h-1 opacity-35"}`}
+      />
+      {isPrimary ? (
+        <span
+          className="text-mono text-foreground/72 uppercase font-semibold"
+          style={{ fontSize: "0.6875rem", letterSpacing: "0.22em" }}
+        >
+          {title}
+        </span>
+      ) : (
+        <span
+          className="text-mono text-foreground/32 font-light"
+          style={{ fontSize: "0.75rem", letterSpacing: "0.05em" }}
+        >
+          {title}
+        </span>
+      )}
     </motion.div>
   );
 };
@@ -420,7 +444,7 @@ const MainProjectList = ({
 
   return (
     <section id={id} className="px-6 md:px-16 lg:px-24 pt-24">
-      <SectionLabel title={sectionTitle} dotClass={dotClass} />
+      <SectionLabel title={sectionTitle} dotClass={dotClass} variant="primary" />
 
       {/* ── Hero 1: Aura ── */}
       {hero1 && (
@@ -476,9 +500,11 @@ const AIProjectList = ({
   dotClass: string;
   projects: Project[];
 }) => (
-  <section id={id} className="px-6 md:px-16 lg:px-24 pt-32 pb-24">
-    <SectionLabel title={sectionTitle} dotClass={dotClass} />
-    <TwoColGrid projects={projects} dotClass={dotClass} aiVariant />
+  <section id={id} className="px-6 md:px-16 lg:px-24 pt-48 pb-24">
+    <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" />
+    <div style={{ opacity: 0.88 }}>
+      <TwoColGrid projects={projects} dotClass={dotClass} aiVariant />
+    </div>
   </section>
 );
 
