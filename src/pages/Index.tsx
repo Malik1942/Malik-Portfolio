@@ -69,7 +69,7 @@ const aiProjects = [
     title: "Inspire Ocean",
     description: "A personal utility for collecting and reorganizing inspirations.",
     role: "Designer + Builder",
-    year: "2025",
+    year: "2026",
     coverImage: inspireoceanCover,
     externalUrl: "https://inspired-sea-drift.lovable.app/",
     builtWith: "Lovable",
