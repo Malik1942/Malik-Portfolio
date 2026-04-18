@@ -10,6 +10,7 @@ import flowprintCover from "@/assets/flowprint-cover.png";
 import tubularCover from "@/assets/tubular-cover.jpg";
 import moodmuseCover from "@/assets/moodmuse-cover.png";
 import inspireoceanCover from "@/assets/inspireocean-cover.png";
+import studioWatersCover from "@/assets/studio-waters-cover.png";
 
 const selectedWork = [
   {
@@ -80,6 +81,7 @@ const aiProjects = [
     description: "Predictive analytics made visual.",
     role: "Designer + Builder",
     year: "2026",
+    coverImage: studioWatersCover,
     builtWith: "Claude + Cursor",
     details: "Created a data visualization tool that transforms complex predictive models into clear, actionable insights.\n\nDesigned interactive charts and customizable dashboard layouts.",
   },
