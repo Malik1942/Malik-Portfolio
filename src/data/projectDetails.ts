@@ -1,5 +1,6 @@
 import type { ProjectDetailDocument } from "@/types/projectDetail";
 import auraCover from "@/assets/aura-cover.png";
+import studioWatersCover from "@/assets/studio-waters-cover.png";
 import auraDetail1 from "@/assets/aura-detail-1.png";
 import auraDetail2 from "@/assets/aura-detail-2.png";
 import auraDetail5 from "@/assets/aura-detail-5.png";
@@ -354,15 +355,17 @@ const studiowaters: ProjectDetailDocument = {
   slug: "studiowaters",
   listSection: "Built with AI",
   title: "Studio Waters",
-  heroSummary: "Predictive analytics made visual.",
-  heroSubtitle: "Turning complex models into layouts people can actually use.",
+  heroSummary: "A motion-controlled fishing experience using CPX sensors.",
+  heroSubtitle: "An exploration of embodied interaction — translating physical gestures into calm, responsive digital play.",
+  heroImage: studioWatersCover,
+  heroImageFit: "cover",
   metaCards: [
     { label: "Role", value: "Designer · Builder" },
     { label: "Timeline", value: "Spring 2026" },
-    { label: "Team", value: "Solo · Concept + Build" },
-    { label: "Scope", value: "Charts · Dashboards · Customization" },
-    { label: "Outcome", value: "Predictive Visualization Grammar" },
-    { label: "Tools", value: "Figma · Front-end · Data Viz" },
+    { label: "Team", value: "Solo · Vibe Coded" },
+    { label: "Scope", value: "Embodied Interaction · Game Feel · Physical UI" },
+    { label: "Outcome", value: "Playable CPX Prototype" },
+    { label: "Tools", value: "Claude · p5.js · Circuit Playground Express" },
   ],
   sections: [
     {
@@ -370,37 +373,32 @@ const studiowaters: ProjectDetailDocument = {
       label: "Context",
       subtitle: "Intro",
       showProjectMeta: true,
-      body: "Predictive models often live in notebooks or opaque dashboards. Studio Waters asks how visualization can make uncertainty, confidence, and time horizons legible for decision-makers who aren’t data scientists.\n\nThe tone is analytical but calm — closer to editorial data than gaming UI.",
+      body: "Studio Waters is a lightweight interactive prototype that connects physical motion with digital feedback.\n\nUsing a CPX (Circuit Playground Express), players cast and reel through real-world gestures — creating a more intuitive and embodied experience than traditional button-based input. Rather than building a complex game system, the project focuses on a single design question: how can motion, timing, and feedback shape a calm and engaging interaction?",
     },
     {
-      id: "research",
-      label: "Research",
-      body: "I compared BI tools, notebook exports, and newer 'AI analyst' products. Users repeatedly lost trust when charts hid assumptions or mixed forecast horizons.\n\nAccessibility and export needs appeared early as non-negotiables.",
+      id: "inspiration",
+      label: "Inspiration",
+      body: "Fishing is not defined by constant action. It is defined by pacing, anticipation, and subtle feedback — a rhythm that creates presence without demanding focus.\n\nI wanted to translate these qualities into an interactive system where the body becomes the primary interface. Not a simulation of fishing, but a digital experience that borrows its emotional texture: the arc of a cast, the tension of a reel, the quiet between attempts.\n\nThis project explores how repetitive, physical actions can create a sense of calm and immersion in digital environments — something most games actively work against.",
     },
     {
-      id: "problem",
-      label: "Problem",
-      body: "How do we show predictive complexity without chart junk — and without pretending certainty we don’t have?\n\nThe interface needed defaults that work, plus paths for power users to customize responsibly.",
+      id: "interaction",
+      label: "How It Works",
+      body: "The interaction is built around simple, physical gestures mapped directly to game states:\n\n· Swing to cast the line into the water\n· Tilt and pull to reel the fish back in\n· Dynamic feedback reflects tension, timing, and outcome\n\nThese mappings create a direct connection between movement and result, reducing abstraction and increasing immersion. The goal was to make the interaction feel obvious on first try — no tutorial required.",
     },
     {
-      id: "process",
-      label: "Design Process",
-      body: "I defined a small set of chart families and interaction rules (drill-down, compare, annotate). Dashboard layouts prioritized scanability: what changed, why it matters, what to do next.\n\nVisual hierarchy borrowed from print editorial grids adapted to dark UI.",
+      id: "experience",
+      label: "Experience Design",
+      body: "The experience is intentionally minimal. A nostalgic pixel world, restrained UI, and ambient visual feedback allow the physical interaction to take focus — the screen supports the gesture, rather than the gesture supporting the screen.\n\nDifficulty and reward are introduced through variation in fish behavior: different species require different timing and tension, encouraging attention and rhythm over fast reaction. The feedback loop is tight and forgiving — tension visible on screen, success felt in the motion.\n\nThe goal is not challenge, but engagement through pacing and physical presence.",
     },
     {
-      id: "final-design",
-      label: "Final Design",
-      body: "Created a data visualization tool that transforms complex predictive models into clear, actionable insights.\n\nDesigned interactive charts and customizable dashboard layouts.",
-    },
-    {
-      id: "impact",
-      label: "Impact",
-      body: "The project validates a reusable pattern: predictive products need explicit uncertainty UI, not prettier line charts alone.\n\nUseful as a reference for enterprise and startup analytics pitches.",
+      id: "ai",
+      label: "How I Used AI",
+      body: "I used AI as a rapid prototyping tool to explore interaction possibilities quickly:\n\n· Generated the initial p5.js game structure using Claude\n· Iterated on visual direction with multiple prompting rounds, refining toward a cohesive pixel style\n· Used AI to quickly test interaction logic before manually adjusting behavior, difficulty curves, and sensor thresholds\n\nAI accelerated early exploration and removed the cost of starting from scratch. But meaningful refinement required hands-on debugging, physical tuning, and restructuring the code around how the CPX actually behaves under motion — things that only emerge through testing, not generation.",
     },
     {
       id: "reflection",
       label: "Reflection",
-      body: "Data viz is half statistics, half interface ethics. I’d push further on validation studies and real datasets next — synthetic data only teaches layout, not behavior.\n\nStudio Waters sharpened my systems eye for grid, rhythm, and annotation.",
+      body: "Studio Waters reinforced the value of combining fast prototyping with deeper technical understanding.\n\nVibe coding lowers the barrier to building, but strong interaction design still depends on intentional mapping, iteration, and hands-on refinement. The AI wrote the scaffold; I designed the feel.\n\nThe project also surfaced an underexplored space: calm, embodied digital interactions. Most physical computing projects lean toward complexity and spectacle. There is real design value in restraint — in building things that are slow, rhythmic, and physically honest.",
     },
   ],
 };
