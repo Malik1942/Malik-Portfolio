@@ -70,7 +70,7 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
     >
       {/* Default label */}
       <motion.span
-        className="text-[11px] uppercase tracking-[0.25em] text-foreground/60 whitespace-nowrap absolute pointer-events-none"
+        className="text-[11px] text-body uppercase tracking-[0.25em] text-foreground/60 whitespace-nowrap absolute pointer-events-none"
         animate={{
           opacity: hovered ? 0 : 0.6,
           scale: hovered ? 0.94 : 1,
@@ -86,7 +86,7 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
         {data.lines.map((line, i) => (
           <motion.span
             key={line}
-            className="text-[14px] text-foreground/90 font-light tracking-wide whitespace-nowrap"
+            className="text-[14px] text-body text-foreground/90 font-light tracking-wide whitespace-nowrap"
             initial={false}
             animate={{
               opacity: hovered ? 0.9 : 0,
@@ -125,7 +125,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
       {/* Back button */}
       <motion.button
         onClick={onBack}
-        className="absolute top-8 left-8 flex items-center gap-2 text-xs text-foreground/20 hover:text-foreground/50 transition-colors duration-500 uppercase tracking-[0.15em] z-30"
+        className="absolute top-8 left-8 flex items-center gap-2 text-xs text-body text-foreground/20 hover:text-foreground/50 transition-colors duration-500 uppercase tracking-[0.15em] z-30"
         initial={{ opacity: 0 }}
         animate={{ opacity: isVisible ? 1 : 0 }}
         transition={{ duration: 0.6, delay: isVisible ? 2.4 : 0 }}
@@ -140,7 +140,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
           <div className="flex items-center gap-6 md:gap-8 px-6">
             <div className="flex flex-col items-end text-right max-w-[380px]">
               <motion.h2
-                className="text-[22px] sm:text-[26px] md:text-[30px] text-foreground font-normal leading-[1.5] tracking-wide"
+                className="text-[22px] sm:text-[26px] md:text-[30px] text-display text-foreground font-normal leading-[1.5] tracking-wide"
                 initial={{ opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.2, delay: 1.0, ease: "easeOut" }}
@@ -156,7 +156,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
                 </span>
               </motion.h2>
               <motion.p
-                className="text-[10px] text-foreground/30 font-light uppercase tracking-[0.2em] mt-3"
+                className="text-[10px] text-body text-foreground/30 font-light uppercase tracking-[0.2em] mt-3"
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 1.3, ease: "easeOut" }}
@@ -196,7 +196,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 2.8 }}
         >
-          <span className="text-[8px] uppercase tracking-[0.3em] text-foreground/12">Scroll</span>
+          <span className="text-[8px] text-body uppercase tracking-[0.3em] text-foreground/12">Scroll</span>
           <motion.div
             className="w-px h-5 bg-foreground/8"
             animate={{ scaleY: [0.3, 1, 0.3], opacity: [0.06, 0.15, 0.06] }}
