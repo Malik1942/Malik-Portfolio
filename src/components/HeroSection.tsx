@@ -33,7 +33,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
           {/* Left */}
           <div className="animate-fade-up delay-3">
-            <p className="text-foreground/70 text-xs tracking-[0.2em] uppercase text-mono mb-3">
+            <p className="text-foreground/70 text-xs tracking-[0.2em] uppercase text-body mb-3">
               Product Designer
             </p>
             <p className="text-muted-foreground text-sm max-w-[300px] leading-relaxed text-body">
