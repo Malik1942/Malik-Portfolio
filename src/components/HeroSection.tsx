@@ -48,14 +48,14 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
               className="nav-link hover:text-foreground transition-colors duration-500"
               onClick={(event) => handleSectionNavClick(event, "projects")}
             >
-              Projects
+              Selected Work
             </a>
             <a
               href="#ai-projects"
               className="nav-link hover:text-foreground transition-colors duration-500"
               onClick={(event) => handleSectionNavClick(event, "ai-projects")}
             >
-              Built with AI
+              AI Explorations
             </a>
             <a
               href="#about"
@@ -76,11 +76,11 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
           <div className="flex gap-6 text-xs text-body animate-fade-up delay-5">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-dot-red" />
-              <span className="text-muted-foreground">Major Projects</span>
+              <span className="text-muted-foreground">Selected Work</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-dot-gold" />
-              <span className="text-muted-foreground">Built with AI</span>
+              <span className="text-muted-foreground">AI Explorations</span>
             </div>
           </div>
         </div>
