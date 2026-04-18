@@ -406,17 +406,11 @@ const SectionLabel = ({
         className={`rounded-full ${dotClass} ${isPrimary ? "w-1.5 h-1.5 opacity-70" : "w-1 h-1 opacity-35"}`}
       />
       {isPrimary ? (
-        <span
-          className="text-mono text-foreground/85 uppercase font-light"
-          style={{ fontSize: "0.9375rem", letterSpacing: "0.06em" }}
-        >
+        <span className="text-sm text-mono text-foreground/55 uppercase tracking-[0.12em] font-medium">
           {title}
         </span>
       ) : (
-        <span
-          className="text-mono text-foreground/45 font-light"
-          style={{ fontSize: "0.875rem", letterSpacing: "0.03em" }}
-        >
+        <span className="text-sm text-mono text-foreground/35 tracking-[0.08em] font-medium">
           {title}
         </span>
       )}
