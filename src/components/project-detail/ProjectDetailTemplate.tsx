@@ -69,7 +69,7 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
               key={card.title}
               className="border border-border/50 bg-secondary/[0.08] rounded-sm px-4 py-4"
             >
-              <p className="text-[11px] uppercase tracking-[0.18em] text-foreground/60 text-mono mb-2">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-foreground/60 text-body mb-2">
                 {card.title}
               </p>
               <p className="text-[13px] font-light leading-relaxed text-foreground/65 text-body">
@@ -88,7 +88,7 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
               key={card.label}
               className="border border-border/40 bg-transparent rounded-sm px-4 py-3"
             >
-              <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50 text-mono mb-1.5">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50 text-body mb-1.5">
                 {card.label}
               </p>
               <p className="text-[13px] font-light leading-snug text-foreground/75 text-body">
@@ -102,7 +102,7 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
       {/* What I Did — optional */}
       {block.whatIDid?.length ? (
         <div>
-          <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground/50 text-mono mb-5">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground/50 text-body mb-5">
             What I Did
           </p>
           <ul className="space-y-3">
@@ -130,7 +130,7 @@ function SectionBody({ text, leadFirst }: { text: string; leadFirst?: boolean })
           key={i}
           className={
             leadFirst && i === 0
-              ? "text-[1.1rem] md:text-[1.25rem] font-medium leading-[1.65] text-foreground/88 text-body"
+              ? "text-[15px] md:text-base font-light leading-[1.75] text-foreground/78 text-body"
               : `${i > 0 ? "mt-4 md:mt-5" : ""} text-[15px] md:text-base font-light leading-[1.75] text-foreground/58 text-body`
           }
         >
@@ -144,7 +144,7 @@ function SectionBody({ text, leadFirst }: { text: string; leadFirst?: boolean })
 function MetaItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="border border-border/40 bg-secondary/[0.07] rounded-sm px-5 py-5 md:px-6 md:py-6">
-      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground/45 text-mono mb-3">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground/45 text-body mb-3">
         {label}
       </p>
       <p className="text-[13px] md:text-sm font-light leading-relaxed text-foreground/78 text-body">
@@ -183,7 +183,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         <button
           type="button"
           onClick={onBack}
-          className="text-muted-foreground hover:text-foreground transition-colors duration-300 text-sm text-mono flex items-center gap-2"
+          className="text-muted-foreground hover:text-foreground transition-colors duration-300 text-sm text-body flex items-center gap-2"
         >
           ← Back
         </button>
@@ -191,7 +191,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
 
       {/* 1 — Title + hook */}
       <header className="px-6 md:px-16 lg:px-24 pt-8 md:pt-10 max-w-[1400px] mx-auto">
-        <p className="text-muted-foreground text-[11px] text-mono uppercase tracking-[0.2em] mb-4">
+        <p className="text-muted-foreground text-[11px] text-body uppercase tracking-[0.2em] mb-4">
           {project.listSection}
         </p>
         <h1 className="text-4xl md:text-6xl lg:text-[4.25rem] font-light text-foreground text-display tracking-[-0.03em] leading-[1.08]">
@@ -211,9 +211,13 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
             <img
               src={project.heroImage}
               alt={`${project.title} — project visual`}
-              className={`w-full max-h-[min(72vh,780px)] min-h-[200px] ${
-                project.heroImageFit === "contain" ? "object-contain" : "object-cover"
-              } object-center`}
+              className={
+                project.heroImageFit === "natural"
+                  ? "w-full h-auto block"
+                  : `w-full max-h-[min(72vh,780px)] min-h-[200px] ${
+                      project.heroImageFit === "contain" ? "object-contain" : "object-cover"
+                    } object-center`
+              }
             />
           </div>
         </div>
@@ -276,7 +280,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
               className="hidden lg:block w-[200px] xl:w-[220px] flex-shrink-0 sticky top-28 self-start"
               aria-label="Section navigation"
             >
-              <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/45 mb-6 text-mono">
+              <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/45 mb-6 text-body">
                 On this page
               </p>
               <ul className="space-y-0.5">
@@ -308,7 +312,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                   {s.subtitle ? (
                     /* Subtitle section: Intro heading → lead + body → MetaGrid */
                     <>
-                      <h2 className="text-[1.75rem] md:text-[2.25rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.15] mb-6 md:mb-8">
+                      <h2 className="text-[1.75rem] md:text-[2rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.15] mb-6 md:mb-8">
                         {s.subtitle}
                       </h2>
                       <SectionBody text={s.body} leadFirst />

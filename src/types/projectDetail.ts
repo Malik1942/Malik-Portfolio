@@ -51,7 +51,7 @@ export type ProjectDetailDocument = {
   /** Optional second line — impact, scope, or positioning */
   heroSubtitle?: string;
   heroImage?: string;
-  heroImageFit?: "cover" | "contain";
+  heroImageFit?: "cover" | "contain" | "natural";
   /** Omit entirely to hide the overview card grid */
   metaCards?: ProjectMetaCard[];
   sections: ProjectContentSection[];
