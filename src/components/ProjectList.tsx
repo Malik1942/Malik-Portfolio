@@ -115,6 +115,7 @@ const ProjectCard = ({
   maxWidth,
   horizontal = false,
   imageRight = false,
+  slideIn = "left",
 }: {
   project: Project;
   projectId?: string;
@@ -126,6 +127,7 @@ const ProjectCard = ({
   maxWidth?: string;
   horizontal?: boolean;
   imageRight?: boolean;
+  slideIn?: "left" | "right";
 }) => {
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
@@ -252,13 +254,13 @@ const ProjectCard = ({
       <motion.div
         ref={ref}
         id={projectId ? `project-${projectId}` : undefined}
-        initial={{ opacity: 0, scale: 0.94, y: 40 }}
-        animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.94, y: inView ? 0 : 40 }}
+        initial={{ opacity: 0, x: slideIn === "right" ? "60vw" : "-60vw" }}
+        animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : (slideIn === "right" ? "60vw" : "-60vw") }}
         transition={{
-          duration: 0.75,
+          duration: 0.9,
           ease: [0.16, 1, 0.3, 1],
-          delay: rowDelay + globalIndex * 0.1,
-          opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
+          delay: rowDelay + globalIndex * 0.08,
+          opacity: { duration: 0.45, ease: "easeOut", delay: rowDelay + globalIndex * 0.08 },
         }}
         className="cursor-pointer group flex flex-row items-stretch gap-10"
         onClick={handleClick}
@@ -276,13 +278,13 @@ const ProjectCard = ({
     <motion.div
       ref={ref}
       id={projectId ? `project-${projectId}` : undefined}
-      initial={{ opacity: 0, scale: 0.94, y: 40 }}
-      animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.94, y: inView ? 0 : 40 }}
+      initial={{ opacity: 0, x: slideIn === "right" ? "60vw" : "-60vw" }}
+      animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : (slideIn === "right" ? "60vw" : "-60vw") }}
       transition={{
-        duration: 0.75,
+        duration: 0.9,
         ease: [0.16, 1, 0.3, 1],
-        delay: rowDelay + globalIndex * 0.1,
-        opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
+        delay: rowDelay + globalIndex * 0.08,
+        opacity: { duration: 0.45, ease: "easeOut", delay: rowDelay + globalIndex * 0.08 },
       }}
       className="cursor-pointer group flex flex-col"
       style={maxWidth ? { maxWidth } : undefined}
@@ -333,8 +335,9 @@ const TwoColCard = ({
         project={project}
         projectId={project.id}
         dotClass={dotClass}
-        globalIndex={startGlobalIndex + index}
-        rowDelay={(index % 2) * 0.06}
+        globalIndex={0}
+        rowDelay={(index % 2) * 0.1}
+        slideIn={isRight ? "right" : "left"}
         metadataLabel={
           aiVariant && project.builtWith
             ? `Built with ${project.builtWith}`
@@ -419,7 +422,7 @@ const MainProjectList = ({
   const gridPro = projects.slice(2); // FlowPrint, Tubular, Mood Muse, …
 
   return (
-    <section id={id} className="px-6 md:px-16 lg:px-24 pt-24">
+    <section id={id} className="px-6 md:px-16 lg:px-24 pt-24 overflow-x-hidden">
       <SectionLabel title={sectionTitle} dotClass={dotClass} />
 
       {/* ── Hero 1: Aura ── */}
@@ -431,6 +434,7 @@ const MainProjectList = ({
             dotClass={dotClass}
             globalIndex={0}
             horizontal
+            slideIn="left"
           />
         </div>
       )}
@@ -445,6 +449,7 @@ const MainProjectList = ({
             globalIndex={1}
             rowDelay={0.06}
             imageRight
+            slideIn="right"
           />
         </div>
       )}
@@ -476,7 +481,7 @@ const AIProjectList = ({
   dotClass: string;
   projects: Project[];
 }) => (
-  <section id={id} className="px-6 md:px-16 lg:px-24 pt-32 pb-24">
+  <section id={id} className="px-6 md:px-16 lg:px-24 pt-32 pb-24 overflow-x-hidden">
     <SectionLabel title={sectionTitle} dotClass={dotClass} />
     <TwoColGrid projects={projects} dotClass={dotClass} aiVariant />
   </section>
