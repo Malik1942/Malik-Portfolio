@@ -410,7 +410,7 @@ const SectionLabel = ({
           {title}
         </span>
       ) : (
-        <span className="text-sm text-mono text-foreground/35 tracking-[0.08em] font-medium">
+        <span className="text-sm text-mono text-foreground/35 uppercase tracking-[0.12em] font-medium">
           {title}
         </span>
       )}
