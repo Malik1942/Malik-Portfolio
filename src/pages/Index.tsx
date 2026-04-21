@@ -4,6 +4,7 @@ import HeroSection from "@/components/HeroSection";
 import ProjectList from "@/components/ProjectList";
 import Footer from "@/components/Footer";
 import AboutDeepContent from "@/components/AboutDeepContent";
+import { PageTransition } from "@/components/PageTransition";
 import auraDetail1 from "@/assets/aura-detail-1.png";
 import neuralyfeCover from "@/assets/neuralyfe-cover.png";
 import flowprintCover from "@/assets/flowprint-cover.png";
@@ -83,7 +84,7 @@ const aiProjects = [
     year: "2026",
     coverImage: studioWatersCover,
     builtWith: "Claude + p5.js",
-    details: "Created a data visualization tool that transforms complex predictive models into clear, actionable insights.\n\nDesigned interactive charts and customizable dashboard layouts.",
+    details: "A motion-controlled fishing experience built with Claude and p5.js — physical gestures mapped to calm, responsive digital play.",
   },
 ];
 
@@ -100,6 +101,7 @@ const Index = () => {
   }, []);
 
   return (
+    <PageTransition>
     <div className={`bg-background ${isAboutOpen ? "" : "min-h-screen"}`}>
       <HeroSection
         isAboutOpen={isAboutOpen}
@@ -150,6 +152,7 @@ const Index = () => {
         />
       </div>
     </div>
+    </PageTransition>
   );
 };
 
