@@ -6,6 +6,7 @@ import auraDetail2 from "@/assets/aura-detail-2.png";
 import auraDetail5 from "@/assets/aura-detail-5.png";
 import auraDetail6 from "@/assets/aura-detail-6.png";
 import neuralyfeCover from "@/assets/neuralyfe-cover.png";
+import neuralyfeDetail1 from "@/assets/neuralyfe-detail-1.jpg";
 import flowprintCover from "@/assets/flowprint-cover.png";
 import tubularCover from "@/assets/tubular-cover.jpg";
 import moodmuseCover from "@/assets/moodmuse-cover.png";
@@ -77,7 +78,7 @@ const neuralyfe: ProjectDetailDocument = {
   title: "NeuraLyfe",
   heroSummary: "Making invisible brain trauma visible — before it becomes irreversible.",
   heroSubtitle: "FigBuild 2026 · 1st place — concept, execution, and system design.",
-  heroImage: neuralyfeCover,
+  heroImage: neuralyfeDetail1,
   metaCards: [
     { label: "Role", value: "Product Designer · Maker" },
     { label: "Timeline", value: "Fall 2025 · Spring 2026" },
