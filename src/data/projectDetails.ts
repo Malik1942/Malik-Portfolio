@@ -16,7 +16,7 @@ const aura: ProjectDetailDocument = {
   listSection: "Main Projects",
   title: "Aura",
   heroSummary: "An AI-powered anticipatory motion sickness relief system designed for travelers.",
-  heroImage: auraDetail1,
+  heroImage: auraCover,
   heroImageFit: "natural",
   metaCards: [
     { label: "Role", value: "Product Designer · Industrial Designer" },
