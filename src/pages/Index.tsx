@@ -5,7 +5,7 @@ import ProjectList from "@/components/ProjectList";
 import Footer from "@/components/Footer";
 import AboutDeepContent from "@/components/AboutDeepContent";
 import { PageTransition } from "@/components/PageTransition";
-import auraDetail1 from "@/assets/aura-detail-1.png";
+import auraCover from "@/assets/aura-cover.png";
 import neuralyfeCover from "@/assets/neuralyfe-cover.png";
 import flowprintCover from "@/assets/flowprint-cover.png";
 import tubularCover from "@/assets/tubular-cover.jpg";
@@ -21,7 +21,7 @@ const selectedWork = [
     description: "A calm, proactive system for preventing motion sickness in motion.",
     role: "Product Designer",
     year: "2025",
-    coverImage: auraDetail1,
+    coverImage: auraCover,
     details: "Led the end-to-end design of a proactive, AI-driven wearable for motion sickness, defining its concept, system, and interaction model.\n\nShaped a seamless cross-device experience, integrating ambient AI to anticipate discomfort and deliver real-time support.",
   },
   {
