@@ -17,9 +17,20 @@ const ProjectDetail = () => {
             <button
               type="button"
               onClick={() => navigate("/")}
-              className="text-muted-foreground hover:text-foreground transition-colors text-sm text-body"
+              aria-label="Back to home"
+              className="group flex items-center gap-2 min-h-[44px] px-1 text-sm text-body text-foreground/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded transition-colors duration-200"
             >
-              ← Back to home
+              <svg
+                aria-hidden="true"
+                className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+              </svg>
+              Back to home
             </button>
           </div>
         </div>
