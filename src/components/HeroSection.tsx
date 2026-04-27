@@ -3,6 +3,7 @@ import DotGrid from "./DotGrid";
 import AboutOverlay from "./AboutOverlay";
 import { motion } from "framer-motion";
 import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
+import { usePageLoaded } from "@/hooks/usePageLoaded";
 
 interface HeroSectionProps {
   isAboutOpen: boolean;
@@ -11,6 +12,8 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProps) => {
+  const isLoaded = usePageLoaded();
+
   const handleSectionNavClick = (event: MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     event.preventDefault();
     scrollToSectionNavTarget(sectionId);
@@ -21,11 +24,16 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
       <DotGrid aboutMode={isAboutOpen} />
       <AboutOverlay isVisible={isAboutOpen} onBack={onAboutBack} />
 
-      {/* Bottom bar */}
+      {/* Bottom bar — entrance is gated on isLoaded so the animation plays after the
+          loading screen fades rather than finishing unseen behind it on cold loads. */}
       <motion.div
         className="absolute bottom-0 left-0 right-0 px-6 md:px-16 lg:px-24 pb-10 z-10"
-        animate={{ opacity: isAboutOpen ? 0 : 1, y: isAboutOpen ? 20 : 0 }}
-        transition={{ duration: 0.6, delay: isAboutOpen ? 0 : 0.8 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{
+          opacity: isLoaded && !isAboutOpen ? 1 : 0,
+          y: isLoaded && !isAboutOpen ? 0 : 20,
+        }}
+        transition={{ duration: 0.6, delay: isAboutOpen ? 0 : isLoaded ? 0.8 : 0 }}
         style={{ pointerEvents: isAboutOpen ? "none" : "auto" }}
       >
         <div className="h-px bg-border/40 mb-8 animate-line-reveal delay-3" />

@@ -545,13 +545,14 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       initScene(rect.width, rect.height);
     };
 
-    // Wait for Space Grotesk before sampling text pixels for the particle system.
-    // Without this, the offscreen canvas uses a fallback font whose metrics differ,
-    // producing the wrong dot pattern on every cold load.
+    // Wait until ALL fonts are ready before sampling text pixels for the particle system.
+    // Using document.fonts.ready (instead of a 2-second document.fonts.load timeout) ensures
+    // Space Grotesk is actually loaded — the old 2 s limit expired before the font arrived on
+    // cold loads, so initScene() ran with a fallback font and produced wrong particle positions.
     const initWhenReady = () => {
       Promise.race([
-        document.fonts.load("700 16px 'Space Grotesk'"),
-        new Promise<void>((resolve) => setTimeout(resolve, 2000)),
+        document.fonts.ready,
+        new Promise<void>((resolve) => setTimeout(resolve, 4000)),
       ]).then(() => resize());
     };
 

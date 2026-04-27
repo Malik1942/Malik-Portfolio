@@ -105,18 +105,27 @@
   to { transform: scaleX(1); }
 }
 
+/* Animations start paused so they don't run behind the loading screen on slow
+   connections. main.tsx adds body.loaded when fonts are ready and the screen fades,
+   which unpauses them — users always see the entrance animation play. */
 .animate-fade-up {
   animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-play-state: paused;
 }
+body.loaded .animate-fade-up { animation-play-state: running; }
 
 .animate-fade-in {
   animation: fade-in 0.6s ease-out both;
+  animation-play-state: paused;
 }
+body.loaded .animate-fade-in { animation-play-state: running; }
 
 .animate-line-reveal {
   animation: line-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   transform-origin: left;
+  animation-play-state: paused;
 }
+body.loaded .animate-line-reveal { animation-play-state: running; }
 
 .delay-1 { animation-delay: 0.1s; }
 .delay-2 { animation-delay: 0.2s; }
