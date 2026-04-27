@@ -132,12 +132,13 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
       {/* Back button */}
       <motion.button
         onClick={onBack}
-        className="absolute top-8 left-8 flex items-center gap-2 text-xs text-body text-foreground/20 hover:text-foreground/50 transition-colors duration-500 uppercase tracking-[0.15em] z-30"
+        aria-label="Back to home"
+        className="group absolute top-8 left-8 flex items-center gap-2 min-h-[44px] px-1 text-sm text-body text-foreground/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded transition-colors duration-200 z-30"
         initial={{ opacity: 0 }}
         animate={{ opacity: isVisible ? 1 : 0 }}
         transition={{ duration: 0.6, delay: isVisible ? 2.4 : 0 }}
       >
-        <ArrowLeft className="w-3 h-3" />
+        <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
         Back
       </motion.button>
 
