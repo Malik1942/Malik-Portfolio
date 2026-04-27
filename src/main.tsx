@@ -11,6 +11,9 @@ function dismissLoadingScreen() {
   if (!el) return;
   el.style.opacity = "0";
   el.style.pointerEvents = "none";
+  // Unlock CSS animations and notify React components that fonts are ready.
+  document.body.classList.add("loaded");
+  window.dispatchEvent(new Event("page-loaded"));
   // Remove from DOM after the CSS transition finishes
   setTimeout(() => el.remove(), 500);
 }

@@ -5,9 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="/favicon.jpeg">
     <link rel="apple-touch-icon" href="/favicon.jpeg" />
-    <link rel="preconnect" href="https://api.fontshare.com">
+    <!-- crossorigin on Fontshare needed for cross-origin font requests -->
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Keep these as render-blocking stylesheets: the loading screen covers the page
+         while they load, and document.fonts.ready (used by the loading screen AND DotGrid)
+         only sees fonts that are already in the stylesheet cascade — async loading would
+         cause fonts.ready to resolve before Space Grotesk is in the queue. -->
     <!-- General Sans (display + body) -->
     <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700&display=swap" rel="stylesheet">
     <!-- JetBrains Mono (mono) + Space Grotesk (canvas text in DotGrid) -->
