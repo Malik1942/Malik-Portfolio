@@ -544,7 +544,18 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       canvas.height = rect.height * dpr;
       initScene(rect.width, rect.height);
     };
-    resize();
+
+    // Wait for Space Grotesk before sampling text pixels for the particle system.
+    // Without this, the offscreen canvas uses a fallback font whose metrics differ,
+    // producing the wrong dot pattern on every cold load.
+    const initWhenReady = () => {
+      Promise.race([
+        document.fonts.load("700 16px 'Space Grotesk'"),
+        new Promise<void>((resolve) => setTimeout(resolve, 2000)),
+      ]).then(() => resize());
+    };
+
+    initWhenReady();
     window.addEventListener("resize", resize);
 
     const onMove = (e: MouseEvent) => {
@@ -552,6 +563,37 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
     };
     window.addEventListener("mousemove", onMove);
+
+    const onTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      if (!touch) return;
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current = { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+    };
+    canvas.addEventListener("touchmove", onTouchMove, { passive: true });
+
+    const onTouchEnd = (e: TouchEvent) => {
+      const touch = e.changedTouches[0];
+      if (!touch || aboutModeRef.current) return;
+      const rect = canvas.getBoundingClientRect();
+      const tx = touch.clientX - rect.left;
+      const ty = touch.clientY - rect.top;
+      let nearestId: string | null = null;
+      let nearestDist = 60;
+      for (const orb of orbsRef.current) {
+        const dist = Math.sqrt((orb.x - tx) ** 2 + (orb.y - ty) ** 2);
+        if (dist < nearestDist) {
+          nearestDist = dist;
+          nearestId = orb.id;
+        }
+      }
+      if (nearestId) {
+        const el = document.getElementById(`project-${nearestId}`);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      setTimeout(() => { mouseRef.current = { x: -500, y: -500 }; }, 800);
+    };
+    canvas.addEventListener("touchend", onTouchEnd);
 
     const onClick = () => {
       if (aboutModeRef.current) return;
@@ -571,6 +613,8 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       cancelAnimationFrame(animRef.current);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
+      canvas.removeEventListener("touchmove", onTouchMove);
+      canvas.removeEventListener("touchend", onTouchEnd);
       canvas.removeEventListener("click", onClick);
     };
   }, [draw, initScene]);

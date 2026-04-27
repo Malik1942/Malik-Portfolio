@@ -42,7 +42,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
           </div>
 
           {/* Nav */}
-          <nav className="flex gap-8 text-sm text-muted-foreground text-body animate-fade-up delay-4">
+          <nav className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-muted-foreground text-body animate-fade-up delay-4">
             <a
               href="#projects"
               className="nav-link hover:text-foreground transition-colors duration-500"

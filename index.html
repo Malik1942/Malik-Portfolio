@@ -6,10 +6,12 @@
     <link rel="icon" type="image/x-icon" href="/favicon.jpeg">
     <link rel="apple-touch-icon" href="/favicon.jpeg" />
     <link rel="preconnect" href="https://api.fontshare.com">
-    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- General Sans (display + body) -->
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700&display=swap" rel="stylesheet">
+    <!-- JetBrains Mono (mono) + Space Grotesk (canvas text in DotGrid) -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- TODO: Set the document title to the name of your application -->
     <title>Malik Zhang – Product Designer | Seattle | UW MHCI+D</title>
     <meta name="description" content="Product Designer designing products that bridge human needs and digital possibilities.">
@@ -35,6 +37,15 @@
 </head>
 
   <body>
+    <!-- Loading screen: shown before JS runs, dismissed by main.tsx once
+         React has rendered and fonts are ready. Background matches --background. -->
+    <div id="loading-screen" style="
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #0a0a0a;
+      transition: opacity 0.45s ease;
+    "></div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

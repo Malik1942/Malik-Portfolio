@@ -46,9 +46,15 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
     );
   };
 
+  const handleTap = () => {
+    const next = !hovered;
+    setHovered(next);
+    dispatchHover(next ? data.index : null);
+  };
+
   return (
     <motion.div
-      className="absolute cursor-default select-none flex items-center justify-center"
+      className="absolute cursor-pointer select-none flex items-center justify-center"
       style={{
         left: `${ABOUT_CLUSTER_DEFS[data.index].rx * 100}%`,
         top: `${ABOUT_CLUSTER_DEFS[data.index].ry * 100}%`,
@@ -67,6 +73,7 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
         setHovered(false);
         dispatchHover(null);
       }}
+      onClick={handleTap}
     >
       {/* Default label */}
       <motion.span
@@ -137,10 +144,10 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
       {/* Identity Core */}
       {isVisible && (
         <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-          <div className="flex items-center gap-6 md:gap-8 px-6">
-            <div className="flex flex-col items-end text-right max-w-[380px]">
+          <div className="flex flex-col-reverse sm:flex-row items-center gap-5 sm:gap-6 md:gap-8 px-6">
+            <div className="flex flex-col items-center sm:items-end text-center sm:text-right max-w-[380px]">
               <motion.h2
-                className="text-[22px] sm:text-[26px] md:text-[30px] text-display text-foreground font-normal leading-[1.5] tracking-wide"
+                className="text-[20px] sm:text-[26px] md:text-[30px] text-display text-foreground font-normal leading-[1.5] tracking-wide"
                 initial={{ opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.2, delay: 1.0, ease: "easeOut" }}
@@ -172,7 +179,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
               transition={{ duration: 1.4, delay: 1.1, ease: "easeOut" }}
             >
               <div
-                className="relative w-44 h-56 sm:w-52 sm:h-64 md:w-60 md:h-72 overflow-hidden"
+                className="relative w-32 h-40 sm:w-44 sm:h-56 md:w-60 md:h-72 overflow-hidden"
                 style={{
                   borderRadius: "28px",
                   maskImage:
