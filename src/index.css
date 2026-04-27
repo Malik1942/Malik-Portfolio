@@ -61,6 +61,7 @@
     font-family: var(--text-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   a, button, [role="button"] {
@@ -261,4 +262,19 @@
 /* Smooth scroll */
 html {
   scroll-behavior: smooth;
+}
+
+/* Responsive 2-col project grid */
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(20px, 6vw, 36px);
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .project-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 clamp(24px, 3vw, 40px);
+  }
 }

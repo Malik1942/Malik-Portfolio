@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Project {
   id?: string;
@@ -129,6 +130,7 @@ const ProjectCard = ({
 }) => {
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
+  const isMobile = useIsMobile();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
 
@@ -143,38 +145,38 @@ const ProjectCard = ({
   // ── Vertical card text (grid cards) ──
   const textBlock = () => (
     <>
-      {/* Title — confident anchor of the card */}
+      {/* Title */}
       <h3
         className="text-display font-semibold leading-snug transition-colors duration-300"
         style={{
-          fontSize: "clamp(1.2rem, 1.6vw, 1.4rem)",
+          fontSize: isMobile ? "clamp(1.1rem, 4vw, 1.25rem)" : "clamp(1.2rem, 1.6vw, 1.4rem)",
           letterSpacing: "-0.025em",
-          marginBottom: "0.3rem",
+          marginBottom: isMobile ? "0.5rem" : "0.3rem",
           color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.88)",
         }}
       >
         {project.title}
       </h3>
 
-      {/* Description — concise, one line, clearly softer */}
+      {/* Description */}
       <p
-        className="text-body leading-snug line-clamp-1"
+        className={`text-body ${isMobile ? "leading-relaxed line-clamp-2" : "leading-snug line-clamp-1"}`}
         style={{
-          fontSize: "0.8125rem",
-          marginBottom: "1rem",
-          color: "hsl(var(--foreground) / 0.42)",
+          fontSize: isMobile ? "0.875rem" : "0.8125rem",
+          marginBottom: isMobile ? "0.75rem" : "1rem",
+          color: "hsl(var(--foreground) / 0.45)",
         }}
       >
         {project.description}
       </p>
 
-      {/* Metadata — quiet closing layer */}
+      {/* Metadata */}
       <p
         className="text-body"
         style={{
-          fontSize: "0.6875rem",
-          letterSpacing: "0.06em",
-          color: "hsl(var(--foreground) / 0.28)",
+          fontSize: isMobile ? "0.75rem" : "0.6875rem",
+          letterSpacing: isMobile ? "0.04em" : "0.06em",
+          color: "hsl(var(--foreground) / 0.32)",
         }}
       >
         {metadataLabel ?? project.role} · {project.year}
@@ -184,21 +186,28 @@ const ProjectCard = ({
 
   if (horizontal || imageRight) {
     const imageCol = (
-      <div style={{ width: "65%", flexShrink: 0 }}>
+      <div
+        className={isMobile ? "w-full order-first" : ""}
+        style={isMobile ? undefined : { width: "65%", flexShrink: 0 }}
+      >
         <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
       </div>
     );
 
     // ── Editorial text column for hero rows ──
-    // Bottom-anchored: text rests at the same baseline as the image bottom.
+    // On desktop: bottom-anchored with text at image baseline.
+    // On mobile: natural block flow, no anchor padding.
     const textCol = (
-      <div className="flex flex-col flex-1 min-w-0 justify-end" style={{ paddingBottom: "48px" }}>
-        <div style={{ maxWidth: "380px" }}>
-          {/* Level 1 — Title: isolated anchor, large gap below */}
+      <div
+        className={`flex flex-col flex-1 min-w-0 ${isMobile ? "" : "justify-end"}`}
+        style={isMobile ? undefined : { paddingBottom: "48px" }}
+      >
+        <div style={isMobile ? undefined : { maxWidth: "380px" }}>
+          {/* Level 1 — Title */}
           <h3
             className="text-display font-semibold leading-[1.05] transition-colors duration-300"
             style={{
-              fontSize: "clamp(1.6rem, 2.2vw, 2.4rem)",
+              fontSize: isMobile ? "clamp(1.4rem, 5vw, 1.8rem)" : "clamp(1.6rem, 2.2vw, 2.4rem)",
               letterSpacing: "-0.03em",
               marginBottom: "1rem",
               color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.9)",
@@ -207,13 +216,13 @@ const ProjectCard = ({
             {project.title}
           </h3>
 
-          {/* Levels 2 + 3 — Signal + description grouped tightly */}
-          <div style={{ marginBottom: "1.375rem" }}>
+          {/* Levels 2 + 3 — Signal + description */}
+          <div style={{ marginBottom: isMobile ? "1rem" : "1.375rem" }}>
             {project.signal && (
               <p
                 className="text-body font-medium leading-snug"
                 style={{
-                  fontSize: "0.9375rem",
+                  fontSize: isMobile ? "0.875rem" : "0.9375rem",
                   letterSpacing: "-0.01em",
                   marginBottom: "0.5rem",
                   color: "hsl(var(--foreground) / 0.58)",
@@ -223,23 +232,23 @@ const ProjectCard = ({
               </p>
             )}
             <p
-              className="text-body leading-relaxed line-clamp-2"
+              className="text-body leading-relaxed"
               style={{
                 fontSize: "0.875rem",
-                color: "hsl(var(--foreground) / 0.38)",
+                color: "hsl(var(--foreground) / 0.42)",
               }}
             >
               {project.description}
             </p>
           </div>
 
-          {/* Level 4 — Metadata: separate, subtle */}
+          {/* Level 4 — Metadata */}
           <p
             className="text-body"
             style={{
-              fontSize: "0.6875rem",
-              letterSpacing: "0.09em",
-              color: "hsl(var(--foreground) / 0.28)",
+              fontSize: isMobile ? "0.75rem" : "0.6875rem",
+              letterSpacing: isMobile ? "0.05em" : "0.09em",
+              color: "hsl(var(--foreground) / 0.32)",
             }}
           >
             {metadataLabel ?? project.role} · {project.year}
@@ -260,7 +269,7 @@ const ProjectCard = ({
           delay: rowDelay + globalIndex * 0.1,
           opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
         }}
-        className="cursor-pointer group flex flex-row items-stretch gap-10"
+        className={`cursor-pointer group flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}
         onClick={handleClick}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -312,6 +321,7 @@ const TwoColCard = ({
   startGlobalIndex: number;
   aiVariant: boolean;
 }) => {
+  const isMobile = useIsMobile();
   const wrapRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: wrapRef,
@@ -321,13 +331,15 @@ const TwoColCard = ({
   const parallaxY = useTransform(
     scrollYProgress,
     [0, 1],
-    isRight ? ["48px", "-48px"] : ["20px", "-20px"]
+    isRight
+      ? (isMobile ? ["10px", "-10px"] : ["48px", "-48px"])
+      : (isMobile ? ["4px", "-4px"] : ["20px", "-20px"])
   );
 
   return (
     <motion.div
       ref={wrapRef}
-      style={{ marginTop: getGridMarginTop(index), y: parallaxY }}
+      style={{ marginTop: isMobile ? 0 : getGridMarginTop(index), y: parallaxY }}
     >
       <ProjectCard
         project={project}
@@ -357,15 +369,7 @@ const TwoColGrid = ({
   startGlobalIndex?: number;
   aiVariant?: boolean;
 }) => (
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(2, 1fr)",
-      gap: "0 clamp(24px, 3vw, 40px)",
-      alignItems: "start",
-    }}
-    className="grid-cols-1 md:grid-cols-2"
-  >
+  <div className="project-grid">
     {projects.map((p, i) => (
       <TwoColCard
         key={p.id ?? p.title}
@@ -469,7 +473,7 @@ const MainProjectList = ({
 
       {/* ── Grid: remaining projects ── */}
       {gridPro.length > 0 && (
-        <div className="mt-[100px] pb-10">
+        <div className="mt-12 md:mt-[100px] pb-10">
           <TwoColGrid
             projects={gridPro}
             dotClass={dotClass}
@@ -494,7 +498,7 @@ const AIProjectList = ({
   dotClass: string;
   projects: Project[];
 }) => (
-  <section id={id} className="px-6 md:px-16 lg:px-24 pt-48 pb-24">
+  <section id={id} className="px-6 md:px-16 lg:px-24 pt-24 md:pt-48 pb-24">
     <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" />
     <div style={{ opacity: 0.88 }}>
       <TwoColGrid projects={projects} dotClass={dotClass} aiVariant />
