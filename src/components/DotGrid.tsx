@@ -69,9 +69,10 @@ interface Dot {
 
 interface DotGridProps {
   aboutMode: boolean;
+  onNameClick?: () => void;
 }
 
-const DotGrid = ({ aboutMode }: DotGridProps) => {
+const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -500, y: -500 });
   const animRef = useRef(0);
@@ -87,10 +88,18 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
   const clusterPosRef = useRef<{ x: number; y: number }[]>([]);
   const clusterHoverRef = useRef<number | null>(null);
   const clusterSplashRef = useRef<number[]>([0, 0, 0, 0]);
+  // Keep latest callback in a ref so the event listener closure always calls the current one.
+  const onNameClickRef = useRef(onNameClick);
+  // Hit region of the "Malik Zhang" particle text, in CSS pixels, set during initScene.
+  const textBoundsRef = useRef({ x: 0, y: 0, w: 0, h: 0 });
 
   useEffect(() => {
     aboutModeRef.current = aboutMode;
   }, [aboutMode]);
+
+  useEffect(() => {
+    onNameClickRef.current = onNameClick;
+  }, [onNameClick]);
 
   // Listen for cluster hover events from AboutOverlay
   useEffect(() => {
@@ -154,6 +163,14 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       const centerY = h * 0.38;
       ctx.fillText("Malik", centerX, centerY - lineGap * 0.25);
       ctx.fillText("Zhang", centerX, centerY + lineGap * 0.75);
+
+      // Clickable hit region covering both text lines (generous padding for usability).
+      textBoundsRef.current = {
+        x: centerX - fontSize * 2.5,
+        y: centerY - lineGap * 0.9,
+        w: fontSize * 5,
+        h: lineGap * 1.8,
+      };
 
       const imageData = ctx.getImageData(0, 0, w, h);
       const gap = 4;
@@ -525,7 +542,11 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
     }
 
     if (canvas) {
-      canvas.style.cursor = hoveredOrbRef.current ? "pointer" : "default";
+      const tb = textBoundsRef.current;
+      const isOverName = !aboutModeRef.current &&
+        mx >= tb.x && mx <= tb.x + tb.w &&
+        my >= tb.y && my <= tb.y + tb.h;
+      canvas.style.cursor = (hoveredOrbRef.current || isOverName) ? "pointer" : "default";
     }
 
     animRef.current = requestAnimationFrame(draw);
@@ -579,31 +600,56 @@ const DotGrid = ({ aboutMode }: DotGridProps) => {
       const rect = canvas.getBoundingClientRect();
       const tx = touch.clientX - rect.left;
       const ty = touch.clientY - rect.top;
+
+      // Orb tap — scroll to project
       let nearestId: string | null = null;
       let nearestDist = 60;
       for (const orb of orbsRef.current) {
         const dist = Math.sqrt((orb.x - tx) ** 2 + (orb.y - ty) ** 2);
-        if (dist < nearestDist) {
-          nearestDist = dist;
-          nearestId = orb.id;
-        }
+        if (dist < nearestDist) { nearestDist = dist; nearestId = orb.id; }
       }
       if (nearestId) {
         const el = document.getElementById(`project-${nearestId}`);
         if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+        setTimeout(() => { mouseRef.current = { x: -500, y: -500 }; }, 800);
+        return;
+      }
+
+      // Name tap — open About
+      const tb = textBoundsRef.current;
+      if (
+        onNameClickRef.current &&
+        tx >= tb.x && tx <= tb.x + tb.w &&
+        ty >= tb.y && ty <= tb.y + tb.h
+      ) {
+        onNameClickRef.current();
       }
       setTimeout(() => { mouseRef.current = { x: -500, y: -500 }; }, 800);
     };
     canvas.addEventListener("touchend", onTouchEnd);
 
-    const onClick = () => {
+    const onClick = (e: MouseEvent) => {
       if (aboutModeRef.current) return;
+
+      // Orb click — scroll to project
       const id = hoveredOrbRef.current;
       if (id) {
         const el = document.getElementById(`project-${id}`);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+
+      // Name cluster click — open About
+      const rect = canvas.getBoundingClientRect();
+      const cx = e.clientX - rect.left;
+      const cy = e.clientY - rect.top;
+      const tb = textBoundsRef.current;
+      if (
+        onNameClickRef.current &&
+        cx >= tb.x && cx <= tb.x + tb.w &&
+        cy >= tb.y && cy <= tb.y + tb.h
+      ) {
+        onNameClickRef.current();
       }
     };
     canvas.addEventListener("click", onClick);

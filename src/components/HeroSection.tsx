@@ -21,7 +21,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
 
   return (
     <section className="relative w-full h-screen overflow-hidden bg-background">
-      <DotGrid aboutMode={isAboutOpen} />
+      <DotGrid aboutMode={isAboutOpen} onNameClick={onAboutClick} />
       <AboutOverlay isVisible={isAboutOpen} onBack={onAboutBack} />
 
       {/* Bottom bar — entrance is gated on isLoaded so the animation plays after the
