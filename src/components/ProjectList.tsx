@@ -164,7 +164,7 @@ const ProjectCard = ({
   const [hovered, setHovered] = useState(false);
   const isMobile = useIsMobile();
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
+  const inView = useInView(ref, { once: true, margin: "0px 0px -40px 0px" });
 
   const handleClick = () => {
     const go = () => {
@@ -309,7 +309,7 @@ const ProjectCard = ({
         id={projectId ? `project-${projectId}` : undefined}
         initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
         animate={{ clipPath: inView ? "inset(0% 0% 0% 0%)" : "inset(100% 0% 0% 0%)" }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: globalIndex * 0.06 }}
+        transition={{ duration: 1.1, ease: [0.33, 1, 0.68, 1], delay: globalIndex * 0.06 }}
         className={`card-dot-cursor group flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}
         onClick={handleClick}
         onMouseEnter={() => setHovered(true)}
@@ -326,14 +326,9 @@ const ProjectCard = ({
     <motion.div
       ref={ref}
       id={projectId ? `project-${projectId}` : undefined}
-      initial={{ opacity: 0, scale: 0.94, y: 40 }}
-      animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.94, y: inView ? 0 : 40 }}
-      transition={{
-        duration: 0.75,
-        ease: [0.16, 1, 0.3, 1],
-        delay: rowDelay + globalIndex * 0.1,
-        opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
-      }}
+      initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
+      animate={{ clipPath: inView ? "inset(0% 0% 0% 0%)" : "inset(100% 0% 0% 0%)" }}
+      transition={{ duration: 1.1, ease: [0.33, 1, 0.68, 1], delay: rowDelay }}
       className="card-dot-cursor group flex flex-col"
       style={maxWidth ? { maxWidth } : undefined}
       onClick={handleClick}
