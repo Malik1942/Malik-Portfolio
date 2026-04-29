@@ -63,32 +63,12 @@ const CardMedia = ({
     ? "w-full h-full object-cover"
     : "w-full h-auto block";
 
-  // view-transition-name lets the cover morph into the case-study page hero on click.
-  // The destination page needs a matching name on its cover image for the full morph;
-  // without that, the browser falls back to a plain cross-fade (still better than nothing).
-  const vtStyle = project.id
-    ? ({ viewTransitionName: `cover-${project.id}` } as React.CSSProperties)
-    : {};
-
   return (
     <div
       className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-6 w-full"
       style={forced ? { aspectRatio } : undefined}
     >
-      {/* Base layer — always the poster image when one exists */}
-      {project.coverImage ? (
-        <img
-          src={project.coverImage}
-          alt={project.title}
-          className={mediaClass}
-          style={{
-            transform: hovered ? "scale(1.03)" : "scale(1)",
-            transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
-            ...vtStyle,
-          }}
-        />
-      ) : project.coverVideo ? (
-        // No poster — video fills the slot directly (original behaviour)
+      {project.coverVideo ? (
         <video
           src={project.coverVideo}
           autoPlay loop muted playsInline
@@ -96,7 +76,16 @@ const CardMedia = ({
           style={{
             transform: hovered ? "scale(1.03)" : "scale(1)",
             transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
-            ...vtStyle,
+          }}
+        />
+      ) : project.coverImage ? (
+        <img
+          src={project.coverImage}
+          alt={project.title}
+          className={mediaClass}
+          style={{
+            transform: hovered ? "scale(1.03)" : "scale(1)",
+            transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
           }}
         />
       ) : (
@@ -106,31 +95,10 @@ const CardMedia = ({
           </span>
         </div>
       )}
-
-      {/* Video crossfade layer — fades in over 600ms on hover when both assets exist */}
-      {project.coverImage && project.coverVideo && (
-        <video
-          src={project.coverVideo}
-          autoPlay muted loop playsInline
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-          style={{
-            opacity: hovered ? 1 : 0,
-            transition: "opacity 0.6s cubic-bezier(0.16,1,0.3,1)",
-          }}
-        />
-      )}
-
-      {/* Dark-flash overlay: snaps to 0.4 then fades to 0, starting 400ms into hover.
-          Creates a cinematic "blink" that punctuates the image→video crossfade. */}
       <motion.div
-        className="absolute inset-0 bg-black pointer-events-none"
-        initial={false}
-        animate={hovered ? { opacity: [0.4, 0] } : { opacity: 0 }}
-        transition={
-          hovered
-            ? { duration: 0.5, delay: 0.4, ease: "easeOut" }
-            : { duration: 0.2 }
-        }
+        className="absolute inset-0 bg-foreground/[0.04] pointer-events-none"
+        animate={{ opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.35 }}
       />
     </div>
   );
@@ -167,28 +135,18 @@ const ProjectCard = ({
   const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
 
   const handleClick = () => {
-    const go = () => {
-      if (project.externalUrl) {
-        window.open(project.externalUrl, "_blank", "noopener,noreferrer");
-      } else if (projectId) {
-        navigate(`/project/${projectId}`);
-      }
-    };
-    // Wrap navigation in View Transitions API so the cover image morphs to the
-    // case-study page. Falls back to an instant navigate when unsupported.
-    if ("startViewTransition" in document) {
-      (document as typeof document & { startViewTransition(cb: () => void): void })
-        .startViewTransition(go);
-    } else {
-      go();
+    if (project.externalUrl) {
+      window.open(project.externalUrl, "_blank", "noopener,noreferrer");
+    } else if (projectId) {
+      navigate(`/project/${projectId}`);
     }
   };
 
   // ── Vertical card text (grid cards) ──
   const textBlock = () => (
     <>
-      {/* Title — nudges 6px right starting 200ms after the image crossfade begins */}
-      <motion.h3
+      {/* Title */}
+      <h3
         className="text-display font-semibold leading-snug transition-colors duration-300"
         style={{
           fontSize: isMobile ? "clamp(1.1rem, 4vw, 1.25rem)" : "clamp(1.2rem, 1.6vw, 1.4rem)",
@@ -196,11 +154,9 @@ const ProjectCard = ({
           marginBottom: isMobile ? "0.5rem" : "0.3rem",
           color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.88)",
         }}
-        animate={{ x: hovered ? 6 : 0 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: hovered ? 0.2 : 0 }}
       >
         {project.title}
-      </motion.h3>
+      </h3>
 
       {/* Description */}
       <p
@@ -247,8 +203,8 @@ const ProjectCard = ({
         style={isMobile ? undefined : { paddingBottom: "48px" }}
       >
         <div style={isMobile ? undefined : { maxWidth: "380px" }}>
-          {/* Level 1 — Title — nudges 6px right starting 200ms after hover */}
-          <motion.h3
+          {/* Level 1 — Title */}
+          <h3
             className="text-display font-semibold leading-[1.05] transition-colors duration-300"
             style={{
               fontSize: isMobile ? "clamp(1.4rem, 5vw, 1.8rem)" : "clamp(1.6rem, 2.2vw, 2.4rem)",
@@ -256,11 +212,9 @@ const ProjectCard = ({
               marginBottom: "1rem",
               color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.9)",
             }}
-            animate={{ x: hovered ? 6 : 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: hovered ? 0.2 : 0 }}
           >
             {project.title}
-          </motion.h3>
+          </h3>
 
           {/* Levels 2 + 3 — Signal + description */}
           <div style={{ marginBottom: isMobile ? "1rem" : "1.375rem" }}>
@@ -307,10 +261,15 @@ const ProjectCard = ({
       <motion.div
         ref={ref}
         id={projectId ? `project-${projectId}` : undefined}
-        initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
-        animate={{ clipPath: inView ? "inset(0% 0% 0% 0%)" : "inset(100% 0% 0% 0%)" }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: globalIndex * 0.06 }}
-        className={`card-dot-cursor group flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}
+        initial={{ opacity: 0, scale: 0.94, y: 40 }}
+        animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.94, y: inView ? 0 : 40 }}
+        transition={{
+          duration: 0.75,
+          ease: [0.16, 1, 0.3, 1],
+          delay: rowDelay + globalIndex * 0.1,
+          opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
+        }}
+        className={`cursor-pointer group flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}
         onClick={handleClick}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -334,7 +293,7 @@ const ProjectCard = ({
         delay: rowDelay + globalIndex * 0.1,
         opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
       }}
-      className="card-dot-cursor group flex flex-col"
+      className="cursor-pointer group flex flex-col"
       style={maxWidth ? { maxWidth } : undefined}
       onClick={handleClick}
       onMouseEnter={() => setHovered(true)}
