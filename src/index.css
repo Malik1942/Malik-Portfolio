@@ -39,6 +39,7 @@
     --text-display: 'General Sans', sans-serif;
     --text-body: 'General Sans', sans-serif;
     --text-mono: 'JetBrains Mono', monospace;
+    --text-serif: 'Playfair Display', Georgia, serif;
 
     --sidebar-background: 0 0% 6%;
     --sidebar-foreground: 40 6% 90%;
@@ -80,6 +81,10 @@
   .text-mono {
     font-family: var(--text-mono);
     letter-spacing: -0.01em;
+  }
+
+  .text-serif {
+    font-family: var(--text-serif);
   }
 }
 
