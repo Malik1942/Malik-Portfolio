@@ -153,7 +153,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     const ctx = offscreen.getContext("2d");
     if (ctx) {
       const fontSize = Math.min(w * 0.12, 160);
-      ctx.font = `700 ${fontSize}px 'Space Grotesk', sans-serif`;
+      ctx.font = `700 ${fontSize}px 'Inter', sans-serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillStyle = "white";
