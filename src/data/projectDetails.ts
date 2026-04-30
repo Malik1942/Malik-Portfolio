@@ -53,17 +53,12 @@ const aura: ProjectDetailDocument = {
     },
     {
       id: "final-design",
-      label: "Hardware",
-      body: "**Early on, I leaned toward distinctive forms**, the kind of industrial-design move that reads as \"intentional\" in a portfolio. Comfort testing pushed back. Across users with different ear shapes, hairstyles, and wearing habits, novel silhouettes consistently increased friction: more pressure points, more self-consciousness, less willingness to wear them in public for hours.\n\nThe counterintuitive learning: familiarity is the design choice. A recognizable earbud silhouette communicates calm and reliability before any interaction happens. For a product whose entire premise is \"you barely notice it’s working,\" visual quietness wasn’t a compromise. It was the point.\n\n**I iterated stem length, angle, and fit through critique sessions and contextual testing (head movement, conversation, extended sitting), letting the form converge rather than forcing it.**",
+      label: "Final Design",
+      body: "The final design brings together Aura Buds, the Aura App, and in-travel interventions into one closed-loop support system. The buds sense early physiological and motion signals, the app prepares and personalizes the experience, and ambient audio interventions support the traveler before discomfort fully emerges.\n\n## Aura Buds\n\n**Early on, I leaned toward distinctive forms**, the kind of industrial-design move that reads as \"intentional\" in a portfolio. Comfort testing pushed back. Across users with different ear shapes, hairstyles, and wearing habits, novel silhouettes consistently increased friction: more pressure points, more self-consciousness, less willingness to wear them in public for hours.\n\nThe counterintuitive learning: familiarity is the design choice. A recognizable earbud silhouette communicates calm and reliability before any interaction happens. For a product whose entire premise is \"you barely notice it’s working,\" visual quietness wasn’t a compromise. It was the point.\n\n**I iterated stem length, angle, and fit through critique sessions and contextual testing (head movement, conversation, extended sitting), letting the form converge rather than forcing it.**\n\n## Aura App\n\nThe app had a tricky job: be useful enough to matter, invisible enough not to undercut the hardware’s calm.\n\n**I held it to one principle: guided, not demanding.** That meant:\n\n· **Onboarding** does setup and pairing, then gets out of the way.\n\n· **Trips** are added in advance so the system has context without needing real-time input.\n\n· **Sound profiles** default to sensible states. Customization exists but doesn’t greet the user.\n\n· **Status feedback** reassures without surveilling.\n\n## In-Travel Experience\n\nAura’s real test is in motion. **I built storyboard scenarios grounded in specific travel moments** — before takeoff, during turbulence, and after intervention — to stress-test whether the system’s timing and tone held up under real travel pressure.\n\nScenario 1: We’re about to take off. Pause your screen and put on your AuraBuds. Let’s do a few rounds of 4-7-8 breathing while a steady 100 Hz tone helps you feel grounded.\n\nScenario 2: Heads up, we’ll hit some moderate bumps in about 10 minutes. Let’s get you ready now.\n\nIn both cases, Aura has already read the body signals and flight context. The intervention isn’t reactive — it’s prepared. The storyboards weren’t decoration. They were how I showed that sensing, prediction, and ambient support come together as one coherent experience.",
       figures: [
         { type: "image", src: auraDetail5, alt: "Aura Buds detail view 1" },
         { type: "image", src: auraDetail6, alt: "Aura Buds detail view 2" },
       ],
-    },
-    {
-      id: "impact",
-      label: "App",
-      body: "The app had a tricky job: be useful enough to matter, invisible enough not to undercut the hardware’s calm.\n\n**I held it to one principle: guided, not demanding.** That meant:\n\n· **Onboarding** does setup and pairing, then gets out of the way.\n\n· **Trips** are added in advance so the system has context without needing real-time input.\n\n· **Sound profiles** default to sensible states. Customization exists but doesn’t greet the user.\n\n· **Status feedback** reassures without surveilling.\n\nTo make the value of an invisible system legible, **I built storyboard scenarios grounded in specific travel moments:**\n\nScenario 1: We’re about to take off. Pause your screen and put on your AuraBuds. Let’s do a few rounds of 4-7-8 breathing while a steady 100 Hz tone helps you feel grounded.\n\nScenario 2: Heads up, we’ll hit some moderate bumps in about 10 minutes. Let’s get you ready now.\n\nThe storyboards weren’t decoration. They were how I argued for the design.",
     },
     {
       id: "reflection",
@@ -119,12 +114,12 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "final-design",
       label: "Final Design",
-      body: "Led ideation and defined the problem scope for NeuraLyfe, designing the AI-driven Impact Replay interface and contributing across both digital and physical product development.\n\nAwarded 1st Place at FigBuild 2026, recognizing the project's concept, execution, and system design.",
+      body: "Led ideation and defined the problem scope for NeuraLyfe, designing the AI-driven Impact Replay interface and contributing across both digital and physical product development.",
     },
     {
       id: "impact",
       label: "Impact",
-      body: "The project demonstrates a coherent product story that jurors and peers could understand quickly — critical for competition and fundraising contexts.\n\nIt also sharpened my ability to balance speculative vision with buildable slices.",
+      body: "Awarded 1st Place at FigBuild 2026, recognizing the project's concept, execution, and system design.\n\nThe project demonstrates a coherent product story that jurors and peers could understand quickly — critical for competition and fundraising contexts.\n\nIt also sharpened my ability to balance speculative vision with buildable slices.",
     },
     {
       id: "reflection",

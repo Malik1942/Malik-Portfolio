@@ -143,13 +143,30 @@ function renderInline(text: string) {
 function SectionBody({ text, leadFirst }: { text: string; leadFirst?: boolean }) {
   const blocks = text.split(/\n\n+/).filter(Boolean);
   const isBullet = (s: string) => s.trimStart().startsWith("·");
+  const isSubheading = (s: string) => s.startsWith("## ");
   return (
     <div>
       {blocks.map((para, i) => {
         const bullet = isBullet(para);
         const prevBullet = i > 0 && isBullet(blocks[i - 1]);
+        const prevSubheading = i > 0 && isSubheading(blocks[i - 1]);
+
+        if (isSubheading(para)) {
+          return (
+            <p
+              key={i}
+              className={`${i === 0 ? "" : "mt-12 md:mt-14"} text-[11px] md:text-[12px] uppercase tracking-[0.18em] font-normal text-foreground/60 text-body mb-3 md:mb-4`}
+            >
+              {para.slice(3)}
+            </p>
+          );
+        }
+
         const spacingClass =
-          i === 0 ? "" : bullet && prevBullet ? "mt-3" : "mt-4 md:mt-5";
+          i === 0 ? ""
+          : prevSubheading ? ""
+          : bullet && prevBullet ? "mt-3"
+          : "mt-4 md:mt-5";
         return (
           <p
             key={i}
