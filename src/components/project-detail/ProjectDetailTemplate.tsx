@@ -140,10 +140,11 @@ function renderInline(text: string) {
   );
 }
 
-function SectionBody({ text, leadFirst }: { text: string; leadFirst?: boolean }) {
+function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFirst?: boolean; inlineFigures?: ProjectSectionFigure[] }) {
   const blocks = text.split(/\n\n+/).filter(Boolean);
   const isBullet = (s: string) => s.trimStart().startsWith("·");
   const isSubheading = (s: string) => s.startsWith("## ");
+  const parseFigRef = (s: string) => { const m = s.match(/^\[\[fig:(\d+)\]\]$/); return m ? parseInt(m[1]) : null; };
   return (
     <div>
       {blocks.map((para, i) => {
@@ -159,6 +160,15 @@ function SectionBody({ text, leadFirst }: { text: string; leadFirst?: boolean })
             >
               {para.slice(3)}
             </p>
+          );
+        }
+
+        const figIdx = parseFigRef(para);
+        if (figIdx !== null && inlineFigures?.[figIdx]) {
+          return (
+            <div key={i} className={i === 0 ? "" : "mt-8 md:mt-10"}>
+              <SectionFigure fig={inlineFigures[figIdx]} />
+            </div>
           );
         }
 
@@ -394,11 +404,11 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                       {s.introBlock ? (
                         <SectionIntroBlock block={s.introBlock} />
                       ) : (
-                        <SectionBody text={s.body} />
+                        <SectionBody text={s.body} inlineFigures={s.figures} />
                       )}
                     </>
                   )}
-                  {s.figures?.length ? (
+                  {s.figures?.length && !s.body.includes("[[fig:") ? (
                     <div className="mt-10 space-y-6">
                       {s.figures.map((fig, fi) => (
                         <SectionFigure key={fi} fig={fig} />
