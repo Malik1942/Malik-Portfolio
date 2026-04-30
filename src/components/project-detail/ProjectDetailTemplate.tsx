@@ -121,22 +121,46 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
   );
 }
 
+// Renders **bold** inline markers
+function renderInline(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  if (parts.length === 1) return text;
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.startsWith("**") && part.endsWith("**") ? (
+          <strong key={i} className="font-medium text-foreground/[0.96]">
+            {part.slice(2, -2)}
+          </strong>
+        ) : (
+          part
+        )
+      )}
+    </>
+  );
+}
+
 function SectionBody({ text, leadFirst }: { text: string; leadFirst?: boolean }) {
   const blocks = text.split(/\n\n+/).filter(Boolean);
+  const isBullet = (s: string) => s.trimStart().startsWith("·");
   return (
     <div>
-      {blocks.map((para, i) => (
-        <p
-          key={i}
-          className={
-            leadFirst && i === 0
-              ? "text-[15px] md:text-base font-light leading-[1.75] text-foreground/78 text-body"
-              : `${i > 0 ? "mt-4 md:mt-5" : ""} text-[15px] md:text-base font-light leading-[1.75] text-foreground/58 text-body`
-          }
-        >
-          {para}
-        </p>
-      ))}
+      {blocks.map((para, i) => {
+        const bullet = isBullet(para);
+        const prevBullet = i > 0 && isBullet(blocks[i - 1]);
+        const spacingClass =
+          i === 0 ? "" : bullet && prevBullet ? "mt-3" : "mt-4 md:mt-5";
+        return (
+          <p
+            key={i}
+            className={`${spacingClass} text-[15px] md:text-base font-light leading-[1.65] ${
+              leadFirst && i === 0 ? "text-foreground/90" : "text-foreground/80"
+            } text-body`}
+          >
+            {renderInline(para)}
+          </p>
+        );
+      })}
     </div>
   );
 }
