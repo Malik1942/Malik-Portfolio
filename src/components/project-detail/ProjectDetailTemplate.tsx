@@ -2,6 +2,7 @@ import { useSectionScrollSpy } from "@/hooks/useSectionScrollSpy";
 import { scrollToProjectSection } from "@/lib/projectDetailScroll";
 import type { ProjectDetailDocument, ProjectSectionFigure, IntroBlock } from "@/types/projectDetail";
 import Footer from "@/components/Footer";
+import { AuraHardwareSystem } from "./AuraHardwareSystem";
 
 function toEmbedUrl(url: string): string {
   // YouTube: watch?v=ID or youtu.be/ID → embed/ID
@@ -140,11 +141,16 @@ function renderInline(text: string) {
   );
 }
 
+const INLINE_MODULES: Record<string, React.ReactNode> = {
+  "aura-hardware": <AuraHardwareSystem />,
+};
+
 function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFirst?: boolean; inlineFigures?: ProjectSectionFigure[] }) {
   const blocks = text.split(/\n\n+/).filter(Boolean);
   const isBullet = (s: string) => s.trimStart().startsWith("·");
   const isSubheading = (s: string) => s.startsWith("## ");
   const parseFigRef = (s: string) => { const m = s.match(/^\[\[fig:(\d+)\]\]$/); return m ? parseInt(m[1]) : null; };
+  const parseModuleRef = (s: string) => { const m = s.match(/^\[\[module:([^\]]+)\]\]$/); return m ? m[1] : null; };
   return (
     <div>
       {blocks.map((para, i) => {
@@ -168,6 +174,15 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
           return (
             <div key={i} className={i === 0 ? "" : "mt-8 md:mt-10"}>
               <SectionFigure fig={inlineFigures[figIdx]} />
+            </div>
+          );
+        }
+
+        const modName = parseModuleRef(para);
+        if (modName !== null && INLINE_MODULES[modName]) {
+          return (
+            <div key={i} className={i === 0 ? "" : "mt-10 md:mt-12"}>
+              {INLINE_MODULES[modName]}
             </div>
           );
         }
