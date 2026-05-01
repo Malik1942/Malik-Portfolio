@@ -3,6 +3,7 @@ import { scrollToProjectSection } from "@/lib/projectDetailScroll";
 import type { ProjectDetailDocument, ProjectSectionFigure, IntroBlock } from "@/types/projectDetail";
 import Footer from "@/components/Footer";
 import { AuraHardwareSystem } from "./AuraHardwareSystem";
+import { AuraScenes } from "./AuraScenes";
 
 function toEmbedUrl(url: string): string {
   // YouTube: watch?v=ID or youtu.be/ID → embed/ID
@@ -143,6 +144,7 @@ function renderInline(text: string) {
 
 const INLINE_MODULES: Record<string, React.ReactNode> = {
   "aura-hardware": <AuraHardwareSystem />,
+  "aura-scenes": <AuraScenes />,
 };
 
 function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFirst?: boolean; inlineFigures?: ProjectSectionFigure[] }) {
