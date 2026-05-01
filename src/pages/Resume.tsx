@@ -4,7 +4,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const Resume = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const pdfPath = "/Malik_Zhang_Resume_2026.pdf";
+  const pdfPath = "/malik-resume-2026.pdf";
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -31,7 +31,7 @@ const Resume = () => {
 
         <a
           href={pdfPath}
-          download="Malik_Zhang_Resume_2026.pdf"
+          download="malik-resume-2026.pdf"
           className="flex items-center gap-2 px-4 py-2 text-sm text-mono text-foreground/80 hover:text-foreground border border-border/50 hover:border-border rounded-sm transition-colors duration-300"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -58,7 +58,7 @@ const Resume = () => {
             </a>
             <a
               href={pdfPath}
-              download="Malik_Zhang_Resume_2026.pdf"
+              download="malik-resume-2026.pdf"
               className="flex items-center justify-center gap-2 px-5 py-3 text-sm text-mono text-foreground/60 hover:text-foreground/85 transition-colors duration-300"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
