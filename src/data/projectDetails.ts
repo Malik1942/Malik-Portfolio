@@ -9,6 +9,9 @@ import auraSystem1 from "@/assets/aura-system-1.png";
 import auraDetail2 from "@/assets/aura-detail-2.png";
 import neuralyfeCover from "@/assets/neuralyfe-cover.png";
 import neuralyfeDetail1 from "@/assets/neuralyfe-detail-1.jpg";
+import neuralyfeRoster from "@/assets/neuralyfe-roster.mp4";
+import neuralyfeBrain from "@/assets/neuralyfe-brain.mp4";
+import neuralyfeReplay from "@/assets/neuralyfe-replay.mp4";
 import flowprintCover from "@/assets/flowprint-cover.png";
 import tubularCover from "@/assets/tubular-cover.jpg";
 import moodmuseCover from "@/assets/moodmuse-cover.png";
@@ -120,7 +123,12 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "final-design",
       label: "Final Design",
-      body: "NeuraLyfe translates football helmet impact data into actionable medical insights for sideline decision-making.\n\n**I designed the system around three connected views because medical staff need to answer three different questions quickly:** who needs attention first, what is happening inside the brain, and which impact caused the risk. Those questions shaped the product structure.\n\n## Roster View\n\n**We designed the Roster View as the first layer of triage** because sideline teams need to scan the whole roster quickly during a game. Instead of showing raw sensor data, the system ranks players by medical urgency based on cumulative impacts, recent hit severity, and brain health indicators.\n\nThis turns the roster from a static player list into a live risk map.\n\n## Brain View\n\n**We designed the Brain View to help medical staff understand where neurological stress may be building.** Risk scores alone are not enough. Medical staff need to understand the location and pattern of potential damage, especially when repeated impacts affect specific brain regions.\n\nThe 3D brain visualization maps neurological stress by region, making cumulative impact easier to inspect and explain.\n\n## Impact Replay\n\n**I designed Impact Replay to connect medical insight back to the exact play.** A high-risk alert needs context. Medical staff need to know when the hit happened, how severe it was, which brain regions were affected, and whether the player should be evaluated immediately.\n\nBy tracing detected hits back to gameplay moments, Impact Replay helps the system move from abstract data to concrete action.\n\nTogether, these three views create a clear decision flow: identify risk, inspect impact, and act with context.",
+      body: "NeuraLyfe translates football helmet impact data into actionable medical insights for sideline decision-making.\n\n**I designed the system around three connected views because medical staff need to answer three different questions quickly:** who needs attention first, what is happening inside the brain, and which impact caused the risk. Those questions shaped the product structure.\n\n## Roster View\n\n**We designed the Roster View as the first layer of triage** because sideline teams need to scan the whole roster quickly during a game. Instead of showing raw sensor data, the system ranks players by medical urgency based on cumulative impacts, recent hit severity, and brain health indicators.\n\nThis turns the roster from a static player list into a live risk map.\n\n[[fig:0]]\n\n## Brain View\n\n**We designed the Brain View to help medical staff understand where neurological stress may be building.** Risk scores alone are not enough. Medical staff need to understand the location and pattern of potential damage, especially when repeated impacts affect specific brain regions.\n\nThe 3D brain visualization maps neurological stress by region, making cumulative impact easier to inspect and explain.\n\n[[fig:1]]\n\n## Impact Replay\n\n**I designed Impact Replay to connect medical insight back to the exact play.** A high-risk alert needs context. Medical staff need to know when the hit happened, how severe it was, which brain regions were affected, and whether the player should be evaluated immediately.\n\nBy tracing detected hits back to gameplay moments, Impact Replay helps the system move from abstract data to concrete action.\n\n[[fig:2]]\n\nTogether, these three views create a clear decision flow: identify risk, inspect impact, and act with context.",
+      figures: [
+        { type: "video", src: neuralyfeRoster },
+        { type: "video", src: neuralyfeBrain },
+        { type: "video", src: neuralyfeReplay },
+      ],
     },
     {
       id: "impact",
