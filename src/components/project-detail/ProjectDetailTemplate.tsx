@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 import { useSectionScrollSpy } from "@/hooks/useSectionScrollSpy";
 import { scrollToProjectSection } from "@/lib/projectDetailScroll";
 import type { ProjectDetailDocument, ProjectSectionFigure, IntroBlock } from "@/types/projectDetail";
@@ -15,17 +17,35 @@ function toEmbedUrl(url: string): string {
   return url;
 }
 
+function AutoplayVideo({ src, poster }: { src: string; poster?: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(containerRef, { once: true, amount: 0.5 });
+
+  if (inView && ref.current && ref.current.paused) {
+    ref.current.play().catch(() => {});
+  }
+
+  return (
+    <div ref={containerRef}>
+      <video
+        ref={ref}
+        src={src}
+        poster={poster}
+        muted
+        playsInline
+        controls
+        className="w-full max-h-[min(520px,60vh)] object-cover"
+      />
+    </div>
+  );
+}
+
 function SectionFigure({ fig }: { fig: ProjectSectionFigure }) {
   if (fig.type === "video") {
     return (
       <figure className="overflow-hidden rounded-2xl bg-secondary/10">
-        <video
-          src={fig.src}
-          poster={fig.poster}
-          controls
-          playsInline
-          className="w-full max-h-[min(520px,60vh)] object-cover"
-        />
+        <AutoplayVideo src={fig.src} poster={fig.poster} />
       </figure>
     );
   }
