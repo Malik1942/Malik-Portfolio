@@ -524,13 +524,13 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         ctx.fillStyle = `rgba(${col}, ${(0.85 + easedH * 0.1) * opacityBreath})`;
         ctx.fill();
 
-        ctx.font = "500 12px 'Space Grotesk', sans-serif";
-        ctx.fillStyle = `rgba(${col}, ${(0.75 + easedH * 0.2) * opacityBreath})`;
+        ctx.font = "500 14px 'Space Grotesk', sans-serif";
+        ctx.fillStyle = `rgba(${col}, ${(0.88 + easedH * 0.12) * opacityBreath})`;
         ctx.fillText(orb.label, orb.x + 16, orb.y - 3);
 
-        ctx.font = "400 9px 'Space Grotesk', sans-serif";
-        ctx.fillStyle = `rgba(${col}, ${(0.4 + easedH * 0.2) * opacityBreath})`;
-        ctx.fillText(orb.subtitle, orb.x + 16, orb.y + 10);
+        ctx.font = "400 11px 'Space Grotesk', sans-serif";
+        ctx.fillStyle = `rgba(${col}, ${(0.55 + easedH * 0.2) * opacityBreath})`;
+        ctx.fillText(orb.subtitle, orb.x + 16, orb.y + 12);
       });
 
       hoveredOrbRef.current = newHoveredOrb;
