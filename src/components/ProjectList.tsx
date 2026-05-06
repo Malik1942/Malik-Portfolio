@@ -174,9 +174,9 @@ const ProjectCard = ({
       <p
         className="text-body"
         style={{
-          fontSize: isMobile ? "0.75rem" : "0.6875rem",
-          letterSpacing: isMobile ? "0.04em" : "0.06em",
-          color: "hsl(var(--foreground) / 0.32)",
+          fontSize: isMobile ? "0.8125rem" : "0.75rem",
+          letterSpacing: isMobile ? "0.04em" : "0.05em",
+          color: "hsl(var(--foreground) / 0.48)",
         }}
       >
         {metadataLabel ?? project.role} · {project.year}
@@ -246,9 +246,9 @@ const ProjectCard = ({
           <p
             className="text-body"
             style={{
-              fontSize: isMobile ? "0.75rem" : "0.6875rem",
-              letterSpacing: isMobile ? "0.05em" : "0.09em",
-              color: "hsl(var(--foreground) / 0.32)",
+              fontSize: isMobile ? "0.8125rem" : "0.75rem",
+              letterSpacing: isMobile ? "0.04em" : "0.05em",
+              color: "hsl(var(--foreground) / 0.48)",
             }}
           >
             {metadataLabel ?? project.role} · {project.year}
