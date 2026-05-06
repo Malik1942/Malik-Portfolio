@@ -81,14 +81,14 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
           </nav>
 
           {/* Legend */}
-          <div className="flex gap-6 text-xs text-body animate-fade-up delay-5">
+          <div className="flex gap-6 text-sm text-body animate-fade-up delay-5">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-dot-red" />
-              <span className="text-muted-foreground">Selected Work</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-dot-red" />
+              <span className="text-foreground/60">Selected Work</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-dot-gold" />
-              <span className="text-muted-foreground">AI Explorations</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-dot-gold" />
+              <span className="text-foreground/60">AI Explorations</span>
             </div>
           </div>
         </div>
