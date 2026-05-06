@@ -45,7 +45,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
               Product Designer
             </p>
             <p className="text-foreground/80 text-sm max-w-[300px] leading-relaxed text-body">
-              <span className="text-foreground font-semibold">AI-native</span> product designer building systems that sense, interpret, and support human decision-making.
+              <span className="text-foreground font-medium">AI-native</span> product designer building systems that sense, interpret, and support human decision-making.
             </p>
           </div>
 
