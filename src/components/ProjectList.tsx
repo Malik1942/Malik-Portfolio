@@ -160,9 +160,9 @@ const ProjectCard = ({
 
       {/* Description */}
       <p
-        className={`text-body ${isMobile ? "leading-relaxed line-clamp-2" : "leading-snug line-clamp-1"}`}
+        className={`text-body ${isMobile ? "leading-relaxed line-clamp-2" : "leading-snug line-clamp-2"}`}
         style={{
-          fontSize: isMobile ? "0.875rem" : "0.8125rem",
+          fontSize: isMobile ? "0.9375rem" : "0.875rem",
           marginBottom: isMobile ? "0.75rem" : "1rem",
           color: "hsl(var(--foreground) / 0.45)",
         }}
