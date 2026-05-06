@@ -45,7 +45,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
               Product Designer
             </p>
             <p className="text-foreground/80 text-sm max-w-[300px] leading-relaxed text-body">
-              I design AI product systems that make hidden human signals <span className="text-foreground font-medium">visible, usable, and trustworthy.</span>
+              AI-native product systems for embodied sensing and decision-making.
             </p>
           </div>
 
