@@ -76,7 +76,7 @@ const sectionDomId = (id: string) => `project-section-${id}`;
 function SectionIntroBlock({ block }: { block: IntroBlock }) {
   return (
     <div className="space-y-10">
-      <p className="max-w-[800px] text-[15px] md:text-[17px] font-light leading-[1.85] text-foreground/85 text-body">
+      <p className="text-[15px] md:text-[17px] font-light leading-[1.85] text-foreground/85 text-body">
         {block.openingParagraph}
       </p>
 
@@ -121,7 +121,7 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
           <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground/50 text-body mb-5">
             What I Did
           </p>
-          <ul className="space-y-3 max-w-[800px]">
+          <ul className="space-y-3">
             {block.whatIDid.map((item, i) => (
               <li key={i} className="flex items-start gap-3">
                 <span className="mt-[0.45em] w-1 h-1 rounded-full bg-foreground/25 flex-shrink-0" />
@@ -177,7 +177,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
           return (
             <p
               key={i}
-              className={`max-w-[800px] ${i === 0 ? "" : "mt-16 md:mt-20"} text-[12px] md:text-[13px] uppercase tracking-[0.18em] font-normal text-foreground/72 text-body mb-4 md:mb-5`}
+              className={`${i === 0 ? "" : "mt-16 md:mt-20"} text-[12px] md:text-[13px] uppercase tracking-[0.18em] font-normal text-foreground/72 text-body mb-4 md:mb-5`}
             >
               {para.slice(3)}
             </p>
@@ -210,7 +210,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
         return (
           <p
             key={i}
-            className={`${spacingClass} max-w-[800px] text-[15px] md:text-[17px] font-light leading-[1.8] ${
+            className={`${spacingClass} text-[15px] md:text-[17px] font-light leading-[1.8] ${
               leadFirst && i === 0 ? "text-foreground/92" : "text-foreground/85"
             } text-body`}
           >
@@ -394,7 +394,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
             </nav>
 
             {/* Main content column */}
-            <div className="min-w-0 flex-1">
+            <div className="min-w-0 flex-1 max-w-[900px]">
               {project.sections.map((s) => (
                 <article
                   key={s.id}
@@ -403,7 +403,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                 >
                   {s.subtitle ? (
                     <>
-                      <h2 className="max-w-[800px] text-[2rem] md:text-[2.5rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.12] mb-8 md:mb-10">
+                      <h2 className="text-[2rem] md:text-[2.5rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.12] mb-8 md:mb-10">
                         {s.subtitle}
                       </h2>
                       <SectionBody text={s.body} leadFirst />
@@ -426,7 +426,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                           />
                         </div>
                       ) : null}
-                      <h2 className="max-w-[800px] text-[2rem] md:text-[2.5rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.12] mb-8 md:mb-10">
+                      <h2 className="text-[2rem] md:text-[2.5rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.12] mb-8 md:mb-10">
                         {s.label}
                       </h2>
                       {s.introBlock ? (
