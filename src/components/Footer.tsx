@@ -3,12 +3,16 @@ interface FooterProps {
   onAboutClick?: () => void;
   /** false = no max-width wrapper, aligns with full-bleed page padding. Default true. */
   constrained?: boolean;
+  /** true = matches project detail page grid (1400px, tighter padding). Default false. */
+  wide?: boolean;
 }
 
-const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: FooterProps) => {
+const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true, wide = false }: FooterProps) => {
+  const outerPad = wide ? "px-6 md:px-10 lg:px-16" : "px-6 md:px-16 lg:px-20";
+  const innerClass = wide ? "max-w-[1400px] mx-auto" : constrained ? "max-w-[1200px] mx-auto" : "";
   return (
-    <footer className="px-6 md:px-16 lg:px-20 pt-10 md:pt-16 pb-12">
-      <div className={constrained ? 'max-w-[1200px] mx-auto' : ''}>
+    <footer className={`${outerPad} pt-10 md:pt-16 pb-12`}>
+      <div className={innerClass}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mb-16 md:mb-24">
           {/* Left — Explore */}
           <div>
