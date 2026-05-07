@@ -459,7 +459,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         </div>
       </section>
 
-      <Footer onMainProjectsClick={onMainProjectsClick} />
+      <Footer onMainProjectsClick={onMainProjectsClick} wide />
     </div>
   );
 }
