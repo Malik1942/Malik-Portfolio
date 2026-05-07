@@ -441,7 +441,7 @@ const MainProjectList = ({
   const gridPro = projects.slice(2); // FlowPrint, Tubular, Mood Muse, …
 
   return (
-    <section id={id} className="px-6 md:px-16 lg:px-24 pt-24">
+    <section id={id} className="px-6 md:px-16 lg:px-24 pt-16">
       <SectionLabel title={sectionTitle} dotClass={dotClass} variant="primary" />
 
       {/* ── Hero 1: Aura ── */}
@@ -498,7 +498,7 @@ const AIProjectList = ({
   dotClass: string;
   projects: Project[];
 }) => (
-  <section id={id} className="px-6 md:px-16 lg:px-24 pt-24 md:pt-48 pb-24">
+  <section id={id} className="px-6 md:px-16 lg:px-24 pt-16 md:pt-20 pb-8">
     <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" />
     <div style={{ opacity: 0.88 }}>
       <TwoColGrid projects={projects} dotClass={dotClass} aiVariant />

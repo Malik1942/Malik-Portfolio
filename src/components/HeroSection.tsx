@@ -1,4 +1,4 @@
-import type { MouseEvent } from "react";
+import { useState, useEffect, useRef, type MouseEvent } from "react";
 import DotGrid from "./DotGrid";
 import AboutOverlay from "./AboutOverlay";
 import { motion } from "framer-motion";
@@ -11,6 +11,79 @@ interface HeroSectionProps {
   onAboutBack: () => void;
 }
 
+// ── Terminal one-liner ──────────────────────────────────────────────────────
+const TERMINAL_TEXT =
+  "AI-native product designer building systems that sense, interpret, and support human decision-making.";
+
+const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
+  const [len, setLen] = useState(0);
+  const [cursorOn, setCursorOn] = useState(true);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Typewriter — resets and retypes each time isVisible flips true
+  useEffect(() => {
+    if (!isVisible) {
+      setLen(0);
+      if (timerRef.current) clearTimeout(timerRef.current);
+      return;
+    }
+    let cancelled = false;
+    let pos = 0;
+
+    const type = () => {
+      if (cancelled || pos >= TERMINAL_TEXT.length) return;
+      const ch = TERMINAL_TEXT[pos];
+      // Organic pacing: pause longer at punctuation, vary base speed slightly
+      const delay =
+        ch === "," || ch === "." ? 130
+        : ch === " " ? 18
+        : 24 + Math.random() * 22;
+      timerRef.current = setTimeout(() => {
+        if (!cancelled) {
+          pos++;
+          setLen(pos);
+          type();
+        }
+      }, delay);
+    };
+
+    // Short hold after the parent fade-in before typing begins
+    timerRef.current = setTimeout(type, 500);
+    return () => {
+      cancelled = true;
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [isVisible]);
+
+  // Blinking block cursor — snaps on, fades off
+  useEffect(() => {
+    const id = setInterval(() => setCursorOn((v) => !v), 560);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div className="flex items-baseline gap-[12px] text-[15px] text-mono tracking-[0.04em] leading-[1.65] max-w-[520px] px-6">
+      {/* Prompt glyph — items-baseline keeps it on the first text line */}
+      <span className="text-foreground/56 shrink-0 select-none">{'>'}</span>
+      {/* Typed text + cursor */}
+      <span className="text-foreground/64 text-left">
+        {TERMINAL_TEXT.slice(0, len)}
+        <span
+          className="inline-block align-middle ml-[2px]"
+          style={{
+            width: "0.5em",
+            height: "1.05em",
+            background: "rgba(231,230,228,0.64)",
+            opacity: cursorOn ? 1 : 0,
+            transition: cursorOn ? "none" : "opacity 0.1s",
+          }}
+        />
+      </span>
+    </div>
+  );
+};
+
+// ── Hero section ────────────────────────────────────────────────────────────
 const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProps) => {
   const isLoaded = usePageLoaded();
 
@@ -19,38 +92,54 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
     scrollToSectionNavTarget(sectionId);
   };
 
+  const terminalVisible = isLoaded && !isAboutOpen;
+
   return (
     <section className="relative w-full h-screen overflow-hidden bg-background">
       <DotGrid aboutMode={isAboutOpen} onNameClick={onAboutClick} />
       <AboutOverlay isVisible={isAboutOpen} onBack={onAboutBack} />
 
-      {/* Bottom bar — entrance is gated on isLoaded so the animation plays after the
-          loading screen fades rather than finishing unseen behind it on cold loads. */}
+      {/* Terminal one-liner — centered below the "Malik Zhang" cluster */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 px-6 md:px-16 lg:px-24 pb-10 z-10"
+        className="absolute left-0 right-0 hidden md:flex justify-center z-10 pointer-events-none"
+        style={{ top: "calc(38vh + min(15.5vw, 206px) + 48px)" }}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{
+          opacity: terminalVisible ? 1 : 0,
+          y: terminalVisible ? 0 : 8,
+        }}
+        transition={{ duration: 0.7, delay: isAboutOpen ? 0 : isLoaded ? 1.0 : 0 }}
+      >
+        <TerminalOneLiner isVisible={terminalVisible} />
+      </motion.div>
+
+      {/* Bottom bar */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 px-6 md:px-16 lg:px-24 pb-7 z-10"
         initial={{ opacity: 0, y: 20 }}
         animate={{
-          opacity: isLoaded && !isAboutOpen ? 1 : 0,
-          y: isLoaded && !isAboutOpen ? 0 : 20,
+          opacity: terminalVisible ? 1 : 0,
+          y: terminalVisible ? 0 : 20,
         }}
         transition={{ duration: 0.6, delay: isAboutOpen ? 0 : isLoaded ? 0.8 : 0 }}
         style={{ pointerEvents: isAboutOpen ? "none" : "auto" }}
       >
-        <div className="h-px bg-border/40 mb-8 animate-line-reveal delay-3" />
+        <div className="h-px bg-border/40 mb-5 animate-line-reveal delay-3" />
 
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-          {/* Left */}
+        <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
+
+          {/* Left — identity */}
           <div className="animate-fade-up delay-3">
-            <p className="text-foreground/70 text-xs tracking-[0.2em] uppercase text-body mb-3">
+            <p className="text-[15px] uppercase tracking-[0.18em] text-foreground/72 text-body mb-2">
               Product Designer
             </p>
-            <p className="text-foreground/80 text-sm max-w-[300px] leading-relaxed text-body">
-              <span className="text-foreground font-medium">AI-native</span> product designer building systems that sense, interpret, and support human decision-making.
+            <p className="text-[12px] text-foreground/36 tracking-[0.06em] text-body">
+              HARDWARE · AI · SYSTEMS · PROTOTYPING
             </p>
           </div>
 
-          {/* Nav */}
-          <nav className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-foreground/70 text-body animate-fade-up delay-4">
+          {/* Center — nav */}
+          <nav className="flex items-center gap-x-8 gap-y-2 text-sm text-foreground/72 text-body animate-fade-up delay-4 justify-self-center">
             <a
               href="#projects"
               className="nav-link hover:text-foreground transition-colors duration-500"
@@ -80,15 +169,43 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
             </a>
           </nav>
 
-          {/* Legend */}
-          <div className="flex gap-6 text-sm text-body animate-fade-up delay-5">
+          {/* Right — legend */}
+          <div className="flex gap-6 text-sm text-body animate-fade-up delay-5 justify-self-end">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-dot-red" />
-              <span className="text-foreground/60">Selected Work</span>
+              <span className="text-foreground/72">Selected Work</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-dot-gold" />
-              <span className="text-foreground/60">AI Explorations</span>
+              <span className="text-foreground/72">AI Explorations</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile — simple stack */}
+        <div className="flex flex-col gap-5 md:hidden">
+          <div className="animate-fade-up delay-3">
+            <p className="text-[15px] uppercase tracking-[0.18em] text-foreground/72 text-body mb-2">
+              Product Designer
+            </p>
+            <p className="text-[12px] text-foreground/36 tracking-[0.06em] text-body">
+              HARDWARE · AI · SYSTEMS · PROTOTYPING
+            </p>
+          </div>
+          <nav className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-foreground/72 text-body animate-fade-up delay-4">
+            <a href="#projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "projects")}>Selected Work</a>
+            <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "ai-projects")}>AI Explorations</a>
+            <a href="#about" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => { e.preventDefault(); onAboutClick(); }}>About</a>
+            <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">Resume</a>
+          </nav>
+          <div className="flex gap-6 text-sm text-body animate-fade-up delay-5">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-dot-red" />
+              <span className="text-foreground/72">Selected Work</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-dot-gold" />
+              <span className="text-foreground/72">AI Explorations</span>
             </div>
           </div>
         </div>

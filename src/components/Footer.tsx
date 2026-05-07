@@ -7,19 +7,19 @@ interface FooterProps {
 
 const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: FooterProps) => {
   return (
-    <footer className="px-6 md:px-16 lg:px-20 pt-16 md:pt-32 pb-12">
+    <footer className="px-6 md:px-16 lg:px-20 pt-10 md:pt-16 pb-12">
       <div className={constrained ? 'max-w-[1200px] mx-auto' : ''}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mb-16 md:mb-24">
           {/* Left — Explore */}
           <div>
-            <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground/50 text-body block mb-6">
+            <span className="text-[11px] uppercase tracking-[0.2em] text-foreground/30 text-body block mb-6">
               Explore
             </span>
             <ul className="space-y-4">
               <li>
                 <a
                   href="#projects"
-                  className="text-foreground/70 hover:text-foreground text-sm text-body transition-colors duration-300"
+                  className="text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-200 hover:underline underline-offset-2 decoration-foreground/40"
                   onClick={(event) => {
                     if (!onMainProjectsClick) return;
                     event.preventDefault();
@@ -38,7 +38,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: Foote
                       onAboutClick();
                     }
                   }}
-                  className="text-foreground/70 hover:text-foreground text-sm text-body transition-colors duration-300"
+                  className="text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-200 hover:underline underline-offset-2 decoration-foreground/40 text-left"
                 >
                   About
                 </button>
@@ -46,7 +46,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: Foote
               <li>
                 <a
                   href="/resume"
-                  className="text-foreground/70 hover:text-foreground text-sm text-body transition-colors duration-300"
+                  className="text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-200 hover:underline underline-offset-2 decoration-foreground/40"
                 >
                   Resume
                 </a>
@@ -56,14 +56,14 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: Foote
 
           {/* Right — Social */}
           <div>
-            <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground/50 text-body block mb-6">
+            <span className="text-[11px] uppercase tracking-[0.2em] text-foreground/30 text-body block mb-6">
               Social
             </span>
             <ul className="space-y-4">
               <li>
                 <a
                   href="mailto:malikzhang19@gmail.com"
-                  className="text-foreground/70 hover:text-foreground text-sm text-body transition-colors duration-300"
+                  className="text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-200 hover:underline underline-offset-2 decoration-foreground/40"
                 >
                   Email
                 </a>
@@ -73,7 +73,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: Foote
                   href="https://www.linkedin.com/in/malik-zhang"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-foreground/70 hover:text-foreground text-sm text-body transition-colors duration-300"
+                  className="text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-200 hover:underline underline-offset-2 decoration-foreground/40"
                 >
                   LinkedIn
                 </a>
@@ -83,7 +83,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: Foote
                   href="https://www.instagram.com/malikz1942?igsh=eHN4bjkzamtpcGFi&utm_source=qr"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-foreground/70 hover:text-foreground text-sm text-body transition-colors duration-300"
+                  className="text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-200 hover:underline underline-offset-2 decoration-foreground/40"
                 >
                   Instagram
                 </a>
@@ -94,7 +94,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: Foote
 
         {/* Bottom row */}
         <div className="border-t border-border pt-8">
-          <span className="text-xs text-muted-foreground/40 text-body">
+          <span className="text-xs text-foreground/38 text-body">
             &copy; 2026 Malik Zhang
           </span>
         </div>
