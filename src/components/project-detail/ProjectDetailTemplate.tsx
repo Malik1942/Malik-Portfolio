@@ -341,7 +341,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
 
       {/* 5 — Body: sticky nav + sections */}
       <section aria-label="Case study" className="px-6 md:px-16 lg:px-20 pb-32 md:pb-40 border-t border-border/30 mt-20 md:mt-28 pt-20 md:pt-28">
-        <div className="max-w-[1440px] mx-auto">
+        <div className="max-w-[1200px] mx-auto">
           {/* Mobile / tablet: horizontal section nav */}
           <nav
             className="lg:hidden sticky top-0 z-20 -mx-6 px-6 py-3 mb-14 bg-background/85 backdrop-blur-md border-b border-border/40"
@@ -394,7 +394,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
             </nav>
 
             {/* Main content column */}
-            <div className="min-w-0 flex-1 max-w-[900px]">
+            <div className="min-w-0 flex-1">
               {project.sections.map((s) => (
                 <article
                   key={s.id}

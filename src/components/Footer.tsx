@@ -7,7 +7,7 @@ interface FooterProps {
 
 const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: FooterProps) => {
   return (
-    <footer className="px-6 md:px-16 lg:px-24 pt-16 md:pt-32 pb-12">
+    <footer className="px-6 md:px-16 lg:px-20 pt-16 md:pt-32 pb-12">
       <div className={constrained ? 'max-w-[1200px] mx-auto' : ''}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mb-16 md:mb-24">
           {/* Left — Explore */}
