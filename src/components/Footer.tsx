@@ -23,7 +23,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true, wide = 
               <li>
                 <a
                   href="#projects"
-                  className="text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-200 hover:underline underline-offset-2 decoration-foreground/40"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500"
                   onClick={(event) => {
                     if (!onMainProjectsClick) return;
                     event.preventDefault();
@@ -42,7 +42,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true, wide = 
                       onAboutClick();
                     }
                   }}
-                  className="text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-200 hover:underline underline-offset-2 decoration-foreground/40 text-left"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500 text-left"
                 >
                   About
                 </button>
@@ -50,7 +50,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true, wide = 
               <li>
                 <a
                   href="/resume"
-                  className="text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-200 hover:underline underline-offset-2 decoration-foreground/40"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500"
                 >
                   Resume
                 </a>
@@ -67,7 +67,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true, wide = 
               <li>
                 <a
                   href="mailto:malikzhang19@gmail.com"
-                  className="text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-200 hover:underline underline-offset-2 decoration-foreground/40"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500"
                 >
                   Email
                 </a>
@@ -77,7 +77,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true, wide = 
                   href="https://www.linkedin.com/in/malik-zhang"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-200 hover:underline underline-offset-2 decoration-foreground/40"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500"
                 >
                   LinkedIn
                 </a>
@@ -87,7 +87,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true, wide = 
                   href="https://www.instagram.com/malikz1942?igsh=eHN4bjkzamtpcGFi&utm_source=qr"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-200 hover:underline underline-offset-2 decoration-foreground/40"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500"
                 >
                   Instagram
                 </a>
