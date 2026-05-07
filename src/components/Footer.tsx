@@ -8,10 +8,13 @@ interface FooterProps {
 }
 
 const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true, wide = false }: FooterProps) => {
-  const outerPad = wide ? "px-6 md:px-10 lg:px-16" : "px-6 md:px-16 lg:px-20";
-  const innerClass = wide ? "max-w-[1400px] mx-auto" : constrained ? "max-w-[1200px] mx-auto" : "";
+  // wide: max-w + px- on the same element — mirrors PAGE_OUTER pattern so edges align exactly
+  const outerClass = wide
+    ? "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto pt-10 md:pt-16 pb-12"
+    : "px-6 md:px-16 lg:px-20 pt-10 md:pt-16 pb-12";
+  const innerClass = wide ? "" : constrained ? "max-w-[1200px] mx-auto" : "";
   return (
-    <footer className={`${outerPad} pt-10 md:pt-16 pb-12`}>
+    <footer className={outerClass}>
       <div className={innerClass}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mb-16 md:mb-24">
           {/* Left — Explore */}
