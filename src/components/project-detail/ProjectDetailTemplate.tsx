@@ -8,10 +8,8 @@ import { AuraHardwareSystem } from "./AuraHardwareSystem";
 import { AuraScenes } from "./AuraScenes";
 
 function toEmbedUrl(url: string): string {
-  // YouTube: watch?v=ID or youtu.be/ID → embed/ID
   const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
   if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`;
-  // Vimeo: vimeo.com/ID → player.vimeo.com/video/ID
   const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
   if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
   return url;
@@ -35,7 +33,7 @@ function AutoplayVideo({ src, poster }: { src: string; poster?: string }) {
         muted
         playsInline
         controls
-        className="w-full max-h-[min(520px,60vh)] object-cover"
+        className="w-full max-h-[min(640px,72vh)] object-contain bg-black"
       />
     </div>
   );
@@ -67,7 +65,7 @@ function SectionFigure({ fig }: { fig: ProjectSectionFigure }) {
       <img
         src={fig.src}
         alt={fig.alt}
-        className={`w-full object-cover ${fig.full ? "" : "max-h-[min(520px,60vh)]"}`}
+        className="w-full h-auto block"
       />
     </figure>
   );
@@ -78,12 +76,10 @@ const sectionDomId = (id: string) => `project-section-${id}`;
 function SectionIntroBlock({ block }: { block: IntroBlock }) {
   return (
     <div className="space-y-10">
-      {/* Opening paragraph */}
-      <p className="text-[15px] md:text-base font-light leading-[1.75] text-foreground/78 text-body">
+      <p className="max-w-[800px] text-[15px] md:text-[17px] font-light leading-[1.85] text-foreground/85 text-body">
         {block.openingParagraph}
       </p>
 
-      {/* Context cards — optional */}
       {block.contextCards?.length ? (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {block.contextCards.map((card) => (
@@ -102,7 +98,6 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
         </div>
       ) : null}
 
-      {/* Project info cards — optional */}
       {block.infoCards?.length ? (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {block.infoCards.map((card) => (
@@ -121,17 +116,16 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
         </div>
       ) : null}
 
-      {/* What I Did — optional */}
       {block.whatIDid?.length ? (
         <div>
           <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground/50 text-body mb-5">
             What I Did
           </p>
-          <ul className="space-y-3">
+          <ul className="space-y-3 max-w-[800px]">
             {block.whatIDid.map((item, i) => (
               <li key={i} className="flex items-start gap-3">
                 <span className="mt-[0.45em] w-1 h-1 rounded-full bg-foreground/25 flex-shrink-0" />
-                <span className="text-[14px] md:text-[15px] font-light leading-relaxed text-foreground/72 text-body">
+                <span className="text-[15px] md:text-[17px] font-light leading-[1.8] text-foreground/82 text-body">
                   {item}
                 </span>
               </li>
@@ -143,7 +137,6 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
   );
 }
 
-// Renders **bold** inline markers
 function renderInline(text: string) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
   if (parts.length === 1) return text;
@@ -184,7 +177,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
           return (
             <p
               key={i}
-              className={`${i === 0 ? "" : "mt-12 md:mt-14"} text-[11px] md:text-[12px] uppercase tracking-[0.18em] font-normal text-foreground/60 text-body mb-3 md:mb-4`}
+              className={`max-w-[800px] ${i === 0 ? "" : "mt-16 md:mt-20"} text-[12px] md:text-[13px] uppercase tracking-[0.18em] font-normal text-foreground/72 text-body mb-4 md:mb-5`}
             >
               {para.slice(3)}
             </p>
@@ -194,7 +187,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
         const figIdx = parseFigRef(para);
         if (figIdx !== null && inlineFigures?.[figIdx]) {
           return (
-            <div key={i} className={i === 0 ? "" : "mt-8 md:mt-10"}>
+            <div key={i} className={i === 0 ? "" : "mt-12 md:mt-16"}>
               <SectionFigure fig={inlineFigures[figIdx]} />
             </div>
           );
@@ -203,7 +196,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
         const modName = parseModuleRef(para);
         if (modName !== null && INLINE_MODULES[modName]) {
           return (
-            <div key={i} className={i === 0 ? "" : "mt-10 md:mt-12"}>
+            <div key={i} className={i === 0 ? "" : "mt-14 md:mt-18"}>
               {INLINE_MODULES[modName]}
             </div>
           );
@@ -213,12 +206,12 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
           i === 0 ? ""
           : prevSubheading ? ""
           : bullet && prevBullet ? "mt-3"
-          : "mt-4 md:mt-5";
+          : "mt-5 md:mt-6";
         return (
           <p
             key={i}
-            className={`${spacingClass} text-[15px] md:text-base font-light leading-[1.65] ${
-              leadFirst && i === 0 ? "text-foreground/90" : "text-foreground/80"
+            className={`${spacingClass} max-w-[800px] text-[15px] md:text-[17px] font-light leading-[1.8] ${
+              leadFirst && i === 0 ? "text-foreground/92" : "text-foreground/85"
             } text-body`}
           >
             {renderInline(para)}
@@ -261,13 +254,12 @@ interface ProjectDetailTemplateProps {
 export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: ProjectDetailTemplateProps) {
   const sectionIds = project.sections.map((s) => s.id);
   const activeSectionId = useSectionScrollSpy(sectionIds);
-  // When any section owns the intro content via subtitle, skip the standalone block
   const hasIntroSection = project.sections.some((s) => s.subtitle);
 
   return (
     <div className="min-h-screen bg-background">
       {/* Back */}
-      <div className="px-6 md:px-16 lg:px-24 pt-8 pb-0 max-w-[1600px] mx-auto">
+      <div className="px-6 md:px-16 lg:px-20 pt-8 pb-0 max-w-[1600px] mx-auto">
         <button
           type="button"
           onClick={onBack}
@@ -289,15 +281,15 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
       </div>
 
       {/* 1 — Title + hook */}
-      <header className="px-6 md:px-16 lg:px-24 pt-8 md:pt-10 max-w-[1400px] mx-auto">
+      <header className="px-6 md:px-16 lg:px-20 pt-8 md:pt-10 max-w-[1440px] mx-auto">
         <p className="text-muted-foreground text-[11px] text-body uppercase tracking-[0.2em] mb-4">
           {project.listSection}
         </p>
-        <h1 className="text-4xl md:text-6xl lg:text-[4.25rem] font-light text-foreground text-display tracking-[-0.03em] leading-[1.08]">
+        <h1 className="text-4xl md:text-6xl lg:text-[4.5rem] font-light text-foreground text-display tracking-[-0.03em] leading-[1.08]">
           {project.title}
         </h1>
         {project.heroSummary ? (
-          <p className="mt-4 md:mt-5 text-base md:text-lg font-light text-foreground/55 text-body max-w-2xl leading-relaxed">
+          <p className="mt-4 md:mt-6 text-base md:text-lg font-light text-foreground/55 text-body max-w-2xl leading-relaxed">
             {project.heroSummary}
           </p>
         ) : null}
@@ -305,7 +297,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
 
       {/* 2 — Hero image */}
       {project.heroImage ? (
-        <div className="px-6 md:px-16 lg:px-24 mt-8 md:mt-10 max-w-[1400px] mx-auto">
+        <div className="px-6 md:px-16 lg:px-20 mt-10 md:mt-12 max-w-[1440px] mx-auto">
           <div className="overflow-hidden rounded-2xl bg-secondary/10">
             <img
               src={project.heroImage}
@@ -313,7 +305,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
               className={
                 project.heroImageFit === "natural"
                   ? "w-full h-auto block"
-                  : `w-full max-h-[min(72vh,780px)] min-h-[200px] ${
+                  : `w-full max-h-[min(76vh,860px)] min-h-[200px] ${
                       project.heroImageFit === "contain" ? "object-contain" : "object-cover"
                     } object-center`
               }
@@ -324,35 +316,35 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
 
       {/* 3 — Secondary copy below hero */}
       {(project.heroSubtitle || project.description) ? (
-        <div className={`px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-10"}`}>
+        <div className={`px-6 md:px-16 lg:px-20 max-w-[1440px] mx-auto ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-10"}`}>
           <div className="max-w-[860px]">
-          {project.heroSubtitle ? (
-            <p className="text-sm md:text-base text-muted-foreground font-light leading-relaxed text-body">
-              {project.heroSubtitle}
-            </p>
-          ) : null}
-          {project.description ? (
-            <p className={`${project.heroSubtitle ? "mt-4 md:mt-5" : ""} text-[15px] md:text-base font-light leading-[1.75] text-foreground/65 text-body`}>
-              {project.description}
-            </p>
-          ) : null}
+            {project.heroSubtitle ? (
+              <p className="text-sm md:text-base text-muted-foreground font-light leading-relaxed text-body">
+                {project.heroSubtitle}
+              </p>
+            ) : null}
+            {project.description ? (
+              <p className={`${project.heroSubtitle ? "mt-4 md:mt-5" : ""} text-[15px] md:text-[17px] font-light leading-[1.8] text-foreground/65 text-body`}>
+                {project.description}
+              </p>
+            ) : null}
           </div>
         </div>
       ) : null}
 
-      {/* 4 — Standalone metadata (only when no section owns it) */}
+      {/* 4 — Standalone metadata */}
       {!hasIntroSection && project.metaCards?.length ? (
-        <div className="px-6 md:px-16 lg:px-24 mt-10 md:mt-14 max-w-[1200px] mx-auto">
+        <div className="px-6 md:px-16 lg:px-20 mt-10 md:mt-14 max-w-[1200px] mx-auto">
           <MetaGrid cards={project.metaCards} />
         </div>
       ) : null}
 
       {/* 5 — Body: sticky nav + sections */}
-      <section aria-label="Case study" className="px-6 md:px-16 lg:px-24 pb-28 md:pb-36 border-t border-border/30 mt-16 md:mt-20 pt-16 md:pt-20">
-        <div className="max-w-[1200px] mx-auto">
+      <section aria-label="Case study" className="px-6 md:px-16 lg:px-20 pb-32 md:pb-40 border-t border-border/30 mt-20 md:mt-28 pt-20 md:pt-28">
+        <div className="max-w-[1440px] mx-auto">
           {/* Mobile / tablet: horizontal section nav */}
           <nav
-            className="lg:hidden sticky top-0 z-20 -mx-6 px-6 py-3 mb-12 bg-background/85 backdrop-blur-md border-b border-border/40"
+            className="lg:hidden sticky top-0 z-20 -mx-6 px-6 py-3 mb-14 bg-background/85 backdrop-blur-md border-b border-border/40"
             aria-label="Section navigation"
           >
             <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
@@ -373,10 +365,10 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
             </div>
           </nav>
 
-          <div className="flex flex-col lg:flex-row lg:gap-16 xl:gap-24 lg:items-start">
+          <div className="flex flex-col lg:flex-row lg:gap-16 xl:gap-20 lg:items-start">
             {/* Desktop left nav */}
             <nav
-              className="hidden lg:block w-[200px] xl:w-[220px] flex-shrink-0 sticky top-28 self-start"
+              className="hidden lg:block w-[180px] xl:w-[200px] flex-shrink-0 sticky top-28 self-start"
               aria-label="Section navigation"
             >
               <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/45 mb-6 text-body">
@@ -401,41 +393,40 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
               </ul>
             </nav>
 
-            <div className="min-w-0 flex-1 max-w-3xl">
-              {project.sections.map((s, index) => (
+            {/* Main content column */}
+            <div className="min-w-0 flex-1">
+              {project.sections.map((s) => (
                 <article
                   key={s.id}
                   id={sectionDomId(s.id)}
-                  className="scroll-mt-28 md:scroll-mt-32 mb-20 md:mb-24 last:mb-0"
+                  className="scroll-mt-28 md:scroll-mt-32 mb-28 md:mb-36 last:mb-0"
                 >
                   {s.subtitle ? (
-                    /* Subtitle section: Intro heading → lead + body → MetaGrid */
                     <>
-                      <h2 className="text-[1.75rem] md:text-[2rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.15] mb-6 md:mb-8">
+                      <h2 className="max-w-[800px] text-[2rem] md:text-[2.5rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.12] mb-8 md:mb-10">
                         {s.subtitle}
                       </h2>
                       <SectionBody text={s.body} leadFirst />
                       {s.showProjectMeta && project.metaCards?.length ? (
-                        <div className="mt-10 md:mt-14">
+                        <div className="mt-12 md:mt-16">
                           <MetaGrid cards={project.metaCards} />
                         </div>
                       ) : null}
                     </>
                   ) : (
-                    /* Standard numbered section */
                     <>
                       {s.introBlock?.coverImage ? (
-                        <div className="mb-10 overflow-hidden rounded-2xl bg-secondary/10">
+                        <div className="mb-12 overflow-hidden rounded-2xl bg-secondary/10">
                           <img
                             src={s.introBlock.coverImage}
                             alt=""
-                            className={`w-full max-h-[min(68vh,760px)] min-h-[180px] ${
+                            className={`w-full max-h-[min(72vh,820px)] min-h-[180px] ${
                               s.introBlock.coverImageFit === "cover" ? "object-cover" : "object-contain"
                             } object-center`}
                           />
                         </div>
                       ) : null}
-                      <h2 className="text-[1.75rem] md:text-[2.25rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.15] mb-6 md:mb-8">
+                      <h2 className="max-w-[800px] text-[2rem] md:text-[2.5rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.12] mb-8 md:mb-10">
                         {s.label}
                       </h2>
                       {s.introBlock ? (
@@ -446,7 +437,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                     </>
                   )}
                   {s.figures?.length && !s.body.includes("[[fig:") ? (
-                    <div className="mt-10 space-y-6">
+                    <div className="mt-12 space-y-8">
                       {s.figures.map((fig, fi) => (
                         <SectionFigure key={fi} fig={fig} />
                       ))}
