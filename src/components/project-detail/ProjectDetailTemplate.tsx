@@ -210,7 +210,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
         return (
           <p
             key={i}
-            className={`${spacingClass} text-[15px] md:text-[17px] font-normal leading-[1.72] ${
+            className={`${spacingClass} text-[15px] md:text-[17px] font-normal leading-[1.55] ${
               leadFirst && i === 0 ? "text-foreground/85" : "text-foreground/75"
             } text-body`}
           >
@@ -380,7 +380,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                     <button
                       type="button"
                       onClick={() => scrollToProjectSection(s.id)}
-                      className={`w-full text-left pl-3 py-2 border-l transition-[color,border-color] duration-300 text-[15px] leading-tight ${
+                      className={`w-full text-left pl-3 py-2.5 border-l transition-[color,border-color] duration-300 text-[15px] leading-tight ${
                         activeSectionId === s.id
                           ? "border-foreground/62 text-foreground/92"
                           : "border-transparent text-foreground/55 hover:text-foreground/72 hover:border-foreground/28"
