@@ -380,7 +380,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                     <button
                       type="button"
                       onClick={() => scrollToProjectSection(s.id)}
-                      className={`w-full text-left pl-3 py-2.5 border-l transition-[color,border-color] duration-300 text-[15px] leading-tight ${
+                      className={`w-full text-left pl-3 py-2.5 border-l transition-[color,border-color] duration-300 text-[11px] uppercase tracking-[0.16em] leading-tight ${
                         activeSectionId === s.id
                           ? "border-foreground/62 text-foreground/92"
                           : "border-transparent text-foreground/55 hover:text-foreground/72 hover:border-foreground/28"
