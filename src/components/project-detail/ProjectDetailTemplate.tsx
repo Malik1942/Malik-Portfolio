@@ -76,7 +76,7 @@ const sectionDomId = (id: string) => `project-section-${id}`;
 function SectionIntroBlock({ block }: { block: IntroBlock }) {
   return (
     <div className="space-y-10">
-      <p className="text-[15px] md:text-[17px] font-light leading-[1.85] text-foreground/85 text-body">
+      <p className="text-[15px] md:text-[17px] font-normal leading-[1.72] text-foreground/75 text-body">
         {block.openingParagraph}
       </p>
 
@@ -125,7 +125,7 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
             {block.whatIDid.map((item, i) => (
               <li key={i} className="flex items-start gap-3">
                 <span className="mt-[0.45em] w-1 h-1 rounded-full bg-foreground/25 flex-shrink-0" />
-                <span className="text-[15px] md:text-[17px] font-light leading-[1.8] text-foreground/82 text-body">
+                <span className="text-[15px] md:text-[17px] font-normal leading-[1.72] text-foreground/75 text-body">
                   {item}
                 </span>
               </li>
@@ -210,8 +210,8 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
         return (
           <p
             key={i}
-            className={`${spacingClass} text-[15px] md:text-[17px] font-light leading-[1.8] ${
-              leadFirst && i === 0 ? "text-foreground/92" : "text-foreground/85"
+            className={`${spacingClass} text-[15px] md:text-[17px] font-normal leading-[1.72] ${
+              leadFirst && i === 0 ? "text-foreground/85" : "text-foreground/75"
             } text-body`}
           >
             {renderInline(para)}
@@ -225,10 +225,10 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
 function MetaItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="border border-border/40 bg-secondary/[0.07] rounded-sm px-5 py-5 md:px-6 md:py-6">
-      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground/45 text-body mb-3">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-foreground/38 text-body mb-3">
         {label}
       </p>
-      <p className="text-[13px] md:text-sm font-light leading-relaxed text-foreground/78 text-body">
+      <p className="text-[13px] md:text-sm font-normal leading-relaxed text-foreground/75 text-body">
         {value}
       </p>
     </div>
@@ -356,7 +356,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                   className={`flex-shrink-0 whitespace-nowrap px-3 py-2 rounded-sm text-[10px] uppercase tracking-[0.18em] transition-colors duration-300 ${
                     activeSectionId === s.id
                       ? "bg-foreground/[0.08] text-foreground/90 border border-border/60"
-                      : "text-muted-foreground/60 border border-transparent hover:text-foreground/75"
+                      : "text-foreground/48 border border-transparent hover:text-foreground/72"
                   }`}
                 >
                   {s.label}
@@ -371,7 +371,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
               className="hidden lg:block w-[180px] xl:w-[200px] flex-shrink-0 sticky top-28 self-start"
               aria-label="Section navigation"
             >
-              <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/45 mb-6 text-body">
+              <p className="text-[10px] uppercase tracking-[0.25em] text-foreground/38 mb-6 text-body">
                 On this page
               </p>
               <ul className="space-y-0.5">
@@ -382,8 +382,8 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                       onClick={() => scrollToProjectSection(s.id)}
                       className={`w-full text-left pl-3 py-2.5 border-l transition-[color,border-color] duration-300 text-[11px] uppercase tracking-[0.16em] leading-snug ${
                         activeSectionId === s.id
-                          ? "border-foreground/40 text-foreground/88"
-                          : "border-transparent text-muted-foreground/50 hover:text-foreground/65 hover:border-border/50"
+                          ? "border-foreground/62 text-foreground/92"
+                          : "border-transparent text-foreground/42 hover:text-foreground/68 hover:border-foreground/28"
                       }`}
                     >
                       {s.label}
@@ -403,7 +403,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                 >
                   {s.subtitle ? (
                     <>
-                      <h2 className="text-[2rem] md:text-[2.5rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.12] mb-8 md:mb-10">
+                      <h2 className="text-[2rem] md:text-[2.5rem] font-light text-foreground/93 text-display tracking-[-0.02em] leading-[1.12] mb-8 md:mb-10">
                         {s.subtitle}
                       </h2>
                       <SectionBody text={s.body} leadFirst />
@@ -426,7 +426,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                           />
                         </div>
                       ) : null}
-                      <h2 className="text-[2rem] md:text-[2.5rem] font-light text-foreground/90 text-display tracking-[-0.02em] leading-[1.12] mb-8 md:mb-10">
+                      <h2 className="text-[2rem] md:text-[2.5rem] font-light text-foreground/93 text-display tracking-[-0.02em] leading-[1.12] mb-8 md:mb-10">
                         {s.label}
                       </h2>
                       {s.introBlock ? (
