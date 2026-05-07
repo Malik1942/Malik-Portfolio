@@ -92,12 +92,12 @@ export function AuraScenes() {
             }`}
           >
             <p className={`text-[10px] text-mono tabular-nums mb-1 transition-colors duration-200 ${
-              i === current ? "text-foreground/40" : "text-muted-foreground/30 group-hover:text-foreground/30"
+              i === current ? "text-foreground/44" : "text-foreground/44 group-hover:text-foreground/52"
             }`}>
               {s.num}
             </p>
             <p className={`text-[11px] uppercase tracking-[0.16em] text-body transition-colors duration-200 ${
-              i === current ? "text-foreground/88" : "text-foreground/38 group-hover:text-foreground/60"
+              i === current ? "text-foreground/88" : "text-foreground/44 group-hover:text-foreground/60"
             }`}>
               {s.title}
             </p>

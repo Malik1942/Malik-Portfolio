@@ -13,7 +13,7 @@ export function AuraHardwareSystem() {
   return (
     <div>
       {/* Section label */}
-      <p className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground/40 text-body mb-6">
+      <p className="text-[10px] uppercase tracking-[0.24em] text-foreground/44 text-body mb-6">
         Hardware System
       </p>
 

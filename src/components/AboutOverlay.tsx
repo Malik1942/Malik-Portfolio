@@ -77,9 +77,9 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
     >
       {/* Default label */}
       <motion.span
-        className="text-[11px] text-body uppercase tracking-[0.25em] text-foreground/60 whitespace-nowrap absolute pointer-events-none"
+        className="text-[11px] text-body uppercase tracking-[0.25em] text-foreground/69 whitespace-nowrap absolute pointer-events-none"
         animate={{
-          opacity: hovered ? 0 : 0.6,
+          opacity: hovered ? 0 : 1,
           scale: hovered ? 0.94 : 1,
           filter: hovered ? "blur(3px)" : "blur(0px)",
         }}
@@ -142,10 +142,17 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
         Back
       </motion.button>
 
-      {/* Identity Core */}
+      {/* Identity Core — clickable to return to homepage */}
       {isVisible && (
         <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-          <div className="flex flex-col-reverse sm:flex-row items-center gap-5 sm:gap-6 md:gap-8 px-6">
+          <motion.button
+            type="button"
+            aria-label="Return to homepage"
+            onClick={onBack}
+            className="flex flex-col-reverse sm:flex-row items-center gap-5 sm:gap-6 md:gap-8 px-6 pointer-events-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30 rounded-xl"
+            whileHover={{ scale: 1.012, opacity: 0.88 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
             <div className="flex flex-col items-center sm:items-end text-center sm:text-right max-w-[380px]">
               <motion.h2
                 className="text-[20px] sm:text-[26px] md:text-[30px] text-display text-foreground font-normal leading-[1.5] tracking-wide"
@@ -164,7 +171,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
                 </span>
               </motion.h2>
               <motion.p
-                className="text-[10px] text-body text-foreground/30 font-light uppercase tracking-[0.2em] mt-3"
+                className="text-[10px] text-body text-foreground/44 font-light uppercase tracking-[0.2em] mt-3"
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 1.3, ease: "easeOut" }}
@@ -192,24 +199,27 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
                 <img src={profileImage} alt="Malik Zhang" className="w-full h-full object-cover object-top" />
               </div>
             </motion.div>
-          </div>
+          </motion.button>
         </div>
       )}
 
       {/* Scroll indicator */}
       {isVisible && (
         <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-0 z-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 2.8 }}
         >
-          <span className="text-[8px] text-body uppercase tracking-[0.3em] text-foreground/12">Scroll</span>
-          <motion.div
-            className="w-px h-5 bg-foreground/8"
-            animate={{ scaleY: [0.3, 1, 0.3], opacity: [0.06, 0.15, 0.06] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-          />
+          <span className="text-[8px] text-body uppercase tracking-[0.3em] text-foreground/42">Scroll</span>
+          <motion.span
+            className="text-[18px] text-body text-foreground leading-none select-none"
+            style={{ display: "inline-block", transform: "scaleX(1.6)", marginTop: "-2px" }}
+            animate={{ y: [0, 2, 0], opacity: [0.45, 0.65, 0.45] }}
+            transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut" }}
+          >
+            ⌄
+          </motion.span>
         </motion.div>
       )}
 

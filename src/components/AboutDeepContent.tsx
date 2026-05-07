@@ -301,7 +301,7 @@ const LifeEventRow = ({ event }: { event: LifeEvent }) => {
       onMouseLeave={() => setHovered(false)}
     >
       {/* Year */}
-      <span className="text-[13px] text-foreground/60 font-light tracking-wider w-12 pt-0.5 flex-shrink-0">
+      <span className="text-[13px] text-foreground/60 font-normal tracking-wider w-12 pt-0.5 flex-shrink-0">
         {event.year}
       </span>
 
@@ -318,15 +318,15 @@ const LifeEventRow = ({ event }: { event: LifeEvent }) => {
       {/* Content */}
       <div className="flex flex-col gap-0.5">
         <motion.span
-          className="text-[15px] text-foreground/80 font-light"
+          className="text-[15px] text-foreground/80 font-normal"
           animate={{ opacity: hovered ? 0.95 : 0.8 }}
           transition={{ duration: 0.4 }}
         >
           {event.title}
         </motion.span>
         <motion.span
-          className="text-[13px] text-foreground/50 font-light"
-          animate={{ opacity: hovered ? 0.7 : 0.5 }}
+          className="text-[13px] text-foreground font-normal"
+          animate={{ opacity: hovered ? 1 : 0.8 }}
           transition={{ duration: 0.4 }}
         >
           {event.caption}
@@ -557,8 +557,8 @@ const SportNode = ({ sport }: { sport: (typeof SPORTS_DATA)[0] }) => {
     >
       <ResilienceCanvas type={sport.type} isHovered={hovered} />
       <motion.span
-        className="text-[12px] uppercase tracking-[0.3em] text-foreground/50"
-        animate={{ opacity: hovered ? 0.9 : 0.5 }}
+        className="text-[12px] uppercase tracking-[0.3em] text-foreground"
+        animate={{ opacity: hovered ? 1.0 : 0.72 }}
         transition={{ duration: 0.4 }}
       >
         {sport.name}
@@ -575,7 +575,7 @@ const DAILY_ITEMS = [
 ];
 
 const DailyTag = ({ label }: { label: string }) => (
-  <span className="text-[13px] text-foreground/50 font-light px-4 py-2.5 rounded-sm border border-foreground/[0.1] hover:text-foreground/80 hover:border-foreground/[0.18] transition-colors duration-300 cursor-default">
+  <span className="text-[13px] text-foreground/78 font-normal px-4 py-2.5 rounded-sm border border-foreground/[0.22] hover:text-foreground/92 hover:border-foreground/[0.35] transition-colors duration-300 cursor-default">
     {label}
   </span>
 );
@@ -638,10 +638,10 @@ const AboutDeepContent = ({
                 initial="hidden"
                 animate={photoInView ? "show" : "hidden"}
               >
-                <span className="text-[10px] uppercase tracking-[0.28em] text-foreground/38">
+                <span className="text-[10px] uppercase tracking-[0.28em] text-foreground/44">
                   Archive · 8 frames
                 </span>
-                <span className="text-[10px] text-foreground/32 tracking-[0.12em]">
+                <span className="text-[10px] text-foreground/44 tracking-[0.12em]">
                   Tap any image to view full size
                 </span>
               </motion.div>

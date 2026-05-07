@@ -44,7 +44,7 @@ const Resume = () => {
       {/* PDF viewer — iframe on desktop, fallback on mobile */}
       {isMobile ? (
         <div className="flex-1 flex flex-col items-center justify-center gap-6 px-8 py-16 text-center">
-          <p className="text-muted-foreground/60 text-sm text-body leading-relaxed max-w-[280px]">
+          <p className="text-foreground/52 text-sm text-body leading-relaxed max-w-[280px]">
             PDF previews aren't supported on mobile browsers. Open or download the resume below.
           </p>
           <div className="flex flex-col gap-3 w-full max-w-[240px]">

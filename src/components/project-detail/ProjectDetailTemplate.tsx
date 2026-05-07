@@ -7,6 +7,9 @@ import Footer from "@/components/Footer";
 import { AuraHardwareSystem } from "./AuraHardwareSystem";
 import { AuraScenes } from "./AuraScenes";
 
+// Shared page container — all major sections align to this grid
+const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto";
+
 function toEmbedUrl(url: string): string {
   const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
   if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`;
@@ -33,7 +36,7 @@ function AutoplayVideo({ src, poster }: { src: string; poster?: string }) {
         muted
         playsInline
         controls
-        className="w-full max-h-[min(640px,72vh)] object-contain bg-black"
+        className="w-full max-h-[min(700px,74vh)] object-contain bg-black"
       />
     </div>
   );
@@ -76,7 +79,7 @@ const sectionDomId = (id: string) => `project-section-${id}`;
 function SectionIntroBlock({ block }: { block: IntroBlock }) {
   return (
     <div className="space-y-10">
-      <p className="text-[15px] md:text-[17px] font-normal leading-[1.72] text-foreground/75 text-body">
+      <p className="text-[17px] md:text-[19px] font-normal leading-[1.68] text-foreground/82 text-body">
         {block.openingParagraph}
       </p>
 
@@ -85,12 +88,12 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
           {block.contextCards.map((card) => (
             <div
               key={card.title}
-              className="border border-border/50 bg-secondary/[0.08] rounded-sm px-4 py-4"
+              className="border border-border/50 bg-secondary/[0.08] rounded-sm px-5 py-5"
             >
-              <p className="text-[11px] uppercase tracking-[0.18em] text-foreground/60 text-body mb-2">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-foreground/60 text-body mb-2.5">
                 {card.title}
               </p>
-              <p className="text-[13px] font-light leading-relaxed text-foreground/65 text-body">
+              <p className="text-[14px] font-normal leading-relaxed text-foreground/75 text-body">
                 {card.body}
               </p>
             </div>
@@ -103,12 +106,12 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
           {block.infoCards.map((card) => (
             <div
               key={card.label}
-              className="border border-border/40 bg-transparent rounded-sm px-4 py-3"
+              className="border border-border/40 bg-transparent rounded-sm px-4 py-4"
             >
-              <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50 text-body mb-1.5">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-foreground/44 text-body mb-2">
                 {card.label}
               </p>
-              <p className="text-[13px] font-light leading-snug text-foreground/75 text-body">
+              <p className="text-[14px] font-normal leading-snug text-foreground/80 text-body">
                 {card.value}
               </p>
             </div>
@@ -118,14 +121,14 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
 
       {block.whatIDid?.length ? (
         <div>
-          <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground/50 text-body mb-5">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-foreground/44 text-body mb-6">
             What I Did
           </p>
-          <ul className="space-y-3">
+          <ul className="space-y-4">
             {block.whatIDid.map((item, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <span className="mt-[0.45em] w-1 h-1 rounded-full bg-foreground/25 flex-shrink-0" />
-                <span className="text-[15px] md:text-[17px] font-normal leading-[1.72] text-foreground/75 text-body">
+              <li key={i} className="flex items-start gap-4">
+                <span className="mt-[0.5em] w-1 h-1 rounded-full bg-foreground/30 flex-shrink-0" />
+                <span className="text-[17px] md:text-[19px] font-normal leading-[1.68] text-foreground/82 text-body">
                   {item}
                 </span>
               </li>
@@ -144,7 +147,7 @@ function renderInline(text: string) {
     <>
       {parts.map((part, i) =>
         part.startsWith("**") && part.endsWith("**") ? (
-          <strong key={i} className="font-medium text-foreground/[0.96]">
+          <strong key={i} className="font-semibold text-foreground/[0.96]">
             {part.slice(2, -2)}
           </strong>
         ) : (
@@ -177,7 +180,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
           return (
             <p
               key={i}
-              className={`${i === 0 ? "" : "mt-16 md:mt-20"} text-[13px] md:text-[14px] uppercase tracking-[0.16em] font-normal text-foreground/72 text-body mb-4 md:mb-5`}
+              className={`${i === 0 ? "" : "mt-16 md:mt-20"} text-[13px] md:text-[14px] uppercase tracking-[0.16em] font-medium text-foreground/72 text-body mb-5 md:mb-6`}
             >
               {para.slice(3)}
             </p>
@@ -187,7 +190,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
         const figIdx = parseFigRef(para);
         if (figIdx !== null && inlineFigures?.[figIdx]) {
           return (
-            <div key={i} className={i === 0 ? "" : "mt-12 md:mt-16"}>
+            <div key={i} className={i === 0 ? "" : "mt-14 md:mt-18"}>
               <SectionFigure fig={inlineFigures[figIdx]} />
             </div>
           );
@@ -205,13 +208,13 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
         const spacingClass =
           i === 0 ? ""
           : prevSubheading ? ""
-          : bullet && prevBullet ? "mt-3"
-          : "mt-5 md:mt-6";
+          : bullet && prevBullet ? "mt-4"
+          : "mt-7 md:mt-8";
         return (
           <p
             key={i}
-            className={`${spacingClass} text-[15px] md:text-[17px] font-normal leading-[1.55] ${
-              leadFirst && i === 0 ? "text-foreground/85" : "text-foreground/75"
+            className={`${spacingClass} text-[17px] md:text-[19px] font-normal leading-[1.68] ${
+              leadFirst && i === 0 ? "text-foreground/90" : "text-foreground/80"
             } text-body`}
           >
             {renderInline(para)}
@@ -225,10 +228,10 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
 function MetaItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="border border-border/40 bg-secondary/[0.07] rounded-sm px-5 py-5 md:px-6 md:py-6">
-      <p className="text-[10px] uppercase tracking-[0.22em] text-foreground/38 text-body mb-3">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-foreground/44 text-body mb-3">
         {label}
       </p>
-      <p className="text-[13px] md:text-sm font-normal leading-relaxed text-foreground/75 text-body">
+      <p className="text-[14px] md:text-[15px] font-normal leading-relaxed text-foreground/80 text-body">
         {value}
       </p>
     </div>
@@ -258,8 +261,9 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
 
   return (
     <div className="min-h-screen bg-background">
+
       {/* Back */}
-      <div className="px-6 md:px-16 lg:px-20 pt-8 pb-0 max-w-[1600px] mx-auto">
+      <div className={`${PAGE_OUTER} pt-8 pb-0`}>
         <button
           type="button"
           onClick={onBack}
@@ -281,15 +285,15 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
       </div>
 
       {/* 1 — Title + hook */}
-      <header className="px-6 md:px-16 lg:px-20 pt-8 md:pt-10 max-w-[1440px] mx-auto">
-        <p className="text-muted-foreground text-[11px] text-body uppercase tracking-[0.2em] mb-4">
+      <header className={`${PAGE_OUTER} pt-8 md:pt-12`}>
+        <p className="text-foreground/44 text-[11px] text-body uppercase tracking-[0.2em] mb-5">
           {project.listSection}
         </p>
-        <h1 className="text-4xl md:text-6xl lg:text-[4.5rem] font-light text-foreground text-display tracking-[-0.03em] leading-[1.08]">
+        <h1 className="text-[2.8rem] md:text-[4.5rem] lg:text-[5.5rem] font-light text-foreground text-display tracking-[-0.03em] leading-[1.06]">
           {project.title}
         </h1>
         {project.heroSummary ? (
-          <p className="mt-4 md:mt-6 text-base md:text-lg font-light text-foreground/55 text-body max-w-2xl leading-relaxed">
+          <p className="mt-5 md:mt-8 text-lg md:text-xl font-light text-foreground/70 text-body max-w-[760px] leading-[1.6]">
             {project.heroSummary}
           </p>
         ) : null}
@@ -297,7 +301,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
 
       {/* 2 — Hero image */}
       {project.heroImage ? (
-        <div className="px-6 md:px-16 lg:px-20 mt-10 md:mt-12 max-w-[1440px] mx-auto">
+        <div className={`${PAGE_OUTER} mt-10 md:mt-14`}>
           <div className="overflow-hidden rounded-2xl bg-secondary/10">
             <img
               src={project.heroImage}
@@ -305,7 +309,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
               className={
                 project.heroImageFit === "natural"
                   ? "w-full h-auto block"
-                  : `w-full max-h-[min(76vh,860px)] min-h-[200px] ${
+                  : `w-full max-h-[min(78vh,900px)] min-h-[200px] ${
                       project.heroImageFit === "contain" ? "object-contain" : "object-cover"
                     } object-center`
               }
@@ -316,15 +320,15 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
 
       {/* 3 — Secondary copy below hero */}
       {(project.heroSubtitle || project.description) ? (
-        <div className={`px-6 md:px-16 lg:px-20 max-w-[1440px] mx-auto ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-10"}`}>
-          <div className="max-w-[860px]">
+        <div className={`${PAGE_OUTER} ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-12"}`}>
+          <div className="max-w-[900px]">
             {project.heroSubtitle ? (
-              <p className="text-sm md:text-base text-muted-foreground font-light leading-relaxed text-body">
+              <p className="text-base md:text-lg text-foreground/65 font-light leading-[1.65] text-body">
                 {project.heroSubtitle}
               </p>
             ) : null}
             {project.description ? (
-              <p className={`${project.heroSubtitle ? "mt-4 md:mt-5" : ""} text-[15px] md:text-[17px] font-light leading-[1.8] text-foreground/65 text-body`}>
+              <p className={`${project.heroSubtitle ? "mt-5 md:mt-6" : ""} text-[17px] md:text-[19px] font-light leading-[1.68] text-foreground/72 text-body`}>
                 {project.description}
               </p>
             ) : null}
@@ -334,119 +338,124 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
 
       {/* 4 — Standalone metadata */}
       {!hasIntroSection && project.metaCards?.length ? (
-        <div className="px-6 md:px-16 lg:px-20 mt-10 md:mt-14 max-w-[1200px] mx-auto">
-          <MetaGrid cards={project.metaCards} />
+        <div className={`${PAGE_OUTER} mt-12 md:mt-16`}>
+          <div className="max-w-[900px]">
+            <MetaGrid cards={project.metaCards} />
+          </div>
         </div>
       ) : null}
 
       {/* 5 — Body: sticky nav + sections */}
-      <section aria-label="Case study" className="px-6 md:px-16 lg:px-20 pb-32 md:pb-40 border-t border-border/30 mt-20 md:mt-28 pt-20 md:pt-28">
-        <div className="max-w-[1200px] mx-auto">
-          {/* Mobile / tablet: horizontal section nav */}
+      <section
+        aria-label="Case study"
+        className={`${PAGE_OUTER} pb-32 md:pb-48 border-t border-border/30 mt-20 md:mt-28 pt-20 md:pt-28`}
+      >
+        {/* Mobile / tablet: horizontal section nav */}
+        <nav
+          className="lg:hidden sticky top-0 z-20 -mx-6 px-6 py-3 mb-14 bg-background/85 backdrop-blur-md border-b border-border/40"
+          aria-label="Section navigation"
+        >
+          <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            {project.sections.map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => scrollToProjectSection(s.id)}
+                className={`flex-shrink-0 whitespace-nowrap px-3 py-2 rounded-sm text-[10px] uppercase tracking-[0.18em] transition-colors duration-300 ${
+                  activeSectionId === s.id
+                    ? "bg-foreground/[0.08] text-foreground/90 border border-border/60"
+                    : "text-foreground/55 border border-transparent hover:text-foreground/75"
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        </nav>
+
+        <div className="flex flex-col lg:flex-row lg:gap-20 xl:gap-24 lg:items-start">
+
+          {/* Desktop left nav */}
           <nav
-            className="lg:hidden sticky top-0 z-20 -mx-6 px-6 py-3 mb-14 bg-background/85 backdrop-blur-md border-b border-border/40"
+            className="hidden lg:block w-[200px] xl:w-[220px] flex-shrink-0 sticky top-28 self-start"
             aria-label="Section navigation"
           >
-            <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            <p className="text-[10px] uppercase tracking-[0.25em] text-foreground/44 mb-6 text-body">
+              On this page
+            </p>
+            <ul className="space-y-0.5">
               {project.sections.map((s) => (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => scrollToProjectSection(s.id)}
-                  className={`flex-shrink-0 whitespace-nowrap px-3 py-2 rounded-sm text-[10px] uppercase tracking-[0.18em] transition-colors duration-300 ${
-                    activeSectionId === s.id
-                      ? "bg-foreground/[0.08] text-foreground/90 border border-border/60"
-                      : "text-foreground/48 border border-transparent hover:text-foreground/72"
-                  }`}
-                >
-                  {s.label}
-                </button>
+                <li key={s.id}>
+                  <button
+                    type="button"
+                    onClick={() => scrollToProjectSection(s.id)}
+                    className={`w-full text-left pl-3 py-2.5 border-l transition-[color,border-color] duration-300 text-[11px] uppercase tracking-[0.16em] leading-tight ${
+                      activeSectionId === s.id
+                        ? "border-foreground/75 text-foreground/92"
+                        : "border-transparent text-foreground/55 hover:text-foreground/78 hover:border-foreground/30"
+                    }`}
+                  >
+                    {s.label}
+                  </button>
+                </li>
               ))}
-            </div>
+            </ul>
           </nav>
 
-          <div className="flex flex-col lg:flex-row lg:gap-16 xl:gap-20 lg:items-start">
-            {/* Desktop left nav */}
-            <nav
-              className="hidden lg:block w-[180px] xl:w-[200px] flex-shrink-0 sticky top-28 self-start"
-              aria-label="Section navigation"
-            >
-              <p className="text-[10px] uppercase tracking-[0.25em] text-foreground/38 mb-6 text-body">
-                On this page
-              </p>
-              <ul className="space-y-0.5">
-                {project.sections.map((s) => (
-                  <li key={s.id}>
-                    <button
-                      type="button"
-                      onClick={() => scrollToProjectSection(s.id)}
-                      className={`w-full text-left pl-3 py-2.5 border-l transition-[color,border-color] duration-300 text-[11px] uppercase tracking-[0.16em] leading-tight ${
-                        activeSectionId === s.id
-                          ? "border-foreground/75 text-foreground/92"
-                          : "border-transparent text-foreground/55 hover:text-foreground/72 hover:border-foreground/28"
-                      }`}
-                    >
+          {/* Main content column */}
+          <div className="min-w-0 flex-1 max-w-[900px]">
+            {project.sections.map((s) => (
+              <article
+                key={s.id}
+                id={sectionDomId(s.id)}
+                className="scroll-mt-28 md:scroll-mt-32 mb-28 md:mb-36 last:mb-0"
+              >
+                {s.subtitle ? (
+                  <>
+                    <h2 className="text-[2.1rem] md:text-[2.8rem] font-light text-foreground/93 text-display tracking-[-0.02em] leading-[1.1] mb-10 md:mb-12">
+                      {s.subtitle}
+                    </h2>
+                    <SectionBody text={s.body} leadFirst />
+                    {s.showProjectMeta && project.metaCards?.length ? (
+                      <div className="mt-14 md:mt-18">
+                        <MetaGrid cards={project.metaCards} />
+                      </div>
+                    ) : null}
+                  </>
+                ) : (
+                  <>
+                    {s.introBlock?.coverImage ? (
+                      <div className="mb-12 overflow-hidden rounded-2xl bg-secondary/10">
+                        <img
+                          src={s.introBlock.coverImage}
+                          alt=""
+                          className={`w-full max-h-[min(74vh,840px)] min-h-[180px] ${
+                            s.introBlock.coverImageFit === "cover" ? "object-cover" : "object-contain"
+                          } object-center`}
+                        />
+                      </div>
+                    ) : null}
+                    <h2 className="text-[2.1rem] md:text-[2.8rem] font-light text-foreground/93 text-display tracking-[-0.02em] leading-[1.1] mb-10 md:mb-12">
                       {s.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-
-            {/* Main content column */}
-            <div className="min-w-0 flex-1">
-              {project.sections.map((s) => (
-                <article
-                  key={s.id}
-                  id={sectionDomId(s.id)}
-                  className="scroll-mt-28 md:scroll-mt-32 mb-28 md:mb-36 last:mb-0"
-                >
-                  {s.subtitle ? (
-                    <>
-                      <h2 className="text-[2rem] md:text-[2.5rem] font-light text-foreground/93 text-display tracking-[-0.02em] leading-[1.12] mb-8 md:mb-10">
-                        {s.subtitle}
-                      </h2>
-                      <SectionBody text={s.body} leadFirst />
-                      {s.showProjectMeta && project.metaCards?.length ? (
-                        <div className="mt-12 md:mt-16">
-                          <MetaGrid cards={project.metaCards} />
-                        </div>
-                      ) : null}
-                    </>
-                  ) : (
-                    <>
-                      {s.introBlock?.coverImage ? (
-                        <div className="mb-12 overflow-hidden rounded-2xl bg-secondary/10">
-                          <img
-                            src={s.introBlock.coverImage}
-                            alt=""
-                            className={`w-full max-h-[min(72vh,820px)] min-h-[180px] ${
-                              s.introBlock.coverImageFit === "cover" ? "object-cover" : "object-contain"
-                            } object-center`}
-                          />
-                        </div>
-                      ) : null}
-                      <h2 className="text-[2rem] md:text-[2.5rem] font-light text-foreground/93 text-display tracking-[-0.02em] leading-[1.12] mb-8 md:mb-10">
-                        {s.label}
-                      </h2>
-                      {s.introBlock ? (
-                        <SectionIntroBlock block={s.introBlock} />
-                      ) : (
-                        <SectionBody text={s.body} inlineFigures={s.figures} />
-                      )}
-                    </>
-                  )}
-                  {s.figures?.length && !s.body.includes("[[fig:") ? (
-                    <div className="mt-12 space-y-8">
-                      {s.figures.map((fig, fi) => (
-                        <SectionFigure key={fi} fig={fig} />
-                      ))}
-                    </div>
-                  ) : null}
-                </article>
-              ))}
-            </div>
+                    </h2>
+                    {s.introBlock ? (
+                      <SectionIntroBlock block={s.introBlock} />
+                    ) : (
+                      <SectionBody text={s.body} inlineFigures={s.figures} />
+                    )}
+                  </>
+                )}
+                {s.figures?.length && !s.body.includes("[[fig:") ? (
+                  <div className="mt-14 space-y-10">
+                    {s.figures.map((fig, fi) => (
+                      <SectionFigure key={fi} fig={fig} />
+                    ))}
+                  </div>
+                ) : null}
+              </article>
+            ))}
           </div>
+
         </div>
       </section>
 
