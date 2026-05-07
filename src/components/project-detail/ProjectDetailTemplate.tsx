@@ -177,7 +177,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
           return (
             <p
               key={i}
-              className={`${i === 0 ? "" : "mt-16 md:mt-20"} text-[12px] md:text-[13px] uppercase tracking-[0.18em] font-normal text-foreground/72 text-body mb-4 md:mb-5`}
+              className={`${i === 0 ? "" : "mt-16 md:mt-20"} text-[13px] md:text-[14px] uppercase tracking-[0.16em] font-normal text-foreground/72 text-body mb-4 md:mb-5`}
             >
               {para.slice(3)}
             </p>
@@ -380,10 +380,10 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                     <button
                       type="button"
                       onClick={() => scrollToProjectSection(s.id)}
-                      className={`w-full text-left pl-3 py-2.5 border-l transition-[color,border-color] duration-300 text-[11px] uppercase tracking-[0.16em] leading-snug ${
+                      className={`w-full text-left pl-3 py-2 border-l transition-[color,border-color] duration-300 text-[11px] uppercase tracking-[0.16em] leading-tight ${
                         activeSectionId === s.id
                           ? "border-foreground/62 text-foreground/92"
-                          : "border-transparent text-foreground/42 hover:text-foreground/68 hover:border-foreground/28"
+                          : "border-transparent text-foreground/55 hover:text-foreground/72 hover:border-foreground/28"
                       }`}
                     >
                       {s.label}
