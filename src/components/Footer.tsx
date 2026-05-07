@@ -12,7 +12,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: Foote
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mb-16 md:mb-24">
           {/* Left — Explore */}
           <div>
-            <span className="text-[11px] uppercase tracking-[0.2em] text-foreground/30 text-body block mb-6">
+            <span className="text-[11px] uppercase tracking-[0.2em] text-foreground/44 text-body block mb-6">
               Explore
             </span>
             <ul className="space-y-4">
@@ -56,7 +56,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: Foote
 
           {/* Right — Social */}
           <div>
-            <span className="text-[11px] uppercase tracking-[0.2em] text-foreground/30 text-body block mb-6">
+            <span className="text-[11px] uppercase tracking-[0.2em] text-foreground/44 text-body block mb-6">
               Social
             </span>
             <ul className="space-y-4">
@@ -94,7 +94,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true }: Foote
 
         {/* Bottom row */}
         <div className="border-t border-border pt-8">
-          <span className="text-xs text-foreground/38 text-body">
+          <span className="text-xs text-foreground/44 text-body">
             &copy; 2026 Malik Zhang
           </span>
         </div>

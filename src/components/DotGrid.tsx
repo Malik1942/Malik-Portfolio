@@ -349,7 +349,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       // Alpha: visible in both states, fade near cluster center in about mode
       const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
       // Alpha: text dots stay solid, cluster edge dots fade out
-      const heroAlpha = Math.min(0.95, 0.5 + speed * 0.04);
+      const heroAlpha = Math.min(0.95, 0.69 + speed * 0.04);
       let clusterAlpha = 0.55 + p.orbitRadius * 0.003;
       // Fade near cluster center (text-safe zone)
       const distToCenter = Math.sqrt((aboutX - cluster.x) ** 2 + (aboutY - cluster.y) ** 2);

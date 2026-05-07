@@ -130,10 +130,10 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
 
           {/* Left — identity */}
           <div className="animate-fade-up delay-3">
-            <p className="text-[15px] uppercase tracking-[0.18em] text-foreground/72 text-body mb-2">
+            <p className="text-[15px] uppercase tracking-[0.18em] text-foreground/72 text-body font-medium mb-2">
               Product Designer
             </p>
-            <p className="text-[12px] text-foreground/36 tracking-[0.06em] text-body">
+            <p className="text-[12px] text-foreground/44 tracking-[0.06em] text-body">
               HARDWARE · AI · SYSTEMS · PROTOTYPING
             </p>
           </div>
@@ -185,10 +185,10 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
         {/* Mobile — simple stack */}
         <div className="flex flex-col gap-5 md:hidden">
           <div className="animate-fade-up delay-3">
-            <p className="text-[15px] uppercase tracking-[0.18em] text-foreground/72 text-body mb-2">
+            <p className="text-[15px] uppercase tracking-[0.18em] text-foreground/72 text-body font-medium mb-2">
               Product Designer
             </p>
-            <p className="text-[12px] text-foreground/36 tracking-[0.06em] text-body">
+            <p className="text-[12px] text-foreground/44 tracking-[0.06em] text-body">
               HARDWARE · AI · SYSTEMS · PROTOTYPING
             </p>
           </div>

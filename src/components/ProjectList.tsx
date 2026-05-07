@@ -90,7 +90,7 @@ const CardMedia = ({
         />
       ) : (
         <div className="w-full aspect-video flex items-center justify-center">
-          <span className="text-foreground/15 text-xs text-body uppercase tracking-[0.2em]">
+          <span className="text-foreground/44 text-xs text-body uppercase tracking-[0.2em]">
             No image
           </span>
         </div>
@@ -164,7 +164,7 @@ const ProjectCard = ({
         style={{
           fontSize: isMobile ? "0.9375rem" : "0.875rem",
           marginBottom: isMobile ? "0.75rem" : "1rem",
-          color: "hsl(var(--foreground) / 0.45)",
+          color: "hsl(var(--foreground) / 0.80)",
         }}
       >
         {project.description}
@@ -225,7 +225,7 @@ const ProjectCard = ({
                   fontSize: isMobile ? "0.875rem" : "0.9375rem",
                   letterSpacing: "-0.01em",
                   marginBottom: "0.5rem",
-                  color: "hsl(var(--foreground) / 0.58)",
+                  color: "hsl(var(--foreground) / 0.70)",
                 }}
               >
                 {project.signal}
@@ -235,7 +235,7 @@ const ProjectCard = ({
               className="text-body leading-relaxed"
               style={{
                 fontSize: "0.875rem",
-                color: "hsl(var(--foreground) / 0.42)",
+                color: hovered ? "hsl(var(--foreground) / 0.90)" : "hsl(var(--foreground) / 0.72)",
               }}
             >
               {project.description}
@@ -414,7 +414,7 @@ const SectionLabel = ({
           {title}
         </span>
       ) : (
-        <span className="text-sm text-body text-foreground/35 uppercase tracking-[0.12em] font-medium">
+        <span className="text-sm text-body text-foreground/44 uppercase tracking-[0.12em] font-medium">
           {title}
         </span>
       )}
