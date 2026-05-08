@@ -276,13 +276,13 @@ interface LifeEvent {
 const LIFE_EVENTS: LifeEvent[] = [
   { year: "2026", title: "FigBuild 2026",  caption: "1st Place — NeuraLyfe",                    type: "award"     },
   { year: "2026", title: "NeuraLyfe",      caption: "Making invisible brain trauma visible",      type: "design"    },
-  { year: "2026", title: "Inspire Ocean",  caption: "AI content generation platform",             type: "design"    },
-  { year: "2026", title: "Studio Waters",  caption: "Predictive analytics visualization",         type: "design"    },
+  { year: "2026", title: "Inspire Ocean",  caption: "Vibe-coded inspiration collection kit",      type: "design"    },
+  { year: "2026", title: "Studio Waters",  caption: "Vibe-coded CPX controlled fishing game",     type: "design"    },
   { year: "2026", title: "Tubular",        caption: "Designing the mini-golf experience beyond the surface",  type: "design"    },
   { year: "2025", title: "Aura",           caption: "AI-driven wearable for motion sickness",     type: "design"    },
   { year: "2025", title: "FlowPrint",      caption: "Led consumer 3D printing redesign",          type: "design"    },
   { year: "2024", title: "Design Systems", caption: "Deep dive into systematic design thinking",  type: "education" },
-  { year: "2024", title: "Mood Muse",      caption: "Bridging physical and digital craft — design beyond form, rooted in experience", type: "design" },
+  { year: "2024", title: "Mood Muse",      caption: "Physical craft meets digital experience — design beyond form", type: "design" },
   { year: "2023", title: "Started Building", caption: "First experiments with design + code",     type: "education" },
 ];
 
