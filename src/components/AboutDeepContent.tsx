@@ -278,7 +278,7 @@ const LIFE_EVENTS: LifeEvent[] = [
   { year: "2026", title: "NeuraLyfe",      caption: "Making invisible brain trauma visible",      type: "design"    },
   { year: "2026", title: "Inspire Ocean",  caption: "AI content generation platform",             type: "design"    },
   { year: "2026", title: "Studio Waters",  caption: "Predictive analytics visualization",         type: "design"    },
-  { year: "2026", title: "Tubular",        caption: "Reimagining the travel booking experience",  type: "design"    },
+  { year: "2026", title: "Tubular",        caption: "Designing the mini-golf experience beyond the surface",  type: "design"    },
   { year: "2025", title: "Aura",           caption: "AI-driven wearable for motion sickness",     type: "design"    },
   { year: "2025", title: "FlowPrint",      caption: "Led consumer 3D printing redesign",          type: "design"    },
   { year: "2024", title: "Design Systems", caption: "Deep dive into systematic design thinking",  type: "education" },
