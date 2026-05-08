@@ -101,7 +101,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
 
       {/* Terminal one-liner — centered below the "Malik Zhang" cluster */}
       <motion.div
-        className="absolute left-0 right-0 hidden md:flex justify-center z-10 pointer-events-none"
+        className="absolute left-0 right-0 flex justify-center z-10 pointer-events-none"
         style={{ top: "calc(38vh + min(15.5vw, 206px) + 48px)" }}
         initial={{ opacity: 0, y: 8 }}
         animate={{
