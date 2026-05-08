@@ -28,13 +28,13 @@ interface Orb {
 }
 
 const ORB_DEFS = [
-  { label: "Aura", subtitle: "Main Projects", color: "red" as const, rx: 0.1, ry: 0.25, id: "aura" },
-  { label: "NeuraLyfe", subtitle: "Main Projects", color: "red" as const, rx: 0.3, ry: 0.55, id: "neuralyfe" },
-  { label: "FlowPrint", subtitle: "Main Projects", color: "red" as const, rx: 0.75, ry: 0.45, id: "flowprint" },
-  { label: "Tubular", subtitle: "Main Projects", color: "red" as const, rx: 0.18, ry: 0.7, id: "tubular" },
-  { label: "Mood Muse", subtitle: "Main Projects", color: "red" as const, rx: 0.88, ry: 0.3, id: "moodmuse" },
-  { label: "Inspire Ocean", subtitle: "Built with AI", color: "gold" as const, rx: 0.55, ry: 0.2, id: "inspireocean" },
-  { label: "Studio Waters", subtitle: "Built with AI", color: "gold" as const, rx: 0.5, ry: 0.38, id: "studiowaters" },
+  { label: "Aura",         subtitle: "Main Projects", color: "red"  as const, rx: 0.1,  ry: 0.25, mrx: 0.10, mry: 0.22, id: "aura" },
+  { label: "NeuraLyfe",    subtitle: "Main Projects", color: "red"  as const, rx: 0.3,  ry: 0.55, mrx: 0.12, mry: 0.70, id: "neuralyfe" },
+  { label: "FlowPrint",    subtitle: "Main Projects", color: "red"  as const, rx: 0.75, ry: 0.45, mrx: 0.88, mry: 0.46, id: "flowprint" },
+  { label: "Tubular",      subtitle: "Main Projects", color: "red"  as const, rx: 0.18, ry: 0.7,  mrx: 0.14, mry: 0.80, id: "tubular" },
+  { label: "Mood Muse",    subtitle: "Main Projects", color: "red"  as const, rx: 0.88, ry: 0.3,  mrx: 0.88, mry: 0.28, id: "moodmuse" },
+  { label: "Inspire Ocean",subtitle: "Built with AI", color: "gold" as const, rx: 0.55, ry: 0.2,  mrx: 0.60, mry: 0.18, id: "inspireocean" },
+  { label: "Studio Waters",subtitle: "Built with AI", color: "gold" as const, rx: 0.5,  ry: 0.38, mrx: 0.88, mry: 0.60, id: "studiowaters" },
 ];
 
 const RED = "200, 82, 82";
@@ -128,10 +128,11 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     }
     starsRef.current = stars;
 
+    const isMobile = w < 768;
     orbsRef.current = ORB_DEFS.map((d) => ({
       ...d,
-      x: d.rx * w,
-      y: d.ry * h,
+      x: (isMobile ? d.mrx : d.rx) * w,
+      y: (isMobile ? d.mry : d.ry) * h,
       vx: (Math.random() - 0.5) * 0.12,
       vy: (Math.random() - 0.5) * 0.12,
       baseSize: 5 + Math.random() * 2,

@@ -99,9 +99,9 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
       <DotGrid aboutMode={isAboutOpen} onNameClick={onAboutClick} />
       <AboutOverlay isVisible={isAboutOpen} onBack={onAboutBack} />
 
-      {/* Terminal one-liner — centered below the "Malik Zhang" cluster */}
+      {/* Desktop: terminal one-liner (md+) */}
       <motion.div
-        className="absolute left-0 right-0 flex justify-center z-10 pointer-events-none"
+        className="absolute left-0 right-0 hidden md:flex justify-center z-10 pointer-events-none"
         style={{ top: "calc(38vh + min(15.5vw, 206px) + 48px)" }}
         initial={{ opacity: 0, y: 8 }}
         animate={{
@@ -111,6 +111,22 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
         transition={{ duration: 0.7, delay: isAboutOpen ? 0 : isLoaded ? 1.0 : 0 }}
       >
         <TerminalOneLiner isVisible={terminalVisible} />
+      </motion.div>
+
+      {/* Mobile: clean description (< md) */}
+      <motion.div
+        className="absolute left-0 right-0 flex md:hidden justify-center z-10 pointer-events-none"
+        style={{ top: "calc(38vh + min(19vw, 206px) + 64px)" }}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{
+          opacity: terminalVisible ? 1 : 0,
+          y: terminalVisible ? 0 : 8,
+        }}
+        transition={{ duration: 0.7, delay: isAboutOpen ? 0 : isLoaded ? 1.2 : 0 }}
+      >
+        <p className="text-[15px] text-foreground/68 font-light text-body leading-[1.55] max-w-[300px] text-center px-6">
+          {TERMINAL_TEXT}
+        </p>
       </motion.div>
 
       {/* Bottom bar */}
