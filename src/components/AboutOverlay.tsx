@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import profileImage from "@/assets/profile-malik.jpg";
@@ -38,18 +38,15 @@ const HOVER_ZONE_SIZE = 200;
 
 // ── Text-only cluster label (no particles — those live in DotGrid) ──
 const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number }) => {
-  const [hovered, setHovered] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  // Tracks whether a mouse pointer is currently hovering — used to prevent
+  // onClick from double-toggling when the user is on a pointer device.
+  const mouseInsideRef = useRef(false);
 
   const dispatchHover = (index: number | null) => {
     window.dispatchEvent(
       new CustomEvent("cluster-hover", { detail: { index } })
     );
-  };
-
-  const handleTap = () => {
-    const next = !hovered;
-    setHovered(next);
-    dispatchHover(next ? data.index : null);
   };
 
   return (
@@ -65,23 +62,33 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.2, delay, ease: "easeOut" }}
-      onMouseEnter={() => {
-        setHovered(true);
+      onPointerEnter={(e) => {
+        if (e.pointerType !== "mouse") return;
+        mouseInsideRef.current = true;
+        setExpanded(true);
         dispatchHover(data.index);
       }}
-      onMouseLeave={() => {
-        setHovered(false);
+      onPointerLeave={(e) => {
+        if (e.pointerType !== "mouse") return;
+        mouseInsideRef.current = false;
+        setExpanded(false);
         dispatchHover(null);
       }}
-      onClick={handleTap}
+      onClick={() => {
+        // Touch path only — mouse hover already handles show/hide
+        if (mouseInsideRef.current) return;
+        const next = !expanded;
+        setExpanded(next);
+        dispatchHover(next ? data.index : null);
+      }}
     >
       {/* Default label */}
       <motion.span
         className="text-[11px] text-body uppercase tracking-[0.25em] text-foreground/69 whitespace-nowrap absolute pointer-events-none"
         animate={{
-          opacity: hovered ? 0 : 1,
-          scale: hovered ? 0.94 : 1,
-          filter: hovered ? "blur(3px)" : "blur(0px)",
+          opacity: expanded ? 0 : 1,
+          scale: expanded ? 0.94 : 1,
+          filter: expanded ? "blur(3px)" : "blur(0px)",
         }}
         transition={{ duration: 0.32, ease: "easeOut" }}
       >
@@ -96,13 +103,13 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
             className="text-[14px] text-body text-foreground/90 font-light tracking-wide whitespace-nowrap"
             initial={false}
             animate={{
-              opacity: hovered ? 0.9 : 0,
-              y: hovered ? 0 : 2,
-              filter: hovered ? "blur(0px)" : "blur(4px)",
+              opacity: expanded ? 0.9 : 0,
+              y: expanded ? 0 : 2,
+              filter: expanded ? "blur(0px)" : "blur(4px)",
             }}
             transition={{
               duration: 0.38,
-              delay: hovered ? 0.1 + i * 0.05 : 0,
+              delay: expanded ? 0.1 + i * 0.05 : 0,
               ease: "easeOut",
             }}
           >
