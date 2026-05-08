@@ -62,7 +62,7 @@ const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
   }, []);
 
   return (
-    <div className="flex items-baseline gap-[12px] text-[15px] text-mono tracking-[0.04em] leading-[1.65] max-w-[520px] px-6">
+    <div className="flex items-baseline gap-[8px] md:gap-[12px] text-[11px] md:text-[15px] text-mono tracking-[0.04em] leading-[1.65] max-w-[280px] md:max-w-[520px] px-6">
       {/* Prompt glyph — items-baseline keeps it on the first text line */}
       <span className="text-foreground/56 shrink-0 select-none">{'>'}</span>
       {/* Typed text + cursor */}
