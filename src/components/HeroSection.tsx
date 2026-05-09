@@ -150,7 +150,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
               Product Designer
             </p>
             <p className="text-[12px] text-foreground/44 tracking-[0.06em] text-body">
-              HARDWARE · AI · SYSTEMS · PROTOTYPING
+              HARDWARE · AI · SPATIAL · SYSTEMS
             </p>
           </div>
 
@@ -196,7 +196,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
               Product Designer
             </p>
             <p className="text-[12px] text-foreground/44 tracking-[0.06em] text-body">
-              HARDWARE · AI · SYSTEMS · PROTOTYPING
+              HARDWARE · AI · SPATIAL · SYSTEMS
             </p>
           </div>
           <nav className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-foreground/72 text-body animate-fade-up delay-4">
