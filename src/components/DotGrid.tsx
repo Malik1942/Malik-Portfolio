@@ -34,7 +34,7 @@ const ORB_DEFS = [
   { label: "Tubular",      subtitle: "Main Projects", color: "red"  as const, rx: 0.18, ry: 0.7,  mrx: 0.14, mry: 0.80, id: "tubular" },
   { label: "Mood Muse",    subtitle: "Main Projects", color: "red"  as const, rx: 0.88, ry: 0.3,  mrx: 0.88, mry: 0.28, id: "moodmuse" },
   { label: "Inspire Ocean",subtitle: "Built with AI", color: "gold" as const, rx: 0.55, ry: 0.2,  mrx: 0.60, mry: 0.18, id: "inspireocean" },
-  { label: "Studio Waters",subtitle: "Built with AI", color: "gold" as const, rx: 0.5,  ry: 0.38, mrx: 0.88, mry: 0.60, id: "studiowaters" },
+  { label: "Studio Waters",subtitle: "Built with AI", color: "gold" as const, rx: 0.72, ry: 0.68, mrx: 0.88, mry: 0.60, id: "studiowaters" },
 ];
 
 const RED = "200, 82, 82";
