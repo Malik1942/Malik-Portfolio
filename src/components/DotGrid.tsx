@@ -135,7 +135,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       y: (isMobile ? d.mry : d.ry) * h,
       vx: (Math.random() - 0.5) * 0.12,
       vy: (Math.random() - 0.5) * 0.12,
-      baseSize: 5 + Math.random() * 2,
+      baseSize: 4 + Math.random() * 1.5,
       mass: 1 + Math.random() * 2,
       hoverT: 0,
     }));
@@ -500,11 +500,11 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         const t = orb.hoverT;
         const easedH = 1 - Math.pow(1 - t, 3);
 
-        const hoverScale = 1 + easedH * 0.3;
-        const ringAlpha = 0.08 * opacityBreath + easedH * 0.2;
-        const glowRadius = 42 + easedH * 18;
-        const glowIntensity = (0.12 * opacityBreath + easedH * 0.12) * breath;
-        const ringWidth = 0.5 + easedH * 0.4;
+        const hoverScale = 1 + easedH * 0.25;
+        const ringAlpha = 0.05 * opacityBreath + easedH * 0.16;
+        const glowRadius = 34 + easedH * 14;
+        const glowIntensity = (0.08 * opacityBreath + easedH * 0.10) * breath;
+        const ringWidth = 0.4 + easedH * 0.3;
 
         const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, glowRadius);
         grad.addColorStop(0, `rgba(${col}, ${glowIntensity})`);
@@ -515,7 +515,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(orb.x, orb.y, 24 * hoverScale * breath, 0, Math.PI * 2);
+        ctx.arc(orb.x, orb.y, 18 * hoverScale * breath, 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(200, 200, 210, ${ringAlpha})`;
         ctx.lineWidth = ringWidth;
         ctx.stroke();
@@ -525,13 +525,13 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         ctx.fillStyle = `rgba(${col}, ${(0.85 + easedH * 0.1) * opacityBreath})`;
         ctx.fill();
 
-        ctx.font = "500 14px 'Space Grotesk', sans-serif";
-        ctx.fillStyle = `rgba(${col}, ${(0.88 + easedH * 0.12) * opacityBreath})`;
-        ctx.fillText(orb.label, orb.x + 16, orb.y - 3);
+        ctx.font = "500 13px 'Space Grotesk', sans-serif";
+        ctx.fillStyle = `rgba(${col}, ${(0.68 + easedH * 0.18) * opacityBreath})`;
+        ctx.fillText(orb.label, orb.x + 20, orb.y - 3);
 
-        ctx.font = "400 11px 'Space Grotesk', sans-serif";
-        ctx.fillStyle = `rgba(${col}, ${(0.55 + easedH * 0.2) * opacityBreath})`;
-        ctx.fillText(orb.subtitle, orb.x + 16, orb.y + 12);
+        ctx.font = "400 10px 'Space Grotesk', sans-serif";
+        ctx.fillStyle = `rgba(${col}, ${(0.38 + easedH * 0.20) * opacityBreath})`;
+        ctx.fillText(orb.subtitle, orb.x + 20, orb.y + 11);
       });
 
       hoveredOrbRef.current = newHoveredOrb;

@@ -185,17 +185,8 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
             </a>
           </nav>
 
-          {/* Right — legend */}
-          <div className="flex gap-6 text-sm text-body animate-fade-up delay-5 justify-self-end">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-dot-red" />
-              <span className="text-foreground/72">Selected Work</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-dot-gold" />
-              <span className="text-foreground/72">AI Explorations</span>
-            </div>
-          </div>
+          {/* Right — intentionally empty to keep nav centered */}
+          <div />
         </div>
 
         {/* Mobile — simple stack */}
@@ -214,16 +205,6 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
             <a href="#about" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => { e.preventDefault(); onAboutClick(); }}>About</a>
             <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">Resume</a>
           </nav>
-          <div className="flex gap-6 text-sm text-body animate-fade-up delay-5">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-dot-red" />
-              <span className="text-foreground/72">Selected Work</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-dot-gold" />
-              <span className="text-foreground/72">AI Explorations</span>
-            </div>
-          </div>
         </div>
       </motion.div>
     </section>
