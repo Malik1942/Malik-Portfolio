@@ -3,6 +3,7 @@ import auraCover from "@/assets/aura-cover.png";
 import studioWatersCover from "@/assets/studio-waters-cover.png";
 import auraDetail1 from "@/assets/aura-detail-1.png";
 import auraApproach1 from "@/assets/aura-approach-1.png";
+import auraDiscovery1 from "@/assets/aura-discovery-1.png";
 import auraApproach2 from "@/assets/aura-approach-2.png";
 import auraApproach3 from "@/assets/aura-approach-3.png";
 import auraSystem1 from "@/assets/aura-system-1.png";
@@ -48,9 +49,9 @@ const aura: ProjectDetailDocument = {
       id: "discovery",
       label: "Discovery",
       figures: [
-        { type: "image", src: auraApproach1, alt: "Aura discovery — travel journey mapping" },
+        { type: "image", src: auraDiscovery1, alt: "Aura discovery — travel journey mapping" },
       ],
-      body: "## Finding the strongest opportunity in the travel journey\n\nAfter choosing travel as our direction, we needed to narrow the scope. Travel includes many moments, each with different types of friction, so we mapped the journey across three stages: pre-travel, during travel, and post-travel.\n\nAs a team, we brainstormed pain points and opportunities within each stage. Pre-travel was filled with planning, packing, uncertainty, and preparation stress. Post-travel focused more on recovery, jet lag, and re-adjustment. But the during travel stage stood out because the user is already in motion, physically constrained, and has the least control over their environment.\n\nWithin that stage, in-flight discomfort became the clearest opportunity. It was not only one of the strongest pain points, but also a space where design could meaningfully intervene. Travelers cannot stop turbulence, leave the cabin, or remove themselves from motion, but a product system could help them feel more prepared, supported, and in control.\n\nThis discovery helped us define Aura’s scope: supporting travelers during the flight, when discomfort is most intense and control is most limited.\n\n[[fig:0]]",
+      body: "After choosing travel as our direction, we mapped the journey across three stages: pre-travel, during travel, and post-travel. This helped us compare where travelers experience the most friction and where design could make the most meaningful impact.\n\n[[fig:0]]\n\nThrough this process, in-flight discomfort stood out as the strongest opportunity. Unlike planning stress or post-travel recovery, discomfort during the flight happens when travelers are already in motion, physically constrained, and have very limited control over their environment.\n\nThis became Aura’s scope: supporting motion-sensitive travelers during the flight, when discomfort is most intense and control is most limited.",
     },
     {
       id: "research",
