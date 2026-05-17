@@ -4,6 +4,7 @@ import studioWatersCover from "@/assets/studio-waters-cover.png";
 import auraDetail1 from "@/assets/aura-detail-1.png";
 import auraApproach1 from "@/assets/aura-approach-1.png";
 import auraDiscovery1 from "@/assets/aura-discovery-1.png";
+import auraResearch1 from "@/assets/aura-research-1.png";
 import auraApproach2 from "@/assets/aura-approach-2.png";
 import auraApproach3 from "@/assets/aura-approach-3.png";
 import auraSystem1 from "@/assets/aura-system-1.png";
@@ -56,7 +57,10 @@ const aura: ProjectDetailDocument = {
     {
       id: "research",
       label: "Research",
-      body: "To understand whether an earlier intervention point was physiologically real, I looked into the science of motion sickness. **I focused on how the vestibular system detects sensory conflict between what the body feels and what the eyes see.** This helped me identify a key timing gap: the body can register instability before the user consciously recognizes nausea.\n\n**That gap became the conceptual anchor for Aura.** The system does not wait for the user to report feeling unwell. It reads early physiological signals — changes in heart rate variability, motion context, and body state — and prepares support before the user reaches the threshold of conscious discomfort.\n\n**I also mapped the travel journey across three phases: pre-travel, during travel, and post-travel.** The mapping confirmed that the during-travel phase was where users had the least control, the most physiological stress, and the lowest capacity to manage an additional tool.",
+      figures: [
+        { type: "image", src: auraResearch1, alt: "Aura competitive analysis — motion sickness solutions" },
+      ],
+      body: "## Understanding the gap between discomfort and support\n\nAfter narrowing our focus to in-flight discomfort, I wanted to understand why motion sickness is so hard to manage in the moment. Secondary research helped me reframe it as a gradual buildup, not a sudden symptom. **The body can begin responding to sensory conflict before the traveler fully recognizes nausea**, which revealed an earlier window for support.\n\n## Current solution landscape\n\nI compared common remedies across medication, patches, wristbands, pressure-based tools, breathing, sleep, distraction, and sensory support. Each option had value, but most shared the same limitation: **they either need to be prepared in advance or managed after discomfort has already started.**\n\n[[fig:0]]\n\n## What travelers already do\n\nTo ground the research in real behavior, I interviewed three people about how they experience and manage discomfort during flights. A clear pattern emerged: travelers already build their own coping systems, such as closing their eyes, avoiding screens, listening to music, breathing slowly, sleeping, or taking medication before boarding.\n\nThe problem is that these strategies are fragile. **They depend on the traveler noticing discomfort early, choosing the right response, and having enough energy to manage it while already feeling unwell.**\n\n## Research takeaway\n\nMotion-sickness support should not wait until the traveler has to ask for help. It should prepare support earlier, using signals and context the traveler may not be able to track on their own.\n\nThis shifted Aura from a product that simply responds to nausea into a system that could **sense, prepare, and support before discomfort becomes hard to control.**",
     },
     {
       id: "ideation",
