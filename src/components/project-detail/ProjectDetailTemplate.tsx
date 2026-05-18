@@ -6,6 +6,7 @@ import type { ProjectDetailDocument, ProjectSectionFigure, IntroBlock } from "@/
 import Footer from "@/components/Footer";
 import { AuraHardwareSystem } from "./AuraHardwareSystem";
 import { AuraScenes } from "./AuraScenes";
+import { AuraDesignRequirements } from "./AuraDesignRequirements";
 
 // Shared page container — all major sections align to this grid
 const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto";
@@ -161,6 +162,7 @@ function renderInline(text: string) {
 const INLINE_MODULES: Record<string, React.ReactNode> = {
   "aura-hardware": <AuraHardwareSystem />,
   "aura-scenes": <AuraScenes />,
+  "aura-design-requirements": <AuraDesignRequirements />,
 };
 
 function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFirst?: boolean; inlineFigures?: ProjectSectionFigure[] }) {

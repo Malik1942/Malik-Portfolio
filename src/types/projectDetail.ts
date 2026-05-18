@@ -27,7 +27,9 @@ export type ProjectContentSection = {
   id: string;
   /** Used in sidebar navigation */
   label: string;
-  /** Optional subtitle shown as the section heading inside content (e.g. "Intro") */
+  /** Takeaway headline shown as the large section heading (replaces generic label-as-heading) */
+  headline?: string;
+  /** Legacy: same role as headline, kept for backward compat */
   subtitle?: string;
   /** Plain text; paragraphs separated by blank lines (\\n\\n) */
   body: string;
