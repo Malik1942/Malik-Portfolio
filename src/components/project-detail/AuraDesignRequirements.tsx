@@ -73,7 +73,7 @@ export function AuraDesignRequirements() {
 
       {/* Header band */}
       <div className="px-8 pt-8 pb-7 md:px-10 border-b border-white/[0.05]">
-        <p className="text-[13px] md:text-[14px] uppercase tracking-[0.2em] font-medium text-white/60">
+        <p className="text-[12px] md:text-[20px] uppercase tracking-[0.08em] font-light leading-[24px] md:leading-[32px] text-white/85 font-mono">
           Design Requirements
         </p>
       </div>
@@ -97,10 +97,10 @@ export function AuraDesignRequirements() {
 
               {/* Text */}
               <div className="flex flex-col gap-2.5">
-                <p className="text-[15px] md:text-[16px] font-medium text-white/90 leading-snug tracking-[-0.01em]">
+                <p className="text-[16px] md:text-[20px] font-medium text-white/95 leading-[24px] md:leading-[28px] tracking-[-0.01em]">
                   {r.title}
                 </p>
-                <p className="text-[13px] md:text-[14px] font-light text-white/52 leading-relaxed">
+                <p className="text-[14px] md:text-[16px] font-light text-white/72 leading-[22px] md:leading-[26px]">
                   {r.desc}
                 </p>
               </div>
