@@ -148,7 +148,7 @@ function renderInline(text: string) {
     <>
       {parts.map((part, i) =>
         part.startsWith("**") && part.endsWith("**") ? (
-          <strong key={i} className="font-semibold text-foreground/[0.96]">
+          <strong key={i} className="font-semibold text-foreground/[0.98]">
             {part.slice(2, -2)}
           </strong>
         ) : (
@@ -182,7 +182,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
           return (
             <p
               key={i}
-              className={`${i === 0 ? "" : "mt-16 md:mt-20"} text-[13px] md:text-[14px] uppercase tracking-[0.16em] font-medium text-foreground/72 text-body mb-5 md:mb-6`}
+              className={`${i === 0 ? "" : "mt-16 md:mt-20"} text-[12px] md:text-[20px] uppercase tracking-[0.08em] font-light leading-[24px] md:leading-[32px] text-foreground/85 text-mono mb-5 md:mb-6`}
             >
               {para.slice(3)}
             </p>
@@ -215,8 +215,8 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
         return (
           <p
             key={i}
-            className={`${spacingClass} text-[17px] md:text-[19px] font-normal leading-[1.68] ${
-              leadFirst && i === 0 ? "text-foreground/90" : "text-foreground/80"
+            className={`${spacingClass} text-[16px] md:text-[20px] font-normal leading-[28px] md:leading-[36px] ${
+              leadFirst && i === 0 ? "text-foreground/90" : "text-foreground/85"
             } text-body`}
           >
             {renderInline(para)}
@@ -414,15 +414,10 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
               >
                 {s.subtitle ? (
                   <>
-                    <h2 className="text-[2.1rem] md:text-[2.8rem] font-light text-foreground/93 text-display tracking-[-0.02em] leading-[1.1] mb-10 md:mb-12">
+                    <h2 className="text-[40px] md:text-[56px] font-light text-foreground text-display tracking-[-0.02em] leading-[48px] md:leading-[64px] mb-10 md:mb-12">
                       {s.subtitle}
                     </h2>
                     <SectionBody text={s.body} leadFirst />
-                    {s.showProjectMeta && project.metaCards?.length ? (
-                      <div className="mt-14 md:mt-18">
-                        <MetaGrid cards={project.metaCards} />
-                      </div>
-                    ) : null}
                   </>
                 ) : (
                   <>
@@ -437,7 +432,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                         />
                       </div>
                     ) : null}
-                    <h2 className="text-[2.1rem] md:text-[2.8rem] font-light text-foreground/93 text-display tracking-[-0.02em] leading-[1.1] mb-10 md:mb-12">
+                    <h2 className="text-[40px] md:text-[56px] font-light text-foreground text-display tracking-[-0.02em] leading-[48px] md:leading-[64px] mb-10 md:mb-12">
                       {s.label}
                     </h2>
                     {s.introBlock ? (
@@ -447,6 +442,11 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                     )}
                   </>
                 )}
+                {s.showProjectMeta && project.metaCards?.length ? (
+                  <div className="mt-14 md:mt-18">
+                    <MetaGrid cards={project.metaCards} />
+                  </div>
+                ) : null}
                 {s.figures?.length && !s.body.includes("[[fig:") ? (
                   <div className="mt-14 space-y-10">
                     {s.figures.map((fig, fi) => (
