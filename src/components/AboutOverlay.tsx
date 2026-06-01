@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
+import { createPortal } from "react-dom";
 import profileImage from "@/assets/profile-malik.jpg";
 import { ABOUT_CLUSTER_DEFS } from "@/lib/aboutClusters";
 
@@ -129,37 +130,42 @@ interface AboutOverlayProps {
 
 const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
   return (
-    <motion.div
-      className="absolute inset-0 z-20"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: isVisible ? 1 : 0 }}
-      transition={{ duration: 0.8, delay: isVisible ? 0.6 : 0 }}
-      style={{ pointerEvents: isVisible ? "auto" : "none" }}
-    >
+    <>
       {/* Back button */}
-      <motion.button
-        onClick={onBack}
-        aria-label="Back to home"
-        className="group absolute top-8 left-8 flex items-center gap-2 min-h-[44px] px-1 text-sm text-body text-foreground/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded transition-colors duration-200 z-30"
+      {createPortal(
+        <motion.button
+          onClick={onBack}
+          aria-label="Back to home"
+          className="group fixed top-8 left-8 flex items-center gap-2 min-h-[44px] px-1 text-sm text-body text-foreground/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded transition-colors duration-200 z-[1000]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isVisible ? 1 : 0 }}
+          transition={{ duration: 0.6, delay: isVisible ? 2.4 : 0 }}
+          style={{ pointerEvents: isVisible ? "auto" : "none" }}
+        >
+          <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+          Back
+        </motion.button>,
+        document.body
+      )}
+
+      <motion.div
+        className="absolute inset-0 z-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: isVisible ? 1 : 0 }}
-        transition={{ duration: 0.6, delay: isVisible ? 2.4 : 0 }}
+        transition={{ duration: 0.8, delay: isVisible ? 0.6 : 0 }}
+        style={{ pointerEvents: isVisible ? "auto" : "none" }}
       >
-        <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
-        Back
-      </motion.button>
-
-      {/* Identity Core — clickable to return to homepage */}
-      {isVisible && (
-        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-          <motion.button
-            type="button"
-            aria-label="Return to homepage"
-            onClick={onBack}
-            className="flex flex-col-reverse sm:flex-row items-center gap-5 sm:gap-6 md:gap-8 px-6 pointer-events-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30 rounded-xl"
-            whileHover={{ scale: 1.012, opacity: 0.88 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
+        {/* Identity Core — clickable to return to homepage */}
+        {isVisible && (
+          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+            <motion.button
+              type="button"
+              aria-label="Return to homepage"
+              onClick={onBack}
+              className="flex flex-col-reverse sm:flex-row items-center gap-5 sm:gap-6 md:gap-8 px-6 pointer-events-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30 rounded-xl"
+              whileHover={{ scale: 1.012, opacity: 0.88 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
             <div className="flex flex-col items-center sm:items-end text-center sm:text-right max-w-[380px]">
               <motion.h2
                 className="text-[20px] sm:text-[26px] md:text-[30px] text-display text-foreground font-normal leading-[1.5] tracking-wide"
@@ -235,7 +241,8 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
         CLUSTER_TEXTS.map((cluster, i) => (
           <ClusterLabel key={cluster.label} data={cluster} delay={2.0 + i * 0.15} />
         ))}
-    </motion.div>
+      </motion.div>
+    </>
   );
 };
 
