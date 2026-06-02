@@ -7,6 +7,9 @@ import Footer from "@/components/Footer";
 import { AuraHardwareSystem } from "./AuraHardwareSystem";
 import { AuraScenes } from "./AuraScenes";
 import { AuraDesignRequirements } from "./AuraDesignRequirements";
+import { AuraIdeationCriteria } from "./AuraIdeationCriteria";
+import { AuraTestingFindings } from "./AuraTestingFindings";
+import { AuraReflectionLearnings } from "./AuraReflectionLearnings";
 
 // Shared page container — all major sections align to this grid
 const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto";
@@ -163,6 +166,9 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "aura-hardware": <AuraHardwareSystem />,
   "aura-scenes": <AuraScenes />,
   "aura-design-requirements": <AuraDesignRequirements />,
+  "aura-ideation-criteria": <AuraIdeationCriteria />,
+  "aura-testing-findings": <AuraTestingFindings />,
+  "aura-reflection-learnings": <AuraReflectionLearnings />,
 };
 
 function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFirst?: boolean; inlineFigures?: ProjectSectionFigure[] }) {
@@ -260,6 +266,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
   const sectionIds = project.sections.map((s) => s.id);
   const activeSectionId = useSectionScrollSpy(sectionIds);
   const hasIntroSection = project.sections.some((s) => s.subtitle);
+  const hasInlineProjectMeta = project.sections.some((s) => s.showProjectMeta);
 
   return (
     <div className="min-h-screen bg-background">
@@ -339,7 +346,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
       ) : null}
 
       {/* 4 — Standalone metadata */}
-      {!hasIntroSection && project.metaCards?.length ? (
+      {!hasIntroSection && !hasInlineProjectMeta && project.metaCards?.length ? (
         <div className={`${PAGE_OUTER} mt-12 md:mt-16`}>
           <div className="max-w-[900px]">
             <MetaGrid cards={project.metaCards} />
