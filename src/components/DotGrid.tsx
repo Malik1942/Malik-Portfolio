@@ -29,7 +29,7 @@ interface Orb {
 
 const ORB_DEFS = [
   { label: "Aura",         subtitle: "Main Projects", color: "red"  as const, rx: 0.1,  ry: 0.25, mrx: 0.10, mry: 0.22, id: "aura" },
-  { label: "NeuraLyfe",    subtitle: "Main Projects", color: "red"  as const, rx: 0.3,  ry: 0.55, mrx: 0.12, mry: 0.70, id: "neuralyfe" },
+  { label: "NeuraLyfe",    subtitle: "Main Projects", color: "red"  as const, rx: 0.28, ry: 0.72, mrx: 0.12, mry: 0.70, id: "neuralyfe" },
   { label: "FlowPrint",    subtitle: "Main Projects", color: "red"  as const, rx: 0.75, ry: 0.45, mrx: 0.88, mry: 0.46, id: "flowprint" },
   { label: "Tubular",      subtitle: "Main Projects", color: "red"  as const, rx: 0.18, ry: 0.7,  mrx: 0.14, mry: 0.80, id: "tubular" },
   { label: "Mood Muse",    subtitle: "Main Projects", color: "red"  as const, rx: 0.88, ry: 0.3,  mrx: 0.88, mry: 0.28, id: "moodmuse" },
@@ -153,24 +153,21 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     offscreen.height = h;
     const ctx = offscreen.getContext("2d");
     if (ctx) {
-      const fontSize = Math.min(w * 0.12, 160);
+      const fontSize = Math.min(w * 0.12, 120);
       ctx.font = `700 ${fontSize}px 'Inter', sans-serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillStyle = "white";
 
-      const lineGap = fontSize * 1.05;
       const centerX = w / 2;
-      const centerY = h * 0.38;
-      ctx.fillText("Malik", centerX, centerY - lineGap * 0.25);
-      ctx.fillText("Zhang", centerX, centerY + lineGap * 0.75);
+      const centerY = h * 0.45;
+      ctx.fillText("Malik Zhang", centerX, centerY);
 
-      // Clickable hit region covering both text lines (generous padding for usability).
       textBoundsRef.current = {
-        x: centerX - fontSize * 2.5,
-        y: centerY - lineGap * 0.9,
-        w: fontSize * 5,
-        h: lineGap * 1.8,
+        x: centerX - fontSize * 3.2,
+        y: centerY - fontSize * 0.65,
+        w: fontSize * 6.4,
+        h: fontSize * 1.3,
       };
 
       const imageData = ctx.getImageData(0, 0, w, h);
