@@ -224,11 +224,11 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 2.8 }}
         >
-          <span className="text-[8px] text-body uppercase tracking-[0.3em] text-foreground/42">Scroll</span>
+          <span className="text-[11px] text-body uppercase tracking-[0.3em] text-foreground/42">Scroll</span>
           <motion.span
-            className="text-[18px] text-body text-foreground leading-none select-none"
+            className="text-[28px] text-body text-foreground leading-none select-none"
             style={{ display: "inline-block", transform: "scaleX(1.6)", marginTop: "-2px" }}
-            animate={{ y: [0, 2, 0], opacity: [0.45, 0.65, 0.45] }}
+            animate={{ y: [0, 4, 0], opacity: [0.45, 0.70, 0.45] }}
             transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut" }}
           >
             ⌄

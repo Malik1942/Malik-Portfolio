@@ -62,7 +62,7 @@ const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
   }, []);
 
   return (
-    <div className="flex items-baseline gap-[8px] md:gap-[12px] text-[11px] md:text-[15px] text-mono tracking-[0.04em] leading-[1.65] max-w-[280px] md:max-w-[520px] px-6">
+    <div className="flex items-baseline gap-[8px] md:gap-[12px] text-[11px] md:text-[18px] text-mono tracking-[0.04em] leading-[1.65] max-w-[320px] md:max-w-[640px] px-6">
       {/* Prompt glyph — items-baseline keeps it on the first text line */}
       <span className="text-foreground/56 shrink-0 select-none">{'>'}</span>
       {/* Typed text + cursor */}
@@ -102,7 +102,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
       {/* Desktop: terminal one-liner (md+) */}
       <motion.div
         className="absolute left-0 right-0 hidden md:flex justify-center z-10 pointer-events-none"
-        style={{ top: "calc(38vh + min(15.5vw, 206px) + 48px)" }}
+        style={{ top: "calc(45vh + min(6.5vw, 66px) + 36px)" }}
         initial={{ opacity: 0, y: 8 }}
         animate={{
           opacity: terminalVisible ? 1 : 0,
@@ -116,7 +116,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
       {/* Mobile: clean description (< md) */}
       <motion.div
         className="absolute left-0 right-0 flex md:hidden justify-center z-10 pointer-events-none"
-        style={{ top: "calc(38vh + min(19vw, 206px) + 64px)" }}
+        style={{ top: "calc(40vh + min(6.5vw, 66px) + 48px)" }}
         initial={{ opacity: 0, y: 8 }}
         animate={{
           opacity: terminalVisible ? 1 : 0,
@@ -124,24 +124,22 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
         }}
         transition={{ duration: 0.7, delay: isAboutOpen ? 0 : isLoaded ? 1.2 : 0 }}
       >
-        <p className="text-[15px] text-foreground/68 font-light text-body leading-[1.55] max-w-[300px] text-center px-6">
+        <p className="text-[15px] text-foreground/68 font-light text-body leading-[1.55] max-w-[320px] text-center px-6">
           {TERMINAL_TEXT}
         </p>
       </motion.div>
 
-      {/* Bottom bar */}
+      {/* Top header */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 px-6 md:px-16 lg:px-24 pb-7 z-10"
-        initial={{ opacity: 0, y: 20 }}
+        className="absolute top-0 left-0 right-0 px-6 md:px-16 lg:px-24 pt-7 z-10"
+        initial={{ opacity: 0, y: -20 }}
         animate={{
           opacity: terminalVisible ? 1 : 0,
-          y: terminalVisible ? 0 : 20,
+          y: terminalVisible ? 0 : -20,
         }}
         transition={{ duration: 0.6, delay: isAboutOpen ? 0 : isLoaded ? 0.8 : 0 }}
         style={{ pointerEvents: isAboutOpen ? "none" : "auto" }}
       >
-        <div className="h-px bg-border/40 mb-5 animate-line-reveal delay-3" />
-
         <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
 
           {/* Left — identity */}
@@ -155,7 +153,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
           </div>
 
           {/* Center — nav */}
-          <nav className="flex items-center gap-x-8 gap-y-2 text-sm text-foreground/72 text-body animate-fade-up delay-4 justify-self-center">
+          <nav className="flex items-center gap-x-8 gap-y-2 text-[16px] text-foreground/72 text-body animate-fade-up delay-4 justify-self-center">
             <a
               href="#projects"
               className="nav-link hover:text-foreground transition-colors duration-500"
@@ -199,13 +197,15 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
               HARDWARE · AI · SPATIAL · SYSTEMS
             </p>
           </div>
-          <nav className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-foreground/72 text-body animate-fade-up delay-4">
+          <nav className="flex flex-wrap gap-x-8 gap-y-2 text-[16px] text-foreground/72 text-body animate-fade-up delay-4">
             <a href="#projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "projects")}>Selected Work</a>
             <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "ai-projects")}>AI Explorations</a>
             <a href="#about" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => { e.preventDefault(); onAboutClick(); }}>About</a>
             <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">Resume</a>
           </nav>
         </div>
+
+        <div className="h-px bg-border/40 mt-5 animate-line-reveal delay-3" />
       </motion.div>
     </section>
   );
