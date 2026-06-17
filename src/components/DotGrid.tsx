@@ -40,6 +40,56 @@ const ORB_DEFS = [
 const RED = "200, 82, 82";
 const GOLD = "201, 169, 110";
 
+// ── Project-orb exclusion zones ──────────────────────────────────────────────
+// The meaningful project orbs (dots + labels) avoid the top navigation band and
+// the central "Malik Zhang" title cluster. Ambient background stars and the
+// name particles themselves are intentionally NOT constrained.
+const ORB_PAD = 80; // viewport edge padding for orbs
+// Orbs draw a core, ring and a text label (~16px tall, offset to the right) around
+// their center, so we keep the *center* this far outside each zone — otherwise the
+// body/label bleeds back across the edge even when the center is clear.
+const ORB_MARGIN = 22;
+
+interface Zone {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+// If an orb sits inside any zone (inflated by ORB_MARGIN), slide it to the nearest
+// edge whose target still lands inside the usable viewport. Edges that would shove
+// the orb past the viewport padding are skipped — so a full-width band like the nav
+// only lets orbs escape downward. `nudge` adds a little outward velocity (anim only).
+const repelOrbFromZones = (
+  orb: Orb,
+  zones: Zone[],
+  w: number,
+  h: number,
+  nudge: boolean,
+) => {
+  for (let i = 0; i < zones.length; i++) {
+    const z = zones[i];
+    const left = z.x - ORB_MARGIN;
+    const right = z.x + z.w + ORB_MARGIN;
+    const top = z.y - ORB_MARGIN;
+    const bottom = z.y + z.h + ORB_MARGIN;
+    if (orb.x <= left || orb.x >= right || orb.y <= top || orb.y >= bottom) continue;
+
+    const dL = left >= ORB_PAD ? orb.x - left : Infinity;
+    const dR = right <= w - ORB_PAD ? right - orb.x : Infinity;
+    const dT = top >= ORB_PAD ? orb.y - top : Infinity;
+    const dB = bottom <= h - ORB_PAD ? bottom - orb.y : Infinity;
+    const m = Math.min(dL, dR, dT, dB);
+    if (!isFinite(m)) continue; // zone covers the whole usable row/column — leave it
+
+    if (m === dL) { orb.x = left; if (nudge) orb.vx -= 0.03; }
+    else if (m === dR) { orb.x = right; if (nudge) orb.vx += 0.03; }
+    else if (m === dT) { orb.y = top; if (nudge) orb.vy -= 0.03; }
+    else { orb.y = bottom; if (nudge) orb.vy += 0.03; }
+  }
+};
+
 interface StarDot {
   x: number;
   y: number;
@@ -92,6 +142,8 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
   const onNameClickRef = useRef(onNameClick);
   // Hit region of the "Malik Zhang" particle text, in CSS pixels, set during initScene.
   const textBoundsRef = useRef({ x: 0, y: 0, w: 0, h: 0 });
+  // Regions project orbs must stay out of (top nav + title cluster), in CSS pixels.
+  const zonesRef = useRef<Zone[]>([]);
 
   useEffect(() => {
     aboutModeRef.current = aboutMode;
@@ -112,6 +164,14 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
   }, []);
 
   const initScene = useCallback((w: number, h: number) => {
+    const isMobile = w < 768;
+
+    // Title geometry — pure function of canvas size; shared by the name
+    // particles and the exclusion zones computed at the end of this function.
+    const fontSize = Math.min(w * 0.132, 132);
+    const centerX = w / 2;
+    const centerY = h * 0.45;
+
     const starCount = Math.floor((w * h) / 2400);
     const stars: StarDot[] = [];
     for (let i = 0; i < starCount; i++) {
@@ -128,7 +188,6 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     }
     starsRef.current = stars;
 
-    const isMobile = w < 768;
     orbsRef.current = ORB_DEFS.map((d) => ({
       ...d,
       x: (isMobile ? d.mrx : d.rx) * w,
@@ -153,14 +212,11 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     offscreen.height = h;
     const ctx = offscreen.getContext("2d");
     if (ctx) {
-      const fontSize = Math.min(w * 0.12, 120);
       ctx.font = `700 ${fontSize}px 'Inter', sans-serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillStyle = "white";
 
-      const centerX = w / 2;
-      const centerY = h * 0.45;
       ctx.fillText("Malik Zhang", centerX, centerY);
 
       textBoundsRef.current = {
@@ -202,6 +258,44 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       }
     }
     dotsRef.current = dots;
+
+    // ── Exclusion zones for project orbs (responsive; recomputed every resize) ──
+    const zones: Zone[] = [];
+
+    // 1. Top navigation band — measure the real header so the band tracks the
+    //    nav's actual height across breakpoints; fall back to a proportion.
+    const headerEl = canvasRef.current?.parentElement?.querySelector(
+      "[data-hero-header]",
+    ) as HTMLElement | null;
+    const navPad = isMobile ? 20 : 28; // breathing room below the nav/divider
+    const navBottom =
+      headerEl && headerEl.offsetHeight > 0
+        ? headerEl.offsetHeight + navPad
+        : isMobile
+          ? h * 0.24
+          : h * 0.16;
+    zones.push({ x: 0, y: 0, w, h: navBottom });
+
+    // 2. Title cluster — the actual "Malik Zhang" particle bounds, padded and
+    //    extended downward to also cover the subtitle/tagline beneath the name.
+    const padX = isMobile ? 22 : 40;
+    const padTop = isMobile ? 24 : 32;
+    const labelW = isMobile ? 0 : 96; // orb labels render to the right of the dot
+    const subtitleH = isMobile ? 132 : 145; // covers the multi-line tagline under the name
+    const titleTop = centerY - fontSize * 0.65 - padTop;
+    const titleBottom = centerY + fontSize * 0.65 + subtitleH;
+    zones.push({
+      x: centerX - fontSize * 3.2 - padX - labelW,
+      y: titleTop,
+      w: fontSize * 6.4 + padX * 2 + labelW,
+      h: titleBottom - titleTop,
+    });
+
+    zonesRef.current = zones;
+
+    // Relocate any orb that spawned inside a zone (position only, no velocity).
+    orbsRef.current.forEach((orb) => repelOrbFromZones(orb, zones, w, h, false));
+
     sizeRef.current = { w, h };
     initRef.current = true;
   }, []);
@@ -361,7 +455,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         clusterAlpha *= 0.3 + edgeFade * 0.7;
       }
       // Blend alpha: hero (solid) → cluster (edge-faded)
-      let dotAlpha = heroAlpha + (clusterAlpha - heroAlpha) * particleT;
+      const dotAlpha = heroAlpha + (clusterAlpha - heroAlpha) * particleT;
 
       ctx.beginPath();
       ctx.arc(drawX, drawY, 1.3, 0, Math.PI * 2);
@@ -458,12 +552,15 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         orb.x += orb.vx;
         orb.y += orb.vy;
 
-        const pad = 80;
-        const bottomLimit = h * 0.82;
-        if (orb.x < pad) { orb.vx += 0.02; orb.x = Math.max(pad, orb.x); }
-        if (orb.x > w - pad) { orb.vx -= 0.02; orb.x = Math.min(w - pad, orb.x); }
-        if (orb.y < pad) { orb.vy += 0.02; orb.y = Math.max(pad, orb.y); }
-        if (orb.y > bottomLimit) { orb.vy -= 0.02; orb.y = Math.min(bottomLimit, orb.y); }
+        // Viewport containment — the bottom is now fully usable (nav moved up,
+        // so the old h * 0.82 bottom exclusion is gone).
+        if (orb.x < ORB_PAD) { orb.vx += 0.02; orb.x = Math.max(ORB_PAD, orb.x); }
+        if (orb.x > w - ORB_PAD) { orb.vx -= 0.02; orb.x = Math.min(w - ORB_PAD, orb.x); }
+        if (orb.y < ORB_PAD) { orb.vy += 0.02; orb.y = Math.max(ORB_PAD, orb.y); }
+        if (orb.y > h - ORB_PAD) { orb.vy -= 0.02; orb.y = Math.min(h - ORB_PAD, orb.y); }
+
+        // Keep orbs clear of the top nav and the central title cluster.
+        repelOrbFromZones(orb, zonesRef.current, w, h, true);
 
         const isAI = orb.color === "gold";
         const driftAmt = isAI ? 0.008 : 0.004;

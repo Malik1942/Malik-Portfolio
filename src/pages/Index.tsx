@@ -13,7 +13,18 @@ import moodmuseCover from "@/assets/moodmuse-cover.png";
 import inspireoceanCover from "@/assets/inspireocean-cover.png";
 import studioWatersCover from "@/assets/studio-waters-cover.png";
 
-const selectedWork = [
+export const selectedWork = [
+  // TODO: replace Neuralyfe placeholder content with Moti content
+  {
+    id: "moti",
+    title: "Moti",
+    signal: "Brain impact visualization for athletes and medical teams",
+    description: "Making invisible brain trauma visible — before it becomes irreversible.",
+    role: "Product Designer, Maker",
+    coverImage: neuralyfeCover,
+    year: "2026",
+    details: "Led ideation and defined the problem scope for NeuraLyfe, designing the AI-driven Impact Replay interface and contributing across both digital and physical product development.\n\nAwarded 1st Place at FigBuild 2026, recognizing the project's concept, execution, and system design.",
+  },
   {
     id: "aura",
     title: "Aura",
@@ -64,7 +75,7 @@ const selectedWork = [
   },
 ];
 
-const aiProjects = [
+export const aiProjects = [
   {
     id: "inspireocean",
     title: "Inspire Ocean",

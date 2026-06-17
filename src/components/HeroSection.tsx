@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, type MouseEvent } from "react";
+import { useState, useEffect, useRef, type MouseEvent, type ReactNode } from "react";
+import { Link } from "react-router-dom";
 import DotGrid from "./DotGrid";
 import AboutOverlay from "./AboutOverlay";
 import { motion } from "framer-motion";
@@ -13,7 +14,22 @@ interface HeroSectionProps {
 
 // ── Terminal one-liner ──────────────────────────────────────────────────────
 const TERMINAL_TEXT =
-  "AI-native product designer building systems that sense, interpret, and support human decision-making.";
+  "AI-native product designer. I look past the obvious symptom to the real problem, then build real products that turn messy human intent into clear, steerable tools.";
+
+// The leading word "AI-native" is a subtle Easter-egg link to the Moti project.
+// It inherits the subtitle's exact styling and only reveals itself on hover/focus,
+// navigating via the same router a project card uses (→ /project/moti).
+const ACCENT_WORD = "AI-native";
+
+const MotiLink = ({ children }: { children: ReactNode }) => (
+  <Link
+    to="/project/moti"
+    aria-label="Go to Moti, my AI-native iOS app"
+    className="pointer-events-auto cursor-pointer rounded-sm text-inherit no-underline transition-colors duration-300 hover:text-dot-red focus-visible:text-dot-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dot-red/60"
+  >
+    {children}
+  </Link>
+);
 
 const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
   const [len, setLen] = useState(0);
@@ -67,7 +83,8 @@ const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
       <span className="text-foreground/56 shrink-0 select-none">{'>'}</span>
       {/* Typed text + cursor */}
       <span className="text-foreground/64 text-left">
-        {TERMINAL_TEXT.slice(0, len)}
+        <MotiLink>{TERMINAL_TEXT.slice(0, Math.min(len, ACCENT_WORD.length))}</MotiLink>
+        {TERMINAL_TEXT.slice(ACCENT_WORD.length, len)}
         <span
           className="inline-block align-middle ml-[2px]"
           style={{
@@ -102,7 +119,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
       {/* Desktop: terminal one-liner (md+) */}
       <motion.div
         className="absolute left-0 right-0 hidden md:flex justify-center z-10 pointer-events-none"
-        style={{ top: "calc(45vh + min(6.5vw, 66px) + 36px)" }}
+        style={{ top: "calc(45vh + min(7.15vw, 73px) + 20px)" }}
         initial={{ opacity: 0, y: 8 }}
         animate={{
           opacity: terminalVisible ? 1 : 0,
@@ -125,12 +142,13 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
         transition={{ duration: 0.7, delay: isAboutOpen ? 0 : isLoaded ? 1.2 : 0 }}
       >
         <p className="text-[15px] text-foreground/68 font-light text-body leading-[1.55] max-w-[320px] text-center px-6">
-          {TERMINAL_TEXT}
+          <MotiLink>{ACCENT_WORD}</MotiLink>{TERMINAL_TEXT.slice(ACCENT_WORD.length)}
         </p>
       </motion.div>
 
       {/* Top header */}
       <motion.div
+        data-hero-header
         className="absolute top-0 left-0 right-0 px-6 md:px-16 lg:px-24 pt-7 z-10"
         initial={{ opacity: 0, y: -20 }}
         animate={{
@@ -207,6 +225,32 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
 
         <div className="h-px bg-border/40 mt-5 animate-line-reveal delay-3" />
       </motion.div>
+
+      {/* Scroll indicator — mirrors the About page indicator (see AboutOverlay.tsx).
+          Absolute + bottom-center so it never reflows or overlaps the hero content.
+          Made clickable here (the About version is decorative): smooth-scrolls to the
+          projects section via the same anchor mechanism the nav links use. */}
+      {!isAboutOpen && (
+        <motion.button
+          type="button"
+          aria-label="Scroll to projects"
+          onClick={() => scrollToSectionNavTarget("projects")}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-0 z-10 cursor-pointer appearance-none bg-transparent border-0 p-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 2.8 }}
+        >
+          <span className="text-[11px] text-body uppercase tracking-[0.3em] text-foreground/42">Scroll</span>
+          <motion.span
+            className="text-[28px] text-body text-foreground leading-none select-none"
+            style={{ display: "inline-block", transform: "scaleX(1.6)", marginTop: "-2px" }}
+            animate={{ y: [0, 4, 0], opacity: [0.45, 0.70, 0.45] }}
+            transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut" }}
+          >
+            ⌄
+          </motion.span>
+        </motion.button>
+      )}
     </section>
   );
 };
