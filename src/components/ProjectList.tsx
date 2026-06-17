@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-interface Project {
+export interface Project {
   id?: string;
   title: string;
   description: string;
@@ -105,7 +105,8 @@ const CardMedia = ({
 };
 
 // ─── Project card (unified) ───────────────────────────────────────────────────
-const ProjectCard = ({
+// Exported so the project-detail "More work" section can reuse the exact same card.
+export const ProjectCard = ({
   project,
   projectId,
   dotClass,
@@ -423,7 +424,7 @@ const SectionLabel = ({
 };
 
 // ─── Main project list ────────────────────────────────────────────────────────
-// Tier 1: Aura + Neuralyfe as full-width heroes.
+// Tier 1: Moti + Aura + Neuralyfe as full-width heroes.
 // Tier 2: All remaining projects in the 2-col dynamic grid.
 const MainProjectList = ({
   id,
@@ -436,13 +437,28 @@ const MainProjectList = ({
   dotClass: string;
   projects: Project[];
 }) => {
-  const hero1   = projects[0]; // Aura
-  const hero2   = projects[1]; // Neuralyfe
-  const gridPro = projects.slice(2); // FlowPrint, Tubular, Mood Muse, …
+  const heroMoti = projects[0]; // Moti (placeholder clone of NeuraLyfe)
+  const hero1    = projects[1]; // Aura
+  const hero2    = projects[2]; // Neuralyfe
+  const gridPro  = projects.slice(3); // FlowPrint, Tubular, Mood Muse, …
 
   return (
     <section id={id} className="px-6 md:px-16 lg:px-24 pt-16">
       <SectionLabel title={sectionTitle} dotClass={dotClass} variant="primary" />
+
+      {/* ── Hero 0: Moti (styled exactly like NeuraLyfe — image right) ── */}
+      {heroMoti && (
+        <div className="mb-14 md:mb-16">
+          <ProjectCard
+            project={heroMoti}
+            projectId={heroMoti.id}
+            dotClass={dotClass}
+            globalIndex={0}
+            rowDelay={0.06}
+            imageRight
+          />
+        </div>
+      )}
 
       {/* ── Hero 1: Aura ── */}
       {hero1 && (
@@ -451,7 +467,7 @@ const MainProjectList = ({
             project={hero1}
             projectId={hero1.id}
             dotClass={dotClass}
-            globalIndex={0}
+            globalIndex={1}
             horizontal
           />
         </div>
@@ -464,7 +480,7 @@ const MainProjectList = ({
             project={hero2}
             projectId={hero2.id}
             dotClass={dotClass}
-            globalIndex={1}
+            globalIndex={2}
             rowDelay={0.06}
             imageRight
           />
@@ -477,7 +493,7 @@ const MainProjectList = ({
           <TwoColGrid
             projects={gridPro}
             dotClass={dotClass}
-            startGlobalIndex={2}
+            startGlobalIndex={3}
           />
         </div>
       )}
