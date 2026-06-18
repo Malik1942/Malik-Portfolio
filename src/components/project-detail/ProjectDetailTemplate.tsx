@@ -10,6 +10,17 @@ import { AuraDesignRequirements } from "./AuraDesignRequirements";
 import { AuraIdeationCriteria } from "./AuraIdeationCriteria";
 import { AuraTestingFindings } from "./AuraTestingFindings";
 import { AuraReflectionLearnings } from "./AuraReflectionLearnings";
+import {
+  MotiTags,
+  MotiHook,
+  MotiProblem,
+  MotiCompetitive,
+  MotiUserQuotes,
+  MotiPrinciples,
+  MotiBeforeBuilding,
+  MotiBuildJourney,
+  MotiTakeaways,
+} from "./MotiModules";
 import { MoreProjects } from "./MoreProjects";
 
 // Shared page container — all major sections align to this grid
@@ -170,6 +181,15 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "aura-ideation-criteria": <AuraIdeationCriteria />,
   "aura-testing-findings": <AuraTestingFindings />,
   "aura-reflection-learnings": <AuraReflectionLearnings />,
+  "moti-tags": <MotiTags />,
+  "moti-hook": <MotiHook />,
+  "moti-problem": <MotiProblem />,
+  "moti-competitive": <MotiCompetitive />,
+  "moti-user-quotes": <MotiUserQuotes />,
+  "moti-principles": <MotiPrinciples />,
+  "moti-before-building": <MotiBeforeBuilding />,
+  "moti-build-journey": <MotiBuildJourney />,
+  "moti-takeaways": <MotiTakeaways />,
 };
 
 function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFirst?: boolean; inlineFigures?: ProjectSectionFigure[] }) {

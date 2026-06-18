@@ -21,7 +21,8 @@ export const selectedWork = [
     signal: "Brain impact visualization for athletes and medical teams",
     description: "Making invisible brain trauma visible — before it becomes irreversible.",
     role: "Product Designer, Maker",
-    coverImage: neuralyfeCover,
+    // TODO: export from deck and add this asset
+    coverImage: "/assets/moti/app-icon.png",
     year: "2026",
     details: "Led ideation and defined the problem scope for NeuraLyfe, designing the AI-driven Impact Replay interface and contributing across both digital and physical product development.\n\nAwarded 1st Place at FigBuild 2026, recognizing the project's concept, execution, and system design.",
   },
