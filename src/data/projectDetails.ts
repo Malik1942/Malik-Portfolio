@@ -24,6 +24,7 @@ import neuralyfeReplay from "@/assets/neuralyfe-replay.mp4";
 import flowprintCover from "@/assets/flowprint-cover.png";
 import tubularCover from "@/assets/tubular-cover.jpg";
 import moodmuseCover from "@/assets/moodmuse-cover.png";
+import motiHero from "@/assets/moti-hero.png";
 
 const aura: ProjectDetailDocument = {
   slug: "aura",
@@ -195,15 +196,14 @@ const neuralyfe: ProjectDetailDocument = {
   ],
 };
 
-// Real Moti case study. Every image is a TODO slot in /assets/moti/* — the rich
-// section blocks live in ./MotiModules.tsx and render via the [[module:moti-*]] refs.
+// Real Moti case study. Imagery lives in src/assets (moti-*.png); the rich section
+// blocks live in ./MotiModules.tsx and render via the [[module:moti-*]] refs.
 const moti: ProjectDetailDocument = {
   slug: "moti",
   listSection: "Personal Project",
   title: "Moti: Plan",
   heroSummary: "An AI-Native Timeline for Real Projects",
-  // TODO: export from deck and add this asset
-  heroImage: "/assets/moti/hero.png",
+  heroImage: motiHero,
   heroImageFit: "cover",
   metaCards: [
     { label: "Role", value: "Product Designer & Builder" },
