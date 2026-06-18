@@ -25,13 +25,22 @@ import {
   Minus,
   type LucideIcon,
 } from "lucide-react";
+import motiTimelineV1 from "@/assets/moti-timelinev1.png";
+import motiVoice from "@/assets/moti-voice.png";
+import motiTimelineV2 from "@/assets/moti-timeline-v2.png";
+import motiApp from "@/assets/moti-app.png";
+import motiSlm from "@/assets/moti-slm.png";
+import motiLlm from "@/assets/moti-llm.png";
+import motiAi from "@/assets/moti-ai.png";
+import motiLlmPlan1 from "@/assets/moti-llm-plan1.png";
+import motiLlmPlan2 from "@/assets/moti-llm-plan2.png";
 
 /* ---------------------------------------------------------------------------
  * Moti case-study inline modules.
  * Reuses the existing inline-module visual language (dark #0c0c0d cards, mono
  * 01/02 numbers, lucide icons, violet/emerald/slate accents) and site tokens
  * for prose-level pieces — no new colors or fonts are introduced.
- * Every image is a TODO slot served from /assets/moti/* (public dir).
+ * Images are imported from src/assets (moti-*.png).
  * ------------------------------------------------------------------------- */
 
 type Accent = "violet" | "emerald" | "slate";
@@ -120,10 +129,10 @@ function PullQuote({ children }: { children: ReactNode }) {
 }
 
 // Single image + caption. Reuses the SectionFigure container styling.
-function MotiFigure({ src, alt, caption }: { src: string; alt: string; caption: string }) {
+// `narrow` constrains portrait phone screenshots so they don't render full-width.
+function MotiFigure({ src, alt, caption, narrow }: { src: string; alt: string; caption: string; narrow?: boolean }) {
   return (
-    <figure>
-      {/* TODO: export from deck and add this asset */}
+    <figure className={narrow ? "mx-auto w-full max-w-[300px]" : undefined}>
       <div className="overflow-hidden rounded-2xl bg-secondary/10">
         <img src={src} alt={alt} className="w-full h-auto block" />
       </div>
@@ -186,12 +195,11 @@ const hookHighlights = [
   "SLM + LLM hybrid intelligence",
   "Spec-first: full PRD before any code",
 ];
-// TODO: export from deck and add these assets (/assets/moti/*)
 const hookArtifacts = [
-  { src: "/assets/moti/timeline-workmap.png", alt: "Moti timeline work map", caption: "One continuous work map, not a flat task list" },
-  { src: "/assets/moti/voice-capture.png", alt: "Moti natural-language voice capture", caption: "Speak naturally; Moti structures the intent" },
-  { src: "/assets/moti/proactive-guidance.png", alt: "Moti proactive guidance prompt", caption: "Proactive: ‘Portfolio is slipping’ → Make space / Not this week" },
-  { src: "/assets/moti/app-icon.png", alt: "Moti: Plan app icon", caption: "Moti: Plan, live on the App Store" },
+  { src: motiTimelineV1, alt: "Moti timeline work map across projects", caption: "One continuous work map, not a flat task list" },
+  { src: motiVoice, alt: "Moti natural-language voice capture", caption: "Speak naturally; Moti structures the intent" },
+  { src: motiTimelineV2, alt: "Moti proactive guidance when a project is slipping", caption: "Proactive: ‘Portfolio is slipping’ → Make space / Not this week" },
+  { src: motiApp, alt: "Moti: Plan app icon", caption: "Moti: Plan, live on the App Store" },
 ];
 export function MotiHook() {
   return (
@@ -319,12 +327,6 @@ export function MotiBeforeBuilding() {
       <div className="flex flex-col gap-6">
         <SubHead>Define System Architecture</SubHead>
         <CardGrid items={tierItems} colsClass="grid-cols-1 sm:grid-cols-3" />
-        {/* TODO: export from deck and add these assets (/assets/moti/*) */}
-        <MotiFigure
-          src="/assets/moti/architecture-slm-llm.png"
-          alt="Moti two-stage intelligence architecture: SLM understanding feeding the LLM planner"
-          caption="Two-stage intelligence: SLM understands, LLM plans"
-        />
         <div className="rounded-2xl border border-white/[0.07] bg-[#0c0c0d] px-6 py-7 md:px-8 md:py-8">
           <p className="text-[11px] uppercase tracking-[0.16em] text-white/45 font-mono mb-3">Pipeline</p>
           <p className="text-[15px] md:text-[17px] font-light leading-relaxed text-white/80">
@@ -333,9 +335,20 @@ export function MotiBeforeBuilding() {
           </p>
         </div>
         <MotiFigure
-          src="/assets/moti/pipeline.png"
-          alt="Moti pipeline diagram from input to structured output with a feedback loop"
-          caption="Input → parse → understand → context → structured output, with a feedback loop"
+          src={motiSlm}
+          alt="Moti stage one: the SLM extracts signals, structures intent, and builds context"
+          caption="Stage one — the SLM turns raw, scattered input into structured understanding: fast, lightweight, low-latency."
+        />
+        <MotiFigure
+          src={motiLlm}
+          alt="Moti stage two: the LLM planning layer turns structured context into an adaptive plan"
+          caption="Stage two — the LLM turns that structured context into an adaptive, timeline-aware plan."
+        />
+        <MotiFigure
+          src={motiAi}
+          alt="Moti Settings screen showing the three selectable intelligence modes"
+          caption="All three modes ship in the app — rule-based, foundational model (SLM), and LLM."
+          narrow
         />
         <div className="flex flex-col gap-4 rounded-2xl border border-white/[0.07] bg-[#0c0c0d] px-6 py-7 md:px-8 md:py-8">
           <div className="flex items-center justify-between">
@@ -363,6 +376,18 @@ export function MotiBeforeBuilding() {
       <div className="flex flex-col gap-6">
         <SubHead>Define Interaction Grammar</SubHead>
         <CardGrid items={interactionItems} colsClass="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+          <MotiFigure
+            src={motiLlmPlan1}
+            alt="Moti Smart Capture asking a clarifying question about the captured intent"
+            caption="Capture in plain language; Moti asks one clarifying question to resolve intent."
+          />
+          <MotiFigure
+            src={motiLlmPlan2}
+            alt="Moti Smart Capture proposing a structured, timeline-aware task"
+            caption="Then it proposes a structured, timeline-aware task — Add to Timeline, Refine, or Dismiss."
+          />
+        </div>
       </div>
 
       {/* D — Visual Language */}
@@ -430,9 +455,6 @@ export function MotiBuildJourney() {
           { label: "Learning", text: "The interaction model worked; the intelligence layer needed to evolve." },
         ]}
       />
-      {/* TODO: export from deck and add this asset */}
-      <MotiFigure src="/assets/moti/build-v0.png" alt="Moti v0 rule-based prototype" caption="v0 — the rule-based prototype that tested the core loop" />
-
       <VersionBlock
         tag="v1"
         title="Foundational Model for Understanding"
@@ -442,9 +464,6 @@ export function MotiBuildJourney() {
         ]}
         quote="The problem wasn’t planning. It was understanding."
       />
-      {/* TODO: export from deck and add this asset */}
-      <MotiFigure src="/assets/moti/build-v1.png" alt="Moti v1 with a foundational model for understanding" caption="v1 — a foundational model to understand intent before planning" />
-
       <VersionBlock
         tag="v1.1"
         title="Constraining the Understanding Layer"
@@ -471,12 +490,6 @@ export function MotiBuildJourney() {
           </div>
         </div>
       </ModuleCard>
-      {/* TODO: export from deck and add this asset */}
-      <MotiFigure
-        src="/assets/moti/iteration-n-proactive.png"
-        alt="Moti proactive guidance surfaced during a later iteration"
-        caption="Iteration N — proactive guidance when plans start to slip"
-      />
     </div>
   );
 }
