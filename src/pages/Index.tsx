@@ -15,16 +15,15 @@ import studioWatersCover from "@/assets/studio-waters-cover.png";
 import motiCard from "@/assets/moti-card.png";
 
 export const selectedWork = [
-  // TODO: replace Neuralyfe placeholder content with Moti content
   {
     id: "moti",
     title: "Moti",
-    signal: "Brain impact visualization for athletes and medical teams",
-    description: "Making invisible brain trauma visible — before it becomes irreversible.",
-    role: "Product Designer, Maker",
+    signal: "An AI-native timeline for real projects",
+    description: "Turns messy, natural language into a living, timeline-aware plan — built and shipped solo.",
+    role: "Product Designer & Builder",
     coverImage: motiCard,
     year: "2026",
-    details: "Led ideation and defined the problem scope for NeuraLyfe, designing the AI-driven Impact Replay interface and contributing across both digital and physical product development.\n\nAwarded 1st Place at FigBuild 2026, recognizing the project's concept, execution, and system design.",
+    details: "Designed and built Moti: Plan, an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.\n\nShipped solo on the App Store on a hybrid SLM + LLM system, specified spec-first with a full PRD before any code.",
   },
   {
     id: "aura",
