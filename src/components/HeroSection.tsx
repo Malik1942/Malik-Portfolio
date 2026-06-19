@@ -78,7 +78,7 @@ const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
   }, []);
 
   return (
-    <div className="flex items-baseline gap-[8px] md:gap-[12px] text-[11px] md:text-[18px] text-mono tracking-[0.04em] leading-[1.65] max-w-[320px] md:max-w-[640px] px-6">
+    <div className="flex items-baseline gap-[8px] md:gap-[12px] text-[11px] md:text-[18px] text-mono tracking-[0.04em] leading-[1.65] max-w-[352px] md:max-w-[704px] px-6">
       {/* Prompt glyph — items-baseline keeps it on the first text line */}
       <span className="text-foreground/56 shrink-0 select-none">{'>'}</span>
       {/* Typed text + cursor */}
@@ -143,7 +143,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
         }}
         transition={{ duration: 0.7, delay: isAboutOpen ? 0 : isLoaded ? 1.2 : 0 }}
       >
-        <p className="text-[15px] text-foreground/68 font-light text-body leading-[1.55] max-w-[320px] text-center px-6">
+        <p className="text-[15px] text-foreground/68 font-light text-body leading-[1.55] max-w-[352px] text-center px-6">
           <MotiLink>{ACCENT_WORD}</MotiLink>{TERMINAL_TEXT.slice(ACCENT_WORD.length)}
         </p>
       </motion.div>
