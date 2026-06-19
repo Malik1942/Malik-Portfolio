@@ -5,6 +5,7 @@ import { scrollToProjectSection } from "@/lib/projectDetailScroll";
 import type { ProjectDetailDocument, ProjectSectionFigure, IntroBlock } from "@/types/projectDetail";
 import Footer from "@/components/Footer";
 import { AuraHardwareSystem } from "./AuraHardwareSystem";
+import { AuraHighlights } from "./AuraHighlights";
 import { AuraScenes } from "./AuraScenes";
 import { ImageLightbox, type LightboxImage } from "./ImageLightbox";
 import { AuraDesignRequirements } from "./AuraDesignRequirements";
@@ -179,6 +180,7 @@ function renderInline(text: string) {
 }
 
 const INLINE_MODULES: Record<string, React.ReactNode> = {
+  "aura-highlights": <AuraHighlights />,
   "aura-hardware": <AuraHardwareSystem />,
   "aura-scenes": <AuraScenes />,
   "aura-design-requirements": <AuraDesignRequirements />,
