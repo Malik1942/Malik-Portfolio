@@ -82,6 +82,8 @@ const CardMedia = ({
         <img
           src={project.coverImage}
           alt={project.title}
+          loading="lazy"
+          decoding="async"
           className={mediaClass}
           style={{
             transform: hovered ? "scale(1.03)" : "scale(1)",
