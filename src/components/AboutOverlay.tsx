@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { createPortal } from "react-dom";
-import profileImage from "@/assets/profile-malik.jpg";
+import profileImage from "@/assets/profile-malik.webp";
 import { ABOUT_CLUSTER_DEFS } from "@/lib/aboutClusters";
 
 // ── Cluster data — text only, particles come from DotGrid ──
@@ -209,7 +209,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
                     "radial-gradient(ellipse 85% 85% at 50% 45%, black 35%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.3) 65%, rgba(0,0,0,0.08) 78%, transparent 90%)",
                 }}
               >
-                <img src={profileImage} alt="Malik Zhang" className="w-full h-full object-cover object-top" />
+                <img src={profileImage} alt="Malik Zhang" loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
               </div>
             </motion.div>
           </motion.button>

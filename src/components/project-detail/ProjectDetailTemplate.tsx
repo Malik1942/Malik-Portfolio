@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, type MouseEvent } from "react";
 import { useInView } from "framer-motion";
 import { useSectionScrollSpy } from "@/hooks/useSectionScrollSpy";
 import { scrollToProjectSection } from "@/lib/projectDetailScroll";
@@ -6,6 +6,7 @@ import type { ProjectDetailDocument, ProjectSectionFigure, IntroBlock } from "@/
 import Footer from "@/components/Footer";
 import { AuraHardwareSystem } from "./AuraHardwareSystem";
 import { AuraScenes } from "./AuraScenes";
+import { ImageLightbox, type LightboxImage } from "./ImageLightbox";
 import { AuraDesignRequirements } from "./AuraDesignRequirements";
 import { AuraIdeationCriteria } from "./AuraIdeationCriteria";
 import { AuraTestingFindings } from "./AuraTestingFindings";
@@ -49,6 +50,7 @@ function AutoplayVideo({ src, poster }: { src: string; poster?: string }) {
         ref={ref}
         src={src}
         poster={poster}
+        preload="none"
         muted
         playsInline
         controls
@@ -84,6 +86,8 @@ function SectionFigure({ fig }: { fig: ProjectSectionFigure }) {
       <img
         src={fig.src}
         alt={fig.alt}
+        loading="lazy"
+        decoding="async"
         className="w-full h-auto block"
       />
     </figure>
@@ -288,9 +292,19 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
   const activeSectionId = useSectionScrollSpy(sectionIds);
   const hasIntroSection = project.sections.some((s) => s.subtitle);
   const hasInlineProjectMeta = project.sections.some((s) => s.showProjectMeta);
+  const [lightbox, setLightbox] = useState<LightboxImage | null>(null);
+
+  // Delegated: any case-study image opens the lightbox, except navigational
+  // thumbnails (the "More projects" cards / any linked image).
+  const handleImageClick = (e: MouseEvent<HTMLDivElement>) => {
+    const img = (e.target as HTMLElement).closest("img") as HTMLImageElement | null;
+    if (!img) return;
+    if (img.closest("a") || img.closest('[aria-label="More projects"]')) return;
+    setLightbox({ src: img.currentSrc || img.src, alt: img.alt });
+  };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" data-detail-root onClick={handleImageClick}>
 
       {/* Back */}
       <div className={`${PAGE_OUTER} pt-8 pb-0`}>
@@ -454,6 +468,8 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                         <img
                           src={s.introBlock.coverImage}
                           alt=""
+                          loading="lazy"
+                          decoding="async"
                           className={`w-full max-h-[min(74vh,840px)] min-h-[180px] ${
                             s.introBlock.coverImageFit === "cover" ? "object-cover" : "object-contain"
                           } object-center`}
@@ -515,6 +531,8 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
       </div>
 
       <Footer onMainProjectsClick={onMainProjectsClick} wide />
+
+      <ImageLightbox image={lightbox} onClose={() => setLightbox(null)} />
     </div>
   );
 }

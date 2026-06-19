@@ -144,10 +144,20 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
   const textBoundsRef = useRef({ x: 0, y: 0, w: 0, h: 0 });
   // Regions project orbs must stay out of (top nav + title cluster), in CSS pixels.
   const zonesRef = useRef<Zone[]>([]);
+  // Honor the OS "reduce motion" setting — freeze ambient star/orb motion when set.
+  const prefersReducedMotionRef = useRef(false);
 
   useEffect(() => {
     aboutModeRef.current = aboutMode;
   }, [aboutMode]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    prefersReducedMotionRef.current = mq.matches;
+    const onChange = (e: MediaQueryListEvent) => { prefersReducedMotionRef.current = e.matches; };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   useEffect(() => {
     onNameClickRef.current = onNameClick;
@@ -315,6 +325,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     const mx = mouseRef.current.x;
     const my = mouseRef.current.y;
     const time = performance.now() / 1000;
+    const reduced = prefersReducedMotionRef.current;
 
     // Transition interpolation
     const targetT = aboutModeRef.current ? 1 : 0;
@@ -340,7 +351,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     // 1. Background stars
     const starAlpha = 0.65 + 0.35 * (1 - eased);
     starsRef.current.forEach((star) => {
-      const twinkle = Math.sin(time * 2 + star.x * 0.013 + star.y * 0.009) * 0.2 + 0.8;
+      const twinkle = reduced ? 1 : Math.sin(time * 2 + star.x * 0.013 + star.y * 0.009) * 0.2 + 0.8;
       const alpha = star.opacity * twinkle * starAlpha;
 
       if (star.opacity > 0.5) {
@@ -474,7 +485,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       const G = 8;
       const minDist = 100;
 
-      for (let i = 0; i < orbs.length; i++) {
+      if (!reduced) for (let i = 0; i < orbs.length; i++) {
         for (let j = i + 1; j < orbs.length; j++) {
           const a = orbs[i];
           const b = orbs[j];
@@ -549,8 +560,10 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       }
 
       orbs.forEach((orb) => {
-        orb.x += orb.vx;
-        orb.y += orb.vy;
+        if (!reduced) {
+          orb.x += orb.vx;
+          orb.y += orb.vy;
+        }
 
         // Viewport containment — the bottom is now fully usable (nav moved up,
         // so the old h * 0.82 bottom exclusion is gone).
@@ -563,25 +576,27 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         repelOrbFromZones(orb, zonesRef.current, w, h, true);
 
         const isAI = orb.color === "gold";
-        const driftAmt = isAI ? 0.008 : 0.004;
-        orb.vx += (Math.random() - 0.5) * driftAmt;
-        orb.vy += (Math.random() - 0.5) * driftAmt;
+        if (!reduced) {
+          const driftAmt = isAI ? 0.008 : 0.004;
+          orb.vx += (Math.random() - 0.5) * driftAmt;
+          orb.vy += (Math.random() - 0.5) * driftAmt;
 
-        const maxSpeed = isAI ? 0.28 : 0.18;
-        const speed = Math.sqrt(orb.vx * orb.vx + orb.vy * orb.vy);
-        if (speed > maxSpeed) {
-          orb.vx = (orb.vx / speed) * maxSpeed;
-          orb.vy = (orb.vy / speed) * maxSpeed;
+          const maxSpeed = isAI ? 0.28 : 0.18;
+          const speed = Math.sqrt(orb.vx * orb.vx + orb.vy * orb.vy);
+          if (speed > maxSpeed) {
+            orb.vx = (orb.vx / speed) * maxSpeed;
+            orb.vy = (orb.vy / speed) * maxSpeed;
+          }
+
+          orb.vx *= isAI ? 0.996 : 0.993;
+          orb.vy *= isAI ? 0.996 : 0.993;
         }
-
-        orb.vx *= isAI ? 0.996 : 0.993;
-        orb.vy *= isAI ? 0.996 : 0.993;
 
         const col = orb.color === "red" ? RED : GOLD;
         const breathSpeed = isAI ? 1.2 : 0.6;
         const breathAmp = isAI ? 0.2 : 0.12;
-        const breath = 1 - breathAmp / 2 + Math.sin(time * breathSpeed + orb.mass * 3) * breathAmp;
-        const opacityBreath = 0.85 + Math.sin(time * breathSpeed * 0.7 + orb.mass * 2) * 0.15;
+        const breath = reduced ? 1 : 1 - breathAmp / 2 + Math.sin(time * breathSpeed + orb.mass * 3) * breathAmp;
+        const opacityBreath = reduced ? 1 : 0.85 + Math.sin(time * breathSpeed * 0.7 + orb.mass * 2) * 0.15;
 
         const orbDx = mx - orb.x;
         const orbDy = my - orb.y;
@@ -764,6 +779,8 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
   return (
     <canvas
       ref={canvasRef}
+      aria-hidden="true"
+      tabIndex={-1}
       className="absolute inset-0 w-full h-full"
       style={{ display: "block" }}
     />

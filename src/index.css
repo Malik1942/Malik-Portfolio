@@ -273,6 +273,16 @@ body.loaded .animate-line-reveal { animation-play-state: running; }
   cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Ccircle cx='4' cy='4' r='3.5' fill='white' fill-opacity='.85'/%3E%3C/svg%3E") 4 4, pointer;
 }
 
+/* Project-detail images expand in a lightbox on click (see ImageLightbox).
+   Navigational thumbnails (project cards / linked images) keep the pointer cursor. */
+[data-detail-root] img {
+  cursor: zoom-in;
+}
+[data-detail-root] a img,
+[data-detail-root] [aria-label="More projects"] img {
+  cursor: pointer;
+}
+
 /* Smooth scroll */
 html {
   scroll-behavior: smooth;

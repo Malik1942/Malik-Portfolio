@@ -113,6 +113,8 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
 
   return (
     <section className="relative w-full h-screen overflow-hidden bg-background">
+      {/* Accessible page heading — the visible name is canvas pixels (aria-hidden). */}
+      <h1 className="sr-only">Malik Zhang — Product Designer</h1>
       <DotGrid aboutMode={isAboutOpen} onNameClick={onAboutClick} />
       <AboutOverlay isVisible={isAboutOpen} onBack={onAboutBack} />
 

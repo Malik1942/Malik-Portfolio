@@ -72,6 +72,7 @@ export function AuraScenes() {
           src={scenes[current]}
           muted
           playsInline
+          preload="none"
           onEnded={handleEnded}
           onCanPlay={handleCanPlay}
           className="w-full h-auto block"
