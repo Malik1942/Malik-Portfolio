@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { X } from "lucide-react";
 
 export interface LightboxImage {
   src: string;
@@ -54,13 +55,11 @@ export function ImageLightbox({ image, onClose }: ImageLightboxProps) {
           <button
             ref={closeRef}
             type="button"
-            aria-label="Close expanded image"
             onClick={onClose}
-            className="absolute top-5 right-5 md:top-7 md:right-7 flex items-center justify-center w-10 h-10 rounded-full text-foreground/70 hover:text-foreground hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 transition-colors"
+            className="absolute top-5 right-5 z-[101] flex h-10 w-10 items-center justify-center rounded-full text-foreground/55 transition-colors duration-300 hover:text-foreground cursor-pointer"
+            aria-label="Close expanded image"
           >
-            <svg aria-hidden="true" viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <X className="h-4 w-4" />
           </button>
 
           <motion.img
