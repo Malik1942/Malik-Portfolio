@@ -1,6 +1,6 @@
-import auraBud1 from "@/assets/aura-bud-1.webp";
-import auraBud2 from "@/assets/aura-bud-2.webp";
-import auraBud3 from "@/assets/aura-bud-3.mp4";
+import auraBud1 from "@/assets/aura-bud-1.png";
+import auraBud2 from "@/assets/aura-bud-2.png";
+import auraBud3 from "@/assets/aura-bud-3.gif";
 
 const features = [
   { label: "Sense",   desc: "HR, HRV, motion, proximity" },
@@ -36,7 +36,7 @@ export function AuraHardwareSystem() {
               <img src={auraBud2} alt="Aura Buds detail" loading="lazy" decoding="async" className="w-full h-auto block" />
             </div>
             <div className="overflow-hidden rounded-lg bg-secondary/[0.07]">
-              <video src={auraBud3} autoPlay loop muted playsInline preload="metadata" aria-label="Aura Buds interaction" className="w-full h-auto block" />
+              <img src={auraBud3} alt="Aura Buds interaction" loading="lazy" decoding="async" className="w-full h-auto block" />
             </div>
           </div>
         </div>

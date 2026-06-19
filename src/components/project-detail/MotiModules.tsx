@@ -25,15 +25,15 @@ import {
   Minus,
   type LucideIcon,
 } from "lucide-react";
-import motiTimelineV1 from "@/assets/moti-timelinev1.webp";
-import motiVoice from "@/assets/moti-voice.webp";
-import motiTimelineV2 from "@/assets/moti-timeline-v2.webp";
-import motiApp from "@/assets/moti-app.webp";
-import motiSlm from "@/assets/moti-slm.webp";
-import motiLlm from "@/assets/moti-llm.webp";
-import motiAi from "@/assets/moti-ai.webp";
-import motiLlmPlan1 from "@/assets/moti-llm-plan1.webp";
-import motiLlmPlan2 from "@/assets/moti-llm-plan2.webp";
+import motiTimelineV1 from "@/assets/moti-timelinev1.png";
+import motiVoice from "@/assets/moti-voice.png";
+import motiTimelineV2 from "@/assets/moti-timeline-v2.png";
+import motiApp from "@/assets/moti-app.png";
+import motiSlm from "@/assets/moti-slm.png";
+import motiLlm from "@/assets/moti-llm.png";
+import motiAi from "@/assets/moti-ai.png";
+import motiLlmPlan1 from "@/assets/moti-llm-plan1.png";
+import motiLlmPlan2 from "@/assets/moti-llm-plan2.png";
 
 /* ---------------------------------------------------------------------------
  * Moti case-study inline modules.

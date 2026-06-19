@@ -5,14 +5,14 @@ import ProjectList from "@/components/ProjectList";
 import Footer from "@/components/Footer";
 import AboutDeepContent from "@/components/AboutDeepContent";
 import { PageTransition } from "@/components/PageTransition";
-import auraCover from "@/assets/aura-cover.webp";
-import neuralyfeCover from "@/assets/neuralyfe-cover.webp";
-import flowprintCover from "@/assets/flowprint-cover.webp";
-import tubularCover from "@/assets/tubular-cover.webp";
-import moodmuseCover from "@/assets/moodmuse-cover.webp";
-import inspireoceanCover from "@/assets/inspireocean-cover.webp";
-import studioWatersCover from "@/assets/studio-waters-cover.webp";
-import motiCard from "@/assets/moti-card.webp";
+import auraCover from "@/assets/aura-cover.png";
+import neuralyfeCover from "@/assets/neuralyfe-cover.png";
+import flowprintCover from "@/assets/flowprint-cover.png";
+import tubularCover from "@/assets/tubular-cover.jpg";
+import moodmuseCover from "@/assets/moodmuse-cover.png";
+import inspireoceanCover from "@/assets/inspireocean-cover.png";
+import studioWatersCover from "@/assets/studio-waters-cover.png";
+import motiCard from "@/assets/moti-card.png";
 
 export const selectedWork = [
   {
