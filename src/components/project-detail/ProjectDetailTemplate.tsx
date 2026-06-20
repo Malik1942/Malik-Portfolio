@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { AuraHardwareSystem } from "./AuraHardwareSystem";
 import { AuraHighlights } from "./AuraHighlights";
 import { AuraScenes } from "./AuraScenes";
+import { NeuraLyfeHighlights } from "./NeuraLyfeHighlights";
 import { ImageLightbox, type LightboxImage } from "./ImageLightbox";
 import { AuraDesignRequirements } from "./AuraDesignRequirements";
 import { AuraIdeationCriteria } from "./AuraIdeationCriteria";
@@ -181,6 +182,7 @@ function renderInline(text: string) {
 
 const INLINE_MODULES: Record<string, React.ReactNode> = {
   "aura-highlights": <AuraHighlights />,
+  "neuralyfe-highlights": <NeuraLyfeHighlights />,
   "aura-hardware": <AuraHardwareSystem />,
   "aura-scenes": <AuraScenes />,
   "aura-design-requirements": <AuraDesignRequirements />,

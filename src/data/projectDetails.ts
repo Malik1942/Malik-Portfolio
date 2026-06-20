@@ -153,6 +153,11 @@ const neuralyfe: ProjectDetailDocument = {
       body: "NeuraLyfe is a sideline decision-support system designed to help football medical staff identify brain-impact risk before it becomes irreversible.\n\nThe project addresses Chronic Traumatic Encephalopathy (CTE): a degenerative brain condition linked to repeated head impacts. CTE is difficult to detect because the damage accumulates gradually, often without visible symptoms, and cannot be confirmed until after death.\n\nMy role was to help frame the problem, shape the product logic, design the core interaction system, and prototype the experience in Figma and Figma Make. I focused on turning simulated helmet data into a sideline workflow that medical staff could understand and act on under pressure.\n\n**NeuraLyfe was awarded 1st Place at FigBuild 2026, recognized for its concept, execution, and system design.**",
     },
     {
+      id: "highlights",
+      label: "Highlights",
+      body: "**Turning raw helmet-sensor signals into fast, confident sideline decisions — catching cumulative brain risk before symptoms appear.**\n\n[[module:neuralyfe-highlights]]",
+    },
+    {
       id: "situation",
       label: "Situation",
       body: "## The problem with cumulative damage\n\nFootball players can take thousands of hits across a career. Most are not immediately dangerous. But repeated sub-concussive impacts, the ones that feel manageable in the moment, are strongly linked to long-term brain damage.\n\nThe challenge for sideline medical staff is that this damage is hard to see. Current evaluations rely on visible symptoms: confusion, balance issues, slowed reactions. By the time those appear, the neurological impact may already be significant.\n\nThere is a clear gap. Medical staff need more than a post-symptom check. They need a way to track cumulative impact as it builds, so they can make earlier, better-informed decisions.",
