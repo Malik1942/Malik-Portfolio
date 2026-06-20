@@ -6,6 +6,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "@/components/ErrorBoundary";
+// Vite + React Router app → use the /react entry (not /next).
+import { Analytics } from "@vercel/analytics/react";
 import Index from "./pages/Index.tsx";
 
 // Code-split the heavier secondary routes so the landing page doesn't ship them.
@@ -50,6 +52,7 @@ const App = () => (
         <ErrorBoundary>
           <AnimatedRoutes />
         </ErrorBoundary>
+        <Analytics />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
