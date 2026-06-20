@@ -1,7 +1,7 @@
 import auraScene4 from "@/assets/aura-scene-4.png";
 import auraBud1 from "@/assets/aura-bud-1.png";
 import auraApp1 from "@/assets/Aura-app-1.png";
-import auraBud2 from "@/assets/aura-bud-2.png";
+import auraSystem1 from "@/assets/aura-system-1.png";
 import { Chips, PullQuote } from "./MotiModules";
 
 // Aura's case-study hook — mirrors Moti's hook (highlight chips → pull-quote →
@@ -31,9 +31,9 @@ const artifacts = [
     caption: "The app — quiet preparation and at-a-glance status",
   },
   {
-    src: auraBud2,
-    alt: "Aura Buds detail",
-    caption: "Familiar enough for travel, with a reason to exist beyond earbuds",
+    src: auraSystem1,
+    alt: "Aura system architecture",
+    caption: "The adaptive system — sensing, prediction, and support working as one",
   },
 ];
 
