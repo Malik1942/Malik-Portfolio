@@ -84,7 +84,7 @@ function SectionFigure({ fig }: { fig: ProjectSectionFigure }) {
     );
   }
   return (
-    <figure className="overflow-hidden rounded-2xl bg-secondary/10">
+    <figure className={`overflow-hidden rounded-2xl bg-secondary/10${fig.tall ? " mx-auto max-w-[560px]" : ""}`}>
       <img
         src={fig.src}
         alt={fig.alt}
