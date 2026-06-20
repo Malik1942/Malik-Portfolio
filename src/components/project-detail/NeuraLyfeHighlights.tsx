@@ -34,7 +34,7 @@ function NeuraLyfeArtifact({ src, label, caption }: { src: string; label: string
           playsInline
           preload="metadata"
           aria-label={label}
-          className="w-full h-full object-contain object-center"
+          className="w-full h-full object-cover object-center"
         />
       </div>
       <figcaption className="mt-3 text-[13px] md:text-[14px] text-foreground/55 text-body leading-relaxed">
