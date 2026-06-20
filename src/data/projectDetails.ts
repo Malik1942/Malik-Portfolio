@@ -168,7 +168,7 @@ const neuralyfe: ProjectDetailDocument = {
       label: "Situation",
       body: "## The problem with cumulative damage\n\nFootball players take thousands of hits across a career. Most feel manageable in the moment — but repeated sub-concussive impacts are strongly linked to long-term brain damage.\n\n[[fig:0]]\n\nThe damage is hard to see. Sideline evaluations rely on visible symptoms — confusion, balance, slowed reactions — and by the time those appear, the neurological impact may already be significant.\n\n**Medical staff need to track cumulative impact as it builds, not just react once symptoms show.**",
       figures: [
-        { type: "image", src: neuralyfeDeckHits, alt: "Repeated sub-concussive hits accumulate into long-term brain damage", tall: true },
+        { type: "image", src: neuralyfeDeckHits, alt: "Repeated sub-concussive hits accumulate into long-term brain damage" },
       ],
     },
     {
@@ -176,7 +176,7 @@ const neuralyfe: ProjectDetailDocument = {
       label: "Research",
       body: "## Where the detection gap is\n\nExisting helmet sensors capture **force** — but force alone doesn't tell you how the brain responded. The signal that matters, cumulative neurological stress, goes unmeasured.\n\n[[fig:0]]\n\nSideline checks are also triggered too late: by a visible hit or stumble, when the window for early intervention may already have passed.\n\n**The opportunity: track cumulative brain-impact risk as it builds, not just flag individual hits.**",
       figures: [
-        { type: "image", src: neuralyfeDeckIndex, alt: "The CTE Progression Index combines biomarkers — p-Tau 217, NfL, GFAP — into a cumulative risk signal", tall: true },
+        { type: "image", src: neuralyfeDeckIndex, alt: "The CTE Progression Index combines biomarkers — p-Tau 217, NfL, GFAP — into a cumulative risk signal" },
       ],
     },
     {
@@ -184,7 +184,7 @@ const neuralyfe: ProjectDetailDocument = {
       label: "Design Challenge",
       body: "## From complex data to fast decisions\n\nThe core problem wasn't technical — it was interpretive. Brain activity, cumulative impact, affected regions, and biomarker signals are hard to read in real time. Show too much and it overwhelms; simplify too much and it loses credibility.\n\n[[fig:0]]\n\nThe system had to surface the most urgent information first, support fast triage, and let staff go deeper only when needed.\n\n**The question I kept returning to: what does a sideline medic need to know in the next five seconds?**",
       figures: [
-        { type: "image", src: neuralyfeDeckProof, alt: "Sideline doctors need proof, not suspicion", tall: true },
+        { type: "image", src: neuralyfeDeckProof, alt: "Sideline doctors need proof, not suspicion" },
       ],
     },
     {
@@ -192,7 +192,7 @@ const neuralyfe: ProjectDetailDocument = {
       label: "System Direction",
       body: "## Two layers working together\n\n**Halo** is a helmet add-on that captures impact and physiological signals during play — without replacing equipment teams already trust. It carries three sensing layers: EEG for brain connectivity, biomarker sensors for early neurological stress (p-Tau 217, NfL, GFAP), and an impact camera that reconstructs hits.\n\n[[fig:0]]\n\n**The sideline interface** turns those signals into a decision workflow, structured around three questions: who needs attention, what's happening in their brain, and what caused it.\n\n**The core logic: the interface is only as useful as the signals behind it — and the hardware only as useful as the interface that makes sense of it.**",
       figures: [
-        { type: "image", src: neuralyfeDeckHalo, alt: "NeuraLyfe Halo turns any helmet into a brain-health sensor with EEG, biomarker, and impact-camera sensing", tall: true },
+        { type: "image", src: neuralyfeDeckHalo, alt: "NeuraLyfe Halo turns any helmet into a brain-health sensor with EEG, biomarker, and impact-camera sensing" },
       ],
     },
     {
@@ -200,7 +200,7 @@ const neuralyfe: ProjectDetailDocument = {
       label: "Design Process",
       body: "## Building the decision flow\n\nMedical staff can't explore data mid-game, so the interface had to support fast triage first and deeper inspection only when needed. That led to a three-level structure:\n\n· **Roster View** — scan risk across the whole team at a glance\n· **Brain View** — inspect where neurological stress is building\n· **Impact Replay** — trace a high-risk alert back to the exact play\n\n[[fig:0]]\n\nI prototyped in Figma and Figma Make with simulated sensor data, pressure-testing one question throughout: could a staff member move from first alert to informed decision in a few seconds?",
       figures: [
-        { type: "image", src: neuralyfeDeckViews, alt: "From impact data to medical decisions in three views: Roster, Brain, and Impact Replay", tall: true },
+        { type: "image", src: neuralyfeDeckViews, alt: "From impact data to medical decisions in three views: Roster, Brain, and Impact Replay" },
       ],
     },
     {
@@ -219,7 +219,7 @@ const neuralyfe: ProjectDetailDocument = {
       label: "Impact",
       body: "NeuraLyfe makes a clear claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\nMy contribution was translating that claim into a working prototype — framing the problem, shaping the product logic, defining the three core views, and building the system in Figma and Figma Make. The result shows how a sideline team moves from a raw impact alert to a confident decision: scan the roster, inspect brain stress, trace the risk to the play, and act before damage becomes irreversible.\n\n**NeuraLyfe was awarded 1st Place at FigBuild 2026 — recognized for its concept, execution, and system design.**",
       figures: [
-        { type: "image", src: neuralyfeDeckScenario, alt: "In a live scenario, a player's frontal lobe hits critical levels and his card turns red", tall: true },
+        { type: "image", src: neuralyfeDeckScenario, alt: "In a live scenario, a player's frontal lobe hits critical levels and his card turns red" },
       ],
     },
     {
