@@ -102,7 +102,7 @@ function CardGrid({ items, header, colsClass }: { items: GridItem[]; header?: st
 }
 
 // Pill chips (tags + highlights). Site tokens, rounded-full.
-function Chips({ items }: { items: string[] }) {
+export function Chips({ items }: { items: string[] }) {
   return (
     <div className="flex flex-wrap gap-2.5">
       {items.map((c) => (
@@ -118,7 +118,7 @@ function Chips({ items }: { items: string[] }) {
 }
 
 // Pull-quote — reuses the display font + foreground tokens.
-function PullQuote({ children }: { children: ReactNode }) {
+export function PullQuote({ children }: { children: ReactNode }) {
   return (
     <blockquote className="border-l-2 border-foreground/20 pl-6 md:pl-8">
       <p className="text-[22px] md:text-[32px] font-light leading-[1.3] tracking-[-0.01em] text-foreground/90 text-display">
@@ -144,7 +144,7 @@ function MotiFigure({ src, alt, caption, narrow }: { src: string; alt: string; c
 }
 
 // Image + caption grid (final-artifact gallery).
-function ArtifactGallery({ items }: { items: { src: string; alt: string; caption: string }[] }) {
+export function ArtifactGallery({ items }: { items: { src: string; alt: string; caption: string }[] }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
       {items.map((it) => (
