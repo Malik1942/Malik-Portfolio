@@ -24,11 +24,13 @@ const artifacts = [
     src: auraBud1,
     alt: "Aura Buds product render",
     caption: "Aura Buds — sensing and 100 Hz audio in a familiar form",
+    contain: true,
   },
   {
     src: auraApp1,
     alt: "Aura app interface showing setup, trip context, support preferences, and at-a-glance status",
     caption: "The app — quiet preparation and at-a-glance status",
+    contain: true,
   },
   {
     src: auraSystem1,
@@ -37,7 +39,7 @@ const artifacts = [
   },
 ];
 
-function AuraArtifact({ src, alt, caption }: { src: string; alt: string; caption: string }) {
+function AuraArtifact({ src, alt, caption, contain }: { src: string; alt: string; caption: string; contain?: boolean }) {
   return (
     <figure>
       <div className="overflow-hidden rounded-2xl bg-secondary/10 aspect-video">
@@ -46,7 +48,7 @@ function AuraArtifact({ src, alt, caption }: { src: string; alt: string; caption
           alt={alt}
           loading="lazy"
           decoding="async"
-          className="w-full h-full object-cover object-center"
+          className={`w-full h-full object-center ${contain ? "object-contain" : "object-cover"}`}
         />
       </div>
       <figcaption className="mt-3 text-[13px] md:text-[14px] text-foreground/55 text-body leading-relaxed">
