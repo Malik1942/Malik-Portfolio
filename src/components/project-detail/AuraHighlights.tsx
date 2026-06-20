@@ -1,12 +1,12 @@
-import auraCover from "@/assets/aura-cover.png";
+import auraScene4 from "@/assets/aura-scene-4.png";
 import auraBud1 from "@/assets/aura-bud-1.png";
 import auraApp1 from "@/assets/Aura-app-1.png";
 import auraBud2 from "@/assets/aura-bud-2.png";
-import { Chips, PullQuote, ArtifactGallery } from "./MotiModules";
+import { Chips, PullQuote } from "./MotiModules";
 
 // Aura's case-study hook — mirrors Moti's hook (highlight chips → pull-quote →
-// artifact gallery), reusing the same primitives. No App Store CTA: Aura is a
-// speculative concept, not a shipped product. Copy is drawn from Aura's own text.
+// artifact gallery). Copy is drawn from Aura's own text. The gallery uses its own
+// uniform 16:9 frames (object-cover) so every artifact is the same size and ratio.
 const highlights = [
   "Proactive, not reactive",
   "Sense → predict → support",
@@ -16,8 +16,8 @@ const highlights = [
 
 const artifacts = [
   {
-    src: auraCover,
-    alt: "Aura in-flight: earbuds and companion app supporting a motion-sensitive traveler",
+    src: auraScene4,
+    alt: "Aura in-flight support scene",
     caption: "Proactive support, in the moment it matters most",
   },
   {
@@ -37,12 +37,35 @@ const artifacts = [
   },
 ];
 
+function AuraArtifact({ src, alt, caption }: { src: string; alt: string; caption: string }) {
+  return (
+    <figure>
+      <div className="overflow-hidden rounded-2xl bg-secondary/10 aspect-video">
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover object-center"
+        />
+      </div>
+      <figcaption className="mt-3 text-[13px] md:text-[14px] text-foreground/55 text-body leading-relaxed">
+        {caption}
+      </figcaption>
+    </figure>
+  );
+}
+
 export function AuraHighlights() {
   return (
     <div className="flex flex-col gap-10 md:gap-12">
       <Chips items={highlights} />
       <PullQuote>If Aura waited until you felt sick, it was already too late.</PullQuote>
-      <ArtifactGallery items={artifacts} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+        {artifacts.map((a) => (
+          <AuraArtifact key={a.src} {...a} />
+        ))}
+      </div>
     </div>
   );
 }
