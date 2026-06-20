@@ -46,7 +46,12 @@ const aura: ProjectDetailDocument = {
       label: "Intro",
       headline: "An invisible problem that starts before symptoms",
       showProjectMeta: true,
-      body: "[[module:aura-highlights]]\n\n**For motion-sensitive travelers, discomfort often starts before they consciously recognize it.**\n\nAura explores a more proactive approach to motion-sickness support: sensing early physiological and motion signals, predicting risk, and delivering subtle audio guidance before symptoms escalate.\n\nAs a product and industrial designer on a 5-person team, I helped translate this invisible problem into a coherent hardware and software system, shaping the product logic, physical prototype, app experience, and interaction flow.",
+      body: "**For motion-sensitive travelers, discomfort often starts before they consciously recognize it.**\n\nAura explores a more proactive approach to motion-sickness support: sensing early physiological and motion signals, predicting risk, and delivering subtle audio guidance before symptoms escalate.\n\nAs a product and industrial designer on a 5-person team, I helped translate this invisible problem into a coherent hardware and software system, shaping the product logic, physical prototype, app experience, and interaction flow.",
+    },
+    {
+      id: "highlights",
+      label: "Highlights",
+      body: "**Aura treats motion sickness as a timing problem — sensing early signals and intervening with calm audio before discomfort takes hold.**\n\n[[module:aura-highlights]]",
     },
     {
       id: "situation",
