@@ -14,6 +14,7 @@ import Index from "./pages/Index.tsx";
 const Resume = lazy(() => import("./pages/Resume.tsx"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail.tsx"));
 const OryneSupport = lazy(() => import("./pages/OryneSupport.tsx"));
+const OrynePrivacy = lazy(() => import("./pages/OrynePrivacy.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ function AnimatedRoutes() {
           <Route path="/resume" element={<Resume />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/oryne/support" element={<OryneSupport />} />
+          <Route path="/oryne/privacy" element={<OrynePrivacy />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

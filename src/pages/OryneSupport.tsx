@@ -255,6 +255,20 @@ const OryneSupport = () => {
               {SUPPORT_EMAIL}
             </a>
           </section>
+
+          {/* Cross-link to the privacy policy */}
+          <div className="mt-14 md:mt-16 pt-8 border-t border-border">
+            <p className="text-sm text-body text-foreground/52">
+              Read how Oryne handles your data in our{" "}
+              <a
+                href="/oryne/privacy"
+                className="nav-link text-foreground/80 hover:text-foreground transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm"
+              >
+                Privacy Policy
+              </a>
+              .
+            </p>
+          </div>
         </div>
       </main>
 
