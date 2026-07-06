@@ -52,7 +52,7 @@ export const selectedWork = [
     role: "Lead Product Designer",
     coverImage: flowprintCover,
     coverFit: "contain" as const,
-    year: "2026",
+    year: "2025",
     details: "Led product design for a consumer 3D printing experience that reduced setup time from 1 hours to 15 minutes.\n\nDesigned onboarding flows, real-time print monitoring UI, and a material recommendation engine.",
   },
   {
@@ -70,7 +70,7 @@ export const selectedWork = [
     description: "An emotional expression aid designed for autistic children.",
     role: "Product Designer",
     coverImage: moodmuseCover,
-    year: "2026",
+    year: "2024",
     details: "A system that helps children externalize and communicate their internal emotional states through intuitive interactions, reducing frustration and enabling clearer social connection.",
   },
 ];
