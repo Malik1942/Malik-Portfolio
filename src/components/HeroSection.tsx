@@ -14,7 +14,7 @@ interface HeroSectionProps {
 
 // ── Terminal one-liner ──────────────────────────────────────────────────────
 const TERMINAL_TEXT =
-  "AI-native product designer. I look past the obvious symptom to the real problem, then build real products that turn messy human intent into clear, steerable tools.";
+  "AI-native product designer. I find the real problem, decide where AI belongs, and build it end to end.";
 
 // The leading word "AI-native" is a subtle Easter-egg link to the Moti project.
 // It inherits the subtitle's exact styling and only reveals itself on hover/focus,
