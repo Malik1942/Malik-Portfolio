@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { createPortal } from "react-dom";
-import profileImage from "@/assets/profile-malik.jpg";
+import profileImage from "@/assets/profile-malik.webp";
 import { ABOUT_CLUSTER_DEFS } from "@/lib/aboutClusters";
 
 // ── Cluster data — text only, particles come from DotGrid ──

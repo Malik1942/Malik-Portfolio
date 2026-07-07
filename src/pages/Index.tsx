@@ -5,14 +5,14 @@ import ProjectList from "@/components/ProjectList";
 import Footer from "@/components/Footer";
 import AboutDeepContent from "@/components/AboutDeepContent";
 import { PageTransition } from "@/components/PageTransition";
-import auraCover from "@/assets/aura-cover.png";
-import neuralyfeCover from "@/assets/neuralyfe-cover.png";
-import flowprintCover from "@/assets/flowprint-cover.png";
-import tubularCover from "@/assets/tubular-cover.jpg";
-import moodmuseCover from "@/assets/moodmuse-cover.png";
-import inspireoceanCover from "@/assets/inspireocean-cover.png";
-import studioWatersCover from "@/assets/studio-waters-cover.png";
-import motiCard from "@/assets/moti-card.png";
+import auraCover from "@/assets/aura-cover.webp";
+import neuralyfeCover from "@/assets/neuralyfe-cover.webp";
+import flowprintCover from "@/assets/flowprint-cover.webp";
+import tubularCover from "@/assets/tubular-cover.webp";
+import moodmuseCover from "@/assets/moodmuse-cover.webp";
+import inspireoceanCover from "@/assets/inspireocean-cover.webp";
+import studioWatersCover from "@/assets/studio-waters-cover.webp";
+import motiCard from "@/assets/moti-card.webp";
 
 export const selectedWork = [
   {
@@ -48,16 +48,18 @@ export const selectedWork = [
   {
     id: "flowprint",
     title: "FlowPrint",
+    wip: true,
     description: "A frictionless 3D printing system that removes complexity for beginners.",
     role: "Lead Product Designer",
     coverImage: flowprintCover,
     coverFit: "contain" as const,
     year: "2025",
-    details: "Led product design for a consumer 3D printing experience that reduced setup time from 1 hours to 15 minutes.\n\nDesigned onboarding flows, real-time print monitoring UI, and a material recommendation engine.",
+    details: "Led product design for a consumer 3D printing experience, designing a target journey that cuts setup from about an hour to 15 minutes.\n\nDesigned onboarding flows, real-time print monitoring UI, and a material recommendation engine.",
   },
   {
     id: "tubular",
     title: "Tubular",
+    wip: true,
     description: "Defy gravity. Shape the path.",
     role: "Product Designer, Maker",
     coverImage: tubularCover,
@@ -67,6 +69,7 @@ export const selectedWork = [
   {
     id: "moodmuse",
     title: "Mood Muse",
+    wip: true,
     description: "An emotional expression aid designed for autistic children.",
     role: "Product Designer",
     coverImage: moodmuseCover,

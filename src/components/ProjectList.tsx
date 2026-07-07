@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRef, useState, type ReactNode } from "react";
+import { Link } from "react-router-dom";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -16,6 +16,8 @@ export interface Project {
   details?: string;
   externalUrl?: string;
   builtWith?: string;
+  /** Case study still in development: card stays visible but is not clickable. */
+  wip?: boolean;
 }
 
 interface ProjectListProps {
@@ -102,6 +104,11 @@ const CardMedia = ({
         animate={{ opacity: hovered ? 1 : 0 }}
         transition={{ duration: 0.35 }}
       />
+      {project.wip ? (
+        <span className="absolute left-3 top-3 z-10 rounded-full border border-border/50 bg-background/75 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-foreground/70 text-body backdrop-blur-sm">
+          In Progress
+        </span>
+      ) : null}
     </div>
   );
 };
@@ -131,18 +138,42 @@ export const ProjectCard = ({
   horizontal?: boolean;
   imageRight?: boolean;
 }) => {
-  const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
   const isMobile = useIsMobile();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
 
-  const handleClick = () => {
-    if (project.externalUrl) {
-      window.open(project.externalUrl, "_blank", "noopener,noreferrer");
-    } else if (projectId) {
-      navigate(`/project/${projectId}`);
+  // WIP cards stay visible but non-interactive: no link, no pointer, no hover lift.
+  const isWip = !!project.wip;
+  const cursorClass = isWip ? "cursor-default" : "cursor-pointer";
+  const handleEnter = () => { if (!isWip) setHovered(true); };
+  const handleLeave = () => { if (!isWip) setHovered(false); };
+
+  // Real link wrapper so cards are keyboard-focusable and open like any anchor
+  // (middle-click, cmd-click, screen-reader announcement). WIP cards fall through
+  // to a plain div until their case study is ready.
+  const focusRing =
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/60 focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-2xl";
+  const CardLink = ({ className, children }: { className: string; children: ReactNode }) => {
+    const cls = `${className} ${focusRing}`;
+    if (isWip) {
+      return <div className={className}>{children}</div>;
     }
+    if (project.externalUrl) {
+      return (
+        <a href={project.externalUrl} target="_blank" rel="noopener noreferrer" className={cls}>
+          {children}
+        </a>
+      );
+    }
+    if (projectId) {
+      return (
+        <Link to={`/project/${projectId}`} className={cls}>
+          {children}
+        </Link>
+      );
+    }
+    return <div className={className}>{children}</div>;
   };
 
   // ── Vertical card text (grid cards) ──
@@ -272,14 +303,14 @@ export const ProjectCard = ({
           delay: rowDelay + globalIndex * 0.1,
           opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
         }}
-        className={`cursor-pointer group flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}
-        onClick={handleClick}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        data-clickable="true"
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
+        data-clickable={isWip ? undefined : "true"}
       >
-        {imageRight ? textCol : imageCol}
-        {imageRight ? imageCol : textCol}
+        <CardLink className={`${cursorClass} group flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}>
+          {imageRight ? textCol : imageCol}
+          {imageRight ? imageCol : textCol}
+        </CardLink>
       </motion.div>
     );
   }
@@ -296,15 +327,15 @@ export const ProjectCard = ({
         delay: rowDelay + globalIndex * 0.1,
         opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
       }}
-      className="cursor-pointer group flex flex-col"
       style={maxWidth ? { maxWidth } : undefined}
-      onClick={handleClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      data-clickable="true"
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      data-clickable={isWip ? undefined : "true"}
     >
-      <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
-      <div className="flex flex-col">{textBlock()}</div>
+      <CardLink className={`${cursorClass} group flex flex-col`}>
+        <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
+        <div className="flex flex-col">{textBlock()}</div>
+      </CardLink>
     </motion.div>
   );
 };

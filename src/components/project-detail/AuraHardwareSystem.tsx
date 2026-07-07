@@ -1,6 +1,6 @@
-import auraBud1 from "@/assets/aura-bud-1.png";
-import auraBud2 from "@/assets/aura-bud-2.png";
-import auraBud3 from "@/assets/aura-bud-3.gif";
+import auraBud1 from "@/assets/aura-bud-1.webp";
+import auraBud2 from "@/assets/aura-bud-2.webp";
+import auraBud3 from "@/assets/aura-bud-3.webp";
 
 const features = [
   { label: "Sense",   desc: "HR, HRV, motion, proximity" },

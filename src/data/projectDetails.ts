@@ -1,36 +1,36 @@
 import type { ProjectDetailDocument } from "@/types/projectDetail";
-import auraCover from "@/assets/aura-cover.png";
-import studioWatersCover from "@/assets/studio-waters-cover.png";
-import auraDetail1 from "@/assets/aura-detail-1.png";
-import auraDiscovery1 from "@/assets/aura-discovery-1.png";
-import auraResearch1 from "@/assets/aura-research-1.png";
-import auraResearch2 from "@/assets/aura-research-2.png";
-import auraResearch3 from "@/assets/aura-research-3.png";
-import auraIdeation1 from "@/assets/aura-ideation-1.png";
-import auraIdeation2 from "@/assets/aura-ideation-2.png";
-import auraTesting1 from "@/assets/aura-testing-1.png";
-import auraTesting2 from "@/assets/aura-testing-2.png";
-import auraRefinement1 from "@/assets/aura-refinement-1.png";
-import auraRefinement2 from "@/assets/aura-refinement-2.png";
-import auraRefinement3 from "@/assets/aura-refinement-3.png";
-import auraSystem1 from "@/assets/aura-system-1.png";
-import auraApp1 from "@/assets/Aura-app-1.png";
-import neuralyfeCover from "@/assets/neuralyfe-cover.png";
-import neuralyfeDetail1 from "@/assets/neuralyfe-detail-1.jpg";
+import auraCover from "@/assets/aura-cover.webp";
+import studioWatersCover from "@/assets/studio-waters-cover.webp";
+import auraDetail1 from "@/assets/aura-detail-1.webp";
+import auraDiscovery1 from "@/assets/aura-discovery-1.webp";
+import auraResearch1 from "@/assets/aura-research-1.webp";
+import auraResearch2 from "@/assets/aura-research-2.webp";
+import auraResearch3 from "@/assets/aura-research-3.webp";
+import auraIdeation1 from "@/assets/aura-ideation-1.webp";
+import auraIdeation2 from "@/assets/aura-ideation-2.webp";
+import auraTesting1 from "@/assets/aura-testing-1.webp";
+import auraTesting2 from "@/assets/aura-testing-2.webp";
+import auraRefinement1 from "@/assets/aura-refinement-1.webp";
+import auraRefinement2 from "@/assets/aura-refinement-2.webp";
+import auraRefinement3 from "@/assets/aura-refinement-3.webp";
+import auraSystem1 from "@/assets/aura-system-1.webp";
+import auraApp1 from "@/assets/Aura-app-1.webp";
+import neuralyfeCover from "@/assets/neuralyfe-cover.webp";
+import neuralyfeDetail1 from "@/assets/neuralyfe-detail-1.webp";
 import neuralyfeHalo from "@/assets/neuralyfe-halo.mp4";
 import neuralyfeRoster from "@/assets/neuralyfe-roster.mp4";
 import neuralyfeBrain from "@/assets/neuralyfe-brain.mp4";
 import neuralyfeReplay from "@/assets/neuralyfe-replay.mp4";
-import neuralyfeDeckHits from "@/assets/neuralyfe-deck-hits.png";
-import neuralyfeDeckProof from "@/assets/neuralyfe-deck-proof.png";
-import neuralyfeDeckHalo from "@/assets/neuralyfe-deck-halo.png";
-import neuralyfeDeckIndex from "@/assets/neuralyfe-deck-index.png";
-import neuralyfeDeckViews from "@/assets/neuralyfe-deck-views.png";
-import neuralyfeDeckScenario from "@/assets/neuralyfe-deck-scenario.png";
-import flowprintCover from "@/assets/flowprint-cover.png";
-import tubularCover from "@/assets/tubular-cover.jpg";
-import moodmuseCover from "@/assets/moodmuse-cover.png";
-import motiHero from "@/assets/moti-hero.png";
+import neuralyfeDeckHits from "@/assets/neuralyfe-deck-hits.webp";
+import neuralyfeDeckProof from "@/assets/neuralyfe-deck-proof.webp";
+import neuralyfeDeckHalo from "@/assets/neuralyfe-deck-halo.webp";
+import neuralyfeDeckIndex from "@/assets/neuralyfe-deck-index.webp";
+import neuralyfeDeckViews from "@/assets/neuralyfe-deck-views.webp";
+import neuralyfeDeckScenario from "@/assets/neuralyfe-deck-scenario.webp";
+import flowprintCover from "@/assets/flowprint-cover.webp";
+import tubularCover from "@/assets/tubular-cover.webp";
+import moodmuseCover from "@/assets/moodmuse-cover.webp";
+import motiHero from "@/assets/moti-hero.webp";
 
 const aura: ProjectDetailDocument = {
   slug: "aura",
@@ -42,7 +42,7 @@ const aura: ProjectDetailDocument = {
   heroImageFit: "natural",
   metaCards: [
     { label: "Role", value: "Product Designer · Industrial Designer" },
-    { label: "Timeline", value: "5 weeks · Oct–Dec 2025" },
+    { label: "Timeline", value: "5 weeks · Fall 2025" },
     { label: "Team", value: "5-person design team" },
     { label: "Output", value: "Physical Prototype · App Prototype · Adaptive System" },
   ],
@@ -156,7 +156,7 @@ const neuralyfe: ProjectDetailDocument = {
       label: "Intro",
       subtitle: "Intro",
       showProjectMeta: true,
-      body: "NeuraLyfe is a sideline decision-support system designed to help football medical staff identify brain-impact risk before it becomes irreversible.\n\nThe project addresses Chronic Traumatic Encephalopathy (CTE): a degenerative brain condition linked to repeated head impacts. CTE is difficult to detect because the damage accumulates gradually, often without visible symptoms, and cannot be confirmed until after death.\n\nMy role was to help frame the problem, shape the product logic, design the core interaction system, and prototype the experience in Figma and Figma Make. I focused on turning simulated helmet data into a sideline workflow that medical staff could understand and act on under pressure.\n\n**NeuraLyfe was awarded 1st Place at FigBuild 2026, recognized for its concept, execution, and system design.**",
+      body: "NeuraLyfe is a sideline decision-support system designed to help football medical staff identify brain-impact risk before it becomes irreversible.\n\nThe project addresses Chronic Traumatic Encephalopathy (CTE): a degenerative brain condition linked to repeated head impacts. CTE is difficult to detect because the damage accumulates gradually, often without visible symptoms, and cannot be confirmed until after death.\n\nMy role was to help frame the problem, shape the product logic, design the core interaction system, and prototype the experience in Figma and Figma Make. I focused on turning simulated helmet data into a sideline workflow that medical staff could understand and act on under pressure.",
     },
     {
       id: "highlights",
@@ -230,7 +230,7 @@ const neuralyfe: ProjectDetailDocument = {
   ],
 };
 
-// Real Moti case study. Imagery lives in src/assets (moti-*.png); the rich section
+// Real Moti case study. Imagery lives in src/assets (moti-*.webp); the rich section
 // blocks live in ./MotiModules.tsx and render via the [[module:moti-*]] refs.
 const moti: ProjectDetailDocument = {
   slug: "moti",
@@ -305,7 +305,7 @@ const flowprint: ProjectDetailDocument = {
   heroImageFit: "contain",
   metaCards: [
     { label: "Role", value: "Lead Product Designer" },
-    { label: "Timeline", value: "Spring 2026" },
+    { label: "Timeline", value: "2025" },
     { label: "Team", value: "Product · Engineering · Manufacturing" },
     { label: "Scope", value: "Onboarding · Monitoring UI · Material Guidance" },
     { label: "Outcome", value: "~1 hr Setup → ~15 min · Target Journey" },
@@ -337,7 +337,7 @@ const flowprint: ProjectDetailDocument = {
     {
       id: "final-design",
       label: "Final Design",
-      body: "Led product design for a consumer 3D printing experience that reduced setup time from 1 hours to 15 minutes.\n\nDesigned onboarding flows, real-time print monitoring UI, and a material recommendation engine.",
+      body: "Led product design for a consumer 3D printing experience, designing a target journey that cuts setup from about an hour to 15 minutes.\n\nDesigned onboarding flows, real-time print monitoring UI, and a material recommendation engine.",
     },
     {
       id: "impact",
@@ -417,7 +417,7 @@ const moodmuse: ProjectDetailDocument = {
   heroImage: moodmuseCover,
   metaCards: [
     { label: "Role", value: "Product Designer" },
-    { label: "Timeline", value: "Spring 2026" },
+    { label: "Timeline", value: "2024" },
     { label: "Team", value: "Design-led · Collaboration-ready" },
     { label: "Scope", value: "Interaction · Visual Language · Caregiver UX" },
     { label: "Outcome", value: "Low-load Emotion Expression System" },
@@ -460,61 +460,6 @@ const moodmuse: ProjectDetailDocument = {
       id: "reflection",
       label: "Reflection",
       body: "Designing for children demands slowing down: every animation and reward carries developmental weight. I’d pursue co-design sessions with families when possible.\n\nMood Muse deepened my respect for calm interfaces as accessibility infrastructure.",
-    },
-  ],
-};
-
-const inspireocean: ProjectDetailDocument = {
-  slug: "inspireocean",
-  listSection: "Built with AI",
-  title: "Inspire Ocean",
-  heroSummary: "AI content generation for creators.",
-  heroSubtitle: "Shipped end-to-end with AI-assisted build workflows.",
-  metaCards: [
-    { label: "Role", value: "Designer · Builder" },
-    { label: "Timeline", value: "Fall 2025" },
-    { label: "Team", value: "Solo · AI-assisted Build" },
-    { label: "Scope", value: "Prompt UI · Preview · Creator Workflow" },
-    { label: "Outcome", value: "Shipped · Social Content Platform" },
-    { label: "Tools", value: "Figma · AI IDEs · LLM APIs" },
-  ],
-  sections: [
-    {
-      id: "context",
-      label: "Context",
-      subtitle: "Intro",
-      showProjectMeta: true,
-      body: "Creators need speed without sacrificing voice. Inspire Ocean explores a focused tool for generating social content with tight feedback loops between prompt, preview, and iteration.\n\nBuilt as a design-meets-shipping exercise using AI-assisted development.",
-    },
-    {
-      id: "research",
-      label: "Research",
-      body: "I audited generic AI writers vs. creator-specific tools. Gaps included weak preview affordances and unclear ownership of tone. Users wanted 'suggest, don’t replace.'\n\nPatterns from design tools (history, variants) informed the interaction model.",
-    },
-    {
-      id: "problem",
-      label: "Problem",
-      body: "How do we keep generation fast while still feeling controlled — so creators trust the output enough to post?\n\nThe UI had to foreground preview, diffing, and light editing rather than a single opaque 'generate' button.",
-    },
-    {
-      id: "process",
-      label: "Design Process",
-      body: "Rapid wireframes became interactive prototypes; parallel tracks for API behavior and UI states. I used AI coding tools to compress implementation cycles while retaining explicit design decisions.\n\nIteration focused on prompt clarity and reducing dead ends.",
-    },
-    {
-      id: "final-design",
-      label: "Final Design",
-      body: "Designed and shipped an AI-powered content generation platform for social media creators.\n\nBuilt end-to-end with AI coding tools, focusing on intuitive prompt interfaces and real-time preview.",
-    },
-    {
-      id: "impact",
-      label: "Impact",
-      body: "Demonstrates a full-stack slice: problem, UX, and delivery — valuable for teams hiring designer-builders.\n\nAlso surfaced where AI tooling accelerates vs. where human taste still gates quality.",
-    },
-    {
-      id: "reflection",
-      label: "Reflection",
-      body: "Shipping with AI assistants changes where I spend calories: more architecture and critique, less boilerplate. The risk is skipping research — I’d add more user sessions if extending the product.\n\nInspire Ocean is a baseline I can compound from.",
     },
   ],
 };
@@ -578,7 +523,6 @@ const PROJECT_DETAILS: Record<string, ProjectDetailDocument> = {
   flowprint,
   tubular,
   moodmuse,
-  inspireocean,
   studiowaters,
 };
 

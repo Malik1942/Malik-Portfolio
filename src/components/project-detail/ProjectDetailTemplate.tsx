@@ -480,8 +480,13 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                         />
                       </div>
                     ) : null}
+                    {s.headline ? (
+                      <p className="text-[11px] uppercase tracking-[0.22em] text-foreground/55 text-body mb-4 md:mb-5">
+                        {s.label}
+                      </p>
+                    ) : null}
                     <h2 className="text-[40px] md:text-[56px] font-light text-foreground text-display tracking-[-0.02em] leading-[48px] md:leading-[64px] mb-10 md:mb-12">
-                      {s.label}
+                      {s.headline ?? s.label}
                     </h2>
                     {s.introBlock ? (
                       <SectionIntroBlock block={s.introBlock} />
