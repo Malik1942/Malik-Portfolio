@@ -645,8 +645,6 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
 
       hoveredOrbRef.current = newHoveredOrb;
       ctx.restore();
-
-      window.dispatchEvent(new CustomEvent("orb-hover", { detail: { hovering: !!newHoveredOrb } }));
     } else {
       hoveredOrbRef.current = null;
     }
