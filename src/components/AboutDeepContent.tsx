@@ -64,14 +64,14 @@ interface PhotoItem {
 }
 
 const PHOTOS: PhotoItem[] = [
-  { id: 1, src: "/images/photography/1.jpg", alt: "Photography image 1", priority: true },
-  { id: 2, src: "/images/photography/2.jpg", alt: "Photography image 2" },
-  { id: 3, src: "/images/photography/3.jpg", alt: "Photography image 3" },
-  { id: 4, src: "/images/photography/4.jpg", alt: "Photography image 4" },
-  { id: 5, src: "/images/photography/5.jpg", alt: "Photography image 5" },
-  { id: 6, src: "/images/photography/6.jpg", alt: "Photography image 6" },
-  { id: 7, src: "/images/photography/7.jpg", alt: "Photography image 7" },
-  { id: 8, src: "/images/photography/8.jpg", alt: "Photography image 8" },
+  { id: 1, src: "/images/photography/1.webp", alt: "Photography image 1", priority: true },
+  { id: 2, src: "/images/photography/2.webp", alt: "Photography image 2" },
+  { id: 3, src: "/images/photography/3.webp", alt: "Photography image 3" },
+  { id: 4, src: "/images/photography/4.webp", alt: "Photography image 4" },
+  { id: 5, src: "/images/photography/5.webp", alt: "Photography image 5" },
+  { id: 6, src: "/images/photography/6.webp", alt: "Photography image 6" },
+  { id: 7, src: "/images/photography/7.webp", alt: "Photography image 7" },
+  { id: 8, src: "/images/photography/8.webp", alt: "Photography image 8" },
 ];
 
 /** Rows 1–4: two equal landscape frames per row (images 1–8). Row 5: image 8 again as a wide panoramic close. */

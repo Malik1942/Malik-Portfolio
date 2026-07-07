@@ -25,22 +25,22 @@ import {
   Minus,
   type LucideIcon,
 } from "lucide-react";
-import motiTimelineV1 from "@/assets/moti-timelinev1.png";
-import motiVoice from "@/assets/moti-voice.png";
-import motiTimelineV2 from "@/assets/moti-timeline-v2.png";
-import motiApp from "@/assets/moti-app.png";
-import motiSlm from "@/assets/moti-slm.png";
-import motiLlm from "@/assets/moti-llm.png";
-import motiAi from "@/assets/moti-ai.png";
-import motiLlmPlan1 from "@/assets/moti-llm-plan1.png";
-import motiLlmPlan2 from "@/assets/moti-llm-plan2.png";
+import motiTimelineV1 from "@/assets/moti-timelinev1.webp";
+import motiVoice from "@/assets/moti-voice.webp";
+import motiTimelineV2 from "@/assets/moti-timeline-v2.webp";
+import motiApp from "@/assets/moti-app.webp";
+import motiSlm from "@/assets/moti-slm.webp";
+import motiLlm from "@/assets/moti-llm.webp";
+import motiAi from "@/assets/moti-ai.webp";
+import motiLlmPlan1 from "@/assets/moti-llm-plan1.webp";
+import motiLlmPlan2 from "@/assets/moti-llm-plan2.webp";
 
 /* ---------------------------------------------------------------------------
  * Moti case-study inline modules.
  * Reuses the existing inline-module visual language (dark #0c0c0d cards, mono
  * 01/02 numbers, lucide icons, violet/emerald/slate accents) and site tokens
  * for prose-level pieces — no new colors or fonts are introduced.
- * Images are imported from src/assets (moti-*.png).
+ * Images are imported from src/assets (moti-*.webp).
  * ------------------------------------------------------------------------- */
 
 type Accent = "violet" | "emerald" | "slate";
@@ -440,7 +440,7 @@ const iterationPoints = [
   "Messy input became natural.",
   "Users needed context, not tasks.",
   "Real behavior exposed planning gaps.",
-  "Iteration N introduced proactive guidance: “On current pace, Portfolio and Job Search are slipping” → Make space / Not this week.",
+  "A later iteration introduced proactive guidance: “On current pace, Portfolio and Job Search are slipping” → Make space / Not this week.",
 ];
 export function MotiBuildJourney() {
   return (
