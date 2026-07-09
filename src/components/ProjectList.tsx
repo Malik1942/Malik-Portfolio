@@ -115,6 +115,54 @@ const CardMedia = ({
 
 // ─── Project card (unified) ───────────────────────────────────────────────────
 // Exported so the project-detail "More work" section can reuse the exact same card.
+// Real link wrapper so cards are keyboard-focusable and open like any anchor
+// (middle-click, cmd-click, screen-reader announcement). WIP cards fall through
+// to a plain div until their case study is ready.
+//
+// Defined at module scope (NOT inside ProjectCard) so its component identity is
+// stable. When it lived in the ProjectCard body, every re-render — useInView
+// flipping on scroll-in, and setHovered on each mouse enter/leave — produced a
+// brand-new component type. React saw a different type at the same position and
+// unmounted/remounted the entire card subtree, so entrance animations popped to
+// their end state, images flashed on scroll-in, and the hover overlay fade never
+// played (the element was destroyed and recreated already faded). Hoisting fixes
+// this without touching any animation values.
+const CardLink = ({
+  isWip,
+  externalUrl,
+  projectId,
+  className,
+  focusRing,
+  children,
+}: {
+  isWip: boolean;
+  externalUrl?: string;
+  projectId?: string;
+  className: string;
+  focusRing: string;
+  children: ReactNode;
+}) => {
+  const cls = `${className} ${focusRing}`;
+  if (isWip) {
+    return <div className={className}>{children}</div>;
+  }
+  if (externalUrl) {
+    return (
+      <a href={externalUrl} target="_blank" rel="noopener noreferrer" className={cls}>
+        {children}
+      </a>
+    );
+  }
+  if (projectId) {
+    return (
+      <Link to={`/project/${projectId}`} className={cls}>
+        {children}
+      </Link>
+    );
+  }
+  return <div className={className}>{children}</div>;
+};
+
 export const ProjectCard = ({
   project,
   projectId,
@@ -149,32 +197,11 @@ export const ProjectCard = ({
   const handleEnter = () => { if (!isWip) setHovered(true); };
   const handleLeave = () => { if (!isWip) setHovered(false); };
 
-  // Real link wrapper so cards are keyboard-focusable and open like any anchor
-  // (middle-click, cmd-click, screen-reader announcement). WIP cards fall through
-  // to a plain div until their case study is ready.
+  // focusRing is passed to the module-scope CardLink (see above ProjectCard).
+  // Keeping CardLink out of this function body keeps its component identity stable
+  // across re-renders, so the card subtree is never unmounted/remounted.
   const focusRing =
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/60 focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-2xl";
-  const CardLink = ({ className, children }: { className: string; children: ReactNode }) => {
-    const cls = `${className} ${focusRing}`;
-    if (isWip) {
-      return <div className={className}>{children}</div>;
-    }
-    if (project.externalUrl) {
-      return (
-        <a href={project.externalUrl} target="_blank" rel="noopener noreferrer" className={cls}>
-          {children}
-        </a>
-      );
-    }
-    if (projectId) {
-      return (
-        <Link to={`/project/${projectId}`} className={cls}>
-          {children}
-        </Link>
-      );
-    }
-    return <div className={className}>{children}</div>;
-  };
 
   // ── Vertical card text (grid cards) ──
   const textBlock = () => (
@@ -307,7 +334,13 @@ export const ProjectCard = ({
         onMouseLeave={handleLeave}
         data-clickable={isWip ? undefined : "true"}
       >
-        <CardLink className={`${cursorClass} group flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}>
+        <CardLink
+          isWip={isWip}
+          externalUrl={project.externalUrl}
+          projectId={projectId}
+          focusRing={focusRing}
+          className={`${cursorClass} group flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}
+        >
           {imageRight ? textCol : imageCol}
           {imageRight ? imageCol : textCol}
         </CardLink>
@@ -332,7 +365,13 @@ export const ProjectCard = ({
       onMouseLeave={handleLeave}
       data-clickable={isWip ? undefined : "true"}
     >
-      <CardLink className={`${cursorClass} group flex flex-col`}>
+      <CardLink
+        isWip={isWip}
+        externalUrl={project.externalUrl}
+        projectId={projectId}
+        focusRing={focusRing}
+        className={`${cursorClass} group flex flex-col`}
+      >
         <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
         <div className="flex flex-col">{textBlock()}</div>
       </CardLink>
