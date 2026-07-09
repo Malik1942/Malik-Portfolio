@@ -1,4 +1,5 @@
 import type { ProjectDetailDocument } from "@/types/projectDetail";
+import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
 import auraCover from "@/assets/aura-cover.webp";
 import studioWatersCover from "@/assets/studio-waters-cover.webp";
 import auraDetail1 from "@/assets/aura-detail-1.webp";
@@ -466,7 +467,7 @@ const moodmuse: ProjectDetailDocument = {
 
 const studiowaters: ProjectDetailDocument = {
   slug: "studiowaters",
-  listSection: "Built with AI",
+  listSection: WORKSHOP_SECTION_LABEL,
   title: "Studio Waters",
   heroSummary: "A playable prototype that turns real-world casting and reeling gestures into calm, responsive digital feedback.",
   heroSubtitle: "An exploration of embodied interaction — translating physical gestures into calm, responsive digital play.",

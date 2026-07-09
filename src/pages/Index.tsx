@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
+import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
 import HeroSection from "@/components/HeroSection";
 import ProjectList from "@/components/ProjectList";
 import Footer from "@/components/Footer";
@@ -141,7 +142,7 @@ const Index = () => {
         />
         <ProjectList
           id="ai-projects"
-          sectionTitle="AI Explorations"
+          sectionTitle={WORKSHOP_SECTION_LABEL}
           sectionSubtitle="Small projects designed and built solo with AI tools."
           dotColor="gold"
           projects={aiProjects}

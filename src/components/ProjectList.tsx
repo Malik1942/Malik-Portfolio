@@ -458,7 +458,7 @@ const TwoColGrid = ({
 
 // ─── Section label ────────────────────────────────────────────────────────────
 // "primary" = SELECTED WORK — tight caps, wide tracking, confident weight.
-// "secondary" = AI Explorations — mixed case, quieter, clearly subordinate.
+// "secondary" = Workshop — mixed case, quieter, clearly subordinate.
 const SectionLabel = ({
   title,
   dotClass,
