@@ -156,7 +156,7 @@ const neuralyfe: ProjectDetailDocument = {
       label: "Intro",
       subtitle: "Intro",
       showProjectMeta: true,
-      body: "**NeuraLyfe won 1st Place at FigBuild 2026 — a sideline decision-support system that helps football medical staff catch brain-impact risk before it becomes irreversible.**\n\nThe project addresses Chronic Traumatic Encephalopathy (CTE): a degenerative brain condition linked to repeated head impacts. CTE is difficult to detect because the damage accumulates gradually, often without visible symptoms, and cannot be confirmed until after death.\n\nMy role was to frame the problem, shape the product logic, design the core interaction system, and prototype the experience in Figma and Figma Make. I focused on turning simulated helmet data into a sideline workflow that medical staff could understand and act on under pressure.",
+      body: "**NeuraLyfe is a sideline decision-support system that helps football medical staff catch brain-impact risk before it becomes irreversible.**\n\nThe project addresses Chronic Traumatic Encephalopathy (CTE): a degenerative brain condition linked to repeated head impacts. CTE is difficult to detect because the damage accumulates gradually, often without visible symptoms, and cannot be confirmed until after death.\n\nMy role was to frame the problem, shape the product logic, design the core interaction system, and prototype the experience in Figma and Figma Make. I focused on turning simulated helmet data into a sideline workflow that medical staff could understand and act on under pressure.\n\n**NeuraLyfe was awarded 1st Place at FigBuild 2026, recognized for its concept, execution, and system design.**",
     },
     {
       id: "highlights",
