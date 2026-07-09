@@ -4,6 +4,7 @@ import DotGrid from "./DotGrid";
 import AboutOverlay from "./AboutOverlay";
 import { motion } from "framer-motion";
 import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
+import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
 import { usePageLoaded } from "@/hooks/usePageLoaded";
 
 interface HeroSectionProps {
@@ -186,7 +187,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
               className="nav-link hover:text-foreground transition-colors duration-500"
               onClick={(event) => handleSectionNavClick(event, "ai-projects")}
             >
-              AI Explorations
+              {WORKSHOP_SECTION_LABEL}
             </a>
             <a
               href="#about"
@@ -219,7 +220,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
           </div>
           <nav className="flex flex-wrap gap-x-8 gap-y-2 text-[16px] text-foreground/72 text-body animate-fade-up delay-4">
             <a href="#projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "projects")}>Selected Work</a>
-            <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "ai-projects")}>AI Explorations</a>
+            <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "ai-projects")}>{WORKSHOP_SECTION_LABEL}</a>
             <a href="#about" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => { e.preventDefault(); onAboutClick(); }}>About</a>
             <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">Resume</a>
           </nav>

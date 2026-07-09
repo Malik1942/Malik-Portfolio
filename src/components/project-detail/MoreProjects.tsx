@@ -4,7 +4,7 @@ import { ProjectCard, type Project } from "@/components/ProjectList";
 // Aligns with ProjectDetailTemplate's PAGE_OUTER so section edges match the rest of the page.
 const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto";
 
-// Same order the homepage shows them: Selected Work, then AI Explorations.
+// Same order the homepage shows them: Selected Work, then Workshop.
 const ALL_PROJECTS: Project[] = [...selectedWork, ...aiProjects];
 
 interface MoreProjectsProps {

@@ -1,7 +1,13 @@
+import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
+
 export type ProjectMetaCard = {
   label: string;
   value: string;
 };
+
+/** All valid listSection eyebrow values. "Main Projects" / "Personal Project"
+ *  are Selected Work labels (untouched); Workshop is the shared constant. */
+export type ListSection = "Main Projects" | "Personal Project" | typeof WORKSHOP_SECTION_LABEL;
 
 export type IntroContextCard = {
   title: string;
@@ -43,8 +49,8 @@ export type ProjectContentSection = {
 
 export type ProjectDetailDocument = {
   slug: string;
-  /** Shown as eyebrow — e.g. Main Projects / Built with AI */
-  listSection: string;
+  /** Shown as eyebrow — e.g. Main Projects / Workshop */
+  listSection: ListSection;
   title: string;
   /** Short one-line subtitle shown below the hero image */
   heroSummary: string;
