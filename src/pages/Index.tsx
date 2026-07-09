@@ -19,42 +19,42 @@ export const selectedWork = [
     id: "moti",
     title: "Moti",
     signal: "An AI-native timeline for real projects",
-    description: "Turns messy, natural language into a living, timeline-aware plan — built and shipped solo.",
+    description: "Shipped solo on the App Store — an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.",
     role: "Product Designer & Builder",
     coverImage: motiCard,
     year: "2026",
-    details: "Designed and built Moti: Plan, an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.\n\nShipped solo on the App Store on a hybrid SLM + LLM system, specified spec-first with a full PRD before any code.",
-  },
-  {
-    id: "aura",
-    title: "Aura",
-    signal: "AI-powered anticipatory motion sickness relief",
-    description: "A calm, proactive system for preventing motion sickness in motion.",
-    role: "Product Designer",
-    year: "2025",
-    coverImage: auraCover,
-    details: "Led the end-to-end design of a proactive, AI-driven wearable for motion sickness, defining its concept, system, and interaction model.\n\nShaped a seamless cross-device experience, integrating ambient AI to anticipate discomfort and deliver real-time support.",
+    details: "Shipped solo on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.\n\nBuilt on a hybrid SLM + LLM system, specified spec-first with a full PRD before writing any code.",
   },
   {
     id: "neuralyfe",
     title: "NeuraLyfe",
     signal: "Brain impact visualization for athletes and medical teams",
-    description: "Making invisible brain trauma visible — before it becomes irreversible.",
+    description: "1st Place, FigBuild 2026 — making invisible brain trauma visible before it becomes irreversible.",
     role: "Product Designer, Maker",
     coverImage: neuralyfeCover,
     year: "2026",
-    details: "Led ideation and defined the problem scope for NeuraLyfe, designing the AI-driven Impact Replay interface and contributing across both digital and physical product development.\n\nAwarded 1st Place at FigBuild 2026, recognizing the project's concept, execution, and system design.",
+    details: "Won 1st Place at FigBuild 2026 for Impact Replay, an AI-driven brain-impact visualization for athletes and medical teams.\n\nLed ideation and problem scoping, designed the Impact Replay interface, and contributed across both digital and physical product development.",
+  },
+  {
+    id: "aura",
+    title: "Aura",
+    signal: "AI-powered anticipatory motion sickness relief",
+    description: "A speculative in-flight motion-sickness concept — its refined form was preferred by 93.75% of testers.",
+    role: "Product Designer",
+    year: "2025",
+    coverImage: auraCover,
+    details: "A speculative concept for anticipating motion sickness in flight, designed with a 5-person team over 5 weeks.\n\nUser testing validated the refined form: 15 of 16 testers (93.75%) preferred it over the initial design.",
   },
   {
     id: "flowprint",
     title: "FlowPrint",
     wip: true,
-    description: "A frictionless 3D printing system that removes complexity for beginners.",
+    description: "A 3D-printing onboarding system targeting a setup-time cut from about an hour to 15 minutes.",
     role: "Lead Product Designer",
     coverImage: flowprintCover,
     coverFit: "contain" as const,
     year: "2025",
-    details: "Led product design for a consumer 3D printing experience, designing a target journey that cuts setup from about an hour to 15 minutes.\n\nDesigned onboarding flows, real-time print monitoring UI, and a material recommendation engine.",
+    details: "Work in progress: a consumer 3D-printing onboarding flow targeting a setup-time cut from about an hour to 15 minutes.\n\nIncludes onboarding flows, real-time print monitoring, and a material recommendation engine.",
   },
   {
     id: "tubular",
@@ -64,17 +64,17 @@ export const selectedWork = [
     role: "Product Designer, Maker",
     coverImage: tubularCover,
     year: "2026",
-    details: "Conceptualized and built an experimental physics-based toy that teaches fluid dynamics through play.\n\nCombined industrial design with digital prototyping to create an intuitive, tactile learning experience.",
+    details: "Work in progress: an experimental physics-based toy exploring fluid dynamics through tactile play.\n\nCombines industrial design with digital prototyping — unshipped and still evolving.",
   },
   {
     id: "moodmuse",
     title: "Mood Muse",
     wip: true,
-    description: "An emotional expression aid designed for autistic children.",
+    description: "A concept for an emotional-expression aid for autistic children.",
     role: "Product Designer",
     coverImage: moodmuseCover,
     year: "2024",
-    details: "A system that helps children externalize and communicate their internal emotional states through intuitive interactions, reducing frustration and enabling clearer social connection.",
+    details: "A concept exploring how autistic children could externalize and communicate emotional states through simple, tactile interactions.",
   },
 ];
 
@@ -88,7 +88,7 @@ export const aiProjects = [
     coverImage: inspireoceanCover,
     externalUrl: "https://inspired-sea-drift.lovable.app/",
     builtWith: "Lovable",
-    details: "Designed a personal inspiration utility that resurfaces forgotten ideas at the right moment — not on demand, but through behavioral adaptation.\n\nThe system learns how you collect and browse, then quietly surfaces what you've lost track of before it becomes irrelevant.",
+    details: "A personal inspiration utility that resurfaces forgotten ideas at the right moment — not on demand, but through behavioral adaptation.\n\nLearns how you collect and browse, then surfaces what you've lost track of before it becomes irrelevant.",
   },
   {
     id: "studiowaters",
@@ -147,14 +147,14 @@ const Index = () => {
         <ProjectList
           id="projects"
           sectionTitle="Selected Work"
-          sectionSubtitle="Major projects that shaped products and teams."
+          sectionSubtitle="One shipped solo, one awarded, one tested — plus concepts still in progress."
           dotColor="red"
           projects={selectedWork}
         />
         <ProjectList
           id="ai-projects"
           sectionTitle="AI Explorations"
-          sectionSubtitle="Side projects where I design and ship with AI tools."
+          sectionSubtitle="Small projects designed and built solo with AI tools."
           dotColor="gold"
           projects={aiProjects}
           variant="ai"
