@@ -217,7 +217,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "impact",
       label: "Impact",
-      body: "NeuraLyfe makes a clear claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\nMy contribution was translating that claim into a working prototype — framing the problem, shaping the product logic, defining the three core views, and building the system in Figma and Figma Make. The result shows how a sideline team moves from a raw impact alert to a confident decision: scan the roster, inspect brain stress, trace the risk to the play, and act before damage becomes irreversible.",
+      body: "NeuraLyfe makes a clear claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\nMy contribution was translating that claim into a working prototype — framing the problem, shaping the product logic, defining the three core views, and building the system in Figma and Figma Make.\n\nThe concept was validated externally: NeuraLyfe took 1st place at FigBuild 2026 out of 690 teams.\n\nThe result shows how a sideline team moves from a raw impact alert to a confident decision: scan the roster, inspect brain stress, trace the risk to the play, and act before damage becomes irreversible.",
       figures: [
         { type: "image", src: neuralyfeDeckScenario, alt: "In a live scenario, a player's frontal lobe hits critical levels and his card turns red" },
       ],
