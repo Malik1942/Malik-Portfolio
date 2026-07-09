@@ -10,7 +10,6 @@ import neuralyfeCover from "@/assets/neuralyfe-cover.webp";
 import flowprintCover from "@/assets/flowprint-cover.webp";
 import tubularCover from "@/assets/tubular-cover.webp";
 import moodmuseCover from "@/assets/moodmuse-cover.webp";
-import inspireoceanCover from "@/assets/inspireocean-cover.webp";
 import studioWatersCover from "@/assets/studio-waters-cover.webp";
 import motiCard from "@/assets/moti-card.webp";
 
@@ -79,17 +78,6 @@ export const selectedWork = [
 ];
 
 export const aiProjects = [
-  {
-    id: "inspireocean",
-    title: "Inspire Ocean",
-    description: "A personal utility for collecting and reorganizing inspirations.",
-    role: "Designer + Builder",
-    year: "2026",
-    coverImage: inspireoceanCover,
-    externalUrl: "https://inspired-sea-drift.lovable.app/",
-    builtWith: "Lovable",
-    details: "A personal inspiration utility that resurfaces forgotten ideas at the right moment — not on demand, but through behavioral adaptation.\n\nLearns how you collect and browse, then surfaces what you've lost track of before it becomes irrelevant.",
-  },
   {
     id: "studiowaters",
     title: "Studio Waters",
