@@ -36,15 +36,15 @@ const aura: ProjectDetailDocument = {
   slug: "aura",
   listSection: "Main Projects",
   title: "Aura",
-  heroSummary: "Proactive motion-sickness relief for travelers",
-  heroSubtitle: "Speculative product concept · Hardware + software · 5-person team · 5 weeks",
+  heroSummary: "A wearable system built to intervene before motion sickness starts",
+  heroSubtitle: "Speculative product concept · 93.75% preferred the refined earbud form (n=16) · 5-person team · 5 weeks",
   heroImage: auraCover,
   heroImageFit: "natural",
   metaCards: [
     { label: "Role", value: "Product Designer · Industrial Designer" },
     { label: "Timeline", value: "5 weeks · Fall 2025" },
     { label: "Team", value: "5-person design team" },
-    { label: "Output", value: "Physical Prototype · App Prototype · Adaptive System" },
+    { label: "Output", value: "93.75% Preferred Refined Form (n=16) · App Prototype" },
   ],
   sections: [
     {
@@ -52,7 +52,7 @@ const aura: ProjectDetailDocument = {
       label: "Intro",
       headline: "An invisible problem that starts before symptoms",
       showProjectMeta: true,
-      body: "**For motion-sensitive travelers, discomfort often starts before they consciously recognize it.**\n\nAura explores a more proactive approach to motion-sickness support: sensing early physiological and motion signals, predicting risk, and delivering subtle audio guidance before symptoms escalate.\n\nAs a product and industrial designer on a 5-person team, I helped translate this invisible problem into a coherent hardware and software system, shaping the product logic, physical prototype, app experience, and interaction flow.",
+      body: "**Aura is a wearable system that intervenes before motion sickness starts — and the refined earbud form tested at 93.75% preference among 16 users.**\n\nFor motion-sensitive travelers, discomfort often begins before they consciously recognize it. Aura senses early physiological and motion signals, predicts risk, and delivers subtle audio guidance before symptoms escalate.\n\nAs a product and industrial designer on a 5-person team, I shaped the product logic, physical prototype, app experience, and interaction flow across a 5-week sprint.",
     },
     {
       id: "highlights",
@@ -156,7 +156,7 @@ const neuralyfe: ProjectDetailDocument = {
       label: "Intro",
       subtitle: "Intro",
       showProjectMeta: true,
-      body: "NeuraLyfe is a sideline decision-support system designed to help football medical staff identify brain-impact risk before it becomes irreversible.\n\nThe project addresses Chronic Traumatic Encephalopathy (CTE): a degenerative brain condition linked to repeated head impacts. CTE is difficult to detect because the damage accumulates gradually, often without visible symptoms, and cannot be confirmed until after death.\n\nMy role was to help frame the problem, shape the product logic, design the core interaction system, and prototype the experience in Figma and Figma Make. I focused on turning simulated helmet data into a sideline workflow that medical staff could understand and act on under pressure.",
+      body: "**NeuraLyfe won 1st Place at FigBuild 2026 — a sideline decision-support system that helps football medical staff catch brain-impact risk before it becomes irreversible.**\n\nThe project addresses Chronic Traumatic Encephalopathy (CTE): a degenerative brain condition linked to repeated head impacts. CTE is difficult to detect because the damage accumulates gradually, often without visible symptoms, and cannot be confirmed until after death.\n\nMy role was to frame the problem, shape the product logic, design the core interaction system, and prototype the experience in Figma and Figma Make. I focused on turning simulated helmet data into a sideline workflow that medical staff could understand and act on under pressure.",
     },
     {
       id: "highlights",
@@ -236,7 +236,7 @@ const moti: ProjectDetailDocument = {
   slug: "moti",
   listSection: "Personal Project",
   title: "Moti: Plan",
-  heroSummary: "An AI-Native Timeline for Real Projects",
+  heroSummary: "Shipped solo on the App Store: an AI-native planner that turns messy input into a living, timeline-aware plan",
   heroImage: motiHero,
   heroImageFit: "cover",
   metaCards: [
@@ -250,7 +250,7 @@ const moti: ProjectDetailDocument = {
       id: "overview",
       label: "Overview",
       showProjectMeta: true,
-      body: "[[module:moti-tags]]",
+      body: "**Moti is an AI-native iOS planner, designed, built, and shipped solo on the App Store.**\n\n[[module:moti-tags]]",
     },
     {
       id: "highlights",
@@ -299,7 +299,7 @@ const flowprint: ProjectDetailDocument = {
   slug: "flowprint",
   listSection: "Main Projects",
   title: "FlowPrint",
-  heroSummary: "A frictionless 3D printing system that removes complexity for beginners.",
+  heroSummary: "A 3D printing onboarding system designed to make a beginner's first print succeed, not just start.",
   heroSubtitle: "From roughly an hour of setup anxiety to a guided fifteen-minute path in.",
   heroImage: flowprintCover,
   heroImageFit: "contain",
@@ -317,7 +317,7 @@ const flowprint: ProjectDetailDocument = {
       label: "Context",
       subtitle: "Intro",
       showProjectMeta: true,
-      body: "Consumer 3D printing promises creativity but often delivers friction: leveling, slicer settings, failed prints, and opaque errors. FlowPrint targets beginners who want outcomes, not a second hobby.\n\nThe brand sits between playful maker culture and credible appliance-grade calm.",
+      body: "**FlowPrint's target journey cuts first-print setup from about an hour to roughly fifteen minutes.**\n\nConsumer 3D printing promises creativity but often delivers friction: leveling, slicer settings, failed prints, and opaque errors. FlowPrint targets beginners who want outcomes, not a second hobby, sitting between playful maker culture and credible appliance-grade calm.",
     },
     {
       id: "research",
@@ -373,7 +373,7 @@ const tubular: ProjectDetailDocument = {
       label: "Context",
       subtitle: "Intro",
       showProjectMeta: true,
-      body: "Tubular explores how physical play can make abstract physics (flow, pressure, pathing) intuitive for learners and curious adults.\n\nIt sits deliberately between toy, science kit, and design object.",
+      body: "**Tubular is a working physical-digital prototype: a toy that teaches fluid dynamics through play, not instruction.**\n\nIt explores how physical play can make abstract physics (flow, pressure, pathing) intuitive for learners and curious adults, sitting deliberately between toy, science kit, and design object.",
     },
     {
       id: "research",
@@ -412,7 +412,7 @@ const moodmuse: ProjectDetailDocument = {
   slug: "moodmuse",
   listSection: "Main Projects",
   title: "Mood Muse",
-  heroSummary: "An emotional expression aid designed for autistic children.",
+  heroSummary: "A low-language system that helps autistic children externalize big emotions before they escalate.",
   heroSubtitle: "Reducing frustration by making internal states easier to externalize and share.",
   heroImage: moodmuseCover,
   metaCards: [
@@ -429,7 +429,7 @@ const moodmuse: ProjectDetailDocument = {
       label: "Context",
       subtitle: "Intro",
       showProjectMeta: true,
-      body: "Many autistic children experience intense emotions that are hard to name or communicate in the moment — which can escalate stress for them and caregivers. Mood Muse explores gentle, repeatable ways to externalize state.\n\nThe work prioritizes low language dependency and sensory restraint.",
+      body: "**Mood Muse gives autistic children a low-language way to externalize big emotions before they escalate into meltdown.**\n\nMany autistic children experience intense emotions that are hard to name or communicate in the moment — which can escalate stress for them and caregivers. Mood Muse explores gentle, repeatable ways to externalize state, prioritizing low language dependency and sensory restraint.",
     },
     {
       id: "research",
@@ -468,7 +468,7 @@ const studiowaters: ProjectDetailDocument = {
   slug: "studiowaters",
   listSection: "Built with AI",
   title: "Studio Waters",
-  heroSummary: "A motion-controlled fishing experience using CPX sensors.",
+  heroSummary: "A playable prototype that turns real-world casting and reeling gestures into calm, responsive digital feedback.",
   heroSubtitle: "An exploration of embodied interaction — translating physical gestures into calm, responsive digital play.",
   heroImage: studioWatersCover,
   heroImageFit: "cover",
@@ -486,7 +486,7 @@ const studiowaters: ProjectDetailDocument = {
       label: "Context",
       subtitle: "Intro",
       showProjectMeta: true,
-      body: "Studio Waters is a lightweight interactive prototype that connects physical motion with digital feedback.\n\nUsing a CPX (Circuit Playground Express), players cast and reel through real-world gestures — creating a more intuitive and embodied experience than traditional button-based input. Rather than building a complex game system, the project focuses on a single design question: how can motion, timing, and feedback shape a calm and engaging interaction?",
+      body: "**Studio Waters is a playable, motion-controlled fishing prototype built with Claude and p5.js — no buttons, just real-world gestures.**\n\nUsing a CPX (Circuit Playground Express), players cast and reel through physical motion, creating a more intuitive and embodied experience than traditional button-based input. Rather than building a complex game system, the project focuses on a single design question: how can motion, timing, and feedback shape a calm and engaging interaction?",
     },
     {
       id: "inspiration",
