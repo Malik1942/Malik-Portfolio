@@ -457,8 +457,9 @@ const TwoColGrid = ({
 );
 
 // ─── Section label ────────────────────────────────────────────────────────────
-// "primary" = SELECTED WORK — tight caps, wide tracking, confident weight.
-// "secondary" = Workshop — mixed case, quieter, clearly subordinate.
+// Both variants render the same white uppercase label and the same dot size.
+// "primary" (Selected Work) keeps a brighter dot, "secondary" (Workshop) a
+// fainter one; the dot color (red / gold) is passed in via dotClass.
 const SectionLabel = ({
   title,
   dotClass,
@@ -480,17 +481,11 @@ const SectionLabel = ({
       className="flex items-center gap-3 mb-10"
     >
       <span
-        className={`rounded-full ${dotClass} ${isPrimary ? "w-1.5 h-1.5 opacity-70" : "w-1 h-1 opacity-35"}`}
+        className={`rounded-full ${dotClass} w-1.5 h-1.5 ${isPrimary ? "opacity-70" : "opacity-35"}`}
       />
-      {isPrimary ? (
-        <span className="text-sm text-body text-foreground/55 uppercase tracking-[0.12em] font-medium">
-          {title}
-        </span>
-      ) : (
-        <span className="text-sm text-body text-foreground/44 uppercase tracking-[0.12em] font-medium">
-          {title}
-        </span>
-      )}
+      <span className="text-sm text-body text-foreground uppercase tracking-[0.12em] font-medium">
+        {title}
+      </span>
     </motion.div>
   );
 };
