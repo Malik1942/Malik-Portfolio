@@ -57,16 +57,6 @@ export const selectedWork = [
     details: "Work in progress: a consumer 3D-printing onboarding flow targeting a setup-time cut from about an hour to 15 minutes.\n\nIncludes onboarding flows, real-time print monitoring, and a material recommendation engine.",
   },
   {
-    id: "tubular",
-    title: "Tubular",
-    wip: true,
-    description: "Defy gravity. Shape the path.",
-    role: "Product Designer, Maker",
-    coverImage: tubularCover,
-    year: "2026",
-    details: "Work in progress: an experimental physics-based toy exploring fluid dynamics through tactile play.\n\nCombines industrial design with digital prototyping — unshipped and still evolving.",
-  },
-  {
     id: "moodmuse",
     title: "Mood Muse",
     wip: true,
@@ -88,6 +78,16 @@ export const aiProjects = [
     coverImage: studioWatersCover,
     builtWith: "Claude + p5.js",
     details: "A motion-controlled fishing experience built with Claude and p5.js — physical gestures mapped to calm, responsive digital play.",
+  },
+  {
+    id: "tubular",
+    title: "Tubular",
+    wip: true,
+    description: "Defy gravity. Shape the path.",
+    role: "Product Designer, Maker",
+    coverImage: tubularCover,
+    year: "2026",
+    details: "Work in progress: an experimental physics-based toy exploring fluid dynamics through tactile play.\n\nCombines industrial design with digital prototyping — unshipped and still evolving.",
   },
 ];
 

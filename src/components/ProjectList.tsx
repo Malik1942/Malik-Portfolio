@@ -507,7 +507,7 @@ const MainProjectList = ({
   const heroMoti = projects[0]; // Moti (placeholder clone of NeuraLyfe)
   const hero1    = projects[1]; // Aura
   const hero2    = projects[2]; // Neuralyfe
-  const gridPro  = projects.slice(3); // FlowPrint, Tubular, Mood Muse, …
+  const gridPro  = projects.slice(3); // FlowPrint, Mood Muse, …
 
   return (
     <section id={id} className="px-6 md:px-16 lg:px-24 pt-16">
