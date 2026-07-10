@@ -235,7 +235,7 @@ const neuralyfe: ProjectDetailDocument = {
 // blocks live in ./MotiModules.tsx and render via the [[module:moti-*]] refs.
 const moti: ProjectDetailDocument = {
   slug: "moti",
-  listSection: "Personal Project",
+  listSection: "Main Projects",
   title: "Moti: Plan",
   heroSummary: "Shipped solo on the App Store: an AI-native planner that turns messy input into a living, timeline-aware plan",
   heroImage: motiHero,
@@ -355,7 +355,7 @@ const flowprint: ProjectDetailDocument = {
 
 const tubular: ProjectDetailDocument = {
   slug: "tubular",
-  listSection: "Main Projects",
+  listSection: WORKSHOP_SECTION_LABEL,
   title: "Tubular",
   heroSummary: "Defy gravity. Shape the path.",
   heroSubtitle: "A tactile, experimental toy that teaches fluid dynamics through play.",

@@ -183,7 +183,7 @@ function SubHead({ children }: { children: ReactNode }) {
 }
 
 /* ── 1) Overview — tags ──────────────────────────────────────────────────── */
-const tags = ["Personal Project", "AI-native UX", "iOS", "Built & Shipped"];
+const tags = ["Main Project", "AI-native UX", "iOS", "Built & Shipped"];
 export function MotiTags() {
   return <Chips items={tags} />;
 }
