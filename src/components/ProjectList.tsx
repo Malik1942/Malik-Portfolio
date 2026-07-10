@@ -237,7 +237,7 @@ export const ProjectCard = ({
         style={{
           fontSize: isMobile ? "0.9375rem" : "0.875rem",
           letterSpacing: "0.02em",
-          color: "hsl(var(--foreground) / 0.62)",
+          color: "hsl(var(--foreground) / 0.72)",
         }}
       >
         {metadataLabel ?? project.role} · {project.year}
@@ -281,12 +281,12 @@ export const ProjectCard = ({
           <div style={{ marginBottom: isMobile ? "1rem" : "1.375rem" }}>
             {project.signal && (
               <p
-                className="text-body font-medium leading-snug"
+                className="text-body font-medium leading-snug transition-colors duration-300"
                 style={{
                   fontSize: isMobile ? "0.875rem" : "0.9375rem",
                   letterSpacing: "-0.01em",
                   marginBottom: "0.5rem",
-                  color: "hsl(var(--foreground) / 0.70)",
+                  color: hovered ? "hsl(var(--foreground))" : "hsl(var(--foreground) / 0.75)",
                 }}
               >
                 {project.signal}
@@ -309,7 +309,7 @@ export const ProjectCard = ({
             style={{
               fontSize: isMobile ? "0.9375rem" : "0.875rem",
               letterSpacing: "0.02em",
-              color: "hsl(var(--foreground) / 0.62)",
+              color: "hsl(var(--foreground) / 0.72)",
             }}
           >
             {metadataLabel ?? project.role} · {project.year}
