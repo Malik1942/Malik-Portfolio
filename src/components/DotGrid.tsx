@@ -32,7 +32,7 @@ const ORB_DEFS = [
   { label: "Aura",         subtitle: "Main Projects", color: "red"  as const, rx: 0.1,  ry: 0.25, mrx: 0.10, mry: 0.22, id: "aura" },
   { label: "NeuraLyfe",    subtitle: "Main Projects", color: "red"  as const, rx: 0.28, ry: 0.72, mrx: 0.12, mry: 0.70, id: "neuralyfe" },
   { label: "FlowPrint",    subtitle: "Main Projects", color: "red"  as const, rx: 0.75, ry: 0.45, mrx: 0.88, mry: 0.46, id: "flowprint" },
-  { label: "Tubular",      subtitle: "Main Projects", color: "red"  as const, rx: 0.18, ry: 0.7,  mrx: 0.14, mry: 0.80, id: "tubular" },
+  { label: "Tubular",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.18, ry: 0.7,  mrx: 0.14, mry: 0.80, id: "tubular" },
   { label: "Mood Muse",    subtitle: "Main Projects", color: "red"  as const, rx: 0.88, ry: 0.3,  mrx: 0.88, mry: 0.28, id: "moodmuse" },
   { label: "Inspire Ocean",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.55, ry: 0.2,  mrx: 0.60, mry: 0.18, id: "inspireocean" },
   { label: "Studio Waters",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.72, ry: 0.68, mrx: 0.88, mry: 0.60, id: "studiowaters" },
