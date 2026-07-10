@@ -639,8 +639,8 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         ctx.fillStyle = `rgba(${col}, ${(0.68 + easedH * 0.18) * opacityBreath})`;
         ctx.fillText(orb.label, orb.x + 20, orb.y - 3);
 
-        ctx.font = "400 10px 'Space Grotesk', sans-serif";
-        ctx.fillStyle = `rgba(${col}, ${(0.38 + easedH * 0.20) * opacityBreath})`;
+        ctx.font = "500 10px 'Space Grotesk', sans-serif";
+        ctx.fillStyle = `rgba(${col}, ${(0.55 + easedH * 0.20) * opacityBreath})`;
         ctx.fillText(orb.subtitle, orb.x + 20, orb.y + 11);
       });
 
