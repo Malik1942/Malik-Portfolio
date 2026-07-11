@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { AnimatePresence, motion, useInView } from "framer-motion";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, X } from "lucide-react";
 import Footer from "@/components/Footer";
 import {
   AboutEditorialSection,
@@ -102,19 +102,6 @@ const photoEditorialRowVariants = {
     opacity: 1,
     y: 0,
     transition: { duration: 0.68, ease: easeOutExpo },
-  },
-};
-
-const photoFooterBarVariants = {
-  hidden: { opacity: 0, y: 8 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.65,
-      delay: 0.52,
-      ease: easeOutExpo,
-    },
   },
 };
 
@@ -585,9 +572,12 @@ const DailyTag = ({ label }: { label: string }) => (
 const AboutDeepContent = ({
   isVisible,
   onMainProjectsClick,
+  onBack,
 }: {
   isVisible: boolean;
   onMainProjectsClick?: () => void;
+  /** Returns to the homepage hero — mirrors the case studies' bottom exit. */
+  onBack?: () => void;
 }) => {
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
   const photoSectionRef = useRef<HTMLElement>(null);
@@ -632,21 +622,6 @@ const AboutDeepContent = ({
             eyebrow="Photography"
             title="Selected frames"
             description="Personal stills from travel and everyday light — composed quietly, without narrative noise."
-            footer={
-              <motion.div
-                className="mt-10 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-foreground/[0.07] pt-5"
-                variants={photoFooterBarVariants}
-                initial="hidden"
-                animate={photoInView ? "show" : "hidden"}
-              >
-                <span className="text-[10px] uppercase tracking-[0.28em] text-foreground/44">
-                  Archive · 8 frames
-                </span>
-                <span className="text-[10px] text-foreground/44 tracking-[0.12em]">
-                  Tap any image to view full size
-                </span>
-              </motion.div>
-            }
           >
             <motion.div
               className="min-w-0 flex-1 flex flex-col gap-3 md:gap-4"
@@ -752,6 +727,25 @@ const AboutDeepContent = ({
             <div className="w-[3px] h-[3px] rounded-full bg-foreground/10" />
           </motion.div>
         </div>
+
+        {/* Back to home — same bottom-exit pattern as the case studies'
+            "Back to all work". Padding matches the Footer below so their left
+            edges align. */}
+        {onBack ? (
+          <div className="relative z-20 px-6 md:px-16 lg:px-20 pt-4 pb-2">
+            <div className="max-w-[1200px] mx-auto">
+              <button
+                type="button"
+                onClick={onBack}
+                aria-label="Back to home"
+                className="group flex items-center gap-2 min-h-[44px] -ml-1 px-1 text-sm text-body text-foreground/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded transition-colors duration-200"
+              >
+                <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+                Back to home
+              </button>
+            </div>
+          </div>
+        ) : null}
 
         <div className="relative z-20">
           <Footer onMainProjectsClick={onMainProjectsClick} />

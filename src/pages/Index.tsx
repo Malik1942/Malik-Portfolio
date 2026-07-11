@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
 import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
 import HeroSection from "@/components/HeroSection";
@@ -93,14 +94,43 @@ export const aiProjects = [
 
 const Index = () => {
   const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const location = useLocation();
 
-  const navigateToMainProjects = useCallback(() => {
+  // Cross-page nav intent: pages that link back here (case studies) pass router
+  // state to land on a specific section or open the About overlay on arrival.
+  useEffect(() => {
+    const navState = location.state as { scrollTo?: string; openAbout?: boolean } | null;
+    if (!navState) return;
+    if (navState.openAbout) {
+      setIsAboutOpen(true);
+      return;
+    }
+    if (navState.scrollTo) {
+      const target = navState.scrollTo;
+      // Defer past App's ScrollToTop (fires on the same navigation) and layout.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => scrollToSectionNavTarget(target));
+      });
+    }
+  }, [location.state]);
+
+  // Close the About overlay (if open) and scroll to a homepage section. Works
+  // from both the plain hero and the About view — the header nav uses it so the
+  // links behave identically in either state.
+  const navigateToSection = useCallback((sectionId: string) => {
     setIsAboutOpen(false);
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        scrollToSectionNavTarget("projects");
+        scrollToSectionNavTarget(sectionId);
       });
     });
+  }, []);
+
+  const navigateToMainProjects = useCallback(() => navigateToSection("projects"), [navigateToSection]);
+
+  const closeAbout = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsAboutOpen(false);
   }, []);
 
   return (
@@ -112,15 +142,14 @@ const Index = () => {
           window.scrollTo({ top: 0, behavior: "smooth" });
           setIsAboutOpen(true);
         }}
-        onAboutBack={() => {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          setIsAboutOpen(false);
-        }}
+        onAboutBack={closeAbout}
+        onSelectedWorkClick={navigateToMainProjects}
+        onWorkshopClick={() => navigateToSection("ai-projects")}
       />
 
       {/* About deep content — below hero, only when about is open */}
       {isAboutOpen && (
-        <AboutDeepContent isVisible={isAboutOpen} onMainProjectsClick={navigateToMainProjects} />
+        <AboutDeepContent isVisible={isAboutOpen} onMainProjectsClick={navigateToMainProjects} onBack={closeAbout} />
       )}
 
       {/* Regular portfolio content — hidden when about is open */}
