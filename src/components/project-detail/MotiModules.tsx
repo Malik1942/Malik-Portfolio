@@ -446,7 +446,7 @@ export function MotiBuildJourney() {
   return (
     <div className="flex flex-col gap-8 md:gap-10">
       <VersionBlock
-        tag="v0"
+        tag="V0"
         title="Rule-Based Prototype"
         subtitle="Testing the core interaction loop"
         points={[
@@ -456,7 +456,7 @@ export function MotiBuildJourney() {
         ]}
       />
       <VersionBlock
-        tag="v1"
+        tag="V1"
         title="Foundational Model for Understanding"
         points={[
           { label: "Why evolve", text: "Temporal blindness, context loss, over-rigid parsing." },
@@ -465,7 +465,7 @@ export function MotiBuildJourney() {
         quote="The problem wasn’t planning. It was understanding."
       />
       <VersionBlock
-        tag="v1.1"
+        tag="V1.1"
         title="Constraining the Understanding Layer"
         points={[
           { label: "Flow", text: "Natural language input → context layer → control layer → foundation model → structured understanding." },
