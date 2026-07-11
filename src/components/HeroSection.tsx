@@ -163,15 +163,9 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
       >
         <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
 
-          {/* Left — identity */}
-          <div className="animate-fade-up delay-3">
-            <p className="text-[15px] uppercase tracking-[0.18em] text-foreground/72 text-body font-medium mb-2">
-              Product Designer
-            </p>
-            <p className="text-[12px] text-foreground/44 tracking-[0.06em] text-body">
-              HARDWARE · AI · SPATIAL · SYSTEMS
-            </p>
-          </div>
+          {/* Left — reserved for personal logo (top-left). Kept as an empty grid
+              cell so the centered nav stays balanced; drop the logo <img> here. */}
+          <div className="animate-fade-up delay-3" />
 
           {/* Center — nav */}
           <nav className="flex items-center gap-x-8 gap-y-2 text-[16px] text-foreground/72 text-body animate-fade-up delay-4 justify-self-center">
@@ -208,16 +202,8 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
           <div />
         </div>
 
-        {/* Mobile — simple stack */}
+        {/* Mobile — simple stack. Identity text removed; personal logo will go top-left. */}
         <div className="flex flex-col gap-5 md:hidden">
-          <div className="animate-fade-up delay-3">
-            <p className="text-[15px] uppercase tracking-[0.18em] text-foreground/72 text-body font-medium mb-2">
-              Product Designer
-            </p>
-            <p className="text-[12px] text-foreground/44 tracking-[0.06em] text-body">
-              HARDWARE · AI · SPATIAL · SYSTEMS
-            </p>
-          </div>
           <nav className="flex flex-wrap gap-x-8 gap-y-2 text-[16px] text-foreground/72 text-body animate-fade-up delay-4">
             <a href="#projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "projects")}>Selected Work</a>
             <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "ai-projects")}>{WORKSHOP_SECTION_LABEL}</a>
