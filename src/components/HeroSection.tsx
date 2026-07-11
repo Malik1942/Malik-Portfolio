@@ -164,16 +164,22 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
       <div
         className="fixed top-0 left-0 right-0 z-50"
         style={{
-          transform: `translateY(${headerTuckedAway ? "-100%" : "0"})`,
+          // Subtle fade-slide instead of a full-height slide: while hidden the
+          // header is transparent anyway, so a short 20px drift reads softer.
+          // Asymmetric timing — quick quiet exit, slower gentle entrance.
+          transform: `translateY(${headerTuckedAway ? "-20px" : "0"})`,
+          opacity: headerTuckedAway ? 0 : 1,
           transition: shouldReduceMotion
             ? "none"
-            : "transform 320ms cubic-bezier(0.16, 1, 0.3, 1)",
+            : headerTuckedAway
+              ? "transform 240ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms cubic-bezier(0.4, 0, 1, 1)"
+              : "transform 450ms cubic-bezier(0.22, 1, 0.36, 1), opacity 350ms cubic-bezier(0, 0, 0.2, 1)",
           pointerEvents: headerInert ? "none" : undefined,
         }}
       >
         <motion.div
           data-hero-header
-          className="relative px-6 md:px-16 lg:px-24 pt-7 pb-12 pointer-events-none"
+          className="relative px-8 md:px-16 lg:px-24 pt-7 pb-12 pointer-events-none"
           style={{
             // Subtle vertical shader for legibility — solid at the top, fading to
             // fully transparent below the nav. The divider renders on top of it.
@@ -192,7 +198,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
             {/* Left — personal logo (top-left); links home via the router */}
             <div className="animate-fade-up delay-3">
               <Link to="/" aria-label="Malik Zhang — home" className="pointer-events-auto inline-block w-fit">
-                <img src={logo} alt="Malik Zhang" className="h-9 w-auto select-none" />
+                <img src={logo} alt="Malik Zhang" className="h-6 w-auto select-none" />
               </Link>
             </div>
 
@@ -231,18 +237,14 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
             <div />
           </div>
 
-          {/* Mobile — logo top-left, then nav */}
-          <div className="flex flex-col gap-5 md:hidden">
-            <Link to="/" aria-label="Malik Zhang — home" className="pointer-events-auto self-start w-fit animate-fade-up delay-3">
-              <img src={logo} alt="Malik Zhang" className="h-8 w-auto select-none" />
-            </Link>
-            <nav className="pointer-events-auto flex flex-wrap gap-x-8 gap-y-2 text-[16px] text-foreground/72 text-body animate-fade-up delay-4">
-              <a href="#projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "projects")}>Selected Work</a>
-              <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "ai-projects")}>{WORKSHOP_SECTION_LABEL}</a>
-              <a href="#about" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => { e.preventDefault(); onAboutClick(); }}>About</a>
-              <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">Resume</a>
-            </nav>
-          </div>
+          {/* Mobile — single-row nav, no logo. justify-between + 14px type keeps
+              all four links on one line down to 320px-wide viewports. */}
+          <nav className="pointer-events-auto flex flex-nowrap justify-between whitespace-nowrap text-[14px] text-foreground/72 text-body animate-fade-up delay-4 md:hidden">
+            <a href="#projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "projects")}>Selected Work</a>
+            <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "ai-projects")}>{WORKSHOP_SECTION_LABEL}</a>
+            <a href="#about" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => { e.preventDefault(); onAboutClick(); }}>About</a>
+            <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">Resume</a>
+          </nav>
 
           <div className="h-px bg-border/40 mt-5 animate-line-reveal delay-3" />
         </motion.div>
