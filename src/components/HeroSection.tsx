@@ -192,7 +192,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
             {/* Left — personal logo (top-left); links home via the router */}
             <div className="animate-fade-up delay-3">
               <Link to="/" aria-label="Malik Zhang — home" className="pointer-events-auto inline-block w-fit">
-                <img src={logo} alt="Malik Zhang" className="h-9 w-auto select-none" />
+                <img src={logo} alt="Malik Zhang" className="h-6 w-auto select-none" />
               </Link>
             </div>
 
@@ -231,18 +231,14 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
             <div />
           </div>
 
-          {/* Mobile — logo top-left, then nav */}
-          <div className="flex flex-col gap-5 md:hidden">
-            <Link to="/" aria-label="Malik Zhang — home" className="pointer-events-auto self-start w-fit animate-fade-up delay-3">
-              <img src={logo} alt="Malik Zhang" className="h-8 w-auto select-none" />
-            </Link>
-            <nav className="pointer-events-auto flex flex-wrap gap-x-8 gap-y-2 text-[16px] text-foreground/72 text-body animate-fade-up delay-4">
-              <a href="#projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "projects")}>Selected Work</a>
-              <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "ai-projects")}>{WORKSHOP_SECTION_LABEL}</a>
-              <a href="#about" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => { e.preventDefault(); onAboutClick(); }}>About</a>
-              <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">Resume</a>
-            </nav>
-          </div>
+          {/* Mobile — single-row nav, no logo. justify-between + 14px type keeps
+              all four links on one line down to 320px-wide viewports. */}
+          <nav className="pointer-events-auto flex flex-nowrap justify-between whitespace-nowrap text-[14px] text-foreground/72 text-body animate-fade-up delay-4 md:hidden">
+            <a href="#projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "projects")}>Selected Work</a>
+            <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "ai-projects")}>{WORKSHOP_SECTION_LABEL}</a>
+            <a href="#about" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => { e.preventDefault(); onAboutClick(); }}>About</a>
+            <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">Resume</a>
+          </nav>
 
           <div className="h-px bg-border/40 mt-5 animate-line-reveal delay-3" />
         </motion.div>
