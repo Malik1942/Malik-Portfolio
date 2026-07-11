@@ -39,7 +39,6 @@ const ORB_DEFS = [
   { label: "FlowPrint",    subtitle: "Main Projects", color: "red"  as const, rx: 0.75, ry: 0.45, mrx: 0.15, mry: 0.72, id: "flowprint" },
   { label: "Tubular",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.18, ry: 0.7,  mrx: 0.09, mry: 0.80, id: "tubular" },
   { label: "Mood Muse",    subtitle: "Main Projects", color: "red"  as const, rx: 0.88, ry: 0.3,  mrx: 0.09, mry: 0.32, id: "moodmuse" },
-  { label: "Inspire Ocean",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.55, ry: 0.2,  mrx: 0.15, mry: 0.23, id: "inspireocean" },
   { label: "Studio Waters",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.72, ry: 0.68, mrx: 0.15, mry: 0.88, id: "studiowaters" },
 ];
 
