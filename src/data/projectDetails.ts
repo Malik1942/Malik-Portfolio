@@ -37,21 +37,21 @@ const aura: ProjectDetailDocument = {
   slug: "aura",
   listSection: "Main Projects",
   title: "Aura",
-  heroSummary: "A wearable system built to intervene before motion sickness starts",
-  heroSubtitle: "Speculative product concept · 93.75% preferred the refined earbud form (n=16) · 5-person team · 5 weeks",
+  heroSummary: "A Wearable System Built to Intervene Before Motion Sickness Starts",
+  heroSubtitle: "Speculative Product Concept · 93.75% Preferred the Refined Earbud Form (n=16) · 5-Person Team · 5 Weeks",
   heroImage: auraCover,
   heroImageFit: "natural",
   metaCards: [
     { label: "Role", value: "Product Designer · Industrial Designer" },
-    { label: "Timeline", value: "5 weeks · Fall 2025" },
-    { label: "Team", value: "5-person design team" },
+    { label: "Timeline", value: "5 Weeks · Fall 2025" },
+    { label: "Team", value: "5-Person Design Team" },
     { label: "Output", value: "93.75% Preferred Refined Form (n=16) · App Prototype" },
   ],
   sections: [
     {
       id: "intro",
       label: "Intro",
-      headline: "An invisible problem that starts before symptoms",
+      headline: "An Invisible Problem That Starts Before Symptoms",
       showProjectMeta: true,
       body: "**Aura is a wearable system that intervenes before motion sickness starts — and the refined earbud form tested at 93.75% preference among 16 users.**\n\nFor motion-sensitive travelers, discomfort often begins before they consciously recognize it. Aura senses early physiological and motion signals, predicts risk, and delivers subtle audio guidance before symptoms escalate.\n\nAs a product and industrial designer on a 5-person team, I shaped the product logic, physical prototype, app experience, and interaction flow across a 5-week sprint.",
     },
@@ -63,13 +63,13 @@ const aura: ProjectDetailDocument = {
     {
       id: "situation",
       label: "Situation",
-      headline: "Travel was rich, but too broad to solve as one problem",
-      body: "## Starting from a broad travel space\n\nThis project began with an open brief, so our team first explored several areas we were curious about. Travel quickly stood out because it is emotionally rich, physically demanding, and full of unresolved friction.\n\nAt the same time, travel was too broad to solve as one problem. It includes planning, packing, airport navigation, waiting, flying, delays, discomfort, arrival, and recovery, each with different needs and constraints. Before designing a solution, we needed to narrow the space and identify where a product intervention could create the most meaningful impact.\n\nThat became the starting point for our discovery: moving from a broad interest in travel to a focused opportunity within the journey.",
+      headline: "Travel Was Rich, but Too Broad to Solve as One Problem",
+      body: "## Starting From a Broad Travel Space\n\nThis project began with an open brief, so our team first explored several areas we were curious about. Travel quickly stood out because it is emotionally rich, physically demanding, and full of unresolved friction.\n\nAt the same time, travel was too broad to solve as one problem. It includes planning, packing, airport navigation, waiting, flying, delays, discomfort, arrival, and recovery, each with different needs and constraints. Before designing a solution, we needed to narrow the space and identify where a product intervention could create the most meaningful impact.\n\nThat became the starting point for our discovery: moving from a broad interest in travel to a focused opportunity within the journey.",
     },
     {
       id: "discovery",
       label: "Discovery",
-      headline: "We narrowed the journey to the moment with the least control",
+      headline: "We Narrowed the Journey to the Moment With the Least Control",
       figures: [
         { type: "image", src: auraDiscovery1, alt: "Aura discovery — travel journey mapping" },
       ],
@@ -78,18 +78,18 @@ const aura: ProjectDetailDocument = {
     {
       id: "research",
       label: "Research",
-      headline: "Existing support often arrives after travelers already feel sick",
+      headline: "Existing Support Often Arrives After Travelers Already Feel Sick",
       figures: [
         { type: "image", src: auraResearch1, alt: "Motion sickness mechanism showing visual and inner-ear mismatch, brain conflict, and symptoms" },
         { type: "image", src: auraResearch2, alt: "Aura audio intervention research — 100 Hz sound" },
         { type: "image", src: auraResearch3, alt: "Aura competitive analysis — motion sickness solutions" },
       ],
-      body: "## Understanding motion sickness as a timing problem\n\nAfter narrowing the scope to in-flight discomfort, I needed to understand why motion sickness is difficult to manage once it begins.\n\nSecondary research reframed the problem: motion sickness is not a sudden symptom, but a gradual response to conflict between visual and vestibular signals. Travelers may begin experiencing physiological changes before they consciously recognize discomfort.\n\n[[fig:0]]\n\nThis made timing the key design challenge. If Aura waited until users felt clearly nauseous, the system would already be too late.\n\n**Decision: Support should begin before discomfort becomes difficult to manage.**\n\n## Audio as intervention\n\nWith early intervention as the goal, I looked for support methods that could work without adding visual or cognitive effort. Research identified 100 Hz low-frequency audio as a credible way to reduce dizziness and motion discomfort.\n\n[[fig:1]]\n\nThis shifted audio from a background feature into a core product strategy: passive support that users could receive while sitting still or closing their eyes.\n\n**Design implication: Use calming audio as Aura’s first response, giving travelers support without requiring visual attention or active input.**\n\n## Current solution landscape\n\nI compared existing remedies across medication, patches, wearables, pressure tools, visual aids, audio tools, and behavioral strategies.\n\n[[fig:2]]\n\nThe landscape revealed a gap in timing and effort. Many solutions require advance preparation or active self-management after discomfort begins. Few support the early buildup phase, when travelers may need help but may not yet recognize it.\n\n**Insight: Most solutions depend on either advance preparation or active self-management.**\n\n## Research takeaway\n\nThe research shifted Aura’s opportunity from relieving nausea to **anticipating discomfort**.\n\nAura should sense early risk, prepare support quietly, and reduce the effort required to manage discomfort in motion.",
+      body: "## Understanding Motion Sickness as a Timing Problem\n\nAfter narrowing the scope to in-flight discomfort, I needed to understand why motion sickness is difficult to manage once it begins.\n\nSecondary research reframed the problem: motion sickness is not a sudden symptom, but a gradual response to conflict between visual and vestibular signals. Travelers may begin experiencing physiological changes before they consciously recognize discomfort.\n\n[[fig:0]]\n\nThis made timing the key design challenge. If Aura waited until users felt clearly nauseous, the system would already be too late.\n\n**Decision: Support should begin before discomfort becomes difficult to manage.**\n\n## Audio as Intervention\n\nWith early intervention as the goal, I looked for support methods that could work without adding visual or cognitive effort. Research identified 100 Hz low-frequency audio as a credible way to reduce dizziness and motion discomfort.\n\n[[fig:1]]\n\nThis shifted audio from a background feature into a core product strategy: passive support that users could receive while sitting still or closing their eyes.\n\n**Design implication: Use calming audio as Aura’s first response, giving travelers support without requiring visual attention or active input.**\n\n## Current Solution Landscape\n\nI compared existing remedies across medication, patches, wearables, pressure tools, visual aids, audio tools, and behavioral strategies.\n\n[[fig:2]]\n\nThe landscape revealed a gap in timing and effort. Many solutions require advance preparation or active self-management after discomfort begins. Few support the early buildup phase, when travelers may need help but may not yet recognize it.\n\n**Insight: Most solutions depend on either advance preparation or active self-management.**\n\n## Research Takeaway\n\nThe research shifted Aura’s opportunity from relieving nausea to **anticipating discomfort**.\n\nAura should sense early risk, prepare support quietly, and reduce the effort required to manage discomfort in motion.",
     },
     {
       id: "ideation",
       label: "Ideation",
-      headline: "Aura needed to combine sensing, intervention, and familiar travel behavior",
+      headline: "Aura Needed to Combine Sensing, Intervention, and Familiar Travel Behavior",
       figures: [
         { type: "image", src: auraIdeation1, alt: "Aura ideation overview showing early concepts across digital, physical, and sensory interventions" },
         { type: "image", src: auraIdeation2, alt: "Aura 2 by 2 concept evaluation matrix showing the selected ear-worn wearable direction" },
@@ -99,39 +99,39 @@ const aura: ProjectDetailDocument = {
     {
       id: "testing",
       label: "Testing",
-      headline: "The product had to earn trust on the body",
+      headline: "The Product Had to Earn Trust on the Body",
       figures: [
         { type: "image", src: auraTesting1, alt: "Aura physical prototyping process and early earbud form exploration" },
         { type: "image", src: auraTesting2, alt: "Aura hardware and app experience testing with users" },
       ],
-      body: "## Building fast enough to learn\n\nAfter choosing the earbud direction, we needed to test whether Aura could feel wearable, understandable, and low-effort in practice.\n\n[[fig:0]]\n\nI led the physical prototyping while collaborating with teammates on the digital flow, then tested the combined hardware and app experience with users to evaluate fit, stability, comfort, and system clarity.\n\n[[fig:1]]\n\n## What testing revealed\n\nTesting exposed constraints that were not obvious in CAD or static screens.\n\n[[module:aura-testing-findings]]\n\n**Decision: Shift the hardware toward a more stable bar-oriented structure and simplify the app around low-attention status feedback.**",
+      body: "## Building Fast Enough to Learn\n\nAfter choosing the earbud direction, we needed to test whether Aura could feel wearable, understandable, and low-effort in practice.\n\n[[fig:0]]\n\nI led the physical prototyping while collaborating with teammates on the digital flow, then tested the combined hardware and app experience with users to evaluate fit, stability, comfort, and system clarity.\n\n[[fig:1]]\n\n## What Testing Revealed\n\nTesting exposed constraints that were not obvious in CAD or static screens.\n\n[[module:aura-testing-findings]]\n\n**Decision: Shift the hardware toward a more stable bar-oriented structure and simplify the app around low-attention status feedback.**",
     },
     {
       id: "refinement",
       label: "Refinement",
-      headline: "Wearability and readability became part of the system",
+      headline: "Wearability and Readability Became Part of the System",
       figures: [
         { type: "image", src: auraRefinement1, alt: "Progressive Aura Bud form iterations informed by ergonomic testing" },
         { type: "image", src: auraRefinement2, alt: "Aura Bud ergonomic testing across different users and wearing contexts" },
         { type: "image", src: auraRefinement3, alt: "Aura app interface refinement for low-attention status feedback" },
       ],
-      body: "## Making Aura easier to wear, read, and trust\n\nTesting showed that Aura needed refinement in both form and interaction. The earbuds had to feel stable across different ears, while the app had to communicate support without adding more effort.\n\n## Physical refinement\n\nErgonomic testing revealed issues with fit, pressure, and weight distribution, especially across different ear shapes, glasses, hairstyles, and head movement.\n\n[[fig:0]]\n\nI shifted the hardware toward a more bar-oriented structure to improve stability, distribute weight more evenly, and create more internal room for sensing and audio components.\n\nTo validate the direction, I tested the refined form with **16 people**. **93.75%** preferred the updated earbud form, suggesting that the new structure felt more comfortable and believable as a wearable product.\n\n[[fig:1]]\n\n## Digital refinement\n\nThe app needed to make Aura’s system behavior clear at a glance.\n\n[[fig:2]]\n\nI simplified the interface around low-attention feedback: clearer status cards, calmer motion states, and direct support cues that show when Aura is monitoring, preparing, or intervening.\n\n**Decision: Refine Aura as a connected hardware and app experience: more stable to wear, easier to read, and easier to trust during travel.**",
+      body: "## Making Aura Easier to Wear, Read, and Trust\n\nTesting showed that Aura needed refinement in both form and interaction. The earbuds had to feel stable across different ears, while the app had to communicate support without adding more effort.\n\n## Physical Refinement\n\nErgonomic testing revealed issues with fit, pressure, and weight distribution, especially across different ear shapes, glasses, hairstyles, and head movement.\n\n[[fig:0]]\n\nI shifted the hardware toward a more bar-oriented structure to improve stability, distribute weight more evenly, and create more internal room for sensing and audio components.\n\nTo validate the direction, I tested the refined form with **16 people**. **93.75%** preferred the updated earbud form, suggesting that the new structure felt more comfortable and believable as a wearable product.\n\n[[fig:1]]\n\n## Digital Refinement\n\nThe app needed to make Aura’s system behavior clear at a glance.\n\n[[fig:2]]\n\nI simplified the interface around low-attention feedback: clearer status cards, calmer motion states, and direct support cues that show when Aura is monitoring, preparing, or intervening.\n\n**Decision: Refine Aura as a connected hardware and app experience: more stable to wear, easier to read, and easier to trust during travel.**",
     },
     {
       id: "final-design",
       label: "Final Design",
-      headline: "Aura senses, predicts, and supports before discomfort takes over",
+      headline: "Aura Senses, Predicts, and Supports Before Discomfort Takes Over",
       figures: [
         { type: "image", src: auraSystem1, alt: "Aura system architecture", full: true },
         { type: "image", src: auraApp1, alt: "Aura app interface showing setup, trip context, support preferences, and at-a-glance status" },
       ],
-      body: "## A connected system for proactive support\n\nAfter research, ideation, testing, and refinement, Aura evolved into a connected hardware and app system designed to support motion-sensitive travelers before discomfort escalates.\n\nThe final concept brings together three layers: sensing, prediction, and support. Aura Buds capture early body and motion signals, the app interprets those signals with travel context, and the system responds through subtle audio guidance before the traveler has to actively manage symptoms.\n\n[[fig:0]]\n\n**System logic: Aura is not designed to wait for users to report discomfort. It prepares support earlier, using physiological signals, motion context, and flight information to make the experience feel timely, calm, and low-effort.**\n\n## In-flight experience\n\nTo make the system behavior tangible, I mapped Aura across three key moments: pre-travel preparation, in-flight monitoring, and turbulence response.\n\n[[module:aura-scenes]]\n\nThese scenarios helped define the tone of the experience. Aura should feel proactive, but not alarming. It should explain enough to build trust, but not require constant attention.\n\n**Decision: Design Aura’s support as quiet preparation, not urgent correction.**\n\n## Aura Buds\n\nI designed Aura Buds as the physical interface of the system, bringing together sensing, audio intervention, comfort, and social acceptance in one wearable form.\n\n[[module:aura-hardware]]\n\nThe buds sense physiological and motion signals, deliver 100 Hz grounding audio and calming soundscapes, and provide low-attention feedback through subtle interaction cues. The goal was to make the hardware feel familiar enough for travel while still giving it a clear reason to exist beyond everyday earbuds.\n\n## Aura App\n\nThe app acts as Aura’s quiet control layer. It prepares the system before travel, personalizes support, and helps users understand what Aura is doing without turning the experience into another task.\n\n[[fig:1]]\n\nI framed the app around one interaction principle: guided, not demanding. The interface focuses on setup, trip context, support preferences, and at-a-glance status so users can stay informed without constantly managing the system.\n\n**Final outcome: Aura became a proactive support system: wearable enough to fit into travel, intelligent enough to respond to changing conditions, and calm enough to support users without overwhelming them.**",
+      body: "## A Connected System for Proactive Support\n\nAfter research, ideation, testing, and refinement, Aura evolved into a connected hardware and app system designed to support motion-sensitive travelers before discomfort escalates.\n\nThe final concept brings together three layers: sensing, prediction, and support. Aura Buds capture early body and motion signals, the app interprets those signals with travel context, and the system responds through subtle audio guidance before the traveler has to actively manage symptoms.\n\n[[fig:0]]\n\n**System logic: Aura is not designed to wait for users to report discomfort. It prepares support earlier, using physiological signals, motion context, and flight information to make the experience feel timely, calm, and low-effort.**\n\n## In-Flight Experience\n\nTo make the system behavior tangible, I mapped Aura across three key moments: pre-travel preparation, in-flight monitoring, and turbulence response.\n\n[[module:aura-scenes]]\n\nThese scenarios helped define the tone of the experience. Aura should feel proactive, but not alarming. It should explain enough to build trust, but not require constant attention.\n\n**Decision: Design Aura’s support as quiet preparation, not urgent correction.**\n\n## Aura Buds\n\nI designed Aura Buds as the physical interface of the system, bringing together sensing, audio intervention, comfort, and social acceptance in one wearable form.\n\n[[module:aura-hardware]]\n\nThe buds sense physiological and motion signals, deliver 100 Hz grounding audio and calming soundscapes, and provide low-attention feedback through subtle interaction cues. The goal was to make the hardware feel familiar enough for travel while still giving it a clear reason to exist beyond everyday earbuds.\n\n## Aura App\n\nThe app acts as Aura’s quiet control layer. It prepares the system before travel, personalizes support, and helps users understand what Aura is doing without turning the experience into another task.\n\n[[fig:1]]\n\nI framed the app around one interaction principle: guided, not demanding. The interface focuses on setup, trip context, support preferences, and at-a-glance status so users can stay informed without constantly managing the system.\n\n**Final outcome: Aura became a proactive support system: wearable enough to fit into travel, intelligent enough to respond to changing conditions, and calm enough to support users without overwhelming them.**",
     },
     {
       id: "reflection",
       label: "Reflection",
-      headline: "Proactive systems need to earn trust, not just act early",
-      body: "## Next step: from concept to evidence\n\nIf I continued Aura, I would move from concept validation to longitudinal testing across repeated flights, different motion-sickness patterns, and changing travel conditions.\n\nThe focus would shift from whether the concept feels compelling to whether the system can sense risk reliably, intervene at the right time, and remain trusted over time.\n\n**The conceptual case is made. The next case is evidence.**\n\n## What I learned\n\n[[module:aura-reflection-learnings]]",
+      headline: "Proactive Systems Need to Earn Trust, Not Just Act Early",
+      body: "## Next Step: From Concept to Evidence\n\nIf I continued Aura, I would move from concept validation to longitudinal testing across repeated flights, different motion-sickness patterns, and changing travel conditions.\n\nThe focus would shift from whether the concept feels compelling to whether the system can sense risk reliably, intervene at the right time, and remain trusted over time.\n\n**The conceptual case is made. The next case is evidence.**\n\n## What I Learned\n\n[[module:aura-reflection-learnings]]",
     },
   ],
 };
@@ -140,8 +140,8 @@ const neuralyfe: ProjectDetailDocument = {
   slug: "neuralyfe",
   listSection: "Main Projects",
   title: "NeuraLyfe",
-  heroSummary: "Making invisible brain trauma visible — before it becomes irreversible.",
-  heroSubtitle: "FigBuild 2026 · 1st place — concept, execution, and system design.",
+  heroSummary: "Making Invisible Brain Trauma Visible — Before It Becomes Irreversible.",
+  heroSubtitle: "FigBuild 2026 · 1st Place — Concept, Execution, and System Design.",
   heroImage: neuralyfeDetail1,
   metaCards: [
     { label: "Role", value: "Product Designer · Maker" },
@@ -167,7 +167,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "situation",
       label: "Situation",
-      body: "## The problem with cumulative damage\n\nFootball players take thousands of hits across a career. Most feel manageable in the moment — but repeated sub-concussive impacts are strongly linked to long-term brain damage.\n\n[[fig:0]]\n\nThe damage is hard to see. Sideline evaluations rely on visible symptoms — confusion, balance, slowed reactions — and by the time those appear, the neurological impact may already be significant.\n\n**Medical staff need to track cumulative impact as it builds, not just react once symptoms show.**",
+      body: "## The Problem With Cumulative Damage\n\nFootball players take thousands of hits across a career. Most feel manageable in the moment — but repeated sub-concussive impacts are strongly linked to long-term brain damage.\n\n[[fig:0]]\n\nThe damage is hard to see. Sideline evaluations rely on visible symptoms — confusion, balance, slowed reactions — and by the time those appear, the neurological impact may already be significant.\n\n**Medical staff need to track cumulative impact as it builds, not just react once symptoms show.**",
       figures: [
         { type: "image", src: neuralyfeDeckHits, alt: "Repeated sub-concussive hits accumulate into long-term brain damage" },
       ],
@@ -175,7 +175,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "research",
       label: "Research",
-      body: "## Where the detection gap is\n\nExisting helmet sensors capture **force** — but force alone doesn't tell you how the brain responded. The signal that matters, cumulative neurological stress, goes unmeasured.\n\n[[fig:0]]\n\nSideline checks are also triggered too late: by a visible hit or stumble, when the window for early intervention may already have passed.\n\n**The opportunity: track cumulative brain-impact risk as it builds, not just flag individual hits.**",
+      body: "## Where the Detection Gap Is\n\nExisting helmet sensors capture **force** — but force alone doesn't tell you how the brain responded. The signal that matters, cumulative neurological stress, goes unmeasured.\n\n[[fig:0]]\n\nSideline checks are also triggered too late: by a visible hit or stumble, when the window for early intervention may already have passed.\n\n**The opportunity: track cumulative brain-impact risk as it builds, not just flag individual hits.**",
       figures: [
         { type: "image", src: neuralyfeDeckIndex, alt: "The CTE Progression Index combines biomarkers — p-Tau 217, NfL, GFAP — into a cumulative risk signal" },
       ],
@@ -183,7 +183,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "problem",
       label: "Design Challenge",
-      body: "## From complex data to fast decisions\n\nThe core problem wasn't technical — it was interpretive. Brain activity, cumulative impact, affected regions, and biomarker signals are hard to read in real time. Show too much and it overwhelms; simplify too much and it loses credibility.\n\n[[fig:0]]\n\nThe system had to surface the most urgent information first, support fast triage, and let staff go deeper only when needed.\n\n**The question I kept returning to: what does a sideline medic need to know in the next five seconds?**",
+      body: "## From Complex Data to Fast Decisions\n\nThe core problem wasn't technical — it was interpretive. Brain activity, cumulative impact, affected regions, and biomarker signals are hard to read in real time. Show too much and it overwhelms; simplify too much and it loses credibility.\n\n[[fig:0]]\n\nThe system had to surface the most urgent information first, support fast triage, and let staff go deeper only when needed.\n\n**The question I kept returning to: what does a sideline medic need to know in the next five seconds?**",
       figures: [
         { type: "image", src: neuralyfeDeckProof, alt: "Sideline doctors need proof, not suspicion" },
       ],
@@ -191,7 +191,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "system-direction",
       label: "System Direction",
-      body: "## Two layers working together\n\n**Halo** is a helmet add-on that captures impact and physiological signals during play — without replacing equipment teams already trust. It carries three sensing layers: EEG for brain connectivity, biomarker sensors for early neurological stress (p-Tau 217, NfL, GFAP), and an impact camera that reconstructs hits.\n\n[[fig:0]]\n\n**The sideline interface** turns those signals into a decision workflow, structured around three questions: who needs attention, what's happening in their brain, and what caused it.\n\n**The core logic: the interface is only as useful as the signals behind it — and the hardware only as useful as the interface that makes sense of it.**",
+      body: "## Two Layers Working Together\n\n**Halo** is a helmet add-on that captures impact and physiological signals during play — without replacing equipment teams already trust. It carries three sensing layers: EEG for brain connectivity, biomarker sensors for early neurological stress (p-Tau 217, NfL, GFAP), and an impact camera that reconstructs hits.\n\n[[fig:0]]\n\n**The sideline interface** turns those signals into a decision workflow, structured around three questions: who needs attention, what's happening in their brain, and what caused it.\n\n**The core logic: the interface is only as useful as the signals behind it — and the hardware only as useful as the interface that makes sense of it.**",
       figures: [
         { type: "image", src: neuralyfeDeckHalo, alt: "NeuraLyfe Halo turns any helmet into a brain-health sensor with EEG, biomarker, and impact-camera sensing" },
       ],
@@ -199,7 +199,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "process",
       label: "Design Process",
-      body: "## Building the decision flow\n\nMedical staff can't explore data mid-game, so the interface had to support fast triage first and deeper inspection only when needed. That led to a three-level structure:\n\n· **Roster View** — scan risk across the whole team at a glance\n· **Brain View** — inspect where neurological stress is building\n· **Impact Replay** — trace a high-risk alert back to the exact play\n\n[[fig:0]]\n\nI prototyped in Figma and Figma Make with simulated sensor data, pressure-testing one question throughout: could a staff member move from first alert to informed decision in a few seconds?",
+      body: "## Building the Decision Flow\n\nMedical staff can't explore data mid-game, so the interface had to support fast triage first and deeper inspection only when needed. That led to a three-level structure:\n\n· **Roster View** — scan risk across the whole team at a glance\n· **Brain View** — inspect where neurological stress is building\n· **Impact Replay** — trace a high-risk alert back to the exact play\n\n[[fig:0]]\n\nI prototyped in Figma and Figma Make with simulated sensor data, pressure-testing one question throughout: could a staff member move from first alert to informed decision in a few seconds?",
       figures: [
         { type: "image", src: neuralyfeDeckViews, alt: "From impact data to medical decisions in three views: Roster, Brain, and Impact Replay" },
       ],
@@ -226,7 +226,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "reflection",
       label: "Reflection",
-      body: "## Designing for interpretation, not just accuracy\n\nDesigning for health means designing for interpretation, not just data display. A system can collect accurate signals, but if staff cannot read them under pressure, those signals do not become care.\n\n## High-pressure interfaces need different logic\n\nThe first question is never \"what does all the data say?\" It is \"who needs help right now?\" That pushed me to simplify, reduce competing information, and make the most urgent cases immediately visible.\n\n## What I would do next\n\nThe next step is clinical validation with sports-medicine professionals — testing whether the decision flow holds up in real sideline calls.\n\nNeuraLyfe showed me that making hidden risk visible is a design problem. The harder part is making that visibility useful when it matters most.",
+      body: "## Designing for Interpretation, Not Just Accuracy\n\nDesigning for health means designing for interpretation, not just data display. A system can collect accurate signals, but if staff cannot read them under pressure, those signals do not become care.\n\n## High-Pressure Interfaces Need Different Logic\n\nThe first question is never \"what does all the data say?\" It is \"who needs help right now?\" That pushed me to simplify, reduce competing information, and make the most urgent cases immediately visible.\n\n## What I Would Do Next\n\nThe next step is clinical validation with sports-medicine professionals — testing whether the decision flow holds up in real sideline calls.\n\nNeuraLyfe showed me that making hidden risk visible is a design problem. The harder part is making that visibility useful when it matters most.",
     },
   ],
 };
@@ -237,14 +237,14 @@ const moti: ProjectDetailDocument = {
   slug: "moti",
   listSection: "Main Projects",
   title: "Moti: Plan",
-  heroSummary: "Shipped solo on the App Store: an AI-native planner that turns messy input into a living, timeline-aware plan",
+  heroSummary: "Shipped Solo on the App Store: an AI-Native Planner That Turns Messy Input Into a Living, Timeline-Aware Plan",
   heroImage: motiHero,
   heroImageFit: "cover",
   metaCards: [
     { label: "Role", value: "Product Designer & Builder" },
-    { label: "Timeline", value: "2 weeks · May–June 2026" },
-    { label: "Team", value: "Malik, with Claude + Codex" },
-    { label: "Output", value: "Shipped on the App Store · SLM + LLM integrated" },
+    { label: "Timeline", value: "2 Weeks · May–June 2026" },
+    { label: "Team", value: "Malik, With Claude + Codex" },
+    { label: "Output", value: "Shipped on the App Store · SLM + LLM Integrated" },
   ],
   sections: [
     {
@@ -300,8 +300,8 @@ const flowprint: ProjectDetailDocument = {
   slug: "flowprint",
   listSection: "Main Projects",
   title: "FlowPrint",
-  heroSummary: "A 3D printing onboarding system designed to make a beginner's first print succeed, not just start.",
-  heroSubtitle: "From roughly an hour of setup anxiety to a guided fifteen-minute path in.",
+  heroSummary: "A 3D Printing Onboarding System Designed to Make a Beginner's First Print Succeed, Not Just Start.",
+  heroSubtitle: "From Roughly an Hour of Setup Anxiety to a Guided Fifteen-Minute Path In.",
   heroImage: flowprintCover,
   heroImageFit: "contain",
   metaCards: [
@@ -309,7 +309,7 @@ const flowprint: ProjectDetailDocument = {
     { label: "Timeline", value: "2025" },
     { label: "Team", value: "Product · Engineering · Manufacturing" },
     { label: "Scope", value: "Onboarding · Monitoring UI · Material Guidance" },
-    { label: "Outcome", value: "~1 hr Setup → ~15 min · Target Journey" },
+    { label: "Outcome", value: "~1 Hr Setup → ~15 Min · Target Journey" },
     { label: "Tools", value: "Figma · Flows · Specs · Usability" },
   ],
   sections: [
@@ -357,8 +357,8 @@ const tubular: ProjectDetailDocument = {
   slug: "tubular",
   listSection: WORKSHOP_SECTION_LABEL,
   title: "Tubular",
-  heroSummary: "Defy gravity. Shape the path.",
-  heroSubtitle: "A tactile, experimental toy that teaches fluid dynamics through play.",
+  heroSummary: "Defy Gravity. Shape the Path.",
+  heroSubtitle: "A Tactile, Experimental Toy That Teaches Fluid Dynamics Through Play.",
   heroImage: tubularCover,
   metaCards: [
     { label: "Role", value: "Product Designer · Maker" },
@@ -413,15 +413,15 @@ const moodmuse: ProjectDetailDocument = {
   slug: "moodmuse",
   listSection: "Main Projects",
   title: "Mood Muse",
-  heroSummary: "A low-language system that helps autistic children externalize big emotions before they escalate.",
-  heroSubtitle: "Reducing frustration by making internal states easier to externalize and share.",
+  heroSummary: "A Low-Language System That Helps Autistic Children Externalize Big Emotions Before They Escalate.",
+  heroSubtitle: "Reducing Frustration by Making Internal States Easier to Externalize and Share.",
   heroImage: moodmuseCover,
   metaCards: [
     { label: "Role", value: "Product Designer" },
     { label: "Timeline", value: "2024" },
-    { label: "Team", value: "Design-led · Collaboration-ready" },
+    { label: "Team", value: "Design-Led · Collaboration-Ready" },
     { label: "Scope", value: "Interaction · Visual Language · Caregiver UX" },
-    { label: "Outcome", value: "Low-load Emotion Expression System" },
+    { label: "Outcome", value: "Low-Load Emotion Expression System" },
     { label: "Tools", value: "Figma · Storyboards · A11y Heuristics" },
   ],
   sections: [
@@ -469,8 +469,8 @@ const studiowaters: ProjectDetailDocument = {
   slug: "studiowaters",
   listSection: WORKSHOP_SECTION_LABEL,
   title: "Studio Waters",
-  heroSummary: "A playable prototype that turns real-world casting and reeling gestures into calm, responsive digital feedback.",
-  heroSubtitle: "An exploration of embodied interaction — translating physical gestures into calm, responsive digital play.",
+  heroSummary: "A Playable Prototype That Turns Real-World Casting and Reeling Gestures Into Calm, Responsive Digital Feedback.",
+  heroSubtitle: "An Exploration of Embodied Interaction — Translating Physical Gestures Into Calm, Responsive Digital Play.",
   heroImage: studioWatersCover,
   heroImageFit: "cover",
   metaCards: [

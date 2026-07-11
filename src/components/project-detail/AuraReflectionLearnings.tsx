@@ -3,14 +3,14 @@ import { Blocks, ShieldCheck } from "lucide-react";
 const learnings = [
   {
     num: "01",
-    title: "Trust is an interaction design problem",
+    title: "Trust Is an Interaction Design Problem",
     desc: "Aura taught me that proactive systems need more than accurate sensing. Because Aura works before users fully recognize discomfort, trust depends on timing, tone, explanation, and how much control the user keeps.",
     accent: "violet" as const,
     icon: ShieldCheck,
   },
   {
     num: "02",
-    title: "Hardware and software should behave as one system",
+    title: "Hardware and Software Should Behave as One System",
     desc: "This project clarified my strength in connecting physical form, digital interaction, and system logic. Aura Buds and the Aura App had to express the same intention: stable to wear, easy to read, and calm in use.",
     accent: "emerald" as const,
     icon: Blocks,
