@@ -1,7 +1,7 @@
 const requirements = [
   {
     num: "01",
-    title: "Earlier than symptoms",
+    title: "Earlier Than Symptoms",
     desc: "Support before nausea becomes hard to manage.",
     accent: "violet" as const,
     icon: (
@@ -12,7 +12,7 @@ const requirements = [
   },
   {
     num: "02",
-    title: "Low-effort in use",
+    title: "Low-Effort in Use",
     desc: "Works quietly without adding another task.",
     accent: "emerald" as const,
     icon: (
@@ -24,7 +24,7 @@ const requirements = [
   },
   {
     num: "03",
-    title: "Built on familiar behavior",
+    title: "Built on Familiar Behavior",
     desc: "Fits existing travel habits like earbuds and audio.",
     accent: "violet" as const,
     icon: (
@@ -37,7 +37,7 @@ const requirements = [
   },
   {
     num: "04",
-    title: "Calm by default",
+    title: "Calm by Default",
     desc: "Feels subtle, reassuring, and non-alarming.",
     accent: "emerald" as const,
     icon: (
@@ -49,7 +49,7 @@ const requirements = [
   },
   {
     num: "05",
-    title: "Socially wearable",
+    title: "Socially Wearable",
     desc: "Discreet and comfortable enough for public travel.",
     accent: "slate" as const,
     icon: (

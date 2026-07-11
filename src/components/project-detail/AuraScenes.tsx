@@ -7,8 +7,8 @@ import scene3 from "@/assets/aura-scene-3.mp4";
 const scenes = [scene1, scene2, scene3];
 
 const sceneLabels = [
-  { num: "01", title: "Pre-travel" },
-  { num: "02", title: "In-flight" },
+  { num: "01", title: "Pre-Travel" },
+  { num: "02", title: "In-Flight" },
   { num: "03", title: "Turbulence" },
 ];
 
