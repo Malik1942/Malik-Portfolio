@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
 import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
 import { usePageLoaded } from "@/hooks/usePageLoaded";
+import logo from "@/assets/logo.png";
 
 interface HeroSectionProps {
   isAboutOpen: boolean;
@@ -163,9 +164,10 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
       >
         <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
 
-          {/* Left — reserved for personal logo (top-left). Kept as an empty grid
-              cell so the centered nav stays balanced; drop the logo <img> here. */}
-          <div className="animate-fade-up delay-3" />
+          {/* Left — personal logo (top-left) */}
+          <div className="animate-fade-up delay-3">
+            <img src={logo} alt="Malik Zhang" className="h-9 w-auto select-none pointer-events-none" />
+          </div>
 
           {/* Center — nav */}
           <nav className="flex items-center gap-x-8 gap-y-2 text-[16px] text-foreground/72 text-body animate-fade-up delay-4 justify-self-center">
@@ -202,8 +204,9 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
           <div />
         </div>
 
-        {/* Mobile — simple stack. Identity text removed; personal logo will go top-left. */}
+        {/* Mobile — logo top-left, then nav */}
         <div className="flex flex-col gap-5 md:hidden">
+          <img src={logo} alt="Malik Zhang" className="h-8 w-auto self-start select-none pointer-events-none animate-fade-up delay-3" />
           <nav className="flex flex-wrap gap-x-8 gap-y-2 text-[16px] text-foreground/72 text-body animate-fade-up delay-4">
             <a href="#projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "projects")}>Selected Work</a>
             <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "ai-projects")}>{WORKSHOP_SECTION_LABEL}</a>
