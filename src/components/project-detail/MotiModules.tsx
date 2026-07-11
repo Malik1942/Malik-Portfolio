@@ -183,7 +183,7 @@ function SubHead({ children }: { children: ReactNode }) {
 }
 
 /* ── 1) Overview — tags ──────────────────────────────────────────────────── */
-const tags = ["Main Project", "AI-native UX", "iOS", "Built & Shipped"];
+const tags = ["Main Project", "AI-Native UX", "iOS", "Built & Shipped"];
 export function MotiTags() {
   return <Chips items={tags} />;
 }
@@ -278,12 +278,12 @@ export function MotiUserQuotes() {
 
 /* ── 6) Design Principles — icon + label grid ────────────────────────────── */
 const principles: GridItem[] = [
-  { num: "01", title: "Natural input", icon: Mic, accent: "violet" },
-  { num: "02", title: "Adaptive timelines", icon: CalendarClock, accent: "emerald" },
-  { num: "03", title: "Living plans", icon: RefreshCw, accent: "slate" },
-  { num: "04", title: "Momentum tracking", icon: Gauge, accent: "violet" },
-  { num: "05", title: "Context-aware planning", icon: Target, accent: "emerald" },
-  { num: "06", title: "Human-centered planning", icon: HeartHandshake, accent: "slate" },
+  { num: "01", title: "Natural Input", icon: Mic, accent: "violet" },
+  { num: "02", title: "Adaptive Timelines", icon: CalendarClock, accent: "emerald" },
+  { num: "03", title: "Living Plans", icon: RefreshCw, accent: "slate" },
+  { num: "04", title: "Momentum Tracking", icon: Gauge, accent: "violet" },
+  { num: "05", title: "Context-Aware Planning", icon: Target, accent: "emerald" },
+  { num: "06", title: "Human-Centered Planning", icon: HeartHandshake, accent: "slate" },
 ];
 export function MotiPrinciples() {
   return <CardGrid items={principles} colsClass="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" />;
@@ -291,10 +291,10 @@ export function MotiPrinciples() {
 
 /* ── 7) Before Building — behavior / architecture / interaction / visual ──── */
 const behaviorItems: GridItem[] = [
-  { num: "01", title: "Understand context before planning", icon: Compass, accent: "violet" },
-  { num: "02", title: "Preserve timeline continuity", icon: CalendarClock, accent: "emerald" },
-  { num: "03", title: "Evolve plans collaboratively", icon: RefreshCw, accent: "slate" },
-  { num: "04", title: "Optimize for momentum", icon: Gauge, accent: "violet" },
+  { num: "01", title: "Understand Context Before Planning", icon: Compass, accent: "violet" },
+  { num: "02", title: "Preserve Timeline Continuity", icon: CalendarClock, accent: "emerald" },
+  { num: "03", title: "Evolve Plans Collaboratively", icon: RefreshCw, accent: "slate" },
+  { num: "04", title: "Optimize for Momentum", icon: Gauge, accent: "violet" },
 ];
 const tierItems: GridItem[] = [
   { num: "01", title: "Rule-Based", desc: "Deterministic logic — due dates, checkpoints, timeline calculations. Fast, reliable, consistent.", icon: Ruler, accent: "slate" },
@@ -448,10 +448,10 @@ export function MotiBuildJourney() {
       <VersionBlock
         tag="V0"
         title="Rule-Based Prototype"
-        subtitle="Testing the core interaction loop"
+        subtitle="Testing the Core Interaction Loop"
         points={[
-          { label: "What worked", text: "Understood immediately, low cognitive load." },
-          { label: "What broke", text: "Trust broke under complexity." },
+          { label: "What Worked", text: "Understood immediately, low cognitive load." },
+          { label: "What Broke", text: "Trust broke under complexity." },
           { label: "Learning", text: "The interaction model worked; the intelligence layer needed to evolve." },
         ]}
       />
@@ -459,7 +459,7 @@ export function MotiBuildJourney() {
         tag="V1"
         title="Foundational Model for Understanding"
         points={[
-          { label: "Why evolve", text: "Temporal blindness, context loss, over-rigid parsing." },
+          { label: "Why Evolve", text: "Temporal blindness, context loss, over-rigid parsing." },
           { label: "Learning", text: "Understanding fidelity is the bottleneck; planning quality depends on input clarity." },
         ]}
         quote="The problem wasn’t planning. It was understanding."
@@ -496,9 +496,9 @@ export function MotiBuildJourney() {
 
 /* ── 9) What Moti Proved — closing takeaways ─────────────────────────────── */
 const takeaways: GridItem[] = [
-  { num: "01", title: "A real AI-native product, shipped solo", desc: "Designed and built with Claude + Codex, and released on the App Store.", icon: Rocket, accent: "violet" },
-  { num: "02", title: "Understanding-first beat planning-first", desc: "Constraining the model to reliable understanding, then planning on top, fixed what broke in v0.", icon: Sparkles, accent: "emerald" },
-  { num: "03", title: "Spec-first works", desc: "Defining behavior, architecture, interaction, and visual language before coding produced a coherent product, not a pile of features.", icon: CheckCircle2, accent: "slate" },
+  { num: "01", title: "A Real AI-Native Product, Shipped Solo", desc: "Designed and built with Claude + Codex, and released on the App Store.", icon: Rocket, accent: "violet" },
+  { num: "02", title: "Understanding-First Beat Planning-First", desc: "Constraining the model to reliable understanding, then planning on top, fixed what broke in v0.", icon: Sparkles, accent: "emerald" },
+  { num: "03", title: "Spec-First Works", desc: "Defining behavior, architecture, interaction, and visual language before coding produced a coherent product, not a pile of features.", icon: CheckCircle2, accent: "slate" },
 ];
 export function MotiTakeaways() {
   return <CardGrid items={takeaways} colsClass="grid-cols-1 sm:grid-cols-3" />;

@@ -3,21 +3,21 @@ import { Glasses, Scale, ScanText } from "lucide-react";
 const findings = [
   {
     num: "01",
-    title: "Fit and stability",
+    title: "Fit and Stability",
     desc: "Ear shape, glasses, hairstyles, and head movement affected how securely the buds stayed in place.",
     accent: "violet" as const,
     icon: Glasses,
   },
   {
     num: "02",
-    title: "Weight distribution",
+    title: "Weight Distribution",
     desc: "The first in-ear structure felt uneven and less stable during movement.",
     accent: "emerald" as const,
     icon: Scale,
   },
   {
     num: "03",
-    title: "Interaction clarity",
+    title: "Interaction Clarity",
     desc: "The app needed to communicate status without requiring too much reading or active management.",
     accent: "slate" as const,
     icon: ScanText,

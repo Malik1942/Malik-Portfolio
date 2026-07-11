@@ -18,7 +18,7 @@ export const selectedWork = [
   {
     id: "moti",
     title: "Moti",
-    signal: "An AI-native timeline for real projects",
+    signal: "An AI-Native Timeline for Real Projects",
     description: "Shipped solo on the App Store — an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.",
     role: "Product Designer & Builder",
     coverImage: motiCard,
@@ -28,7 +28,7 @@ export const selectedWork = [
   {
     id: "neuralyfe",
     title: "NeuraLyfe",
-    signal: "Brain impact visualization for athletes and medical teams",
+    signal: "Brain Impact Visualization for Athletes and Medical Teams",
     description: "1st Place, FigBuild 2026 — making invisible brain trauma visible before it becomes irreversible.",
     role: "Product Designer, Maker",
     coverImage: neuralyfeCover,
@@ -38,7 +38,7 @@ export const selectedWork = [
   {
     id: "aura",
     title: "Aura",
-    signal: "AI-powered anticipatory motion sickness relief",
+    signal: "AI-Powered Anticipatory Motion Sickness Relief",
     description: "A speculative in-flight motion-sickness concept — its refined form was preferred by 93.75% of testers.",
     role: "Product Designer",
     year: "2025",
