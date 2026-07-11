@@ -131,15 +131,19 @@ interface AboutOverlayProps {
 const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
   return (
     <>
-      {/* Back button */}
+      {/* Back — mirrors the case-study pattern: in the page flow at top-left,
+          below the site header, aligned to the header's padding. `absolute`
+          (not fixed) so it scrolls away with the hero; z-40 keeps it beneath
+          the z-50 header, so it slides under the bar as you scroll. A matching
+          "Back to home" exit lives at the end of AboutDeepContent. */}
       {createPortal(
         <motion.button
           onClick={onBack}
           aria-label="Back to home"
-          className="group fixed top-8 left-8 flex items-center gap-2 min-h-[44px] px-1 text-sm text-body text-foreground/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded transition-colors duration-200 z-[1000]"
+          className="group absolute top-24 md:top-28 left-8 md:left-16 lg:left-24 flex items-center gap-2 min-h-[44px] px-1 text-sm text-body text-foreground/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded transition-colors duration-200 z-40"
           initial={{ opacity: 0 }}
           animate={{ opacity: isVisible ? 1 : 0 }}
-          transition={{ duration: 0.6, delay: isVisible ? 2.4 : 0 }}
+          transition={{ duration: 0.5, delay: isVisible ? 0.7 : 0 }}
           style={{ pointerEvents: isVisible ? "auto" : "none" }}
         >
           <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />

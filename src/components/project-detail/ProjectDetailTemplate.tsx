@@ -1,9 +1,12 @@
 import { useRef, useState, type MouseEvent } from "react";
-import { useInView } from "framer-motion";
+import { useInView, useReducedMotion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { useSectionScrollSpy } from "@/hooks/useSectionScrollSpy";
+import { useHideOnScroll } from "@/hooks/useHideOnScroll";
 import { scrollToProjectSection } from "@/lib/projectDetailScroll";
 import type { ProjectDetailDocument, ProjectSectionFigure, IntroBlock } from "@/types/projectDetail";
 import Footer from "@/components/Footer";
+import { SiteHeader } from "@/components/SiteHeader";
 import { AuraHardwareSystem } from "./AuraHardwareSystem";
 import { AuraHighlights } from "./AuraHighlights";
 import { AuraScenes } from "./AuraScenes";
@@ -28,6 +31,11 @@ import { MoreProjects } from "./MoreProjects";
 
 // Shared page container — all major sections align to this grid
 const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto";
+
+// px offset where the mobile section nav sticks while the site header is shown,
+// so the two never overlap. Roughly the height of the header's visible bar
+// (nav row + divider); it drops to 0 once the header tucks away on scroll-down.
+const MOBILE_SECTION_NAV_TOP = 60;
 
 function toEmbedUrl(url: string): string {
   const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
@@ -292,11 +300,18 @@ interface ProjectDetailTemplateProps {
 }
 
 export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: ProjectDetailTemplateProps) {
+  const navigate = useNavigate();
   const sectionIds = project.sections.map((s) => s.id);
   const activeSectionId = useSectionScrollSpy(sectionIds);
   const hasIntroSection = project.sections.some((s) => s.subtitle);
   const hasInlineProjectMeta = project.sections.some((s) => s.showProjectMeta);
   const [lightbox, setLightbox] = useState<LightboxImage | null>(null);
+
+  // Direction-aware site header, mirroring the homepage. The section nav below
+  // shifts down to sit under it while shown (see MOBILE_SECTION_NAV_TOP).
+  const shouldReduceMotion = useReducedMotion();
+  const scrollHidden = useHideOnScroll();
+  const headerHidden = !shouldReduceMotion && scrollHidden;
 
   // Delegated: any case-study image opens the lightbox, except navigational
   // thumbnails (the "More projects" cards / any linked image).
@@ -310,8 +325,22 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
   return (
     <div className="min-h-screen bg-background" data-detail-root onClick={handleImageClick}>
 
-      {/* Back */}
-      <div className={`${PAGE_OUTER} pt-8 pb-0`}>
+      {/* Site nav — shared with the homepage. Links route back home to the
+          matching section / the About overlay. */}
+      <SiteHeader
+        hidden={headerHidden}
+        inert={false}
+        shouldReduceMotion={shouldReduceMotion}
+        entranceVisible
+        entranceDelay={0.15}
+        hrefBase="/"
+        onSelectedWork={() => navigate("/", { state: { scrollTo: "projects" } })}
+        onWorkshop={() => navigate("/", { state: { scrollTo: "ai-projects" } })}
+        onAbout={() => navigate("/", { state: { openAbout: true } })}
+      />
+
+      {/* Back — extra top padding clears the fixed site header on load */}
+      <div className={`${PAGE_OUTER} pt-24 md:pt-28 pb-0`}>
         <button
           type="button"
           onClick={onBack}
@@ -398,9 +427,12 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         aria-label="Case study"
         className={`${PAGE_OUTER} pb-32 md:pb-48 border-t border-border/30 mt-20 md:mt-28 pt-20 md:pt-28`}
       >
-        {/* Mobile / tablet: horizontal section nav */}
+        {/* Mobile / tablet: horizontal section nav. Its sticky offset follows the
+            site header — flush to the top once the header tucks away, dropped
+            below it while shown — so the two never overlap. */}
         <nav
-          className="lg:hidden sticky top-0 z-20 -mx-6 px-6 py-3 mb-14 bg-background/85 backdrop-blur-md border-b border-border/40"
+          className="lg:hidden sticky z-20 -mx-6 px-6 py-3 mb-14 bg-background/85 backdrop-blur-md border-b border-border/40 transition-[top] duration-300 ease-out"
+          style={{ top: headerHidden ? 0 : MOBILE_SECTION_NAV_TOP }}
           aria-label="Section navigation"
         >
           <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">

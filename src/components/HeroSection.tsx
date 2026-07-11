@@ -1,18 +1,20 @@
-import { useState, useEffect, useRef, type MouseEvent, type ReactNode } from "react";
+import { useState, useEffect, useRef, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import DotGrid from "./DotGrid";
 import AboutOverlay from "./AboutOverlay";
+import { SiteHeader } from "./SiteHeader";
 import { motion, useReducedMotion } from "framer-motion";
 import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
-import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
 import { usePageLoaded } from "@/hooks/usePageLoaded";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
-import logo from "@/assets/logo.png";
 
 interface HeroSectionProps {
   isAboutOpen: boolean;
   onAboutClick: () => void;
   onAboutBack: () => void;
+  // Header nav — close About (if open) and scroll to the matching section.
+  onSelectedWorkClick: () => void;
+  onWorkshopClick: () => void;
 }
 
 // ── Terminal one-liner ──────────────────────────────────────────────────────
@@ -104,21 +106,19 @@ const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
 };
 
 // ── Hero section ────────────────────────────────────────────────────────────
-const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProps) => {
+const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSelectedWorkClick, onWorkshopClick }: HeroSectionProps) => {
   const isLoaded = usePageLoaded();
   const shouldReduceMotion = useReducedMotion();
   // Direction-aware header: hide on scroll-down, reveal on scroll-up. Suspended
-  // under reduced-motion (header stays put) and while the About overlay is open.
+  // under reduced-motion (header stays put).
   const scrollHidden = useHideOnScroll();
   const headerTuckedAway = !shouldReduceMotion && scrollHidden;
-  const headerInert = isAboutOpen || headerTuckedAway;
+  const headerInert = headerTuckedAway;
 
-  const handleSectionNavClick = (event: MouseEvent<HTMLAnchorElement>, sectionId: string) => {
-    event.preventDefault();
-    scrollToSectionNavTarget(sectionId);
-  };
-
+  // Hero body (name + terminal) hides while About is open; the header stays so
+  // the site nav is present on the About view too.
   const terminalVisible = isLoaded && !isAboutOpen;
+  const headerVisible = isLoaded;
 
   return (
     <section className="relative w-full h-screen overflow-hidden bg-background">
@@ -157,98 +157,19 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
         </p>
       </motion.div>
 
-      {/* Header — logo + nav as one fixed, direction-aware unit.
-          Outer layer owns the fixed positioning, the scroll-direction slide, and
-          the background gradient. The inner layer keeps the original entrance /
-          About fade so the visual language is unchanged. */}
-      <div
-        className="fixed top-0 left-0 right-0 z-50"
-        style={{
-          // Subtle fade-slide instead of a full-height slide: while hidden the
-          // header is transparent anyway, so a short 20px drift reads softer.
-          // Asymmetric timing — quick quiet exit, slower gentle entrance.
-          transform: `translateY(${headerTuckedAway ? "-20px" : "0"})`,
-          opacity: headerTuckedAway ? 0 : 1,
-          transition: shouldReduceMotion
-            ? "none"
-            : headerTuckedAway
-              ? "transform 240ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms cubic-bezier(0.4, 0, 1, 1)"
-              : "transform 450ms cubic-bezier(0.22, 1, 0.36, 1), opacity 350ms cubic-bezier(0, 0, 0.2, 1)",
-          pointerEvents: headerInert ? "none" : undefined,
-        }}
-      >
-        <motion.div
-          data-hero-header
-          className="relative px-8 md:px-16 lg:px-24 pt-7 pb-12 pointer-events-none"
-          style={{
-            // Subtle vertical shader for legibility — solid at the top, fading to
-            // fully transparent below the nav. The divider renders on top of it.
-            background:
-              "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 42%, rgba(0,0,0,0) 100%)",
-          }}
-          initial={{ opacity: 0, y: -20 }}
-          animate={{
-            opacity: terminalVisible ? 1 : 0,
-            y: terminalVisible ? 0 : -20,
-          }}
-          transition={{ duration: 0.6, delay: isAboutOpen ? 0 : isLoaded ? 0.8 : 0 }}
-        >
-          <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
-
-            {/* Left — personal logo (top-left); links home via the router */}
-            <div className="animate-fade-up delay-3">
-              <Link to="/" aria-label="Malik Zhang — home" className="pointer-events-auto inline-block w-fit">
-                <img src={logo} alt="Malik Zhang" className="h-6 w-auto select-none" />
-              </Link>
-            </div>
-
-            {/* Center — nav */}
-            <nav className="pointer-events-auto flex items-center gap-x-8 gap-y-2 text-[16px] text-foreground/72 text-body animate-fade-up delay-4 justify-self-center">
-              <a
-                href="#projects"
-                className="nav-link hover:text-foreground transition-colors duration-500"
-                onClick={(event) => handleSectionNavClick(event, "projects")}
-              >
-                Selected Work
-              </a>
-              <a
-                href="#ai-projects"
-                className="nav-link hover:text-foreground transition-colors duration-500"
-                onClick={(event) => handleSectionNavClick(event, "ai-projects")}
-              >
-                {WORKSHOP_SECTION_LABEL}
-              </a>
-              <a
-                href="#about"
-                className="nav-link hover:text-foreground transition-colors duration-500"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onAboutClick();
-                }}
-              >
-                About
-              </a>
-              <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">
-                Resume
-              </a>
-            </nav>
-
-            {/* Right — intentionally empty to keep nav centered */}
-            <div />
-          </div>
-
-          {/* Mobile — single-row nav, no logo. justify-between + 14px type keeps
-              all four links on one line down to 320px-wide viewports. */}
-          <nav className="pointer-events-auto flex flex-nowrap justify-between whitespace-nowrap text-[14px] text-foreground/72 text-body animate-fade-up delay-4 md:hidden">
-            <a href="#projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "projects")}>Selected Work</a>
-            <a href="#ai-projects" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => handleSectionNavClick(e, "ai-projects")}>{WORKSHOP_SECTION_LABEL}</a>
-            <a href="#about" className="nav-link hover:text-foreground transition-colors duration-500" onClick={(e) => { e.preventDefault(); onAboutClick(); }}>About</a>
-            <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">Resume</a>
-          </nav>
-
-          <div className="h-px bg-border/40 mt-5 animate-line-reveal delay-3" />
-        </motion.div>
-      </div>
+      {/* Header — the shared site nav. Stays visible on the About view too; its
+          links close About (if open) and scroll to the matching section. */}
+      <SiteHeader
+        hidden={headerTuckedAway}
+        inert={headerInert}
+        shouldReduceMotion={shouldReduceMotion}
+        entranceVisible={headerVisible}
+        entranceDelay={isLoaded ? 0.8 : 0}
+        onSelectedWork={onSelectedWorkClick}
+        onWorkshop={onWorkshopClick}
+        onAbout={onAboutClick}
+        onLogoClick={onAboutBack}
+      />
 
       {/* Scroll indicator — mirrors the About page indicator (see AboutOverlay.tsx).
           Absolute + bottom-center so it never reflows or overlaps the hero content.
