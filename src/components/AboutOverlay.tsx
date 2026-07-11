@@ -15,7 +15,7 @@ interface ClusterTextData {
 const CLUSTER_TEXTS: ClusterTextData[] = [
   {
     label: "Who I Am",
-    lines: ["Maker", "Product designer", "Systems thinker"],
+    lines: ["AI-native designer", "Problem finder", "End-to-end builder"],
     index: 0,
   },
   {
@@ -25,12 +25,12 @@ const CLUSTER_TEXTS: ClusterTextData[] = [
   },
   {
     label: "How I Build",
-    lines: ["Experimentation", "Prototyping early", "Learning through craft"],
+    lines: ["Spec-first", "Prototyping early", "Deciding where AI belongs", "Shipping end to end"],
     index: 2,
   },
   {
     label: "What I Care About",
-    lines: ["Design as behavior", "Systems as language", "Meaningful interaction", "Prototyping to think"],
+    lines: ["Real problems over features", "AI with a purpose", "Systems as language", "Craft in the details"],
     index: 3,
   },
 ];
@@ -178,13 +178,12 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
                 transition={{ duration: 1.2, delay: 1.0, ease: "easeOut" }}
               >
                 <span className="block">
-                  I design through{" "}
-                  <span className="text-[1.35em] font-semibold text-foreground tracking-tight">MAKING</span>
+                  I start with the real{" "}
+                  <span className="text-[1.35em] font-semibold text-foreground tracking-tight">PROBLEM</span>
                 </span>
                 <span className="block">
-                  shaping systems{" "}
-                  <span className="text-[1.35em] font-semibold text-foreground tracking-tight">BEYOND</span>
-                  {" "}screens
+                  and build the answer{" "}
+                  <span className="text-[1.35em] font-semibold text-foreground tracking-tight">END TO END</span>
                 </span>
               </motion.h2>
               <motion.p
