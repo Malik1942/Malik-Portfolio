@@ -164,16 +164,22 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack }: HeroSectionProp
       <div
         className="fixed top-0 left-0 right-0 z-50"
         style={{
-          transform: `translateY(${headerTuckedAway ? "-100%" : "0"})`,
+          // Subtle fade-slide instead of a full-height slide: while hidden the
+          // header is transparent anyway, so a short 20px drift reads softer.
+          // Asymmetric timing — quick quiet exit, slower gentle entrance.
+          transform: `translateY(${headerTuckedAway ? "-20px" : "0"})`,
+          opacity: headerTuckedAway ? 0 : 1,
           transition: shouldReduceMotion
             ? "none"
-            : "transform 320ms cubic-bezier(0.16, 1, 0.3, 1)",
+            : headerTuckedAway
+              ? "transform 240ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms cubic-bezier(0.4, 0, 1, 1)"
+              : "transform 450ms cubic-bezier(0.22, 1, 0.36, 1), opacity 350ms cubic-bezier(0, 0, 0.2, 1)",
           pointerEvents: headerInert ? "none" : undefined,
         }}
       >
         <motion.div
           data-hero-header
-          className="relative px-6 md:px-16 lg:px-24 pt-7 pb-12 pointer-events-none"
+          className="relative px-8 md:px-16 lg:px-24 pt-7 pb-12 pointer-events-none"
           style={{
             // Subtle vertical shader for legibility — solid at the top, fading to
             // fully transparent below the nav. The divider renders on top of it.
