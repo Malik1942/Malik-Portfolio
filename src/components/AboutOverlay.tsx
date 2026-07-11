@@ -187,12 +187,13 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
                 </span>
               </motion.h2>
               <motion.p
-                className="text-[10px] text-body text-foreground/44 font-light uppercase tracking-[0.2em] mt-3"
+                className="text-[10px] text-body text-foreground/44 font-light uppercase tracking-[0.2em] leading-[1.6] mt-3"
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 1.3, ease: "easeOut" }}
               >
-                Product designer exploring behavior, interaction, and systems.
+                <span className="block">AI-native product designer.</span>
+                <span className="block">Problem to shipped product.</span>
               </motion.p>
             </div>
 
