@@ -28,14 +28,19 @@ interface Orb {
   hoverT: number;
 }
 
+// Mobile positions (mrx/mry) are a deliberate left-biased layout: orbs sit in a
+// top band (above the name) and a bottom band (below the tagline), all at low
+// mrx so their labels — which render to the RIGHT of the dot — stay on-screen and
+// never collide with each other or the centered "Malik Zhang" cluster. On mobile
+// the orbs are held static (see draw loop) so this spacing is exactly what shows.
 const ORB_DEFS = [
-  { label: "Aura",         subtitle: "Main Projects", color: "red"  as const, rx: 0.1,  ry: 0.25, mrx: 0.10, mry: 0.22, id: "aura" },
-  { label: "NeuraLyfe",    subtitle: "Main Projects", color: "red"  as const, rx: 0.28, ry: 0.72, mrx: 0.12, mry: 0.70, id: "neuralyfe" },
-  { label: "FlowPrint",    subtitle: "Main Projects", color: "red"  as const, rx: 0.75, ry: 0.45, mrx: 0.88, mry: 0.46, id: "flowprint" },
-  { label: "Tubular",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.18, ry: 0.7,  mrx: 0.14, mry: 0.80, id: "tubular" },
-  { label: "Mood Muse",    subtitle: "Main Projects", color: "red"  as const, rx: 0.88, ry: 0.3,  mrx: 0.88, mry: 0.28, id: "moodmuse" },
-  { label: "Inspire Ocean",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.55, ry: 0.2,  mrx: 0.60, mry: 0.18, id: "inspireocean" },
-  { label: "Studio Waters",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.72, ry: 0.68, mrx: 0.88, mry: 0.60, id: "studiowaters" },
+  { label: "Aura",         subtitle: "Main Projects", color: "red"  as const, rx: 0.1,  ry: 0.25, mrx: 0.09, mry: 0.14, id: "aura" },
+  { label: "NeuraLyfe",    subtitle: "Main Projects", color: "red"  as const, rx: 0.28, ry: 0.72, mrx: 0.09, mry: 0.64, id: "neuralyfe" },
+  { label: "FlowPrint",    subtitle: "Main Projects", color: "red"  as const, rx: 0.75, ry: 0.45, mrx: 0.15, mry: 0.72, id: "flowprint" },
+  { label: "Tubular",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.18, ry: 0.7,  mrx: 0.09, mry: 0.80, id: "tubular" },
+  { label: "Mood Muse",    subtitle: "Main Projects", color: "red"  as const, rx: 0.88, ry: 0.3,  mrx: 0.09, mry: 0.32, id: "moodmuse" },
+  { label: "Inspire Ocean",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.55, ry: 0.2,  mrx: 0.15, mry: 0.23, id: "inspireocean" },
+  { label: "Studio Waters",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.72, ry: 0.68, mrx: 0.15, mry: 0.88, id: "studiowaters" },
 ];
 
 const RED = "200, 82, 82";
@@ -486,7 +491,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       const G = 8;
       const minDist = 100;
 
-      if (!reduced) for (let i = 0; i < orbs.length; i++) {
+      if (!reduced && w >= 768) for (let i = 0; i < orbs.length; i++) {
         for (let j = i + 1; j < orbs.length; j++) {
           const a = orbs[i];
           const b = orbs[j];
@@ -561,7 +566,10 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       }
 
       orbs.forEach((orb) => {
-        if (!reduced) {
+        // On mobile (w < 768) orbs stay fixed at their laid-out positions so their
+        // labels never drift into each other or the title; they still breathe and
+        // respond to taps. On desktop they float as before.
+        if (!reduced && w >= 768) {
           orb.x += orb.vx;
           orb.y += orb.vy;
         }
