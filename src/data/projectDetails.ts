@@ -2,6 +2,7 @@ import type { ProjectDetailDocument } from "@/types/projectDetail";
 import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
 import auraCover from "@/assets/aura-cover.webp";
 import studioWatersCover from "@/assets/studio-waters-cover.webp";
+import studioWatersDemo from "@/assets/studio-waters-demo.mp4";
 import auraDetail1 from "@/assets/aura-detail-1.webp";
 import auraDiscovery1 from "@/assets/aura-discovery-1.webp";
 import auraResearch1 from "@/assets/aura-research-1.webp";
@@ -469,8 +470,8 @@ const studiowaters: ProjectDetailDocument = {
   slug: "studiowaters",
   listSection: WORKSHOP_SECTION_LABEL,
   title: "Studio Waters",
-  heroSummary: "A Playable Prototype That Turns Real-World Casting and Reeling Gestures Into Calm, Responsive Digital Feedback.",
-  heroSubtitle: "An Exploration of Embodied Interaction — Translating Physical Gestures Into Calm, Responsive Digital Play.",
+  heroSummary: "A Playable Fishing Prototype That Turns Real-World Casting and Reeling Gestures Into Calm, Responsive Play.",
+  heroSubtitle: "Built Solo With Claude, p5.js, and a Circuit Playground Express — No Buttons, Just Gestures.",
   heroImage: studioWatersCover,
   heroImageFit: "cover",
   metaCards: [
@@ -487,32 +488,33 @@ const studiowaters: ProjectDetailDocument = {
       label: "Context",
       subtitle: "Intro",
       showProjectMeta: true,
-      body: "**Studio Waters is a playable, motion-controlled fishing prototype built with Claude and p5.js — no buttons, just real-world gestures.**\n\nUsing a CPX (Circuit Playground Express), players cast and reel through physical motion, creating a more intuitive and embodied experience than traditional button-based input. Rather than building a complex game system, the project focuses on a single design question: how can motion, timing, and feedback shape a calm and engaging interaction?",
+      figures: [{ type: "video", src: studioWatersDemo, poster: studioWatersCover }],
+      body: "**Studio Waters is a playable, motion-controlled fishing prototype built with Claude and p5.js — no buttons, just real-world gestures.**\n\nPlayers cast and reel through physical motion, read by a Circuit Playground Express. The project chases one design question: how can motion, timing, and feedback shape a calm, engaging interaction?",
     },
     {
       id: "inspiration",
       label: "Inspiration",
-      body: "Fishing is not defined by constant action. It is defined by pacing, anticipation, and subtle feedback — a rhythm that creates presence without demanding focus.\n\nI wanted to translate these qualities into an interactive system where the body becomes the primary interface. Not a simulation of fishing, but a digital experience that borrows its emotional texture: the arc of a cast, the tension of a reel, the quiet between attempts.\n\nThis project explores how repetitive, physical actions can create a sense of calm and immersion in digital environments — something most games actively work against.",
+      body: "Fishing runs on pacing and anticipation, not constant action. I wanted to borrow that rhythm, not simulate the sport: the arc of a cast, the tension of a reel, the quiet between attempts.\n\nThe body becomes the interface — repetitive physical motion as a source of immersion, something most games actively work against.",
     },
     {
       id: "interaction",
       label: "How It Works",
-      body: "The interaction is built around simple, physical gestures mapped directly to game states:\n\n· Swing to cast the line into the water\n· Tilt and pull to reel the fish back in\n· Dynamic feedback reflects tension, timing, and outcome\n\nThese mappings create a direct connection between movement and result, reducing abstraction and increasing immersion. The goal was to make the interaction feel obvious on first try — no tutorial required.",
+      body: "Simple physical gestures map directly to game states:\n\n· Swing to cast the line into the water\n· Tilt and pull to reel the fish back in\n· On-screen feedback tracks tension, timing, and outcome\n\nThe target: obvious on first try, no tutorial required.",
     },
     {
       id: "experience",
       label: "Experience Design",
-      body: "The experience is intentionally minimal. A nostalgic pixel world, restrained UI, and ambient visual feedback allow the physical interaction to take focus — the screen supports the gesture, rather than the gesture supporting the screen.\n\nDifficulty and reward are introduced through variation in fish behavior: different species require different timing and tension, encouraging attention and rhythm over fast reaction. The feedback loop is tight and forgiving — tension visible on screen, success felt in the motion.\n\nThe goal is not challenge, but engagement through pacing and physical presence.",
+      body: "A nostalgic pixel world and restrained UI keep the focus on the gesture — the screen supports the motion, not the other way around.\n\nDifficulty comes from fish behavior: different species require different timing and tension, rewarding rhythm over fast reaction. The loop is tight and forgiving — tension visible on screen, success felt in the motion.",
     },
     {
       id: "ai",
       label: "How I Used AI",
-      body: "I used AI as a rapid prototyping tool to explore interaction possibilities quickly:\n\n· Generated the initial p5.js game structure using Claude\n· Iterated on visual direction with multiple prompting rounds, refining toward a cohesive pixel style\n· Used AI to quickly test interaction logic before manually adjusting behavior, difficulty curves, and sensor thresholds\n\nAI accelerated early exploration and removed the cost of starting from scratch. But meaningful refinement required hands-on debugging, physical tuning, and restructuring the code around how the CPX actually behaves under motion — things that only emerge through testing, not generation.",
+      body: "AI was my rapid prototyping tool:\n\n· Claude generated the initial p5.js game structure\n· Prompting rounds refined the visuals toward a cohesive pixel style\n· AI-drafted interaction logic gave me a base to tune by hand\n\nThe real refinement was physical: tuning sensor thresholds, adjusting difficulty, and restructuring the code around how the CPX actually behaves under motion — things testing reveals and generation can't.",
     },
     {
       id: "reflection",
       label: "Reflection",
-      body: "Studio Waters reinforced the value of combining fast prototyping with deeper technical understanding.\n\nVibe coding lowers the barrier to building, but strong interaction design still depends on intentional mapping, iteration, and hands-on refinement. The AI wrote the scaffold; I designed the feel.\n\nThe project also surfaced an underexplored space: calm, embodied digital interactions. Most physical computing projects lean toward complexity and spectacle. There is real design value in restraint — in building things that are slow, rhythmic, and physically honest.",
+      body: "The AI wrote the scaffold; I designed the feel. Vibe coding lowers the barrier to building, but the interaction only got good through intentional mapping and hands-on refinement.\n\nIt also surfaced an underexplored space: most physical computing projects chase spectacle. There is real design value in restraint — slow, rhythmic, embodied play.",
     },
   ],
 };
