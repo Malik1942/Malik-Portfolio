@@ -62,7 +62,7 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
       }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 1.2, delay, ease: "easeOut" }}
+      transition={{ duration: 0.5, delay, ease: "easeOut" }}
       onPointerEnter={(e) => {
         if (e.pointerType !== "mouse") return;
         mouseInsideRef.current = true;
@@ -91,7 +91,7 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
           scale: expanded ? 0.94 : 1,
           filter: expanded ? "blur(3px)" : "blur(0px)",
         }}
-        transition={{ duration: 0.32, ease: "easeOut" }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
       >
         {data.label}
       </motion.span>
@@ -109,8 +109,8 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
               filter: expanded ? "blur(0px)" : "blur(4px)",
             }}
             transition={{
-              duration: 0.38,
-              delay: expanded ? 0.1 + i * 0.05 : 0,
+              duration: 0.22,
+              delay: expanded ? i * 0.03 : 0,
               ease: "easeOut",
             }}
           >
@@ -243,7 +243,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
       {/* Text-only cluster labels (particles come from DotGrid canvas) */}
       {isVisible &&
         CLUSTER_TEXTS.map((cluster, i) => (
-          <ClusterLabel key={cluster.label} data={cluster} delay={2.0 + i * 0.15} />
+          <ClusterLabel key={cluster.label} data={cluster} delay={1.0 + i * 0.1} />
         ))}
       </motion.div>
     </>
