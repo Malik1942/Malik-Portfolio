@@ -675,12 +675,27 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     const dpr = window.devicePixelRatio || 1;
     dprRef.current = dpr;
 
+    // Guard against redundant re-inits: window resize and the ResizeObserver can
+    // both fire for the same change, and re-sampling the scene is not free.
+    let lastW = 0;
+    let lastH = 0;
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      initScene(rect.width, rect.height);
+      const w = Math.round(rect.width);
+      const h = Math.round(rect.height);
+      if (w === lastW && h === lastH) return;
+      lastW = w;
+      lastH = h;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      initScene(w, h);
     };
+
+    // Track the canvas's actual box, not just the window — the About view grows
+    // its container beyond the viewport on mobile, and window `resize` never
+    // fires for that. Started only after the first (font-gated) init so its
+    // immediate initial callback is a no-op (dimensions already match).
+    const ro = new ResizeObserver(() => resize());
 
     // Wait until ALL fonts are ready before sampling text pixels for the particle system.
     // Using document.fonts.ready (instead of a 2-second document.fonts.load timeout) ensures
@@ -690,7 +705,10 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       Promise.race([
         document.fonts.ready,
         new Promise<void>((resolve) => setTimeout(resolve, 4000)),
-      ]).then(() => resize());
+      ]).then(() => {
+        resize();
+        ro.observe(canvas);
+      });
     };
 
     initWhenReady();
@@ -774,6 +792,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
 
     return () => {
       cancelAnimationFrame(animRef.current);
+      ro.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
       canvas.removeEventListener("touchmove", onTouchMove);

@@ -72,7 +72,11 @@ export function SiteHeader({
           : hidden
             ? "transform 240ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms cubic-bezier(0.4, 0, 1, 1)"
             : "transform 450ms cubic-bezier(0.22, 1, 0.36, 1), opacity 350ms cubic-bezier(0, 0, 0.2, 1)",
-        pointerEvents: inert ? "none" : undefined,
+        // A tucked-away (opacity 0) header must not stay clickable — otherwise its
+        // invisible nav links intercept taps meant for the layer below it (e.g.
+        // the case-study section guide). Kill pointer events whenever it's hidden,
+        // not only when explicitly inert.
+        pointerEvents: inert || hidden ? "none" : undefined,
       }}
     >
       <motion.div
