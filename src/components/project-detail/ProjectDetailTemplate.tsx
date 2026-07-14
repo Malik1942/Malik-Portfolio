@@ -32,10 +32,11 @@ import { MoreProjects } from "./MoreProjects";
 // Shared page container — all major sections align to this grid
 const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto";
 
-// px offset where the mobile section nav sticks while the site header is shown,
-// so the two never overlap. Roughly the height of the header's visible bar
-// (nav row + divider); it drops to 0 once the header tucks away on scroll-down.
-const MOBILE_SECTION_NAV_TOP = 60;
+// px the mobile section guide sits below the top while the site header is shown,
+// clearing the header's visible bar (pt-7 + nav row + mt-5 divider ≈ 69px) with a
+// small gap so they never touch. It drops to the safe-area top once the header
+// tucks away on scroll-down. Kept in sync with SECTION_ANCHOR_OFFSET below.
+const MOBILE_SECTION_NAV_TOP = 72;
 
 function toEmbedUrl(url: string): string {
   const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
@@ -427,12 +428,19 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         aria-label="Case study"
         className={`${PAGE_OUTER} pb-32 md:pb-48 border-t border-border/30 mt-20 md:mt-28 pt-20 md:pt-28`}
       >
-        {/* Mobile / tablet: horizontal section nav. Its sticky offset follows the
-            site header — flush to the top once the header tucks away, dropped
-            below it while shown — so the two never overlap. */}
+        {/* Mobile / tablet: horizontal section guide. A separate sticky layer from
+            the global header — z-30 sits beneath the z-50 header but above content,
+            and the near-solid background means taps can't fall through to anything
+            below. Its sticky offset follows the header: dropped below it while
+            shown, flush to the safe-area top once the header tucks away — so the
+            two never overlap or share a tap target. */}
         <nav
-          className="lg:hidden sticky z-20 -mx-6 px-6 py-3 mb-14 bg-background/85 backdrop-blur-md border-b border-border/40 transition-[top] duration-300 ease-out"
-          style={{ top: headerHidden ? 0 : MOBILE_SECTION_NAV_TOP }}
+          className="lg:hidden sticky z-30 -mx-6 px-6 py-3 mb-14 bg-background/95 backdrop-blur-md border-b border-border/40 transition-[top] duration-300 ease-out"
+          style={{
+            top: headerHidden
+              ? "env(safe-area-inset-top, 0px)"
+              : `calc(env(safe-area-inset-top, 0px) + ${MOBILE_SECTION_NAV_TOP}px)`,
+          }}
           aria-label="Section navigation"
         >
           <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
@@ -488,7 +496,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
               <article
                 key={s.id}
                 id={sectionDomId(s.id)}
-                className="scroll-mt-28 md:scroll-mt-32 mb-28 md:mb-36 last:mb-0"
+                className="scroll-mt-[calc(env(safe-area-inset-top,0px)+68px)] md:scroll-mt-32 mb-28 md:mb-36 last:mb-0"
               >
                 {s.subtitle ? (
                   <>
