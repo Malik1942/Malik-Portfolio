@@ -28,25 +28,25 @@ const RECOGNIZED_PROPERTIES = new Set([
   "$extensions",
 ]);
 const HEX_COLOR_PATTERN = /^#[0-9a-f]{6}$/i;
-const FONT_WEIGHT_NAMES = new Set([
-  "thin",
-  "hairline",
-  "extra-light",
-  "ultra-light",
-  "light",
-  "normal",
-  "regular",
-  "book",
-  "medium",
-  "semi-bold",
-  "demi-bold",
-  "bold",
-  "extra-bold",
-  "ultra-bold",
-  "black",
-  "heavy",
-  "extra-black",
-  "ultra-black",
+const FONT_WEIGHT_CSS_VALUES = new Map<string, string>([
+  ["thin", "100"],
+  ["hairline", "100"],
+  ["extra-light", "200"],
+  ["ultra-light", "200"],
+  ["light", "300"],
+  ["normal", "400"],
+  ["regular", "400"],
+  ["book", "400"],
+  ["medium", "500"],
+  ["semi-bold", "600"],
+  ["demi-bold", "600"],
+  ["bold", "700"],
+  ["extra-bold", "800"],
+  ["ultra-bold", "800"],
+  ["black", "900"],
+  ["heavy", "900"],
+  ["extra-black", "950"],
+  ["ultra-black", "950"],
 ]);
 const CSS_GENERIC_FONT_FAMILIES = new Set([
   "serif",
@@ -108,6 +108,9 @@ export function formatTokenCss(type: DtcgType, value: DtcgValue): string {
     return family
       .map((name) => formatFontFamily(String(name)))
       .join(", ");
+  }
+  if (type === "fontWeight" && typeof value === "string") {
+    return FONT_WEIGHT_CSS_VALUES.get(value) ?? value;
   }
   return String(value);
 }
@@ -534,7 +537,7 @@ function validateValue(type: DtcgType, value: unknown): string | undefined {
   }
 
   if (type === "fontWeight") {
-    return (typeof value === "string" && FONT_WEIGHT_NAMES.has(value)) ||
+    return (typeof value === "string" && FONT_WEIGHT_CSS_VALUES.has(value)) ||
       (isFiniteNumber(value) && value >= 1 && value <= 1000)
       ? undefined
       : "Font weights must be a documented name or a finite number between 1 and 1000.";
