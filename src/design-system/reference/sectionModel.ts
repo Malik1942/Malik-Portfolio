@@ -20,11 +20,6 @@ export const DESIGN_SYSTEM_GROUPS: DesignSystemGroup[] = [
         label: "Overview",
         description: "How Malik's portfolio system is structured, generated, and used.",
       },
-      {
-        id: "playground",
-        label: "Playground",
-        description: "A browser-local token draft connected to the real portfolio.",
-      },
     ],
   },
   {
@@ -62,6 +57,11 @@ export const DESIGN_SYSTEM_GROUPS: DesignSystemGroup[] = [
     id: "components",
     label: "Components",
     sections: [
+      {
+        id: "component-lineup",
+        label: "Component lineup",
+        description: "The production building blocks used across Malik's portfolio.",
+      },
       {
         id: "component-site-header",
         label: "Site header",
