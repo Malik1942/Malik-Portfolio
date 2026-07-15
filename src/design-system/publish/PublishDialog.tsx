@@ -214,7 +214,7 @@ export function PublishDialog({
           <div>
             <p className="text-[10px] uppercase tracking-[0.22em] text-foreground/44 text-body">Admin · publish only</p>
             <h2 id="publish-dialog-title" className="mt-3 text-3xl font-light tracking-[-0.025em] text-foreground text-display sm:text-4xl">Review token publish</h2>
-            <p id="publish-dialog-description" className="mt-3 max-w-[560px] text-sm leading-relaxed text-foreground/60 text-body">Your local editing tools stay public. This credential authorizes one server-side request to open a GitHub pull request.</p>
+            <p id="publish-dialog-description" className="mt-3 max-w-[560px] text-sm leading-relaxed text-foreground/60 text-body">Your token draft stays in this browser until this authenticated request opens a GitHub pull request.</p>
           </div>
           <button
             type="button"

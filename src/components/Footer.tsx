@@ -114,7 +114,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, onAdminClick, constrained =
             &copy; 2026 Malik Zhang
           </span>
           <a
-            href="/design-system?admin=1#playground"
+            href="/design-system?admin=1"
             onClick={(event) => {
               if (!onAdminClick) return;
               event.preventDefault();
