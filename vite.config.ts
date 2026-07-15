@@ -1,11 +1,11 @@
-import { execFileSync } from "node:child_process";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { resolveTokenSourceCommit } from "./src/design-system/tokens/sourceCommit";
 
-const tokenSourceCommit =
-  process.env.VERCEL_GIT_COMMIT_SHA ??
-  execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+const tokenSourceCommit = resolveTokenSourceCommit(
+  process.env.VERCEL_GIT_COMMIT_SHA,
+);
 
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
