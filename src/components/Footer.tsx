@@ -58,6 +58,14 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true, wide = 
                   Resume
                 </a>
               </li>
+              <li>
+                <a
+                  href="/design-system"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500"
+                >
+                  Design System
+                </a>
+              </li>
             </ul>
           </div>
 
