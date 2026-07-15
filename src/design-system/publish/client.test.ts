@@ -25,7 +25,7 @@ describe("publishTokenDraft", () => {
 
   it("posts the typed request as JSON and returns a validated success payload", async () => {
     const success = {
-      pullRequestUrl: "https://github.com/malikzhang/malik-portfolio/pull/42",
+      pullRequestUrl: "https://github.com/Malik1942/Malik-Portfolio/pull/42",
       pullRequestNumber: 42,
       branch: "design-system/adjust-motion-42",
       changedTokens: ["duration.fast"],
@@ -44,7 +44,7 @@ describe("publishTokenDraft", () => {
   it("passes an abort signal without changing the request body", async () => {
     const controller = new AbortController();
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(response(201, JSON.stringify({
-      pullRequestUrl: "https://github.com/malikzhang/malik-portfolio/pull/7",
+      pullRequestUrl: "https://github.com/Malik1942/Malik-Portfolio/pull/7",
       pullRequestNumber: 7,
       branch: "design-system/a",
       changedTokens: ["duration.fast"],
@@ -58,6 +58,7 @@ describe("publishTokenDraft", () => {
     [401, "Publish authorization failed."],
     [409, "Production tokens changed since this draft was created."],
     [422, "The token draft was rejected by server validation."],
+    [429, "Too many publish attempts. Wait a moment and try again."],
     [502, "GitHub publishing is temporarily unavailable."],
   ])("maps HTTP %s to a credential-safe typed error", async (status, message) => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue(response(status, JSON.stringify({
@@ -97,6 +98,11 @@ describe("publishTokenDraft", () => {
     { pullRequestUrl: "https://github.com/a/b/pull/1?unsafe=1", pullRequestNumber: 1, branch: "design-system/x", changedTokens: ["duration.fast"] },
     { pullRequestUrl: "https://user@github.com/a/b/pull/1", pullRequestNumber: 1, branch: "design-system/x", changedTokens: ["duration.fast"] },
     { pullRequestUrl: "https://github.com/a/b/pull/1", pullRequestNumber: 2, branch: "design-system/x", changedTokens: ["duration.fast"] },
+    { pullRequestUrl: "https://github.com/attacker/repo/pull/1", pullRequestNumber: 1, branch: "design-system/x", changedTokens: ["duration.fast"] },
+    { pullRequestUrl: "https://github.com/malik1942/malik-portfolio/pull/1", pullRequestNumber: 1, branch: "design-system/x", changedTokens: ["duration.fast"] },
+    { pullRequestUrl: "https://github.com/Malik1942/Malik-Portfolio/pull/1", pullRequestNumber: 1, branch: "design-system/foo.lock", changedTokens: ["duration.fast"] },
+    { pullRequestUrl: "https://github.com/Malik1942/Malik-Portfolio/pull/1", pullRequestNumber: 1, branch: "design-system/a/.hidden", changedTokens: ["duration.fast"] },
+    { pullRequestUrl: "https://github.com/Malik1942/Malik-Portfolio/pull/1", pullRequestNumber: 1, branch: "design-system/a./b", changedTokens: ["duration.fast"] },
   ])("rejects an invalid success shape as an upstream error", async (body) => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue(response(200, JSON.stringify(body)));
 
@@ -127,6 +133,9 @@ describe("publishTokenDraft", () => {
     "main",
     "design-system/../main",
     "design-system//unsafe",
+    "design-system/foo.lock",
+    "design-system/a/.hidden",
+    "design-system/a./b",
     `design-system/${"x".repeat(200)}`,
   ])("discards an unsafe recovery branch", async (branch) => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue(response(502, JSON.stringify({
