@@ -194,6 +194,20 @@ describe("design-system reference content", () => {
     view.unmount();
   });
 
+  it("describes the metadata cards as a persistent two-column grid", () => {
+    const section = DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections).find(
+      (candidate) => candidate.id === "component-metadata-card",
+    );
+    if (!section) throw new Error("Missing metadata-card section fixture");
+
+    render(<>{renderReferenceSection(section)}</>);
+
+    const metadata = screen.getByTestId("reference-component-metadata-card");
+    expect(metadata).toHaveTextContent(/two-column grid at every breakpoint/i);
+    expect(metadata).toHaveTextContent(/compact spacing and type on smaller screens/i);
+    expect(metadata).not.toHaveTextContent(/four columns to two or one/i);
+  });
+
   it("leaves Playground as an explicit Task 7 handoff", () => {
     const playground = DESIGN_SYSTEM_GROUPS[0].sections[1];
     render(<>{renderReferenceSection(playground)}</>);
