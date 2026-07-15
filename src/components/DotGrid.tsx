@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback } from "react";
 import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
+import { nextDotGridCanvasSize } from "./dotGridSize";
 
 // ── Cluster positions: balanced quadrant layout ──
 // 0: Who I Am — upper-left
@@ -681,9 +682,12 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     let lastH = 0;
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      const w = Math.round(rect.width);
-      const h = Math.round(rect.height);
-      if (w === lastW && h === lastH) return;
+      const nextSize = nextDotGridCanvasSize(rect.width, rect.height, {
+        w: lastW,
+        h: lastH,
+      });
+      if (!nextSize) return;
+      const { w, h } = nextSize;
       lastW = w;
       lastH = h;
       canvas.width = w * dpr;

@@ -92,4 +92,16 @@ describe("useDesignSystemMetadata", () => {
     expect(document.head).toContainElement(author);
     expect(ogImage).toHaveAttribute("content", "https://www.malikzhang.com/og-image.png");
   });
+
+  it("removes the title node when the route created it", () => {
+    document.querySelector("title")?.remove();
+    expect(document.querySelectorAll("title")).toHaveLength(0);
+
+    const view = renderHook(() => useDesignSystemMetadata());
+    expect(document.querySelectorAll("title")).toHaveLength(1);
+    expect(document.title).toBe(DESIGN_SYSTEM_TITLE);
+
+    view.unmount();
+    expect(document.querySelectorAll("title")).toHaveLength(0);
+  });
 });
