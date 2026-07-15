@@ -1,7 +1,9 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { PreviewProvider } from "../../preview/PreviewProvider";
+import { DRAFT_STORAGE_KEY, createDraft } from "../../preview/draft";
+import { tokenBundle } from "../../generated/token-manifest.generated";
 import { Playground } from "./Playground";
 
 describe("Playground", () => {
@@ -39,5 +41,25 @@ describe("Playground", () => {
     expect(workbench).toHaveClass("xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)]");
     expect(preview.parentElement).toHaveClass("xl:sticky", "xl:top-28");
     expect(screen.getByRole("button", { name: "320px" })).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("shows a primitive edit in dependent alias controls using compiled resolved values", () => {
+    render(<MemoryRouter initialEntries={["/design-system#playground"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PreviewProvider><Playground /></PreviewProvider></MemoryRouter>);
+    fireEvent.change(screen.getByLabelText("color.warm.100 hue"), { target: { value: "120" } });
+
+    const aliasControl = screen.getByRole("group", { name: "color.text.primary" });
+    expect(within(aliasControl).getByText(/Draft: hsl\(120 6% 90% \/ 1\)/)).toBeInTheDocument();
+    expect(within(aliasControl).getByLabelText("color.text.primary hue")).toHaveValue(120);
+  });
+
+  it("renders a rebased alias-string override through its compiled typed value", () => {
+    localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(createDraft(tokenBundle.tokenHash, {
+      "color.text.primary": "{color.gold.500}",
+    })));
+
+    expect(() => render(<MemoryRouter initialEntries={["/design-system#playground"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PreviewProvider><Playground /></PreviewProvider></MemoryRouter>)).not.toThrow();
+    const aliasControl = screen.getByRole("group", { name: "color.text.primary" });
+    expect(within(aliasControl).getByText(/Draft: hsl\(36 40% 60% \/ 1\)/)).toBeInTheDocument();
+    expect(within(aliasControl).getByLabelText("color.text.primary hue")).toHaveValue(36);
   });
 });
