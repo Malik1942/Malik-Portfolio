@@ -4,10 +4,12 @@ export function Specimen({
   label,
   description,
   children,
+  footer,
 }: {
   label: string;
   description: string;
   children: ReactNode;
+  footer?: ReactNode;
 }) {
   const id = useId().replace(/:/g, "");
   const labelId = `specimen-${id}-label`;
@@ -27,6 +29,11 @@ export function Specimen({
         </p>
       </div>
       <div className="min-w-0 overflow-x-auto p-5 sm:p-6">{children}</div>
+      {footer ? (
+        <div className="border-t border-border/40 px-5 py-4 sm:px-6">
+          {footer}
+        </div>
+      ) : null}
     </section>
   );
 }

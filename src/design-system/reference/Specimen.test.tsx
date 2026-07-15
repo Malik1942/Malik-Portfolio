@@ -1,5 +1,6 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { setReducedMotionPreference } from "../../test/setup";
 import { Specimen } from "./Specimen";
 
 describe("Specimen", () => {
@@ -27,5 +28,26 @@ describe("Specimen", () => {
     expect(button).toHaveFocus();
     fireEvent.click(button);
     expect(onClick).toHaveBeenCalledOnce();
+  });
+
+  it("keeps the live stage and context link inside one labelled region", () => {
+    render(
+      <Specimen
+        label="Live specimen"
+        description="A contained production behavior."
+        footer={<a href="/">View in context</a>}
+      >
+        <button type="button">Inspect behavior</button>
+      </Specimen>,
+    );
+
+    const region = screen.getByRole("region", { name: "Live specimen" });
+    expect(region).toContainElement(screen.getByRole("button", { name: "Inspect behavior" }));
+    expect(region).toContainElement(screen.getByRole("link", { name: "View in context" }));
+  });
+
+  it("lets tests enable the reduced-motion media query", () => {
+    setReducedMotionPreference(true);
+    expect(window.matchMedia("(prefers-reduced-motion: reduce)").matches).toBe(true);
   });
 });
