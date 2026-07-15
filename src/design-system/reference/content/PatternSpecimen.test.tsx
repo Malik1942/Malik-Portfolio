@@ -43,4 +43,38 @@ describe("PatternSpecimen", () => {
     expect(screen.getByTestId("transition-stage")).toHaveAttribute("data-reduced-motion", "true");
     expect(screen.getByTestId("transition-stage")).toHaveAttribute("data-phase", "settled");
   });
+
+  it("switches responsive composition and pauses expressive ambient motion", () => {
+    const responsive = render(
+      <PatternSpecimen sectionId="pattern-responsive" contextHref="/" contextLabel="View in context" />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Compact layout" }));
+    expect(screen.getByTestId("responsive-stage")).toHaveAttribute("data-layout", "compact");
+    responsive.unmount();
+
+    render(
+      <PatternSpecimen sectionId="pattern-expressive" contextHref="/" contextLabel="View in context" />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Pause ambient motion" }));
+    expect(screen.getByTestId("expressive-stage")).toHaveAttribute("data-paused", "true");
+  });
+
+  it("announces the active element in the accessibility focus path", () => {
+    render(
+      <PatternSpecimen sectionId="pattern-accessibility" contextHref="/" contextLabel="View in context" />,
+    );
+
+    fireEvent.focus(screen.getByRole("button", { name: "Open case study" }));
+    expect(screen.getByRole("status")).toHaveTextContent("Open case study is focused");
+  });
+
+  it("renders a live stage for every remaining documented pattern", () => {
+    for (const sectionId of ["pattern-homepage-hero", "pattern-case-study"]) {
+      const view = render(
+        <PatternSpecimen sectionId={sectionId} contextHref="/" contextLabel="View in context" />,
+      );
+      expect(screen.getByRole("region", { name: "Live specimen" })).toBeInTheDocument();
+      view.unmount();
+    }
+  });
 });
