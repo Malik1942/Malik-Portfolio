@@ -49,6 +49,7 @@ export function PublishDialog({
   const [error, setError] = useState<PublishError | null>(null);
   const [result, setResult] = useState<PublishSuccess | null>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const successLinkRef = useRef<HTMLAnchorElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const requestVersionRef = useRef(0);
@@ -90,10 +91,26 @@ export function PublishDialog({
     submittingRef.current = false;
     setPending(false);
     setPassword("");
+    setAcknowledged(false);
     setError(null);
     setResult(null);
     onClose();
   }, [onClose]);
+
+  useEffect(() => {
+    setAcknowledged(false);
+  }, [draft.overrides]);
+
+  useEffect(() => {
+    if (open && result) successLinkRef.current?.focus();
+  }, [open, result]);
+
+  useEffect(() => () => {
+    requestVersionRef.current += 1;
+    abortRef.current?.abort();
+    abortRef.current = null;
+    submittingRef.current = false;
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -115,6 +132,11 @@ export function PublishDialog({
       if (focusable.length === 0) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
+      if (!dialogRef.current?.contains(document.activeElement)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+        return;
+      }
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
@@ -154,7 +176,10 @@ export function PublishDialog({
     };
 
     try {
-      const nextResult = await publish(request, { signal: controller.signal });
+      const publishPromise = publish(request, { signal: controller.signal });
+      setPassword("");
+      request.password = "";
+      const nextResult = await publishPromise;
       if (requestVersionRef.current !== requestVersion) return;
       setPassword("");
       setResult(nextResult);
@@ -207,6 +232,7 @@ export function PublishDialog({
             <p className="mt-2 text-sm text-foreground/60 text-body">{formatTokenCount(result.changedTokens.length)} on <code className="break-all">{result.branch}</code>.</p>
             <div className="mt-5 flex flex-wrap gap-3">
               <a
+                ref={successLinkRef}
                 href={result.pullRequestUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -245,7 +271,7 @@ export function PublishDialog({
                   ref={passwordRef}
                   aria-label="Publish password"
                   type="password"
-                  autoComplete="current-password"
+                  autoComplete="off"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   className="mt-2 min-h-[44px] w-full rounded-md border border-border bg-background px-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"

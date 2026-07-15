@@ -20,6 +20,7 @@ export type PublishErrorCode =
   | "unauthorized"
   | "stale_production"
   | "invalid_draft"
+  | "rate_limited"
   | "upstream_failure"
   | "invalid_response"
   | "request_failed";
@@ -51,6 +52,7 @@ const STATUS_ERRORS: Record<number, [PublishErrorCode, string]> = {
   401: ["unauthorized", "Publish authorization failed."],
   409: ["stale_production", "Production tokens changed since this draft was created."],
   422: ["invalid_draft", "The token draft was rejected by server validation."],
+  429: ["rate_limited", "Too many publish attempts. Wait a moment and try again."],
   502: ["upstream_failure", "GitHub publishing is temporarily unavailable."],
 };
 
@@ -143,12 +145,19 @@ function isPublishSuccess(value: unknown): value is PublishSuccess {
 }
 
 function isSafeDesignSystemBranch(value: string): boolean {
-  return value.length <= 160 &&
+  if (!(value.length <= 160 &&
     /^design-system\/[A-Za-z0-9][A-Za-z0-9._/-]*$/.test(value) &&
     !value.includes("..") &&
     !value.includes("//") &&
     !value.endsWith("/") &&
-    !value.endsWith(".");
+    !value.endsWith("."))) return false;
+
+  return value.split("/").every((component) =>
+    component.length > 0 &&
+    !component.startsWith(".") &&
+    !component.endsWith(".") &&
+    !component.toLowerCase().endsWith(".lock")
+  );
 }
 
 function isAbortError(error: unknown): boolean {
@@ -159,7 +168,7 @@ function isAbortError(error: unknown): boolean {
 function isCanonicalPullRequestUrl(value: string, pullRequestNumber: number): boolean {
   try {
     const url = new URL(value);
-    const match = /^\/[^/]+\/[^/]+\/pull\/(\d+)$/.exec(url.pathname);
+    const match = /^\/Malik1942\/Malik-Portfolio\/pull\/(\d+)$/.exec(url.pathname);
     return url.origin === "https://github.com" &&
       url.username === "" &&
       url.password === "" &&

@@ -5,9 +5,9 @@ import { MemoryRouter, useLocation } from "react-router-dom";
 import Footer from "@/components/Footer";
 import DesignSystem from "@/pages/DesignSystem";
 import { tokenBundle } from "../generated/token-manifest.generated";
-import { PreviewProvider } from "../preview/PreviewProvider";
+import { PreviewProvider, usePreviewDraft } from "../preview/PreviewProvider";
 import { DRAFT_STORAGE_KEY, createDraft } from "../preview/draft";
-import { PublishError, type PublishSuccess, type publishTokenDraft } from "./client";
+import { PublishError, type PublishRequest, type PublishSuccess, type publishTokenDraft } from "./client";
 import { PublishDialog } from "./PublishDialog";
 
 const { analyticsTrack } = vi.hoisted(() => ({ analyticsTrack: vi.fn() }));
@@ -15,7 +15,7 @@ vi.mock("@vercel/analytics", () => ({ track: analyticsTrack }));
 
 const PUBLISHABLE_COMMIT = "a".repeat(40);
 const SUCCESS: PublishSuccess = {
-  pullRequestUrl: "https://github.com/malikzhang/malik-portfolio/pull/42",
+  pullRequestUrl: "https://github.com/Malik1942/Malik-Portfolio/pull/42",
   pullRequestNumber: 42,
   branch: "design-system/adjust-motion-42",
   changedTokens: ["duration.fast"],
@@ -43,9 +43,11 @@ function DialogHarness({
   initiallyOpen?: boolean;
 }) {
   const [open, setOpen] = useState(initiallyOpen);
+  const { setOverride } = usePreviewDraft();
   return (
     <>
       <button type="button" onClick={() => setOpen(true)}>Admin trigger</button>
+      <button type="button" onClick={() => setOverride("duration.fast", { value: 140, unit: "ms" })}>Change draft</button>
       <PublishDialog
         open={open}
         onClose={() => setOpen(false)}
@@ -119,6 +121,7 @@ describe("PublishDialog", () => {
     expect(dialog.parentElement?.parentElement).toBe(document.body);
     const password = screen.getByLabelText("Publish password");
     expect(password).toHaveAttribute("type", "password");
+    expect(password).toHaveAttribute("autocomplete", "off");
     expect(password).toHaveFocus();
     expect(document.body.style.overflow).toBe("hidden");
 
@@ -130,6 +133,9 @@ describe("PublishDialog", () => {
     close.focus();
     fireEvent.keyDown(document, { key: "Tab", shiftKey: true });
     expect(acknowledgement).toHaveFocus();
+    screen.getByRole("button", { name: "Admin trigger" }).focus();
+    fireEvent.keyDown(document, { key: "Tab" });
+    expect(close).toHaveFocus();
 
     fireEvent.change(password, { target: { value: "never-persist-this" } });
     fireEvent.keyDown(document, { key: "Escape" });
@@ -139,6 +145,21 @@ describe("PublishDialog", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Admin trigger" }));
     expect(screen.getByLabelText("Publish password")).toHaveValue("");
+    expect(screen.getByRole("checkbox", { name: /I reviewed this final diff/i })).not.toBeChecked();
+  });
+
+  it("requires fresh acknowledgement whenever the draft diff changes", () => {
+    renderDialog();
+    openDialog();
+    fillValidForm();
+    const acknowledgement = screen.getByRole("checkbox", { name: /I reviewed this final diff/i });
+    expect(acknowledgement).toBeChecked();
+
+    fireEvent.click(screen.getByRole("button", { name: "Change draft" }));
+
+    expect(acknowledgement).not.toBeChecked();
+    expect(screen.getByTestId("publish-diff-duration.fast")).toHaveTextContent("140ms");
+    expect(screen.getByRole("button", { name: "Open publish PR" })).toBeDisabled();
   });
 
   it("shows a direct production/draft diff and requires trimmed fields, a valid override, acknowledgement, and publishable provenance", () => {
@@ -192,7 +213,11 @@ describe("PublishDialog", () => {
   });
 
   it("submits trimmed metadata and generated provenance, then shows one safe canonical PR link", async () => {
-    const publish = vi.fn().mockResolvedValue(SUCCESS);
+    let submitted: PublishRequest | undefined;
+    const publish = vi.fn((request: PublishRequest, _options: Parameters<PublishFn>[1]) => {
+      submitted = structuredClone(request);
+      return Promise.resolve(SUCCESS);
+    });
     const storageSpy = vi.spyOn(localStorage, "setItem");
     renderDialog(publish);
     openDialog();
@@ -200,14 +225,16 @@ describe("PublishDialog", () => {
     fireEvent.click(screen.getByRole("button", { name: "Open publish PR" }));
 
     await waitFor(() => expect(publish).toHaveBeenCalledOnce());
-    expect(publish).toHaveBeenCalledWith({
+    expect(submitted).toEqual({
       password: "publish-secret",
       baseCommitSha: PUBLISHABLE_COMMIT,
       baseTokenHash: tokenBundle.tokenHash,
       title: "Adjust portfolio motion",
       summary: "Tune the fast duration after reviewing the live preview.",
       overrides: VALID_OVERRIDE,
-    }, expect.objectContaining({ signal: expect.any(AbortSignal) }));
+    });
+    expect(publish.mock.calls[0][1]).toEqual(expect.objectContaining({ signal: expect.any(AbortSignal) }));
+    expect(publish.mock.calls[0][0].password).toBe("");
 
     const result = await screen.findByRole("status");
     expect(result).toHaveTextContent("1 changed token");
@@ -216,6 +243,7 @@ describe("PublishDialog", () => {
     expect(links[0]).toHaveAttribute("href", SUCCESS.pullRequestUrl);
     expect(links[0]).toHaveAttribute("target", "_blank");
     expect(links[0]).toHaveAttribute("rel", expect.stringContaining("noopener"));
+    expect(links[0]).toHaveFocus();
     expect(screen.queryByLabelText("Publish password")).not.toBeInTheDocument();
     expect(document.body).not.toHaveTextContent("publish-secret");
     expect(window.location.href).not.toContain("publish-secret");
@@ -272,6 +300,7 @@ describe("PublishDialog", () => {
     fireEvent.click(submit);
     fireEvent.submit(submit.closest("form")!);
     expect(publish).toHaveBeenCalledOnce();
+    expect(screen.getByLabelText("Publish password")).toHaveValue("");
     expect(submit).toBeDisabled();
     fireEvent.keyDown(document, { key: "Escape" });
 
@@ -280,6 +309,21 @@ describe("PublishDialog", () => {
     fireEvent.click(screen.getByRole("button", { name: "Admin trigger" }));
     expect(screen.queryByRole("link", { name: /Open pull request/ })).not.toBeInTheDocument();
     expect(screen.getByLabelText("Publish password")).toHaveValue("");
+  });
+
+  it("aborts and invalidates a pending publish when the dialog route unmounts", () => {
+    const publish = vi.fn((_request, options) => new Promise<PublishSuccess>(() => {
+      expect(options?.signal).toBeInstanceOf(AbortSignal);
+    }));
+    const view = renderDialog(publish);
+    openDialog();
+    fillValidForm();
+    fireEvent.click(screen.getByRole("button", { name: "Open publish PR" }));
+    const signal = publish.mock.calls[0][1]?.signal;
+
+    view.unmount();
+
+    expect(signal?.aborted).toBe(true);
   });
 });
 
