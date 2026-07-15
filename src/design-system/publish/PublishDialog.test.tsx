@@ -337,7 +337,7 @@ describe("PublishDialog", () => {
 describe("Admin entry integration", () => {
   beforeEach(() => {
     localStorage.clear();
-    window.history.replaceState(null, "", "/design-system#playground");
+    window.history.replaceState(null, "", "/design-system#overview");
   });
   afterEach(() => {
     cleanup();
@@ -348,18 +348,18 @@ describe("Admin entry integration", () => {
   it("keeps a real global Footer fallback and intercepts it only when a callback is supplied", () => {
     const onAdminClick = vi.fn();
     const view = render(<Footer />);
-    expect(screen.getByRole("link", { name: "Admin" })).toHaveAttribute("href", "/design-system?admin=1#playground");
+    expect(screen.getByRole("link", { name: "Admin" })).toHaveAttribute("href", "/design-system?admin=1");
 
     view.rerender(<Footer onAdminClick={onAdminClick} />);
     fireEvent.click(screen.getByRole("link", { name: "Admin" }));
     expect(onAdminClick).toHaveBeenCalledOnce();
   });
 
-  it("opens from the one-shot admin query, safely removes only that query, and leaves public controls available after close", async () => {
+  it("opens unlisted authoring from the one-shot query and returns to a control-free public reference", async () => {
     seedDraft();
-    window.history.replaceState(null, "", "/design-system?keep=1&admin=1#playground");
+    window.history.replaceState(null, "", "/design-system?keep=1&admin=1#overview");
     render(
-      <MemoryRouter initialEntries={["/design-system?keep=1&admin=1#playground"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <MemoryRouter initialEntries={["/design-system?keep=1&admin=1#overview"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <PreviewProvider>
           <DesignSystem />
           <LocationProbe />
@@ -367,12 +367,20 @@ describe("Admin entry integration", () => {
       </MemoryRouter>,
     );
 
+    expect(screen.getByRole("dialog", { name: "Admin token authoring" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Token authoring" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Token controls" })).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByLabelText("route location")).toHaveTextContent("/design-system?keep=1#overview"));
+
+    fireEvent.click(screen.getByRole("button", { name: "Review and publish" }));
+    expect(screen.queryByRole("dialog", { name: "Admin token authoring" })).not.toBeInTheDocument();
     expect(screen.getByRole("dialog", { name: "Review token publish" })).toBeInTheDocument();
-    await waitFor(() => expect(screen.getByLabelText("route location")).toHaveTextContent("/design-system?keep=1#playground"));
+
     fireEvent.click(screen.getByRole("button", { name: "Close publish review" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Token controls" })).toBeInTheDocument();
-    expect(screen.getAllByRole("spinbutton").length).toBeGreaterThan(0);
-    expect(screen.getByRole("button", { name: "Export JSON" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "Overview" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Token controls" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("spinbutton")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Export JSON" })).not.toBeInTheDocument();
   });
 });

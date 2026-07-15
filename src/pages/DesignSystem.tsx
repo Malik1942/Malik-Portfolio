@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
 import { SiteHeader } from "@/components/SiteHeader";
+import { AdminAuthoringDialog } from "@/design-system/publish/AdminAuthoringDialog";
 import { PublishDialog } from "@/design-system/publish/PublishDialog";
 import { DesignSystemShell } from "@/design-system/reference/DesignSystemShell";
 import { useDesignSystemMetadata } from "@/design-system/reference/useDesignSystemMetadata";
@@ -15,9 +16,10 @@ const DesignSystem = () => {
   useDesignSystemMetadata();
   const navigate = useNavigate();
   const location = useLocation();
-  const [publishOpen, setPublishOpen] = useState(
+  const [authoringOpen, setAuthoringOpen] = useState(
     () => new URLSearchParams(location.search).get("admin") === "1",
   );
+  const [publishOpen, setPublishOpen] = useState(false);
   const shouldReduceMotion = useReducedMotion();
   const scrollHidden = useHideOnScroll();
   const headerHidden = !shouldReduceMotion && scrollHidden;
@@ -25,7 +27,7 @@ const DesignSystem = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     if (params.get("admin") !== "1") return;
-    setPublishOpen(true);
+    setAuthoringOpen(true);
     params.delete("admin");
     const search = params.toString();
     navigate(`${location.pathname}${search ? `?${search}` : ""}${location.hash}`, {
@@ -64,8 +66,16 @@ const DesignSystem = () => {
         <Footer
           onMainProjectsClick={navigateToSelectedWork}
           onAboutClick={navigateToAbout}
-          onAdminClick={() => setPublishOpen(true)}
+          onAdminClick={() => setAuthoringOpen(true)}
           wide
+        />
+        <AdminAuthoringDialog
+          open={authoringOpen}
+          onClose={() => setAuthoringOpen(false)}
+          onReviewPublish={() => {
+            setAuthoringOpen(false);
+            setPublishOpen(true);
+          }}
         />
         <PublishDialog open={publishOpen} onClose={() => setPublishOpen(false)} />
       </div>
