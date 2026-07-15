@@ -6,11 +6,13 @@ import { PageTransition } from "@/components/PageTransition";
 import { SiteHeader } from "@/components/SiteHeader";
 import { PublishDialog } from "@/design-system/publish/PublishDialog";
 import { DesignSystemShell } from "@/design-system/reference/DesignSystemShell";
+import { useDesignSystemMetadata } from "@/design-system/reference/useDesignSystemMetadata";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
 
 const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto";
 
 const DesignSystem = () => {
+  useDesignSystemMetadata();
   const navigate = useNavigate();
   const location = useLocation();
   const [publishOpen, setPublishOpen] = useState(
