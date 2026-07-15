@@ -1,4 +1,5 @@
 import { Specimen } from "../Specimen";
+import { hasPatternSpecimen, PatternSpecimen } from "./PatternSpecimen";
 
 interface PatternEntry {
   purpose: string;
@@ -98,6 +99,9 @@ export function PatternContent({ sectionId }: { sectionId: string }) {
 
   return (
     <div data-testid={`reference-${sectionId}`} className="space-y-8 md:space-y-10">
+      {hasPatternSpecimen(sectionId) ? (
+        <PatternSpecimen sectionId={sectionId} contextHref={entry.preview} contextLabel={entry.label} />
+      ) : null}
       <div className="grid gap-px overflow-hidden rounded-lg border border-border/50 bg-border/50 md:grid-cols-2">
         {[
           ["Purpose", entry.purpose],
@@ -120,9 +124,11 @@ export function PatternContent({ sectionId }: { sectionId: string }) {
           </p>
         ) : null}
       </section>
-      <Specimen label="Production context" description={entry.note}>
-        <a href={entry.preview} className="inline-flex min-h-[44px] items-center rounded-sm border border-border/60 px-4 text-sm text-foreground/72 transition-colors hover:border-foreground/35 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40">{entry.label} →</a>
-      </Specimen>
+      {!hasPatternSpecimen(sectionId) ? (
+        <Specimen label="Production context" description={entry.note}>
+          <a href={entry.preview} className="inline-flex min-h-[44px] items-center rounded-sm border border-border/60 px-4 text-sm text-foreground/72 transition-colors hover:border-foreground/35 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40">{entry.label} →</a>
+        </Specimen>
+      ) : null}
     </div>
   );
 }
