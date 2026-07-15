@@ -1,0 +1,92 @@
+{
+  "component": {
+    "siteHeader": {
+      "scrimColor": {
+        "$type": "color",
+        "$description": "Black color used by the site-header scrim; gradient stops remain component-owned.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [0, 0, 0],
+          "hex": "#000000"
+        }
+      }
+    },
+    "projectCard": {
+      "surface": {
+        "$type": "color",
+        "$description": "Translucent secondary surface behind real project-card media.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [0, 0, 8],
+          "alpha": 0.15,
+          "hex": "#141414"
+        }
+      },
+      "hoverOverlay": {
+        "$type": "color",
+        "$description": "Warm translucent overlay revealed over project-card media on hover.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [40, 6, 90],
+          "alpha": 0.04,
+          "hex": "#e7e6e4"
+        }
+      }
+    },
+    "caseStudyModule": {
+      "surface": {
+        "$type": "color",
+        "$description": "Inset near-black surface used by repeated case-study modules.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [240, 4, 5],
+          "hex": "#0c0c0d"
+        }
+      },
+      "border": {
+        "$type": "color",
+        "$description": "Subtle white boundary around repeated case-study modules.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [0, 0, 100],
+          "alpha": 0.07,
+          "hex": "#ffffff"
+        }
+      },
+      "divider": {
+        "$type": "color",
+        "$description": "Quieter white divider between sections inside case-study modules.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [0, 0, 100],
+          "alpha": 0.05,
+          "hex": "#ffffff"
+        }
+      }
+    },
+    "projectSection": {
+      "flash": {
+        "$type": "color",
+        "$description": "Warm peak color used during a project-section arrival flash.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [40, 6, 90],
+          "alpha": 0.018,
+          "hex": "#e7e6e4"
+        }
+      }
+    },
+    "lightbox": {
+      "backdrop": {
+        "$type": "color",
+        "$description": "Near-opaque black backdrop behind expanded case-study images.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [0, 0, 0],
+          "alpha": 0.9,
+          "hex": "#000000"
+        }
+      }
+    }
+  }
+}
