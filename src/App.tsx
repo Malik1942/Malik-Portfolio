@@ -4,6 +4,8 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import ErrorBoundary from "@/components/ErrorBoundary";
 // Vite + React Router app → use the /react entry (not /next).
 import { Analytics } from "@vercel/analytics/react";
+import { PreviewBar } from "./design-system/preview/PreviewBar";
+import { PreviewProvider, usePreviewDraft } from "./design-system/preview/PreviewProvider";
 import Index from "./pages/Index.tsx";
 
 // Code-split the heavier secondary routes so the landing page doesn't ship them.
@@ -43,13 +45,31 @@ function AnimatedRoutes() {
 }
 
 const App = () => (
-  <BrowserRouter>
-    <ScrollToTop />
-    <ErrorBoundary>
-      <AnimatedRoutes />
-    </ErrorBoundary>
-    <Analytics />
+  <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+    <AppFrame />
   </BrowserRouter>
 );
+
+function AppFrame() {
+  return (
+    <PreviewProvider>
+      <AppContents />
+    </PreviewProvider>
+  );
+}
+
+function AppContents() {
+  const { embedded } = usePreviewDraft();
+  return (
+    <>
+      <ScrollToTop />
+      <ErrorBoundary>
+        <AnimatedRoutes />
+      </ErrorBoundary>
+      <PreviewBar />
+      {!embedded ? <Analytics /> : null}
+    </>
+  );
+}
 
 export default App;

@@ -1,5 +1,7 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
+import { MemoryRouter } from "react-router-dom";
+import { PreviewProvider } from "../../preview/PreviewProvider";
 import { DESIGN_SYSTEM_GROUPS } from "../sectionModel";
 import { getFoundationTokens } from "./Foundations";
 import { renderReferenceSection } from "../sections";
@@ -208,9 +210,10 @@ describe("design-system reference content", () => {
     expect(metadata).not.toHaveTextContent(/four columns to two or one/i);
   });
 
-  it("leaves Playground as an explicit Task 7 handoff", () => {
+  it("renders Playground as the public browser-local workbench", () => {
     const playground = DESIGN_SYSTEM_GROUPS[0].sections[1];
-    render(<>{renderReferenceSection(playground)}</>);
-    expect(screen.getByText(/live browser-local workbench arrives in the next implementation slice/i)).toBeInTheDocument();
+    render(<MemoryRouter initialEntries={["/design-system#playground"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PreviewProvider>{renderReferenceSection(playground)}</PreviewProvider></MemoryRouter>);
+    expect(screen.getByRole("heading", { name: "Token controls" })).toBeInTheDocument();
+    expect(screen.getByTitle("Live portfolio preview")).toHaveAttribute("src", "/?design-preview=local&embedded=1");
   });
 });
