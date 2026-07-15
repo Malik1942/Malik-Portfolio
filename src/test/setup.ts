@@ -16,25 +16,37 @@ Object.defineProperty(globalThis, "localStorage", { configurable: true, value: s
 Object.defineProperty(window, "scrollTo", { configurable: true, value: () => {} });
 
 let reducedMotionPreference = false;
+const reducedMotionListeners = new Set<(event: { matches: boolean; media: string }) => void>();
 
 export function setReducedMotionPreference(matches: boolean): void {
   reducedMotionPreference = matches;
+  const event = { matches, media: "(prefers-reduced-motion: reduce)" };
+  reducedMotionListeners.forEach((listener) => listener(event));
 }
 
 Object.defineProperty(window, "matchMedia", {
   writable: true,
-  value: (query: string) => ({
-    matches: query.includes("prefers-reduced-motion") && reducedMotionPreference,
-    media: query,
-    onchange: null,
-    addListener: () => {},
-    removeListener: () => {},
-    addEventListener: () => {},
-    removeEventListener: () => {},
-    dispatchEvent: () => {},
-  }),
+  value: (query: string) => {
+    const isReducedMotionQuery = query.includes("prefers-reduced-motion");
+    const addListener = (listener: (event: { matches: boolean; media: string }) => void) => {
+      if (isReducedMotionQuery) reducedMotionListeners.add(listener);
+    };
+    const removeListener = (listener: (event: { matches: boolean; media: string }) => void) => {
+      reducedMotionListeners.delete(listener);
+    };
+    return {
+      get matches() { return isReducedMotionQuery && reducedMotionPreference; },
+      media: query,
+      onchange: null,
+      addListener,
+      removeListener,
+      addEventListener: (_type: string, listener: (event: { matches: boolean; media: string }) => void) => addListener(listener),
+      removeEventListener: (_type: string, listener: (event: { matches: boolean; media: string }) => void) => removeListener(listener),
+      dispatchEvent: () => true,
+    };
+  },
 });
 
 afterEach(() => {
-  reducedMotionPreference = false;
+  setReducedMotionPreference(false);
 });
