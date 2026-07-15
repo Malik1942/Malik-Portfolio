@@ -1,5 +1,5 @@
-import { useRef, useState, type MouseEvent } from "react";
-import { useInView, useReducedMotion } from "framer-motion";
+import { useState, type MouseEvent } from "react";
+import { useReducedMotion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useSectionScrollSpy } from "@/hooks/useSectionScrollSpy";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
@@ -28,6 +28,8 @@ import {
   MotiTakeaways,
 } from "./MotiModules";
 import { MoreProjects } from "./MoreProjects";
+import { ProjectMediaFrame } from "./ProjectMediaFrame";
+import { ProjectMetadataSummary } from "./ProjectMetadataSummary";
 
 // Shared page container — all major sections align to this grid
 const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto";
@@ -37,73 +39,6 @@ const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto";
 // small gap so they never touch. It drops to the safe-area top once the header
 // tucks away on scroll-down. Kept in sync with SECTION_ANCHOR_OFFSET below.
 const MOBILE_SECTION_NAV_TOP = 72;
-
-function toEmbedUrl(url: string): string {
-  const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
-  if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`;
-  const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
-  if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
-  return url;
-}
-
-function AutoplayVideo({ src, poster }: { src: string; poster?: string }) {
-  const ref = useRef<HTMLVideoElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(containerRef, { once: true, amount: 0.5 });
-
-  if (inView && ref.current && ref.current.paused) {
-    ref.current.play().catch(() => {});
-  }
-
-  return (
-    <div ref={containerRef}>
-      <video
-        ref={ref}
-        src={src}
-        poster={poster}
-        preload="none"
-        muted
-        playsInline
-        controls
-        className="w-full max-h-[min(700px,74vh)] object-contain bg-black"
-      />
-    </div>
-  );
-}
-
-function SectionFigure({ fig }: { fig: ProjectSectionFigure }) {
-  if (fig.type === "video") {
-    return (
-      <figure className="overflow-hidden rounded-2xl bg-secondary/10">
-        <AutoplayVideo src={fig.src} poster={fig.poster} />
-      </figure>
-    );
-  }
-  if (fig.type === "embed") {
-    return (
-      <figure className="overflow-hidden rounded-2xl bg-secondary/10 aspect-video">
-        <iframe
-          src={toEmbedUrl(fig.url)}
-          title={fig.title ?? "Video"}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="w-full h-full"
-        />
-      </figure>
-    );
-  }
-  return (
-    <figure className="overflow-hidden rounded-2xl bg-secondary/10">
-      <img
-        src={fig.src}
-        alt={fig.alt}
-        loading="lazy"
-        decoding="async"
-        className="w-full h-auto block"
-      />
-    </figure>
-  );
-}
 
 const sectionDomId = (id: string) => `project-section-${id}`;
 
@@ -237,7 +172,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
         if (figIdx !== null && inlineFigures?.[figIdx]) {
           return (
             <div key={i} className={i === 0 ? "" : "mt-14 md:mt-18"}>
-              <SectionFigure fig={inlineFigures[figIdx]} />
+              <ProjectMediaFrame fig={inlineFigures[figIdx]} />
             </div>
           );
         }
@@ -267,29 +202,6 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
           </p>
         );
       })}
-    </div>
-  );
-}
-
-function MetaItem({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="border border-border/40 bg-secondary/[0.07] rounded-sm px-5 py-5 md:px-6 md:py-6">
-      <p className="text-[10px] uppercase tracking-[0.22em] text-foreground/44 text-body mb-3">
-        {label}
-      </p>
-      <p className="text-[14px] md:text-[15px] font-normal leading-relaxed text-foreground/80 text-body">
-        {value}
-      </p>
-    </div>
-  );
-}
-
-function MetaGrid({ cards }: { cards: { label: string; value: string }[] }) {
-  return (
-    <div className="grid grid-cols-2 gap-3 md:gap-4">
-      {cards.map((card) => (
-        <MetaItem key={card.label} label={card.label} value={card.value} />
-      ))}
     </div>
   );
 }
@@ -418,7 +330,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
       {!hasIntroSection && !hasInlineProjectMeta && project.metaCards?.length ? (
         <div className={`${PAGE_OUTER} mt-12 md:mt-16`}>
           <div className="max-w-[900px]">
-            <MetaGrid cards={project.metaCards} />
+            <ProjectMetadataSummary cards={project.metaCards} />
           </div>
         </div>
       ) : null}
@@ -537,13 +449,13 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                 )}
                 {s.showProjectMeta && project.metaCards?.length ? (
                   <div className="mt-14 md:mt-18">
-                    <MetaGrid cards={project.metaCards} />
+                    <ProjectMetadataSummary cards={project.metaCards} />
                   </div>
                 ) : null}
                 {s.figures?.length && !s.body.includes("[[fig:") ? (
                   <div className="mt-14 space-y-10">
                     {s.figures.map((fig, fi) => (
-                      <SectionFigure key={fi} fig={fig} />
+                      <ProjectMediaFrame key={fi} fig={fig} />
                     ))}
                   </div>
                 ) : null}
