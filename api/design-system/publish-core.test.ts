@@ -316,6 +316,17 @@ describe("authentication and request validation", () => {
     expect(github.prInput?.title).toBe("Adjust portfolio motion");
     expect(github.prInput?.body).toContain("Tune the fast duration after reviewing the live preview.");
   });
+
+  it("rejects a title containing the publish credential before GitHub initialization", async () => {
+    const factory = vi.fn(() => new FakeGithub());
+    const result = await publishTokens(validRequest({
+      title: `Adjust ${PASSWORD} tokens`,
+    }), ENV, factory, DEPS);
+
+    expect(result).toMatchObject({ status: 422, body: { code: "invalid_draft" } });
+    expect(JSON.stringify(result)).not.toContain(PASSWORD);
+    expect(factory).not.toHaveBeenCalled();
+  });
 });
 
 describe("Vercel Web Handler export", () => {

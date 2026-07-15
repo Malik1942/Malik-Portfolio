@@ -287,6 +287,13 @@ describe("PublishDialog", () => {
     const alert = await screen.findByRole("alert");
     expect(alert).toHaveTextContent("A token commit was created on branch design-system/recover-motion-42");
     expect(within(alert).queryByRole("link")).not.toBeInTheDocument();
+    const password = screen.getByLabelText("Publish password");
+    expect(password).toBeDisabled();
+    fireEvent.change(password, { target: { value: "retry-secret" } });
+    const submit = screen.getByRole("button", { name: "Open publish PR" });
+    expect(submit).toBeDisabled();
+    fireEvent.submit(submit.closest("form")!);
+    expect(publish).toHaveBeenCalledOnce();
   });
 
   it("prevents duplicate pending requests and ignores a completion after close", async () => {
