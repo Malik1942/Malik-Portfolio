@@ -121,14 +121,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSelectedWorkCli
   const headerVisible = isLoaded;
 
   return (
-    // Mobile + About open: let the section grow past the viewport so the About
-    // hero content flows vertically instead of overlapping inside a fixed 100vh.
-    // Everything else (desktop, and the non-About hero) keeps the exact h-screen.
-    <section
-      className={`relative w-full overflow-hidden bg-background ${
-        isAboutOpen ? "min-h-[100svh] md:h-screen" : "h-screen"
-      }`}
-    >
+    <section className="relative w-full h-screen overflow-hidden bg-background">
       {/* Accessible page heading — the visible name is canvas pixels (aria-hidden). */}
       <h1 className="sr-only">Malik Zhang — Product Designer</h1>
       <DotGrid aboutMode={isAboutOpen} onNameClick={onAboutClick} />

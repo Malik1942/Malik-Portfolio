@@ -1,17 +1,6 @@
 import { useEffect, useRef, useCallback } from "react";
 import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
-
-// ── Cluster positions: balanced quadrant layout ──
-// 0: Who I Am — upper-left
-// 1: Outside of Design — lower-left
-// 2: How I Build — upper-right
-// 3: What I Care About — lower-right
-const CLUSTER_DEFS = [
-  { rx: 0.25, ry: 0.25, density: 0.6, radiusMult: 1.0, innerMult: 1.0 },    // Who I Am (upper-left)
-  { rx: 0.25, ry: 0.75, density: 0.6, radiusMult: 1.0, innerMult: 1.0 },    // Outside of Design (lower-left)
-  { rx: 0.75, ry: 0.25, density: 0.6, radiusMult: 1.0, innerMult: 1.0 },    // How I Build (upper-right)
-  { rx: 0.75, ry: 0.75, density: 0.6, radiusMult: 1.0, innerMult: 1.0 },    // What I Care About (lower-right)
-];
+import { ABOUT_CLUSTER_DEFS } from "@/lib/aboutClusters";
 
 // ── Project orbs ──
 interface Orb {
@@ -215,7 +204,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     }));
 
     // Cluster positions
-    clusterPosRef.current = CLUSTER_DEFS.map((d) => ({
+    clusterPosRef.current = ABOUT_CLUSTER_DEFS.map((d) => ({
       x: d.rx * w,
       y: d.ry * h,
     }));
@@ -249,7 +238,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
           const i = (y * w + x) * 4;
           if (imageData.data[i + 3] > 100) {
             const ci = dotIndex % 4;
-            const rMult = CLUSTER_DEFS[ci].radiusMult;
+            const rMult = ABOUT_CLUSTER_DEFS[ci].radiusMult;
             // Stagger delay based on distance from center (center dissolves first)
             const distFromCenter = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
             const maxDist = Math.sqrt(centerX * centerX + centerY * centerY);
@@ -390,7 +379,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     dotsRef.current.forEach((p) => {
       const cluster = clusters[p.clusterIndex];
       if (!cluster) return;
-      const clusterDef = CLUSTER_DEFS[p.clusterIndex];
+      const clusterDef = ABOUT_CLUSTER_DEFS[p.clusterIndex];
 
       // Per-particle staggered transition (center breaks first, edges last)
       const staggeredEased = Math.max(0, Math.min(1, (eased - p.delay) / (1 - p.delay)));
@@ -691,10 +680,10 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       initScene(w, h);
     };
 
-    // Track the canvas's actual box, not just the window — the About view grows
-    // its container beyond the viewport on mobile, and window `resize` never
-    // fires for that. Started only after the first (font-gated) init so its
-    // immediate initial callback is a no-op (dimensions already match).
+    // Track the canvas's actual box, not just the window, so layout-driven hero
+    // size changes re-sample the scene even when window `resize` does not fire.
+    // Start only after the first font-gated init so the immediate callback is a
+    // no-op when dimensions already match.
     const ro = new ResizeObserver(() => resize());
 
     // Wait until ALL fonts are ready before sampling text pixels for the particle system.

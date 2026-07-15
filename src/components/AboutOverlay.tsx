@@ -40,6 +40,7 @@ const HOVER_ZONE_SIZE = 200;
 // ── Text-only cluster label (no particles — those live in DotGrid) ──
 const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number }) => {
   const [expanded, setExpanded] = useState(false);
+  const detailsId = `about-cluster-desktop-${data.index}-details`;
   // Tracks whether a mouse pointer is currently hovering — used to prevent
   // onClick from double-toggling when the user is on a pointer device.
   const mouseInsideRef = useRef(false);
@@ -52,7 +53,7 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
 
   return (
     <motion.div
-      className="absolute cursor-pointer select-none flex items-center justify-center"
+      className="absolute select-none flex items-center justify-center"
       style={{
         left: `${ABOUT_CLUSTER_DEFS[data.index].rx * 100}%`,
         top: `${ABOUT_CLUSTER_DEFS[data.index].ry * 100}%`,
@@ -75,29 +76,43 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
         setExpanded(false);
         dispatchHover(null);
       }}
-      onClick={() => {
-        // Touch path only — mouse hover already handles show/hide
-        if (mouseInsideRef.current) return;
-        const next = !expanded;
-        setExpanded(next);
-        dispatchHover(next ? data.index : null);
-      }}
     >
-      {/* Default label */}
-      <motion.span
-        className="text-[11px] text-body uppercase tracking-[0.25em] text-foreground/69 whitespace-nowrap absolute pointer-events-none"
-        animate={{
-          opacity: expanded ? 0 : 1,
-          scale: expanded ? 0.94 : 1,
-          filter: expanded ? "blur(3px)" : "blur(0px)",
+      <button
+        type="button"
+        aria-expanded={expanded}
+        aria-controls={detailsId}
+        aria-label={data.label}
+        onClick={(event) => {
+          // Pointer hover already handles mouse clicks. Keyboard-generated
+          // clicks have detail 0 and must remain independently operable.
+          if (mouseInsideRef.current && event.detail > 0) return;
+          const next = !expanded;
+          setExpanded(next);
+          dispatchHover(next ? data.index : null);
         }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
+        className="absolute inset-0 flex items-center justify-center cursor-pointer appearance-none bg-transparent border-0 p-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
       >
-        {data.label}
-      </motion.span>
+        <motion.span
+          className="text-[11px] text-body uppercase tracking-[0.25em] text-foreground/69 whitespace-nowrap pointer-events-none"
+          animate={{
+            opacity: expanded ? 0 : 1,
+            scale: expanded ? 0.94 : 1,
+            filter: expanded ? "blur(3px)" : "blur(0px)",
+          }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+        >
+          {data.label}
+        </motion.span>
+      </button>
 
       {/* Hover content */}
-      <div className="flex flex-col items-center gap-1.5 absolute pointer-events-none">
+      <div
+        id={detailsId}
+        role="region"
+        aria-label={`${data.label} details`}
+        aria-hidden={!expanded}
+        className="flex flex-col items-center gap-1.5 absolute pointer-events-none"
+      >
         {data.lines.map((line, i) => (
           <motion.span
             key={line}
@@ -122,8 +137,7 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
   );
 };
 
-// Soft vignette mask shared by the portrait in both the desktop composition and
-// the mobile vertical flow.
+// Soft vignette mask shared by the portrait in both responsive compositions.
 const PORTRAIT_MASK =
   "radial-gradient(ellipse 85% 85% at 50% 45%, black 35%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.3) 65%, rgba(0,0,0,0.08) 78%, transparent 90%)";
 
@@ -136,20 +150,73 @@ const Portrait = ({ className }: { className: string }) => (
   </div>
 );
 
-// Mobile-only: a cluster shown as a static label + its lines, stacked in normal
-// flow (the desktop version is an absolutely-positioned, tap-to-expand label).
-const MobileClusterBlock = ({ data }: { data: ClusterTextData }) => (
-  <div className="flex flex-col items-center gap-2.5">
-    <span className="text-[11px] text-body uppercase tracking-[0.25em] text-foreground/60">{data.label}</span>
-    <div className="flex flex-col gap-1">
-      {data.lines.map((line) => (
-        <span key={line} className="text-[13px] text-body text-foreground/85 font-light tracking-wide leading-snug">
-          {line}
-        </span>
-      ))}
+// Mobile-only: same fold interaction as the desktop ClusterLabel — only the
+// title shows, centered in the cluster area; tapping crossfades title → lines
+// (tap again folds back). The invisible lines reserve the block's dimensions,
+// so its center stays locked to the particle cluster while the copy changes.
+const MobileClusterBlock = ({ data }: { data: ClusterTextData }) => {
+  const [expanded, setExpanded] = useState(false);
+  const position = ABOUT_CLUSTER_DEFS[data.index];
+  const detailsId = `about-cluster-mobile-${data.index}-details`;
+
+  return (
+    <div
+      className="absolute z-20 flex w-[42vw] max-w-[164px] min-h-[88px] [@media(max-height:600px)]:min-h-16 flex-col items-center justify-center text-center cursor-pointer select-none rounded-lg"
+      style={{
+        left: `${position.rx * 100}%`,
+        top: `${position.ry * 100}%`,
+        transform: "translate(-50%, -50%)",
+      }}
+    >
+      <button
+        type="button"
+        aria-expanded={expanded}
+        aria-controls={detailsId}
+        aria-label={data.label}
+        onClick={() => setExpanded((v) => !v)}
+        className="absolute inset-0 z-10 flex w-full items-center justify-center cursor-pointer appearance-none bg-transparent border-0 p-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
+      >
+        <motion.span
+          className="flex w-full items-center justify-center text-center text-[11px] text-body uppercase tracking-[0.25em] text-foreground/69 pointer-events-none"
+          initial={false}
+          animate={{
+            opacity: expanded ? 0 : 1,
+            scale: expanded ? 0.94 : 1,
+            filter: expanded ? "blur(3px)" : "blur(0px)",
+          }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+        >
+          {data.label}
+        </motion.span>
+      </button>
+
+      {/* Lines reserve the wrapper's dimensions even while hidden. */}
+      <div
+        id={detailsId}
+        role="region"
+        aria-label={`${data.label} details`}
+        aria-hidden={!expanded}
+        className="flex w-full flex-col items-center gap-1.5 [@media(max-height:600px)]:gap-1 text-center pointer-events-none"
+      >
+        {data.lines.map((line, i) => (
+          <motion.span
+            key={line}
+            className="text-[13px] [@media(max-height:600px)]:!text-[11px] text-body text-foreground/90 font-light tracking-wide leading-snug"
+            initial={false}
+            animate={{
+              opacity: expanded ? 0.9 : 0,
+              y: expanded ? 0 : 2,
+              filter: expanded ? "blur(0px)" : "blur(4px)",
+            }}
+            transition={{ duration: 0.22, delay: expanded ? i * 0.03 : 0, ease: "easeOut" }}
+          >
+            {line}
+          </motion.span>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // ── About Overlay ──
 interface AboutOverlayProps {
@@ -182,7 +249,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
       )}
 
       <motion.div
-        className="relative md:absolute md:inset-0 z-20"
+        className="absolute inset-0 z-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: isVisible ? 1 : 0 }}
         transition={{ duration: 0.8, delay: isVisible ? 0.6 : 0 }}
@@ -219,15 +286,6 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
                   <span className="text-[1.35em] font-semibold text-foreground tracking-tight">END TO END</span>
                 </span>
               </motion.h2>
-              <motion.p
-                className="text-[10px] text-body text-foreground/44 font-light uppercase tracking-[0.2em] leading-[1.6] mt-3"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 1.3, ease: "easeOut" }}
-              >
-                <span className="block">AI-native product designer.</span>
-                <span className="block">Problem to shipped product.</span>
-              </motion.p>
             </div>
 
             <motion.div
@@ -269,45 +327,32 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
           ))}
         </div>
 
-        {/* ── Mobile (< md): a stable vertical flow ──
-            No absolute positioning for content, so nothing overlaps. The section
-            grows to fit this (see HeroSection), and the DotGrid particles stay as
-            an absolute background behind it. Order mirrors the spec: labels →
-            portrait → statement → descriptor → interests → scroll. */}
+        {/* ── Mobile (< md): one viewport composition ──
+            Cluster controls share the exact percentage centers used by DotGrid.
+            The compact identity core stays between them, and the scroll cue uses
+            the same bottom inset as the homepage hero. */}
         {isVisible && (
-          <div
-            className="md:hidden relative z-10 flex flex-col items-center text-center px-6 pt-40"
-            style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 3.5rem)" }}
-          >
-            <div className="grid grid-cols-2 gap-x-6 gap-y-8 w-full max-w-[420px] mb-12">
-              <MobileClusterBlock data={CLUSTER_TEXTS[0]} />
-              <MobileClusterBlock data={CLUSTER_TEXTS[2]} />
+          <div className="md:hidden absolute inset-0 z-10">
+            {CLUSTER_TEXTS.map((cluster) => (
+              <MobileClusterBlock key={cluster.label} data={cluster} />
+            ))}
+
+            <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col items-center px-4 text-center">
+              <Portrait className="w-40 h-52 max-[340px]:w-32 max-[340px]:h-40 [@media(max-height:700px)]:w-28 [@media(max-height:700px)]:h-[134px] [@media(max-height:600px)]:!w-20 [@media(max-height:600px)]:!h-24 mb-3 max-[340px]:mb-5 [@media(max-height:700px)]:mb-2 [@media(max-height:600px)]:!mb-2" />
+
+              <h2 className="w-full max-w-[360px] text-[18px] max-[340px]:text-[15px] [@media(max-height:700px)]:text-[15px] [@media(max-height:600px)]:!text-[13px] text-display text-foreground font-normal leading-[1.42] [@media(max-height:700px)]:leading-[1.3] tracking-normal">
+                <span className="block whitespace-nowrap">
+                  I start with the real{" "}
+                  <span className="text-[1.15em] font-semibold text-foreground tracking-tight">PROBLEM</span>
+                </span>
+                <span className="block whitespace-nowrap">
+                  and build the answer{" "}
+                  <span className="text-[1.15em] font-semibold text-foreground tracking-tight">END TO END</span>
+                </span>
+              </h2>
             </div>
 
-            <Portrait className="w-40 h-52 mb-9" />
-
-            <h2 className="text-[24px] text-display text-foreground font-normal leading-[1.42] tracking-wide max-w-[340px]">
-              <span className="block">
-                I start with the real{" "}
-                <span className="text-[1.3em] font-semibold text-foreground tracking-tight">PROBLEM</span>
-              </span>
-              <span className="block">
-                and build the answer{" "}
-                <span className="text-[1.3em] font-semibold text-foreground tracking-tight">END TO END</span>
-              </span>
-            </h2>
-
-            <p className="mt-5 text-[10px] text-body text-foreground/44 font-light uppercase tracking-[0.2em] leading-[1.7]">
-              <span className="block">AI-native product designer.</span>
-              <span className="block">Problem to shipped product.</span>
-            </p>
-
-            <div className="grid grid-cols-2 gap-x-6 gap-y-8 w-full max-w-[420px] mt-14">
-              <MobileClusterBlock data={CLUSTER_TEXTS[1]} />
-              <MobileClusterBlock data={CLUSTER_TEXTS[3]} />
-            </div>
-
-            <div className="mt-14 flex flex-col items-center gap-0">
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-0 z-10">
               <span className="text-[11px] text-body uppercase tracking-[0.3em] text-foreground/42">Scroll</span>
               <motion.span
                 className="text-[28px] text-body text-foreground leading-none select-none"
