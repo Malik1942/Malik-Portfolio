@@ -69,17 +69,17 @@ const accentColor = {
 
 export function AuraDesignRequirements() {
   return (
-    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-white/[0.07]">
+    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-case-study-module-border">
 
       {/* Header band */}
-      <div className="px-8 pt-8 pb-7 md:px-10 border-b border-white/[0.05]">
+      <div className="px-8 pt-8 pb-7 md:px-10 border-b border-case-study-module-divider">
         <p className="text-[12px] md:text-[20px] uppercase tracking-[0.08em] font-light leading-[24px] md:leading-[32px] text-white/85 font-mono">
           Design Requirements
         </p>
       </div>
 
       {/* Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.05]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x divide-case-study-module-divider">
         {requirements.map((r) => {
           const a = accentColor[r.accent];
           return (

@@ -86,7 +86,7 @@ export function SiteHeader({
           // Subtle vertical shader for legibility — solid at the top, fading to
           // fully transparent below the nav. The divider renders on top of it.
           background:
-            "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 42%, rgba(0,0,0,0) 100%)",
+            "linear-gradient(to bottom, hsl(var(--component-site-header-scrim-color)) 0%, hsl(var(--component-site-header-scrim-color)) 42%, transparent 100%)",
         }}
         initial={{ opacity: 0, y: -20 }}
         animate={{

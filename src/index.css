@@ -110,7 +110,7 @@ body.loaded .animate-line-reveal { animation-play-state: running; }
     background: linear-gradient(90deg, transparent 0%, hsl(var(--color-text-primary) / 0) 50%, transparent 100%);
   }
   45% {
-    background: linear-gradient(90deg, transparent 0%, hsl(var(--color-text-primary) / 0.018) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, hsl(var(--component-project-section-flash)) 50%, transparent 100%);
   }
   100% {
     background: linear-gradient(90deg, transparent 0%, hsl(var(--color-text-primary) / 0) 50%, transparent 100%);

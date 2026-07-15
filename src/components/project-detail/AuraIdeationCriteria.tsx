@@ -39,20 +39,20 @@ const accentColor = {
 
 export function AuraIdeationCriteria() {
   return (
-    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-white/[0.07]">
-      <div className="px-8 pt-8 pb-7 md:px-10 border-b border-white/[0.05]">
+    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-case-study-module-border">
+      <div className="px-8 pt-8 pb-7 md:px-10 border-b border-case-study-module-divider">
         <p className="text-[12px] md:text-[20px] uppercase tracking-[0.08em] font-light leading-[24px] md:leading-[32px] text-white/85 font-mono">
           Why I pushed for the earbud direction
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:[&>*:nth-child(n+3)]:border-t sm:[&>*:nth-child(even)]:border-l divide-white/[0.05]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:[&>*:nth-child(n+3)]:border-t sm:[&>*:nth-child(even)]:border-l divide-case-study-module-divider">
         {criteria.map((criterion) => {
           const Icon = criterion.icon;
           const accent = accentColor[criterion.accent];
 
           return (
-            <div key={criterion.num} className="flex flex-col gap-5 px-6 py-7 md:px-7 md:py-8 border-white/[0.05]">
+            <div key={criterion.num} className="flex flex-col gap-5 px-6 py-7 md:px-7 md:py-8 border-case-study-module-divider">
               <div className="flex items-center justify-between">
                 <span className={`text-[12px] font-mono tabular-nums ${accent.num}`}>
                   {criterion.num}
