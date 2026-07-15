@@ -1,6 +1,8 @@
 import { tokenBundle } from "../../generated/token-manifest.generated";
 import type { TokenRecord } from "../../tokens/types";
 import { TokenTable } from "../TokenTable";
+import { ColorFoundation } from "./ColorFoundation";
+import { TypographyFoundation } from "./TypographyFoundation";
 
 const FOUNDATION_CONFIG: Record<string, { intro: string; prefixes: string[]; title: string }> = {
   "foundation-color": {
@@ -42,6 +44,9 @@ export function getFoundationTokens(sectionId: string): TokenRecord[] {
 }
 
 export function FoundationContent({ sectionId }: { sectionId: string }) {
+  if (sectionId === "foundation-color") return <ColorFoundation />;
+  if (sectionId === "foundation-typography") return <TypographyFoundation />;
+
   const config = FOUNDATION_CONFIG[sectionId];
   if (!config) return null;
 
