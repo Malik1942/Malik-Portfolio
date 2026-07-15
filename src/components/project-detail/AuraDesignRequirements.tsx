@@ -69,7 +69,7 @@ const accentColor = {
 
 export function AuraDesignRequirements() {
   return (
-    <div className="rounded-2xl overflow-hidden bg-[#0c0c0d] border border-white/[0.07]">
+    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-white/[0.07]">
 
       {/* Header band */}
       <div className="px-8 pt-8 pb-7 md:px-10 border-b border-white/[0.05]">

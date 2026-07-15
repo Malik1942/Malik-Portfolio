@@ -39,7 +39,7 @@ const accentColor = {
 
 export function AuraIdeationCriteria() {
   return (
-    <div className="rounded-2xl overflow-hidden bg-[#0c0c0d] border border-white/[0.07]">
+    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-white/[0.07]">
       <div className="px-8 pt-8 pb-7 md:px-10 border-b border-white/[0.05]">
         <p className="text-[12px] md:text-[20px] uppercase tracking-[0.08em] font-light leading-[24px] md:leading-[32px] text-white/85 font-mono">
           Why I pushed for the earbud direction
