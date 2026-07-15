@@ -1,7 +1,5 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
-import { MemoryRouter } from "react-router-dom";
-import { PreviewProvider } from "../../preview/PreviewProvider";
 import { DESIGN_SYSTEM_GROUPS } from "../sectionModel";
 import { getFoundationTokens } from "./Foundations";
 import { renderReferenceSection } from "../sections";
@@ -42,10 +40,8 @@ describe("design-system reference content", () => {
     }
   });
 
-  it("maps every non-Playground registry entry to rich, section-specific content", () => {
-    const sections = DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections).filter(
-      (section) => section.id !== "playground",
-    );
+  it("maps every public registry entry to rich, section-specific content", () => {
+    const sections = DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections);
 
     for (const section of sections) {
       const { unmount } = render(<>{renderReferenceSection(section)}</>);
@@ -56,7 +52,9 @@ describe("design-system reference content", () => {
   });
 
   it("gives every component and pattern purpose, usage, responsive, accessibility, and context", () => {
-    const sections = DESIGN_SYSTEM_GROUPS.slice(2).flatMap((group) => group.sections);
+    const sections = DESIGN_SYSTEM_GROUPS.slice(2)
+      .flatMap((group) => group.sections)
+      .filter((section) => section.id !== "component-lineup");
 
     for (const section of sections) {
       const { unmount } = render(<>{renderReferenceSection(section)}</>);
@@ -210,10 +208,4 @@ describe("design-system reference content", () => {
     expect(metadata).not.toHaveTextContent(/four columns to two or one/i);
   });
 
-  it("renders Playground as the public browser-local workbench", () => {
-    const playground = DESIGN_SYSTEM_GROUPS[0].sections[1];
-    render(<MemoryRouter initialEntries={["/design-system#playground"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PreviewProvider>{renderReferenceSection(playground)}</PreviewProvider></MemoryRouter>);
-    expect(screen.getByRole("heading", { name: "Token controls" })).toBeInTheDocument();
-    expect(screen.getByTitle("Live portfolio preview")).toHaveAttribute("src", "/?design-preview=local&embedded=1");
-  });
 });

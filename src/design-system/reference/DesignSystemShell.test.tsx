@@ -96,9 +96,9 @@ describe("DesignSystemShell", () => {
       "aria-expanded",
       "true",
     );
-    expect(screen.getAllByRole("link", { name: /Previous: Playground/ })[0]).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /Previous: Overview/ })[0]).toHaveAttribute(
       "href",
-      "#playground",
+      "#overview",
     );
     expect(screen.getAllByRole("link", { name: /Next: Typography/ })[0]).toHaveAttribute(
       "href",
