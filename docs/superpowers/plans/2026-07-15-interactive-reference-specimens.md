@@ -99,7 +99,7 @@ git commit -m "feat: add live specimen shell"
 
 - Produces ProjectMetadataSummary({ items }: { items: Array<{ label: string; value: string }> }).
 - Produces ProjectMediaFrame({ fig, onImageClick }: { fig: ProjectSectionFigure; onImageClick?: (image: LightboxImage) => void }).
-- Preserves case-study media variants, captions, and ImageLightbox behavior.
+- Preserves case-study media variants and ImageLightbox behavior.
 
 - [ ] **Step 1: Write failing primitive tests**
 
@@ -108,9 +108,8 @@ render(<ProjectMetadataSummary items={[{ label: "Role", value: "Product design" 
 expect(screen.getByText("Role")).toBeInTheDocument();
 expect(screen.getByText(/wraps safely/)).toBeInTheDocument();
 
-render(<ProjectMediaFrame fig={{ type: "image", src: "/placeholder.jpg", alt: "Research board", caption: "Evidence" }} />);
+render(<ProjectMediaFrame fig={{ type: "image", src: "/placeholder.jpg", alt: "Research board" }} />);
 expect(screen.getByRole("img", { name: "Research board" })).toBeInTheDocument();
-expect(screen.getByText("Evidence")).toBeInTheDocument();
 ~~~
 
 - [ ] **Step 2: Verify RED**
@@ -121,7 +120,7 @@ Expected: module imports fail.
 
 - [ ] **Step 3: Extract exact production markup**
 
-Move the inline metadata block near ProjectDetailTemplate.tsx:417 into ProjectMetadataSummary, retaining its two-column layout and wrapping. Move the private SectionFigure implementation into ProjectMediaFrame, retaining all media type branches, caption association, and optional click callback. Replace only the corresponding template usages with the exported primitives.
+Move the inline metadata block near ProjectDetailTemplate.tsx:417 into ProjectMetadataSummary, retaining its two-column layout and wrapping. Move the private SectionFigure implementation into ProjectMediaFrame, retaining all media type branches and optional click callback. Replace only the corresponding template usages with the exported primitives.
 
 - [ ] **Step 4: Verify GREEN and commit**
 
@@ -384,4 +383,3 @@ At 320px, 768px, 1440px, and 1920px inspect project card, lightbox, section navi
 - Lightbox invokes the existing full-viewport production overlay.
 - Every animated stage has a verified reduced-motion stable state.
 - Full verification and responsive browser QA pass without public authoring controls.
-
