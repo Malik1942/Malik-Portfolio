@@ -57,8 +57,13 @@ interface OwnedElement {
 
 export function useDesignSystemMetadata(): void {
   useEffect(() => {
-    const previousTitle = document.title;
+    const previousTitleElement = document.head.querySelector("title");
+    const previousTitleContent = previousTitleElement?.textContent ?? "";
+    const previousTitleAttributes = previousTitleElement?.getAttributeNames().map<
+      [string, string]
+    >((name) => [name, previousTitleElement.getAttribute(name) ?? ""]) ?? [];
     document.title = DESIGN_SYSTEM_TITLE;
+    const ownedTitleElement = document.head.querySelector("title");
 
     const owned = METADATA.map<OwnedElement>((definition) => {
       const existing = document.head.querySelector<HTMLElement>(definition.selector);
@@ -79,7 +84,17 @@ export function useDesignSystemMetadata(): void {
     });
 
     return () => {
-      document.title = previousTitle;
+      if (!previousTitleElement) {
+        ownedTitleElement?.remove();
+      } else {
+        previousTitleElement.textContent = previousTitleContent;
+        for (const name of previousTitleElement.getAttributeNames()) {
+          previousTitleElement.removeAttribute(name);
+        }
+        for (const [name, value] of previousTitleAttributes) {
+          previousTitleElement.setAttribute(name, value);
+        }
+      }
       for (const entry of owned.reverse()) {
         if (entry.created) {
           entry.element.remove();
