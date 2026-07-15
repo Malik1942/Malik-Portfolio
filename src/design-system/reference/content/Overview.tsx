@@ -2,8 +2,8 @@ const PRINCIPLES = [
   ["One source of truth", "DTCG JSON owns supported values and intent. CSS and typed metadata are generated artifacts."],
   ["Real artifacts over replicas", "Reference production boundaries and evaluate expressive work in the portfolio context where it actually lives."],
   ["Focus over catalog density", "One selected section, a stable hash, and a guided reading sequence keep the system legible."],
-  ["Show cause and effect", "Connect each decision to the interface it shapes, rather than presenting a disconnected inventory."],
-  ["Separate experimentation from authority", "A visitor may experiment locally; only the server-side pull-request action has publishing authority."],
+  ["Roles before raw values", "Semantic foundations lead the reference; primitive and compatibility values stay in the generated source where they belong."],
+  ["Context before controls", "Components are explained through production behavior and relevant states instead of one universal editor."],
   ["Systemize what repeats; preserve what expresses", "Shared decisions become tokens and components. Art-directed moments keep the implementation freedom they need."],
 ] as const;
 
@@ -45,8 +45,8 @@ export function OverviewContent() {
             <p className="mt-2 text-sm leading-relaxed text-foreground/62 text-body">Generated at build time and used by both the public site and this reference. These values change only through reviewed source files.</p>
           </article>
           <article className="rounded-lg border border-border/50 p-5">
-            <h3 className="text-sm font-medium text-foreground text-body">Visitor browser-local draft</h3>
-            <p className="mt-2 text-sm leading-relaxed text-foreground/62 text-body">Temporary overrides affect only that visitor’s browser. They are experiments, never production authority, and publishing remains a separate authenticated pull-request action.</p>
+            <h3 className="text-sm font-medium text-foreground text-body">Curated public reference</h3>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/62 text-body">Foundations, components, and patterns are selected from the production token graph and shown without public authoring controls.</p>
           </article>
         </div>
       </section>

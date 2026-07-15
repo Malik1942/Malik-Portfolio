@@ -19,7 +19,7 @@ describe("design-system reference content", () => {
     expect(spacing.some((token) => token.path.startsWith("layout."))).toBe(true);
   });
 
-  it("documents the six principles, exact token flow, local boundary, and W3C reports", () => {
+  it("documents the six curated-reference principles, exact token flow, and W3C reports", () => {
     const overview = DESIGN_SYSTEM_GROUPS[0].sections[0];
     render(<>{renderReferenceSection(overview)}</>);
 
@@ -27,17 +27,38 @@ describe("design-system reference content", () => {
       "One source of truth",
       "Real artifacts over replicas",
       "Focus over catalog density",
-      "Show cause and effect",
-      "Separate experimentation from authority",
+      "Roles before raw values",
+      "Context before controls",
       "Systemize what repeats; preserve what expresses",
     ]) {
       expect(screen.getByText(principle)).toBeInTheDocument();
     }
     expect(screen.getByText("DTCG JSON → generated CSS + typed metadata → portfolio + reference")).toBeInTheDocument();
-    expect(screen.getByText(/browser-local draft/i)).toBeInTheDocument();
+    expect(screen.queryByText(/visitor browser-local draft/i)).not.toBeInTheDocument();
     for (const report of ["Format report", "Color report", "Resolver report"]) {
       expect(screen.getByRole("link", { name: new RegExp(report) })).toHaveAttribute("rel", "noopener noreferrer");
     }
+  });
+
+  it("keeps public reference sections free of authoring and preview controls", () => {
+    const ids = [
+      "overview",
+      "foundation-color",
+      "foundation-typography",
+      "component-lineup",
+    ];
+    const sections = DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections)
+      .filter((section) => ids.includes(section.id));
+
+    render(<>{sections.map((section) => (
+      <div key={section.id}>{renderReferenceSection(section)}</div>
+    ))}</>);
+
+    expect(screen.queryByRole("button", { name: "Export JSON" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Reset all" })).not.toBeInTheDocument();
+    expect(screen.queryByTitle("Live portfolio preview")).not.toBeInTheDocument();
+    expect(screen.queryByRole("spinbutton")).not.toBeInTheDocument();
+    expect(screen.queryByText(/browser-local token playground/i)).not.toBeInTheDocument();
   });
 
   it("maps every public registry entry to rich, section-specific content", () => {

@@ -50,16 +50,16 @@ The canonical design-token sources are the three DTCG JSON files in `tokens/`.
 committed so production styles, documentation, and the editor use the same
 token graph.
 
-The public reference lives at `/design-system`. Its workbench is intentionally
-available to every visitor: edits stay in that browser's `localStorage`, apply
-as CSS-variable overrides, and can be reset by token/category/all, exported as
-DTCG JSON, or previewed against the real portfolio at phone, tablet, and desktop
-widths. Full-site preview carries the local draft across the homepage and case
-studies. None of those actions publish or alter another visitor's experience.
+The public reference lives at `/design-system`. It presents one focused hash
+section at a time: curated semantic color groups, a ruled typography specimen,
+production components, responsive patterns, and the standards-backed token
+model. Public pages contain no token editing controls.
 
-The Footer's `Admin` entry opens only the final diff and publish review. Local
-Vite builds use `tokenSourceCommit === "development"`, so publishing is disabled.
-Vercel production/preview builds receive publishable provenance from
+The Footer's unlisted `Admin` entry opens browser-local token authoring, review,
+and publishing. Draft changes affect only the current browser until the
+authenticated server endpoint opens a GitHub pull request. Local Vite builds use
+`tokenSourceCommit === "development"`, so publishing is disabled. Vercel
+production/preview builds receive publishable provenance from
 `VERCEL_GIT_COMMIT_SHA` through the Vite build configuration.
 
 ## Token publishing

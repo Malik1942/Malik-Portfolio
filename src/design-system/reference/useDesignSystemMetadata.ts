@@ -3,7 +3,7 @@ import { useEffect } from "react";
 export const DESIGN_SYSTEM_TITLE = "Design System · Malik Zhang";
 export const DESIGN_SYSTEM_CANONICAL = "https://www.malikzhang.com/design-system";
 export const DESIGN_SYSTEM_DESCRIPTION =
-  "Malik Zhang’s public living portfolio reference and browser-local design token playground.";
+  "Malik Zhang's living portfolio design reference: curated foundations, production components, responsive patterns, and standards-aligned design tokens.";
 
 interface MetadataDefinition {
   selector: string;

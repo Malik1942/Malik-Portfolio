@@ -26,6 +26,13 @@ describe("useDesignSystemMetadata", () => {
     document.title = "";
   });
 
+  it("describes the curated public reference without advertising a playground", () => {
+    expect(DESIGN_SYSTEM_DESCRIPTION).toBe(
+      "Malik Zhang's living portfolio design reference: curated foundations, production components, responsive patterns, and standards-aligned design tokens.",
+    );
+    expect(DESIGN_SYSTEM_DESCRIPTION).not.toMatch(/playground|browser-local/i);
+  });
+
   it("owns exact design-system metadata without duplicating existing nodes", () => {
     const canonical = addHeadElement("link", {
       rel: "canonical",
