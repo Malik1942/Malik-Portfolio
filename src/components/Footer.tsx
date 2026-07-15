@@ -1,13 +1,14 @@
 interface FooterProps {
   onMainProjectsClick?: () => void;
   onAboutClick?: () => void;
+  onAdminClick?: () => void;
   /** false = no max-width wrapper, aligns with full-bleed page padding. Default true. */
   constrained?: boolean;
   /** true = matches project detail page grid (1400px, tighter padding). Default false. */
   wide?: boolean;
 }
 
-const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true, wide = false }: FooterProps) => {
+const Footer = ({ onMainProjectsClick, onAboutClick, onAdminClick, constrained = true, wide = false }: FooterProps) => {
   // wide: max-w + px- on the same element — mirrors PAGE_OUTER pattern so edges align exactly
   const outerClass = wide
     ? "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto pt-10 md:pt-16 pb-12"
@@ -108,10 +109,21 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true, wide = 
         </div>
 
         {/* Bottom row */}
-        <div className="border-t border-border pt-8">
+        <div className="flex items-center justify-between gap-4 border-t border-border pt-8">
           <span className="text-xs text-foreground/44 text-body">
             &copy; 2026 Malik Zhang
           </span>
+          <a
+            href="/design-system?admin=1#playground"
+            onClick={(event) => {
+              if (!onAdminClick) return;
+              event.preventDefault();
+              onAdminClick();
+            }}
+            className="nav-link min-h-[44px] inline-flex items-center text-xs text-foreground/35 transition-colors duration-500 hover:text-foreground/65 text-body focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            Admin
+          </a>
         </div>
       </div>
     </footer>

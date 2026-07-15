@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
 import { useReducedMotion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
 import { SiteHeader } from "@/components/SiteHeader";
+import { PublishDialog } from "@/design-system/publish/PublishDialog";
 import { DesignSystemShell } from "@/design-system/reference/DesignSystemShell";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
 
@@ -10,9 +12,25 @@ const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto";
 
 const DesignSystem = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [publishOpen, setPublishOpen] = useState(
+    () => new URLSearchParams(location.search).get("admin") === "1",
+  );
   const shouldReduceMotion = useReducedMotion();
   const scrollHidden = useHideOnScroll();
   const headerHidden = !shouldReduceMotion && scrollHidden;
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("admin") !== "1") return;
+    setPublishOpen(true);
+    params.delete("admin");
+    const search = params.toString();
+    navigate(`${location.pathname}${search ? `?${search}` : ""}${location.hash}`, {
+      replace: true,
+      state: location.state,
+    });
+  }, [location.hash, location.pathname, location.search, location.state, navigate]);
 
   const navigateToSelectedWork = () => {
     navigate("/", { state: { scrollTo: "projects" } });
@@ -44,8 +62,10 @@ const DesignSystem = () => {
         <Footer
           onMainProjectsClick={navigateToSelectedWork}
           onAboutClick={navigateToAbout}
+          onAdminClick={() => setPublishOpen(true)}
           wide
         />
+        <PublishDialog open={publishOpen} onClose={() => setPublishOpen(false)} />
       </div>
     </PageTransition>
   );
