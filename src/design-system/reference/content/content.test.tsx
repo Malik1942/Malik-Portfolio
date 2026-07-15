@@ -72,18 +72,22 @@ describe("design-system reference content", () => {
     }
   });
 
-  it("gives every component and pattern purpose, usage, responsive, accessibility, and context", () => {
+  it("gives every component and pattern a live specimen before its guidance without authoring controls", () => {
     const sections = DESIGN_SYSTEM_GROUPS.slice(2)
       .flatMap((group) => group.sections)
       .filter((section) => section.id !== "component-lineup");
 
     for (const section of sections) {
-      const { unmount } = render(<>{renderReferenceSection(section)}</>);
-      expect(screen.getByRole("heading", { name: "Purpose" })).toBeInTheDocument();
+      const { container, unmount } = render(<>{renderReferenceSection(section)}</>);
+      const specimen = screen.getByRole("region", { name: "Live specimen" });
+      const purpose = screen.getByRole("heading", { name: "Purpose" });
+      expect(specimen.compareDocumentPosition(purpose) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
       expect(screen.getByRole("heading", { name: "Use it when" })).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: "Responsive behavior" })).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: "Accessibility" })).toBeInTheDocument();
       expect(screen.getByRole("link", { name: /View.*in context/i })).toHaveAttribute("href");
+      expect(container.querySelector("iframe")).toBeNull();
+      expect(screen.queryByRole("button", { name: "Export JSON" })).not.toBeInTheDocument();
       unmount();
     }
   });
