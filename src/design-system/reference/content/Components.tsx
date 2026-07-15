@@ -51,7 +51,7 @@ const COMPONENTS: Record<string, ReferenceEntry> = {
     usage: "Use near a case-study introduction when short label–value pairs help the reader orient before the narrative begins.",
     tokens: ["color.border.default", "color.surface.secondary", "color.text.primary", "radius.small", "font.family.body"],
     tokenGap: "Metadata label sizes and grid gaps remain local values. These cards use the secondary surface, not the expressive case-study-module surface tokens.",
-    responsive: "Cards reduce from four columns to two or one according to available width while preserving complete label and value text.",
+    responsive: "Cards keep a two-column grid at every breakpoint, with compact spacing and type on smaller screens while preserving complete label and value text.",
     accessibility: "Labels remain visible text, values are never communicated by position or color alone, and long content wraps rather than clipping.",
     preview: "/project/moti#project-section-overview",
     previewLabel: "View metadata cards in context",
