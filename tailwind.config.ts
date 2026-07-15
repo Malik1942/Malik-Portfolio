@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
 
 const color = (name: string) => `hsl(var(--${name}) / <alpha-value>)`;
+const completeColor = (name: string) => `hsl(var(--${name}))`;
 
 export default {
   darkMode: ["class"],
@@ -51,6 +52,11 @@ export default {
           foreground: color("color-text-primary"),
         },
         "surface-inset": color("component-case-study-module-surface"),
+        "project-card-surface": completeColor("component-project-card-surface"),
+        "project-card-hover-overlay": completeColor("component-project-card-hover-overlay"),
+        "case-study-module-border": completeColor("component-case-study-module-border"),
+        "case-study-module-divider": completeColor("component-case-study-module-divider"),
+        "lightbox-backdrop": completeColor("component-lightbox-backdrop"),
         "dot-red": color("color-accent-selected-work"),
         "dot-gold": color("color-accent-workshop"),
         sidebar: {

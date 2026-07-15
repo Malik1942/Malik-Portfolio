@@ -45,7 +45,7 @@ export function ImageLightbox({ image, onClose }: ImageLightboxProps) {
           role="dialog"
           aria-modal="true"
           aria-label={image.alt ? `Expanded image: ${image.alt}` : "Expanded image"}
-          className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 md:p-10 cursor-zoom-out"
+          className="fixed inset-0 z-[2000] flex items-center justify-center bg-lightbox-backdrop backdrop-blur-sm p-4 md:p-10 cursor-zoom-out"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

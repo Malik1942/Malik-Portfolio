@@ -24,8 +24,8 @@ const accentColor = {
 
 export function AuraReflectionLearnings() {
   return (
-    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-white/[0.07]">
-      <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.05]">
+    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-case-study-module-border">
+      <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-case-study-module-divider">
         {learnings.map((learning) => {
           const Icon = learning.icon;
           const accent = accentColor[learning.accent];

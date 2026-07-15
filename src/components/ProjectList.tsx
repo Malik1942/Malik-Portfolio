@@ -67,7 +67,7 @@ const CardMedia = ({
 
   return (
     <div
-      className="overflow-hidden rounded-2xl bg-secondary/15 relative mb-6 w-full"
+      className="overflow-hidden rounded-2xl bg-project-card-surface relative mb-6 w-full"
       style={forced ? { aspectRatio } : undefined}
     >
       {project.coverVideo ? (
@@ -100,7 +100,7 @@ const CardMedia = ({
         </div>
       )}
       <motion.div
-        className="absolute inset-0 bg-foreground/[0.04] pointer-events-none"
+        className="absolute inset-0 bg-project-card-hover-overlay pointer-events-none"
         animate={{ opacity: hovered ? 1 : 0 }}
         transition={{ duration: 0.35 }}
       />
