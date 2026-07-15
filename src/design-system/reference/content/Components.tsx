@@ -1,5 +1,4 @@
-import { Specimen } from "../Specimen";
-import { ComponentSpecimen, hasComponentSpecimen } from "./ComponentSpecimen";
+import { ComponentSpecimen } from "./ComponentSpecimen";
 
 interface ReferenceEntry {
   purpose: string;
@@ -117,13 +116,11 @@ export function ComponentContent({ sectionId }: { sectionId: string }) {
 
   return (
     <div data-testid={`reference-${sectionId}`} className="space-y-8 md:space-y-10">
-      {hasComponentSpecimen(sectionId) ? (
-        <ComponentSpecimen
-          sectionId={sectionId}
-          contextHref={entry.preview}
-          contextLabel={entry.previewLabel}
-        />
-      ) : null}
+      <ComponentSpecimen
+        sectionId={sectionId}
+        contextHref={entry.preview}
+        contextLabel={entry.previewLabel}
+      />
       <Guidance entry={entry} />
       <section aria-labelledby={`${sectionId}-tokens`}>
         <h2 id={`${sectionId}-tokens`} className="text-sm font-medium text-foreground text-body">Token dependencies</h2>
@@ -136,13 +133,6 @@ export function ComponentContent({ sectionId }: { sectionId: string }) {
           </p>
         ) : null}
       </section>
-      {!hasComponentSpecimen(sectionId) ? (
-        <Specimen label="Production context" description={entry.previewNote}>
-          <a href={entry.preview} className="inline-flex min-h-[44px] items-center rounded-sm border border-border/60 px-4 text-sm text-foreground/72 transition-colors hover:border-foreground/35 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40">
-            {entry.previewLabel} →
-          </a>
-        </Specimen>
-      ) : null}
     </div>
   );
 }

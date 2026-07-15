@@ -130,10 +130,6 @@ const COMPONENT_STAGES: Record<string, { description: string; render: () => JSX.
   "component-footer": { description: "Secondary destinations stay quiet, clear, and separate from page-primary navigation.", render: FooterStage },
 };
 
-export function hasComponentSpecimen(sectionId: string): boolean {
-  return sectionId in COMPONENT_STAGES;
-}
-
 export function ComponentSpecimen({ sectionId, contextHref, contextLabel }: ComponentSpecimenProps) {
   const stage = COMPONENT_STAGES[sectionId];
   if (!stage) return null;

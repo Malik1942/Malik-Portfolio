@@ -143,10 +143,6 @@ const PATTERN_STAGES: Record<string, { description: string; render: () => JSX.El
   "pattern-accessibility": { description: "Tab through the labelled controls to see keyboard focus communicated live.", render: AccessibilityStage },
 };
 
-export function hasPatternSpecimen(sectionId: string): boolean {
-  return sectionId in PATTERN_STAGES;
-}
-
 export function PatternSpecimen({ sectionId, contextHref, contextLabel }: PatternSpecimenProps) {
   const stage = PATTERN_STAGES[sectionId];
   if (!stage) return null;
