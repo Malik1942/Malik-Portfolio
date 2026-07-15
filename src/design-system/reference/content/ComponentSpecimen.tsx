@@ -2,6 +2,8 @@ import { useState } from "react";
 import auraCover from "@/assets/aura-cover.webp";
 import motiCard from "@/assets/moti-card.webp";
 import { ImageLightbox, type LightboxImage } from "@/components/project-detail/ImageLightbox";
+import { ProjectMediaFrame } from "@/components/project-detail/ProjectMediaFrame";
+import { ProjectMetadataSummary } from "@/components/project-detail/ProjectMetadataSummary";
 import { Specimen } from "../Specimen";
 
 interface ComponentSpecimenProps {
@@ -61,6 +63,57 @@ function LightboxStage() {
   );
 }
 
+function SiteHeaderStage() {
+  const [active, setActive] = useState("Selected Work");
+  return (
+    <div className="border-b border-border/45 pb-4">
+      <div className="flex items-center justify-between gap-4 text-sm text-body">
+        <span className="text-xl italic text-foreground text-display">M</span>
+        <div className="flex flex-wrap justify-end gap-x-4 gap-y-2">
+          {["Selected Work", "Workshop", "About"].map((item) => (
+            <button key={item} type="button" onClick={() => setActive(item)} className={`min-h-[40px] border-b text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${active === item ? "border-foreground text-foreground" : "border-transparent text-foreground/54 hover:text-foreground/80"}`}>
+              {item}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProjectListStage() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {[
+        [motiCard, "Moti", "Product design"],
+        [auraCover, "Aura", "End-to-end experience"],
+      ].map(([image, title, role]) => (
+        <a key={title} href="#project-list-specimen" onClick={(event) => event.preventDefault()} className="group overflow-hidden rounded-sm border border-border/45 bg-secondary/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <img src={image} alt="" className="aspect-[16/10] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02] group-focus-visible:scale-[1.02]" />
+          <div className="p-4"><p className="text-lg text-foreground text-display">{title}</p><p className="mt-1 text-sm text-foreground/56 text-body">{role}</p></div>
+        </a>
+      ))}
+    </div>
+  );
+}
+
+function MetadataStage() {
+  return <ProjectMetadataSummary cards={[{ label: "Role", value: "Product design" }, { label: "Timeline", value: "2024–2025" }, { label: "Scope", value: "Research, strategy, interaction, and visual design" }, { label: "Platform", value: "Web and iOS" }]} />;
+}
+
+function MediaFrameStage() {
+  return <ProjectMediaFrame fig={{ type: "image", src: auraCover, alt: "Specimen research board" }} />;
+}
+
+function FooterStage() {
+  return (
+    <div className="grid gap-5 border-t border-border/45 pt-5 sm:grid-cols-2">
+      <div><p className="text-[10px] uppercase tracking-[0.18em] text-foreground/42 text-mono">Explore</p><div className="mt-3 flex flex-wrap gap-x-4 gap-y-2"><a href="#footer-work" onClick={(event) => event.preventDefault()} className="text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Selected Work</a><a href="#footer-about" onClick={(event) => event.preventDefault()} className="text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">About</a></div></div>
+      <div className="sm:text-right"><p className="text-[10px] uppercase tracking-[0.18em] text-foreground/42 text-mono">Elsewhere</p><p className="mt-3 text-sm text-foreground/62 text-body">A quieter path to the rest of the work.</p></div>
+    </div>
+  );
+}
+
 const COMPONENT_STAGES: Record<string, { description: string; render: () => JSX.Element }> = {
   "component-project-card": {
     description: "Hover or focus the card to inspect its image-led overlay state.",
@@ -70,6 +123,11 @@ const COMPONENT_STAGES: Record<string, { description: string; render: () => JSX.
     description: "Open the production lightbox, then use Escape or Close to return to this trigger.",
     render: LightboxStage,
   },
+  "component-site-header": { description: "Select a destination to inspect the compact navigation hierarchy.", render: SiteHeaderStage },
+  "component-project-list": { description: "The pair becomes a single reading column as the stage narrows.", render: ProjectListStage },
+  "component-metadata-card": { description: "The same production metadata summary keeps context scannable and wrapped.", render: MetadataStage },
+  "component-media-frame": { description: "The shared production figure keeps project evidence inside a stable frame.", render: MediaFrameStage },
+  "component-footer": { description: "Secondary destinations stay quiet, clear, and separate from page-primary navigation.", render: FooterStage },
 };
 
 export function hasComponentSpecimen(sectionId: string): boolean {

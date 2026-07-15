@@ -38,4 +38,33 @@ describe("ComponentSpecimen", () => {
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     expect(trigger).toHaveFocus();
   });
+
+  it("renders a visual stage for every remaining documented component", () => {
+    for (const sectionId of [
+      "component-site-header",
+      "component-project-list",
+      "component-metadata-card",
+      "component-media-frame",
+      "component-footer",
+    ]) {
+      const view = render(
+        <ComponentSpecimen sectionId={sectionId} contextHref="/" contextLabel="View in context" />,
+      );
+      expect(screen.getByRole("region", { name: "Live specimen" })).toBeInTheDocument();
+      view.unmount();
+    }
+  });
+
+  it("reuses the extracted production metadata and media primitives", () => {
+    const metadata = render(
+      <ComponentSpecimen sectionId="component-metadata-card" contextHref="/" contextLabel="View in context" />,
+    );
+    expect(screen.getByText("Product design")).toBeInTheDocument();
+    metadata.unmount();
+
+    render(
+      <ComponentSpecimen sectionId="component-media-frame" contextHref="/" contextLabel="View in context" />,
+    );
+    expect(screen.getByRole("img", { name: "Specimen research board" })).toBeInTheDocument();
+  });
 });
