@@ -6,6 +6,7 @@ import type {
   DtcgValue,
   TokenBundle,
   TokenIssue,
+  TokenOverrides,
   TokenRecord,
   TokenSource,
 } from "./types";
@@ -197,6 +198,73 @@ export function compileTokenSources(sources: TokenSource[]): TokenBundle {
     documents,
     tokens,
   };
+}
+
+export function applyOverrides(
+  bundle: TokenBundle,
+  overrides: TokenOverrides,
+): TokenBundle {
+  const documents = structuredClone(bundle.documents);
+
+  for (const [path, value] of Object.entries(overrides)) {
+    const token = bundle.tokens.find((candidate) => candidate.path === path);
+    if (token === undefined) {
+      throw new TokenCompilationError([{
+        path,
+        code: "unknown-token",
+        message: "Token does not exist.",
+      }]);
+    }
+
+    const document = Object.prototype.hasOwnProperty.call(
+      documents,
+      token.sourceFile,
+    )
+      ? documents[token.sourceFile]
+      : undefined;
+    setTokenValue(document, path, value);
+  }
+
+  return compileTokenSources(
+    Object.entries(documents).map(([filename, document]) => ({
+      filename,
+      document,
+    })),
+  );
+}
+
+function setTokenValue(
+  document: Record<string, unknown> | undefined,
+  path: string,
+  value: DtcgValue,
+): void {
+  let node: unknown = document;
+
+  for (const segment of path.split(".")) {
+    if (
+      !isRecord(node) ||
+      !Object.prototype.hasOwnProperty.call(node, segment)
+    ) {
+      throwInvalidTokenSource(path);
+    }
+    node = node[segment];
+  }
+
+  if (
+    !isRecord(node) ||
+    !Object.prototype.hasOwnProperty.call(node, "$value")
+  ) {
+    throwInvalidTokenSource(path);
+  }
+  node.$value = structuredClone(value);
+}
+
+function throwInvalidTokenSource(path: string): never {
+  throw new TokenCompilationError([{
+    path,
+    code: "invalid-token-source",
+    message: "Token source does not contain a $value at this path.",
+  }]);
 }
 
 function collectCssVariableCollisionIssues(

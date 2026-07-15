@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { compileTokenSources, formatTokenCss, TokenCompilationError } from "./compiler";
+import {
+  applyOverrides,
+  compileTokenSources,
+  formatTokenCss,
+  TokenCompilationError,
+} from "./compiler";
 import type { DtcgColor, DtcgType, TokenSource } from "./types";
 
 function captureCompilationError(sources: TokenSource[]): TokenCompilationError {
@@ -276,6 +281,79 @@ describe("compileTokenSources", () => {
       ((result.documents["tokens.json"].color as Record<string, unknown>)
         .raw as Record<string, DtcgColor>).$value.components[0],
     ).toBe(0);
+  });
+
+  it("applies compatible overrides without mutating the input bundle", () => {
+    const base = compileTokenSources([{ filename: "tokens.json", document: {
+      duration: { $type: "duration", fast: { $value: { value: 200, unit: "ms" } } },
+    } }]);
+    const next = applyOverrides(base, { "duration.fast": { value: 120, unit: "ms" } });
+
+    expect(next.tokens[0].cssValue).toBe("120ms");
+    expect(base.tokens[0].cssValue).toBe("200ms");
+  });
+
+  it("recompiles aliases that depend on an overridden token", () => {
+    const base = compileTokenSources([{ filename: "tokens.json", document: {
+      duration: {
+        $type: "duration",
+        fast: { $value: { value: 200, unit: "ms" } },
+        interaction: { $value: "{duration.fast}" },
+      },
+    } }]);
+    const next = applyOverrides(base, {
+      "duration.fast": { value: 120, unit: "ms" },
+    });
+
+    expect(next.tokens.find((token) => token.path === "duration.interaction")?.cssValue)
+      .toBe("120ms");
+  });
+
+  it('overrides tokens from a "__proto__" source without losing the source document', () => {
+    const base = compileTokenSources([{ filename: "__proto__", document: {
+      duration: { $type: "duration", fast: { $value: { value: 200, unit: "ms" } } },
+    } }]);
+    const next = applyOverrides(base, {
+      "duration.fast": { value: 120, unit: "ms" },
+    });
+
+    expect(next.tokens[0].cssValue).toBe("120ms");
+    expect(Object.prototype.hasOwnProperty.call(next.documents, "__proto__")).toBe(true);
+  });
+
+  it("reports unknown override paths", () => {
+    const base = compileTokenSources([{ filename: "tokens.json", document: {
+      duration: { $type: "duration", fast: { $value: { value: 200, unit: "ms" } } },
+    } }]);
+
+    expect(() => applyOverrides(base, {
+      "duration.missing": { value: 120, unit: "ms" },
+    })).toThrowError(expect.objectContaining({
+      issues: [{
+        path: "duration.missing",
+        code: "unknown-token",
+        message: "Token does not exist.",
+      }],
+    }));
+  });
+
+  it("rejects bundles whose token source no longer contains the exact token path", () => {
+    const base = compileTokenSources([{ filename: "tokens.json", document: {
+      duration: { $type: "duration", fast: { $value: { value: 200, unit: "ms" } } },
+    } }]);
+    const inconsistent = structuredClone(base);
+    const duration = inconsistent.documents["tokens.json"].duration as Record<string, unknown>;
+    delete (duration.fast as Record<string, unknown>).$value;
+
+    expect(() => applyOverrides(inconsistent, {
+      "duration.fast": { value: 120, unit: "ms" },
+    })).toThrowError(expect.objectContaining({
+      issues: [{
+        path: "duration.fast",
+        code: "invalid-token-source",
+        message: "Token source does not contain a $value at this path.",
+      }],
+    }));
   });
 
   it("sorts compilation issues by path and code", () => {

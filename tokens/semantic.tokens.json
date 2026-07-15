@@ -1,0 +1,150 @@
+{
+  "color": {
+    "background": {
+      "$type": "color",
+      "canvas": {
+        "$description": "Default background for portfolio pages and full-screen views.",
+        "$value": "{color.neutral.950}"
+      }
+    },
+    "text": {
+      "$type": "color",
+      "primary": {
+        "$description": "Default warm foreground for primary text and icons.",
+        "$value": "{color.warm.100}"
+      },
+      "muted": {
+        "$description": "Muted foreground for de-emphasized labels and supporting copy.",
+        "$value": "{color.neutral.580}"
+      },
+      "onPrimary": {
+        "$description": "Dark foreground used on the light primary action color.",
+        "$value": "{color.neutral.950}"
+      },
+      "onDestructive": {
+        "$description": "High-contrast warm foreground used on destructive actions.",
+        "$value": "{color.warm.050}"
+      }
+    },
+    "surface": {
+      "$type": "color",
+      "card": {
+        "$description": "Raised surface used by cards that sit above the canvas.",
+        "$value": "{color.neutral.925}"
+      },
+      "popover": {
+        "$description": "Raised surface used by transient popovers and menus.",
+        "$value": "{color.neutral.925}"
+      },
+      "secondary": {
+        "$description": "Quiet secondary surface used for supporting regions.",
+        "$value": "{color.neutral.900}"
+      },
+      "muted": {
+        "$description": "Subdued surface used for intentionally low-emphasis regions.",
+        "$value": "{color.neutral.860}"
+      },
+      "accent": {
+        "$description": "Visible accent surface used for selected and highlighted states.",
+        "$value": "{color.neutral.820}"
+      }
+    },
+    "action": {
+      "$type": "color",
+      "primary": {
+        "$description": "Primary action color used for the strongest controls.",
+        "$value": "{color.warm.100}"
+      },
+      "destructive": {
+        "$description": "Destructive action color used for irreversible operations.",
+        "$value": "{color.red.danger}"
+      }
+    },
+    "border": {
+      "$type": "color",
+      "default": {
+        "$description": "Default visible border for controls and structural separation.",
+        "$value": "{color.neutral.820}"
+      }
+    },
+    "input": {
+      "$type": "color",
+      "default": {
+        "$description": "Default input boundary color.",
+        "$value": "{color.neutral.820}"
+      }
+    },
+    "focus": {
+      "$type": "color",
+      "ring": {
+        "$description": "Focus ring color used to identify keyboard focus.",
+        "$value": "{color.warm.100}"
+      }
+    },
+    "accent": {
+      "$type": "color",
+      "selectedWork": {
+        "$description": "Collection accent used for Selected Work markers.",
+        "$value": "{color.red.selectedWork}"
+      },
+      "workshop": {
+        "$description": "Collection accent used for Workshop markers.",
+        "$value": "{color.gold.500}"
+      }
+    },
+    "sidebar": {
+      "$type": "color",
+      "background": {
+        "$description": "Background for sidebar navigation surfaces.",
+        "$value": "{color.neutral.925}"
+      },
+      "foreground": {
+        "$description": "Default foreground for sidebar navigation content.",
+        "$value": "{color.warm.100}"
+      },
+      "primary": {
+        "$description": "Primary sidebar action and selection color.",
+        "$value": "{color.warm.100}"
+      },
+      "primaryForeground": {
+        "$description": "Foreground used on the primary sidebar color.",
+        "$value": "{color.neutral.950}"
+      },
+      "accent": {
+        "$description": "Accent surface for active sidebar items.",
+        "$value": "{color.neutral.820}"
+      },
+      "accentForeground": {
+        "$description": "Foreground used on active sidebar items.",
+        "$value": "{color.warm.100}"
+      },
+      "border": {
+        "$description": "Border color separating sidebar regions.",
+        "$value": "{color.neutral.820}"
+      },
+      "ring": {
+        "$description": "Focus ring color used within sidebar navigation.",
+        "$value": "{color.warm.100}"
+      }
+    }
+  },
+  "layout": {
+    "$type": "dimension",
+    "content": {
+      "$description": "Maximum width for the portfolio's primary content regions.",
+      "$value": { "value": 1200, "unit": "px" }
+    },
+    "page": {
+      "$description": "Maximum width for wide page and case-study layouts.",
+      "$value": { "value": 1400, "unit": "px" }
+    },
+    "reading": {
+      "$description": "Maximum width for comfortable long-form reading.",
+      "$value": { "value": 760, "unit": "px" }
+    },
+    "touchTarget": {
+      "$description": "Minimum interactive target size used across navigation controls.",
+      "$value": { "value": 44, "unit": "px" }
+    }
+  }
+}
