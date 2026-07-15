@@ -403,6 +403,35 @@ describe("compileTokenSources", () => {
       expect(formatTokenCss("cubicBezier", [0.22, 1, 0.36, 1])).toBe("cubic-bezier(0.22, 1, 0.36, 1)");
     });
 
+    it.each([
+      ["thin", "100"],
+      ["hairline", "100"],
+      ["extra-light", "200"],
+      ["ultra-light", "200"],
+      ["light", "300"],
+      ["normal", "400"],
+      ["regular", "400"],
+      ["book", "400"],
+      ["medium", "500"],
+      ["semi-bold", "600"],
+      ["demi-bold", "600"],
+      ["bold", "700"],
+      ["extra-bold", "800"],
+      ["ultra-bold", "800"],
+      ["black", "900"],
+      ["heavy", "900"],
+      ["extra-black", "950"],
+      ["ultra-black", "950"],
+      [1, "1"],
+      [400, "400"],
+      [1000, "1000"],
+    ] satisfies [string | number, string][]) (
+      "formats the accepted font weight %s as %s",
+      (value, expected) => {
+        expect(formatTokenCss("fontWeight", value)).toBe(expected);
+      },
+    );
+
     it("formats none HSL components without percentages", () => {
       expect(formatTokenCss("color", {
         colorSpace: "hsl",
