@@ -32,7 +32,7 @@ const accentColor = {
 
 export function AuraTestingFindings() {
   return (
-    <div className="rounded-2xl overflow-hidden bg-[#0c0c0d] border border-white/[0.07]">
+    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-white/[0.07]">
       <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.05]">
         {findings.map((finding) => {
           const Icon = finding.icon;

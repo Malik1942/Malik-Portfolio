@@ -37,7 +37,7 @@ import motiLlmPlan2 from "@/assets/moti-llm-plan2.webp";
 
 /* ---------------------------------------------------------------------------
  * Moti case-study inline modules.
- * Reuses the existing inline-module visual language (dark #0c0c0d cards, mono
+ * Reuses the existing token-backed inline-module visual language (dark cards, mono
  * 01/02 numbers, lucide icons, violet/emerald/slate accents) and site tokens
  * for prose-level pieces — no new colors or fonts are introduced.
  * Images are imported from src/assets (moti-*.webp).
@@ -55,7 +55,7 @@ type GridItem = { num: string; title: string; desc?: string; icon: LucideIcon; a
 // Shared dark card shell — mirrors AuraDesignRequirements / AuraTestingFindings.
 function ModuleCard({ children, header }: { children: ReactNode; header?: string }) {
   return (
-    <div className="rounded-2xl overflow-hidden bg-[#0c0c0d] border border-white/[0.07]">
+    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-white/[0.07]">
       {header ? (
         <div className="px-8 pt-8 pb-7 md:px-10 border-b border-white/[0.05]">
           <p className="text-[12px] md:text-[20px] uppercase tracking-[0.08em] font-light leading-[24px] md:leading-[32px] text-white/85 font-mono">
@@ -78,7 +78,7 @@ function CardGrid({ items, header, colsClass }: { items: GridItem[]; header?: st
           const a = accentColor[it.accent];
           const Icon = it.icon;
           return (
-            <div key={it.num} className="flex flex-col gap-5 bg-[#0c0c0d] px-6 py-7 md:px-7 md:py-8">
+            <div key={it.num} className="flex flex-col gap-5 bg-surface-inset px-6 py-7 md:px-7 md:py-8">
               <div className="flex items-center justify-between">
                 <span className={`text-[12px] font-mono tabular-nums ${a.num}`}>{it.num}</span>
                 <Icon aria-hidden="true" className={`w-4 h-4 ${a.icon}`} strokeWidth={1.4} />
@@ -265,7 +265,7 @@ export function MotiUserQuotes() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
       {userQuotes.map((q, i) => (
-        <figure key={i} className="flex flex-col gap-4 rounded-2xl border border-white/[0.07] bg-[#0c0c0d] px-6 py-7">
+        <figure key={i} className="flex flex-col gap-4 rounded-2xl border border-white/[0.07] bg-surface-inset px-6 py-7">
           <Quote aria-hidden="true" className="w-5 h-5 text-white/25" strokeWidth={1.4} />
           <blockquote className="text-[15px] md:text-[16px] font-light leading-[24px] text-white/85">
             “{q}”
@@ -327,7 +327,7 @@ export function MotiBeforeBuilding() {
       <div className="flex flex-col gap-6">
         <SubHead>Define System Architecture</SubHead>
         <CardGrid items={tierItems} colsClass="grid-cols-1 sm:grid-cols-3" />
-        <div className="rounded-2xl border border-white/[0.07] bg-[#0c0c0d] px-6 py-7 md:px-8 md:py-8">
+        <div className="rounded-2xl border border-white/[0.07] bg-surface-inset px-6 py-7 md:px-8 md:py-8">
           <p className="text-[11px] uppercase tracking-[0.16em] text-white/45 font-mono mb-3">Pipeline</p>
           <p className="text-[15px] md:text-[17px] font-light leading-relaxed text-white/80">
             Messy human input → SLM builds structured understanding → LLM turns it into an adaptive, timeline-aware plan. A
@@ -350,7 +350,7 @@ export function MotiBeforeBuilding() {
           caption="All three modes ship in the app — rule-based, foundational model (SLM), and LLM."
           narrow
         />
-        <div className="flex flex-col gap-4 rounded-2xl border border-white/[0.07] bg-[#0c0c0d] px-6 py-7 md:px-8 md:py-8">
+        <div className="flex flex-col gap-4 rounded-2xl border border-white/[0.07] bg-surface-inset px-6 py-7 md:px-8 md:py-8">
           <div className="flex items-center justify-between">
             <p className="text-[16px] md:text-[18px] font-medium text-white/95">Adaptive Learning Loop</p>
             <Activity aria-hidden="true" className="w-4 h-4 text-violet-400" strokeWidth={1.4} />
@@ -415,7 +415,7 @@ function VersionBlock({
   quote?: string;
 }) {
   return (
-    <div className="rounded-2xl overflow-hidden border border-white/[0.07] bg-[#0c0c0d]">
+    <div className="rounded-2xl overflow-hidden border border-white/[0.07] bg-surface-inset">
       <div className="flex items-baseline gap-4 px-6 py-6 md:px-8 md:py-7 border-b border-white/[0.05]">
         <span className="text-[12px] font-mono tabular-nums text-violet-400/70">{tag}</span>
         <div>

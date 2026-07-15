@@ -1,6 +1,8 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
 
+const color = (name: string) => `hsl(var(--${name}) / <alpha-value>)`;
+
 export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
@@ -14,57 +16,58 @@ export default {
       },
     },
     extend: {
-        colors: {
-          border: "hsl(var(--border))",
-          input: "hsl(var(--input))",
-          ring: "hsl(var(--ring))",
-          background: "hsl(var(--background))",
-          foreground: "hsl(var(--foreground))",
-          primary: {
-            DEFAULT: "hsl(var(--primary))",
-            foreground: "hsl(var(--primary-foreground))",
-          },
-          secondary: {
-            DEFAULT: "hsl(var(--secondary))",
-            foreground: "hsl(var(--secondary-foreground))",
-          },
-          destructive: {
-            DEFAULT: "hsl(var(--destructive))",
-            foreground: "hsl(var(--destructive-foreground))",
-          },
-          muted: {
-            DEFAULT: "hsl(var(--muted))",
-            foreground: "hsl(var(--muted-foreground))",
-          },
-          accent: {
-            DEFAULT: "hsl(var(--accent))",
-            foreground: "hsl(var(--accent-foreground))",
-          },
-          popover: {
-            DEFAULT: "hsl(var(--popover))",
-            foreground: "hsl(var(--popover-foreground))",
-          },
-          card: {
-            DEFAULT: "hsl(var(--card))",
-            foreground: "hsl(var(--card-foreground))",
-          },
-          "dot-red": "hsl(var(--dot-red))",
-          "dot-gold": "hsl(var(--dot-gold))",
-          sidebar: {
-            DEFAULT: "hsl(var(--sidebar-background))",
-            foreground: "hsl(var(--sidebar-foreground))",
-            primary: "hsl(var(--sidebar-primary))",
-            "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-            accent: "hsl(var(--sidebar-accent))",
-            "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-            border: "hsl(var(--sidebar-border))",
-            ring: "hsl(var(--sidebar-ring))",
-          },
+      colors: {
+        border: color("color-border-default"),
+        input: color("color-input-default"),
+        ring: color("color-focus-ring"),
+        background: color("color-background-canvas"),
+        foreground: color("color-text-primary"),
+        primary: {
+          DEFAULT: color("color-action-primary"),
+          foreground: color("color-text-on-primary"),
         },
+        secondary: {
+          DEFAULT: color("color-surface-secondary"),
+          foreground: color("color-text-primary"),
+        },
+        destructive: {
+          DEFAULT: color("color-action-destructive"),
+          foreground: color("color-text-on-destructive"),
+        },
+        muted: {
+          DEFAULT: color("color-surface-muted"),
+          foreground: color("color-text-muted"),
+        },
+        accent: {
+          DEFAULT: color("color-surface-accent"),
+          foreground: color("color-text-primary"),
+        },
+        popover: {
+          DEFAULT: color("color-surface-popover"),
+          foreground: color("color-text-primary"),
+        },
+        card: {
+          DEFAULT: color("color-surface-card"),
+          foreground: color("color-text-primary"),
+        },
+        "surface-inset": color("component-case-study-module-surface"),
+        "dot-red": color("color-accent-selected-work"),
+        "dot-gold": color("color-accent-workshop"),
+        sidebar: {
+          DEFAULT: color("color-sidebar-background"),
+          foreground: color("color-sidebar-foreground"),
+          primary: color("color-sidebar-primary"),
+          "primary-foreground": color("color-sidebar-primary-foreground"),
+          accent: color("color-sidebar-accent"),
+          "accent-foreground": color("color-sidebar-accent-foreground"),
+          border: color("color-sidebar-border"),
+          ring: color("color-sidebar-ring"),
+        },
+      },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "var(--radius-base)",
+        md: "calc(var(--radius-base) - 2px)",
+        sm: "var(--radius-small)",
       },
       keyframes: {
         "accordion-down": {
