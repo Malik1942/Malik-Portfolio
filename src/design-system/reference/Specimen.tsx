@@ -1,0 +1,32 @@
+import { useId, type ReactNode } from "react";
+
+export function Specimen({
+  label,
+  description,
+  children,
+}: {
+  label: string;
+  description: string;
+  children: ReactNode;
+}) {
+  const id = useId().replace(/:/g, "");
+  const labelId = `specimen-${id}-label`;
+  const descriptionId = `specimen-${id}-description`;
+
+  return (
+    <section
+      role="region"
+      aria-labelledby={labelId}
+      aria-describedby={descriptionId}
+      className="min-w-0 overflow-hidden rounded-lg border border-border/50 bg-card/25"
+    >
+      <div className="border-b border-border/40 px-5 py-4 sm:px-6">
+        <h2 id={labelId} className="text-sm font-medium text-foreground text-body">{label}</h2>
+        <p id={descriptionId} className="mt-1 max-w-[70ch] break-words text-sm leading-relaxed text-foreground/58 text-body">
+          {description}
+        </p>
+      </div>
+      <div className="min-w-0 overflow-x-auto p-5 sm:p-6">{children}</div>
+    </section>
+  );
+}
