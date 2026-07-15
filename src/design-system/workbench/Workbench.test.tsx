@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { tokenBundle } from "../generated/token-manifest.generated";
 import { PreviewProvider, usePreviewDraft } from "../preview/PreviewProvider";
-import { ContrastChecks } from "./ContrastChecks";
+import { ContrastChecks, contrastRatio } from "./ContrastChecks";
 import { ExportDraftButton } from "./ExportDraftButton";
 import { PortfolioPreview } from "./PortfolioPreview";
 import { TokenDiff } from "./TokenDiff";
@@ -54,6 +54,38 @@ describe("public workbench utilities", () => {
     fireEvent.click(screen.getByRole("button", { name: "Apply override" }));
     expect(screen.getByText("Primary text on canvas").closest("li")).toHaveTextContent("Fail AA");
     expect(screen.getByText("Focus ring on canvas").closest("li")).toHaveTextContent("Fail 3:1");
+  });
+
+  it("composites fully transparent foregrounds to a 1.00:1 contrast ratio", () => {
+    expect(contrastRatio(
+      { colorSpace: "hsl", components: [0, 0, 100], alpha: 0 },
+      { colorSpace: "hsl", components: [0, 0, 0] },
+    )).toBeCloseTo(1, 5);
+  });
+
+  it("reports a fully transparent primary foreground as 1.00:1 and failing AA", () => {
+    renderWorkbench(<>
+      <OverrideButton path="color.text.primary" value={{ colorSpace: "hsl", components: [40, 6, 90], alpha: 0 } as never} />
+      <ContrastChecks />
+    </>);
+    fireEvent.click(screen.getByRole("button", { name: "Apply override" }));
+    const result = screen.getByText("Primary text on canvas").closest("li");
+    expect(result).toHaveTextContent("1.00:1");
+    expect(result).toHaveTextContent("Fail AA");
+  });
+
+  it("computes partial-alpha contrast from composited sRGB channels", () => {
+    expect(contrastRatio(
+      { colorSpace: "hsl", components: [0, 0, 100], alpha: 0.5 },
+      { colorSpace: "hsl", components: [0, 0, 0] },
+    )).toBeCloseTo(5.28, 2);
+  });
+
+  it("uses the site's #0a0a0a boot substrate for translucent backgrounds", () => {
+    expect(contrastRatio(
+      { colorSpace: "hsl", components: [0, 0, 100] },
+      { colorSpace: "hsl", components: [0, 0, 100], alpha: 0.5 },
+    )).toBeCloseTo(3.71, 2);
   });
 
   it("uses the exact same-origin embedded URL and replays complete overrides on load and changes", async () => {

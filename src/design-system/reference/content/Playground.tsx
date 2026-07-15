@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import { tokenBundle } from "../../generated/token-manifest.generated";
+import { applyOverrides } from "../../tokens/compiler";
 import { usePreviewDraft } from "../../preview/PreviewProvider";
 import { ContrastChecks } from "../../workbench/ContrastChecks";
 import { ExportDraftButton } from "../../workbench/ExportDraftButton";
@@ -10,6 +12,12 @@ const CATEGORIES = [...new Set(tokenBundle.tokens.map((token) => token.path.spli
 
 export function Playground() {
   const { draft, discarded, setOverride, resetToken, resetCategory, resetAll } = usePreviewDraft();
+  const compiledTokens = useMemo(
+    () => new Map(
+      applyOverrides(tokenBundle, draft.overrides).tokens.map((token) => [token.path, token]),
+    ),
+    [draft.overrides],
+  );
 
   return (
     <div data-testid="reference-playground" className="space-y-14 md:space-y-20">
@@ -57,7 +65,7 @@ export function Playground() {
                         const overridden = Object.prototype.hasOwnProperty.call(draft.overrides, token.path);
                         return (
                           <div key={token.path} className="min-w-0">
-                            <TokenControl token={token} value={overridden ? draft.overrides[token.path] : token.resolvedValue} onChange={(value) => setOverride(token.path, value)} />
+                            <TokenControl token={token} value={compiledTokens.get(token.path)!.resolvedValue} onChange={(value) => setOverride(token.path, value)} />
                             {overridden ? <button type="button" onClick={() => resetToken(token.path)} className="mt-1 min-h-[44px] px-2 text-xs text-foreground/58 underline underline-offset-4">Reset {token.path}</button> : null}
                           </div>
                         );
