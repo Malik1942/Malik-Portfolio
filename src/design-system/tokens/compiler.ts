@@ -140,7 +140,7 @@ function quoteCssString(value: string): string {
 }
 
 export function compileTokenSources(sources: TokenSource[]): TokenBundle {
-  const documents: Record<string, Record<string, unknown>> = {};
+  const documents = Object.create(null) as Record<string, Record<string, unknown>>;
   const flattened = new Map<string, FlattenedToken>();
   const issues: TokenIssue[] = [];
 

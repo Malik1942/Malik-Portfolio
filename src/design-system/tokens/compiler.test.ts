@@ -70,6 +70,41 @@ describe("compileTokenSources", () => {
     }]);
   });
 
+  it('stores a "__proto__" source as an own enumerable document key', () => {
+    const result = compileTokenSources([{ filename: "__proto__", document: {
+      token: { $type: "number", $value: 1 },
+    } }]);
+
+    expect(Object.prototype.hasOwnProperty.call(result.documents, "__proto__")).toBe(true);
+    expect(Object.keys(result.documents)).toContain("__proto__");
+  });
+
+  it('includes a "__proto__" source in the token hash', () => {
+    const empty = compileTokenSources([]);
+    const result = compileTokenSources([{ filename: "__proto__", document: {
+      token: { $type: "number", $value: 1 },
+    } }]);
+
+    expect(result.tokenHash).not.toBe(empty.tokenHash);
+  });
+
+  it('reports duplicate "__proto__" source filenames', () => {
+    const error = captureCompilationError([
+      { filename: "__proto__", document: {
+        first: { $type: "number", $value: 1 },
+      } },
+      { filename: "__proto__", document: {
+        second: { $type: "number", $value: 2 },
+      } },
+    ]);
+
+    expect(error.issues).toEqual([{
+      path: "__proto__",
+      code: "duplicate-source",
+      message: "Source filename is duplicated.",
+    }]);
+  });
+
   it("collects sorted transitive reverse-alias dependents", () => {
     const result = compileTokenSources([{ filename: "tokens.json", document: {
       size: {
