@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom";
+import { afterEach } from "vitest";
 
 const storageEntries = new Map<string, string>();
 const storage: Storage = {
@@ -14,10 +15,16 @@ Object.defineProperty(window, "localStorage", { configurable: true, value: stora
 Object.defineProperty(globalThis, "localStorage", { configurable: true, value: storage });
 Object.defineProperty(window, "scrollTo", { configurable: true, value: () => {} });
 
+let reducedMotionPreference = false;
+
+export function setReducedMotionPreference(matches: boolean): void {
+  reducedMotionPreference = matches;
+}
+
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: (query: string) => ({
-    matches: false,
+    matches: query.includes("prefers-reduced-motion") && reducedMotionPreference,
     media: query,
     onchange: null,
     addListener: () => {},
@@ -26,4 +33,8 @@ Object.defineProperty(window, "matchMedia", {
     removeEventListener: () => {},
     dispatchEvent: () => {},
   }),
+});
+
+afterEach(() => {
+  reducedMotionPreference = false;
 });
