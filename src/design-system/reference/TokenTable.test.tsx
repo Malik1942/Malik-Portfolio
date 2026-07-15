@@ -107,4 +107,44 @@ describe("TokenTable", () => {
     expect(screen.getByLabelText("Visual sample for font.size.body")).toHaveTextContent("Aa");
     expect(screen.getByText("Aa")).toHaveStyle({ fontSize: "16px" });
   });
+
+  it("uses each duration value to drive its visible sample with a reduced-motion fallback", () => {
+    render(
+      <TokenTable
+        title="Durations"
+        tokens={[
+          token({
+            path: "duration.fast",
+            type: "duration",
+            value: { value: 120, unit: "ms" },
+            resolvedValue: { value: 120, unit: "ms" },
+            cssVariable: "--duration-fast",
+            cssValue: "120ms",
+            aliasOf: undefined,
+          }),
+          token({
+            path: "duration.slow",
+            type: "duration",
+            value: { value: 900, unit: "ms" },
+            resolvedValue: { value: 900, unit: "ms" },
+            cssVariable: "--duration-slow",
+            cssValue: "900ms",
+            aliasOf: undefined,
+          }),
+        ]}
+      />,
+    );
+
+    const fastSample = screen
+      .getByLabelText("Visual sample for duration.fast")
+      .querySelector("[data-duration-sample]");
+    const slowSample = screen
+      .getByLabelText("Visual sample for duration.slow")
+      .querySelector("[data-duration-sample]");
+
+    expect(fastSample).toHaveStyle({ animationDuration: "120ms" });
+    expect(slowSample).toHaveStyle({ animationDuration: "900ms" });
+    expect(fastSample).not.toHaveStyle({ animationDuration: "900ms" });
+    expect(fastSample).toHaveClass("animate-pulse", "motion-reduce:animate-none");
+  });
 });
