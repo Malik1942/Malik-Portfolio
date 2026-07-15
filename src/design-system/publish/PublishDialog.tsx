@@ -82,7 +82,7 @@ export function PublishDialog({
   const summaryValid = summary.trim().length >= 12 && summary.trim().length <= 2000;
   const draftValid = diffRows !== null && diffRows.length > 0;
   const canSubmit = password.length > 0 && titleValid && summaryValid &&
-    acknowledged && draftValid && provenanceValid && !pending;
+    acknowledged && draftValid && provenanceValid && !pending && !error?.recoveryBranch;
 
   const closeDialog = useCallback(() => {
     requestVersionRef.current += 1;
@@ -272,6 +272,7 @@ export function PublishDialog({
                   aria-label="Publish password"
                   type="password"
                   autoComplete="off"
+                  disabled={Boolean(error?.recoveryBranch)}
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   className="mt-2 min-h-[44px] w-full rounded-md border border-border bg-background px-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -337,7 +338,13 @@ export function PublishDialog({
             ) : null}
 
             <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border/60 pt-5">
-              <p aria-live="polite" className="text-xs text-foreground/50 text-body">{pending ? "Opening pull request…" : "Nothing writes directly to main."}</p>
+              <p aria-live="polite" className="text-xs text-foreground/50 text-body">
+                {pending
+                  ? "Opening pull request…"
+                  : error?.recoveryBranch
+                    ? "Recover the existing branch in GitHub; this review will not republish it."
+                    : "Nothing writes directly to main."}
+              </p>
               <button
                 type="submit"
                 disabled={!canSubmit}

@@ -71,6 +71,15 @@ export async function publishTokens(
     return errorResult(401, "unauthorized", "Publish authorization failed.");
   }
 
+  const credential = request.password;
+  if (credential.length > 0 && request.title.includes(credential)) {
+    return errorResult(422, "invalid_draft", "The publish metadata is invalid.");
+  }
+  if (credential.length > 0) {
+    request.summary = request.summary.split(credential).join("[redacted]");
+  }
+  request.password = "";
+
   if (Object.values(request.overrides).some(isAliasOverride)) {
     return errorResult(422, "invalid_draft", "The token draft is invalid.");
   }
@@ -347,13 +356,10 @@ function createPullRequestBody(
   beforeHash: string,
   afterHash: string,
 ): string {
-  const safeSummary = request.password.length === 0
-    ? request.summary
-    : request.summary.split(request.password).join("[redacted]");
   return [
     "## Rationale",
     "",
-    safeSummary,
+    request.summary,
     "",
     "## Direct token changes",
     "",
