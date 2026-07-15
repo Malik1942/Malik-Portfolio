@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import type { TokenRecord } from "../tokens/types";
 
 function slug(value: string) {
@@ -82,10 +81,12 @@ function TokenVisual({ token }: { token: TokenRecord }) {
 
   if (token.type === "duration") {
     return (
-      <span {...common} className="flex min-h-14 items-center gap-1" style={{ "--sample-duration": token.cssValue } as CSSProperties}>
-        {[0, 1, 2, 3].map((step) => (
-          <span key={step} className="h-2 w-2 rounded-full bg-foreground/55" style={{ opacity: 0.25 + step * 0.25 }} />
-        ))}
+      <span {...common} className="flex min-h-14 items-center">
+        <span
+          data-duration-sample
+          className="h-4 w-4 animate-pulse rounded-full bg-foreground/55 motion-reduce:animate-none motion-reduce:opacity-55"
+          style={{ animationDuration: token.cssValue }}
+        />
       </span>
     );
   }
