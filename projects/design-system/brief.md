@@ -2,17 +2,19 @@
 
 ## Problem
 
-The portfolio already has a recognizable visual language, but its decisions are spread across CSS variables, Tailwind utilities, arbitrary values, inline styles, and Framer Motion configuration. Malik wants that existing system extracted, documented, made safely adjustable in the browser, and presented publicly at `www.malikzhang.com/design-system` without turning the portfolio into a generic component library.
+The portfolio already has a recognizable visual language, but its decisions are spread across CSS variables, Tailwind utilities, arbitrary values, inline styles, and Framer Motion configuration. The first public reference exposed that system too literally: a 36-color editor and equally weighted technical controls made the page feel like an internal debugging tool. Malik wants a curated public reference at `www.malikzhang.com/design-system` that explains the system through readable foundations, real components, and production context.
 
 ## Who
 
-- Portfolio visitors, recruiters, designers, and engineers who want to understand how the site is constructed and experiment with it.
-- Malik, who needs a controlled way to turn a browser-local token draft into a reviewable production change.
+- Portfolio visitors, recruiters, designers, and engineers who want to understand how the site is constructed without operating an internal token editor.
+- Malik, who still needs an unlisted authoring path that can turn a local token draft into a reviewable production change.
 
 ## Success
 
 - A visitor can understand the portfolio's foundations, components, patterns, and design philosophy from a focused public reference.
-- A visitor can adjust supported tokens, watch the real portfolio respond, reset the experiment, and export valid DTCG JSON. Their changes affect only their browser.
+- Color is grouped by semantic purpose and typography is shown as a readable specimen scale rather than a catalog of editing controls.
+- Components are discoverable through a lineup and documented through real production examples, relevant states, and concise usage guidance.
+- The public reference contains no token inputs, numeric HSL editor, draft/export workflow, or embedded full-site preview.
 - Malik can authenticate at publish time and open a pull request containing only validated token changes.
 - The pull request receives a Vercel preview deployment for final review; nothing commits directly to `main`.
 - Migrating the existing site to tokens produces no unintended visual or behavioral drift.
@@ -22,6 +24,7 @@ The portfolio already has a recognizable visual language, but its decisions are 
 - Preserve the current React, Vite, TypeScript, Tailwind CSS, Framer Motion, React Router, Vitest, and Vercel stack.
 - Follow the Design Tokens Community Group 2025.10 Format, Color, and Resolver guidance where applicable.
 - Reference VMedium's philosophy and information architecture: one source of truth, a sticky grouped rail, one focused hash-linked section at a time, previous/next navigation, real specimens, and concise usage guidance.
+- Borrow VMedium's restrained foundation tables and contextual component demonstrations without copying its visual identity or catalog size.
 - Preserve Malik's visual identity and expressive experiences, especially DotGrid and the About experience.
 - Production publishing must use the GitHub API to open a pull request from a new branch.
 - The existing application has no backend; the only new server-side infrastructure in v1 is the narrow authenticated publish capability.
@@ -38,3 +41,5 @@ The portfolio already has a recognizable visual language, but its decisions are 
 - A changelog before meaningful system history exists.
 - Figma, SwiftUI, Android, or other platform exports in v1.
 - Unrelated component or content refactors.
+- A public token playground or exhaustive token catalog.
+- Generic controls and components that the portfolio does not actually use.
