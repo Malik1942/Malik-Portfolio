@@ -9,11 +9,13 @@
     "dev": "vite",
     "prebuild": "npm run tokens:build",
     "build": "vite build",
+    "prebuild:dev": "npm run tokens:build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
     "pretest": "npm run tokens:build",
     "test": "vitest run",
+    "pretest:watch": "npm run tokens:build",
     "test:watch": "vitest",
     "generate:og": "node scripts/generate-og.mjs"
   },
