@@ -16,7 +16,46 @@ export default {
         "2xl": "1400px",
       },
     },
+    // Top-level overrides define the ENFORCEABLE system boundary: only these
+    // steps exist as utilities, and every one references an editable token
+    // variable so workbench edits update the live portfolio.
+    fontSize: {
+      label: ["var(--font-size-label)", { lineHeight: "1.4" }],
+      xs: ["var(--font-size-caption)", { lineHeight: "1.4" }],
+      sm: ["var(--font-size-body-small)", { lineHeight: "1.5" }],
+      base: ["var(--font-size-body)", { lineHeight: "1.5" }],
+      xl: ["var(--font-size-body-large)", { lineHeight: "1.5" }],
+      title: ["var(--font-size-title)", { lineHeight: "1.3", letterSpacing: "-0.02em" }],
+      heading: ["var(--font-size-heading)", { lineHeight: "1.15", letterSpacing: "-0.02em" }],
+      display: ["var(--font-size-display)", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
+      hero: [
+        "clamp(var(--font-size-hero-min), 6.5vw, var(--font-size-hero-max))",
+        { lineHeight: "1.06", letterSpacing: "-0.02em" },
+      ],
+    },
+    fontFamily: {
+      sans: "var(--font-family-body)",
+      display: "var(--font-family-display)",
+      mono: "var(--font-family-mono)",
+    },
+    letterSpacing: {
+      tight: "-0.02em",
+      normal: "0em",
+      eyebrow: "0.18em",
+    },
+    borderRadius: {
+      none: "0",
+      DEFAULT: "var(--radius-small)",
+      sm: "var(--radius-small)",
+      lg: "var(--radius-base)",
+      "2xl": "var(--radius-large)",
+      full: "9999px",
+    },
     extend: {
+      spacing: {
+        // 44px touch target, kept live-editable via the layout token.
+        11: "var(--layout-touch-target)",
+      },
       colors: {
         border: color("color-border-default"),
         input: color("color-input-default"),
@@ -59,6 +98,12 @@ export default {
         "lightbox-backdrop": completeColor("component-lightbox-backdrop"),
         "dot-red": color("color-accent-selected-work"),
         "dot-gold": color("color-accent-workshop"),
+        success: color("color-status-positive"),
+        "accent-violet": color("component-case-study-module-accent-violet"),
+        "accent-emerald": color("component-case-study-module-accent-emerald"),
+        "accent-slate": color("component-case-study-module-accent-slate"),
+        "timeline-award": completeColor("component-about-timeline-award-dot"),
+        "timeline-education": completeColor("component-about-timeline-education-dot"),
         sidebar: {
           DEFAULT: color("color-sidebar-background"),
           foreground: color("color-sidebar-foreground"),
@@ -70,10 +115,10 @@ export default {
           ring: color("color-sidebar-ring"),
         },
       },
-      borderRadius: {
-        lg: "var(--radius-base)",
-        md: "calc(var(--radius-base) - 2px)",
-        sm: "var(--radius-small)",
+      maxWidth: {
+        content: "var(--layout-content)",
+        page: "var(--layout-page)",
+        reading: "var(--layout-reading)",
       },
       keyframes: {
         "accordion-down": {

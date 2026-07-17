@@ -67,14 +67,14 @@ export function AdminAuthoringDialog({
         role="dialog"
         aria-modal="true"
         aria-label="Admin token authoring"
-        className="mx-auto min-h-[calc(100vh-2rem)] w-full max-w-[1400px] rounded-lg border border-border bg-background p-5 shadow-2xl sm:min-h-[calc(100vh-4rem)] sm:p-8"
+        className="mx-auto min-h-[calc(100vh-2rem)] w-full max-w-page rounded-lg border border-border bg-background p-5 shadow-2xl sm:min-h-[calc(100vh-4rem)] sm:p-8"
       >
         <header className="mb-8 flex items-start justify-between gap-6 border-b border-border/50 pb-6">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.22em] text-foreground/44 text-body">
+            <p className="text-label uppercase tracking-eyebrow text-foreground/55">
               Admin · unlisted authoring
             </p>
-            <h2 className="mt-3 text-3xl font-light tracking-[-0.025em] text-foreground text-display sm:text-4xl">
+            <h2 className="mt-3 font-display text-title font-light text-foreground sm:text-heading">
               Token authoring
             </h2>
           </div>
@@ -83,7 +83,7 @@ export function AdminAuthoringDialog({
             type="button"
             onClick={onClose}
             aria-label="Close token authoring"
-            className="min-h-[44px] min-w-[44px] rounded-md border border-border text-xl text-foreground/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="min-h-11 min-w-11 rounded-lg border border-border text-xl text-foreground/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <span aria-hidden="true">×</span>
           </button>

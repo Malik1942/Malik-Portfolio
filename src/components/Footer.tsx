@@ -11,23 +11,23 @@ interface FooterProps {
 const Footer = ({ onMainProjectsClick, onAboutClick, onAdminClick, constrained = true, wide = false }: FooterProps) => {
   // wide: max-w + px- on the same element — mirrors PAGE_OUTER pattern so edges align exactly
   const outerClass = wide
-    ? "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto pt-10 md:pt-16 pb-12"
+    ? "px-6 md:px-10 lg:px-16 max-w-page mx-auto pt-10 md:pt-16 pb-12"
     : "px-6 md:px-16 lg:px-20 pt-10 md:pt-16 pb-12";
-  const innerClass = wide ? "" : constrained ? "max-w-[1200px] mx-auto" : "";
+  const innerClass = wide ? "" : constrained ? "max-w-content mx-auto" : "";
   return (
     <footer className={outerClass}>
       <div className={innerClass}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mb-16 md:mb-24">
           {/* Left — Explore */}
           <div>
-            <span className="text-[11px] uppercase tracking-[0.2em] text-foreground/44 text-body block mb-6">
+            <span className="text-label uppercase tracking-eyebrow text-foreground/55 block mb-6">
               Explore
             </span>
             <ul className="space-y-4">
               <li>
                 <a
                   href="#projects"
-                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500"
                   onClick={(event) => {
                     if (!onMainProjectsClick) return;
                     event.preventDefault();
@@ -46,7 +46,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, onAdminClick, constrained =
                       onAboutClick();
                     }
                   }}
-                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500 text-left"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500 text-left"
                 >
                   About
                 </button>
@@ -54,7 +54,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, onAdminClick, constrained =
               <li>
                 <a
                   href="/resume"
-                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500"
                 >
                   Resume
                 </a>
@@ -62,7 +62,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, onAdminClick, constrained =
               <li>
                 <a
                   href="/design-system"
-                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500"
                 >
                   Design System
                 </a>
@@ -72,14 +72,14 @@ const Footer = ({ onMainProjectsClick, onAboutClick, onAdminClick, constrained =
 
           {/* Right — Social */}
           <div>
-            <span className="text-[11px] uppercase tracking-[0.2em] text-foreground/44 text-body block mb-6">
+            <span className="text-label uppercase tracking-eyebrow text-foreground/55 block mb-6">
               Social
             </span>
             <ul className="space-y-4">
               <li>
                 <a
                   href="mailto:malikzhang19@gmail.com"
-                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500"
                 >
                   Email
                 </a>
@@ -89,7 +89,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, onAdminClick, constrained =
                   href="https://www.linkedin.com/in/malik-zhang"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500"
                 >
                   LinkedIn
                 </a>
@@ -99,7 +99,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, onAdminClick, constrained =
                   href="https://www.instagram.com/malikz1942?igsh=eHN4bjkzamtpcGFi&utm_source=qr"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="nav-link text-foreground/72 hover:text-foreground text-sm text-body transition-colors duration-500"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500"
                 >
                   Instagram
                 </a>
@@ -110,7 +110,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, onAdminClick, constrained =
 
         {/* Bottom row */}
         <div className="flex items-center justify-between gap-4 border-t border-border pt-8">
-          <span className="text-xs text-foreground/44 text-body">
+          <span className="text-xs text-foreground/55">
             &copy; 2026 Malik Zhang
           </span>
           <a
@@ -120,7 +120,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, onAdminClick, constrained =
               event.preventDefault();
               onAdminClick();
             }}
-            className="nav-link min-h-[44px] inline-flex items-center text-xs text-foreground/35 transition-colors duration-500 hover:text-foreground/65 text-body focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="nav-link min-h-11 inline-flex items-center text-xs text-foreground/55 transition-colors duration-500 hover:text-foreground/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             Admin
           </a>

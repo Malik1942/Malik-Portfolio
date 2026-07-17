@@ -85,7 +85,7 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
     >
       {/* Default label */}
       <motion.span
-        className="text-[11px] text-body uppercase tracking-[0.25em] text-foreground/69 whitespace-nowrap absolute pointer-events-none"
+        className="text-label uppercase tracking-eyebrow text-foreground/72 whitespace-nowrap absolute pointer-events-none"
         animate={{
           opacity: expanded ? 0 : 1,
           scale: expanded ? 0.94 : 1,
@@ -101,7 +101,7 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
         {data.lines.map((line, i) => (
           <motion.span
             key={line}
-            className="text-[14px] text-body text-foreground/90 font-light tracking-wide whitespace-nowrap"
+            className="text-sm text-foreground font-light whitespace-nowrap"
             initial={false}
             animate={{
               opacity: expanded ? 0.9 : 0,
@@ -136,21 +136,6 @@ const Portrait = ({ className }: { className: string }) => (
   </div>
 );
 
-// Mobile-only: a cluster shown as a static label + its lines, stacked in normal
-// flow (the desktop version is an absolutely-positioned, tap-to-expand label).
-const MobileClusterBlock = ({ data }: { data: ClusterTextData }) => (
-  <div className="flex flex-col items-center gap-2.5">
-    <span className="text-[11px] text-body uppercase tracking-[0.25em] text-foreground/60">{data.label}</span>
-    <div className="flex flex-col gap-1">
-      {data.lines.map((line) => (
-        <span key={line} className="text-[13px] text-body text-foreground/85 font-light tracking-wide leading-snug">
-          {line}
-        </span>
-      ))}
-    </div>
-  </div>
-);
-
 // ── About Overlay ──
 interface AboutOverlayProps {
   isVisible: boolean;
@@ -169,7 +154,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
         <motion.button
           onClick={onBack}
           aria-label="Back to home"
-          className="group absolute top-24 md:top-28 left-8 md:left-16 lg:left-24 flex items-center gap-2 min-h-[44px] px-1 text-sm text-body text-foreground/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded transition-colors duration-200 z-40"
+          className="group absolute top-24 md:top-28 left-8 md:left-16 lg:left-24 flex items-center gap-2 min-h-11 px-1 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200 z-40"
           initial={{ opacity: 0 }}
           animate={{ opacity: isVisible ? 1 : 0 }}
           transition={{ duration: 0.5, delay: isVisible ? 0.7 : 0 }}
@@ -182,16 +167,17 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
       )}
 
       <motion.div
-        className="relative md:absolute md:inset-0 z-20"
+        className="absolute inset-0 z-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: isVisible ? 1 : 0 }}
         transition={{ duration: 0.8, delay: isVisible ? 0.6 : 0 }}
         style={{ pointerEvents: isVisible ? "auto" : "none" }}
       >
-        {/* ── Desktop / tablet (md+): the original absolutely-composed layout ──
+        {/* ── All sizes: the absolutely-composed constellation layout ──
             Identity core centered, cluster labels at their constellation
-            coordinates, scroll indicator pinned to the bottom. Unchanged. */}
-        <div className="hidden md:block">
+            coordinates (locked to the DotGrid particle clusters), scroll
+            indicator pinned to the bottom. On touch, labels expand on tap. */}
+        <div>
         {/* Identity Core — clickable to return to homepage */}
         {isVisible && (
           <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
@@ -199,35 +185,26 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
               type="button"
               aria-label="Return to homepage"
               onClick={onBack}
-              className="flex flex-col-reverse sm:flex-row items-center gap-5 sm:gap-6 md:gap-8 px-6 pointer-events-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30 rounded-xl"
+              className="flex flex-col-reverse sm:flex-row items-center gap-5 sm:gap-6 md:gap-8 px-6 pointer-events-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30 rounded-2xl"
               whileHover={{ scale: 1.012, opacity: 0.88 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
             >
             <div className="flex flex-col items-center sm:items-end text-center sm:text-right max-w-[380px]">
               <motion.h2
-                className="text-[20px] sm:text-[26px] md:text-[30px] text-display text-foreground font-normal leading-[1.5] tracking-wide"
+                className="font-display text-xl sm:text-title text-foreground font-normal leading-snug tracking-tight"
                 initial={{ opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.2, delay: 1.0, ease: "easeOut" }}
               >
                 <span className="block">
                   I start with the real{" "}
-                  <span className="text-[1.35em] font-semibold text-foreground tracking-tight">PROBLEM</span>
+                  <span className="text-[1.35em] font-semibold text-foreground">PROBLEM</span>
                 </span>
                 <span className="block">
                   and build the answer{" "}
-                  <span className="text-[1.35em] font-semibold text-foreground tracking-tight">END TO END</span>
+                  <span className="text-[1.35em] font-semibold text-foreground">END TO END</span>
                 </span>
               </motion.h2>
-              <motion.p
-                className="text-[10px] text-body text-foreground/44 font-light uppercase tracking-[0.2em] leading-[1.6] mt-3"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 1.3, ease: "easeOut" }}
-              >
-                <span className="block">AI-native product designer.</span>
-                <span className="block">Problem to shipped product.</span>
-              </motion.p>
             </div>
 
             <motion.div
@@ -250,9 +227,9 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 2.8 }}
         >
-          <span className="text-[11px] text-body uppercase tracking-[0.3em] text-foreground/42">Scroll</span>
+          <span className="text-label uppercase tracking-eyebrow text-foreground/55">Scroll</span>
           <motion.span
-            className="text-[28px] text-body text-foreground leading-none select-none"
+            className="font-display text-title text-foreground leading-none select-none"
             style={{ display: "inline-block", transform: "scaleX(1.6)", marginTop: "-2px" }}
             animate={{ y: [0, 4, 0], opacity: [0.45, 0.70, 0.45] }}
             transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut" }}
@@ -269,57 +246,6 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
           ))}
         </div>
 
-        {/* ── Mobile (< md): a stable vertical flow ──
-            No absolute positioning for content, so nothing overlaps. The section
-            grows to fit this (see HeroSection), and the DotGrid particles stay as
-            an absolute background behind it. Order mirrors the spec: labels →
-            portrait → statement → descriptor → interests → scroll. */}
-        {isVisible && (
-          <div
-            className="md:hidden relative z-10 flex flex-col items-center text-center px-6 pt-40"
-            style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 3.5rem)" }}
-          >
-            <div className="grid grid-cols-2 gap-x-6 gap-y-8 w-full max-w-[420px] mb-12">
-              <MobileClusterBlock data={CLUSTER_TEXTS[0]} />
-              <MobileClusterBlock data={CLUSTER_TEXTS[2]} />
-            </div>
-
-            <Portrait className="w-40 h-52 mb-9" />
-
-            <h2 className="text-[24px] text-display text-foreground font-normal leading-[1.42] tracking-wide max-w-[340px]">
-              <span className="block">
-                I start with the real{" "}
-                <span className="text-[1.3em] font-semibold text-foreground tracking-tight">PROBLEM</span>
-              </span>
-              <span className="block">
-                and build the answer{" "}
-                <span className="text-[1.3em] font-semibold text-foreground tracking-tight">END TO END</span>
-              </span>
-            </h2>
-
-            <p className="mt-5 text-[10px] text-body text-foreground/44 font-light uppercase tracking-[0.2em] leading-[1.7]">
-              <span className="block">AI-native product designer.</span>
-              <span className="block">Problem to shipped product.</span>
-            </p>
-
-            <div className="grid grid-cols-2 gap-x-6 gap-y-8 w-full max-w-[420px] mt-14">
-              <MobileClusterBlock data={CLUSTER_TEXTS[1]} />
-              <MobileClusterBlock data={CLUSTER_TEXTS[3]} />
-            </div>
-
-            <div className="mt-14 flex flex-col items-center gap-0">
-              <span className="text-[11px] text-body uppercase tracking-[0.3em] text-foreground/42">Scroll</span>
-              <motion.span
-                className="text-[28px] text-body text-foreground leading-none select-none"
-                style={{ display: "inline-block", transform: "scaleX(1.6)", marginTop: "-2px" }}
-                animate={{ y: [0, 4, 0], opacity: [0.45, 0.7, 0.45] }}
-                transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut" }}
-              >
-                ⌄
-              </motion.span>
-            </div>
-          </div>
-        )}
       </motion.div>
     </>
   );

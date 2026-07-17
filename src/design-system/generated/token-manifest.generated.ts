@@ -11,7 +11,7 @@ export const tokenSourceCommit =
     : "development";
 export const tokenBundle: TokenBundle = {
   "schemaVersion": 1,
-  "tokenHash": "64a61240",
+  "tokenHash": "ab3ce607",
   "documents": {
     "primitive.tokens.json": {
       "color": {
@@ -158,6 +158,81 @@ export const tokenBundle: TokenBundle = {
             }
           },
           "$type": "color"
+        },
+        "violet": {
+          "400": {
+            "$description": "Soft violet used in the case-study module accent rotation.",
+            "$value": {
+              "colorSpace": "hsl",
+              "components": [
+                255.14,
+                91.74,
+                76.27
+              ],
+              "hex": "#a78bfa"
+            }
+          },
+          "$type": "color"
+        },
+        "emerald": {
+          "400": {
+            "$description": "Bright emerald used in the case-study module accent rotation.",
+            "$value": {
+              "colorSpace": "hsl",
+              "components": [
+                158.11,
+                64.37,
+                51.57
+              ],
+              "hex": "#34d399"
+            }
+          },
+          "$type": "color"
+        },
+        "slate": {
+          "400": {
+            "$description": "Cool slate used in the case-study module accent rotation.",
+            "$value": {
+              "colorSpace": "hsl",
+              "components": [
+                215,
+                20.22,
+                65.1
+              ],
+              "hex": "#94a3b8"
+            }
+          },
+          "$type": "color"
+        },
+        "amber": {
+          "400": {
+            "$description": "Warm amber used to mark award events on the about timeline.",
+            "$value": {
+              "colorSpace": "hsl",
+              "components": [
+                43.26,
+                96.41,
+                56.27
+              ],
+              "hex": "#fbbf24"
+            }
+          },
+          "$type": "color"
+        },
+        "blue": {
+          "300": {
+            "$description": "Soft blue used to mark education events on the about timeline.",
+            "$value": {
+              "colorSpace": "hsl",
+              "components": [
+                211.7,
+                96.36,
+                78.43
+              ],
+              "hex": "#93c5fd"
+            }
+          },
+          "$type": "color"
         }
       },
       "font": {
@@ -241,6 +316,13 @@ export const tokenBundle: TokenBundle = {
               "unit": "px"
             }
           },
+          "title": {
+            "$description": "Title size used for module and section titles.",
+            "$value": {
+              "value": 28,
+              "unit": "px"
+            }
+          },
           "heading": {
             "$description": "Heading size used for major case-study sections.",
             "$value": {
@@ -252,6 +334,20 @@ export const tokenBundle: TokenBundle = {
             "$description": "Display size used for the largest case-study headings.",
             "$value": {
               "value": 56,
+              "unit": "px"
+            }
+          },
+          "heroMin": {
+            "$description": "Lower bound of the fluid hero heading size.",
+            "$value": {
+              "value": 44,
+              "unit": "px"
+            }
+          },
+          "heroMax": {
+            "$description": "Upper bound of the fluid hero heading size.",
+            "$value": {
+              "value": 88,
               "unit": "px"
             }
           }
@@ -526,6 +622,13 @@ export const tokenBundle: TokenBundle = {
             "$value": "{color.gold.500}"
           }
         },
+        "status": {
+          "$type": "color",
+          "positive": {
+            "$description": "Positive status role for success, strengths, and confirmations.",
+            "$value": "{color.emerald.400}"
+          }
+        },
         "sidebar": {
           "$type": "color",
           "background": {
@@ -682,6 +785,21 @@ export const tokenBundle: TokenBundle = {
               "alpha": 0.05,
               "hex": "#ffffff"
             }
+          },
+          "accentViolet": {
+            "$type": "color",
+            "$description": "Violet step of the module accent rotation used to differentiate grid categories.",
+            "$value": "{color.violet.400}"
+          },
+          "accentEmerald": {
+            "$type": "color",
+            "$description": "Emerald step of the module accent rotation used to differentiate grid categories.",
+            "$value": "{color.emerald.400}"
+          },
+          "accentSlate": {
+            "$type": "color",
+            "$description": "Slate step of the module accent rotation used to differentiate grid categories.",
+            "$value": "{color.slate.400}"
           }
         },
         "projectSection": {
@@ -713,6 +831,36 @@ export const tokenBundle: TokenBundle = {
               ],
               "alpha": 0.9,
               "hex": "#000000"
+            }
+          }
+        },
+        "aboutTimeline": {
+          "awardDot": {
+            "$type": "color",
+            "$description": "Amber marker identifying award events on the about timeline.",
+            "$value": {
+              "colorSpace": "hsl",
+              "components": [
+                43.26,
+                96.41,
+                56.27
+              ],
+              "alpha": 0.4,
+              "hex": "#fbbf24"
+            }
+          },
+          "educationDot": {
+            "$type": "color",
+            "$description": "Blue marker identifying education events on the about timeline.",
+            "$value": {
+              "colorSpace": "hsl",
+              "components": [
+                211.7,
+                96.36,
+                78.43
+              ],
+              "alpha": 0.3,
+              "hex": "#93c5fd"
             }
           }
         }
@@ -801,6 +949,33 @@ export const tokenBundle: TokenBundle = {
       "dependents": []
     },
     {
+      "path": "color.amber.400",
+      "sourceFile": "primitive.tokens.json",
+      "type": "color",
+      "value": {
+        "colorSpace": "hsl",
+        "components": [
+          43.26,
+          96.41,
+          56.27
+        ],
+        "hex": "#fbbf24"
+      },
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          43.26,
+          96.41,
+          56.27
+        ],
+        "hex": "#fbbf24"
+      },
+      "description": "Warm amber used to mark award events on the about timeline.",
+      "cssVariable": "--color-amber-400",
+      "cssValue": "43.26 96.41% 56.27%",
+      "dependents": []
+    },
+    {
       "path": "color.background.canvas",
       "sourceFile": "semantic.tokens.json",
       "type": "color",
@@ -818,6 +993,33 @@ export const tokenBundle: TokenBundle = {
       "cssVariable": "--color-background-canvas",
       "cssValue": "0 0% 4%",
       "aliasOf": "color.neutral.950",
+      "dependents": []
+    },
+    {
+      "path": "color.blue.300",
+      "sourceFile": "primitive.tokens.json",
+      "type": "color",
+      "value": {
+        "colorSpace": "hsl",
+        "components": [
+          211.7,
+          96.36,
+          78.43
+        ],
+        "hex": "#93c5fd"
+      },
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          211.7,
+          96.36,
+          78.43
+        ],
+        "hex": "#93c5fd"
+      },
+      "description": "Soft blue used to mark education events on the about timeline.",
+      "cssVariable": "--color-blue-300",
+      "cssValue": "211.7 96.36% 78.43%",
       "dependents": []
     },
     {
@@ -839,6 +1041,36 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "0 0% 14%",
       "aliasOf": "color.neutral.820",
       "dependents": []
+    },
+    {
+      "path": "color.emerald.400",
+      "sourceFile": "primitive.tokens.json",
+      "type": "color",
+      "value": {
+        "colorSpace": "hsl",
+        "components": [
+          158.11,
+          64.37,
+          51.57
+        ],
+        "hex": "#34d399"
+      },
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          158.11,
+          64.37,
+          51.57
+        ],
+        "hex": "#34d399"
+      },
+      "description": "Bright emerald used in the case-study module accent rotation.",
+      "cssVariable": "--color-emerald-400",
+      "cssValue": "158.11 64.37% 51.57%",
+      "dependents": [
+        "color.status.positive",
+        "component.caseStudyModule.accentEmerald"
+      ]
     },
     {
       "path": "color.focus.ring",
@@ -1310,6 +1542,55 @@ export const tokenBundle: TokenBundle = {
       "dependents": []
     },
     {
+      "path": "color.slate.400",
+      "sourceFile": "primitive.tokens.json",
+      "type": "color",
+      "value": {
+        "colorSpace": "hsl",
+        "components": [
+          215,
+          20.22,
+          65.1
+        ],
+        "hex": "#94a3b8"
+      },
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          215,
+          20.22,
+          65.1
+        ],
+        "hex": "#94a3b8"
+      },
+      "description": "Cool slate used in the case-study module accent rotation.",
+      "cssVariable": "--color-slate-400",
+      "cssValue": "215 20.22% 65.1%",
+      "dependents": [
+        "component.caseStudyModule.accentSlate"
+      ]
+    },
+    {
+      "path": "color.status.positive",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.emerald.400}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          158.11,
+          64.37,
+          51.57
+        ],
+        "hex": "#34d399"
+      },
+      "description": "Positive status role for success, strengths, and confirmations.",
+      "cssVariable": "--color-status-positive",
+      "cssValue": "158.11 64.37% 51.57%",
+      "aliasOf": "color.emerald.400",
+      "dependents": []
+    },
+    {
       "path": "color.surface.accent",
       "sourceFile": "semantic.tokens.json",
       "type": "color",
@@ -1490,6 +1771,35 @@ export const tokenBundle: TokenBundle = {
       "dependents": []
     },
     {
+      "path": "color.violet.400",
+      "sourceFile": "primitive.tokens.json",
+      "type": "color",
+      "value": {
+        "colorSpace": "hsl",
+        "components": [
+          255.14,
+          91.74,
+          76.27
+        ],
+        "hex": "#a78bfa"
+      },
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          255.14,
+          91.74,
+          76.27
+        ],
+        "hex": "#a78bfa"
+      },
+      "description": "Soft violet used in the case-study module accent rotation.",
+      "cssVariable": "--color-violet-400",
+      "cssValue": "255.14 91.74% 76.27%",
+      "dependents": [
+        "component.caseStudyModule.accentViolet"
+      ]
+    },
+    {
       "path": "color.warm.050",
       "sourceFile": "primitive.tokens.json",
       "type": "color",
@@ -1552,6 +1862,124 @@ export const tokenBundle: TokenBundle = {
         "color.sidebar.ring",
         "color.text.primary"
       ]
+    },
+    {
+      "path": "component.aboutTimeline.awardDot",
+      "sourceFile": "component.tokens.json",
+      "type": "color",
+      "value": {
+        "colorSpace": "hsl",
+        "components": [
+          43.26,
+          96.41,
+          56.27
+        ],
+        "alpha": 0.4,
+        "hex": "#fbbf24"
+      },
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          43.26,
+          96.41,
+          56.27
+        ],
+        "alpha": 0.4,
+        "hex": "#fbbf24"
+      },
+      "description": "Amber marker identifying award events on the about timeline.",
+      "cssVariable": "--component-about-timeline-award-dot",
+      "cssValue": "43.26 96.41% 56.27% / 0.4",
+      "dependents": []
+    },
+    {
+      "path": "component.aboutTimeline.educationDot",
+      "sourceFile": "component.tokens.json",
+      "type": "color",
+      "value": {
+        "colorSpace": "hsl",
+        "components": [
+          211.7,
+          96.36,
+          78.43
+        ],
+        "alpha": 0.3,
+        "hex": "#93c5fd"
+      },
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          211.7,
+          96.36,
+          78.43
+        ],
+        "alpha": 0.3,
+        "hex": "#93c5fd"
+      },
+      "description": "Blue marker identifying education events on the about timeline.",
+      "cssVariable": "--component-about-timeline-education-dot",
+      "cssValue": "211.7 96.36% 78.43% / 0.3",
+      "dependents": []
+    },
+    {
+      "path": "component.caseStudyModule.accentEmerald",
+      "sourceFile": "component.tokens.json",
+      "type": "color",
+      "value": "{color.emerald.400}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          158.11,
+          64.37,
+          51.57
+        ],
+        "hex": "#34d399"
+      },
+      "description": "Emerald step of the module accent rotation used to differentiate grid categories.",
+      "cssVariable": "--component-case-study-module-accent-emerald",
+      "cssValue": "158.11 64.37% 51.57%",
+      "aliasOf": "color.emerald.400",
+      "dependents": []
+    },
+    {
+      "path": "component.caseStudyModule.accentSlate",
+      "sourceFile": "component.tokens.json",
+      "type": "color",
+      "value": "{color.slate.400}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          215,
+          20.22,
+          65.1
+        ],
+        "hex": "#94a3b8"
+      },
+      "description": "Slate step of the module accent rotation used to differentiate grid categories.",
+      "cssVariable": "--component-case-study-module-accent-slate",
+      "cssValue": "215 20.22% 65.1%",
+      "aliasOf": "color.slate.400",
+      "dependents": []
+    },
+    {
+      "path": "component.caseStudyModule.accentViolet",
+      "sourceFile": "component.tokens.json",
+      "type": "color",
+      "value": "{color.violet.400}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          255.14,
+          91.74,
+          76.27
+        ],
+        "hex": "#a78bfa"
+      },
+      "description": "Violet step of the module accent rotation used to differentiate grid categories.",
+      "cssVariable": "--component-case-study-module-accent-violet",
+      "cssValue": "255.14 91.74% 76.27%",
+      "aliasOf": "color.violet.400",
+      "dependents": []
     },
     {
       "path": "component.caseStudyModule.border",
@@ -2104,6 +2532,40 @@ export const tokenBundle: TokenBundle = {
       "dependents": []
     },
     {
+      "path": "font.size.heroMax",
+      "sourceFile": "primitive.tokens.json",
+      "type": "dimension",
+      "value": {
+        "value": 88,
+        "unit": "px"
+      },
+      "resolvedValue": {
+        "value": 88,
+        "unit": "px"
+      },
+      "description": "Upper bound of the fluid hero heading size.",
+      "cssVariable": "--font-size-hero-max",
+      "cssValue": "88px",
+      "dependents": []
+    },
+    {
+      "path": "font.size.heroMin",
+      "sourceFile": "primitive.tokens.json",
+      "type": "dimension",
+      "value": {
+        "value": 44,
+        "unit": "px"
+      },
+      "resolvedValue": {
+        "value": 44,
+        "unit": "px"
+      },
+      "description": "Lower bound of the fluid hero heading size.",
+      "cssVariable": "--font-size-hero-min",
+      "cssValue": "44px",
+      "dependents": []
+    },
+    {
       "path": "font.size.label",
       "sourceFile": "primitive.tokens.json",
       "type": "dimension",
@@ -2118,6 +2580,23 @@ export const tokenBundle: TokenBundle = {
       "description": "Compact 11-pixel size used by navigation labels and eyebrows.",
       "cssVariable": "--font-size-label",
       "cssValue": "11px",
+      "dependents": []
+    },
+    {
+      "path": "font.size.title",
+      "sourceFile": "primitive.tokens.json",
+      "type": "dimension",
+      "value": {
+        "value": 28,
+        "unit": "px"
+      },
+      "resolvedValue": {
+        "value": 28,
+        "unit": "px"
+      },
+      "description": "Title size used for module and section titles.",
+      "cssVariable": "--font-size-title",
+      "cssValue": "28px",
       "dependents": []
     },
     {

@@ -99,6 +99,61 @@
           "hex": "#c2a170"
         }
       }
+    },
+    "violet": {
+      "$type": "color",
+      "400": {
+        "$description": "Soft violet used in the case-study module accent rotation.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [255.14, 91.74, 76.27],
+          "hex": "#a78bfa"
+        }
+      }
+    },
+    "emerald": {
+      "$type": "color",
+      "400": {
+        "$description": "Bright emerald used in the case-study module accent rotation.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [158.11, 64.37, 51.57],
+          "hex": "#34d399"
+        }
+      }
+    },
+    "slate": {
+      "$type": "color",
+      "400": {
+        "$description": "Cool slate used in the case-study module accent rotation.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [215.0, 20.22, 65.1],
+          "hex": "#94a3b8"
+        }
+      }
+    },
+    "amber": {
+      "$type": "color",
+      "400": {
+        "$description": "Warm amber used to mark award events on the about timeline.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [43.26, 96.41, 56.27],
+          "hex": "#fbbf24"
+        }
+      }
+    },
+    "blue": {
+      "$type": "color",
+      "300": {
+        "$description": "Soft blue used to mark education events on the about timeline.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [211.7, 96.36, 78.43],
+          "hex": "#93c5fd"
+        }
+      }
     }
   },
   "font": {
@@ -158,6 +213,10 @@
         "$description": "Large body size used for lead and editorial copy.",
         "$value": { "value": 20, "unit": "px" }
       },
+      "title": {
+        "$description": "Title size used for module and section titles.",
+        "$value": { "value": 28, "unit": "px" }
+      },
       "heading": {
         "$description": "Heading size used for major case-study sections.",
         "$value": { "value": 40, "unit": "px" }
@@ -165,6 +224,14 @@
       "display": {
         "$description": "Display size used for the largest case-study headings.",
         "$value": { "value": 56, "unit": "px" }
+      },
+      "heroMin": {
+        "$description": "Lower bound of the fluid hero heading size.",
+        "$value": { "value": 44, "unit": "px" }
+      },
+      "heroMax": {
+        "$description": "Upper bound of the fluid hero heading size.",
+        "$value": { "value": 88, "unit": "px" }
       }
     }
   },

@@ -25,9 +25,9 @@ const findings = [
 ];
 
 const accentColor = {
-  violet: { icon: "text-violet-400", num: "text-violet-400/60" },
-  emerald: { icon: "text-emerald-400", num: "text-emerald-400/60" },
-  slate: { icon: "text-slate-400", num: "text-slate-400/50" },
+  violet: { icon: "text-accent-violet", num: "text-accent-violet/60" },
+  emerald: { icon: "text-accent-emerald", num: "text-accent-emerald/60" },
+  slate: { icon: "text-accent-slate", num: "text-accent-slate/50" },
 };
 
 export function AuraTestingFindings() {
@@ -41,17 +41,17 @@ export function AuraTestingFindings() {
           return (
             <div key={finding.num} className="flex flex-col gap-5 px-6 py-7 md:px-7 md:py-8">
               <div className="flex items-center justify-between">
-                <span className={`text-[12px] font-mono tabular-nums ${accent.num}`}>
+                <span className={`text-xs font-mono tabular-nums ${accent.num}`}>
                   {finding.num}
                 </span>
                 <Icon aria-hidden="true" className={`w-4 h-4 ${accent.icon}`} strokeWidth={1.4} />
               </div>
 
               <div className="flex flex-col gap-2.5">
-                <p className="text-[16px] md:text-[20px] font-medium text-white/95 leading-[24px] md:leading-[28px] tracking-[-0.01em]">
+                <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">
                   {finding.title}
                 </p>
-                <p className="text-[14px] md:text-[16px] font-light text-white/72 leading-[22px] md:leading-[26px]">
+                <p className="text-sm md:text-base font-light text-foreground/72 leading-relaxed">
                   {finding.desc}
                 </p>
               </div>

@@ -43,13 +43,15 @@ describe("public workbench utilities", () => {
     expect(screen.queryByTestId("diff-color.text.primary")).not.toBeInTheDocument();
   });
 
-  it("reports the four approved contrast pairs with WCAG ratios and advisory thresholds", () => {
+  it("reports the approved contrast pairs, including the text-emphasis ladder, with WCAG ratios", () => {
     renderWorkbench(<>
       <OverrideButton path="color.background.canvas" value={{ colorSpace: "hsl", components: [40, 6, 90] } as never} />
       <ContrastChecks />
     </>);
-    expect(screen.getAllByText(/^\d+\.\d{2}:1$/)).toHaveLength(4);
+    expect(screen.getAllByText(/^\d+\.\d{2}:1$/)).toHaveLength(7);
     expect(screen.getByText("Primary text on canvas").closest("li")).toHaveTextContent("Pass AA");
+    // /55 is the dimmest approved readable-text tier; it must clear AA on the canvas.
+    expect(screen.getByText("Muted tier (55%) on canvas").closest("li")).toHaveTextContent("Pass AA");
 
     fireEvent.click(screen.getByRole("button", { name: "Apply override" }));
     expect(screen.getByText("Primary text on canvas").closest("li")).toHaveTextContent("Fail AA");

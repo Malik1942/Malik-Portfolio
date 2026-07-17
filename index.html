@@ -6,15 +6,19 @@
     <link rel="icon" type="image/x-icon" href="/favicon.jpeg">
     <link rel="apple-touch-icon" href="/favicon.jpeg" />
     <!-- crossorigin on Fontshare needed for cross-origin font requests -->
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Keep these as render-blocking stylesheets: the loading screen covers the page
-         while they load, and document.fonts.ready (used by the loading screen AND DotGrid)
-         only sees fonts that are already in the stylesheet cascade — async loading would
-         cause fonts.ready to resolve before Space Grotesk is in the queue. -->
-    <!-- General Sans (display + body) -->
-    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700&display=swap" rel="stylesheet">
+    <!-- General Sans (display + body) is self-hosted via @font-face in src/index.css:
+         Fontshare's CDN serves an empty "restricted" stylesheet to localhost referers,
+         which silently swapped the whole site to Helvetica in local dev.
+         Preload the two weights the first paint uses so text renders in the real face
+         immediately; the rest arrive via the cascade. -->
+    <link rel="preload" href="/fonts/general-sans/GeneralSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/general-sans/GeneralSans-Light.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- Keep this render-blocking: the loading screen covers the page while it loads,
+         and document.fonts.ready (used by the loading screen AND DotGrid) only sees
+         fonts already in the stylesheet cascade — async loading would cause
+         fonts.ready to resolve before Space Grotesk is in the queue. -->
     <!-- JetBrains Mono (mono) + Space Grotesk (orb labels in DotGrid) + Inter (particle name cluster) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Malik Zhang – Product Designer | Seattle | UW MHCI+D</title>

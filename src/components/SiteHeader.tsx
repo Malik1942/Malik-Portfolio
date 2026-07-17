@@ -105,7 +105,7 @@ export function SiteHeader({
           </div>
 
           {/* Center — nav */}
-          <nav className="pointer-events-auto flex items-center gap-x-8 gap-y-2 text-[16px] text-foreground/72 text-body animate-fade-up delay-4 justify-self-center">
+          <nav className="pointer-events-auto flex items-center gap-x-8 gap-y-2 text-base text-foreground/72 animate-fade-up delay-4 justify-self-center">
             <a
               href={`${hrefBase}#projects`}
               className="nav-link hover:text-foreground transition-colors duration-500"
@@ -139,7 +139,7 @@ export function SiteHeader({
         {/* Mobile — single-row nav, no logo. A fixed 20px gap (not justify-between)
             keeps the spacing between links identical at every screen width; the
             centered group + 14px type still fits one line down to ~320px. */}
-        <nav className="pointer-events-auto flex flex-nowrap justify-center gap-x-5 whitespace-nowrap text-[14px] text-foreground/72 text-body animate-fade-up delay-4 md:hidden">
+        <nav className="pointer-events-auto flex flex-nowrap justify-center gap-x-5 whitespace-nowrap text-sm text-foreground/72 animate-fade-up delay-4 md:hidden">
           <a href={`${hrefBase}#projects`} className="nav-link hover:text-foreground transition-colors duration-500" onClick={handle(onSelectedWork)}>Selected Work</a>
           <a href={`${hrefBase}#ai-projects`} className="nav-link hover:text-foreground transition-colors duration-500" onClick={handle(onWorkshop)}>{WORKSHOP_SECTION_LABEL}</a>
           <a href={`${hrefBase}#about`} className="nav-link hover:text-foreground transition-colors duration-500" onClick={handle(onAbout)}>About</a>

@@ -45,11 +45,13 @@ describe("DesignSystemShell", () => {
     expect(screen.getAllByRole("navigation", { name: "Design system sections" })).toHaveLength(1);
 
     const foundations = screen.getByRole("button", { name: "Foundations" });
-    expect(screen.getByRole("button", { name: "Start" })).toHaveAttribute("aria-expanded", "true");
-    expect(foundations).toHaveAttribute("aria-expanded", "false");
-    fireEvent.click(foundations);
+    const components = screen.getByRole("button", { name: "Components" });
+    // Overview lives in Foundations, so that group is open on initial render.
     expect(foundations).toHaveAttribute("aria-expanded", "true");
-    expect(screen.getByRole("link", { name: "Color" })).toBeInTheDocument();
+    expect(components).toHaveAttribute("aria-expanded", "false");
+    fireEvent.click(components);
+    expect(components).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("link", { name: "Image lightbox" })).toBeInTheDocument();
   });
 
   it("keeps rail entries as real hash links and changes the location hash", async () => {
@@ -77,12 +79,13 @@ describe("DesignSystemShell", () => {
       window.dispatchEvent(new HashChangeEvent("hashchange"));
     });
 
-    expect(screen.getByRole("heading", { level: 1, name: "Typography" })).toHaveFocus();
+    expect(screen.getByRole("heading", { level: 1, name: "Type" })).toHaveFocus();
   });
 
   it("opens the active group and exposes real previous and next hash links", () => {
     renderShell();
-    expect(screen.getByRole("button", { name: "Foundations" })).toHaveAttribute(
+    // Components is collapsed until one of its sections becomes active.
+    expect(screen.getByRole("button", { name: "Components" })).toHaveAttribute(
       "aria-expanded",
       "false",
     );
@@ -96,13 +99,13 @@ describe("DesignSystemShell", () => {
       "aria-expanded",
       "true",
     );
-    expect(screen.getAllByRole("link", { name: /Previous: Overview/ })[0]).toHaveAttribute(
-      "href",
-      "#overview",
-    );
-    expect(screen.getAllByRole("link", { name: /Next: Typography/ })[0]).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /Previous: Type/ })[0]).toHaveAttribute(
       "href",
       "#foundation-typography",
+    );
+    expect(screen.getAllByRole("link", { name: /Next: Tokens/ })[0]).toHaveAttribute(
+      "href",
+      "#foundation-tokens",
     );
   });
 

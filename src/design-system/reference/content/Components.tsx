@@ -102,8 +102,8 @@ function Guidance({ entry }: { entry: ReferenceEntry }) {
         ["Accessibility", entry.accessibility],
       ].map(([title, copy]) => (
         <section key={title} className="bg-background p-5 sm:p-6">
-          <h2 className="text-sm font-medium text-foreground text-body">{title}</h2>
-          <p className="mt-2 text-sm leading-relaxed text-foreground/62 text-body">{copy}</p>
+          <h2 className="text-sm font-medium text-foreground">{title}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-foreground/72">{copy}</p>
         </section>
       ))}
     </div>
@@ -123,12 +123,12 @@ export function ComponentContent({ sectionId }: { sectionId: string }) {
       />
       <Guidance entry={entry} />
       <section aria-labelledby={`${sectionId}-tokens`}>
-        <h2 id={`${sectionId}-tokens`} className="text-sm font-medium text-foreground text-body">Token dependencies</h2>
+        <h2 id={`${sectionId}-tokens`} className="text-sm font-medium text-foreground">Token dependencies</h2>
         <ul className="mt-3 flex flex-wrap gap-2">
-          {entry.tokens.map((token) => <li key={token}><code className="block rounded-sm border border-border/50 px-2.5 py-1.5 text-[11px] text-foreground/62 text-mono">{token}</code></li>)}
+          {entry.tokens.map((token) => <li key={token}><code className="block rounded-sm border border-border/50 px-2.5 py-1.5 text-label text-foreground/72 font-mono">{token}</code></li>)}
         </ul>
         {entry.tokenGap ? (
-          <p className="mt-3 max-w-[70ch] text-sm leading-relaxed text-foreground/55 text-body">
+          <p className="mt-3 max-w-[70ch] text-sm leading-relaxed text-foreground/55">
             <span className="font-medium text-foreground/72">Current wiring gap:</span> {entry.tokenGap}
           </p>
         ) : null}
