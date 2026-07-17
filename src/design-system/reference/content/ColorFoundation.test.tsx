@@ -35,6 +35,6 @@ describe("ColorFoundation", () => {
     const canvasRow = screen.getByTestId("color-role-color-background-canvas");
     expect(within(canvasRow).getByLabelText(/Canvas.*#0a0a0a/i)).toBeInTheDocument();
     expect(canvasRow).toHaveTextContent("#0a0a0a");
-    expect(canvasRow).toHaveTextContent("Default background for portfolio pages");
+    expect(canvasRow).toHaveAttribute("title", expect.stringContaining("Default background for portfolio pages"));
   });
 });

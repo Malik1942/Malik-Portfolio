@@ -12,7 +12,7 @@ export function renderReferenceSection(section: DesignSystemSection) {
   if (section.id.startsWith("component-")) return <ComponentContent sectionId={section.id} />;
   if (section.id.startsWith("pattern-")) return <PatternContent sectionId={section.id} />;
   return (
-    <p className="max-w-[720px] text-[17px] leading-[1.7] text-foreground/72 text-body md:text-[19px]">
+    <p className="max-w-reading text-base leading-relaxed text-foreground/72 md:text-xl">
       {section.description}
     </p>
   );

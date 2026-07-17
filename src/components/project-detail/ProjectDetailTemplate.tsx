@@ -32,7 +32,7 @@ import { ProjectMediaFrame } from "./ProjectMediaFrame";
 import { ProjectMetadataSummary } from "./ProjectMetadataSummary";
 
 // Shared page container — all major sections align to this grid
-const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto";
+const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-page mx-auto";
 
 // px the mobile section guide sits below the top while the site header is shown,
 // clearing the header's visible bar (pt-7 + nav row + mt-5 divider ≈ 69px) with a
@@ -45,7 +45,7 @@ const sectionDomId = (id: string) => `project-section-${id}`;
 function SectionIntroBlock({ block }: { block: IntroBlock }) {
   return (
     <div className="space-y-10">
-      <p className="text-[17px] md:text-[19px] font-normal leading-[1.68] text-foreground/82 text-body">
+      <p className="text-base md:text-xl font-normal leading-relaxed text-foreground/72">
         {block.openingParagraph}
       </p>
 
@@ -56,10 +56,10 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
               key={card.title}
               className="border border-border/50 bg-secondary/[0.08] rounded-sm px-5 py-5"
             >
-              <p className="text-[11px] uppercase tracking-[0.18em] text-foreground/60 text-body mb-2.5">
+              <p className="text-label uppercase tracking-eyebrow text-foreground/72 mb-2.5">
                 {card.title}
               </p>
-              <p className="text-[14px] font-normal leading-relaxed text-foreground/75 text-body">
+              <p className="text-sm font-normal leading-relaxed text-foreground/72">
                 {card.body}
               </p>
             </div>
@@ -74,10 +74,10 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
               key={card.label}
               className="border border-border/40 bg-transparent rounded-sm px-4 py-4"
             >
-              <p className="text-[10px] uppercase tracking-[0.2em] text-foreground/44 text-body mb-2">
+              <p className="text-label uppercase tracking-eyebrow text-foreground/55 mb-2">
                 {card.label}
               </p>
-              <p className="text-[14px] font-normal leading-snug text-foreground/80 text-body">
+              <p className="text-sm font-normal leading-snug text-foreground/72">
                 {card.value}
               </p>
             </div>
@@ -87,14 +87,14 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
 
       {block.whatIDid?.length ? (
         <div>
-          <p className="text-[11px] uppercase tracking-[0.22em] text-foreground/44 text-body mb-6">
+          <p className="text-label uppercase tracking-eyebrow text-foreground/55 mb-6">
             What I Did
           </p>
           <ul className="space-y-4">
             {block.whatIDid.map((item, i) => (
               <li key={i} className="flex items-start gap-4">
                 <span className="mt-[0.5em] w-1 h-1 rounded-full bg-foreground/30 flex-shrink-0" />
-                <span className="text-[17px] md:text-[19px] font-normal leading-[1.68] text-foreground/82 text-body">
+                <span className="text-base md:text-xl font-normal leading-relaxed text-foreground/72">
                   {item}
                 </span>
               </li>
@@ -113,7 +113,7 @@ function renderInline(text: string) {
     <>
       {parts.map((part, i) =>
         part.startsWith("**") && part.endsWith("**") ? (
-          <strong key={i} className="font-semibold text-foreground/[0.98]">
+          <strong key={i} className="font-semibold text-foreground">
             {part.slice(2, -2)}
           </strong>
         ) : (
@@ -161,7 +161,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
           return (
             <p
               key={i}
-              className={`${i === 0 ? "" : "mt-16 md:mt-20"} text-[12px] md:text-[20px] uppercase tracking-[0.08em] font-light leading-[24px] md:leading-[32px] text-foreground/85 text-mono mb-5 md:mb-6`}
+              className={`${i === 0 ? "" : "mt-16 md:mt-20"} text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono mb-5 md:mb-6`}
             >
               {para.slice(3)}
             </p>
@@ -191,12 +191,14 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
           : prevSubheading ? ""
           : bullet && prevBullet ? "mt-4"
           : "mt-7 md:mt-8";
+        // Editorial hierarchy: the lead paragraph reads at full strength while
+        // the remaining copy sits one emphasis step down (/85).
+        const emphasisClass =
+          leadFirst && i === 0 ? "text-foreground" : "text-foreground/85";
         return (
           <p
             key={i}
-            className={`${spacingClass} text-[16px] md:text-[20px] font-normal leading-[28px] md:leading-[36px] ${
-              leadFirst && i === 0 ? "text-foreground/90" : "text-foreground/85"
-            } text-body`}
+            className={`${spacingClass} text-base md:text-xl font-normal leading-relaxed ${emphasisClass}`}
           >
             {renderInline(para)}
           </p>
@@ -258,7 +260,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
           type="button"
           onClick={onBack}
           aria-label="Back to home"
-          className="group flex items-center gap-2 min-h-[44px] px-1 text-sm text-body text-foreground/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded transition-colors duration-200"
+          className="group flex items-center gap-2 min-h-11 px-1 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200"
         >
           <svg
             aria-hidden="true"
@@ -276,14 +278,14 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
 
       {/* 1 — Title + hook */}
       <header className={`${PAGE_OUTER} pt-8 md:pt-12`}>
-        <p className="text-foreground/44 text-[11px] text-body uppercase tracking-[0.2em] mb-5">
+        <p className="text-foreground/55 text-label uppercase tracking-eyebrow mb-5">
           {project.listSection}
         </p>
-        <h1 className="text-[2.8rem] md:text-[4.5rem] lg:text-[5.5rem] font-light text-foreground text-display tracking-[-0.03em] leading-[1.06]">
+        <h1 className="font-display text-hero font-light text-foreground">
           {project.title}
         </h1>
         {project.heroSummary ? (
-          <p className="mt-5 md:mt-8 text-lg md:text-xl font-light text-foreground/70 text-body max-w-[760px] leading-[1.6]">
+          <p className="mt-5 md:mt-8 text-xl font-light text-foreground/72 max-w-reading leading-relaxed">
             {project.heroSummary}
           </p>
         ) : null}
@@ -313,12 +315,12 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         <div className={`${PAGE_OUTER} ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-12"}`}>
           <div className="max-w-[900px]">
             {project.heroSubtitle ? (
-              <p className="text-base md:text-lg text-foreground/65 font-light leading-[1.65] text-body">
+              <p className="text-base md:text-xl text-foreground/72 font-light leading-relaxed">
                 {project.heroSubtitle}
               </p>
             ) : null}
             {project.description ? (
-              <p className={`${project.heroSubtitle ? "mt-5 md:mt-6" : ""} text-[17px] md:text-[19px] font-light leading-[1.68] text-foreground/72 text-body`}>
+              <p className={`${project.heroSubtitle ? "mt-5 md:mt-6" : ""} text-base md:text-xl font-light leading-relaxed text-foreground/72`}>
                 {project.description}
               </p>
             ) : null}
@@ -375,12 +377,15 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
 
         <div className="flex flex-col lg:flex-row lg:gap-20 xl:gap-24 lg:items-start">
 
-          {/* Desktop left nav */}
+          {/* Desktop left nav.
+             Type sizes/tracking here (10-11px, 0.16-0.25em) are an intentional
+             art-directed treatment kept off the canonical label/eyebrow scale —
+             the finer lettering is deliberate. Do not normalize to text-label. */}
           <nav
             className="hidden lg:block w-[200px] xl:w-[220px] flex-shrink-0 sticky top-28 self-start"
             aria-label="Section navigation"
           >
-            <p className="text-[10px] uppercase tracking-[0.25em] text-foreground/44 mb-6 text-body">
+            <p className="text-[10px] uppercase tracking-[0.25em] text-foreground/55 mb-6">
               On this page
             </p>
             <ul className="space-y-0.5">
@@ -412,7 +417,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
               >
                 {s.subtitle ? (
                   <>
-                    <h2 className="text-[40px] md:text-[56px] font-light text-foreground text-display tracking-[-0.02em] leading-[48px] md:leading-[64px] mb-10 md:mb-12">
+                    <h2 className="font-display text-heading md:text-display font-light text-foreground mb-10 md:mb-12">
                       {s.subtitle}
                     </h2>
                     <SectionBody text={s.body} leadFirst />
@@ -433,11 +438,11 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                       </div>
                     ) : null}
                     {s.headline ? (
-                      <p className="text-[11px] uppercase tracking-[0.22em] text-foreground/55 text-body mb-4 md:mb-5">
+                      <p className="text-label uppercase tracking-eyebrow text-foreground/55 mb-4 md:mb-5">
                         {s.label}
                       </p>
                     ) : null}
-                    <h2 className="text-[40px] md:text-[56px] font-light text-foreground text-display tracking-[-0.02em] leading-[48px] md:leading-[64px] mb-10 md:mb-12">
+                    <h2 className="font-display text-heading md:text-display font-light text-foreground mb-10 md:mb-12">
                       {s.headline ?? s.label}
                     </h2>
                     {s.introBlock ? (
@@ -475,7 +480,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
           type="button"
           onClick={onMainProjectsClick ?? onBack}
           aria-label="Back to all work"
-          className="group flex items-center gap-2 min-h-[44px] px-1 text-sm text-body text-foreground/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded transition-colors duration-200"
+          className="group flex items-center gap-2 min-h-11 px-1 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200"
         >
           <svg
             aria-hidden="true"

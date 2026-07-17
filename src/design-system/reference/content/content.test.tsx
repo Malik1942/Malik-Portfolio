@@ -14,9 +14,11 @@ describe("design-system reference content", () => {
     expect(typography.map((token) => token.path)).toContain("font.family.display");
     expect(typography.map((token) => token.path)).not.toContain("space.4");
 
-    const spacing = getFoundationTokens("foundation-spacing");
-    expect(spacing.some((token) => token.path.startsWith("space."))).toBe(true);
-    expect(spacing.some((token) => token.path.startsWith("layout."))).toBe(true);
+    const tokens = getFoundationTokens("foundation-tokens");
+    expect(tokens.some((token) => token.path.startsWith("space."))).toBe(true);
+    expect(tokens.some((token) => token.path.startsWith("layout."))).toBe(true);
+    expect(tokens.some((token) => token.path.startsWith("radius."))).toBe(true);
+    expect(tokens.some((token) => token.path.startsWith("duration."))).toBe(true);
   });
 
   it("documents the six curated-reference principles, exact token flow, and W3C reports", () => {
@@ -73,7 +75,7 @@ describe("design-system reference content", () => {
   });
 
   it("gives every component and pattern a live specimen before its guidance without authoring controls", () => {
-    const sections = DESIGN_SYSTEM_GROUPS.slice(2)
+    const sections = DESIGN_SYSTEM_GROUPS.slice(1)
       .flatMap((group) => group.sections)
       .filter((section) => section.id !== "component-lineup");
 

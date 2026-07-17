@@ -30,7 +30,7 @@ function TokenVisual({ token }: { token: TokenRecord }) {
 
   if (token.type === "fontFamily") {
     return (
-      <span {...common} className="block truncate text-2xl text-foreground" style={{ fontFamily: token.cssValue }}>
+      <span {...common} className="block truncate text-title text-foreground" style={{ fontFamily: token.cssValue }}>
         Aa
       </span>
     );
@@ -38,7 +38,7 @@ function TokenVisual({ token }: { token: TokenRecord }) {
 
   if (token.type === "fontWeight") {
     return (
-      <span {...common} className="block text-2xl text-foreground" style={{ fontWeight: token.cssValue }}>
+      <span {...common} className="block text-title text-foreground" style={{ fontWeight: token.cssValue }}>
         Aa
       </span>
     );
@@ -92,7 +92,7 @@ function TokenVisual({ token }: { token: TokenRecord }) {
   }
 
   return (
-    <span {...common} className="flex min-h-14 items-center text-2xl font-light tabular-nums text-foreground">
+    <span {...common} className="flex min-h-14 items-center text-title font-light tabular-nums text-foreground">
       {token.cssValue}
     </span>
   );
@@ -103,7 +103,7 @@ export function TokenTable({ title, tokens }: { title: string; tokens: readonly 
 
   return (
     <section aria-labelledby={headingId} className="space-y-5">
-      <h2 id={headingId} className="text-xl font-medium tracking-[-0.02em] text-foreground text-display md:text-2xl">
+      <h2 id={headingId} className="text-xl font-medium tracking-tight text-foreground md:text-title">
         {title}
       </h2>
       <div role="list" className="grid gap-3">
@@ -115,20 +115,20 @@ export function TokenTable({ title, tokens }: { title: string; tokens: readonly 
           >
             <div className="min-w-0">
               <TokenVisual token={token} />
-              <p className="mt-3 text-sm font-medium text-foreground text-body">{humanize(token.path)}</p>
+              <p className="mt-3 text-sm font-medium text-foreground">{humanize(token.path)}</p>
             </div>
             <div className="min-w-0 space-y-3">
-              <div className="grid gap-2 text-[11px] leading-relaxed text-mono md:grid-cols-2">
-                <code className="min-w-0 break-all text-foreground/78">{token.path}</code>
+              <div className="grid gap-2 text-label leading-relaxed font-mono md:grid-cols-2">
+                <code className="min-w-0 break-all text-foreground/72">{token.path}</code>
                 <code className="min-w-0 break-all text-foreground/55">{token.cssVariable}</code>
               </div>
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                <span className="text-sm text-foreground/88 text-mono">{token.cssValue}</span>
+                <span className="text-sm text-foreground font-mono">{token.cssValue}</span>
                 {token.aliasOf ? (
-                  <span className="break-all text-[11px] text-foreground/50 text-mono">Aliases {token.aliasOf}</span>
+                  <span className="break-all text-label text-foreground/55 font-mono">Aliases {token.aliasOf}</span>
                 ) : null}
               </div>
-              <p className="max-w-[62ch] text-sm leading-relaxed text-foreground/65 text-body">{token.description}</p>
+              <p className="max-w-[62ch] text-sm leading-relaxed text-foreground/72">{token.description}</p>
             </div>
           </article>
         ))}

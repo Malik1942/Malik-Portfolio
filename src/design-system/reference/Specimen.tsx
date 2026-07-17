@@ -23,8 +23,8 @@ export function Specimen({
       className="min-w-0 overflow-hidden rounded-lg border border-border/50 bg-card/25"
     >
       <div className="border-b border-border/40 px-5 py-4 sm:px-6">
-        <h2 id={labelId} className="text-sm font-medium text-foreground text-body">{label}</h2>
-        <p id={descriptionId} className="mt-1 max-w-[70ch] break-words text-sm leading-relaxed text-foreground/58 text-body">
+        <h2 id={labelId} className="text-sm font-medium text-foreground">{label}</h2>
+        <p id={descriptionId} className="mt-1 max-w-[70ch] break-words text-sm leading-relaxed text-foreground/55">
           {description}
         </p>
       </div>
