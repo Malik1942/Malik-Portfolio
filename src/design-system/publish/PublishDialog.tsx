@@ -208,19 +208,19 @@ export function PublishDialog({
         aria-modal="true"
         aria-labelledby="publish-dialog-title"
         aria-describedby="publish-dialog-description"
-        className="mx-auto w-full max-w-[720px] rounded-lg border border-border bg-popover p-5 shadow-2xl sm:p-8"
+        className="mx-auto w-full max-w-reading rounded-lg border border-border bg-popover p-5 shadow-2xl sm:p-8"
       >
         <div className="flex items-start justify-between gap-6">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.22em] text-foreground/44 text-body">Admin · publish only</p>
-            <h2 id="publish-dialog-title" className="mt-3 text-3xl font-light tracking-[-0.025em] text-foreground text-display sm:text-4xl">Review token publish</h2>
-            <p id="publish-dialog-description" className="mt-3 max-w-[560px] text-sm leading-relaxed text-foreground/60 text-body">Your token draft stays in this browser until this authenticated request opens a GitHub pull request.</p>
+            <p className="text-label uppercase tracking-eyebrow text-foreground/55">Admin · publish only</p>
+            <h2 id="publish-dialog-title" className="mt-3 font-display text-title font-light text-foreground sm:text-heading">Review token publish</h2>
+            <p id="publish-dialog-description" className="mt-3 max-w-[560px] text-sm leading-relaxed text-foreground/72">Your token draft stays in this browser until this authenticated request opens a GitHub pull request.</p>
           </div>
           <button
             type="button"
             onClick={closeDialog}
             aria-label="Close publish review"
-            className="min-h-[44px] min-w-[44px] rounded-md border border-border text-xl text-foreground/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="min-h-11 min-w-11 rounded-lg border border-border text-xl text-foreground/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <span aria-hidden="true">×</span>
           </button>
@@ -228,32 +228,32 @@ export function PublishDialog({
 
         {result ? (
           <div role="status" className="mt-8 rounded-lg border border-border bg-background p-5">
-            <p className="text-lg text-foreground text-body">Pull request #{result.pullRequestNumber} is ready.</p>
-            <p className="mt-2 text-sm text-foreground/60 text-body">{formatTokenCount(result.changedTokens.length)} on <code className="break-all">{result.branch}</code>.</p>
+            <p className="text-xl text-foreground">Pull request #{result.pullRequestNumber} is ready.</p>
+            <p className="mt-2 text-sm text-foreground/72">{formatTokenCount(result.changedTokens.length)} on <code className="break-all">{result.branch}</code>.</p>
             <div className="mt-5 flex flex-wrap gap-3">
               <a
                 ref={successLinkRef}
                 href={result.pullRequestUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-[44px] items-center rounded-md bg-foreground px-4 text-sm text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="inline-flex min-h-11 items-center rounded-lg bg-foreground px-4 text-sm text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Open pull request #{result.pullRequestNumber}
               </a>
-              <button type="button" onClick={closeDialog} className="min-h-[44px] rounded-md border border-border px-4 text-sm text-foreground/72">Dismiss</button>
+              <button type="button" onClick={closeDialog} className="min-h-11 rounded-lg border border-border px-4 text-sm text-foreground/72">Dismiss</button>
             </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-8 space-y-7">
             {!commitProvenanceValid ? (
-              <p role="alert" className="rounded-md border border-destructive/50 p-3 text-sm text-foreground/75 text-body">This build has no publishable Git commit provenance.</p>
+              <p role="alert" className="rounded-lg border border-destructive/50 p-3 text-sm text-foreground/72">This build has no publishable Git commit provenance.</p>
             ) : null}
             {commitProvenanceValid && !tokenProvenanceValid ? (
-              <p role="alert" className="rounded-md border border-destructive/50 p-3 text-sm text-foreground/75 text-body">This build has no publishable token-bundle provenance.</p>
+              <p role="alert" className="rounded-lg border border-destructive/50 p-3 text-sm text-foreground/72">This build has no publishable token-bundle provenance.</p>
             ) : null}
 
             <div className="grid gap-5 sm:grid-cols-2">
-              <label className="block text-sm text-foreground/72 text-body">
+              <label className="block text-sm text-foreground/72">
                 Pull request title
                 <input
                   aria-label="Pull request title"
@@ -261,11 +261,11 @@ export function PublishDialog({
                   onChange={(event) => setTitle(event.target.value)}
                   maxLength={122}
                   aria-describedby="publish-title-guidance"
-                  className="mt-2 min-h-[44px] w-full rounded-md border border-border bg-background px-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="mt-2 min-h-11 w-full rounded-lg border border-border bg-background px-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 />
-                <span id="publish-title-guidance" className="mt-1 block text-xs text-foreground/44">8–120 characters after trimming</span>
+                <span id="publish-title-guidance" className="mt-1 block text-xs text-foreground/55">8–120 characters after trimming</span>
               </label>
-              <label className="block text-sm text-foreground/72 text-body">
+              <label className="block text-sm text-foreground/72">
                 Publish password
                 <input
                   ref={passwordRef}
@@ -275,13 +275,13 @@ export function PublishDialog({
                   disabled={Boolean(error?.recoveryBranch)}
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
-                  className="mt-2 min-h-[44px] w-full rounded-md border border-border bg-background px-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="mt-2 min-h-11 w-full rounded-lg border border-border bg-background px-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 />
-                <span className="mt-1 block text-xs text-foreground/44">Held only for this request</span>
+                <span className="mt-1 block text-xs text-foreground/55">Held only for this request</span>
               </label>
             </div>
 
-            <label className="block text-sm text-foreground/72 text-body">
+            <label className="block text-sm text-foreground/72">
               Rationale
               <textarea
                 aria-label="Rationale"
@@ -290,29 +290,29 @@ export function PublishDialog({
                 maxLength={2002}
                 rows={4}
                 aria-describedby="publish-summary-guidance"
-                className="mt-2 w-full resize-y rounded-md border border-border bg-background p-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="mt-2 w-full resize-y rounded-lg border border-border bg-background p-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
               />
-              <span id="publish-summary-guidance" className="mt-1 block text-xs text-foreground/44">12–2000 characters after trimming</span>
+              <span id="publish-summary-guidance" className="mt-1 block text-xs text-foreground/55">12–2000 characters after trimming</span>
             </label>
 
             <section aria-labelledby="publish-diff-title">
               <div className="flex items-end justify-between gap-4">
                 <div>
-                  <h3 id="publish-diff-title" className="text-lg text-foreground text-body">Final token diff</h3>
-                  <p className="mt-1 text-sm text-foreground/52 text-body">Only direct edits are submitted; aliases are resolved again on the server.</p>
+                  <h3 id="publish-diff-title" className="text-xl text-foreground">Final token diff</h3>
+                  <p className="mt-1 text-sm text-foreground/55">Only direct edits are submitted; aliases are resolved again on the server.</p>
                 </div>
                 <span className="font-mono text-xs text-foreground/55">{diffRows?.length ?? 0}</span>
               </div>
               {!draftValid ? (
-                <p className="mt-4 rounded-md border border-destructive/50 p-4 text-sm text-foreground/70 text-body">Make at least one valid token change before publishing.</p>
+                <p className="mt-4 rounded-lg border border-destructive/50 p-4 text-sm text-foreground/72">Make at least one valid token change before publishing.</p>
               ) : (
                 <ul className="mt-4 space-y-3">
                   {diffRows.map((row) => (
-                    <li key={row.path} data-testid={`publish-diff-${row.path}`} className="rounded-md border border-border/60 p-4">
-                      <code className="block break-all text-xs text-foreground/85">{row.path}</code>
+                    <li key={row.path} data-testid={`publish-diff-${row.path}`} className="rounded-lg border border-border/60 p-4">
+                      <code className="block break-all text-xs text-foreground">{row.path}</code>
                       <div className="mt-3 grid gap-3 text-xs sm:grid-cols-2">
-                        <p><span className="block text-foreground/44">Production</span><code className="mt-1 block overflow-x-auto whitespace-nowrap text-foreground/65">{row.production}</code></p>
-                        <p><span className="block text-foreground/44">Draft</span><code className="mt-1 block overflow-x-auto whitespace-nowrap text-foreground">{row.draft}</code></p>
+                        <p><span className="block text-foreground/55">Production</span><code className="mt-1 block overflow-x-auto whitespace-nowrap text-foreground/72">{row.production}</code></p>
+                        <p><span className="block text-foreground/55">Draft</span><code className="mt-1 block overflow-x-auto whitespace-nowrap text-foreground">{row.draft}</code></p>
                       </div>
                     </li>
                   ))}
@@ -320,7 +320,7 @@ export function PublishDialog({
               )}
             </section>
 
-            <label className="flex items-start gap-3 rounded-md border border-border/60 p-4 text-sm leading-relaxed text-foreground/70 text-body">
+            <label className="flex items-start gap-3 rounded-lg border border-border/60 p-4 text-sm leading-relaxed text-foreground/72">
               <input
                 type="checkbox"
                 checked={acknowledged}
@@ -331,14 +331,14 @@ export function PublishDialog({
             </label>
 
             {error ? (
-              <div role="alert" className="rounded-md border border-destructive/50 p-4 text-sm leading-relaxed text-foreground/75 text-body">
+              <div role="alert" className="rounded-lg border border-destructive/50 p-4 text-sm leading-relaxed text-foreground/72">
                 <p>{error.message}</p>
                 {error.recoveryBranch ? <p className="mt-2">A token commit was created on branch <code className="break-all">{error.recoveryBranch}</code>. It can be recovered in GitHub without republishing the token commit.</p> : null}
               </div>
             ) : null}
 
             <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border/60 pt-5">
-              <p aria-live="polite" className="text-xs text-foreground/50 text-body">
+              <p aria-live="polite" className="text-xs text-foreground/55">
                 {pending
                   ? "Opening pull request…"
                   : error?.recoveryBranch
@@ -348,7 +348,7 @@ export function PublishDialog({
               <button
                 type="submit"
                 disabled={!canSubmit}
-                className="min-h-[44px] rounded-md bg-foreground px-5 text-sm text-background disabled:cursor-not-allowed disabled:opacity-35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="min-h-11 rounded-lg bg-foreground px-5 text-sm text-background disabled:cursor-not-allowed disabled:opacity-35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 {pending ? "Publishing…" : "Open publish PR"}
               </button>

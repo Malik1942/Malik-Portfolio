@@ -2,7 +2,7 @@ import { selectedWork, aiProjects } from "@/pages/Index";
 import { ProjectCard, type Project } from "@/components/ProjectList";
 
 // Aligns with ProjectDetailTemplate's PAGE_OUTER so section edges match the rest of the page.
-const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto";
+const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-page mx-auto";
 
 // Same order the homepage shows them: Selected Work, then Workshop.
 const ALL_PROJECTS: Project[] = [...selectedWork, ...aiProjects];
@@ -26,7 +26,7 @@ export function MoreProjects({ currentSlug }: MoreProjectsProps) {
       {/* Section label — same tokens/style as the homepage "Selected Work" heading */}
       <div className="flex items-center gap-3 mb-10">
         <span className="rounded-full bg-dot-red w-1.5 h-1.5 opacity-70" />
-        <span className="text-sm text-body text-foreground/55 uppercase tracking-[0.12em] font-medium">
+        <span className="text-sm text-foreground/55 uppercase tracking-eyebrow font-medium">
           More work
         </span>
       </div>

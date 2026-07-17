@@ -15,23 +15,26 @@ describe("design system section model", () => {
 
   it("returns linear previous and next sections", () => {
     expect(getAdjacentSections("foundation-color")).toEqual({
-      previous: expect.objectContaining({ id: "overview" }),
-      next: expect.objectContaining({ id: "foundation-typography" }),
+      previous: expect.objectContaining({ id: "foundation-typography" }),
+      next: expect.objectContaining({ id: "foundation-tokens" }),
     });
   });
 
   it("declares the complete grouped registry in stable order", () => {
     expect(DESIGN_SYSTEM_GROUPS.map((group) => group.id)).toEqual([
-      "start",
       "foundations",
       "components",
       "patterns",
     ]);
-    expect(DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections)).toHaveLength(21);
+    expect(DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections)).toHaveLength(20);
     expect(DESIGN_SYSTEM_GROUPS[0].sections.map((section) => section.id)).toEqual([
       "overview",
+      "foundation-typography",
+      "foundation-color",
+      "foundation-tokens",
+      "foundation-icons",
     ]);
-    expect(DESIGN_SYSTEM_GROUPS[2].sections[0]).toMatchObject({
+    expect(DESIGN_SYSTEM_GROUPS[1].sections[0]).toMatchObject({
       id: "component-lineup",
       label: "Component lineup",
     });
@@ -41,7 +44,7 @@ describe("design system section model", () => {
   it("omits unavailable adjacent directions at the registry edges", () => {
     expect(getAdjacentSections("overview")).toEqual({
       previous: undefined,
-      next: expect.objectContaining({ id: "foundation-color" }),
+      next: expect.objectContaining({ id: "foundation-typography" }),
     });
     expect(getAdjacentSections("pattern-accessibility")).toEqual({
       previous: expect.objectContaining({ id: "pattern-expressive" }),

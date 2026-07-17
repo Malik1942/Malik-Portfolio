@@ -13,7 +13,7 @@ export function AuraHardwareSystem() {
   return (
     <div>
       {/* Section label */}
-      <p className="text-[10px] uppercase tracking-[0.24em] text-foreground/44 text-body mb-6">
+      <p className="text-label uppercase tracking-eyebrow text-foreground/55 mb-6">
         Hardware System
       </p>
 
@@ -22,7 +22,7 @@ export function AuraHardwareSystem() {
 
         {/* Left: product visuals */}
         <div className="flex flex-col gap-5">
-          <div className="overflow-hidden rounded-xl bg-secondary/[0.07]">
+          <div className="overflow-hidden rounded-2xl bg-secondary/[0.07]">
             <img
               src={auraBud1}
               alt="Aura Buds product render"
@@ -45,10 +45,10 @@ export function AuraHardwareSystem() {
         <div className="divide-y divide-border/15">
           {features.map((f) => (
             <div key={f.label} className="py-5 first:pt-0">
-              <p className="text-[10px] uppercase tracking-[0.18em] font-medium text-foreground text-body mb-1.5">
+              <p className="text-label uppercase tracking-eyebrow font-medium text-foreground mb-1.5">
                 {f.label}
               </p>
-              <p className="text-[12px] md:text-[13px] font-light leading-snug text-foreground/50 text-body">
+              <p className="text-xs font-light leading-snug text-foreground/55">
                 {f.desc}
               </p>
             </div>

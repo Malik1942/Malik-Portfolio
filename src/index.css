@@ -1,3 +1,42 @@
+/* General Sans is self-hosted (Fontshare's API returns an empty "restricted"
+   stylesheet to localhost referers, so CDN loading silently falls back to
+   Helvetica in local dev). Files live in public/fonts/general-sans. */
+@font-face {
+  font-family: "General Sans";
+  src: url("/fonts/general-sans/GeneralSans-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("/fonts/general-sans/GeneralSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("/fonts/general-sans/GeneralSans-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("/fonts/general-sans/GeneralSans-Semibold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("/fonts/general-sans/GeneralSans-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,19 +58,6 @@
     cursor: pointer;
   }
 
-  .text-display {
-    font-family: var(--font-family-display);
-    letter-spacing: -0.02em;
-  }
-
-  .text-body {
-    font-family: var(--font-family-body);
-  }
-
-  .text-mono {
-    font-family: var(--font-family-mono);
-    letter-spacing: -0.01em;
-  }
 }
 
 /* Animations */

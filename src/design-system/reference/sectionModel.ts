@@ -12,44 +12,33 @@ export interface DesignSystemGroup {
 
 export const DESIGN_SYSTEM_GROUPS: DesignSystemGroup[] = [
   {
-    id: "start",
-    label: "Start",
+    id: "foundations",
+    label: "Foundations",
     sections: [
       {
         id: "overview",
         label: "Overview",
         description: "How Malik's portfolio system is structured, generated, and used.",
       },
-    ],
-  },
-  {
-    id: "foundations",
-    label: "Foundations",
-    sections: [
+      {
+        id: "foundation-typography",
+        label: "Type",
+        description: "Display, body, and mono roles extracted from the current site.",
+      },
       {
         id: "foundation-color",
         label: "Color",
         description: "Warm neutrals, semantic surfaces, text, borders, and portfolio accents.",
       },
       {
-        id: "foundation-typography",
-        label: "Typography",
-        description: "Display, body, and mono roles extracted from the current site.",
+        id: "foundation-tokens",
+        label: "Tokens",
+        description: "Spacing rhythm, layout measures, radius, and motion values in one place.",
       },
       {
-        id: "foundation-spacing",
-        label: "Spacing & layout",
-        description: "Spacing rhythm, reading measures, page widths, and touch targets.",
-      },
-      {
-        id: "foundation-radius",
-        label: "Radius & borders",
-        description: "Shape and separation roles used by cards, media, and controls.",
-      },
-      {
-        id: "foundation-motion",
-        label: "Motion",
-        description: "Durations and easing roles for entry, movement, state change, and ambience.",
+        id: "foundation-icons",
+        label: "Icons",
+        description: "The lucide-react icon set, stroke, and sizing used across the interface.",
       },
     ],
   },

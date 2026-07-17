@@ -51,13 +51,13 @@ const leftColClass =
   "lg:w-[min(100%,248px)] xl:w-[260px] flex-shrink-0 lg:sticky lg:top-28";
 
 const eyebrowClass =
-  "text-[10px] uppercase tracking-[0.32em] text-foreground/60 mb-5";
+  "text-label uppercase tracking-eyebrow text-foreground/72 mb-5";
 
 const titleClass =
-  "text-[21px] sm:text-[23px] font-light tracking-[-0.02em] text-foreground/88 leading-[1.25] mb-5";
+  "text-xl sm:text-title font-light text-foreground leading-tight mb-5";
 
 const descriptionClass =
-  "text-[13px] sm:text-sm font-light leading-[1.65] text-foreground/68 max-w-[36ch]";
+  "text-xs sm:text-sm font-light leading-relaxed text-foreground/72 max-w-[36ch]";
 
 export type AboutEditorialSectionProps = {
   sectionRef?: RefObject<HTMLElement | null>;

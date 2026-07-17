@@ -167,7 +167,7 @@ const PhotographyLightbox = ({
             event.stopPropagation();
             onNavigate(-1);
           }}
-          className="absolute left-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground/45 transition-colors duration-300 hover:text-foreground md:flex cursor-pointer"
+          className="absolute left-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground/55 transition-colors duration-300 hover:text-foreground md:flex cursor-pointer"
           aria-label="Previous image"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -179,7 +179,7 @@ const PhotographyLightbox = ({
             event.stopPropagation();
             onNavigate(1);
           }}
-          className="absolute right-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground/45 transition-colors duration-300 hover:text-foreground md:flex cursor-pointer"
+          className="absolute right-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground/55 transition-colors duration-300 hover:text-foreground md:flex cursor-pointer"
           aria-label="Next image"
         >
           <ChevronRight className="h-5 w-5" />
@@ -206,7 +206,7 @@ const PhotographyLightbox = ({
             key={activePhoto.src}
             src={activePhoto.src}
             alt={activePhoto.alt}
-            className="max-h-full max-w-full object-contain select-none rounded-[10px]"
+            className="max-h-full max-w-full object-contain select-none rounded-lg"
             initial={{ opacity: 0, scale: 0.985 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.99 }}
@@ -232,18 +232,18 @@ const EditorialPhotoFrame = ({
   <button
     type="button"
     onClick={onOpen}
-    className="group block w-full cursor-pointer rounded-[10px] text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20"
+    className="group block w-full cursor-pointer rounded-lg text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20"
     aria-label={`Open ${photo.alt}`}
   >
     <div
-      className={`relative w-full overflow-hidden rounded-[10px] bg-secondary/[0.08] ${
+      className={`relative w-full overflow-hidden rounded-lg bg-secondary/[0.08] ${
         layout === "pair" ? "aspect-[16/10]" : "aspect-[2.35/1] max-h-[min(30vh,340px)]"
       }`}
     >
       <img
         src={photo.src}
         alt={photo.alt}
-        className="h-full w-full rounded-[10px] object-cover object-center transition-[filter] duration-[420ms] ease-out group-hover:brightness-[1.03]"
+        className="h-full w-full rounded-lg object-cover object-center transition-[filter] duration-[420ms] ease-out group-hover:brightness-[1.03]"
         loading={photo.priority ? "eager" : "lazy"}
         decoding="async"
         sizes={layout === "pair" ? "(min-width: 1024px) 42vw, 50vw" : "100vw"}
@@ -275,10 +275,12 @@ const LIFE_EVENTS: LifeEvent[] = [
 const LifeEventRow = ({ event }: { event: LifeEvent }) => {
   const [hovered, setHovered] = useState(false);
 
-  const dotColor = event.type === "award" 
-    ? "bg-amber-400/40" 
-    : event.type === "education" 
-    ? "bg-blue-300/30" 
+  // Category markers: amber identifies awards, blue identifies education,
+  // neutral covers everything else.
+  const dotColor = event.type === "award"
+    ? "bg-timeline-award"
+    : event.type === "education"
+    ? "bg-timeline-education"
     : "bg-foreground/15";
 
   return (
@@ -289,13 +291,13 @@ const LifeEventRow = ({ event }: { event: LifeEvent }) => {
       onMouseLeave={() => setHovered(false)}
     >
       {/* Year */}
-      <span className="text-[13px] text-foreground/60 font-normal tracking-wider w-12 pt-0.5 flex-shrink-0">
+      <span className="text-xs text-foreground/72 font-normal w-12 pt-0.5 flex-shrink-0">
         {event.year}
       </span>
 
       {/* Node dot */}
       <motion.div
-        className={`w-[6px] h-[6px] rounded-full mt-[7px] flex-shrink-0 ${dotColor}`}
+        className={`w-[6px] h-[6px] rounded-full mt-2 flex-shrink-0 ${dotColor}`}
         animate={{
           scale: hovered ? 2 : 1,
           opacity: hovered ? 0.8 : undefined,
@@ -306,14 +308,14 @@ const LifeEventRow = ({ event }: { event: LifeEvent }) => {
       {/* Content */}
       <div className="flex flex-col gap-0.5">
         <motion.span
-          className="text-[15px] text-foreground/80 font-normal"
+          className="text-sm text-foreground/72 font-normal"
           animate={{ opacity: hovered ? 0.95 : 0.8 }}
           transition={{ duration: 0.4 }}
         >
           {event.title}
         </motion.span>
         <motion.span
-          className="text-[13px] text-foreground font-normal"
+          className="text-xs text-foreground font-normal"
           animate={{ opacity: hovered ? 1 : 0.8 }}
           transition={{ duration: 0.4 }}
         >
@@ -545,7 +547,7 @@ const SportNode = ({ sport }: { sport: (typeof SPORTS_DATA)[0] }) => {
     >
       <ResilienceCanvas type={sport.type} isHovered={hovered} />
       <motion.span
-        className="text-[12px] uppercase tracking-[0.3em] text-foreground"
+        className="text-xs uppercase tracking-eyebrow text-foreground"
         animate={{ opacity: hovered ? 1.0 : 0.72 }}
         transition={{ duration: 0.4 }}
       >
@@ -563,7 +565,7 @@ const DAILY_ITEMS = [
 ];
 
 const DailyTag = ({ label }: { label: string }) => (
-  <span className="text-[13px] text-foreground/78 font-normal px-4 py-2.5 rounded-sm border border-foreground/[0.22] hover:text-foreground/92 hover:border-foreground/[0.35] transition-colors duration-300 cursor-default">
+  <span className="text-xs text-foreground/72 font-normal px-4 py-2.5 rounded-sm border border-foreground/[0.22] hover:text-foreground hover:border-foreground/[0.35] transition-colors duration-300 cursor-default">
     {label}
   </span>
 );
@@ -733,12 +735,12 @@ const AboutDeepContent = ({
             edges align. */}
         {onBack ? (
           <div className="relative z-20 px-6 md:px-16 lg:px-20 pt-4 pb-2">
-            <div className="max-w-[1200px] mx-auto">
+            <div className="max-w-content mx-auto">
               <button
                 type="button"
                 onClick={onBack}
                 aria-label="Back to home"
-                className="group flex items-center gap-2 min-h-[44px] -ml-1 px-1 text-sm text-body text-foreground/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded transition-colors duration-200"
+                className="group flex items-center gap-2 min-h-11 -ml-1 px-1 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200"
               >
                 <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
                 Back to home

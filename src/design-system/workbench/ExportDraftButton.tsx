@@ -13,5 +13,5 @@ export function ExportDraftButton({ compact = false }: { compact?: boolean }) {
     anchor.click();
     URL.revokeObjectURL(url);
   };
-  return <button type="button" onClick={exportDraft} className={compact ? "min-h-[44px] px-3 text-xs text-foreground/72" : "min-h-[44px] rounded-md border border-border px-4 text-sm text-foreground/72"}>Export JSON</button>;
+  return <button type="button" onClick={exportDraft} className={compact ? "min-h-11 px-3 text-xs text-foreground/72" : "min-h-11 rounded-lg border border-border px-4 text-sm text-foreground/72"}>Export JSON</button>;
 }

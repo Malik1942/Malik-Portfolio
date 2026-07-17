@@ -44,10 +44,11 @@ const COLOR_GROUPS: readonly ColorGroup[] = [
   },
   {
     label: "Actions & boundaries",
-    description: "Interaction roles keep emphasis, danger, focus, and separation consistent.",
+    description: "Interaction roles keep emphasis, danger, success, focus, and separation consistent.",
     roles: [
       { label: "Primary action", path: "color.action.primary" },
       { label: "Destructive action", path: "color.action.destructive" },
+      { label: "Positive status", path: "color.status.positive" },
       { label: "Border", path: "color.border.default" },
       { label: "Input", path: "color.input.default" },
       { label: "Focus ring", path: "color.focus.ring" },
@@ -80,35 +81,30 @@ function groupId(label: string): string {
 
 export function ColorFoundation() {
   return (
-    <div data-testid="reference-foundation-color" className="space-y-12 md:space-y-16">
-      <div className="max-w-[720px] space-y-4">
-        <p className="text-[17px] leading-[1.7] text-foreground/72 text-body md:text-[19px]">
-          Warm foregrounds and deep neutral surfaces carry the portfolio. Two
-          accents distinguish Selected Work from Workshop without turning the
-          system into a broad palette.
-        </p>
-        <p className="text-sm leading-relaxed text-foreground/52 text-body">
-          These are the semantic roles used in production. Primitive and
-          component-owned colors stay in canonical DTCG JSON and appear only
-          where their implementation context matters.
-        </p>
-      </div>
+    <div data-testid="reference-foundation-color" className="space-y-10 md:space-y-14">
+      <p className="max-w-reading text-base leading-relaxed text-foreground/72 md:text-xl">
+        Warm foregrounds and deep neutral surfaces carry the portfolio. Two
+        accents distinguish Selected Work from Workshop without turning the
+        system into a broad palette. These are the semantic roles used in
+        production; primitives and component-owned colors stay in the generated
+        source.
+      </p>
 
       {COLOR_GROUPS.map((group) => (
         <section key={group.label} aria-labelledby={groupId(group.label)}>
-          <div className="mb-5 grid gap-2 sm:grid-cols-[minmax(150px,0.7fr)_minmax(0,1.5fr)] sm:items-end">
+          <div className="mb-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-border/50 pb-3">
             <h2
               id={groupId(group.label)}
-              className="text-xl font-medium tracking-[-0.02em] text-foreground text-display"
+              className="text-label uppercase tracking-eyebrow text-foreground/72"
             >
               {group.label}
             </h2>
-            <p className="max-w-[56ch] text-sm leading-relaxed text-foreground/52 text-body">
+            <p className="max-w-[52ch] text-xs leading-relaxed text-foreground/55">
               {group.description}
             </p>
           </div>
 
-          <ul className="border-t border-border/50">
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {group.roles.map((role) => {
               const token = getColorToken(role.path);
               const value = friendlyColorValue(token);
@@ -116,25 +112,21 @@ export function ColorFoundation() {
                 <li
                   key={role.path}
                   data-testid={testId(role.path)}
-                  className="grid min-w-0 gap-4 border-b border-border/50 py-5 sm:grid-cols-[88px_minmax(120px,0.6fr)_minmax(0,1.4fr)] sm:items-center sm:gap-6"
+                  title={token.description}
+                  className="min-w-0 rounded-lg border border-border/50 bg-surface-card/40 p-2.5"
                 >
                   <span
                     aria-label={`${role.label} color ${value}`}
-                    className="block h-16 w-full rounded-sm border border-border/60 sm:h-12 sm:w-16"
+                    className="mb-3 block h-14 w-full rounded-sm border border-border/60"
                     style={{ background: `hsl(${token.cssValue})` }}
                   />
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-foreground text-body">{role.label}</p>
-                    <code className="mt-1 block break-all text-[10px] text-foreground/42 text-mono">
-                      {role.path}
-                    </code>
-                  </div>
-                  <div className="min-w-0 sm:text-right">
-                    <code className="text-xs uppercase text-foreground/72 text-mono">{value}</code>
-                    <p className="mt-1 text-sm leading-relaxed text-foreground/52 text-body">
-                      {token.description}
-                    </p>
-                  </div>
+                  <p className="truncate text-sm font-medium text-foreground">{role.label}</p>
+                  <code className="mt-1 block truncate text-label text-foreground/55 font-mono">
+                    {role.path}
+                  </code>
+                  <code className="mt-0.5 block text-xs uppercase text-foreground/72 font-mono">
+                    {value}
+                  </code>
                 </li>
               );
             })}

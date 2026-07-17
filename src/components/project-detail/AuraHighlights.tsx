@@ -50,7 +50,7 @@ function AuraArtifact({ src, alt, caption }: { src: string; alt: string; caption
           className="w-full h-auto block"
         />
       </div>
-      <figcaption className="mt-5 md:mt-6 text-[16px] md:text-[19px] text-foreground/85 text-body text-center leading-relaxed">
+      <figcaption className="mt-5 md:mt-6 text-base md:text-xl text-foreground text-center leading-relaxed">
         {caption}
       </figcaption>
     </figure>

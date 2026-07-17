@@ -13,12 +13,12 @@ const ProjectDetail = () => {
       <PageTransition>
         <div className="min-h-screen bg-background flex items-center justify-center px-6">
           <div className="text-center max-w-md">
-            <h1 className="text-2xl md:text-3xl font-light text-foreground mb-4 text-display">Project not found</h1>
+            <h1 className="font-display text-title font-light text-foreground mb-4">Project not found</h1>
             <button
               type="button"
               onClick={() => navigate("/")}
               aria-label="Back to home"
-              className="group flex items-center gap-2 min-h-[44px] px-1 text-sm text-body text-foreground/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded transition-colors duration-200"
+              className="group flex items-center gap-2 min-h-11 px-1 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200"
             >
               <svg
                 aria-hidden="true"
