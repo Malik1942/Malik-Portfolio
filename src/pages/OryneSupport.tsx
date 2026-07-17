@@ -146,7 +146,7 @@ const OryneSupport = () => {
           type="button"
           onClick={() => navigate("/")}
           aria-label="Back to home"
-          className="group flex items-center gap-2 min-h-[44px] px-1 text-sm text-mono text-foreground/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded transition-colors duration-200"
+          className="group flex items-center gap-2 min-h-11 px-1 text-sm font-mono text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200"
         >
           <svg
             aria-hidden="true"
@@ -160,20 +160,20 @@ const OryneSupport = () => {
           </svg>
           Back
         </button>
-        <span className="text-xs text-mono text-foreground/44">Oryne Support</span>
+        <span className="text-xs font-mono text-foreground/55">Oryne Support</span>
       </div>
 
       <main className="flex-1 px-6 md:px-16 lg:px-20 pt-16 md:pt-24 pb-8">
-        <div className="max-w-[760px] mx-auto">
+        <div className="max-w-reading mx-auto">
           {/* Intro */}
           <header>
-            <span className="text-[11px] uppercase tracking-[0.2em] text-foreground/44 text-body block mb-6">
+            <span className="text-label uppercase tracking-eyebrow text-foreground/55 block mb-6">
               Support
             </span>
-            <h1 className="text-3xl md:text-5xl font-light text-foreground text-display mb-6">
+            <h1 className="font-display text-title md:text-display font-light text-foreground mb-6">
               Oryne
             </h1>
-            <p className="text-base md:text-lg text-foreground/72 text-body leading-relaxed max-w-[60ch]">
+            <p className="text-base md:text-xl text-foreground/72 leading-relaxed max-w-[60ch]">
               Oryne is a frictionless place to catch inspiration by voice or text before it's gone.
               Start a Whisper the moment an idea arrives, then Release it into the Ocean. On-device
               intelligence names each Thought and connects it to the others, so what you capture
@@ -185,17 +185,17 @@ const OryneSupport = () => {
           <section aria-labelledby="faq-heading" className="mt-16 md:mt-20">
             <h2
               id="faq-heading"
-              className="text-xl md:text-2xl font-light text-foreground text-display mb-8"
+              className="text-xl md:text-title font-light text-foreground mb-8"
             >
               Frequently asked questions
             </h2>
             <dl className="divide-y divide-border">
               {FAQS.map((faq) => (
                 <div key={faq.q} className="py-7 first:pt-0">
-                  <dt className="text-base md:text-lg text-foreground text-display mb-3">
+                  <dt className="text-base md:text-xl text-foreground tracking-tight mb-3">
                     {faq.q}
                   </dt>
-                  <dd className="text-sm md:text-base text-foreground/68 text-body leading-relaxed max-w-[64ch]">
+                  <dd className="text-sm md:text-base text-foreground/72 leading-relaxed max-w-[64ch]">
                     {faq.a}
                   </dd>
                 </div>
@@ -207,12 +207,12 @@ const OryneSupport = () => {
           <section aria-labelledby="privacy-heading" className="mt-16 md:mt-20">
             <h2
               id="privacy-heading"
-              className="text-xl md:text-2xl font-light text-foreground text-display mb-6"
+              className="text-xl md:text-title font-light text-foreground mb-6"
             >
               Your privacy
             </h2>
             <div className="rounded-lg border border-border bg-card/40 p-6 md:p-8">
-              <p className="text-sm md:text-base text-foreground/72 text-body leading-relaxed max-w-[64ch]">
+              <p className="text-sm md:text-base text-foreground/72 leading-relaxed max-w-[64ch]">
                 Oryne is built so your Thoughts stay yours. The intelligence that titles, themes,
                 and connects your Whispers runs on your device. Your captures sync only through your
                 own private iCloud, tied to your Apple Account, so they reach your other devices
@@ -226,17 +226,17 @@ const OryneSupport = () => {
           <section aria-labelledby="contact-heading" className="mt-16 md:mt-20">
             <h2
               id="contact-heading"
-              className="text-xl md:text-2xl font-light text-foreground text-display mb-4"
+              className="text-xl md:text-title font-light text-foreground mb-4"
             >
               Contact
             </h2>
-            <p className="text-sm md:text-base text-foreground/68 text-body leading-relaxed mb-6 max-w-[60ch]">
+            <p className="text-sm md:text-base text-foreground/72 leading-relaxed mb-6 max-w-[60ch]">
               Questions, feedback, or a bug to report? Reach the Oryne team directly. This is the
               fastest way to get help.
             </p>
             <a
               href={`mailto:${SUPPORT_EMAIL}`}
-              className="inline-flex items-center gap-3 px-5 py-3 text-sm md:text-base text-mono text-foreground/90 hover:text-foreground border border-border/60 hover:border-border rounded-sm transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
+              className="inline-flex items-center gap-3 px-5 py-3 text-sm md:text-base font-mono text-foreground border border-border/60 hover:border-border rounded-sm transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
             >
               <svg
                 aria-hidden="true"
@@ -258,11 +258,11 @@ const OryneSupport = () => {
 
           {/* Cross-link to the privacy policy */}
           <div className="mt-14 md:mt-16 pt-8 border-t border-border">
-            <p className="text-sm text-body text-foreground/52">
+            <p className="text-sm text-foreground/55">
               Read how Oryne handles your data in our{" "}
               <a
                 href="/oryne/privacy"
-                className="nav-link text-foreground/80 hover:text-foreground transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm"
+                className="nav-link text-foreground/72 hover:text-foreground transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm"
               >
                 Privacy Policy
               </a>

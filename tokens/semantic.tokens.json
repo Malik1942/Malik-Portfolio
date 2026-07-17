@@ -92,6 +92,13 @@
         "$value": "{color.gold.500}"
       }
     },
+    "status": {
+      "$type": "color",
+      "positive": {
+        "$description": "Positive status role for success, strengths, and confirmations.",
+        "$value": "{color.emerald.400}"
+      }
+    },
     "sidebar": {
       "$type": "color",
       "background": {

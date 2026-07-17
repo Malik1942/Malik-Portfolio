@@ -94,7 +94,7 @@ const CardMedia = ({
         />
       ) : (
         <div className="w-full aspect-video flex items-center justify-center">
-          <span className="text-foreground/44 text-xs text-body uppercase tracking-[0.2em]">
+          <span className="text-foreground/55 text-xs uppercase tracking-eyebrow">
             No image
           </span>
         </div>
@@ -105,7 +105,7 @@ const CardMedia = ({
         transition={{ duration: 0.35 }}
       />
       {project.wip ? (
-        <span className="absolute left-3 top-3 z-10 rounded-full border border-border/50 bg-background/75 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-foreground/70 text-body backdrop-blur-sm">
+        <span className="absolute left-3 top-3 z-10 rounded-full border border-border/50 bg-background/75 px-2.5 py-1 text-label uppercase tracking-eyebrow text-foreground/72 backdrop-blur-sm">
           In Progress
         </span>
       ) : null}
@@ -208,7 +208,7 @@ export const ProjectCard = ({
     <>
       {/* Title */}
       <h3
-        className="text-display font-semibold leading-snug transition-colors duration-300"
+        className="tracking-tight font-semibold leading-snug transition-colors duration-300"
         style={{
           fontSize: isMobile ? "clamp(1.1rem, 4vw, 1.25rem)" : "clamp(1.2rem, 1.6vw, 1.4rem)",
           letterSpacing: "-0.025em",
@@ -221,7 +221,7 @@ export const ProjectCard = ({
 
       {/* Description */}
       <p
-        className={`text-body ${isMobile ? "leading-relaxed line-clamp-2" : "leading-snug line-clamp-2"}`}
+        className={isMobile ? "leading-relaxed line-clamp-2" : "leading-snug line-clamp-2"}
         style={{
           fontSize: isMobile ? "0.9375rem" : "0.875rem",
           marginBottom: isMobile ? "0.75rem" : "1rem",
@@ -233,7 +233,6 @@ export const ProjectCard = ({
 
       {/* Metadata */}
       <p
-        className="text-body"
         style={{
           fontSize: isMobile ? "0.9375rem" : "0.875rem",
           letterSpacing: "0.02em",
@@ -266,7 +265,7 @@ export const ProjectCard = ({
         <div style={isMobile ? undefined : { maxWidth: "380px" }}>
           {/* Level 1 — Title */}
           <h3
-            className="text-display font-semibold leading-[1.05] transition-colors duration-300"
+            className="tracking-tight font-semibold leading-none transition-colors duration-300"
             style={{
               fontSize: isMobile ? "clamp(1.4rem, 5vw, 1.8rem)" : "clamp(1.6rem, 2.2vw, 2.4rem)",
               letterSpacing: "-0.03em",
@@ -281,7 +280,7 @@ export const ProjectCard = ({
           <div style={{ marginBottom: isMobile ? "1rem" : "1.375rem" }}>
             {project.signal && (
               <p
-                className="text-body font-medium leading-snug transition-colors duration-300"
+                className="font-medium leading-snug transition-colors duration-300"
                 style={{
                   fontSize: isMobile ? "0.875rem" : "0.9375rem",
                   letterSpacing: "-0.01em",
@@ -293,7 +292,7 @@ export const ProjectCard = ({
               </p>
             )}
             <p
-              className="text-body leading-relaxed"
+              className="leading-relaxed"
               style={{
                 fontSize: "0.875rem",
                 color: hovered ? "hsl(var(--color-text-primary) / 0.90)" : "hsl(var(--color-text-primary) / 0.72)",
@@ -305,7 +304,6 @@ export const ProjectCard = ({
 
           {/* Level 4 — Metadata */}
           <p
-            className="text-body"
             style={{
               fontSize: isMobile ? "0.9375rem" : "0.875rem",
               letterSpacing: "0.02em",
@@ -483,7 +481,7 @@ const SectionLabel = ({
       <span
         className={`rounded-full ${dotClass} w-1.5 h-1.5 ${isPrimary ? "opacity-70" : "opacity-35"}`}
       />
-      <span className="text-sm text-body text-foreground uppercase tracking-[0.12em] font-medium">
+      <span className="text-sm text-foreground uppercase tracking-eyebrow font-medium">
         {title}
       </span>
     </motion.div>
@@ -556,7 +554,7 @@ const MainProjectList = ({
 
       {/* ── Grid: remaining projects ── */}
       {gridPro.length > 0 && (
-        <div className="mt-12 md:mt-[100px] pb-10">
+        <div className="mt-12 md:mt-24 pb-10">
           <TwoColGrid
             projects={gridPro}
             dotClass={dotClass}

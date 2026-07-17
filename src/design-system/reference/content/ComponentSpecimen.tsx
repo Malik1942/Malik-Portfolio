@@ -14,7 +14,7 @@ interface ComponentSpecimenProps {
 
 function ContextLink({ href, label }: { href: string; label: string }) {
   return (
-    <a href={href} className="inline-flex min-h-[44px] items-center text-sm text-foreground/64 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+    <a href={href} className="inline-flex min-h-11 items-center text-sm text-foreground/72 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
       {label} <span aria-hidden="true" className="ml-2">→</span>
     </a>
   );
@@ -31,14 +31,14 @@ function ProjectCardStage() {
       onMouseEnter={() => setActive(true)}
       onMouseLeave={() => setActive(false)}
       data-active={active}
-      className="group relative block overflow-hidden rounded-md border border-border/50 bg-secondary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="group relative block overflow-hidden rounded-lg border border-border/50 bg-secondary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <img src={motiCard} alt="Moti mobile product interface" className="aspect-[16/9] w-full object-cover transition-transform duration-300 group-hover:scale-[1.025] group-focus-visible:scale-[1.025]" />
       <div className={`absolute inset-0 flex items-end bg-gradient-to-t from-background via-background/15 to-transparent p-5 transition-opacity duration-200 ${active ? "opacity-100" : "opacity-75"}`}>
         <div>
-          <p className="text-[10px] uppercase tracking-[0.18em] text-foreground/58 text-mono">Selected work · 2025</p>
-          <p className="mt-2 text-xl font-medium text-foreground text-display">Moti</p>
-          <p className="mt-1 text-sm text-foreground/72 text-body">Product design</p>
+          <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">Selected work · 2025</p>
+          <p className="mt-2 text-xl font-medium tracking-tight text-foreground">Moti</p>
+          <p className="mt-1 text-sm text-foreground/72">Product design</p>
         </div>
       </div>
     </a>
@@ -52,11 +52,11 @@ function LightboxStage() {
       <button
         type="button"
         onClick={() => setImage({ src: auraCover, alt: "Specimen product interface" })}
-        className="group relative block w-full overflow-hidden rounded-md border border-border/50 bg-secondary/30 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="group relative block w-full overflow-hidden rounded-lg border border-border/50 bg-secondary/30 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         aria-label="Open image lightbox"
       >
         <img src={auraCover} alt="" className="aspect-[16/8] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02] group-focus-visible:scale-[1.02]" />
-        <span className="absolute inset-0 grid place-items-center bg-background/15 text-sm text-foreground opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 text-body">Inspect image</span>
+        <span className="absolute inset-0 grid place-items-center bg-background/15 text-sm text-foreground opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">Inspect image</span>
       </button>
       <ImageLightbox image={image} onClose={() => setImage(null)} />
     </>
@@ -67,11 +67,11 @@ function SiteHeaderStage() {
   const [active, setActive] = useState("Selected Work");
   return (
     <div className="border-b border-border/45 pb-4">
-      <div className="flex items-center justify-between gap-4 text-sm text-body">
-        <span className="text-xl italic text-foreground text-display">M</span>
+      <div className="flex items-center justify-between gap-4 text-sm">
+        <span className="text-xl italic tracking-tight text-foreground">M</span>
         <div className="flex flex-wrap justify-end gap-x-4 gap-y-2">
           {["Selected Work", "Workshop", "About"].map((item) => (
-            <button key={item} type="button" onClick={() => setActive(item)} className={`min-h-[40px] border-b text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${active === item ? "border-foreground text-foreground" : "border-transparent text-foreground/54 hover:text-foreground/80"}`}>
+            <button key={item} type="button" onClick={() => setActive(item)} className={`min-h-[40px] border-b text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${active === item ? "border-foreground text-foreground" : "border-transparent text-foreground/55 hover:text-foreground/72"}`}>
               {item}
             </button>
           ))}
@@ -90,7 +90,7 @@ function ProjectListStage() {
       ].map(([image, title, role]) => (
         <a key={title} href="#project-list-specimen" onClick={(event) => event.preventDefault()} className="group overflow-hidden rounded-sm border border-border/45 bg-secondary/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
           <img src={image} alt="" className="aspect-[16/10] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02] group-focus-visible:scale-[1.02]" />
-          <div className="p-4"><p className="text-lg text-foreground text-display">{title}</p><p className="mt-1 text-sm text-foreground/56 text-body">{role}</p></div>
+          <div className="p-4"><p className="text-xl tracking-tight text-foreground">{title}</p><p className="mt-1 text-sm text-foreground/55">{role}</p></div>
         </a>
       ))}
     </div>
@@ -108,8 +108,8 @@ function MediaFrameStage() {
 function FooterStage() {
   return (
     <div className="grid gap-5 border-t border-border/45 pt-5 sm:grid-cols-2">
-      <div><p className="text-[10px] uppercase tracking-[0.18em] text-foreground/42 text-mono">Explore</p><div className="mt-3 flex flex-wrap gap-x-4 gap-y-2"><a href="#footer-work" onClick={(event) => event.preventDefault()} className="text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Selected Work</a><a href="#footer-about" onClick={(event) => event.preventDefault()} className="text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">About</a></div></div>
-      <div className="sm:text-right"><p className="text-[10px] uppercase tracking-[0.18em] text-foreground/42 text-mono">Elsewhere</p><p className="mt-3 text-sm text-foreground/62 text-body">A quieter path to the rest of the work.</p></div>
+      <div><p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">Explore</p><div className="mt-3 flex flex-wrap gap-x-4 gap-y-2"><a href="#footer-work" onClick={(event) => event.preventDefault()} className="text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Selected Work</a><a href="#footer-about" onClick={(event) => event.preventDefault()} className="text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">About</a></div></div>
+      <div className="sm:text-right"><p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">Elsewhere</p><p className="mt-3 text-sm text-foreground/72">A quieter path to the rest of the work.</p></div>
     </div>
   );
 }

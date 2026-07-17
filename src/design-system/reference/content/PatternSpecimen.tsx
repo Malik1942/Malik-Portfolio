@@ -10,7 +10,7 @@ interface PatternSpecimenProps {
 
 function ContextLink({ href, label }: { href: string; label: string }) {
   return (
-    <a href={href} className="inline-flex min-h-[44px] items-center text-sm text-foreground/64 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+    <a href={href} className="inline-flex min-h-11 items-center text-sm text-foreground/72 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
       {label} <span aria-hidden="true" className="ml-2">→</span>
     </a>
   );
@@ -28,15 +28,15 @@ function SectionNavigationStage() {
             type="button"
             aria-current={active === section ? "step" : undefined}
             onClick={() => setActive(section)}
-            className={`min-h-[40px] shrink-0 rounded-sm px-3 text-left text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:block md:w-full ${active === section ? "bg-foreground/[0.09] text-foreground" : "text-foreground/50 hover:text-foreground/78"}`}
+            className={`min-h-[40px] shrink-0 rounded-sm px-3 text-left text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:block md:w-full ${active === section ? "bg-foreground/[0.09] text-foreground" : "text-foreground/55 hover:text-foreground/72"}`}
           >
             {section}
           </button>
         ))}
       </div>
       <div className="min-h-[150px] rounded-sm border border-border/45 bg-secondary/[0.08] p-5 sm:p-6">
-        <p className="text-[10px] uppercase tracking-[0.18em] text-foreground/42 text-mono">{active}</p>
-        <p className="mt-5 max-w-[42ch] text-lg leading-snug text-foreground text-display">
+        <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">{active}</p>
+        <p className="mt-5 max-w-[42ch] text-xl leading-snug tracking-tight text-foreground">
           {active === "Research" ? "Evidence turns uncertainty into a shared point of view." : active === "Direction" ? "A clear design direction keeps decisions connected." : "Final artifacts make the outcome and its reasoning visible."}
         </p>
       </div>
@@ -64,11 +64,11 @@ function TransitionStage() {
           animate={phase === "settled" || reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
           transition={{ duration: reduce ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="text-[10px] uppercase tracking-[0.18em] text-foreground/42 text-mono">Project arrival</p>
-          <p className="mt-5 text-2xl text-foreground text-display">A page enters without making the work wait.</p>
+          <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">Project arrival</p>
+          <p className="mt-5 font-display text-title text-foreground">A page enters without making the work wait.</p>
         </motion.div>
       </div>
-      <button type="button" onClick={replay} className="min-h-[44px] rounded-sm border border-border/60 px-4 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+      <button type="button" onClick={replay} className="min-h-11 rounded-sm border border-border/60 px-4 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
         Replay transition
       </button>
     </div>
@@ -80,7 +80,7 @@ function HomepageHeroStage() {
   return (
     <div className="relative overflow-hidden rounded-sm border border-border/45 bg-secondary/[0.08] p-6 sm:p-8">
       <motion.div aria-hidden="true" animate={reduce ? { opacity: 0.45 } : { opacity: [0.28, 0.55, 0.28] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="absolute inset-0 opacity-45 [background-image:radial-gradient(circle_at_1px_1px,hsl(var(--foreground)/0.4)_1px,transparent_0)] [background-size:18px_18px]" />
-      <div className="relative max-w-[44ch]"><p className="text-[10px] uppercase tracking-[0.18em] text-foreground/48 text-mono">malik@portfolio:~$</p><p className="mt-5 text-2xl leading-tight text-foreground text-display sm:text-3xl">I design useful systems for people and the work around them.</p></div>
+      <div className="relative max-w-[44ch]"><p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">malik@portfolio:~$</p><p className="mt-5 font-display text-title text-foreground">I design useful systems for people and the work around them.</p></div>
     </div>
   );
 }
@@ -89,7 +89,7 @@ function CaseStudyStage() {
   return (
     <div className="space-y-3">
       {["Premise", "Context", "Decisions", "Outcome"].map((label, index) => (
-        <article key={label} className={`rounded-sm border border-border/45 p-4 ${index === 2 ? "bg-secondary/[0.11]" : "bg-secondary/[0.05]"}`}><p className="text-[10px] uppercase tracking-[0.18em] text-foreground/42 text-mono">0{index + 1} · {label}</p><p className="mt-3 max-w-[54ch] text-sm leading-relaxed text-foreground/74 text-body">{index === 2 ? "A decisive artifact pairs a short explanation with the evidence that supports it." : "A paced narrative layer keeps the reader oriented without flattening project detail."}</p></article>
+        <article key={label} className={`rounded-sm border border-border/45 p-4 ${index === 2 ? "bg-secondary/[0.11]" : "bg-secondary/[0.05]"}`}><p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">0{index + 1} · {label}</p><p className="mt-3 max-w-[54ch] text-sm leading-relaxed text-foreground/72">{index === 2 ? "A decisive artifact pairs a short explanation with the evidence that supports it." : "A paced narrative layer keeps the reader oriented without flattening project detail."}</p></article>
       ))}
     </div>
   );
@@ -100,7 +100,7 @@ function ResponsiveStage() {
   return (
     <div data-testid="responsive-stage" data-layout={layout} className="space-y-5">
       <div className="flex gap-2"><button type="button" onClick={() => setLayout("wide")} className={`min-h-[40px] rounded-sm border px-3 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${layout === "wide" ? "border-foreground/60 text-foreground" : "border-border/50 text-foreground/55"}`}>Wide layout</button><button type="button" onClick={() => setLayout("compact")} className={`min-h-[40px] rounded-sm border px-3 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${layout === "compact" ? "border-foreground/60 text-foreground" : "border-border/50 text-foreground/55"}`}>Compact layout</button></div>
-      <div className={layout === "wide" ? "grid gap-3 sm:grid-cols-2" : "space-y-3"}>{["Evidence", "Reflection"].map((title) => <article key={title} className="min-h-[110px] rounded-sm border border-border/45 bg-secondary/[0.08] p-4"><p className="text-[10px] uppercase tracking-[0.18em] text-foreground/42 text-mono">{title}</p><p className="mt-4 text-sm text-foreground/74 text-body">The same content keeps its order while the relationship changes.</p></article>)}</div>
+      <div className={layout === "wide" ? "grid gap-3 sm:grid-cols-2" : "space-y-3"}>{["Evidence", "Reflection"].map((title) => <article key={title} className="min-h-[110px] rounded-sm border border-border/45 bg-secondary/[0.08] p-4"><p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">{title}</p><p className="mt-4 text-sm text-foreground/72">The same content keeps its order while the relationship changes.</p></article>)}</div>
     </div>
   );
 }
@@ -112,9 +112,9 @@ function ExpressiveStage() {
     <div data-testid="expressive-stage" data-paused={paused ? "true" : "false"} data-reduced-motion={reduce ? "true" : "false"} className="space-y-5">
       <div className="relative h-40 overflow-hidden rounded-sm border border-border/45 bg-secondary/[0.08]">
         {[0, 1, 2].map((index) => <motion.span key={index} aria-hidden="true" animate={paused ? { x: 0, y: 0, opacity: 0.5 } : { x: [0, 22 - index * 8, 0], y: [0, -10 + index * 7, 0], opacity: [0.35, 0.85, 0.35] }} transition={{ duration: 3.6 + index * 0.4, repeat: Infinity, ease: "easeInOut" }} className="absolute h-24 w-24 rounded-full bg-foreground/15 blur-xl" style={{ left: `${18 + index * 28}%`, top: `${30 + (index % 2) * 20}%` }} />)}
-        <p className="relative z-10 p-5 text-sm text-foreground/72 text-body">Expression remains art-directed rather than promoted to a generic primitive.</p>
+        <p className="relative z-10 p-5 text-sm text-foreground/72">Expression remains art-directed rather than promoted to a generic primitive.</p>
       </div>
-      <button type="button" onClick={() => setPaused((value) => !value)} className="min-h-[44px] rounded-sm border border-border/60 px-4 text-sm text-foreground/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{paused ? "Resume ambient motion" : "Pause ambient motion"}</button>
+      <button type="button" onClick={() => setPaused((value) => !value)} className="min-h-11 rounded-sm border border-border/60 px-4 text-sm text-foreground/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{paused ? "Resume ambient motion" : "Pause ambient motion"}</button>
     </div>
   );
 }
@@ -123,7 +123,7 @@ function AccessibilityStage() {
   const [focused, setFocused] = useState("None");
   const controls = ["Open case study", "Inspect image", "Return to work"];
   return (
-    <div className="space-y-5"><div className="flex flex-wrap gap-3">{controls.map((label) => <button key={label} type="button" onFocus={() => setFocused(label)} className="min-h-[44px] rounded-sm border border-border/60 px-4 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{label}</button>)}</div><p role="status" className="text-sm text-foreground/62 text-body">{focused === "None" ? "Tab through the controls to inspect the visible focus path." : `${focused} is focused`}</p></div>
+    <div className="space-y-5"><div className="flex flex-wrap gap-3">{controls.map((label) => <button key={label} type="button" onFocus={() => setFocused(label)} className="min-h-11 rounded-sm border border-border/60 px-4 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{label}</button>)}</div><p role="status" className="text-sm text-foreground/72">{focused === "None" ? "Tab through the controls to inspect the visible focus path." : `${focused} is focused`}</p></div>
   );
 }
 

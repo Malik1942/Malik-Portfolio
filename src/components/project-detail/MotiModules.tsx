@@ -38,16 +38,18 @@ import motiLlmPlan2 from "@/assets/moti-llm-plan2.webp";
 /* ---------------------------------------------------------------------------
  * Moti case-study inline modules.
  * Reuses the existing token-backed inline-module visual language (dark cards, mono
- * 01/02 numbers, lucide icons, violet/emerald/slate accents) and site tokens
- * for prose-level pieces — no new colors or fonts are introduced.
+ * 01/02 numbers, lucide icons, violet/emerald/slate module-accent tokens) and site
+ * tokens for prose-level pieces — no unmanaged colors or fonts are introduced.
  * Images are imported from src/assets (moti-*.webp).
  * ------------------------------------------------------------------------- */
 
+// Module accent rotation: three token-backed hues differentiate grid categories
+// (and map semantically where the data has tiers, e.g. Rule-Based/SLM/LLM).
 type Accent = "violet" | "emerald" | "slate";
 const accentColor: Record<Accent, { icon: string; num: string }> = {
-  violet: { icon: "text-violet-400", num: "text-violet-400/60" },
-  emerald: { icon: "text-emerald-400", num: "text-emerald-400/60" },
-  slate: { icon: "text-slate-400", num: "text-slate-400/50" },
+  violet: { icon: "text-accent-violet", num: "text-accent-violet/60" },
+  emerald: { icon: "text-accent-emerald", num: "text-accent-emerald/60" },
+  slate: { icon: "text-accent-slate", num: "text-accent-slate/50" },
 };
 
 type GridItem = { num: string; title: string; desc?: string; icon: LucideIcon; accent: Accent };
@@ -58,7 +60,7 @@ function ModuleCard({ children, header }: { children: ReactNode; header?: string
     <div className="rounded-2xl overflow-hidden bg-surface-inset border border-case-study-module-border">
       {header ? (
         <div className="px-8 pt-8 pb-7 md:px-10 border-b border-case-study-module-divider">
-          <p className="text-[12px] md:text-[20px] uppercase tracking-[0.08em] font-light leading-[24px] md:leading-[32px] text-white/85 font-mono">
+          <p className="text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
             {header}
           </p>
         </div>
@@ -80,15 +82,15 @@ function CardGrid({ items, header, colsClass }: { items: GridItem[]; header?: st
           return (
             <div key={it.num} className="flex flex-col gap-5 bg-surface-inset px-6 py-7 md:px-7 md:py-8">
               <div className="flex items-center justify-between">
-                <span className={`text-[12px] font-mono tabular-nums ${a.num}`}>{it.num}</span>
+                <span className={`text-xs font-mono tabular-nums ${a.num}`}>{it.num}</span>
                 <Icon aria-hidden="true" className={`w-4 h-4 ${a.icon}`} strokeWidth={1.4} />
               </div>
               <div className="flex flex-col gap-2.5">
-                <p className="text-[16px] md:text-[20px] font-medium text-white/95 leading-[24px] md:leading-[28px] tracking-[-0.01em]">
+                <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">
                   {it.title}
                 </p>
                 {it.desc ? (
-                  <p className="text-[14px] md:text-[16px] font-light text-white/72 leading-[22px] md:leading-[26px]">
+                  <p className="text-sm md:text-base font-light text-foreground/72 leading-relaxed">
                     {it.desc}
                   </p>
                 ) : null}
@@ -108,7 +110,7 @@ export function Chips({ items }: { items: string[] }) {
       {items.map((c) => (
         <span
           key={c}
-          className="inline-flex items-center rounded-full border border-border/50 bg-secondary/[0.08] px-3.5 py-1.5 text-[12px] md:text-[13px] text-foreground/72 text-body"
+          className="inline-flex items-center rounded-full border border-border/50 bg-secondary/[0.08] px-3.5 py-1.5 text-xs text-foreground/72"
         >
           {c}
         </span>
@@ -121,7 +123,7 @@ export function Chips({ items }: { items: string[] }) {
 export function PullQuote({ children }: { children: ReactNode }) {
   return (
     <blockquote className="border-l-2 border-foreground/20 pl-6 md:pl-8">
-      <p className="text-[22px] md:text-[32px] font-light leading-[1.3] tracking-[-0.01em] text-foreground/90 text-display">
+      <p className="text-xl md:text-title font-light leading-snug tracking-tight text-foreground">
         {children}
       </p>
     </blockquote>
@@ -136,7 +138,7 @@ function MotiFigure({ src, alt, caption, narrow }: { src: string; alt: string; c
       <div className="overflow-hidden rounded-2xl bg-secondary/10">
         <img src={src} alt={alt} loading="lazy" decoding="async" className="w-full h-auto block" />
       </div>
-      <figcaption className="mt-3 text-[13px] md:text-[14px] text-foreground/55 text-body leading-relaxed">
+      <figcaption className="mt-3 text-xs md:text-sm text-foreground/55 leading-relaxed">
         {caption}
       </figcaption>
     </figure>
@@ -161,7 +163,7 @@ function AppStoreButton({ href }: { href: string }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group inline-flex items-center gap-2 self-start rounded-full border border-foreground/25 px-5 py-2.5 text-sm text-body text-foreground/85 hover:text-foreground hover:border-foreground/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 transition-colors duration-200"
+      className="group inline-flex items-center gap-2 self-start rounded-full border border-foreground/25 px-5 py-2.5 text-sm text-foreground/72 hover:text-foreground hover:border-foreground/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 transition-colors duration-200"
     >
       View on the App Store
       <ArrowUpRight
@@ -176,7 +178,7 @@ function AppStoreButton({ href }: { href: string }) {
 // Subsection label inside a module — matches the template's `##` subhead style.
 function SubHead({ children }: { children: ReactNode }) {
   return (
-    <p className="text-[12px] md:text-[20px] uppercase tracking-[0.08em] font-light leading-[24px] md:leading-[32px] text-foreground/85 text-mono">
+    <p className="text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
       {children}
     </p>
   );
@@ -236,14 +238,14 @@ export function MotiCompetitive() {
       <div className="divide-y divide-case-study-module-divider">
         {competitors.map((c) => (
           <div key={c.name} className="grid grid-cols-1 md:grid-cols-[1fr_2fr_2fr] gap-2 md:gap-6 px-6 py-5 md:px-8 md:py-6">
-            <p className="text-[15px] md:text-[17px] font-medium text-white/95">{c.name}</p>
+            <p className="text-sm md:text-base font-medium text-foreground">{c.name}</p>
             <div className="flex items-start gap-2.5">
-              <Check aria-hidden="true" className="w-4 h-4 mt-0.5 shrink-0 text-emerald-400" strokeWidth={1.6} />
-              <p className="text-[14px] md:text-[15px] font-light text-white/75">{c.strength}</p>
+              <Check aria-hidden="true" className="w-4 h-4 mt-0.5 shrink-0 text-success" strokeWidth={1.6} />
+              <p className="text-sm font-light text-foreground/72">{c.strength}</p>
             </div>
             <div className="flex items-start gap-2.5">
-              <Minus aria-hidden="true" className="w-4 h-4 mt-0.5 shrink-0 text-slate-400" strokeWidth={1.6} />
-              <p className="text-[14px] md:text-[15px] font-light text-white/55">{c.gap}</p>
+              <Minus aria-hidden="true" className="w-4 h-4 mt-0.5 shrink-0 text-foreground/55" strokeWidth={1.6} />
+              <p className="text-sm font-light text-foreground/55">{c.gap}</p>
             </div>
           </div>
         ))}
@@ -266,8 +268,9 @@ export function MotiUserQuotes() {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
       {userQuotes.map((q, i) => (
         <figure key={i} className="flex flex-col gap-4 rounded-2xl border border-case-study-module-border bg-surface-inset px-6 py-7">
-          <Quote aria-hidden="true" className="w-5 h-5 text-white/25" strokeWidth={1.4} />
-          <blockquote className="text-[15px] md:text-[16px] font-light leading-[24px] text-white/85">
+          {/* Decorative glyph (aria-hidden): /44 is reserved for non-text ornament. */}
+          <Quote aria-hidden="true" className="w-5 h-5 text-foreground/44" strokeWidth={1.4} />
+          <blockquote className="text-sm md:text-base font-light leading-relaxed text-foreground">
             “{q}”
           </blockquote>
         </figure>
@@ -328,8 +331,8 @@ export function MotiBeforeBuilding() {
         <SubHead>Define System Architecture</SubHead>
         <CardGrid items={tierItems} colsClass="grid-cols-1 sm:grid-cols-3" />
         <div className="rounded-2xl border border-case-study-module-border bg-surface-inset px-6 py-7 md:px-8 md:py-8">
-          <p className="text-[11px] uppercase tracking-[0.16em] text-white/45 font-mono mb-3">Pipeline</p>
-          <p className="text-[15px] md:text-[17px] font-light leading-relaxed text-white/80">
+          <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono mb-3">Pipeline</p>
+          <p className="text-sm md:text-base font-light leading-relaxed text-foreground/72">
             Messy human input → SLM builds structured understanding → LLM turns it into an adaptive, timeline-aware plan. A
             context store and feedback loop run underneath.
           </p>
@@ -352,10 +355,10 @@ export function MotiBeforeBuilding() {
         />
         <div className="flex flex-col gap-4 rounded-2xl border border-case-study-module-border bg-surface-inset px-6 py-7 md:px-8 md:py-8">
           <div className="flex items-center justify-between">
-            <p className="text-[16px] md:text-[18px] font-medium text-white/95">Adaptive Learning Loop</p>
-            <Activity aria-hidden="true" className="w-4 h-4 text-violet-400" strokeWidth={1.4} />
+            <p className="text-base md:text-xl font-medium text-foreground">Adaptive Learning Loop</p>
+            <Activity aria-hidden="true" className="w-4 h-4 text-accent-violet" strokeWidth={1.4} />
           </div>
-          <p className="text-[14px] md:text-[16px] font-light leading-relaxed text-white/72">
+          <p className="text-sm md:text-base font-light leading-relaxed text-foreground/72">
             Moti checks in at set milestones to learn the user&rsquo;s personal baseline — pace, completion behavior, and
             energy.
           </p>
@@ -363,7 +366,7 @@ export function MotiBeforeBuilding() {
             {["25%", "50%", "75%", "100%"].map((p) => (
               <span
                 key={p}
-                className="inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.03] px-3 py-1 text-[12px] font-mono tabular-nums text-white/70"
+                className="inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.03] px-3 py-1 text-xs font-mono tabular-nums text-foreground/72"
               >
                 {p}
               </span>
@@ -417,17 +420,17 @@ function VersionBlock({
   return (
     <div className="rounded-2xl overflow-hidden border border-case-study-module-border bg-surface-inset">
       <div className="flex items-baseline gap-4 px-6 py-6 md:px-8 md:py-7 border-b border-case-study-module-divider">
-        <span className="text-[12px] font-mono tabular-nums text-violet-400/70">{tag}</span>
+        <span className="text-xs font-mono tabular-nums text-accent-violet/70">{tag}</span>
         <div>
-          <p className="text-[18px] md:text-[22px] font-medium text-white/95 leading-snug">{title}</p>
-          {subtitle ? <p className="mt-1 text-[13px] md:text-[14px] text-white/55">{subtitle}</p> : null}
+          <p className="text-xl font-medium text-foreground leading-snug">{title}</p>
+          {subtitle ? <p className="mt-1 text-xs md:text-sm text-foreground/55">{subtitle}</p> : null}
         </div>
       </div>
       <div className="flex flex-col gap-5 px-6 py-6 md:px-8 md:py-7">
         {points.map((p) => (
           <div key={p.label}>
-            <p className="text-[11px] uppercase tracking-[0.16em] text-white/45 font-mono mb-1.5">{p.label}</p>
-            <p className="text-[14px] md:text-[16px] font-light leading-relaxed text-white/80">{p.text}</p>
+            <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono mb-1.5">{p.label}</p>
+            <p className="text-sm md:text-base font-light leading-relaxed text-foreground/72">{p.text}</p>
           </div>
         ))}
         {quote ? <PullQuote>{quote}</PullQuote> : null}
@@ -478,13 +481,13 @@ export function MotiBuildJourney() {
         <div className="flex flex-col gap-4 px-6 py-7 md:px-8 md:py-8">
           {iterationPoints.map((p, i) => (
             <div key={i} className="flex items-start gap-3">
-              <span className="mt-[0.6em] h-1 w-1 shrink-0 rounded-full bg-white/30" />
-              <p className="text-[14px] md:text-[16px] font-light leading-relaxed text-white/80">{p}</p>
+              <span className="mt-[0.6em] h-1 w-1 shrink-0 rounded-full bg-foreground/44" />
+              <p className="text-sm md:text-base font-light leading-relaxed text-foreground/72">{p}</p>
             </div>
           ))}
           <div className="mt-2 flex items-start gap-3">
-            <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" strokeWidth={1.6} />
-            <p className="text-[14px] md:text-[16px] font-medium leading-relaxed text-white/95">
+            <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-success" strokeWidth={1.6} />
+            <p className="text-sm md:text-base font-medium leading-relaxed text-foreground">
               Outcome: shipped, live on the App Store.
             </p>
           </div>

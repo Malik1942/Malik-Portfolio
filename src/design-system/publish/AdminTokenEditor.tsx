@@ -24,7 +24,7 @@ export function AdminTokenEditor({ onReviewPublish }: { onReviewPublish: () => v
     <div data-testid="admin-token-editor" className="space-y-12 md:space-y-16">
       <div className="flex flex-wrap items-end justify-between gap-5 border-b border-border/50 pb-6">
         <div className="max-w-[660px]">
-          <p className="text-sm leading-relaxed text-foreground/58 text-body">
+          <p className="text-sm leading-relaxed text-foreground/55">
             Draft changes stay in this browser. Review opens the authenticated
             GitHub pull-request flow; nothing writes directly to main.
           </p>
@@ -33,14 +33,14 @@ export function AdminTokenEditor({ onReviewPublish }: { onReviewPublish: () => v
           type="button"
           disabled={changedCount === 0}
           onClick={onReviewPublish}
-          className="min-h-[44px] rounded-md bg-foreground px-5 text-sm text-background disabled:cursor-not-allowed disabled:opacity-35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="min-h-11 rounded-lg bg-foreground px-5 text-sm text-background disabled:cursor-not-allowed disabled:opacity-35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           Review and publish
         </button>
       </div>
 
       {discarded.length > 0 ? (
-        <aside role="status" className="rounded-lg border border-destructive/50 p-4 text-sm text-foreground/72 text-body">
+        <aside role="status" className="rounded-lg border border-destructive/50 p-4 text-sm text-foreground/72">
           Production changed since this draft was saved. Discarded incompatible
           paths: <code className="break-all">{discarded.join(", ")}</code>.
         </aside>
@@ -56,10 +56,10 @@ export function AdminTokenEditor({ onReviewPublish }: { onReviewPublish: () => v
         <section aria-labelledby="admin-token-controls-heading" className="min-w-0 xl:col-start-1 xl:row-start-1">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h3 id="admin-token-controls-heading" className="text-xl font-medium text-foreground text-body">
+              <h3 id="admin-token-controls-heading" className="text-xl font-medium text-foreground">
                 Token controls
               </h3>
-              <p className="mt-1 text-sm text-foreground/55 text-body">
+              <p className="mt-1 text-sm text-foreground/55">
                 Technical authoring controls derived from the canonical token bundle.
               </p>
             </div>
@@ -68,7 +68,7 @@ export function AdminTokenEditor({ onReviewPublish }: { onReviewPublish: () => v
               <button
                 type="button"
                 onClick={resetAll}
-                className="min-h-[44px] rounded-md border border-border px-4 text-sm text-foreground/72"
+                className="min-h-11 rounded-lg border border-border px-4 text-sm text-foreground/72"
               >
                 Reset all
               </button>
@@ -81,16 +81,16 @@ export function AdminTokenEditor({ onReviewPublish }: { onReviewPublish: () => v
               const changed = tokens.filter((token) => Object.prototype.hasOwnProperty.call(draft.overrides, token.path)).length;
               return (
                 <details key={category} open={index === 0 || changed > 0} className="rounded-lg border border-border/50">
-                  <summary className="flex min-h-[52px] cursor-pointer items-center justify-between gap-4 px-4 py-3 text-sm text-foreground/78 text-body focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50">
+                  <summary className="flex min-h-[52px] cursor-pointer items-center justify-between gap-4 px-4 py-3 text-sm text-foreground/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50">
                     <span className="capitalize">{category}</span>
-                    <span className="font-mono text-xs text-foreground/44">{changed}/{tokens.length}</span>
+                    <span className="font-mono text-xs text-foreground/55">{changed}/{tokens.length}</span>
                   </summary>
                   <div className="border-t border-border/40 p-4">
                     <div className="mb-4 flex justify-end">
                       <button
                         type="button"
                         onClick={() => resetCategory(category)}
-                        className="min-h-[44px] text-xs text-foreground/60 underline underline-offset-4"
+                        className="min-h-11 text-xs text-foreground/72 underline underline-offset-4"
                       >
                         Reset {category}
                       </button>
@@ -109,7 +109,7 @@ export function AdminTokenEditor({ onReviewPublish }: { onReviewPublish: () => v
                               <button
                                 type="button"
                                 onClick={() => resetToken(token.path)}
-                                className="mt-1 min-h-[44px] px-2 text-xs text-foreground/58 underline underline-offset-4"
+                                className="mt-1 min-h-11 px-2 text-xs text-foreground/55 underline underline-offset-4"
                               >
                                 Reset {token.path}
                               </button>

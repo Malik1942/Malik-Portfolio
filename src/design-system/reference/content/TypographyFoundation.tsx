@@ -9,6 +9,7 @@ const SIZE_ROLES = [
   { id: "body-small", label: "Body small", path: "font.size.bodySmall", sample: "Built with clarity and restraint." },
   { id: "body", label: "Body", path: "font.size.body", sample: "Designing useful systems for real people." },
   { id: "body-large", label: "Body large", path: "font.size.bodyLarge", sample: "From the real problem to a shipped experience." },
+  { id: "title", label: "Title", path: "font.size.title", sample: "Module and section titles" },
   { id: "heading", label: "Heading", path: "font.size.heading", sample: "Selected Work" },
   { id: "display", label: "Display", path: "font.size.display", sample: "Malik Zhang" },
 ] as const;
@@ -37,8 +38,8 @@ function getToken(path: string, type: TokenRecord["type"]): TokenRecord {
 function TechnicalLabel({ token }: { token: TokenRecord }) {
   return (
     <div className="min-w-0">
-      <code className="block break-all text-[10px] text-foreground/42 text-mono">{token.path}</code>
-      <code className="mt-1 block text-xs text-foreground/65 text-mono">{token.cssValue}</code>
+      <code className="block break-all text-label text-foreground/55 font-mono">{token.path}</code>
+      <code className="mt-1 block text-xs text-foreground/72 font-mono">{token.cssValue}</code>
     </div>
   );
 }
@@ -46,19 +47,21 @@ function TechnicalLabel({ token }: { token: TokenRecord }) {
 export function TypographyFoundation() {
   return (
     <div data-testid="reference-foundation-typography" className="space-y-14 md:space-y-20">
-      <div className="max-w-[720px] space-y-4">
-        <p className="text-[17px] leading-[1.7] text-foreground/72 text-body md:text-[19px]">
+      <div className="max-w-reading space-y-4">
+        <p className="text-base leading-relaxed text-foreground/72 md:text-xl">
           General Sans carries editorial hierarchy and reading. JetBrains Mono
           marks technical metadata without competing with the work.
         </p>
-        <p className="text-sm leading-relaxed text-foreground/52 text-body">
-          The scale is compact by design: seven roles cover navigation,
-          narrative copy, section headings, and the portfolio's largest moments.
+        <p className="text-sm leading-relaxed text-foreground/55">
+          The scale is compact by design: eight roles cover navigation,
+          narrative copy, module titles, section headings, and the portfolio's
+          largest moments, with a fluid hero clamped between dedicated
+          hero-min and hero-max tokens.
         </p>
       </div>
 
       <section aria-labelledby="type-families-heading">
-        <h2 id="type-families-heading" className="text-xl font-medium tracking-[-0.02em] text-foreground text-display">
+        <h2 id="type-families-heading" className="text-xl font-medium tracking-tight text-foreground">
           Families
         </h2>
         <ul className="mt-5 border-t border-border/50">
@@ -70,9 +73,9 @@ export function TypographyFoundation() {
                 data-testid={`type-family-${role.id}`}
                 className="grid min-w-0 gap-5 border-b border-border/50 py-6 sm:grid-cols-[120px_minmax(150px,0.75fr)_minmax(0,1.4fr)] sm:items-center"
               >
-                <p className="text-sm font-medium text-foreground text-body">{role.label}</p>
+                <p className="text-sm font-medium text-foreground">{role.label}</p>
                 <TechnicalLabel token={token} />
-                <p className="min-w-0 overflow-hidden text-2xl leading-tight text-foreground" style={{ fontFamily: token.cssValue }}>
+                <p className="min-w-0 overflow-hidden text-title text-foreground" style={{ fontFamily: token.cssValue }}>
                   {role.sample}
                 </p>
               </li>
@@ -83,10 +86,10 @@ export function TypographyFoundation() {
 
       <section aria-labelledby="type-scale-heading">
         <div className="flex flex-wrap items-end justify-between gap-3">
-          <h2 id="type-scale-heading" className="text-xl font-medium tracking-[-0.02em] text-foreground text-display">
+          <h2 id="type-scale-heading" className="text-xl font-medium tracking-tight text-foreground">
             Type scale
           </h2>
-          <p className="text-[10px] uppercase tracking-[0.16em] text-foreground/40 text-body">
+          <p className="text-label uppercase tracking-eyebrow text-foreground/55">
             Production roles · px
           </p>
         </div>
@@ -99,11 +102,11 @@ export function TypographyFoundation() {
                 data-testid={`type-scale-${role.id}`}
                 className="grid min-w-0 gap-5 border-b border-border/50 py-6 sm:grid-cols-[120px_minmax(150px,0.75fr)_minmax(0,1.4fr)] sm:items-center"
               >
-                <p className="text-sm font-medium text-foreground text-body">{role.label}</p>
+                <p className="text-sm font-medium text-foreground">{role.label}</p>
                 <TechnicalLabel token={token} />
                 <p
                   data-testid={`type-scale-${role.id}-specimen`}
-                  className="min-w-0 overflow-hidden text-foreground text-display"
+                  className="min-w-0 overflow-hidden tracking-tight text-foreground"
                   style={{ fontSize: token.cssValue, lineHeight: 1.05 }}
                 >
                   {role.sample}
@@ -115,7 +118,7 @@ export function TypographyFoundation() {
       </section>
 
       <section aria-labelledby="type-weights-heading">
-        <h2 id="type-weights-heading" className="text-xl font-medium tracking-[-0.02em] text-foreground text-display">
+        <h2 id="type-weights-heading" className="text-xl font-medium tracking-tight text-foreground">
           Weights
         </h2>
         <ul className="mt-5 border-t border-border/50">
@@ -127,9 +130,9 @@ export function TypographyFoundation() {
                 data-testid={`type-weight-${role.id}`}
                 className="grid min-w-0 gap-5 border-b border-border/50 py-6 sm:grid-cols-[120px_minmax(150px,0.75fr)_minmax(0,1.4fr)] sm:items-center"
               >
-                <p className="text-sm font-medium text-foreground text-body">{role.label}</p>
+                <p className="text-sm font-medium text-foreground">{role.label}</p>
                 <TechnicalLabel token={token} />
-                <p className="min-w-0 text-2xl text-foreground text-display" style={{ fontWeight: token.cssValue }}>
+                <p className="min-w-0 text-title text-foreground" style={{ fontWeight: token.cssValue }}>
                   Product design, built end to end.
                 </p>
               </li>
