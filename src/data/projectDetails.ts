@@ -142,15 +142,15 @@ const neuralyfe: ProjectDetailDocument = {
   listSection: "Main Projects",
   title: "NeuraLyfe",
   heroSummary: "Making Invisible Brain Trauma Visible — Before It Becomes Irreversible.",
-  heroSubtitle: "FigBuild 2026 · 1st Place — Concept, Execution, and System Design.",
+  heroSubtitle: "FigBuild 2026 · 3-Day Hackathon · Built in Figma Make · 1st Place of 690 Teams.",
   heroImage: neuralyfeDetail1,
   metaCards: [
     { label: "Role", value: "Product Designer · Maker" },
-    { label: "Timeline", value: "Fall 2025 · Spring 2026" },
+    { label: "Timeline", value: "3 Days · March 2026" },
     { label: "Team", value: "Design · Physical · Digital" },
     { label: "Scope", value: "Problem Framing · Impact Replay · Product Narrative" },
-    { label: "Outcome", value: "1st Place · FigBuild 2026" },
-    { label: "Tools", value: "Figma · Prototyping · Presentation · Build" },
+    { label: "Outcome", value: "1st Place of 690 Teams" },
+    { label: "Tools", value: "Figma Make · Figma · Prototyping" },
   ],
   sections: [
     {
@@ -158,7 +158,7 @@ const neuralyfe: ProjectDetailDocument = {
       label: "Intro",
       subtitle: "Intro",
       showProjectMeta: true,
-      body: "**NeuraLyfe is a sideline decision-support system that helps football medical staff catch brain-impact risk before it becomes irreversible.**\n\nThe project addresses Chronic Traumatic Encephalopathy (CTE): a degenerative brain condition linked to repeated head impacts. CTE is difficult to detect because the damage accumulates gradually, often without visible symptoms, and cannot be confirmed until after death.\n\nMy role was to frame the problem, shape the product logic, design the core interaction system, and prototype the experience in Figma and Figma Make. I focused on turning simulated helmet data into a sideline workflow that medical staff could understand and act on under pressure.\n\n**NeuraLyfe was awarded 1st Place at FigBuild 2026, recognized for its concept, execution, and system design.**",
+      body: "**NeuraLyfe is a sideline decision-support system that helps football medical staff catch brain-impact risk before it becomes irreversible — designed and built in three days for the FigBuild 2026 hackathon, entirely in Figma Make.**\n\nIt tackles Chronic Traumatic Encephalopathy (CTE): a degenerative condition from repeated head impacts that accumulates invisibly and can't be confirmed until after death.\n\nI ideated the concept and helped the team choose it over a rougher direction around dreams, where the pain point never got sharp. Over the 72 hours, I designed and built **Halo** and the **Impact Replay** interface, and co-designed the **Roster View**.\n\n**It won 1st Place out of 690 teams.**",
     },
     {
       id: "highlights",
@@ -168,7 +168,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "situation",
       label: "Situation",
-      body: "## The Problem With Cumulative Damage\n\nFootball players take thousands of hits across a career. Most feel manageable in the moment — but repeated sub-concussive impacts are strongly linked to long-term brain damage.\n\n[[fig:0]]\n\nThe damage is hard to see. Sideline evaluations rely on visible symptoms — confusion, balance, slowed reactions — and by the time those appear, the neurological impact may already be significant.\n\n**Medical staff need to track cumulative impact as it builds, not just react once symptoms show.**",
+      body: "## The Problem With Cumulative Damage\n\nFootball players take thousands of hits across a career. Most feel manageable in the moment, but repeated sub-concussive impacts are strongly linked to long-term brain damage.\n\n[[fig:0]]\n\nSideline evaluations only catch visible symptoms — confusion, balance, slowed reactions — and by the time those appear, the neurological damage may already be significant.\n\n**Staff need to track cumulative impact as it builds, not react once symptoms show.**",
       figures: [
         { type: "image", src: neuralyfeDeckHits, alt: "Repeated sub-concussive hits accumulate into long-term brain damage" },
       ],
@@ -176,7 +176,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "research",
       label: "Research",
-      body: "## Where the Detection Gap Is\n\nExisting helmet sensors capture **force** — but force alone doesn't tell you how the brain responded. The signal that matters, cumulative neurological stress, goes unmeasured.\n\n[[fig:0]]\n\nSideline checks are also triggered too late: by a visible hit or stumble, when the window for early intervention may already have passed.\n\n**The opportunity: track cumulative brain-impact risk as it builds, not just flag individual hits.**",
+      body: "## Where the Detection Gap Is\n\nExisting helmet sensors capture **force**, but force alone doesn't reveal how the brain responded. The signal that matters — cumulative neurological stress — goes unmeasured, and checks trigger too late, only after a visible hit or stumble.\n\n[[fig:0]]\n\n**The opportunity: track cumulative brain-impact risk as it builds, not just flag individual hits.**",
       figures: [
         { type: "image", src: neuralyfeDeckIndex, alt: "The CTE Progression Index combines biomarkers — p-Tau 217, NfL, GFAP — into a cumulative risk signal" },
       ],
@@ -184,7 +184,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "problem",
       label: "Design Challenge",
-      body: "## From Complex Data to Fast Decisions\n\nThe core problem wasn't technical — it was interpretive. Brain activity, cumulative impact, affected regions, and biomarker signals are hard to read in real time. Show too much and it overwhelms; simplify too much and it loses credibility.\n\n[[fig:0]]\n\nThe system had to surface the most urgent information first, support fast triage, and let staff go deeper only when needed.\n\n**The question I kept returning to: what does a sideline medic need to know in the next five seconds?**",
+      body: "## From Complex Data to Fast Decisions\n\nThe core problem wasn't technical — it was interpretive. Brain activity, cumulative impact, affected regions, and biomarkers are hard to read in real time. Show too much and it overwhelms; simplify too much and it loses credibility.\n\n[[fig:0]]\n\n**The question I kept returning to: what does a sideline medic need to know in the next five seconds?**",
       figures: [
         { type: "image", src: neuralyfeDeckProof, alt: "Sideline doctors need proof, not suspicion" },
       ],
@@ -219,7 +219,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "impact",
       label: "Impact",
-      body: "NeuraLyfe makes a clear claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\nMy contribution was translating that claim into a working prototype — framing the problem, shaping the product logic, defining the three core views, and building the system in Figma and Figma Make.\n\nThe concept was validated externally: NeuraLyfe took 1st place at FigBuild 2026 out of 690 teams.\n\nThe result shows how a sideline team moves from a raw impact alert to a confident decision: scan the roster, inspect brain stress, trace the risk to the play, and act before damage becomes irreversible.",
+      body: "NeuraLyfe makes a clear claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\nMy contribution: ideating and framing the concept, designing and building Halo and Impact Replay, and co-designing the Roster View — all in Figma and Figma Make.\n\nThe concept was validated externally: NeuraLyfe took 1st place at FigBuild 2026 out of 690 teams.\n\nThe result shows how a sideline team moves from a raw impact alert to a confident decision: scan the roster, inspect brain stress, trace the risk to the play, and act before damage becomes irreversible.",
       figures: [
         { type: "image", src: neuralyfeDeckScenario, alt: "In a live scenario, a player's frontal lobe hits critical levels and his card turns red" },
       ],
