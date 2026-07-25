@@ -465,7 +465,6 @@ export function MotiBuildJourney() {
           { label: "Why Evolve", text: "Temporal blindness, context loss, over-rigid parsing." },
           { label: "Learning", text: "Understanding fidelity is the bottleneck; planning quality depends on input clarity." },
         ]}
-        quote="The problem wasn’t planning. It was understanding."
       />
       <VersionBlock
         tag="V1.1"
