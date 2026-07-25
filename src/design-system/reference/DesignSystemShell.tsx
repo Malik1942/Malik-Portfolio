@@ -143,9 +143,6 @@ export function DesignSystemShell({
           aria-label="Design system sections"
           className={`${railOpen ? "block" : "hidden"} border-b border-border/40 py-5 lg:block lg:border-b-0 lg:py-0`}
         >
-          <p className="mb-6 hidden text-label uppercase tracking-eyebrow text-foreground/55 lg:block">
-            Reference
-          </p>
           <div className="space-y-5">
             {DESIGN_SYSTEM_GROUPS.map((group) => {
               const isExpanded = openGroupIds.has(group.id);
