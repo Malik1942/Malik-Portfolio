@@ -168,7 +168,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "situation",
       label: "Situation",
-      body: "## The Problem With Cumulative Damage\n\nFootball players take thousands of hits across a career. Most feel manageable in the moment, but repeated sub-concussive impacts are strongly linked to long-term brain damage.\n\n[[fig:0]]\n\nSideline evaluations only catch visible symptoms — confusion, balance, slowed reactions — and by the time those appear, the neurological damage may already be significant.\n\n**Staff need to track cumulative impact as it builds, not react once symptoms show.**",
+      body: "## The Problem With Cumulative Damage\n\nFootball players take thousands of hits across a career, and repeated sub-concussive impacts are strongly linked to long-term brain damage. Sideline checks only catch visible symptoms — and by then, the damage is done.\n\n[[fig:0]]\n\n**Staff need to see cumulative impact as it builds, not react once symptoms show.**",
       figures: [
         { type: "image", src: neuralyfeDeckHits, alt: "Repeated sub-concussive hits accumulate into long-term brain damage" },
       ],
@@ -176,7 +176,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "research",
       label: "Research",
-      body: "## Where the Detection Gap Is\n\nExisting helmet sensors capture **force**, but force alone doesn't reveal how the brain responded. The signal that matters — cumulative neurological stress — goes unmeasured, and checks trigger too late, only after a visible hit or stumble.\n\n[[fig:0]]\n\n**The opportunity: track cumulative brain-impact risk as it builds, not just flag individual hits.**",
+      body: "## Where the Detection Gap Is\n\nHelmet sensors today capture **force** — not how the brain responded. The signal that matters, cumulative neurological stress, goes unmeasured.\n\n[[fig:0]]\n\n**The opportunity: track brain-impact risk as it builds, not just flag individual hits.**",
       figures: [
         { type: "image", src: neuralyfeDeckIndex, alt: "The CTE Progression Index combines biomarkers — p-Tau 217, NfL, GFAP — into a cumulative risk signal" },
       ],
@@ -184,7 +184,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "problem",
       label: "Design Challenge",
-      body: "## From Complex Data to Fast Decisions\n\nThe core problem wasn't technical — it was interpretive. Brain activity, cumulative impact, affected regions, and biomarkers are hard to read in real time. Show too much and it overwhelms; simplify too much and it loses credibility.\n\n[[fig:0]]\n\n**The question I kept returning to: what does a sideline medic need to know in the next five seconds?**",
+      body: "## From Complex Data to Fast Decisions\n\nThe core problem was interpretive, not technical: show too much data and it overwhelms; simplify too much and it loses credibility.\n\n[[fig:0]]\n\n**The question I kept returning to: what does a sideline medic need to know in the next five seconds?**",
       figures: [
         { type: "image", src: neuralyfeDeckProof, alt: "Sideline doctors need proof, not suspicion" },
       ],
@@ -192,7 +192,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "system-direction",
       label: "System Direction",
-      body: "## Two Layers Working Together\n\n**Halo** is a helmet add-on that captures impact and physiological signals during play — without replacing equipment teams already trust. It carries three sensing layers: EEG for brain connectivity, biomarker sensors for early neurological stress (p-Tau 217, NfL, GFAP), and an impact camera that reconstructs hits.\n\n[[fig:0]]\n\n**The sideline interface** turns those signals into a decision workflow, structured around three questions: who needs attention, what's happening in their brain, and what caused it.\n\n**The core logic: the interface is only as useful as the signals behind it — and the hardware only as useful as the interface that makes sense of it.**",
+      body: "## Two Layers Working Together\n\n**Halo**, a helmet add-on, senses what force data can't: EEG for brain connectivity, biomarkers for early neurological stress, and an impact camera that reconstructs hits.\n\n[[fig:0]]\n\n**The sideline interface** turns those signals into three questions: who needs attention, what's happening in their brain, and what caused it.",
       figures: [
         { type: "image", src: neuralyfeDeckHalo, alt: "NeuraLyfe Halo turns any helmet into a brain-health sensor with EEG, biomarker, and impact-camera sensing" },
       ],
@@ -200,7 +200,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "process",
       label: "Design Process",
-      body: "## Building the Decision Flow\n\nMedical staff can't explore data mid-game, so the interface had to support fast triage first and deeper inspection only when needed. That led to a three-level structure:\n\n· **Roster View** — scan risk across the whole team at a glance\n· **Brain View** — inspect where neurological stress is building\n· **Impact Replay** — trace a high-risk alert back to the exact play\n\n[[fig:0]]\n\nI prototyped in Figma and Figma Make with simulated sensor data, pressure-testing one question throughout: could a staff member move from first alert to informed decision in a few seconds?",
+      body: "## Building the Decision Flow\n\nStaff can't explore data mid-game, so the interface leads with triage and reveals depth only on demand:\n\n· **Roster View** — who needs attention, at a glance\n\n· **Brain View** — where stress is building\n\n· **Impact Replay** — which play caused it\n\n[[fig:0]]\n\nI pressure-tested one question throughout the Figma Make build: can staff go from alert to decision in seconds?",
       figures: [
         { type: "image", src: neuralyfeDeckViews, alt: "From impact data to medical decisions in three views: Roster, Brain, and Impact Replay" },
       ],
@@ -208,7 +208,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "final-design",
       label: "Final Design",
-      body: "## Halo\n\nI designed Halo as the sensing foundation of the system. The add-on structure was a deliberate decision: teams already trust their helmets, and Halo integrates without disruption.\n\nThe three sensing layers work together to capture what force data alone cannot provide. EEG maps brain connectivity and detects patterns linked to neurological stress. Biomarker sensors track early damage indicators before symptoms appear. The impact camera reconstructs plays, connecting a force event to a specific moment on the field.\n\n[[fig:3]]\n\n## Roster View\n\nThe Roster View is the entry point for triage. It ranks players by medical urgency based on cumulative impacts, recent hit severity, and brain health indicators, turning a static player list into a live risk map.\n\nMedical staff can scan the whole team at once and immediately identify who needs attention.\n\n[[fig:0]]\n\n## Brain View\n\nThe Brain View helps medical staff understand where neurological stress may be building. A 3D brain visualization maps stress by region, making cumulative impact easier to inspect and explain.\n\nA risk score alone is not enough. The Brain View gives location and pattern, which matters most when repeated impacts affect specific regions over time.\n\n[[fig:1]]\n\n## Impact Replay\n\nImpact Replay connects a medical alert back to the exact play. It answers the questions a risk score cannot: when did the hit happen, how severe was it, which brain regions were affected, and should the player be evaluated now.\n\nBy tracing detected hits back to gameplay moments, Impact Replay moves the system from abstract signal to concrete action.\n\n[[fig:2]]\n\nTogether, Roster View, Brain View, and Impact Replay create a clear decision flow: identify risk, inspect impact, act with context.",
+      body: "## Halo\n\nAn add-on, not a new helmet — teams keep the equipment they already trust. EEG maps brain connectivity, biomarker sensors catch early damage indicators, and the impact camera ties each force event to a moment on the field.\n\n[[fig:3]]\n\n## Roster View\n\nRanks players by medical urgency — cumulative impacts, recent hit severity, brain health — turning a static player list into a live risk map.\n\n[[fig:0]]\n\n## Brain View\n\nMaps neurological stress by region in 3D. A risk score says how much; Brain View shows where — which matters most when repeated impacts hit the same region.\n\n[[fig:1]]\n\n## Impact Replay\n\nTraces an alert back to the exact play: when the hit happened, how severe it was, which regions were affected, and whether to pull the player now.\n\n[[fig:2]]\n\n**Together: identify risk, inspect impact, act with context.**",
       figures: [
         { type: "video", src: neuralyfeRoster },
         { type: "video", src: neuralyfeBrain },
@@ -219,7 +219,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "impact",
       label: "Impact",
-      body: "NeuraLyfe makes a clear claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\nMy contribution: ideating and framing the concept, designing and building Halo and Impact Replay, and co-designing the Roster View — all in Figma and Figma Make.\n\nThe concept was validated externally: NeuraLyfe took 1st place at FigBuild 2026 out of 690 teams.\n\nThe result shows how a sideline team moves from a raw impact alert to a confident decision: scan the roster, inspect brain stress, trace the risk to the play, and act before damage becomes irreversible.",
+      body: "NeuraLyfe's claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\n**1st Place at FigBuild 2026, out of 690 teams.**",
       figures: [
         { type: "image", src: neuralyfeDeckScenario, alt: "In a live scenario, a player's frontal lobe hits critical levels and his card turns red" },
       ],
@@ -227,7 +227,7 @@ const neuralyfe: ProjectDetailDocument = {
     {
       id: "reflection",
       label: "Reflection",
-      body: "## Designing for Interpretation, Not Just Accuracy\n\nDesigning for health means designing for interpretation, not just data display. A system can collect accurate signals, but if staff cannot read them under pressure, those signals do not become care.\n\n## High-Pressure Interfaces Need Different Logic\n\nThe first question is never \"what does all the data say?\" It is \"who needs help right now?\" That pushed me to simplify, reduce competing information, and make the most urgent cases immediately visible.\n\n## What I Would Do Next\n\nThe next step is clinical validation with sports-medicine professionals — testing whether the decision flow holds up in real sideline calls.\n\nNeuraLyfe showed me that making hidden risk visible is a design problem. The harder part is making that visibility useful when it matters most.",
+      body: "## Designing for Interpretation, Not Just Accuracy\n\nDesigning for health means designing for interpretation, not data display. A system can collect perfectly accurate signals, but if staff can't read them under pressure, those signals never become care.\n\n## High-Pressure Interfaces Need Different Logic\n\nThe first question is never \"what does all the data say?\" It's \"who needs help right now?\" That pushed me to cut competing information and make the most urgent cases immediately visible.\n\n## What I Would Do Next\n\nClinical validation with sports-medicine professionals — testing whether the decision flow holds up in real sideline calls.\n\nNeuraLyfe showed me that making hidden risk visible is a design problem. The harder part is making that visibility useful when it matters most.",
     },
   ],
 };
