@@ -104,6 +104,16 @@ const Footer = ({ onMainProjectsClick, onAboutClick, onAdminClick, constrained =
                   Instagram
                 </a>
               </li>
+              <li>
+                <a
+                  href="https://medium.com/@malikzhang19"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500"
+                >
+                  Medium
+                </a>
+              </li>
             </ul>
           </div>
         </div>
