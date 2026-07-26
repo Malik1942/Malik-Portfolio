@@ -96,7 +96,7 @@ const Footer = ({ onMainProjectsClick, onAboutClick, onAdminClick, constrained =
               </li>
               <li>
                 <a
-                  href="https://www.instagram.com/malikz1942?igsh=eHN4bjkzamtpcGFi&utm_source=qr"
+                  href="https://www.instagram.com/malikz_visual?igsh=dzRpdnlnY3h4cmRs&utm_source=qr"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500"
