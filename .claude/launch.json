@@ -7,6 +7,13 @@
       "runtimeArgs": ["run", "dev"],
       "port": 8080,
       "autoPort": true
+    },
+    {
+      "name": "vite-preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "preview"],
+      "port": 4173,
+      "autoPort": true
     }
   ]
 }
