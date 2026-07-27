@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback } from "react";
 import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
+import { scrollToTarget } from "@/lib/scrollToTarget";
 import { nextDotGridCanvasSize } from "./dotGridSize";
 
 // ── Cluster positions: balanced quadrant layout ──
@@ -51,6 +52,11 @@ const GOLD = "201, 169, 110";
 // the central "Malik Zhang" title cluster. Ambient background stars and the
 // name particles themselves are intentionally NOT constrained.
 const ORB_PAD = 80; // viewport edge padding for orbs
+// The label block draws to the RIGHT of the dot — a 20px offset plus up to ~102px
+// of text ("Studio Waters" at the desktop size). ORB_PAD alone let that run off
+// the canvas, clipping the longest labels; the right edge needs its own clearance.
+// Mobile is unaffected: those orbs are pinned to a low-x column, far from this edge.
+const ORB_PAD_RIGHT = 130;
 // Orbs draw a core, ring and a text label (~16px tall, offset to the right) around
 // their center, so we keep the *center* this far outside each zone — otherwise the
 // body/label bleeds back across the edge even when the center is clear.
@@ -122,6 +128,23 @@ interface Dot {
   distY: number;
   distPhase: number; // unique phase for periodic disturbance timing
 }
+
+// ── Dot → project card navigation ────────────────────────────────────────────
+// Routes through the site's shared eased scroll (the same helper the header nav
+// uses) rather than native scrollIntoView. Native smooth scrolling reports no
+// completion, so the destination card had no way to know it had been landed on —
+// which is why the arrival pulse never played. scrollToTarget fires
+// "project-dot-arrive" when it settles; ProjectCard listens for it.
+const scrollToProjectCard = (id: string) => {
+  const el = document.getElementById(`project-${id}`);
+  if (!el) return;
+  scrollToTarget({
+    element: el,
+    align: "center",
+    arrivalEventName: "project-dot-arrive",
+    arrivalDetail: { id },
+  });
+};
 
 interface DotGridProps {
   aboutMode: boolean;
@@ -210,7 +233,9 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       y: (isMobile ? d.mry : d.ry) * h,
       vx: (Math.random() - 0.5) * 0.12,
       vy: (Math.random() - 0.5) * 0.12,
-      baseSize: 4 + Math.random() * 1.5,
+      // baseSize is a radius, so +1 renders a dot 2px wider. Desktop only —
+      // mobile keeps the tighter dot so the left-column label band stays clear.
+      baseSize: (isMobile ? 4 : 5) + Math.random() * 1.5,
       mass: 1 + Math.random() * 2,
       hoverT: 0,
     }));
@@ -332,6 +357,8 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     const my = mouseRef.current.y;
     const time = performance.now() / 1000;
     const reduced = prefersReducedMotionRef.current;
+    // Same 768 breakpoint initScene uses for the mobile orb layout.
+    const isDesktop = w >= 768;
 
     // Transition interpolation
     const targetT = aboutModeRef.current ? 1 : 0;
@@ -576,8 +603,9 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
 
         // Viewport containment — the bottom is now fully usable (nav moved up,
         // so the old h * 0.82 bottom exclusion is gone).
+        const rightPad = isDesktop ? ORB_PAD_RIGHT : ORB_PAD;
         if (orb.x < ORB_PAD) { orb.vx += 0.02; orb.x = Math.max(ORB_PAD, orb.x); }
-        if (orb.x > w - ORB_PAD) { orb.vx -= 0.02; orb.x = Math.min(w - ORB_PAD, orb.x); }
+        if (orb.x > w - rightPad) { orb.vx -= 0.02; orb.x = Math.min(w - rightPad, orb.x); }
         if (orb.y < ORB_PAD) { orb.vy += 0.02; orb.y = Math.max(ORB_PAD, orb.y); }
         if (orb.y > h - ORB_PAD) { orb.vy -= 0.02; orb.y = Math.min(h - ORB_PAD, orb.y); }
 
@@ -643,13 +671,15 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         ctx.fillStyle = `rgba(${col}, ${(0.85 + easedH * 0.1) * opacityBreath})`;
         ctx.fill();
 
-        ctx.font = "500 13px 'Space Grotesk', sans-serif";
+        // Desktop runs both label lines 2px larger; mobile keeps 13/10 so the
+        // stacked left-column labels don't collide with each other or the title.
+        ctx.font = `500 ${isDesktop ? 15 : 13}px 'Space Grotesk', sans-serif`;
         ctx.fillStyle = `rgba(${col}, ${(0.68 + easedH * 0.18) * opacityBreath})`;
         ctx.fillText(orb.label, orb.x + 20, orb.y - 3);
 
-        ctx.font = "500 10px 'Space Grotesk', sans-serif";
+        ctx.font = `500 ${isDesktop ? 12 : 10}px 'Space Grotesk', sans-serif`;
         ctx.fillStyle = `rgba(${col}, ${(0.55 + easedH * 0.20) * opacityBreath})`;
-        ctx.fillText(orb.subtitle, orb.x + 20, orb.y + 11);
+        ctx.fillText(orb.subtitle, orb.x + 20, orb.y + (isDesktop ? 13 : 11));
       });
 
       hoveredOrbRef.current = newHoveredOrb;
@@ -747,8 +777,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         if (dist < nearestDist) { nearestDist = dist; nearestId = orb.id; }
       }
       if (nearestId) {
-        const el = document.getElementById(`project-${nearestId}`);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+        scrollToProjectCard(nearestId);
         setTimeout(() => { mouseRef.current = { x: -500, y: -500 }; }, 800);
         return;
       }
@@ -772,8 +801,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       // Orb click — scroll to project
       const id = hoveredOrbRef.current;
       if (id) {
-        const el = document.getElementById(`project-${id}`);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+        scrollToProjectCard(id);
         return;
       }
 
