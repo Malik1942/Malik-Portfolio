@@ -25,18 +25,29 @@ the animation **silently** — no error, no test failure, the click still scroll
    keyframes. These sat orphaned in the stylesheet for months after step 3 was
    deleted in a card redesign, which is how the animation went missing.
 
+### Do not animate this scroll from JavaScript
+
+`scrollToTarget` hands the scroll to the browser (`behavior: "smooth"`) and then
+*watches* for it to finish. Do not "improve" this into a requestAnimationFrame
+loop that sets `window.scrollTo` each frame for custom easing or duration. That
+version existed and was visibly laggy in production: a raf loop runs the whole
+animation on the main thread, so it drops frames against anything else happening
+there — and a dot click starts a long scroll that pulls several `loading="lazy"`
+cover images (1620–2400px wide) into view at once, decoding them mid-flight.
+A native smooth scroll is driven on the compositor and is immune to that.
+
+The trade is that we don't get to pick the duration or curve, and we can't know
+when it ends by arithmetic. `announceOnScrollEnd` handles the latter: `scrollend`
+where available, otherwise watching `window.scrollY` settle, with a timeout. Note
+it waits `MIN_SETTLE_MS` before trusting stillness — a smooth scroll has not
+started moving on the frame after you request it, and treating that initial
+stillness as "arrived" fires the pulse instantly.
+
 ### The `behavior` trap
 
 `html` sets `scroll-behavior: smooth` in `src/index.css`. Per CSSOM-View,
 `scrollTo({ behavior: "auto" })` means *defer to that CSS value* — it does not
-mean "jump". `scrollToTarget` must keep passing `behavior: "instant"` in both its
-raf loop and its reduced-motion branch. When it passed `"auto"`, every frame of
-the eased loop kicked off its own native smooth scroll, so the loop announced
-arrival ~800ms before the page actually stopped moving and the pulse played
-mid-flight, invisible at the destination.
-
-The duration constants at the top of `scrollToTarget.ts` (220 / 720 / 0.5) are
-tuned to preserve that original ~800ms glide. They are shared with the header
-nav, so changing them changes in-page navigation site-wide.
+mean "jump". Any call here that must not animate (the reduced-motion branch) has
+to pass `behavior: "instant"` explicitly, or it will smooth-scroll anyway.
 
 Coverage: `src/components/projectDotArrival.test.tsx`.
