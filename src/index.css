@@ -203,8 +203,17 @@ body.loaded .animate-line-reveal { animation-play-state: running; }
   border-color: hsl(var(--color-text-primary) / 0.1);
 }
 
+/* Landing pulse for a card reached by clicking its hero dot. Applied to the card
+   wrapper, so the inset ring has to follow the cover's rounded-2xl corners. */
 .project-row-arriving {
   animation: project-row-arrival 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-row-arriving {
+    animation: none;
+  }
 }
 
 @keyframes project-row-arrival {
