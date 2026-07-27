@@ -1,6 +1,11 @@
-const SCROLL_DURATION_MIN = 160;
-const SCROLL_DURATION_MAX = 300;
-const SCROLL_DURATION_FACTOR = 0.1;
+// Tuned to match the glide this helper actually produced before the `behavior`
+// fix below. The old values (160/300/0.1) never took effect: every frame handed
+// off to the browser's native smooth scroll, which paced the journey at roughly
+// 800ms for a full-page jump. Now that the raf loop genuinely owns the timing,
+// these keep that same felt duration instead of collapsing it to a hard cut.
+const SCROLL_DURATION_MIN = 220;
+const SCROLL_DURATION_MAX = 720;
+const SCROLL_DURATION_FACTOR = 0.5;
 
 let activeScrollRaf: number | null = null;
 
@@ -22,7 +27,9 @@ export const scrollToTarget = ({
   arrivalDetail,
 }: ScrollTargetOptions) => {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    element.scrollIntoView({ block: align === "center" ? "center" : "start" });
+    // Explicit "instant" for the same reason as the loop below — the bare call
+    // would inherit `html { scroll-behavior: smooth }` and animate anyway.
+    element.scrollIntoView({ block: align === "center" ? "center" : "start", behavior: "instant" });
     window.dispatchEvent(new CustomEvent(arrivalEventName, { detail: arrivalDetail }));
     return;
   }
@@ -57,9 +64,14 @@ export const scrollToTarget = ({
     const progress = Math.min(1, (now - startTime) / duration);
     const easedProgress = easeInOutSine(progress);
 
+    // "instant", not "auto": per CSSOM-View, "auto" defers to the element's CSS
+    // scroll-behavior — and `html` sets `scroll-behavior: smooth`. That turned
+    // every frame of this loop into its own native smooth scroll, so the page was
+    // still gliding ~800ms after the loop had finished and announced arrival.
+    // This loop owns the easing; each frame must land immediately.
     window.scrollTo({
       top: startY + distance * easedProgress,
-      behavior: "auto",
+      behavior: "instant",
     });
 
     if (progress < 1) {

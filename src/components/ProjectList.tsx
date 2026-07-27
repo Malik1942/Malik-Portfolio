@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -191,6 +191,31 @@ export const ProjectCard = ({
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
 
+  // ── Hero dot arrival ──
+  // Clicking a project dot in the hero canvas scrolls here and fires
+  // "project-dot-arrive" on landing (see DotGrid + lib/scrollToTarget). The card
+  // answers with a brief pulse so the jump reads as "this one" rather than an
+  // unexplained scroll. `arriving` also forces the reveal: the scroll is faster
+  // than the entrance animation, so a card that never crossed the viewport would
+  // otherwise be sitting at opacity 0 when the pulse plays.
+  const [arriving, setArriving] = useState(false);
+  useEffect(() => {
+    if (!projectId) return;
+    const onArrive = (event: Event) => {
+      const { id } = (event as CustomEvent<{ id?: string }>).detail ?? {};
+      setArriving(id === projectId);
+    };
+    window.addEventListener("project-dot-arrive", onArrive);
+    return () => window.removeEventListener("project-dot-arrive", onArrive);
+  }, [projectId]);
+
+  const revealed = inView || arriving;
+  // Shared by both card layouts below.
+  const arrivalProps = {
+    className: arriving ? "project-row-arriving" : undefined,
+    onAnimationEnd: () => setArriving(false),
+  };
+
   // WIP cards stay visible but non-interactive: no link, no pointer, no hover lift.
   const isWip = !!project.wip;
   const cursorClass = isWip ? "cursor-default" : "cursor-pointer";
@@ -321,7 +346,7 @@ export const ProjectCard = ({
         ref={ref}
         id={projectId ? `project-${projectId}` : undefined}
         initial={{ opacity: 0, scale: 0.94, y: 40 }}
-        animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.94, y: inView ? 0 : 40 }}
+        animate={{ opacity: revealed ? 1 : 0, scale: revealed ? 1 : 0.94, y: revealed ? 0 : 40 }}
         transition={{
           duration: 0.75,
           ease: [0.16, 1, 0.3, 1],
@@ -331,6 +356,7 @@ export const ProjectCard = ({
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         data-clickable={isWip ? undefined : "true"}
+        {...arrivalProps}
       >
         <CardLink
           isWip={isWip}
@@ -351,7 +377,7 @@ export const ProjectCard = ({
       ref={ref}
       id={projectId ? `project-${projectId}` : undefined}
       initial={{ opacity: 0, scale: 0.94, y: 40 }}
-      animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.94, y: inView ? 0 : 40 }}
+      animate={{ opacity: revealed ? 1 : 0, scale: revealed ? 1 : 0.94, y: revealed ? 0 : 40 }}
       transition={{
         duration: 0.75,
         ease: [0.16, 1, 0.3, 1],
@@ -362,6 +388,7 @@ export const ProjectCard = ({
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       data-clickable={isWip ? undefined : "true"}
+      {...arrivalProps}
     >
       <CardLink
         isWip={isWip}
