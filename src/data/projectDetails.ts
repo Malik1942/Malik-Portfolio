@@ -253,6 +253,9 @@ const moti: ProjectDetailDocument = {
       label: "Overview",
       showProjectMeta: true,
       body: "**Moti is an AI-native iOS planner, designed, built, and shipped solo on the App Store.**\n\n[[module:moti-tags]]",
+      // The App Store link is the case study's primary action — it closes the
+      // Overview, below the meta grid, instead of sitting inside Highlights.
+      footerModule: "moti-app-store",
     },
     {
       id: "highlights",
@@ -271,7 +274,7 @@ const moti: ProjectDetailDocument = {
     },
     {
       id: "users",
-      label: "What Users Told Me",
+      label: "User Research",
       body: "The same frustrations, in their own words.\n\n[[module:moti-user-quotes]]",
     },
     {

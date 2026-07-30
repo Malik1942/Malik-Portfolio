@@ -18,6 +18,7 @@ import { AuraTestingFindings } from "./AuraTestingFindings";
 import { AuraReflectionLearnings } from "./AuraReflectionLearnings";
 import {
   MotiTags,
+  MotiAppStoreCta,
   MotiHook,
   MotiProblem,
   MotiCompetitive,
@@ -134,6 +135,7 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "aura-testing-findings": <AuraTestingFindings />,
   "aura-reflection-learnings": <AuraReflectionLearnings />,
   "moti-tags": <MotiTags />,
+  "moti-app-store": <MotiAppStoreCta />,
   "moti-hook": <MotiHook />,
   "moti-problem": <MotiProblem />,
   "moti-competitive": <MotiCompetitive />,
@@ -463,6 +465,9 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                       <ProjectMediaFrame key={fi} fig={fig} />
                     ))}
                   </div>
+                ) : null}
+                {s.footerModule && INLINE_MODULES[s.footerModule] ? (
+                  <div className="mt-14 md:mt-18">{INLINE_MODULES[s.footerModule]}</div>
                 ) : null}
               </article>
             ))}

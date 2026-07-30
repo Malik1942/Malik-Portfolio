@@ -156,21 +156,36 @@ export function ArtifactGallery({ items }: { items: { src: string; alt: string; 
   );
 }
 
-// App Store CTA — matches the back-link typography + tokens, with a button affordance.
-function AppStoreButton({ href }: { href: string }) {
+// App Store CTA — the case study's one primary action, so it takes the site's
+// primary-button treatment (filled bg-foreground / text-background) at a size
+// that closes the Overview section rather than reading as an inline link.
+// Hover replays the arrow gesture used on the site's links, amplified: the ↗
+// leaves along its own diagonal, out of a box clipped to the icon, while a
+// second copy enters from the opposite corner. Every moving rule is behind
+// `motion-safe:`, so reduced motion gets a still arrow and a colour-only hover.
+const APP_STORE_URL = "https://apps.apple.com/us/app/moti-plan/id6770705491";
+
+const ctaArrow = "absolute inset-0 h-5 w-5 transition-transform duration-300 ease-out";
+
+export function MotiAppStoreCta() {
   return (
     <a
-      href={href}
+      href={APP_STORE_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className="group inline-flex items-center gap-2 self-start rounded-full border border-foreground/25 px-5 py-2.5 text-sm text-foreground/72 hover:text-foreground hover:border-foreground/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 transition-colors duration-200"
+      className="group inline-flex items-center gap-3.5 self-start rounded-full bg-foreground px-7 py-4 md:px-8 md:py-5 text-base md:text-xl font-medium tracking-tight text-background transition duration-300 ease-out hover:opacity-90 motion-safe:hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       View on the App Store
-      <ArrowUpRight
-        aria-hidden="true"
-        className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-        strokeWidth={1.6}
-      />
+      <span aria-hidden="true" className="relative block h-5 w-5 shrink-0 overflow-hidden">
+        <ArrowUpRight
+          className={`${ctaArrow} motion-safe:group-hover:translate-x-full motion-safe:group-hover:-translate-y-full motion-safe:group-focus-visible:translate-x-full motion-safe:group-focus-visible:-translate-y-full`}
+          strokeWidth={1.8}
+        />
+        <ArrowUpRight
+          className={`${ctaArrow} -translate-x-full translate-y-full motion-safe:group-hover:translate-x-0 motion-safe:group-hover:translate-y-0 motion-safe:group-focus-visible:translate-x-0 motion-safe:group-focus-visible:translate-y-0`}
+          strokeWidth={1.8}
+        />
+      </span>
     </a>
   );
 }
@@ -190,7 +205,7 @@ export function MotiTags() {
   return <Chips items={tags} />;
 }
 
-/* ── 2) Hook — highlights, pull-quote, artifact gallery, App Store CTA ────── */
+/* ── 2) Hook — highlights, pull-quote, artifact gallery ──────────────────── */
 const hookHighlights = [
   "Live on the App Store",
   "Built solo with Claude + Codex",
@@ -209,7 +224,6 @@ export function MotiHook() {
       <Chips items={hookHighlights} />
       <PullQuote>The problem wasn&rsquo;t planning. It was understanding.</PullQuote>
       <ArtifactGallery items={hookArtifacts} />
-      <AppStoreButton href="https://apps.apple.com/us/app/moti-plan/id6770705491" />
     </div>
   );
 }
@@ -254,7 +268,7 @@ export function MotiCompetitive() {
   );
 }
 
-/* ── 5) What Users Told Me — quote cluster ───────────────────────────────── */
+/* ── 5) User Research — quote cluster ────────────────────────────────────── */
 const userQuotes = [
   "Entering tasks is so annoying.",
   "I spend more time organizing than doing.",

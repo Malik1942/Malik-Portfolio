@@ -41,6 +41,9 @@ export type ProjectContentSection = {
   body: string;
   /** When true, renders the document's metaCards grid at the bottom of this section */
   showProjectMeta?: boolean;
+  /** Inline module rendered last in the section — after the body, the metaCards
+   *  grid, and any figures. For a closing call to action. */
+  footerModule?: string;
   /** Optional in-section images / artifacts */
   figures?: ProjectSectionFigure[];
   /** Optional structured intro block — replaces plain body rendering when present */
