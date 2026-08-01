@@ -15,14 +15,15 @@ The route must work on a direct visit, asset requests, refreshes, and Inkwork's 
 
 Inkwork will compile with `/inkwork/` as its public asset base. Its HTML will therefore request assets through `/inkwork/assets/...` when it is displayed at the portfolio route.
 
-The portfolio's `vercel.json` will place two external rewrites before the existing SPA fallback:
+The portfolio's `vercel.json` will place three external rewrites before the existing SPA fallback:
 
 ```json
 { "source": "/inkwork", "destination": "https://inkwork-eight.vercel.app" }
+{ "source": "/inkwork/", "destination": "https://inkwork-eight.vercel.app" }
 { "source": "/inkwork/:path*", "destination": "https://inkwork-eight.vercel.app/:path*" }
 ```
 
-The first rewrite serves Inkwork's HTML. The second forwards its JavaScript, CSS, and other nested paths to the Inkwork deployment after removing the portfolio prefix. The current catch-all rewrite remains last and continues serving the portfolio SPA for all unrelated routes.
+The first two rewrites serve Inkwork's HTML for direct visits with or without a trailing slash. The third forwards its JavaScript, CSS, and other nested paths to the Inkwork deployment after removing the portfolio prefix. The explicit trailing-slash rule is required because Vercel's wildcard does not match an empty trailing path segment. The current catch-all rewrite remains last and continues serving the portfolio SPA for all unrelated routes.
 
 Inkwork will add a local Vercel rewrite from `/inkwork/:path*` to `/:path*`. That preserves the existing standalone `https://inkwork-eight.vercel.app` deployment: after its root HTML requests `/inkwork/assets/...`, the deployment resolves those requests to its real `/assets/...` files.
 
@@ -50,7 +51,7 @@ Inkwork share state remains in the URL hash, so no server rewrite is involved fo
 
 ### Malik Portfolio
 
-- Insert exact `/inkwork` and `/inkwork/:path*` rewrites ahead of the existing `/(.*) -> /index.html` fallback.
+- Insert exact `/inkwork`, `/inkwork/`, and `/inkwork/:path*` rewrites ahead of the existing `/(.*) -> /index.html` fallback.
 - Add a configuration test that asserts rewrite ordering and destinations.
 
 ## Non-Goals
