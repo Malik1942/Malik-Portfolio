@@ -8,6 +8,7 @@ describe("Vercel rewrites", () => {
 
     expect(config.rewrites).toEqual([
       { source: "/inkwork", destination: "https://inkwork-eight.vercel.app" },
+      { source: "/inkwork/", destination: "https://inkwork-eight.vercel.app" },
       { source: "/inkwork/:path*", destination: "https://inkwork-eight.vercel.app/:path*" },
       { source: "/(.*)", destination: "/index.html" },
     ]);

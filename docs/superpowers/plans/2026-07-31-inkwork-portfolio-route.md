@@ -4,7 +4,7 @@
 
 **Goal:** Serve Inkwork at `https://www.malikzhang.com/inkwork` while preserving that URL, direct asset requests, refreshes, hash-based share links, and the standalone Inkwork deployment.
 
-**Architecture:** Inkwork builds production assets beneath `/inkwork/` and rewrites those prefixed requests back to its root asset paths when accessed directly. Malik Portfolio places two external Inkwork rewrites before its existing SPA fallback, serving Inkwork HTML and stripping the prefix from nested asset paths.
+**Architecture:** Inkwork builds production assets beneath `/inkwork/` and rewrites those prefixed requests back to its root asset paths when accessed directly. Malik Portfolio places three external Inkwork rewrites before its existing SPA fallback, serving Inkwork HTML with or without a trailing slash and stripping the prefix from nested asset paths.
 
 **Tech Stack:** Vite 5, Node.js test runner, Vercel rewrites, Vite 7, Vitest 3.
 
@@ -117,7 +117,7 @@ git commit -m "feat: serve Inkwork beneath portfolio route"
 
 **Interfaces:**
 - Consumes: Inkwork's production deployment at `https://inkwork-eight.vercel.app` and its `/inkwork/` asset base from Task 1.
-- Produces: exact ordered external rewrites for `/inkwork` and `/inkwork/:path*`, followed by the unchanged portfolio SPA fallback.
+- Produces: exact ordered external rewrites for `/inkwork`, `/inkwork/`, and `/inkwork/:path*`, followed by the unchanged portfolio SPA fallback.
 
 - [ ] **Step 1: Write the failing rewrite-order test**
 
@@ -132,6 +132,7 @@ describe("Vercel rewrites", () => {
 
     expect(config.rewrites).toEqual([
       { source: "/inkwork", destination: "https://inkwork-eight.vercel.app" },
+      { source: "/inkwork/", destination: "https://inkwork-eight.vercel.app" },
       { source: "/inkwork/:path*", destination: "https://inkwork-eight.vercel.app/:path*" },
       { source: "/(.*)", destination: "/index.html" },
     ]);
@@ -143,7 +144,7 @@ describe("Vercel rewrites", () => {
 
 Run: `npx vitest run api/vercel-rewrites.test.ts`
 
-Expected: FAIL because `vercel.json` contains only the portfolio SPA fallback.
+Expected: FAIL because the rewrite array does not yet match the three required Inkwork rules ahead of the portfolio SPA fallback.
 
 - [ ] **Step 3: Insert the exact external rewrites before the fallback**
 
@@ -153,6 +154,7 @@ Replace `vercel.json` with:
 {
   "rewrites": [
     { "source": "/inkwork", "destination": "https://inkwork-eight.vercel.app" },
+    { "source": "/inkwork/", "destination": "https://inkwork-eight.vercel.app" },
     { "source": "/inkwork/:path*", "destination": "https://inkwork-eight.vercel.app/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
