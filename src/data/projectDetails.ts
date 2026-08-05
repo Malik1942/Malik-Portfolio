@@ -253,6 +253,7 @@ const moti: ProjectDetailDocument = {
       label: "Overview",
       showProjectMeta: true,
       body: "**Moti is an AI-native iOS planner, designed, built, and shipped solo on the App Store.**\n\n[[module:moti-tags]]",
+      afterMetaModule: "moti-app-store",
     },
     {
       id: "highlights",
