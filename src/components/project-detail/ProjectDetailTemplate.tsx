@@ -19,6 +19,7 @@ import { AuraReflectionLearnings } from "./AuraReflectionLearnings";
 import {
   MotiTags,
   MotiHook,
+  MotiAppStoreCta,
   MotiProblem,
   MotiCompetitive,
   MotiUserQuotes,
@@ -135,6 +136,7 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "aura-reflection-learnings": <AuraReflectionLearnings />,
   "moti-tags": <MotiTags />,
   "moti-hook": <MotiHook />,
+  "moti-app-store": <MotiAppStoreCta />,
   "moti-problem": <MotiProblem />,
   "moti-competitive": <MotiCompetitive />,
   "moti-user-quotes": <MotiUserQuotes />,
@@ -456,6 +458,9 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                   <div className="mt-14 md:mt-18">
                     <ProjectMetadataSummary cards={project.metaCards} />
                   </div>
+                ) : null}
+                {s.afterMetaModule && INLINE_MODULES[s.afterMetaModule] ? (
+                  <div className="mt-14 md:mt-18">{INLINE_MODULES[s.afterMetaModule]}</div>
                 ) : null}
                 {s.figures?.length && !s.body.includes("[[fig:") ? (
                   <div className="mt-14 space-y-10">
