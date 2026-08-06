@@ -31,6 +31,9 @@ function AnimatedRoutes() {
       <AnimatePresence mode="wait" initial={false}>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Index />} />
+          {/* /about is the same page as / — Index reads the pathname and opens
+              the About view, so the URL is shareable instead of 404-ing. */}
+          <Route path="/about" element={<Index />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/design-system" element={<DesignSystem />} />

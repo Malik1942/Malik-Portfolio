@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
 import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
 import HeroSection from "@/components/HeroSection";
@@ -92,9 +92,15 @@ export const aiProjects = [
   },
 ];
 
+const ABOUT_PATH = "/about";
+
 const Index = () => {
-  const [isAboutOpen, setIsAboutOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  // `/about` renders this same page with the About view already open, so the
+  // URL is a real shareable link. Seeded from the pathname so a cold load or a
+  // hard refresh lands on About rather than the hero.
+  const [isAboutOpen, setIsAboutOpen] = useState(() => location.pathname === ABOUT_PATH);
 
   // Cross-page nav intent: pages that link back here (case studies) pass router
   // state to land on a specific section or open the About overlay on arrival.
@@ -114,24 +120,34 @@ const Index = () => {
     }
   }, [location.state]);
 
+  // Leaving the About view while sitting on /about would leave the URL naming a
+  // view that is no longer on screen — and a refresh would bounce back into it.
+  // Drop to / (replace, so Back still exits the page rather than re-opening About).
+  const dismissAbout = useCallback(() => {
+    setIsAboutOpen(false);
+    if (location.pathname === ABOUT_PATH) {
+      navigate("/", { replace: true });
+    }
+  }, [location.pathname, navigate]);
+
   // Close the About overlay (if open) and scroll to a homepage section. Works
   // from both the plain hero and the About view — the header nav uses it so the
   // links behave identically in either state.
   const navigateToSection = useCallback((sectionId: string) => {
-    setIsAboutOpen(false);
+    dismissAbout();
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         scrollToSectionNavTarget(sectionId);
       });
     });
-  }, []);
+  }, [dismissAbout]);
 
   const navigateToMainProjects = useCallback(() => navigateToSection("projects"), [navigateToSection]);
 
   const closeAbout = useCallback(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    setIsAboutOpen(false);
-  }, []);
+    dismissAbout();
+  }, [dismissAbout]);
 
   return (
     <PageTransition>
