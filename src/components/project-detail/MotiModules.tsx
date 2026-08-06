@@ -156,22 +156,26 @@ export function ArtifactGallery({ items }: { items: { src: string; alt: string; 
   );
 }
 
-// App Store CTA — matches the back-link typography + tokens, with a button affordance.
-function AppStoreButton({ href }: { href: string }) {
+// App Store CTA — the one live-product link on the page, so it gets the strongest
+// affordance in the token set: filled foreground pill, centered in its own row.
+const MOTI_APP_STORE_URL = "https://apps.apple.com/us/app/moti-plan/id6770705491";
+export function MotiAppStoreCta() {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group inline-flex items-center gap-2 self-start rounded-full border border-foreground/25 px-5 py-2.5 text-sm text-foreground/72 hover:text-foreground hover:border-foreground/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 transition-colors duration-200"
-    >
-      View on the App Store
-      <ArrowUpRight
-        aria-hidden="true"
-        className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-        strokeWidth={1.6}
-      />
-    </a>
+    <div className="flex justify-center">
+      <a
+        href={MOTI_APP_STORE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group inline-flex items-center gap-2.5 rounded-full bg-foreground px-8 py-4 text-base md:text-lg font-medium text-background hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors duration-200"
+      >
+        View on the App Store
+        <ArrowUpRight
+          aria-hidden="true"
+          className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          strokeWidth={1.8}
+        />
+      </a>
+    </div>
   );
 }
 
@@ -190,7 +194,7 @@ export function MotiTags() {
   return <Chips items={tags} />;
 }
 
-/* ── 2) Hook — highlights, pull-quote, artifact gallery, App Store CTA ────── */
+/* ── 2) Hook — highlights, pull-quote, artifact gallery ──────────────────── */
 const hookHighlights = [
   "Live on the App Store",
   "Built solo with Claude + Codex",
@@ -209,7 +213,6 @@ export function MotiHook() {
       <Chips items={hookHighlights} />
       <PullQuote>The problem wasn&rsquo;t planning. It was understanding.</PullQuote>
       <ArtifactGallery items={hookArtifacts} />
-      <AppStoreButton href="https://apps.apple.com/us/app/moti-plan/id6770705491" />
     </div>
   );
 }

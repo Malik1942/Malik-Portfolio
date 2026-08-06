@@ -261,6 +261,7 @@ interface LifeEvent {
 }
 
 const LIFE_EVENTS: LifeEvent[] = [
+  { year: "2026", title: "Inkwork",        caption: "A styled-QR studio with a point of view",    type: "design"    },
   { year: "2026", title: "FigBuild 2026",  caption: "1st Place — NeuraLyfe",                    type: "award"     },
   { year: "2026", title: "NeuraLyfe",      caption: "Making invisible brain trauma visible",      type: "design"    },
   { year: "2026", title: "Studio Waters",  caption: "Vibe-coded CPX controlled fishing game",     type: "design"    },

@@ -33,6 +33,10 @@ import flowprintCover from "@/assets/flowprint-cover.webp";
 import tubularCover from "@/assets/tubular-cover.webp";
 import moodmuseCover from "@/assets/moodmuse-cover.webp";
 import motiHero from "@/assets/moti-hero.webp";
+import inkworkHero from "@/assets/inkwork-hero.webp";
+import inkworkFilm from "@/assets/inkwork-film.mp4";
+import inkworkFilmPoster from "@/assets/inkwork-film-poster.webp";
+import inkworkBefore from "@/assets/inkwork-before.mp4";
 
 const aura: ProjectDetailDocument = {
   slug: "aura",
@@ -253,6 +257,7 @@ const moti: ProjectDetailDocument = {
       label: "Overview",
       showProjectMeta: true,
       body: "**Moti is an AI-native iOS planner, designed, built, and shipped solo on the App Store.**\n\n[[module:moti-tags]]",
+      afterMetaModule: "moti-app-store",
     },
     {
       id: "highlights",
@@ -519,8 +524,69 @@ const studiowaters: ProjectDetailDocument = {
   ],
 };
 
+// Inkwork building story. The rich section blocks live in
+// ./InkworkModules.tsx and render via the [[module:inkwork-*]] refs.
+const inkwork: ProjectDetailDocument = {
+  slug: "inkwork",
+  listSection: WORKSHOP_SECTION_LABEL,
+  title: "Inkwork",
+  heroSummary: "A Styled-QR Studio, and What It Took to Get From Working to Good.",
+  heroSubtitle: "Designed, Built, and Shipped Solo · Live at malikzhang.com/inkwork · Press the Cube.",
+  heroImage: inkworkHero,
+  heroImageFit: "natural",
+  metaCards: [
+    { label: "Role", value: "Design · Build · Ship (Solo)" },
+    { label: "Timeline", value: "Summer 2026" },
+    { label: "Stack", value: "React + Vite · qr-code-styling · Vercel" },
+    { label: "Output", value: "Live Product · Two Themes · Product Film" },
+  ],
+  sections: [
+    {
+      id: "intro",
+      label: "Intro",
+      headline: "From Working to Good",
+      showProjectMeta: true,
+      figures: [{ type: "video", src: inkworkFilm, poster: inkworkFilmPoster }],
+      body: "**Inkwork is a small studio for styled QR codes: type your link, pick a style, check the proof, export. This case study is about the harder half of building it — getting from a product that worked to one with a point of view.**\n\n[[fig:0]]\n\nI wanted to generate a QR code in seconds and have real control over how it looked. Most generators give you one or the other: instant but ugly, or styleable but buried in settings.\n\nWorking with Claude Code, I had a functional version fast: sixteen style presets, logo embedding, preset import and export, shareable links, print-quality export, and a scannability check that actually decodes the code you just made. Everything worked.\n\nIt just hadn’t decided what it was.",
+      afterMetaModule: "inkwork-try",
+    },
+    {
+      id: "diagnosis",
+      label: "Diagnosis",
+      headline: "One Unmade Decision, Showing Up in Six Places",
+      figures: [{ type: "video", src: inkworkBefore }],
+      body: "Version one looked fine at a glance: warm off-white ground, monospace helper text, crop marks around the preview. But the closer I looked, the more the same problem kept surfacing in different costumes.\n\n## Version One, as Shipped\n\n[[fig:0]]\n\n[[module:inkwork-symptoms]]\n\nNone of these is a visual problem. You can’t fix any of them with better spacing or a nicer shadow. They’re all the same missing decision: **what is the primary thing a person does here, and in what voice does this product speak?**\n\nOnce that’s undecided, the symptoms follow automatically. No primary action decided means both download buttons get primary styling. No priority decided means every panel gets the same card. No voice decided means library internals sit next to my own writing.",
+    },
+    {
+      id: "decision",
+      label: "The Decision",
+      headline: "A Style Picker, Not a Control Panel",
+      body: "**Inkwork is a style picker, not a control panel. Everything in the redesign follows from that one sentence.**\n\n## The Page Became a Sequence, Not a Dashboard\n\nOne primary action per stage: a single “Update QR code” button after the input, a single primary “Download PNG” at export, with “Copy PNG” as the quiet secondary.\n\n[[module:inkwork-sequence]]\n\n## The Styles Moved to the Front\n\n“Choose a style” now sits immediately after the content field, with named presets as first-class tiles. This is what the old subtitle always promised and the old layout never delivered — the actual reason to use Inkwork over any other generator.\n\n## Everything Else Waits Behind a Click\n\nColor, Logo, and Fine-tune sit behind buttons. Print formats collapsed into “More export formats.” Share and Presets moved to the header, where features for returning users belong. Textbook progressive disclosure — but the point isn’t the pattern. The pattern only became applicable once the decision existed: you can’t defer “secondary” controls until you’ve decided what’s primary.\n\n## One Voice\n\n“What goes in your QR code?” instead of “Content.” The library internals moved inside Fine-tune, where the people who want them will look for them.",
+    },
+    {
+      id: "themes",
+      label: "Two Themes",
+      headline: "Then I Gave It a Personality. Two, Actually.",
+      body: "Once the product knew what it was, it could afford to have moods.\n\n[[module:inkwork-themes]]\n\nOne token system drives both. That constraint was the real design exercise: the themes had to differ in every surface quality — color, shadow, corner treatment, energy — while sharing every structural decision. If the hierarchy was right, it would survive the costume change. It did.",
+    },
+    {
+      id: "film",
+      label: "The Film",
+      headline: "Automation That Carries Judgment",
+      body: "The product film above was made by an agent skill I wrote in Claude Code. It produces product films across five surfaces — title and end cards, the edit, camera energy, animation, and soundtrack — with brand identity flowing in through configuration. It has engineering gates it won’t cross: measure before trimming, splice whole animations, verify frames, audit gaps, no watermarked audio. Along the way I built my own ScreenCaptureKit-based recorder after the macOS default stalled on writes mid-capture.\n\n[[module:inkwork-skill-link]]\n\nThe skill didn’t make any of the design decisions above. That’s the point. It encodes my direction so the decisions I make survive into everything I ship, applied the same way every time.\n\n**Automation that replaces judgment produces the sameness this whole project was a reaction against. Automation that carries judgment is just leverage.**",
+    },
+    {
+      id: "reflection",
+      label: "Reflection",
+      headline: "What I Took From This",
+      body: "AI got me from idea to working product fast. Getting from working to good took taste, judgment, and a lot of rebuilding — and I think that gap is now the most interesting place to work in product design. The generation cost of “functional” is approaching zero. What that raises, rather than lowers, is the value of being able to look at a functional thing and articulate precisely why it isn’t good yet.\n\n**The transferable habit: when a design has many small problems, resist fixing them one by one. Ask what single unmade decision is producing all of them. Fix that, and most of the symptoms resolve themselves.**\n\n[[module:inkwork-cta]]",
+    },
+  ],
+};
+
 const PROJECT_DETAILS: Record<string, ProjectDetailDocument> = {
   moti,
+  inkwork,
   aura,
   neuralyfe,
   flowprint,
