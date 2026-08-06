@@ -14,6 +14,8 @@ import tubularCover from "@/assets/tubular-cover.webp";
 import moodmuseCover from "@/assets/moodmuse-cover.webp";
 import studioWatersCover from "@/assets/studio-waters-cover.webp";
 import motiCard from "@/assets/moti-card.webp";
+import inkworkCard from "@/assets/inkwork-card.webp";
+import inkworkCardVideo from "@/assets/inkwork-card.mp4";
 
 export const selectedWork = [
   {
@@ -70,6 +72,19 @@ export const selectedWork = [
 ];
 
 export const aiProjects = [
+  {
+    id: "inkwork",
+    title: "Inkwork",
+    description: "A styled-QR studio with a point of view — pick a style, check the proof, export",
+    role: "Designer + Builder",
+    year: "2026",
+    coverImage: inkworkCard,
+    // Loops the Arcade theme mid-flight: styles switching, then the gradient
+    // controls repainting the code. coverImage stays as its poster / reduced-motion still.
+    coverVideo: inkworkCardVideo,
+    builtWith: "Claude Code",
+    details: "A styled-QR studio, live at malikzhang.com/inkwork — sixteen presets, two complete themes on one token system, and a scannability check that decodes the code you just made.",
+  },
   {
     id: "studiowaters",
     title: "Studio Waters",

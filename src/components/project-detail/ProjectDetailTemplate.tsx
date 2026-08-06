@@ -19,6 +19,7 @@ import { AuraReflectionLearnings } from "./AuraReflectionLearnings";
 import {
   MotiTags,
   MotiHook,
+  MotiAppStoreCta,
   MotiProblem,
   MotiCompetitive,
   MotiUserQuotes,
@@ -27,6 +28,7 @@ import {
   MotiBuildJourney,
   MotiTakeaways,
 } from "./MotiModules";
+import { InkworkSymptoms, InkworkSequence, InkworkThemes, InkworkTryCta, InkworkSkillLink, InkworkCta } from "./InkworkModules";
 import { MoreProjects } from "./MoreProjects";
 import { ProjectMediaFrame } from "./ProjectMediaFrame";
 import { ProjectMetadataSummary } from "./ProjectMetadataSummary";
@@ -135,6 +137,7 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "aura-reflection-learnings": <AuraReflectionLearnings />,
   "moti-tags": <MotiTags />,
   "moti-hook": <MotiHook />,
+  "moti-app-store": <MotiAppStoreCta />,
   "moti-problem": <MotiProblem />,
   "moti-competitive": <MotiCompetitive />,
   "moti-user-quotes": <MotiUserQuotes />,
@@ -142,6 +145,12 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "moti-before-building": <MotiBeforeBuilding />,
   "moti-build-journey": <MotiBuildJourney />,
   "moti-takeaways": <MotiTakeaways />,
+  "inkwork-symptoms": <InkworkSymptoms />,
+  "inkwork-sequence": <InkworkSequence />,
+  "inkwork-themes": <InkworkThemes />,
+  "inkwork-try": <InkworkTryCta />,
+  "inkwork-skill-link": <InkworkSkillLink />,
+  "inkwork-cta": <InkworkCta />,
 };
 
 function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFirst?: boolean; inlineFigures?: ProjectSectionFigure[] }) {
@@ -456,6 +465,9 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                   <div className="mt-14 md:mt-18">
                     <ProjectMetadataSummary cards={project.metaCards} />
                   </div>
+                ) : null}
+                {s.afterMetaModule && INLINE_MODULES[s.afterMetaModule] ? (
+                  <div className="mt-14 md:mt-18">{INLINE_MODULES[s.afterMetaModule]}</div>
                 ) : null}
                 {s.figures?.length && !s.body.includes("[[fig:") ? (
                   <div className="mt-14 space-y-10">

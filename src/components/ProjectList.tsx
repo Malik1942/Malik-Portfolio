@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export interface Project {
@@ -65,14 +65,21 @@ const CardMedia = ({
     ? "w-full h-full object-cover"
     : "w-full h-auto block";
 
+  // A looping cover video is motion the visitor never asked for, so reduced-motion
+  // falls through to the still below — which is why a card with `coverVideo` should
+  // also carry a `coverImage`. It doubles as the video's poster, so the card paints
+  // a real frame instead of an empty box while the video decodes.
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <div
       className="overflow-hidden rounded-2xl bg-project-card-surface relative mb-6 w-full"
       style={forced ? { aspectRatio } : undefined}
     >
-      {project.coverVideo ? (
+      {project.coverVideo && !shouldReduceMotion ? (
         <video
           src={project.coverVideo}
+          poster={project.coverImage}
           autoPlay loop muted playsInline
           className={mediaClass}
           style={{
