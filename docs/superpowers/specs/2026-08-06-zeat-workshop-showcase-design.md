@@ -137,8 +137,7 @@ A `ProjectDetailDocument` in `src/data/projectDetails.ts`, `slug: "zeat"`,
 | --- | --- |
 | `intro` | `introBlock`: opening paragraph, hero render, info cards, what I did |
 | `context` | Events per year, tonnage per event, the 8–12 hour window, labor as an operating-budget line |
-| `research` | Field research, seat survey, interviews, questionnaire, common trash types, competitive and prior-art scan |
-| `users` | Persona, pain points converted to design points |
+| `research` | Field research, seat survey, interviews, questionnaire, common trash types, competitive and prior-art scan, pain points converted to design points |
 | `ideation` | Three structures, their pros and cons, why ground-based won |
 | `final-design` | Dimensions rationale, four-wheel tank turn, underbody layout, compaction, articulated arm, stair crossing |
 | `base-station` | Self-cleaning base station |
