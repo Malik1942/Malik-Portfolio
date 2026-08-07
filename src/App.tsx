@@ -31,6 +31,7 @@ function AnimatedRoutes() {
       <AnimatePresence mode="wait" initial={false}>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Index />} />
+          <Route path="/about" element={<Index aboutOpen />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/design-system" element={<DesignSystem />} />
