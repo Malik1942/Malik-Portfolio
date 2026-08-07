@@ -1,5 +1,9 @@
 # Interactive Design-System Specimens
 
+**Date:** 2026-08-05
+**Status:** Approved direction; implementation pending
+**Build on:** `codex/design-system` at `/Users/malik/.codex/worktrees/malik-portfolio-design-system`
+
 ## Goal
 
 Give every public Component and Pattern reference page a visual, interactive
@@ -8,12 +12,10 @@ documenting it. The reference must stay restrained and focused: specimens make
 one production behavior legible at a time rather than becoming a second
 portfolio or a generic component catalog.
 
-## Build location and scope
+## Scope
 
-Build this work on the `codex/design-system` branch in
-`/Users/malik/.codex/worktrees/malik-portfolio-design-system`. The primary
-portfolio worktree and its `codex/fix-mobile-about-layout` branch do not
-contain these reference files.
+The primary portfolio worktree does not contain these reference files. Implement
+only in the design-system worktree named above.
 
 ### Included
 
@@ -40,11 +42,14 @@ contain these reference files.
 - New dependencies, source token changes, or changes to the GitHub publishing
   boundary.
 
-Extracting an existing inline metadata summary and `SectionFigure` from
-`ProjectDetailTemplate` into small shared production components is explicitly
-in scope. It removes drift for the two entries already documented as components
-and keeps their live reference specimens backed by the same code used in case
-studies.
+These production-code changes are in scope because they keep specimens honest:
+
+- Extract the inline metadata summary and `SectionFigure` from
+  `ProjectDetailTemplate` into exported `ProjectMetadataSummary` and
+  `ProjectMediaFrame` components used by both case studies and specimens.
+- Add a Tab focus trap to production `ImageLightbox`. It already dismisses on
+  Escape, Close, and backdrop and restores focus; it does not yet cycle keyboard
+  focus inside the dialog.
 
 ## Visual direction
 
@@ -83,9 +88,10 @@ production artifact.
 `src/components/project-detail/ProjectDetailTemplate.tsx` into exported shared
 components, then used both by the production template and their design-system
 specimens. The visual stage for `component-lightbox` uses a local thumbnail
-trigger but mounts the existing `ImageLightbox` production component. The
-overlay deliberately remains full viewport, because that is the behavior being
-documented; it is not constrained inside the specimen stage.
+trigger but mounts the existing `ImageLightbox` production component, including
+the focus-trap fix. The overlay remains full viewport via its current portal to
+`document.body`, because that is the behavior being documented; dismissing it
+returns focus to the specimen thumbnail on the same reference section.
 
 Specimen data lives alongside the renderer rather than expanding the existing
 documentation records into a mixed content-and-UI structure. Every public
@@ -102,7 +108,7 @@ reference navigation.
 | Metadata card | The extracted production `ProjectMetadataSummary` with long-content wrapping. |
 | Media frame | The extracted production `ProjectMediaFrame` with caption and frame boundaries. |
 | Footer | Secondary link cluster and reference discovery state without a duplicate page landmark. |
-| Image lightbox | A local thumbnail trigger opening the production full-viewport `ImageLightbox`; Escape and Close restore focus. |
+| Image lightbox | A local thumbnail trigger opening the production full-viewport `ImageLightbox`; Tab stays inside, Escape and Close restore focus. |
 
 ## Pattern demonstrations
 
@@ -132,8 +138,9 @@ reference navigation.
 - `useReducedMotion` disables nonessential motion and renders the meaningful
   final state. The replay/pause control remains usable but becomes a no-op or
   resolves instantly under reduced motion.
-- The lightbox must be keyboard-operable, lock interaction to its local dialog,
-  dismiss with Escape/Close/backdrop, and restore focus to its trigger.
+- The production lightbox must be keyboard-operable: Tab and Shift+Tab cycle
+  inside the dialog, Escape/Close/backdrop dismiss it, and focus returns to the
+  specimen thumbnail trigger.
 
 ## Responsive behavior
 
@@ -149,10 +156,10 @@ reference navigation.
 ### P0 — first complete, reviewable slice
 
 - Project card hover/focus state.
-- Image lightbox using the production overlay.
+- Image lightbox using the production overlay, including the focus-trap fix.
 - Section navigation active-state interaction.
 - Loading & transitions replay and reduced-motion stable state.
-- Shared `Specimen` visual-stage API and match-media test helper.
+- Shared `Specimen` visual-stage API and `setReducedMotionPreference` helper.
 
 ### P1 — complete reference coverage
 
@@ -170,7 +177,7 @@ pages a hiring reviewer is likely to inspect.
   stage, semantic controls, and no public editing/iframe capabilities.
 - Test key interactions: project-card focus state, section-nav selection,
   responsive comparison switch, transition replay, expressive pause, and
-  lightbox open/Escape/focus restoration.
+  lightbox open/Tab-trap/Escape/focus restoration.
 - Add `setReducedMotionPreference(matches: boolean)` to the test setup. It
   replaces the current fixed-false `matchMedia` stub for a single test and is
   reset after each test, allowing each animated specimen's stable
@@ -184,16 +191,27 @@ pages a hiring reviewer is likely to inspect.
 
 ## Acceptance criteria
 
-- Every Component and Pattern page begins with a visible visual specimen.
 - Every Component and Pattern page contains one `Live specimen` region with a
-  visible visual stage before its Guidance grid.
+  visible visual stage before its Guidance grid and the `View … in context`
+  link as that region's footer.
 - Each of the following interactions has a test: project-card focus state,
-  production lightbox open/Escape/focus restoration, section-navigation
+  production lightbox open/Tab-trap/Escape/focus restoration, section-navigation
   selection, responsive comparison switch, transition replay,
   expressive-motion pause, and accessibility focus-path status.
 - The public reference has no Admin/token-authoring controls, iframe, or
   publishing access beyond the existing unlisted Footer Admin entry.
 - Every specimen with motion has an explicit test asserting its
-  reduced-motion stable state.
-- All visual stages are usable without horizontal overflow at the target
-  breakpoints.
+  reduced-motion stable state via `setReducedMotionPreference`.
+- At 320px, 768px, 1440px, and 1920px, no visual stage scrolls horizontally or
+  clips its controls.
+
+## Risks and kill criteria
+
+- If a specimen needs a replica instead of production code, stop and extract or
+  descope that entry. Drift is failure, not a shortcut.
+- If implementation starts adding token authoring, iframes, new dependencies, or
+  source-token edits, the work has left scope — revert that slice.
+- If the full-viewport lightbox makes the reference feel like it navigated away
+  and focus does not return to the thumbnail, the lightbox specimen is not done.
+- Ship P0 alone only as an interruption checkpoint. Public release requires P0
+  and P1 together.
