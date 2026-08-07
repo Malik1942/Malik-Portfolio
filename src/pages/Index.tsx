@@ -13,7 +13,8 @@ import flowprintCover from "@/assets/flowprint-cover.webp";
 import tubularCover from "@/assets/tubular-cover.webp";
 import moodmuseCover from "@/assets/moodmuse-cover.webp";
 import studioWatersCover from "@/assets/studio-waters-cover.webp";
-import motiCard from "@/assets/moti-card.webp";
+import motiCard from "@/assets/moti-card-poster.webp";
+import motiCardVideo from "@/assets/moti-card.mp4";
 
 export const selectedWork = [
   {
@@ -23,6 +24,11 @@ export const selectedWork = [
     description: "Shipped solo on the App Store — an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.",
     role: "Product Designer & Builder",
     coverImage: motiCard,
+    // The Moti: Plan reel — the title card, then dictating a messy sentence and
+    // watching it land on the timeline, then back to the title card. coverImage is
+    // that opening frame, so it serves as the poster, the reduced-motion still, and
+    // the resting state the reel holds on once it has played.
+    coverVideo: motiCardVideo,
     year: "2026",
     details: "Shipped solo on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.\n\nBuilt on a hybrid SLM + LLM system, specified spec-first with a full PRD before writing any code.",
   },

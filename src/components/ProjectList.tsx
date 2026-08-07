@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export interface Project {
@@ -47,6 +47,10 @@ function getGridMarginTop(index: number): string {
   return index % 2 === 1 ? "clamp(24px, 3vw, 44px)" : "0px";
 }
 
+// How long a cover video waits after its card lands on screen before the reel
+// runs. Without it the reel competes with the scroll that brought it into view.
+const COVER_VIDEO_START_DELAY_MS = 600;
+
 // ─── Media helper (shared) ────────────────────────────────────────────────────
 // Default: w-full h-auto — container scales to the image's natural ratio.
 // When aspectRatio is provided the container uses that fixed ratio with object-cover,
@@ -65,15 +69,63 @@ const CardMedia = ({
     ? "w-full h-full object-cover"
     : "w-full h-auto block";
 
+  // A cover video is motion the visitor never asked for, so reduced-motion falls
+  // through to the still below — which is why a card with `coverVideo` should also
+  // carry a `coverImage`. It doubles as the video's poster, so the card paints a
+  // real frame instead of an empty box while the video decodes, and it's what the
+  // reel returns to at the top of every run.
+  const shouldReduceMotion = useReducedMotion();
+  const hasVideo = !!project.coverVideo && !shouldReduceMotion;
+
+  // ── Cover video playback ──
+  // The reel plays on arrival, once, and then holds on its closing frame. It does
+  // NOT autoplay at page load: a hero card's video would be several seconds deep by
+  // the time you scrolled down to it, so you'd never see the opening. And it does
+  // not loop — a second viewing is something the visitor asks for by hovering,
+  // rather than ambient motion running in the corner of the page forever.
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const mediaRef = useRef<HTMLDivElement>(null);
+  const mediaInView = useInView(mediaRef, { once: true, amount: 0.5 });
+  const startTimer = useRef<number>();
+
+  const playFromStart = useCallback(() => {
+    // Cancels a still-pending arrival start, so an early hover doesn't get yanked
+    // back to frame 0 when that timer fires a moment later.
+    window.clearTimeout(startTimer.current);
+    const video = videoRef.current;
+    if (!video) return;
+    video.currentTime = 0;
+    video.play().catch(() => {});
+  }, []);
+
+  // First run: once the card is half on screen and the scroll has settled.
+  useEffect(() => {
+    if (!hasVideo || !mediaInView) return;
+    startTimer.current = window.setTimeout(playFromStart, COVER_VIDEO_START_DELAY_MS);
+    return () => window.clearTimeout(startTimer.current);
+  }, [hasVideo, mediaInView, playFromStart]);
+
+  // Replay: on the pointer *entering* the card, not on every render where it
+  // happens to already be inside — otherwise a re-render mid-reel restarts it.
+  const wasHovered = useRef(false);
+  useEffect(() => {
+    const entered = hovered && !wasHovered.current;
+    wasHovered.current = hovered;
+    if (hasVideo && entered) playFromStart();
+  }, [hovered, hasVideo, playFromStart]);
+
   return (
     <div
+      ref={mediaRef}
       className="overflow-hidden rounded-2xl bg-project-card-surface relative mb-6 w-full"
       style={forced ? { aspectRatio } : undefined}
     >
-      {project.coverVideo ? (
+      {hasVideo ? (
         <video
+          ref={videoRef}
           src={project.coverVideo}
-          autoPlay loop muted playsInline
+          poster={project.coverImage}
+          muted playsInline preload="auto"
           className={mediaClass}
           style={{
             transform: hovered ? "scale(1.03)" : "scale(1)",
