@@ -93,8 +93,14 @@ const CardMedia = ({
   // rather than ambient motion running in the corner of the page forever.
   const videoRef = useRef<HTMLVideoElement>(null);
   const mediaRef = useRef<HTMLDivElement>(null);
-  const mediaInView = useInView(mediaRef, { once: true, amount: 0.5 });
+  // Deliberately not `once: true`. A one-shot latch fires on any intersection the
+  // observer ever reports, including the transient ones during load — restoring
+  // the scroll position on a reload can sweep a card through the viewport, which
+  // burned the trigger for a card the visitor never actually saw. Watching
+  // continuously lets the delay below double as the filter for those.
+  const mediaInView = useInView(mediaRef, { amount: 0.5 });
   const startTimer = useRef<number>();
+  const hasPlayed = useRef(false);
 
   const playFromStart = useCallback(() => {
     // Cancels a still-pending arrival start, so an early hover doesn't get yanked
@@ -106,10 +112,16 @@ const CardMedia = ({
     video.play().catch(() => {});
   }, []);
 
-  // First run: once the card is half on screen and the scroll has settled.
+  // First run: the card has to be half on screen and *stay* there for the delay.
+  // Leaving the viewport cancels the pending start, so only a card the visitor
+  // actually settled on gets to play. Once is enough — scrolling back to it later
+  // is not a request to see it again; hovering is.
   useEffect(() => {
-    if (!hasVideo || !mediaInView) return;
-    startTimer.current = window.setTimeout(playFromStart, COVER_VIDEO_START_DELAY_MS);
+    if (!hasVideo || !mediaInView || hasPlayed.current) return;
+    startTimer.current = window.setTimeout(() => {
+      hasPlayed.current = true;
+      playFromStart();
+    }, COVER_VIDEO_START_DELAY_MS);
     return () => window.clearTimeout(startTimer.current);
   }, [hasVideo, mediaInView, playFromStart]);
 

@@ -82,13 +82,16 @@ const renderCard = () =>
 
 // Scroll the whole card onto the screen: every observer in the tree reports its
 // own element as intersecting, which is what a real scroll does.
-const arriveOnScreen = () =>
+const setOnScreen = (isIntersecting: boolean) =>
   act(() => {
     for (const { callback, elements } of [...observers]) {
       if (elements.size === 0) continue;
-      callback([...elements].map((target) => ({ isIntersecting: true, target })));
+      callback([...elements].map((target) => ({ isIntersecting, target })));
     }
   });
+
+const arriveOnScreen = () => setOnScreen(true);
+const leaveScreen = () => setOnScreen(false);
 
 const settle = () =>
   act(() => {
@@ -131,6 +134,46 @@ describe("cover video playback", () => {
 
     expect(play).toHaveBeenCalledTimes(1);
     expect(video.currentTime).toBe(0);
+  });
+
+  it("ignores a card that only sweeps through the viewport", () => {
+    const play = stubMedia();
+    renderCard();
+
+    // Restoring the scroll position on reload drags the page past cards the
+    // visitor never sees. A one-shot in-view latch counted those as arrivals and
+    // burned the reel on a card that was never actually on screen.
+    arriveOnScreen();
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+    leaveScreen();
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
+
+    expect(play).not.toHaveBeenCalled();
+
+    // ...and the reel is still available once the card is genuinely settled on.
+    arriveOnScreen();
+    settle();
+
+    expect(play).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not replay on a second pass through the viewport — only hover does that", () => {
+    const play = stubMedia();
+    renderCard();
+
+    arriveOnScreen();
+    settle();
+    expect(play).toHaveBeenCalledTimes(1);
+
+    leaveScreen();
+    arriveOnScreen();
+    settle();
+
+    expect(play).toHaveBeenCalledTimes(1);
   });
 
   it("replays from the start when the pointer re-enters the card", () => {
