@@ -287,4 +287,14 @@ html {
     grid-template-columns: repeat(2, 1fr);
     gap: 0 clamp(24px, 3vw, 40px);
   }
+
+  /* The "More work" rail shows 3 cards, so one always wraps to a second row.
+     The base grid carries no row gap — on the homepage the rows are separated by
+     each card's own stagger offset — which leaves the wrapped card's cover image
+     butted straight against the metadata line of the card above it. Cards there
+     size to their cover's natural ratio, so which card runs long shifts per page;
+     an explicit row gap is what keeps the two rows apart in every combination. */
+  .project-grid--more-work {
+    row-gap: clamp(48px, 5vw, 72px);
+  }
 }
