@@ -37,6 +37,22 @@ import inkworkHero from "@/assets/inkwork-hero.webp";
 import inkworkFilm from "@/assets/inkwork-film.mp4";
 import inkworkFilmPoster from "@/assets/inkwork-film-poster.webp";
 import inkworkBefore from "@/assets/inkwork-before.mp4";
+import zeatHero from "@/assets/zeat-hero.webp";
+import zeatAftermath from "@/assets/zeat-aftermath.webp";
+import zeatTrashTypes from "@/assets/zeat-trash-types.webp";
+import zeatIdeationSheet from "@/assets/zeat-ideation-sheet.webp";
+import zeatInContext from "@/assets/zeat-in-context.webp";
+import zeatSideProfile from "@/assets/zeat-side-profile.webp";
+import zeatDimensions from "@/assets/zeat-dimensions.webp";
+import zeatTurn from "@/assets/zeat-turn.webp";
+import zeatStructure from "@/assets/zeat-structure.webp";
+import zeatUnderbody from "@/assets/zeat-underbody.webp";
+import zeatArm from "@/assets/zeat-arm.webp";
+import zeatIntake from "@/assets/zeat-intake.webp";
+import zeatStairCrossing from "@/assets/zeat-stair-crossing.webp";
+import zeatServiceTopdown from "@/assets/zeat-service-topdown.webp";
+import zeatPrototype from "@/assets/zeat-prototype.webp";
+import zeatPrototypeBooth from "@/assets/zeat-prototype-booth.webp";
 
 const aura: ProjectDetailDocument = {
   slug: "aura",
@@ -584,9 +600,107 @@ const inkwork: ProjectDetailDocument = {
   ],
 };
 
+// ZEAT industrial design case study. Imagery lives in src/assets (zeat-*.webp),
+// converted from the source Figma masters in zeat-assets/ (gitignored).
+// Register note: no patent claim, no fabricated metrics — every number traces to
+// the source deck. The dispatch-app screens are deliberately not shown.
+const zeat: ProjectDetailDocument = {
+  slug: "zeat",
+  listSection: WORKSHOP_SECTION_LABEL,
+  title: "ZEAT",
+  heroSummary: "Cleaning a Stadium in the Eight Hours Between Events.",
+  heroSubtitle: "Solo Industrial Design Project · Robot, Mechanisms, and Dispatch System · 2025",
+  heroImage: zeatHero,
+  heroImageFit: "natural",
+  metaCards: [
+    { label: "Role", value: "Industrial Designer" },
+    { label: "Timeline", value: "2025" },
+    { label: "Team", value: "Solo" },
+    { label: "Scope", value: "Robot · Mechanisms · Physical Model · Dispatch System" },
+  ],
+  sections: [
+    {
+      id: "intro",
+      label: "Intro",
+      headline: "Eight Hours to Make Three Tons Disappear",
+      showProjectMeta: true,
+      body: "**ZEAT is a ground-based cleaning robot for stadium grandstands — solo industrial design across the robot, its mechanisms, and the system that dispatches it.**\n\nEvery event leaves three to four tons of trash, and the building has eight to twelve hours to be clean before the next crowd. Today dozens of people close that gap overnight.\n\nZEAT works that window: sweeping the aisles, reaching onto seats with a folding arm, crossing steps on deformable wheels.",
+    },
+    {
+      id: "highlights",
+      label: "Highlights",
+      body: "**One machine for the floors, the seats, and the steps of a building that refuses to be flat.**\n\n[[module:zeat-highlights]]",
+    },
+    {
+      id: "context",
+      label: "The Problem",
+      headline: "What the Crowd Leaves Behind",
+      figures: [
+        { type: "image", src: zeatAftermath, alt: "Stadium seats after an event — cups, food containers, and wrappers left between the rows", full: true },
+      ],
+      body: "A grandstand after the crowd leaves — my own photo, from field research.\n\n[[fig:0]]\n\nCleaning machines exist, but nearly all assume the one thing a grandstand never offers: flat, open floor. Stepped tiers, narrow aisles, trash on seats.\n\n**The design question wasn't a better vacuum. It was a machine that survives the architecture.**",
+    },
+    {
+      id: "research",
+      label: "Research",
+      headline: "Everyone Cleans the Floor. Nobody Cleans the Seats.",
+      figures: [
+        { type: "image", src: zeatTrashTypes, alt: "Typical grandstand trash — paper cups, snack packaging, bottles, cans, and crumpled napkins" },
+      ],
+      body: "On-site field visits during and after events, interviews with a cleaner of seven years and an operations manager of ten, and a questionnaire on spectator littering.\n\n## What the Trash Is\n\n[[fig:0]]\n\nCups and bottles, snack packaging, crumbs and dust, liquid spills. Light, irregular, and split across two surfaces — floor and seat — exactly the combination existing equipment can't handle.\n\n## What Already Exists\n\nCurrent machines are single-function tools for flat floors. The research frontier held the missing pieces — a patented stair-cleaning concept, published shape-morphing wheels, YOLO-family recognition — but no product had put them together.\n\n**Three jobs emerged: recognize trash on both surfaces, collect it — oversized pieces included — and route itself through an unfamiliar seating layout.**",
+    },
+    {
+      id: "ideation",
+      label: "Ideation",
+      headline: "Three Ways to Move Through a Grandstand",
+      figures: [
+        { type: "image", src: zeatIdeationSheet, alt: "ZEAT ideation sheet — concept sketches, form development, and usage-flow storyboard with handwritten annotations" },
+      ],
+      body: "In a grandstand, how the machine moves decides everything else it can do.\n\n[[fig:0]]\n\n## Seat-Back Rail\n\nRides the seat backs. Cleans seats well, needs no construction — but can't cross a step, barely touches the floor, and only fits fixed seating.\n\n## Overhead Track\n\nHangs from installed track. Wide coverage — but permanent infrastructure in every venue, and hardware above the stands intrudes on the one thing a stadium sells: the view.\n\n## Ground-Mobile\n\nHarder engineering — but it collects and compacts floor trash, reaches seats with a folding arm, crosses steps on deformable wheels, and adapts to any layout without touching the building.\n\n**Both rivals cleaned well. Neither could cross a step. Going to the ground cost complexity and bought the machine the run of the building.**",
+    },
+    {
+      id: "final-design",
+      label: "Final Design",
+      headline: "A Machine Sized by Its Terrain",
+      figures: [
+        { type: "image", src: zeatInContext, alt: "ZEAT working a littered grandstand, arm raised and collection lid open", full: true },
+        { type: "image", src: zeatDimensions, alt: "Three-view dimensioned drawing — 816mm long, 496mm wide, 388mm tall" },
+        { type: "image", src: zeatSideProfile, alt: "Side profile — front scraper ramp, large drive wheels, underbody brushes" },
+        { type: "image", src: zeatTurn, alt: "Top-down view with rotation arrows showing ZEAT pivoting in place on its four independently driven wheels" },
+        { type: "image", src: zeatStructure, alt: "Ghosted side view revealing the internal layout — intake path, collection volume, and drive components", full: true },
+        { type: "image", src: zeatUnderbody, alt: "Underbody — toothed intake conveyor, cleaning roller, and twin side brushes" },
+        { type: "image", src: zeatArm, alt: "Articulated arm raised above the garbage inlet, lid open" },
+        { type: "image", src: zeatStairCrossing, alt: "Two states of the shape-morphing wheel — spokes deployed on flat ground, and the machine descending a grandstand step" },
+        { type: "image", src: zeatPrototype, alt: "The finished physical model in three-quarter view — printed, hand-finished, sprayed, and assembled, with the intake mouth and CMF split visible", full: true },
+        { type: "image", src: zeatPrototypeBooth, alt: "The physical ZEAT model on the exhibition stand, shown with the project poster and printed brochure" },
+      ],
+      body: "[[fig:0]]\n\n## Every Dimension Argues With the Building\n\n816mm long, 496mm wide, 388mm tall — none of it arbitrary. Wheelbase from the step geometry, height from seat clearance, width from how much floor one pass should clean.\n\n[[fig:1]]\n\n[[fig:2]]\n\nFour wheels, four motors: the body rotates in place, so a machine nearly a meter long reverses inside an aisle it almost fills.\n\n[[fig:3]]\n\n## Swallow First, Sort Later\n\nEvent trash is oversized, so ZEAT leads with a high-suction intake wide enough to take cups and boxes whole, then compacts them with an internal roller.\n\n[[fig:4]]\n\nDrive and control hardware sits in the wheel housings and floor pan, leaving the middle of the machine empty for collection. The underbody does the fine work: toothed intake conveyor, cleaning roller, twin edge brushes for the space under the seats.\n\n[[fig:5]]\n\n## The Arm Is Why It's Not a Floor Robot\n\nHalf the trash never touches the floor. A folding arm lifts what the crowd left and drops it through a dedicated inlet — clearing one step's seat and the next step's seat back in the same pass.\n\n[[fig:6]]\n\n## Wheels That Trade Shape for Terrain\n\nOn flat ground the wheels stay round and roll. At a step, the rim opens into curved spokes that walk the machine up the riser — the obstacle that kills every other cleaning robot in this building.\n\n[[fig:7]]\n\n## Sensing\n\nCameras handle trash recognition on YOLOv5, ultrasonic radar covers obstacles, and an IMU with wheel encoders keeps the machine located on the venue map.\n\n## Built\n\nI modeled every component for fabrication, printed across SLA and FDM, finished the surfaces by hand, sprayed the paint, and assembled the body with its lighting — a driving appearance model in the production CMF.\n\n[[fig:8]]\n\n[[fig:9]]\n\n**A render can hide a weak surface transition behind a camera angle. A painted part on a table in front of a critic cannot.**",
+    },
+    {
+      id: "system",
+      label: "The System",
+      headline: "One Robot Is a Gadget. A Fleet Is Infrastructure.",
+      figures: [
+        { type: "image", src: zeatServiceTopdown, alt: "Top-down service view — dust bag, battery compartment, and garbage inlet, with the rear status screen reading Sector 01, 92%" },
+      ],
+      body: "A single robot doesn't clean a stadium in eight hours. ZEAT is designed as a fleet with a loop.\n\n## The Operating Loop\n\nScan and initialize, take assigned zones, clean the floors, work the seat rows — then return to base, empty into a self-cleaning station, recharge, and upload the report.\n\n[[fig:0]]\n\nDust bag and battery sit under one lid, placed for fast turnaround at the station rather than mid-shift maintenance.\n\n## Dispatch\n\nThe management app runs the fleet against the venue's calendar: a floor plan shows each zone's load as a heat map, device cards track battery and progress, and scheduling follows the events — the system knows when the window opens.",
+    },
+    {
+      id: "reflection",
+      label: "Reflection",
+      headline: "The Concept Evaluation Refused to Flatter the Concept",
+      figures: [
+        { type: "image", src: zeatIntake, alt: "Detail of the top deck — open hopper, clear intake cover, and indicator light" },
+      ],
+      body: "## The Cost I Wrote Down Instead of Hiding\n\nThe ground-mobile concept's biggest liability wasn't engineering — a working fleet displaces much of the cleaning crew that does this job today. I kept that line in the evaluation rather than deleting it. A design that automates labor should say so.\n\n## What This Project Taught Me\n\nIndustrial design here meant negotiating with a building. Every dimension and mechanism answers something the grandstand refuses to change. Screens ask what the user wants. Terrain doesn't negotiate.\n\n## What I'd Do Next\n\nThe model proves the form, not the mechanisms — it drives, but its wheels don't morph and its arm doesn't lift. Next is functional: build the morphing wheel against real step geometry, validate the arm's reach across seat types, and put the dispatch flow in front of the people whose 3 a.m. problem this is.\n\n[[fig:0]]",
+    },
+  ],
+};
+
 const PROJECT_DETAILS: Record<string, ProjectDetailDocument> = {
   moti,
   inkwork,
+  zeat,
   aura,
   neuralyfe,
   flowprint,
