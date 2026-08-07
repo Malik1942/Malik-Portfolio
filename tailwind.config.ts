@@ -21,6 +21,13 @@ export default {
     // variable so workbench edits update the live portfolio.
     fontSize: {
       label: ["var(--font-size-label)", { lineHeight: "1.4" }],
+      // `caption` is the role name; `xs` is a value-named alias kept for the
+      // existing call sites. Both bind the same token, so they stay in lockstep
+      // under workbench edits. Prefer `text-caption` in new code — 11px label
+      // and 12px caption are distinct roles, not a scale step to collapse:
+      // label runs uppercase at 0.18em tracking and already reads ~27% taller
+      // than sentence-case caption, so the 1px gap is optical compensation.
+      caption: ["var(--font-size-caption)", { lineHeight: "1.4" }],
       xs: ["var(--font-size-caption)", { lineHeight: "1.4" }],
       sm: ["var(--font-size-body-small)", { lineHeight: "1.5" }],
       base: ["var(--font-size-body)", { lineHeight: "1.5" }],

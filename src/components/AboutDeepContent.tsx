@@ -316,7 +316,7 @@ const LifeEventRow = ({ event }: { event: LifeEvent }) => {
           {event.title}
         </motion.span>
         <motion.span
-          className="text-xs text-foreground font-normal"
+          className="text-caption text-foreground font-normal"
           animate={{ opacity: hovered ? 1 : 0.8 }}
           transition={{ duration: 0.4 }}
         >
