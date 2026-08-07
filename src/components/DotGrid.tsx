@@ -46,6 +46,13 @@ const ORB_DEFS = [
   { label: "Tubular",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.18, ry: 0.7,  mrx: 0.09, mry: 0.80, id: "tubular" },
   { label: "Mood Muse",    subtitle: "Main Projects", color: "red"  as const, rx: 0.88, ry: 0.3,  mrx: 0.09, mry: 0.64, id: "moodmuse" },
   { label: "Studio Waters",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.72, ry: 0.68, mrx: 0.15, mry: 0.88, id: "studiowaters" },
+  // Desktop: the open band right of Moti, above the title cluster.
+  // Mobile: both low-x bands are full — squeezing a fifth orb into either one
+  // drops the spacing to ~0.06 and the two-line labels collide (Mood Muse ran
+  // into FlowPrint when tried). This is the one orb placed in the right half
+  // instead: clear of the nav band, above the title cluster, and inside
+  // ORB_PAD_RIGHT so its label doesn't run off the canvas.
+  { label: "ZEAT",         subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.62, ry: 0.26, mrx: 0.52, mry: 0.30, id: "zeat" },
   // Desktop: lower band between NeuraLyfe and Studio Waters. Mobile: last slot
   // of the top band, same low-mrx column.
   { label: "Inkwork",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.5,  ry: 0.8,  mrx: 0.09, mry: 0.35, id: "inkwork" },
