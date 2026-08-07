@@ -18,6 +18,14 @@ export interface Project {
   builtWith?: string;
   /** Case study still in development: card stays visible but is not clickable. */
   wip?: boolean;
+  /** Uppercase eyebrow chip above the title — used to mark a project as a
+   *  different kind of work from the rest of its section (e.g. "Industrial Design"
+   *  inside Workshop, which is otherwise software built with AI tools). */
+  tag?: string;
+  /** Render this project as a full-width row above its section's grid.
+   *  Declarative rather than positional, so reordering the array can't silently
+   *  reassign which project is the hero. */
+  sectionHero?: boolean;
 }
 
 interface ProjectListProps {
@@ -235,9 +243,22 @@ export const ProjectCard = ({
   const focusRing =
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/60 focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-2xl";
 
+  // Uppercase eyebrow marking a project as a different kind of work from the rest
+  // of its section. Shared by both card layouts below.
+  const tagChip = () =>
+    project.tag ? (
+      <span
+        className="text-label uppercase tracking-eyebrow text-foreground/60 mb-2 block"
+        style={{ fontSize: "0.6875rem" }}
+      >
+        {project.tag}
+      </span>
+    ) : null;
+
   // ── Vertical card text (grid cards) ──
   const textBlock = () => (
     <>
+      {tagChip()}
       {/* Title */}
       <h3
         className="tracking-tight font-semibold leading-snug transition-colors duration-300"
@@ -295,6 +316,7 @@ export const ProjectCard = ({
         style={isMobile ? undefined : { paddingBottom: "48px" }}
       >
         <div style={isMobile ? undefined : { maxWidth: "380px" }}>
+          {tagChip()}
           {/* Level 1 — Title */}
           <h3
             className="tracking-tight font-semibold leading-none transition-colors duration-300"
@@ -601,7 +623,10 @@ const MainProjectList = ({
 };
 
 // ─── AI project list ──────────────────────────────────────────────────────────
-// All AI projects in the same 2-col dynamic grid. Uniform treatment signals "gallery."
+// Projects flagged `sectionHero` render as full-width rows above the grid; the
+// rest keep the uniform 2-col "gallery" treatment. The 0.88 dimming wraps the
+// grid only — a hero row reads at full strength, which is the point of promoting
+// it out of the gallery in the first place.
 const AIProjectList = ({
   id,
   sectionTitle,
@@ -612,14 +637,40 @@ const AIProjectList = ({
   sectionTitle: string;
   dotClass: string;
   projects: Project[];
-}) => (
-  <section id={id} className="px-6 md:px-16 lg:px-24 pt-16 md:pt-20 pb-8">
-    <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" />
-    <div style={{ opacity: 0.88 }}>
-      <TwoColGrid projects={projects} dotClass={dotClass} aiVariant />
-    </div>
-  </section>
-);
+}) => {
+  const heroes = projects.filter((p) => p.sectionHero);
+  const gridProjects = projects.filter((p) => !p.sectionHero);
+
+  return (
+    <section id={id} className="px-6 md:px-16 lg:px-24 pt-16 md:pt-20 pb-8">
+      <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" />
+
+      {heroes.map((p, i) => (
+        <div key={p.id ?? p.title} className="mb-14 md:mb-16">
+          <ProjectCard
+            project={p}
+            projectId={p.id}
+            dotClass={dotClass}
+            globalIndex={i}
+            rowDelay={0.06}
+            horizontal
+          />
+        </div>
+      ))}
+
+      {gridProjects.length > 0 && (
+        <div style={{ opacity: 0.88 }}>
+          <TwoColGrid
+            projects={gridProjects}
+            dotClass={dotClass}
+            startGlobalIndex={heroes.length}
+            aiVariant
+          />
+        </div>
+      )}
+    </section>
+  );
+};
 
 // ─── Public component ─────────────────────────────────────────────────────────
 const ProjectList = ({
