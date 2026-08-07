@@ -4,8 +4,17 @@ import { ProjectCard, type Project } from "@/components/ProjectList";
 // Aligns with ProjectDetailTemplate's PAGE_OUTER so section edges match the rest of the page.
 const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-page mx-auto";
 
-// Same order the homepage shows them: Selected Work, then Workshop.
-const ALL_PROJECTS: Project[] = [...selectedWork, ...aiProjects];
+// The rail only ever shows 3, so it doesn't simply inherit homepage order —
+// these lead, and everything else falls in behind them in homepage order
+// (Selected Work, then Workshop). ZEAT holds the slot FlowPrint used to.
+const LEAD_ORDER = ["moti", "neuralyfe", "aura", "zeat"];
+const rank = (p: Project) => {
+  const i = LEAD_ORDER.indexOf(p.id ?? "");
+  return i === -1 ? LEAD_ORDER.length : i;
+};
+
+// Array.prototype.sort is stable, so the non-lead projects keep homepage order.
+const ALL_PROJECTS: Project[] = [...selectedWork, ...aiProjects].sort((a, b) => rank(a) - rank(b));
 
 interface MoreProjectsProps {
   /** slug/id of the project being viewed; excluded from the list (slug === homepage id). */
@@ -31,8 +40,9 @@ export function MoreProjects({ currentSlug }: MoreProjectsProps) {
         </span>
       </div>
 
-      {/* Same responsive grid as the homepage projects list (1 col, 2 cols ≥768px) */}
-      <div className="project-grid">
+      {/* Same responsive grid as the homepage projects list (1 col, 2 cols ≥768px),
+          plus the row gap the wrapped third card needs (see index.css). */}
+      <div className="project-grid project-grid--more-work">
         {others.map((p, i) => (
           <ProjectCard
             key={p.id ?? p.title}
