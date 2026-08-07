@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
 import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
 import HeroSection from "@/components/HeroSection";
@@ -92,9 +92,11 @@ export const aiProjects = [
   },
 ];
 
-const Index = () => {
-  const [isAboutOpen, setIsAboutOpen] = useState(false);
+// aboutOpen: the /about route renders the same page with the About view open on arrival.
+const Index = ({ aboutOpen = false }: { aboutOpen?: boolean }) => {
+  const [isAboutOpen, setIsAboutOpen] = useState(aboutOpen);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Cross-page nav intent: pages that link back here (case studies) pass router
   // state to land on a specific section or open the About overlay on arrival.
@@ -118,20 +120,30 @@ const Index = () => {
   // from both the plain hero and the About view — the header nav uses it so the
   // links behave identically in either state.
   const navigateToSection = useCallback((sectionId: string) => {
+    // Deep-linked /about: go home first; the scrollTo nav state lands on the section.
+    if (aboutOpen) {
+      navigate("/", { state: { scrollTo: sectionId } });
+      return;
+    }
     setIsAboutOpen(false);
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         scrollToSectionNavTarget(sectionId);
       });
     });
-  }, []);
+  }, [aboutOpen, navigate]);
 
   const navigateToMainProjects = useCallback(() => navigateToSection("projects"), [navigateToSection]);
 
   const closeAbout = useCallback(() => {
+    // Deep-linked /about: leave the route so the URL matches the home view again.
+    if (aboutOpen) {
+      navigate("/");
+      return;
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
     setIsAboutOpen(false);
-  }, []);
+  }, [aboutOpen, navigate]);
 
   return (
     <PageTransition>
