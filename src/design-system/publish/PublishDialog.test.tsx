@@ -2,7 +2,6 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testi
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useState } from "react";
 import { MemoryRouter, useLocation } from "react-router-dom";
-import Footer from "@/components/Footer";
 import DesignSystem from "@/pages/DesignSystem";
 import { tokenBundle } from "../generated/token-manifest.generated";
 import { PreviewProvider, usePreviewDraft } from "../preview/PreviewProvider";
@@ -343,16 +342,6 @@ describe("Admin entry integration", () => {
     cleanup();
     vi.restoreAllMocks();
     window.history.replaceState(null, "", "/");
-  });
-
-  it("keeps a real global Footer fallback and intercepts it only when a callback is supplied", () => {
-    const onAdminClick = vi.fn();
-    const view = render(<Footer />);
-    expect(screen.getByRole("link", { name: "Admin" })).toHaveAttribute("href", "/design-system?admin=1");
-
-    view.rerender(<Footer onAdminClick={onAdminClick} />);
-    fireEvent.click(screen.getByRole("link", { name: "Admin" }));
-    expect(onAdminClick).toHaveBeenCalledOnce();
   });
 
   it("opens unlisted authoring from the one-shot query and returns to a control-free public reference", async () => {

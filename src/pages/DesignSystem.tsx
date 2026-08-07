@@ -66,7 +66,6 @@ const DesignSystem = () => {
         <Footer
           onMainProjectsClick={navigateToSelectedWork}
           onAboutClick={navigateToAbout}
-          onAdminClick={() => setAuthoringOpen(true)}
           wide
         />
         <AdminAuthoringDialog
