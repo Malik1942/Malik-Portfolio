@@ -11,6 +11,7 @@ import { AuraHardwareSystem } from "./AuraHardwareSystem";
 import { AuraHighlights } from "./AuraHighlights";
 import { AuraScenes } from "./AuraScenes";
 import { NeuraLyfeHighlights } from "./NeuraLyfeHighlights";
+import { ZeatHighlights } from "./ZeatHighlights";
 import { ImageLightbox, type LightboxImage } from "./ImageLightbox";
 import { AuraDesignRequirements } from "./AuraDesignRequirements";
 import { AuraIdeationCriteria } from "./AuraIdeationCriteria";
@@ -28,6 +29,7 @@ import {
   MotiBuildJourney,
   MotiTakeaways,
 } from "./MotiModules";
+import { InkworkSymptoms, InkworkSequence, InkworkThemes, InkworkTryCta, InkworkSkillLink, InkworkCta } from "./InkworkModules";
 import { MoreProjects } from "./MoreProjects";
 import { ProjectMediaFrame } from "./ProjectMediaFrame";
 import { ProjectMetadataSummary } from "./ProjectMetadataSummary";
@@ -128,6 +130,7 @@ function renderInline(text: string) {
 const INLINE_MODULES: Record<string, React.ReactNode> = {
   "aura-highlights": <AuraHighlights />,
   "neuralyfe-highlights": <NeuraLyfeHighlights />,
+  "zeat-highlights": <ZeatHighlights />,
   "aura-hardware": <AuraHardwareSystem />,
   "aura-scenes": <AuraScenes />,
   "aura-design-requirements": <AuraDesignRequirements />,
@@ -144,6 +147,12 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "moti-before-building": <MotiBeforeBuilding />,
   "moti-build-journey": <MotiBuildJourney />,
   "moti-takeaways": <MotiTakeaways />,
+  "inkwork-symptoms": <InkworkSymptoms />,
+  "inkwork-sequence": <InkworkSequence />,
+  "inkwork-themes": <InkworkThemes />,
+  "inkwork-try": <InkworkTryCta />,
+  "inkwork-skill-link": <InkworkSkillLink />,
+  "inkwork-cta": <InkworkCta />,
 };
 
 function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFirst?: boolean; inlineFigures?: ProjectSectionFigure[] }) {

@@ -15,6 +15,9 @@ import moodmuseCover from "@/assets/moodmuse-cover.webp";
 import studioWatersCover from "@/assets/studio-waters-cover.webp";
 import motiCard from "@/assets/moti-card-poster.webp";
 import motiCardVideo from "@/assets/moti-card.mp4";
+import inkworkCard from "@/assets/inkwork-card.webp";
+import inkworkCardVideo from "@/assets/inkwork-card.mp4";
+import zeatCard from "@/assets/zeat-hero.webp";
 
 export const selectedWork = [
   {
@@ -76,6 +79,33 @@ export const selectedWork = [
 ];
 
 export const aiProjects = [
+  {
+    id: "zeat",
+    title: "ZEAT",
+    signal: "Autonomous Grandstand Cleaning Between Events",
+    description: "A cleaning robot for stadium grandstands — designed around the eight-hour gap between events, when three tons of trash have to disappear.",
+    role: "Industrial Designer",
+    year: "2025",
+    coverImage: zeatCard,
+    // Promoted out of the AI grid: this is the only industrial design work in the
+    // portfolio, and the tag is what distinguishes it from the software beside it.
+    sectionHero: true,
+    tag: "Industrial Design",
+    details: "A ground-based cleaning robot for stadium grandstands, designed solo across the robot, its mechanisms, and the system that dispatches it.\n\nModeled, 3D printed, hand-finished, and exhibited as a driving appearance model.",
+  },
+  {
+    id: "inkwork",
+    title: "Inkwork",
+    description: "A styled-QR studio with a point of view — pick a style, check the proof, export",
+    role: "Designer + Builder",
+    year: "2026",
+    coverImage: inkworkCard,
+    // The Arcade theme mid-flight: styles switching, then the gradient controls
+    // repainting the code. coverImage stays as its poster / reduced-motion still.
+    coverVideo: inkworkCardVideo,
+    builtWith: "Claude Code",
+    details: "A styled-QR studio, live at malikzhang.com/inkwork — sixteen presets, two complete themes on one token system, and a scannability check that decodes the code you just made.",
+  },
   {
     id: "studiowaters",
     title: "Studio Waters",

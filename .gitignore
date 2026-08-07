@@ -17,6 +17,11 @@ dist-ssr
 .env.*
 !.env.example
 
+# Figma asset masters — full-resolution PNG/JPEG pulled out of source design
+# files for a case study. Only the converted, resized WebP in src/assets/ ships;
+# the masters stay local so multi-MB renders can't ride along in a commit.
+zeat-assets/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -36,15 +36,26 @@ interface Orb {
 // never collide with each other or the centered "Malik Zhang" cluster. On mobile
 // the orbs are held static (see draw loop) so this spacing is exactly what shows.
 const ORB_DEFS = [
+  // Mobile top band holds four orbs evenly (0.14 / 0.21 / 0.28 / 0.35) so the
+  // lowest still clears the title-cluster exclusion zone on short viewports.
   // Desktop: the band between the nav and the title cluster, left of Mood Muse.
-  // Mobile: slots into the top band between Aura (0.14) and NeuraLyfe (0.32).
-  { label: "Moti: Plan",   subtitle: "Main Projects", color: "red"  as const, rx: 0.42, ry: 0.2,  mrx: 0.09, mry: 0.23, id: "moti" },
+  { label: "Moti: Plan",   subtitle: "Main Projects", color: "red"  as const, rx: 0.42, ry: 0.2,  mrx: 0.09, mry: 0.21, id: "moti" },
   { label: "Aura",         subtitle: "Main Projects", color: "red"  as const, rx: 0.1,  ry: 0.25, mrx: 0.09, mry: 0.14, id: "aura" },
-  { label: "NeuraLyfe",    subtitle: "Main Projects", color: "red"  as const, rx: 0.28, ry: 0.72, mrx: 0.09, mry: 0.32, id: "neuralyfe" },
+  { label: "NeuraLyfe",    subtitle: "Main Projects", color: "red"  as const, rx: 0.28, ry: 0.72, mrx: 0.09, mry: 0.28, id: "neuralyfe" },
   { label: "FlowPrint",    subtitle: "Main Projects", color: "red"  as const, rx: 0.75, ry: 0.45, mrx: 0.15, mry: 0.72, id: "flowprint" },
   { label: "Tubular",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.18, ry: 0.7,  mrx: 0.09, mry: 0.80, id: "tubular" },
   { label: "Mood Muse",    subtitle: "Main Projects", color: "red"  as const, rx: 0.88, ry: 0.3,  mrx: 0.09, mry: 0.64, id: "moodmuse" },
   { label: "Studio Waters",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.72, ry: 0.68, mrx: 0.15, mry: 0.88, id: "studiowaters" },
+  // Desktop: the open band right of Moti, above the title cluster.
+  // Mobile: both low-x bands are full — squeezing a fifth orb into either one
+  // drops the spacing to ~0.06 and the two-line labels collide (Mood Muse ran
+  // into FlowPrint when tried). This is the one orb placed in the right half
+  // instead: clear of the nav band, above the title cluster, and inside
+  // ORB_PAD_RIGHT so its label doesn't run off the canvas.
+  { label: "ZEAT",         subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.62, ry: 0.26, mrx: 0.52, mry: 0.30, id: "zeat" },
+  // Desktop: lower band between NeuraLyfe and Studio Waters. Mobile: last slot
+  // of the top band, same low-mrx column.
+  { label: "Inkwork",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.5,  ry: 0.8,  mrx: 0.09, mry: 0.35, id: "inkwork" },
 ];
 
 const RED = "200, 82, 82";
