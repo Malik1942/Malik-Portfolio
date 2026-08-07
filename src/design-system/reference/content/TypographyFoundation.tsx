@@ -106,8 +106,8 @@ export function TypographyFoundation() {
                 <TechnicalLabel token={token} />
                 <p
                   data-testid={`type-scale-${role.id}-specimen`}
-                  className="min-w-0 overflow-hidden tracking-tight text-foreground"
-                  style={{ fontSize: token.cssValue, lineHeight: 1.05 }}
+                  className="min-w-0 tracking-tight text-foreground"
+                  style={{ fontSize: token.cssValue, lineHeight: 1.2 }}
                 >
                   {role.sample}
                 </p>
