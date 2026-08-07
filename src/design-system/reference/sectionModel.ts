@@ -22,7 +22,7 @@ export const DESIGN_SYSTEM_GROUPS: DesignSystemGroup[] = [
       },
       {
         id: "foundation-typography",
-        label: "Type",
+        label: "Typo",
         description: "Display, body, and mono roles extracted from the current site.",
       },
       {

@@ -79,7 +79,7 @@ describe("DesignSystemShell", () => {
       window.dispatchEvent(new HashChangeEvent("hashchange"));
     });
 
-    expect(screen.getByRole("heading", { level: 1, name: "Type" })).toHaveFocus();
+    expect(screen.getByRole("heading", { level: 1, name: "Typo" })).toHaveFocus();
   });
 
   it("opens the active group and exposes real previous and next hash links", () => {
@@ -99,7 +99,7 @@ describe("DesignSystemShell", () => {
       "aria-expanded",
       "true",
     );
-    expect(screen.getAllByRole("link", { name: /Previous: Type/ })[0]).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /Previous: Typo/ })[0]).toHaveAttribute(
       "href",
       "#foundation-typography",
     );
