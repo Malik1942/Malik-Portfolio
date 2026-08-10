@@ -44,9 +44,12 @@ async function main() {
     const browser = await chromium.launch({ headless: true });
     const page = await browser.newPage();
 
-    // 1200×800 so the bottom nav (absolute bottom-0 of the h-screen hero) sits
-    // below the 630px crop boundary and is excluded from the OG image.
-    await page.setViewportSize({ width: 1200, height: 800 });
+    // Viewport height 700 centers the name in the 630px crop: DotGrid draws
+    // "Malik Zhang" at 0.45 × viewport-height (DotGrid.tsx: centerY = h * 0.45),
+    // so 0.45 × 700 = 315 = the vertical middle of the 630px OG image. This keeps
+    // the top nav fully in frame (crop starts at y=0) while the hero's bottom
+    // scroll hint stays below the 630 boundary and is excluded.
+    await page.setViewportSize({ width: 1200, height: 700 });
     await page.goto(BASE_URL, { waitUntil: 'load' });
 
     // Wait for the loading screen to fade out (dismissed by main.tsx after
@@ -60,8 +63,34 @@ async function main() {
     });
 
     // Allow hero animations (DotGrid canvas, name fade-in, particle burst) to settle.
-    console.log('Waiting for hero animations...');
-    await page.waitForTimeout(3000);
+    // The tagline types in character-by-character over ~5s, so a fixed short wait
+    // caught it mid-sentence. Poll until the hero's visible text stops growing —
+    // copy-agnostic, so it stays correct if the tagline is ever reworded — then a
+    // brief final settle for the DotGrid dots.
+    console.log('Waiting for hero animations + typewriter tagline...');
+    await page.waitForFunction(() => {
+      const hero = document.querySelector('section');
+      if (!hero) return false;
+      const text = hero.innerText || '';
+      const w = window;
+      if (w.__ogText !== text) {
+        w.__ogText = text;
+        w.__ogTextAt = Date.now();
+        return false;
+      }
+      // Stable once the text has been unchanged for 900ms.
+      return Date.now() - (w.__ogTextAt || 0) > 900;
+    }, { timeout: 15_000, polling: 100 }).catch(() => {
+      console.warn('Hero text did not stabilize — continuing anyway');
+    });
+    await page.waitForTimeout(800);
+
+    // The hero's bottom scroll hint lands right on the 630px crop line at this
+    // viewport height and would peek into the frame. It's a navigation
+    // affordance with no meaning in a static preview, so hide it for the shot.
+    await page.addStyleTag({
+      content: '[aria-label="Scroll to projects"] { display: none !important; }',
+    });
 
     const outPath = join(ROOT, 'public', 'og-image.png');
     await page.screenshot({
