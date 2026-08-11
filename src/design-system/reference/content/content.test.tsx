@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
-import { DESIGN_SYSTEM_GROUPS } from "../sectionModel";
+import { DESIGN_SYSTEM_GROUPS, OVERVIEW_SECTION } from "../sectionModel";
 import { getFoundationTokens } from "./Foundations";
 import { renderReferenceSection } from "../sections";
 
@@ -22,8 +22,7 @@ describe("design-system reference content", () => {
   });
 
   it("documents the six curated-reference principles, exact token flow, and W3C reports", () => {
-    const overview = DESIGN_SYSTEM_GROUPS[0].sections[0];
-    render(<>{renderReferenceSection(overview)}</>);
+    render(<>{renderReferenceSection(OVERVIEW_SECTION)}</>);
 
     for (const principle of [
       "One source of truth",
@@ -49,8 +48,10 @@ describe("design-system reference content", () => {
       "foundation-typography",
       "component-lineup",
     ];
-    const sections = DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections)
-      .filter((section) => ids.includes(section.id));
+    const sections = [
+      OVERVIEW_SECTION,
+      ...DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections),
+    ].filter((section) => ids.includes(section.id));
 
     render(<>{sections.map((section) => (
       <div key={section.id}>{renderReferenceSection(section)}</div>
@@ -64,7 +65,10 @@ describe("design-system reference content", () => {
   });
 
   it("maps every public registry entry to rich, section-specific content", () => {
-    const sections = DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections);
+    const sections = [
+      OVERVIEW_SECTION,
+      ...DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections),
+    ];
 
     for (const section of sections) {
       const { unmount } = render(<>{renderReferenceSection(section)}</>);
