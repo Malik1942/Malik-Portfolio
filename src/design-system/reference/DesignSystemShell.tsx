@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   DESIGN_SYSTEM_GROUPS,
+  OVERVIEW_SECTION,
   getAdjacentSections,
   resolveSectionHash,
   type DesignSystemSection,
@@ -78,7 +79,11 @@ export function DesignSystemShell({
   const [railOpen, setRailOpen] = useState(false);
   const [openGroupIds, setOpenGroupIds] = useState(
     () => {
-      const activeGroupId = groupIdForSection(resolveSectionHash(window.location.hash).id);
+      // Open the active section's group. The top-level overview belongs to no
+      // group, so fall back to the first group to keep the landing view populated.
+      const activeGroupId =
+        groupIdForSection(resolveSectionHash(window.location.hash).id) ??
+        DESIGN_SYSTEM_GROUPS[0]?.id;
       return new Set(activeGroupId ? [activeGroupId] : []);
     },
   );
@@ -144,6 +149,19 @@ export function DesignSystemShell({
           className={`${railOpen ? "block" : "hidden"} border-b border-border/40 py-5 lg:block lg:border-b-0 lg:py-0`}
         >
           <div className="space-y-5">
+            <a
+              href={`#${OVERVIEW_SECTION.id}`}
+              aria-current={
+                activeSection.id === OVERVIEW_SECTION.id ? "location" : undefined
+              }
+              className={`flex min-h-11 w-full items-center text-left text-label uppercase tracking-eyebrow transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 lg:min-h-0 lg:py-1 ${
+                activeSection.id === OVERVIEW_SECTION.id
+                  ? "text-foreground"
+                  : "text-foreground/55 hover:text-foreground/72"
+              }`}
+            >
+              {OVERVIEW_SECTION.label}
+            </a>
             {DESIGN_SYSTEM_GROUPS.map((group) => {
               const isExpanded = openGroupIds.has(group.id);
               const listId = `design-system-group-${group.id}`;

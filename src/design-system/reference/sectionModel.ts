@@ -10,19 +10,22 @@ export interface DesignSystemGroup {
   sections: DesignSystemSection[];
 }
 
+// The overview is the system's landing page — it describes the whole reference
+// (all three groups), so it sits above them rather than inside Foundations.
+export const OVERVIEW_SECTION: DesignSystemSection = {
+  id: "overview",
+  label: "Overview",
+  description: "How Malik's portfolio system is structured, generated, and used.",
+};
+
 export const DESIGN_SYSTEM_GROUPS: DesignSystemGroup[] = [
   {
     id: "foundations",
     label: "Foundations",
     sections: [
       {
-        id: "overview",
-        label: "Overview",
-        description: "How Malik's portfolio system is structured, generated, and used.",
-      },
-      {
         id: "foundation-typography",
-        label: "Typo",
+        label: "Type",
         description: "Display, body, and mono roles extracted from the current site.",
       },
       {
@@ -32,7 +35,7 @@ export const DESIGN_SYSTEM_GROUPS: DesignSystemGroup[] = [
       },
       {
         id: "foundation-tokens",
-        label: "Tokens",
+        label: "Spacing & motion",
         description: "Spacing rhythm, layout measures, radius, and motion values in one place.",
       },
       {
@@ -131,12 +134,16 @@ export const DESIGN_SYSTEM_GROUPS: DesignSystemGroup[] = [
   },
 ];
 
-const SECTIONS = DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections);
-const OVERVIEW = SECTIONS[0];
+// The overview leads the linear reading sequence even though it is not part of
+// any group, so previous/next and hash resolution treat it as the first section.
+const SECTIONS = [
+  OVERVIEW_SECTION,
+  ...DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections),
+];
 
 export function resolveSectionHash(hash: string): DesignSystemSection {
   const id = hash.startsWith("#") ? hash.slice(1) : hash;
-  return SECTIONS.find((section) => section.id === id) ?? OVERVIEW;
+  return SECTIONS.find((section) => section.id === id) ?? OVERVIEW_SECTION;
 }
 
 export function getAdjacentSections(id: string): {
