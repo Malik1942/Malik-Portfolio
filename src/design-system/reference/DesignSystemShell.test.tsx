@@ -46,7 +46,8 @@ describe("DesignSystemShell", () => {
 
     const foundations = screen.getByRole("button", { name: "Foundations" });
     const components = screen.getByRole("button", { name: "Components" });
-    // Overview lives in Foundations, so that group is open on initial render.
+    // Overview is now a top-level entry, so Foundations opens as the default
+    // first group to keep the landing view populated.
     expect(foundations).toHaveAttribute("aria-expanded", "true");
     expect(components).toHaveAttribute("aria-expanded", "false");
     fireEvent.click(components);
@@ -79,7 +80,7 @@ describe("DesignSystemShell", () => {
       window.dispatchEvent(new HashChangeEvent("hashchange"));
     });
 
-    expect(screen.getByRole("heading", { level: 1, name: "Typo" })).toHaveFocus();
+    expect(screen.getByRole("heading", { level: 1, name: "Type" })).toHaveFocus();
   });
 
   it("opens the active group and exposes real previous and next hash links", () => {
@@ -99,11 +100,11 @@ describe("DesignSystemShell", () => {
       "aria-expanded",
       "true",
     );
-    expect(screen.getAllByRole("link", { name: /Previous: Typo/ })[0]).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /Previous: Type/ })[0]).toHaveAttribute(
       "href",
       "#foundation-typography",
     );
-    expect(screen.getAllByRole("link", { name: /Next: Tokens/ })[0]).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /Next: Spacing & motion/ })[0]).toHaveAttribute(
       "href",
       "#foundation-tokens",
     );
