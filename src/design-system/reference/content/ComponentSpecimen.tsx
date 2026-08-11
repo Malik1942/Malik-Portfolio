@@ -1,9 +1,11 @@
 import { useState } from "react";
 import auraCover from "@/assets/aura-cover.webp";
 import motiCard from "@/assets/moti-card.webp";
+import logo from "@/assets/logo.png";
 import { ImageLightbox, type LightboxImage } from "@/components/project-detail/ImageLightbox";
 import { ProjectMediaFrame } from "@/components/project-detail/ProjectMediaFrame";
 import { ProjectMetadataSummary } from "@/components/project-detail/ProjectMetadataSummary";
+import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
 import { Specimen } from "../Specimen";
 
 interface ComponentSpecimenProps {
@@ -63,19 +65,44 @@ function LightboxStage() {
   );
 }
 
+// Production nav destinations, in production order. Links are inert here —
+// the stage demonstrates the hover behavior, not navigation.
+const SITE_HEADER_DESTINATIONS: readonly [string, string][] = [
+  ["Selected Work", "/#projects"],
+  [WORKSHOP_SECTION_LABEL, "/#ai-projects"],
+  ["About", "/#about"],
+  ["Resume", "/resume"],
+];
+
 function SiteHeaderStage() {
-  const [active, setActive] = useState("Selected Work");
   return (
-    <div className="border-b border-border/45 pb-4">
-      <div className="flex items-center justify-between gap-4 text-sm">
-        <span className="text-xl italic tracking-tight text-foreground">M</span>
-        <div className="flex flex-wrap justify-end gap-x-4 gap-y-2">
-          {["Selected Work", "Workshop", "About"].map((item) => (
-            <button key={item} type="button" onClick={() => setActive(item)} className={`min-h-[40px] border-b text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${active === item ? "border-foreground text-foreground" : "border-transparent text-foreground/55 hover:text-foreground/72"}`}>
-              {item}
-            </button>
+    // Full-bleed inside the specimen stage: cancel the card padding so the
+    // header and its divider span the component's full width, like production.
+    <div className="-mx-5 -mt-5 border-b border-border/45 px-5 pb-4 pt-5 sm:-mx-6 sm:-mt-6 sm:px-6 sm:pt-6">
+      <div className="flex items-center justify-between gap-4">
+        <a
+          href="/"
+          aria-label="Malik Zhang — home"
+          onClick={(event) => event.preventDefault()}
+          className="inline-block w-fit shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <img src={logo} alt="Malik Zhang" className="h-6 w-auto select-none" />
+        </a>
+        {/* Same classes as the production SiteHeader links: the .nav-link
+            underline sweep and 500ms color transition are the real behavior,
+            including production's documented focus-ring and target-size gaps. */}
+        <nav aria-label="Site header destinations" className="flex flex-wrap justify-end gap-x-5 gap-y-2 text-sm text-foreground/72">
+          {SITE_HEADER_DESTINATIONS.map(([label, href]) => (
+            <a
+              key={label}
+              href={href}
+              onClick={(event) => event.preventDefault()}
+              className="nav-link hover:text-foreground transition-colors duration-500"
+            >
+              {label}
+            </a>
           ))}
-        </div>
+        </nav>
       </div>
     </div>
   );
@@ -123,7 +150,7 @@ const COMPONENT_STAGES: Record<string, { description: string; render: () => JSX.
     description: "Open the production lightbox, then use Escape or Close to return to this trigger.",
     render: LightboxStage,
   },
-  "component-site-header": { description: "Select a destination to inspect the compact navigation hierarchy.", render: SiteHeaderStage },
+  "component-site-header": { description: "Hover a destination for the production underline sweep; fixed positioning and scroll behavior stay in production context.", render: SiteHeaderStage },
   "component-project-list": { description: "The pair becomes a single reading column as the stage narrows.", render: ProjectListStage },
   "component-metadata-card": { description: "The same production metadata summary keeps context scannable and wrapped.", render: MetadataStage },
   "component-media-frame": { description: "The shared production figure keeps project evidence inside a stable frame.", render: MediaFrameStage },
