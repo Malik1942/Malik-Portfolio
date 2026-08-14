@@ -296,7 +296,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
           {project.title}
         </h1>
         {project.heroSummary ? (
-          <p className="mt-5 md:mt-8 text-xl font-light text-foreground/72 max-w-reading leading-relaxed">
+          <p className="mt-5 md:mt-8 text-xl font-light text-foreground/72 max-w-reading leading-relaxed text-balance">
             {project.heroSummary}
           </p>
         ) : null}
