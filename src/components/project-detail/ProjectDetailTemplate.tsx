@@ -296,7 +296,15 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
           {project.title}
         </h1>
         {project.heroSummary ? (
-          <p className="mt-5 md:mt-8 text-xl font-light text-foreground/72 max-w-reading leading-relaxed text-balance">
+          <p
+            className={`mt-5 md:mt-8 text-xl font-light text-foreground/72 max-w-reading leading-relaxed text-balance ${
+              // A "\n" in a summary is an authored line break, not stray whitespace.
+              // Honor it from md up, where the column is wide enough for the lines
+              // it was written for; below that the newline collapses back to a
+              // space and text-balance wraps the summary on its own.
+              project.heroSummary.includes("\n") ? "md:whitespace-pre-line md:text-pretty" : ""
+            }`}
+          >
             {project.heroSummary}
           </p>
         ) : null}
