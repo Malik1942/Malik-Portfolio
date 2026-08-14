@@ -10,6 +10,7 @@ const highlights = [
   "Cleans floors and seats",
   "Crosses grandstand steps",
   "Compacts what it collects",
+  "Reports what it cleaned",
   "Runs as a dispatched fleet",
 ];
 
