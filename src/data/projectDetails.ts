@@ -608,7 +608,7 @@ const zeat: ProjectDetailDocument = {
   slug: "zeat",
   listSection: WORKSHOP_SECTION_LABEL,
   title: "ZEAT",
-  heroSummary: "Cooperating Robots That Autonomously Clean and Inspect the Stands After Every Event.",
+  heroSummary: "Intelligent Robots Auto Clean and Inspect the Stands After Every Event.",
   heroSubtitle: "Solo Industrial Design Project · Robot, Mechanisms, and Dispatch System · 2025",
   heroImage: zeatHero,
   heroImageFit: "natural",
