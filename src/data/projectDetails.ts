@@ -608,7 +608,7 @@ const zeat: ProjectDetailDocument = {
   slug: "zeat",
   listSection: WORKSHOP_SECTION_LABEL,
   title: "ZEAT",
-  heroSummary: "Intelligent Robots That Clear Trash From Stadium Seats and Floors — Then Show You What They Cleaned.",
+  heroSummary: "Intelligent Robots Auto Collect Trash, Clean the Floors, and Inspect the Results After Every Event.",
   heroSubtitle: "Solo Industrial Design Project · Robot, Mechanisms, and Dispatch System · 2025",
   heroImage: zeatHero,
   heroImageFit: "natural",
@@ -683,7 +683,7 @@ const zeat: ProjectDetailDocument = {
       figures: [
         { type: "image", src: zeatServiceTopdown, alt: "Top-down service view — dust bag, battery compartment, and garbage inlet, with the rear status screen reading Sector 01, 92%" },
       ],
-      body: "A single robot doesn't clean a stadium in eight hours. ZEAT is designed as a fleet with a loop.\n\n## The Operating Loop\n\nScan and initialize, take assigned zones, clean the floors, work the seat rows — then return to base, empty into a self-cleaning station, recharge, and upload the report.\n\n[[fig:0]]\n\nDust bag and battery sit under one lid, placed for fast turnaround at the station rather than mid-shift maintenance.\n\n## Dispatch\n\nThe management app runs the fleet against the venue's calendar: a floor plan shows each zone's load as a heat map, device cards track battery and progress, and scheduling follows the events — the system knows when the window opens.\n\n## Proof of Work\n\nA finished zone reports back with the area it covered and photographs of the rows it left behind. **The person responsible for the building confirms the job from the app instead of walking the tier at 3 a.m.**",
+      body: "A single robot doesn't clean a stadium in eight hours. ZEAT is designed as a fleet with a loop.\n\n## The Operating Loop\n\nScan and initialize, take assigned zones, clean the floors, work the seat rows — then return to base, empty into a self-cleaning station, recharge, and upload the report.\n\n[[fig:0]]\n\nDust bag and battery sit under one lid, placed for fast turnaround at the station rather than mid-shift maintenance.\n\n## Dispatch\n\nThe management app runs the fleet against the venue's calendar: a floor plan shows each zone's load as a heat map, device cards track battery and progress, and scheduling follows the events — the system knows when the window opens.\n\n## The Report\n\nEach finished zone returns the area it covered and photographs of the rows behind it, so the cleaning can be checked in the app rather than on foot.",
     },
     {
       id: "reflection",
