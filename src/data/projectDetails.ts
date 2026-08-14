@@ -161,7 +161,7 @@ const neuralyfe: ProjectDetailDocument = {
   slug: "neuralyfe",
   listSection: "Main Projects",
   title: "NeuraLyfe",
-  heroSummary: "A Helmet Add-On and Sideline App That Show Football Medical Staff Which Players’ Brains Are at Risk — and Which Hit Caused It.",
+  heroSummary: "A Helmet Add-On and Sideline App That Show Football Medical Staff\nWhich Players’ Brains Are at Risk, and Which Hit Caused It.",
   heroSubtitle: "FigBuild 2026 · 3-Day Hackathon · Built in Figma Make · 1st Place of 690 Teams.",
   heroImage: neuralyfeDetail1,
   metaCards: [
@@ -258,7 +258,7 @@ const moti: ProjectDetailDocument = {
   slug: "moti",
   listSection: "Main Projects",
   title: "Moti: Plan",
-  heroSummary: "Shipped Solo on the App Store: an AI-Native Planner That Turns Messy Input Into a Living, Timeline-Aware Plan",
+  heroSummary: "Shipped Solo on the App Store: an AI-Native Planner That\nTurns Messy Input Into a Living, Timeline-Aware Plan",
   heroImage: motiHero,
   heroImageFit: "cover",
   metaCards: [
@@ -608,7 +608,7 @@ const zeat: ProjectDetailDocument = {
   slug: "zeat",
   listSection: WORKSHOP_SECTION_LABEL,
   title: "ZEAT",
-  heroSummary: "Intelligent Robots Auto Collect Trash, Clean the Floors, and Inspect the\nResults After Every Event.",
+  heroSummary: "Intelligent Robots Auto Collect Trash, Clean the Floors,\nand Inspect the Results After Every Event.",
   heroSubtitle: "Solo Industrial Design Project · Robot, Mechanisms, and Dispatch System · 2025",
   heroImage: zeatHero,
   heroImageFit: "natural",
