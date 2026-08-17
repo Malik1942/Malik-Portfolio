@@ -468,11 +468,11 @@ const moodmuse: ProjectDetailDocument = {
   listSection: "Main Projects",
   title: "Mood Muse",
   heroSummary: "An Emotion-Sensing Paintbrush That Lets Autistic Children\nSay How They Feel Without Saying Anything.",
-  heroSubtitle: "Team Project · Lead Industrial Designer and Director of UX · Brush, Sensing, Prototype, and the Mood Connect App · 2024",
+  heroSubtitle: "Team Project · Industrial Design Lead and Sole UX Designer · Brush, Sensing, Prototype, and the Mood Connect App · 2024",
   heroImage: moodmuseHero,
   heroImageFit: "natural",
   metaCards: [
-    { label: "Role", value: "Lead Industrial Designer · Director of UX" },
+    { label: "Role", value: "Industrial Design Lead · Sole UX Designer" },
     { label: "Timeline", value: "2024" },
     { label: "Team", value: "Team Lead · Collaborative Industrial Design" },
     { label: "Scope", value: "Brush · Sensing · Prototype · Mood Connect App" },
@@ -483,7 +483,7 @@ const moodmuse: ProjectDetailDocument = {
       label: "Intro",
       headline: "A Paintbrush That Reads the Hand Holding It",
       showProjectMeta: true,
-      body: "**Mood Muse is a smart paintbrush for children on the autism spectrum. Sensors in the grip read arousal while the child paints, the brush answers with ink color and scent, and a companion app turns the session into something a parent and therapist can read together.**\n\nMany autistic children feel a lot and can name very little of it in the moment. Art therapy already gives them a wordless channel. Mood Muse puts the sensing inside the tool they are already holding, so expression and detection happen in the same stroke.\n\nI led the team, owned the industrial design and the working prototype, and directed the UX of the Mood Connect app.",
+      body: "**Mood Muse is a smart paintbrush for children on the autism spectrum. Sensors in the grip read arousal while the child paints, the brush answers with ink color and scent, and a companion app turns the session into something a parent and therapist can read together.**\n\nMany autistic children feel a lot and can name very little of it in the moment. Art therapy already gives them a wordless channel. Mood Muse puts the sensing inside the tool they are already holding, so expression and detection happen in the same stroke.\n\nI led the team, owned the industrial design and the working prototype, and was the only designer on the Mood Connect app.",
     },
     {
       id: "highlights",
