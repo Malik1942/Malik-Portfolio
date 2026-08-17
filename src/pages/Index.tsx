@@ -59,10 +59,10 @@ export const selectedWork = [
     id: "moodmuse",
     title: "Mood Muse",
     description: "An emotion-sensing paintbrush for autistic children — the brush reads the hand, answers with color and scent, and the app turns the session into a record parent and therapist can share.",
-    role: "Lead Industrial Designer · Director of UX",
+    role: "Industrial Design Lead · Sole UX Designer",
     coverImage: moodmuseCover,
     year: "2024",
-    details: "A smart paintbrush with GSR and heart-rate sensing in the grip, a rotary ink switcher that changes color with the child's state, and a companion app for parents and therapists.\n\nLed the team, owned the industrial design and working prototype, and directed the UX.",
+    details: "A smart paintbrush with GSR and heart-rate sensing in the grip, a rotary ink switcher that changes color with the child's state, and a companion app for parents and therapists.\n\nLed the team, owned the industrial design and working prototype, and was the only designer on the app.",
   },
   {
     id: "flowprint",
