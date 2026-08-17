@@ -103,34 +103,3 @@ async function place(name, parts) {
     { input: k, left: x0 + bm.width + gap, top: 0 },
   ]);
 }
-
-// ── The sensing surface: the GSR window, whole ───────────────────────────
-// A horizontal band through the middle of the window cut the oval top and
-// bottom and read as an abstract silver ellipse. Crop the whole window plus
-// the body around it instead: portrait, so the page renders it narrow.
-{
-  const face = await src("draft-slide-a-raw-03-MoodMuseV01-render-1136")
-    .trim({ threshold: 3 })
-    .png()
-    .toBuffer();
-  const fm = await sharp(face).metadata();
-  // Window bounds measured on the trimmed 2312x4096 render, as fractions.
-  const box = {
-    left: Math.round(fm.width * 0.017),
-    top: Math.round(fm.height * 0.169),
-    width: Math.round(fm.width * 0.965),
-    height: Math.round(fm.height * 0.727),
-  };
-  const crop = await sharp(face)
-    .extract(box)
-    .resize({ width: 1400 })
-    .png()
-    .toBuffer();
-  const cm = await sharp(crop).metadata();
-  const out = await sharp(ground(cm.width, cm.height))
-    .composite([{ input: crop, left: 0, top: 0 }])
-    .webp({ quality: 88 })
-    .toBuffer();
-  await fs.promises.writeFile(`${OUT}/moodmuse-sensor-face.webp`, out);
-  console.log("moodmuse-sensor-face", cm.width + "x" + cm.height, ((fs.statSync(`${OUT}/moodmuse-sensor-face.webp`).size / 1024) | 0) + "KB");
-}

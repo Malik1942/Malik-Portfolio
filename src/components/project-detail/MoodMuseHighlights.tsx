@@ -1,6 +1,5 @@
 import moodmuseBrushViews from "@/assets/moodmuse-brush-views.webp";
-import moodmuseSensorFace from "@/assets/moodmuse-sensor-face.webp";
-import moodmuseErgonomic from "@/assets/moodmuse-ergonomic.webp";
+import moodmuseSensingErgonomics from "@/assets/moodmuse-sensing-ergonomics.webp";
 import moodmuseUiInsights from "@/assets/moodmuse-ui-insights.webp";
 import { Chips, PullQuote } from "./MotiModules";
 
@@ -23,50 +22,34 @@ const highlights = [
   "Needs no button mid-session",
 ];
 
-// Rows, not a flat list: the sensing window and the hand map are one argument
-// (the sensor sits where the hand already presses), so they run two-up.
-const rows = [
-  [
-    {
-      src: moodmuseBrushViews,
-      alt: "Side view of the white brush, a translucent view of its motor, board, battery and ink tubes, and the four ink cartridges",
-      caption: "Outside, inside, and the four inks the motor switches between",
-    },
-  ],
-  [
-    {
-      src: moodmuseSensorFace,
-      alt: "The brush's sensing window: an oval recess labelled GSR SENSOR set into the white body",
-      caption: "The sensing window, set into the face of the grip",
-    },
-    {
-      src: moodmuseErgonomic,
-      alt: "An open child's palm marked with Pressure Zone 1 across the fingers, Pressure Zone 2 on the little finger, and the heart rate and GSR sensor detection areas on the pad below the fingers",
-      caption: "Mapped to the hand — the two pressure zones double as the sensor contacts",
-    },
-  ],
-  [
-    {
-      src: moodmuseUiInsights,
-      alt: "Three Mood Connect screens: an emotion-state ring, the memory slider of past paintings, and an emotion analysis breakdown",
-      caption: "Mood Connect — where a session becomes something a parent and therapist can read",
-    },
-  ],
+const artifacts = [
+  {
+    src: moodmuseBrushViews,
+    alt: "Side view of the white brush, a translucent view of its motor, board, battery and ink tubes, and the four ink cartridges",
+    caption: "Outside, inside, and the four inks the motor switches between",
+  },
+  {
+    src: moodmuseSensingErgonomics,
+    alt: "The brush's GSR sensing window beside four callouts: Pressure Zone 1, Pressure Zone 2, Heart Rate Sensor Detection, and GSR Sensor Detection",
+    caption: "Sensors where the hand already presses — the two pressure zones double as the contact points",
+  },
+  {
+    src: moodmuseUiInsights,
+    alt: "Three Mood Connect screens: an emotion-state ring, the memory slider of past paintings, and an emotion analysis breakdown",
+    caption: "Mood Connect — where a session becomes something a parent and therapist can read",
+  },
 ];
 
-// In a pair row the two images are matched on height, not width — the window
-// is portrait and the hand map is square, so sizing them by width would leave
-// the captions staggered by a third of an image.
-function MoodMuseArtifact({ src, alt, caption, paired }: { src: string; alt: string; caption: string; paired?: boolean }) {
+function MoodMuseArtifact({ src, alt, caption }: { src: string; alt: string; caption: string }) {
   return (
-    <figure className="min-w-0 flex-1">
-      <div className="overflow-hidden rounded-2xl bg-secondary/10 flex items-center justify-center">
+    <figure>
+      <div className="overflow-hidden rounded-2xl bg-secondary/10">
         <img
           src={src}
           alt={alt}
           loading="lazy"
           decoding="async"
-          className={paired ? "h-[260px] md:h-[320px] w-auto max-w-full block" : "w-full h-auto block"}
+          className="w-full h-auto block"
         />
       </div>
       <figcaption className="mt-5 md:mt-6 text-base md:text-xl text-foreground text-center leading-relaxed">
@@ -82,13 +65,8 @@ export function MoodMuseHighlights() {
       <Chips items={highlights} />
       <PullQuote>A child who can&rsquo;t say the feeling can still paint it. The brush listens to the hand.</PullQuote>
       <div className="flex flex-col gap-12 md:gap-16">
-        {rows.map((row) => (
-          // A pair row stacks on mobile and matches image heights on desktop.
-          <div key={row[0].src} className="flex flex-col sm:flex-row gap-8 sm:gap-6 md:gap-8">
-            {row.map((a) => (
-              <MoodMuseArtifact key={a.src} {...a} paired={row.length > 1} />
-            ))}
-          </div>
+        {artifacts.map((a) => (
+          <MoodMuseArtifact key={a.src} {...a} />
         ))}
       </div>
     </div>
