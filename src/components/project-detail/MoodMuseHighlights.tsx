@@ -30,7 +30,7 @@ const artifacts = [
   },
   {
     src: moodmuseSensingErgonomics,
-    alt: "The brush's GSR sensing window beside four callouts: Pressure Zone 1, Pressure Zone 2, Heart Rate Sensor Detection, and GSR Sensor Detection",
+    alt: "The brush's GSR sensing window beside an open child's palm, marked with Pressure Zone 1 across the fingers, Pressure Zone 2 on the little finger, and the heart rate and GSR sensor detection areas on the pad below",
     caption: "Sensors where the hand already presses — the two pressure zones double as the contact points",
   },
   {
