@@ -6,10 +6,15 @@ import { Chips, PullQuote } from "./MotiModules";
 // Mood Muse's case-study hook — same shape as ZEAT's and Aura's (highlight
 // chips → pull-quote → artifact gallery). The gallery images reappear in
 // their own sections below; the hook is the skim layer.
+//
+// Claim discipline, same as ZEAT's: each chip names something the brush
+// actually does. "Arousal", not "emotion" — GSR and heart rate read arousal
+// well and valence poorly, which the Reflection says out loud. Scent fires on
+// a positive state, not on CALM specifically; CALM is one of the four inks.
 const highlights = [
-  "Senses arousal through the grip",
-  "Shifts ink color with the child's state",
-  "Rewards calm with scent",
+  "Reads arousal through the grip",
+  "Shifts ink color with the mood",
+  "Rewards a positive turn with scent",
   "Turns a painting into a mood record",
   "Connects parent and therapist",
 ];
@@ -22,8 +27,9 @@ const artifacts = [
   },
   {
     src: moodmuseSensorFace,
-    alt: "Macro view of the brush's sensing window, an oval recess labelled GSR SENSOR set into the white body",
+    alt: "The brush's sensing window: an oval recess labelled GSR SENSOR set into the white body",
     caption: "Where the hand lands — the window that reads arousal while the child paints",
+    narrow: true,
   },
   {
     src: moodmuseUiInsights,
@@ -32,9 +38,11 @@ const artifacts = [
   },
 ];
 
-function MoodMuseArtifact({ src, alt, caption }: { src: string; alt: string; caption: string }) {
+// `narrow` holds a portrait figure to a sane width — full-bleed, the sensing
+// window would tower over the two landscape artifacts either side of it.
+function MoodMuseArtifact({ src, alt, caption, narrow }: { src: string; alt: string; caption: string; narrow?: boolean }) {
   return (
-    <figure>
+    <figure className={narrow ? "mx-auto w-full max-w-[420px]" : undefined}>
       <div className="overflow-hidden rounded-2xl bg-secondary/10">
         <img
           src={src}
