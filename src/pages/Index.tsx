@@ -69,12 +69,11 @@ export const selectedWork = [
   {
     id: "moodmuse",
     title: "Mood Muse",
-    wip: true,
-    description: "A concept for an emotional-expression aid for autistic children.",
-    role: "Product Designer",
+    description: "An emotion-sensing paintbrush for autistic children — the brush reads the hand, answers with color and scent, and the app turns the session into a record parent and therapist can share.",
+    role: "Lead Industrial Designer · Director of UX",
     coverImage: moodmuseCover,
     year: "2024",
-    details: "A concept exploring how autistic children could externalize and communicate emotional states through simple, tactile interactions.",
+    details: "A smart paintbrush with GSR and heart-rate sensing in the grip, a rotary ink switcher that changes color with the child's state, and a companion app for parents and therapists.\n\nLed the team, owned the industrial design and working prototype, and directed the UX.",
   },
 ];
 
