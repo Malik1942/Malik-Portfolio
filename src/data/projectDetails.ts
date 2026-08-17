@@ -31,7 +31,6 @@ import neuralyfeDeckViews from "@/assets/neuralyfe-deck-views.webp";
 import neuralyfeDeckScenario from "@/assets/neuralyfe-deck-scenario.webp";
 import flowprintCover from "@/assets/flowprint-cover.webp";
 import tubularCover from "@/assets/tubular-cover.webp";
-import moodmuseCover from "@/assets/moodmuse-cover.webp";
 import moodmuseHero from "@/assets/moodmuse-hero.webp";
 import moodmuseResearchBoard from "@/assets/moodmuse-research-board.webp";
 import moodmusePersona from "@/assets/moodmuse-persona.webp";
