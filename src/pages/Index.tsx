@@ -11,7 +11,7 @@ import auraCover from "@/assets/aura-cover.webp";
 import neuralyfeCover from "@/assets/neuralyfe-cover.webp";
 import flowprintCover from "@/assets/flowprint-cover.webp";
 import tubularCover from "@/assets/tubular-cover.webp";
-import moodmuseCover from "@/assets/moodmuse-cover.webp";
+import moodmuseHero from "@/assets/moodmuse-hero.webp";
 import studioWatersCover from "@/assets/studio-waters-cover.webp";
 import motiCard from "@/assets/moti-card-poster.webp";
 import motiCardVideo from "@/assets/moti-card.mp4";
@@ -56,6 +56,15 @@ export const selectedWork = [
     details: "A speculative concept for anticipating motion sickness in flight, designed with a 5-person team over 5 weeks.\n\nUser testing validated the refined form: 15 of 16 testers (93.75%) preferred it over the initial design.",
   },
   {
+    id: "moodmuse",
+    title: "Mood Muse",
+    description: "An emotion-sensing paintbrush for autistic children — the brush reads the hand, answers with color and scent, and the app turns the session into a record parent and therapist can share.",
+    role: "Industrial Design Lead · Sole UX Designer",
+    coverImage: moodmuseHero,
+    year: "2024",
+    details: "A smart paintbrush with GSR and heart-rate sensing in the grip, a rotary ink switcher that changes color with the child's state, and a companion app for parents and therapists.\n\nLed the team, owned the industrial design and working prototype, and was the only designer on the app.",
+  },
+  {
     id: "flowprint",
     title: "FlowPrint",
     wip: true,
@@ -65,16 +74,6 @@ export const selectedWork = [
     coverFit: "contain" as const,
     year: "2025",
     details: "Work in progress: a consumer 3D-printing onboarding flow targeting a setup-time cut from about an hour to 15 minutes.\n\nIncludes onboarding flows, real-time print monitoring, and a material recommendation engine.",
-  },
-  {
-    id: "moodmuse",
-    title: "Mood Muse",
-    wip: true,
-    description: "A concept for an emotional-expression aid for autistic children.",
-    role: "Product Designer",
-    coverImage: moodmuseCover,
-    year: "2024",
-    details: "A concept exploring how autistic children could externalize and communicate emotional states through simple, tactile interactions.",
   },
 ];
 
