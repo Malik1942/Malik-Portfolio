@@ -21,7 +21,7 @@ const ground = (w, h) => Buffer.from(
          <stop offset="45%" stop-color="#F6F2F7"/>
          <stop offset="100%" stop-color="#EEF0F8"/>
        </linearGradient>
-       <radialGradient id="v" cx="0.62" cy="0.52" r="0.62">
+       <radialGradient id="v" cx="0.5" cy="0.45" r="0.65">
          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
        </radialGradient>
@@ -69,18 +69,38 @@ async function place(name, parts) {
   console.log(name, m.width + "x" + m.height, ((fs.statSync(p).size / 1024) | 0) + "KB");
 }
 
-// ── Final hero: variant D, written to the shipping name ───────────────────
+// ── Final hero: the brush standing beside its four ink cartridges ────────
+// Earlier takes were a generated in-use photograph (read as AI imagery) and
+// the brush lying near-horizontal (read as a computer mouse). Upright it
+// reads as a pen; the cartridges say "changes color" without a caption.
 {
   const brush = await src("draft-slide-a-raw-02-MoodMuseV01-render-1134")
     .trim({ threshold: 3 })
-    .rotate(-72, { background: { r: 0, g: 0, b: 0, alpha: 0 } })
+    .rotate(-10, { background: { r: 0, g: 0, b: 0, alpha: 0 } })
     .png()
     .toBuffer();
-  const withSh = await withShadow(brush, { dy: 46, dx: 10, blur: 34, opacity: 0.42 });
-  const scaled = await fit(withSh, H * 1.0, W * 0.9);
-  const m = await sharp(scaled).metadata();
+  const bSh = await withShadow(brush, { dy: 42, dx: 14, blur: 34, opacity: 0.38 });
+  const b = await fit(bSh, H * 0.98, W * 0.5);
+  const bm = await sharp(b).metadata();
+
+  // The cartridge render is cut flat at the top in the source. Size it tall,
+  // crop that band off, and place it at y=0 so the cut becomes a bleed.
+  const inks = await src("tech-structure-raw-03-MoodMuseV01-render-1121")
+    .trim({ threshold: 3 })
+    .png()
+    .toBuffer();
+  const kSh = await withShadow(inks, { dy: 30, dx: 10, blur: 28, opacity: 0.32 });
+  const k0 = await fit(kSh, H * 0.92, W * 0.4);
+  const km0 = await sharp(k0).metadata();
+  const cut = Math.round(km0.height * 0.07);
+  const k = await sharp(k0).extract({ left: 0, top: cut, width: km0.width, height: km0.height - cut }).png().toBuffer();
+  const km = await sharp(k).metadata();
+
+  const gap = 20;
+  const x0 = Math.round((W - (bm.width + gap + km.width)) / 2);
   await place("moodmuse-hero", [
-    { input: scaled, left: Math.round((W - m.width) / 2), top: Math.round(H * 0.58 - m.height / 2) },
+    { input: b, left: x0, top: Math.round(H * 0.5 - bm.height / 2) },
+    { input: k, left: x0 + bm.width + gap, top: 0 },
   ]);
 }
 
