@@ -32,6 +32,25 @@ import neuralyfeDeckScenario from "@/assets/neuralyfe-deck-scenario.webp";
 import flowprintCover from "@/assets/flowprint-cover.webp";
 import tubularCover from "@/assets/tubular-cover.webp";
 import moodmuseCover from "@/assets/moodmuse-cover.webp";
+import moodmuseHero from "@/assets/moodmuse-hero.webp";
+import moodmuseResearchBoard from "@/assets/moodmuse-research-board.webp";
+import moodmusePersona from "@/assets/moodmuse-persona.webp";
+import moodmuseJourney from "@/assets/moodmuse-journey.webp";
+import moodmuseUsageProcess from "@/assets/moodmuse-usage-process.webp";
+import moodmuseBrushViews from "@/assets/moodmuse-brush-views.webp";
+import moodmuseSensors from "@/assets/moodmuse-sensors.webp";
+import moodmuseDetectMechanism from "@/assets/moodmuse-detect-mechanism.webp";
+import moodmuseColorFeedback from "@/assets/moodmuse-color-feedback.webp";
+import moodmuseStructure from "@/assets/moodmuse-structure.webp";
+import moodmuseErgonomic from "@/assets/moodmuse-ergonomic.webp";
+import moodmuseUserFlow from "@/assets/moodmuse-user-flow.webp";
+import moodmuseDesignSystem from "@/assets/moodmuse-design-system.webp";
+import moodmuseUiOnboarding from "@/assets/moodmuse-ui-onboarding.webp";
+import moodmuseUiInsights from "@/assets/moodmuse-ui-insights.webp";
+import moodmuseUiCare from "@/assets/moodmuse-ui-care.webp";
+import moodmusePrototyping from "@/assets/moodmuse-prototyping.webp";
+import moodmusePrototypeHands from "@/assets/moodmuse-prototype-hands.webp";
+import moodmuseRenderNose from "@/assets/moodmuse-render-nose.webp";
 import motiHero from "@/assets/moti-hero.webp";
 import inkworkHero from "@/assets/inkwork-hero.webp";
 import inkworkFilm from "@/assets/inkwork-film.mp4";
@@ -431,58 +450,115 @@ const tubular: ProjectDetailDocument = {
   ],
 };
 
+// Mood Muse: an emotion-sensing paintbrush + companion app for autistic
+// children. Imagery lives in src/assets (moodmuse-*.webp), converted from the
+// Figma masters in moodmuse-assets/ (gitignored) via scripts/moodmuse-convert.mjs
+// and scripts/moodmuse-composites.mjs. Register note: every number and study
+// citation traces to the source deck; the sensor-to-emotion pipeline is
+// described as designed and prototyped, not as clinically validated. The
+// child photographs in the deck are generated imagery, so they are not shown:
+// the hero is a composed product render (scripts/moodmuse-hero.mjs) and the
+// human evidence is the real prototype photography in the Built section.
 const moodmuse: ProjectDetailDocument = {
   slug: "moodmuse",
   listSection: "Main Projects",
   title: "Mood Muse",
-  heroSummary: "A Low-Language System That Helps Autistic Children Externalize Big Emotions Before They Escalate.",
-  heroSubtitle: "Reducing Frustration by Making Internal States Easier to Externalize and Share.",
-  heroImage: moodmuseCover,
+  heroSummary: "An Emotion-Sensing Paintbrush That Lets Autistic Children\nSay How They Feel Without Saying Anything.",
+  heroSubtitle: "Team Project · Lead Industrial Designer and Director of UX · Brush, Sensing, Prototype, and the Mood Connect App · 2024",
+  heroImage: moodmuseHero,
+  heroImageFit: "natural",
   metaCards: [
-    { label: "Role", value: "Product Designer" },
+    { label: "Role", value: "Lead Industrial Designer · Director of UX" },
     { label: "Timeline", value: "2024" },
-    { label: "Team", value: "Design-Led · Collaboration-Ready" },
-    { label: "Scope", value: "Interaction · Visual Language · Caregiver UX" },
-    { label: "Outcome", value: "Low-Load Emotion Expression System" },
-    { label: "Tools", value: "Figma · Storyboards · A11y Heuristics" },
+    { label: "Team", value: "Team Lead · Collaborative Industrial Design" },
+    { label: "Scope", value: "Brush · Sensing · Prototype · Mood Connect App" },
   ],
   sections: [
     {
-      id: "context",
-      label: "Context",
-      subtitle: "Intro",
+      id: "intro",
+      label: "Intro",
+      headline: "A Paintbrush That Reads the Hand Holding It",
       showProjectMeta: true,
-      body: "**Mood Muse gives autistic children a low-language way to externalize big emotions before they escalate into meltdown.**\n\nMany autistic children experience intense emotions that are hard to name or communicate in the moment — which can escalate stress for them and caregivers. Mood Muse explores gentle, repeatable ways to externalize state, prioritizing low language dependency and sensory restraint.",
+      body: "**Mood Muse is a smart paintbrush for children on the autism spectrum. Sensors in the grip read arousal while the child paints, the brush answers with ink color and scent, and a companion app turns the session into something a parent and therapist can read together.**\n\nMany autistic children feel a lot and can name very little of it in the moment. Art therapy already gives them a wordless channel. Mood Muse puts the sensing inside the tool they are already holding, so expression and detection happen in the same stroke.\n\nI led the team, owned the industrial design and the working prototype, and directed the UX of the Mood Connect app.",
+    },
+    {
+      id: "highlights",
+      label: "Highlights",
+      body: "**One object for the child, one record for the adults around them.**\n\n[[module:moodmuse-highlights]]",
+    },
+    {
+      id: "context",
+      label: "The Problem",
+      headline: "The Feeling Arrives Before the Words Do",
+      figures: [
+        { type: "image", src: moodmuseResearchBoard, alt: "Research board: autism prevalence and care statistics over a black-and-white child photo, three purple bar charts on prevalence, emotional challenges, and art-therapy effectiveness, and a comparison of four emotion-detection technologies", full: true },
+      ],
+      body: "In the US, one child in 54 is diagnosed with autism, most often between three and five, and mothers carry most of the care. The core difficulties are communication, social interaction, and adapting to change. Families told us what they need: mainstream schools, a reliable medical system, ways to train at home, access to experts.\n\n[[fig:0]]\n\nThe emotional part is the hardest to reach. In the numbers we gathered, roughly half of autistic children struggle to recognize emotions and 70% struggle with social interaction. Art therapy is one of the few interventions that works on exactly this: around 75% show better emotional expression, 65% better regulation.\n\n**The gap wasn't a missing therapy. It was that nobody could tell, while the child was painting, what the painting was about.**",
     },
     {
       id: "research",
       label: "Research",
-      body: "I reviewed AAC patterns, emotion-wheel simplifications, and failure modes of 'mood tracker' apps built for neurotypical norms. Caregiver forums highlighted timing: interventions work better before meltdown than during.\n\nSensory sensitivity ruled out loud feedback and high-contrast chaos.",
+      headline: "Who Holds the Brush, and Who Needs to Know",
+      figures: [
+        { type: "image", src: moodmusePersona, alt: "Three persona cards on purple: MOMO, an eight-year-old autistic boy; Yang Lan, a 34-year-old mother; Zhou Weihua, a 37-year-old therapist. Each with a radar chart and pain points" },
+        { type: "image", src: moodmuseJourney, alt: "User journey map comparing art therapy in painting and in music: process stages, emotion curves, pain points, and opportunities from assessment to integration", full: true },
+      ],
+      body: "We compared six therapies (ABA, speech and language, occupational, social skills, CBT, art) and rated four ways to detect emotion: facial recognition, voice analysis, body language, and physiological monitoring. Because autistic children express emotion so variably, physiological signals came out as the most reliable and least intrusive: continuous, real time, and independent of cues the child may not give.\n\n## Three People in the Room\n\n[[fig:0]]\n\nMOMO, eight, struggles to express and regulate emotion and is distressed by sensory load. His mother Yang Lan carries the stress, the cost of specialized therapy, and the uncertainty about his future. His therapist Zhou Weihua needs to personalize interventions, track outcomes over time, and pull scattered resources into one plan.\n\n**Each of them needed the same thing from a different side: to know what he was feeling while it was happening.**\n\n## Painting Over Music\n\n[[fig:1]]\n\nMapping the therapy journey stage by stage, painting and music share the same arc: assessment, expression, reflection, integration. Painting won on access. It leaves an artifact the child made, and that artifact is where the sensing can live.",
     },
     {
-      id: "problem",
-      label: "Problem",
-      body: "How might a child signal emotional state quickly, accurately enough for adults to respond — without shame, gamification pressure, or complex menus?\n\nThe design had to scale across ages and support trusted adults without surveillance vibes.",
-    },
-    {
-      id: "process",
-      label: "Design Process",
-      body: "Flows moved from abstract 'states' to concrete gestures, colors, and haptics explored on paper first. I storyboarded classroom and home moments to test plausibility.\n\nIterations reduced steps to the minimum viable expression loop.",
+      id: "concept",
+      label: "How It Works",
+      headline: "Six Steps From Pairing to a Mood Spectrum",
+      figures: [
+        { type: "image", src: moodmuseUsageProcess, alt: "Six-step usage process with device renders: pairing, choosing a treatment, painting and emotion detection, data processing, fragrance diffused, paintbrush changes color", full: true },
+      ],
+      body: "[[fig:0]]\n\n## Pair\n\nThe indicator light flashes while the brush pairs with the phone and turns green when it's connected.\n\n## Choose a Treatment\n\nA questionnaire selects a program, and parents can bring in a therapist to read the child's development and adjust it.\n\n## Paint\n\nOn first use the brush sets an emotional baseline from the sensor data. Then the child paints, following the program or freely, while the sensors keep reading.\n\n## Process\n\nWhen the painting is done, the brush sends the session to the app, which summarizes it into a mood spectrum and graph. Fluctuations in the curve are what Mood Connect reads.\n\n## Scent\n\nWhen a positive state is detected, the brush releases a gentle fragrance, a reward that helps the child connect the feeling to the moment.\n\n## Color\n\nWhen the state changes, an internal motor smoothly changes the ink color. The child sees their own shift on the paper.\n\n**Nothing in the loop asks the child to stop and report. The reporting is the painting.**",
     },
     {
       id: "final-design",
-      label: "Final Design",
-      body: "A system that helps children externalize and communicate their internal emotional states through intuitive interactions, reducing frustration and enabling clearer social connection.",
+      label: "The Brush",
+      headline: "Sensors in the Grip, Ink in the Body",
+      figures: [
+        { type: "image", src: moodmuseBrushViews, alt: "Side view of the white brush, a translucent view of its motor, board, battery and ink tubes, and the four ink cartridges in red, black, green, and purple", full: true },
+        { type: "image", src: moodmuseSensors, alt: "Three sensor modules side by side: a GSR skin-conductance board, a MAX30102 heart-rate module, and an HC-06 Bluetooth module", full: true },
+        { type: "image", src: moodmuseDetectMechanism, alt: "Emotion detection panel: GSR and heart-rate sensing, the classification loop, the code, Bluetooth transmission, and the data-processing methods", full: true },
+        { type: "image", src: moodmuseColorFeedback, alt: "Replaceable ink cartridges: the refillable ink sacs beside four paint strokes labelled JOY in orange, CALM in green, UPSET in purple, and ANXIOUS in black", full: true },
+        { type: "image", src: moodmuseStructure, alt: "Exploded view of the brush body with callouts for the fragrance diffuser, magnetic charger, color control motor, core control board, color switcher, battery, GSR sensor, heart rate sensor, and ink cartridges" },
+        { type: "image", src: moodmuseErgonomic, alt: "An open palm marked with Pressure Zone 1 and 2 and the heart rate and GSR sensor detection areas" },
+      ],
+      body: "[[fig:0]]\n\nThe brush is a soft white body sized for a child's hand, with the sensing surfaces where the fingers naturally land and the mechanism stacked along the spine.\n\n## Two Signals\n\nA GSR sensor reads skin conductance, which follows sympathetic arousal: excitement, anxiety, stress. A heart-rate sensor reads beats per minute and heart-rate variability, which carry both arousal and valence depending on context. Together they give the classifier something to work with that doesn't depend on a face or a voice.\n\n[[fig:1]]\n\n## From Signal to State\n\nThe firmware runs an update loop: read GSR and heart rate, compute HRV, classify the current state against the pre-set baseline, and drive the color output. Heart-rate intervals are converted into binary patterns whose frequency distribution becomes the core feature set; low-variance features are dropped, values are z-score normalized, and outliers are removed by z-score thresholding before classification. Sessions transmit to the app over Bluetooth (HC-06).\n\n[[fig:2]]\n\n## Color as Feedback\n\nA rotary ink-change mechanism sits at the heart of the body: four replaceable cartridges, JOY, CALM, UPSET, ANXIOUS, and a color control motor that switches between them as the state changes. Sacs can be refilled with any color, or pre-filled cartridges bought in different brightness and purity levels, and the mapping between color and mood is set from the app.\n\n[[fig:3]]\n\n## Everything Else in the Body\n\nCore control board, battery, color switcher, and the two sensors stack behind the cartridges. A magnetic charger receptacle at the tail self-orients, carries 45W charging, and doubles as the data port. A fragrance diffuser holds three essential oils, flower, foliage, and fruit, and releases them as positive reinforcement when the brush detects an uplifting state.\n\n[[fig:4]]\n\n## Held, Not Operated\n\nSilicone patches sit exactly where the hand puts pressure, and the two pressure zones double as the sensor contact points. There is no screen and no button to press mid-session.\n\n[[fig:5]]\n\n**A child shouldn't have to operate a device to be understood by it. The brush is held the way any brush is held.**",
     },
     {
-      id: "impact",
-      label: "Impact",
-      body: "The concept frames emotional support as co-regulation — not compliance monitoring. That distinction matters for ethics and adoption.\n\nIt’s structured to invite validation with educators and occupational therapists next.",
+      id: "app",
+      label: "Mood Connect",
+      headline: "The Session Becomes Something Two Adults Can Read",
+      figures: [
+        { type: "image", src: moodmuseUiOnboarding, alt: "Three Mood Connect screens: welcome with a child painting photo, parent login, and Mood Muse pairing with the brush on a radar of nearby devices", full: true },
+        { type: "image", src: moodmuseUiInsights, alt: "Three screens: a General Emotion State ring scoring 86 with recent paintings, the All Paintings memory slider over a child's tree drawing, and an Emotion Analysis breakdown with assessment charts", full: true },
+        { type: "image", src: moodmuseUiCare, alt: "Therapist list for a child named Shuyan, the About card for Shuyan's Mood Muse showing battery, sensors, storage and serial, and a green emotion-score dashboard with recent paintings", full: true },
+        { type: "image", src: moodmuseUserFlow, alt: "Mood Connect user flow: a splash screen branching through register and login into a parent tree (setup, device pairing, paintings, mood, therapy) and a therapist tree (patients, reservations, profile)" },
+        { type: "image", src: moodmuseDesignSystem, alt: "The Mood Connect design system: Manrope type scale, the main blue palette with hex values, the icon set, components, and the 16px gutter and 24px margin grid" },
+      ],
+      body: "Mood Connect is the app on the other end of the brush, and it has two users who are not the child: the parent and the therapist.\n\n## Setup\n\nParents register, add a child, and pair the brush from device settings. Therapists register with their license and affiliation and are verified before they see anything.\n\n[[fig:0]]\n\n## Reading a Session\n\nA general emotion state ring gives the day at a glance. The memory slider stacks past paintings on a timeline, and each one carries its mood spectrum. The analysis view breaks a period into its proportions and sits next to standardized assessment scores, so the therapist sees the brush's reading and the clinical baseline in one place.\n\n[[fig:1]]\n\n## Two Dashboards, One Child\n\nParents get mood summaries, quick interventions such as guided drawing prompts, drawing history, and exportable reports. Therapists get analytics, progress tracking, multi-patient management, and drawing modules they can assign. Secure messaging connects the two, and the parent decides what the therapist sees and how often.\n\n[[fig:2]]\n\n## The Shape of the App\n\nEverything hangs off one split at the door. A parent account opens into setup, device pairing, and a feature hub for paintings, mood, and therapy. A therapist account opens into patients, scheduling, and a professional profile. The two trees only meet where the parent has allowed them to.\n\n[[fig:3]]\n\n## Why These Colors\n\nThe palette is built around a calm blue with a fresh green accent, and the four ink colors follow the literature we found on how autistic children use color: darker for negative feelings, brighter for positive ones (Wolfe and Fink, 2004), with cooler tones calming and high-saturation warm tones risking overstimulation (Ehlers and Gillberg, 1993). Type is Manrope, chosen for legibility at small sizes.\n\n[[fig:4]]",
+    },
+    {
+      id: "built",
+      label: "Built",
+      headline: "A Brush That Works, Not a Brush That Renders",
+      figures: [
+        { type: "image", src: moodmusePrototyping, alt: "Black-and-white prototyping grid: checking electronic components, wiring, soldering, 3D printer setup, slicing and printing, shell assembly, the mechanical core of the color switcher, sensor testing, and the assembled first prototype", full: true },
+        { type: "image", src: moodmusePrototypeHands, alt: "A hand holding the white 3D-printed prototype at a workbench, and a hand gripping the dark prototype on a desk", full: true },
+      ],
+      body: "[[fig:0]]\n\nWe checked and wired the components, soldered the circuits, calibrated the printer, sliced and printed the shell, and assembled it around the electronics. The mechanical core of the color switcher was built and tested on its own before it went into the body, and each sensor was checked for accuracy on a test rig before the first full prototype was closed up.\n\n[[fig:1]]\n\n**The prototype exists so the ergonomics could be argued with a hand instead of a slide.**",
     },
     {
       id: "reflection",
       label: "Reflection",
-      body: "Designing for children demands slowing down: every animation and reward carries developmental weight. I’d pursue co-design sessions with families when possible.\n\nMood Muse deepened my respect for calm interfaces as accessibility infrastructure.",
+      headline: "What the Sensors Can and Cannot Promise",
+      figures: [
+        { type: "image", src: moodmuseRenderNose, alt: "Close-up of the brush tail, with the Mood Muse logo and the three magnetic charging contacts", full: true },
+      ],
+      body: "## The Claim I Kept Small\n\nGSR and heart rate measure arousal well and valence poorly. The brush can tell that something is happening in the child; the labels JOY, CALM, UPSET, ANXIOUS are the classifier's best reading against a baseline, not a diagnosis. I kept the language honest in the app, and I'd keep it honest with families.\n\n## The Question I'd Ask First\n\nA device that senses a child continuously has to earn that. The parent controls what the therapist sees, but the child doesn't control what the brush hears. Co-design with families and occupational therapists is the next step, not a nice-to-have.\n\n## What I'd Do Next\n\nValidate the classifier against real therapy sessions rather than a bench rig, test the color and scent feedback for sensory tolerance with the children it's for, and put the prototype in a classroom.\n\n[[fig:0]]",
     },
   ],
 };
