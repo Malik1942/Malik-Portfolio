@@ -43,7 +43,6 @@ import moodmuseDetectMechanism from "@/assets/moodmuse-detect-mechanism.webp";
 import moodmuseColorFeedback from "@/assets/moodmuse-color-feedback.webp";
 import moodmuseStructure from "@/assets/moodmuse-structure.webp";
 import moodmuseErgonomic from "@/assets/moodmuse-ergonomic.webp";
-import moodmuseUserFlow from "@/assets/moodmuse-user-flow.webp";
 import moodmuseDesignSystem from "@/assets/moodmuse-design-system.webp";
 import moodmuseBrushDetail from "@/assets/moodmuse-brush-detail.webp";
 import moodmuseModules from "@/assets/moodmuse-modules.webp";
@@ -460,9 +459,10 @@ const tubular: ProjectDetailDocument = {
 // and scripts/moodmuse-composites.mjs. Register note: every number and study
 // citation traces to the source deck; the sensor-to-emotion pipeline is
 // described as designed and prototyped, not as clinically validated. The
-// child photographs in the deck are generated imagery, so they are not shown:
-// the hero is a composed product render (scripts/moodmuse-hero.mjs) and the
-// human evidence is the real prototype photography in the Built section.
+// child photographs in the deck are generated imagery, so they are not shown.
+// The hero and the structure and brush-detail panels are supplied images (the
+// masters sit in moodmuse-assets/manual/); the human evidence is the real
+// prototype photography in the Built section.
 const moodmuse: ProjectDetailDocument = {
   slug: "moodmuse",
   listSection: "Main Projects",
@@ -543,11 +543,10 @@ const moodmuse: ProjectDetailDocument = {
         { type: "image", src: moodmuseUiInsights, alt: "Three screens: a General Emotion State ring scoring 86 with recent paintings, the All Paintings memory slider over a child's tree drawing, and an Emotion Analysis breakdown with assessment charts", full: true },
         { type: "image", src: moodmuseUiCare, alt: "Therapist list for a child named Shuyan, the About card for Shuyan's Mood Muse showing battery, sensors, storage and serial, and a green emotion-score dashboard with recent paintings", full: true },
         { type: "image", src: moodmuseAppFlow, alt: "Dark app-flow diagram, Mood Connect: bridging your child, you, and their therapist, in four stages: initial setup, dashboard navigation, tools and aids, collaboration and personalization", full: true },
-        { type: "image", src: moodmuseUserFlow, alt: "Mood Connect user flow: a splash screen branching through register and login into a parent tree (setup, device pairing, paintings, mood, therapy) and a therapist tree (patients, reservations, profile)" },
         { type: "image", src: moodmuseDesignSystem, alt: "The Mood Connect design system: Manrope type scale, the main blue palette with hex values, the icon set, components, and the 16px gutter and 24px margin grid" },
         { type: "image", src: moodmuseUiDisplay, alt: "The full UI display board: fourteen phone mockups with feature captions for pairing, status, memory slider, mood spectrum, parents page, and therapist profile", full: true },
       ],
-      body: "Mood Connect is the app on the other end of the brush, and it has two users who are not the child: the parent and the therapist.\n\n## Setup\n\nParents register, add a child, and pair the brush from device settings. Therapists register with their license and affiliation and are verified before they see anything.\n\n[[fig:0]]\n\n## Reading a Session\n\nA general emotion state ring gives the day at a glance. The memory slider stacks past paintings on a timeline, and each one carries its mood spectrum. The analysis view breaks a period into its proportions and sits next to standardized assessment scores, so the therapist sees the brush's reading and the clinical baseline in one place.\n\n[[fig:1]]\n\n## Two Dashboards, One Child\n\nParents get mood summaries, quick interventions such as guided drawing prompts, drawing history, and exportable reports. Therapists get analytics, progress tracking, multi-patient management, and drawing modules they can assign. Secure messaging connects the two, and the parent decides what the therapist sees and how often.\n\n[[fig:2]]\n\n[[fig:3]]\n\n## The Shape of the App\n\nEverything hangs off one split at the door. A parent account opens into setup, device pairing, and a feature hub for paintings, mood, and therapy. A therapist account opens into patients, scheduling, and a professional profile. The two trees only meet where the parent has allowed them to.\n\n[[fig:4]]\n\n## Why These Colors\n\nThe palette is built around a calm blue with a fresh green accent, and the four ink colors follow the literature we found on how autistic children use color: darker for negative feelings, brighter for positive ones (Wolfe and Fink, 2004), with cooler tones calming and high-saturation warm tones risking overstimulation (Ehlers and Gillberg, 1993). Type is Manrope, chosen for legibility at small sizes.\n\n[[fig:5]]\n\n[[fig:6]]",
+      body: "Mood Connect is the app on the other end of the brush, and it has two users who are not the child: the parent and the therapist.\n\n## Setup\n\nParents register, add a child, and pair the brush from device settings. Therapists register with their license and affiliation and are verified before they see anything.\n\n[[fig:0]]\n\n## Reading a Session\n\nA general emotion state ring gives the day at a glance. The memory slider stacks past paintings on a timeline, and each one carries its mood spectrum. The analysis view breaks a period into its proportions and sits next to standardized assessment scores, so the therapist sees the brush's reading and the clinical baseline in one place.\n\n[[fig:1]]\n\n## Two Dashboards, One Child\n\nParents get mood summaries, quick interventions such as guided drawing prompts, drawing history, and exportable reports. Therapists get analytics, progress tracking, multi-patient management, and drawing modules they can assign. Secure messaging connects the two, and the parent decides what the therapist sees and how often.\n\n[[fig:2]]\n\n[[fig:3]]\n\n## The Shape of the App\n\nEverything hangs off one split at the door. A parent account opens into setup, device pairing, and a feature hub for paintings, mood, and therapy. A therapist account opens into patients, scheduling, and a professional profile. The two trees only meet where the parent has allowed them to.\n\n## Why These Colors\n\nThe palette is built around a calm blue with a fresh green accent, and the four ink colors follow the literature we found on how autistic children use color: darker for negative feelings, brighter for positive ones (Wolfe and Fink, 2004), with cooler tones calming and high-saturation warm tones risking overstimulation (Ehlers and Gillberg, 1993). Type is Manrope, chosen for legibility at small sizes.\n\n[[fig:4]]\n\n[[fig:5]]",
     },
     {
       id: "built",
