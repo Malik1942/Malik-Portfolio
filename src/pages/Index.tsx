@@ -11,7 +11,7 @@ import auraCover from "@/assets/aura-cover.webp";
 import neuralyfeCover from "@/assets/neuralyfe-cover.webp";
 import flowprintCover from "@/assets/flowprint-cover.webp";
 import tubularCover from "@/assets/tubular-cover.webp";
-import moodmuseCover from "@/assets/moodmuse-cover.webp";
+import moodmuseHero from "@/assets/moodmuse-hero.webp";
 import studioWatersCover from "@/assets/studio-waters-cover.webp";
 import motiCard from "@/assets/moti-card-poster.webp";
 import motiCardVideo from "@/assets/moti-card.mp4";
@@ -60,7 +60,7 @@ export const selectedWork = [
     title: "Mood Muse",
     description: "An emotion-sensing paintbrush for autistic children — the brush reads the hand, answers with color and scent, and the app turns the session into a record parent and therapist can share.",
     role: "Industrial Design Lead · Sole UX Designer",
-    coverImage: moodmuseCover,
+    coverImage: moodmuseHero,
     year: "2024",
     details: "A smart paintbrush with GSR and heart-rate sensing in the grip, a rotary ink switcher that changes color with the child's state, and a companion app for parents and therapists.\n\nLed the team, owned the industrial design and working prototype, and was the only designer on the app.",
   },
