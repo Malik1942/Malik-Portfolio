@@ -56,6 +56,15 @@ export const selectedWork = [
     details: "A speculative concept for anticipating motion sickness in flight, designed with a 5-person team over 5 weeks.\n\nUser testing validated the refined form: 15 of 16 testers (93.75%) preferred it over the initial design.",
   },
   {
+    id: "moodmuse",
+    title: "Mood Muse",
+    description: "An emotion-sensing paintbrush for autistic children — the brush reads the hand, answers with color and scent, and the app turns the session into a record parent and therapist can share.",
+    role: "Lead Industrial Designer · Director of UX",
+    coverImage: moodmuseCover,
+    year: "2024",
+    details: "A smart paintbrush with GSR and heart-rate sensing in the grip, a rotary ink switcher that changes color with the child's state, and a companion app for parents and therapists.\n\nLed the team, owned the industrial design and working prototype, and directed the UX.",
+  },
+  {
     id: "flowprint",
     title: "FlowPrint",
     wip: true,
@@ -65,15 +74,6 @@ export const selectedWork = [
     coverFit: "contain" as const,
     year: "2025",
     details: "Work in progress: a consumer 3D-printing onboarding flow targeting a setup-time cut from about an hour to 15 minutes.\n\nIncludes onboarding flows, real-time print monitoring, and a material recommendation engine.",
-  },
-  {
-    id: "moodmuse",
-    title: "Mood Muse",
-    description: "An emotion-sensing paintbrush for autistic children — the brush reads the hand, answers with color and scent, and the app turns the session into a record parent and therapist can share.",
-    role: "Lead Industrial Designer · Director of UX",
-    coverImage: moodmuseCover,
-    year: "2024",
-    details: "A smart paintbrush with GSR and heart-rate sensing in the grip, a rotary ink switcher that changes color with the child's state, and a companion app for parents and therapists.\n\nLed the team, owned the industrial design and working prototype, and directed the UX.",
   },
 ];
 
