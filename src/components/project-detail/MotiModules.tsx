@@ -1,5 +1,6 @@
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 import { noOrphan } from "@/lib/noOrphan";
+import { ChatGptMark, MotionMark, NotionMark, SunsamaMark, TodoistMark } from "./motiBrandMarks";
 import {
   Inbox,
   Split,
@@ -237,7 +238,15 @@ const competitors = [
   { name: "Sunsama", strength: "Intentional daily planning", gap: "Requires discipline" },
   { name: "Notion", strength: "Flexible and powerful", gap: "Heavy setup" },
   { name: "ChatGPT", strength: "Flexible thinking", gap: "Not timeline-aware" },
-];
+] as const;
+type Competitor = (typeof competitors)[number]["name"];
+const competitorMarks: Record<Competitor, ComponentType<{ className?: string }>> = {
+  Todoist: TodoistMark,
+  Motion: MotionMark,
+  Sunsama: SunsamaMark,
+  Notion: NotionMark,
+  ChatGPT: ChatGptMark,
+};
 export function MotiCompetitive() {
   return (
     <ModuleCard>
@@ -260,27 +269,38 @@ export function MotiCompetitive() {
   );
 }
 
-/* ── 5) What Users Told Me — quote cluster ───────────────────────────────── */
-const userQuotes = [
-  "Entering tasks is so annoying.",
-  "I spend more time organizing than doing.",
-  "It’s hard to change plans when things change.",
-  "AI suggestions don’t get my timeline or real-world constraints.",
-  "I end up with more tasks, not more clarity.",
-  "I just want a plan that adapts to me, not the other way around.",
+/* ── 5) User Research — quote cluster ────────────────────────────────────── */
+// Each quote is pinned to the competitor whose gap (above) it voices, so the
+// footer mark ties the frustration back to the analysis. Todoist carries two:
+// manual entry is the whole interaction, and capture alone leaves a pile of tasks.
+const userQuotes: { quote: string; product: Competitor }[] = [
+  { quote: "Entering tasks is so annoying.", product: "Todoist" },
+  { quote: "I spend more time organizing than doing.", product: "Notion" },
+  { quote: "It’s hard to change plans when things change.", product: "Motion" },
+  { quote: "AI suggestions don’t get my timeline or real-world constraints.", product: "ChatGPT" },
+  { quote: "I end up with more tasks, not more clarity.", product: "Todoist" },
+  { quote: "I just want a plan that adapts to me, not the other way around.", product: "Sunsama" },
 ];
 export function MotiUserQuotes() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-      {userQuotes.map((q, i) => (
-        <figure key={i} className="flex flex-col gap-4 rounded-2xl border border-case-study-module-border bg-surface-inset px-6 py-7">
-          {/* Decorative glyph (aria-hidden): /44 is reserved for non-text ornament. */}
-          <Quote aria-hidden="true" className="w-5 h-5 text-foreground/44" strokeWidth={1.4} />
-          <blockquote className="text-sm md:text-base font-light leading-relaxed text-foreground">
-            “{q}”
-          </blockquote>
-        </figure>
-      ))}
+      {userQuotes.map((q, i) => {
+        const Mark = competitorMarks[q.product];
+        return (
+          <figure key={i} className="flex flex-col gap-4 rounded-2xl border border-case-study-module-border bg-surface-inset px-6 py-7">
+            {/* Decorative glyph (aria-hidden): /44 is reserved for non-text ornament. */}
+            <Quote aria-hidden="true" className="w-5 h-5 text-foreground/44" strokeWidth={1.4} />
+            <blockquote className="text-sm md:text-base font-light leading-relaxed text-foreground">
+              “{q.quote}”
+            </blockquote>
+            {/* mt-auto: grid rows stretch, so the attribution sits on one baseline across a row. */}
+            <figcaption className="mt-auto flex items-center gap-2 pt-1 text-label uppercase tracking-eyebrow text-foreground/55 font-mono">
+              <Mark className="w-3.5 h-3.5 shrink-0" />
+              {q.product}
+            </figcaption>
+          </figure>
+        );
+      })}
     </div>
   );
 }
