@@ -18,6 +18,7 @@ import motiCardVideo from "@/assets/moti-card.mp4";
 import inkworkCard from "@/assets/inkwork-card.webp";
 import inkworkCardVideo from "@/assets/inkwork-card.mp4";
 import zeatCard from "@/assets/zeat-hero.webp";
+import rangerCard from "@/assets/ranger-hero.webp";
 
 export const selectedWork = [
   {
@@ -92,11 +93,27 @@ export const aiProjects = [
     year: "2025",
     coverImage: zeatCard,
     coverAspect: "4725/2993",
-    // Promoted out of the AI grid: this is the only industrial design work in the
-    // portfolio, and the tag is what distinguishes it from the software beside it.
+    // Promoted out of the AI grid, with RANGER below it: the industrial design work
+    // is a different discipline from the software it shares this section with, and
+    // the tag is what tells a reader that before they open anything. The two hero
+    // rows alternate image side (see AIProjectList), so stacking them doesn't read
+    // as one repeated template.
     sectionHero: true,
     tag: "Industrial Design",
     details: "A ground-based cleaning robot for stadium grandstands, designed solo across the robot, its mechanisms, and the system that dispatches it.\n\nModeled, 3D printed, hand-finished, and exhibited as a driving appearance model.",
+  },
+  {
+    id: "ranger",
+    title: "RANGER",
+    signal: "Ghost Net Recovery Without Sending a Diver Down",
+    description: "An underwater drone that finds abandoned fishing nets, fires an airbag through the mesh, and lets the net float itself up to the boat.",
+    role: "Industrial Designer",
+    year: "2024",
+    coverImage: rangerCard,
+    coverAspect: "2400/1345",
+    sectionHero: true,
+    tag: "Industrial Design",
+    details: "An underwater drone for ghost gear recovery, designed solo across the vehicle, the airbag capture mechanism, the control system, and the Neptune Net dispatch platform.\n\nA resolved concept: modeled and rendered, never physically prototyped.",
   },
   {
     id: "inkwork",

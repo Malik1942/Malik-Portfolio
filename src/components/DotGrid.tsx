@@ -30,32 +30,61 @@ interface Orb {
   hoverT: number;
 }
 
-// Mobile positions (mrx/mry) are a deliberate left-biased layout: orbs sit in a
-// top band (above the name) and a bottom band (below the tagline), all at low
-// mrx so their labels — which render to the RIGHT of the dot — stay on-screen and
-// never collide with each other or the centered "Malik Zhang" cluster. On mobile
-// the orbs are held static (see draw loop) so this spacing is exactly what shows.
+// ── Mobile orb layout (mrx/mry): two columns × five rows ─────────────────────
+// On mobile the orbs are held static (see draw loop), so these values are
+// exactly what renders — nothing drifts apart later.
+//
+// The two exclusion zones leave only two usable horizontal bands, and on a short
+// phone they are much smaller than they look. Worked out at 375×667 (iPhone SE,
+// the smallest size still worth supporting):
+//
+//   nav floor      navBottom + ORB_MARGIN            = 160
+//   top band       160 → titleTop - ORB_MARGIN       =  62px
+//   bottom band    titleBottom + ORB_MARGIN → h-PAD  = 101px
+//
+// A label block is ~27px tall (13px label at y-3 over a 10px subtitle at y+11),
+// so the top band holds 2 rows and the bottom holds 3. Five rows total.
+//
+// That is why this is two columns. Eight orbs used to share the left column,
+// which oversubscribed those five rows by three: every orb whose mry*h landed
+// above the nav floor got clamped to exactly 160, so they stacked on top of each
+// other. Aura and Moti overlapped on every phone size, and on a 375×667 they
+// landed on the identical y. Widening the spacing cannot fix that — the band is
+// not tall enough for the orbs that were in it, so half of them moved out.
+//
+// The split is by section, which is also what the dot colors already encode:
+// Selected Work (red) down the left, Workshop (gold) down the right. Labels draw
+// to the RIGHT of the dot, and the longest one ("Studio Waters", ~88px) clears
+// both the next column and the canvas edge at every width down to 344px.
+//
+// Rows are fractions, so they breathe on taller phones while holding their order
+// on short ones. Row 1 sits at or just below the nav floor; row 2 must clear it
+// by a full label block AND stay above the title, which pins it near 0.30.
+//
+// Verified with no overlaps at 344×882, 360×640, 360×780, 375×667, 390×844,
+// 402×874, 412×915 and 430×932. A 320×568 phone (2016 SE) still collapses: its
+// bands hold four rows total, i.e. eight slots for ten orbs, which no mrx/mry
+// value can solve. It degrades from ten overlapping pairs to four.
+//
+// Desktop (rx/ry) is a separate scattered layout and is unaffected by any of this.
 const ORB_DEFS = [
-  // Mobile top band holds four orbs evenly (0.14 / 0.21 / 0.28 / 0.35) so the
-  // lowest still clears the title-cluster exclusion zone on short viewports.
+  // ── Left column (mrx 0.09) — Selected Work ──
   // Desktop: the band between the nav and the title cluster, left of Mood Muse.
-  { label: "Moti: Plan",   subtitle: "Main Projects", color: "red"  as const, rx: 0.42, ry: 0.2,  mrx: 0.09, mry: 0.21, id: "moti" },
-  { label: "Aura",         subtitle: "Main Projects", color: "red"  as const, rx: 0.1,  ry: 0.25, mrx: 0.09, mry: 0.14, id: "aura" },
-  { label: "NeuraLyfe",    subtitle: "Main Projects", color: "red"  as const, rx: 0.28, ry: 0.72, mrx: 0.09, mry: 0.28, id: "neuralyfe" },
-  { label: "FlowPrint",    subtitle: "Main Projects", color: "red"  as const, rx: 0.75, ry: 0.45, mrx: 0.15, mry: 0.72, id: "flowprint" },
-  { label: "Tubular",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.18, ry: 0.7,  mrx: 0.09, mry: 0.80, id: "tubular" },
-  { label: "Mood Muse",    subtitle: "Main Projects", color: "red"  as const, rx: 0.88, ry: 0.3,  mrx: 0.09, mry: 0.64, id: "moodmuse" },
-  { label: "Studio Waters",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.72, ry: 0.68, mrx: 0.15, mry: 0.88, id: "studiowaters" },
+  { label: "Moti: Plan",   subtitle: "Main Projects", color: "red"  as const, rx: 0.42, ry: 0.2,  mrx: 0.09, mry: 0.19, id: "moti" },
+  { label: "Aura",         subtitle: "Main Projects", color: "red"  as const, rx: 0.1,  ry: 0.25, mrx: 0.09, mry: 0.30, id: "aura" },
+  { label: "NeuraLyfe",    subtitle: "Main Projects", color: "red"  as const, rx: 0.28, ry: 0.72, mrx: 0.09, mry: 0.73, id: "neuralyfe" },
+  { label: "Mood Muse",    subtitle: "Main Projects", color: "red"  as const, rx: 0.88, ry: 0.3,  mrx: 0.09, mry: 0.80, id: "moodmuse" },
+  { label: "FlowPrint",    subtitle: "Main Projects", color: "red"  as const, rx: 0.75, ry: 0.45, mrx: 0.09, mry: 0.87, id: "flowprint" },
+  // ── Right column (mrx 0.52) — Workshop ──
+  // Desktop: the widest gap in the upper band, between Aura (0.10) and Moti
+  // (0.42), dropped to 0.28 so the five top-band orbs don't line up as a row.
+  { label: "RANGER",       subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.27, ry: 0.28, mrx: 0.52, mry: 0.19, id: "ranger" },
   // Desktop: the open band right of Moti, above the title cluster.
-  // Mobile: both low-x bands are full — squeezing a fifth orb into either one
-  // drops the spacing to ~0.06 and the two-line labels collide (Mood Muse ran
-  // into FlowPrint when tried). This is the one orb placed in the right half
-  // instead: clear of the nav band, above the title cluster, and inside
-  // ORB_PAD_RIGHT so its label doesn't run off the canvas.
   { label: "ZEAT",         subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.62, ry: 0.26, mrx: 0.52, mry: 0.30, id: "zeat" },
-  // Desktop: lower band between NeuraLyfe and Studio Waters. Mobile: last slot
-  // of the top band, same low-mrx column.
-  { label: "Inkwork",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.5,  ry: 0.8,  mrx: 0.09, mry: 0.35, id: "inkwork" },
+  // Desktop: lower band between NeuraLyfe and Studio Waters.
+  { label: "Inkwork",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.5,  ry: 0.8,  mrx: 0.52, mry: 0.73, id: "inkwork" },
+  { label: "Studio Waters",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.72, ry: 0.68, mrx: 0.52, mry: 0.80, id: "studiowaters" },
+  { label: "Tubular",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.18, ry: 0.7,  mrx: 0.52, mry: 0.87, id: "tubular" },
 ];
 
 const RED = "200, 82, 82";
