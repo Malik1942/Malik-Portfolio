@@ -79,8 +79,7 @@ const aura: ProjectDetailDocument = {
   listSection: "Main Projects",
   title: "Aura",
   heroSummary: "A Wearable System Built to Intervene Before Motion Sickness Starts",
-  heroSubtitle: "Speculative Product Concept · 93.75% Preferred the Refined Earbud Form (n=16) · 5-Person Team · 5 Weeks",
-  heroImage: auraCover,
+    heroImage: auraCover,
   heroImageFit: "natural",
   metaCards: [
     { label: "Role", value: "Product Designer · Industrial Designer" },
@@ -182,8 +181,7 @@ const neuralyfe: ProjectDetailDocument = {
   listSection: "Main Projects",
   title: "NeuraLyfe",
   heroSummary: "A Helmet Add-On and Sideline App That Show Football Medical Staff\nWhich Players’ Brains Are at Risk, and Which Hit Caused It.",
-  heroSubtitle: "FigBuild 2026 · 3-Day Hackathon · Built in Figma Make · 1st Place of 690 Teams.",
-  heroImage: neuralyfeDetail1,
+    heroImage: neuralyfeDetail1,
   metaCards: [
     { label: "Role", value: "Product Designer · Maker" },
     { label: "Timeline", value: "3 Days · March 2026" },
@@ -466,8 +464,7 @@ const moodmuse: ProjectDetailDocument = {
   listSection: "Main Projects",
   title: "Mood Muse",
   heroSummary: "An Emotion-Sensing Paintbrush That Lets Autistic Children\nSay How They Feel Without Saying Anything.",
-  heroSubtitle: "Team Project · Industrial Design Lead and Sole UX Designer · Brush, Sensing, Prototype, and the Mood Connect App · 2024",
-  heroImage: moodmuseHero,
+    heroImage: moodmuseHero,
   heroImageFit: "natural",
   metaCards: [
     { label: "Role", value: "Industrial Design Lead · Sole UX Designer" },
@@ -687,8 +684,7 @@ const zeat: ProjectDetailDocument = {
   listSection: WORKSHOP_SECTION_LABEL,
   title: "ZEAT",
   heroSummary: "Intelligent Robots Auto Collect Trash, Clean the Floors,\nand Inspect the Results After Every Event.",
-  heroSubtitle: "Solo Industrial Design Project · Robot, Mechanisms, and Dispatch System · 2025",
-  heroImage: zeatHero,
+    heroImage: zeatHero,
   heroImageFit: "natural",
   metaCards: [
     { label: "Role", value: "Industrial Designer" },
