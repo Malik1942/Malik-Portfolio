@@ -43,7 +43,7 @@ import moodmuseColorFeedback from "@/assets/moodmuse-color-feedback.webp";
 import moodmuseStructure from "@/assets/moodmuse-structure.webp";
 import moodmuseErgonomic from "@/assets/moodmuse-ergonomic.webp";
 import moodmuseDesignSystem from "@/assets/moodmuse-design-system.webp";
-import moodmuseBrushDetail from "@/assets/moodmuse-brush-detail.webp";
+import moodmuseBrushDetail from "@/assets/moodmuse-grab.webp";
 import moodmuseModules from "@/assets/moodmuse-modules.webp";
 import moodmuseAppFlow from "@/assets/moodmuse-app-flow.webp";
 import moodmuseUiDisplay from "@/assets/moodmuse-ui-display.webp";
@@ -519,7 +519,7 @@ const moodmuse: ProjectDetailDocument = {
       headline: "Sensors in the Grip, Ink in the Body",
       figures: [
         { type: "image", src: moodmuseBrushViews, alt: "Side view of the white brush, a translucent view of its motor, board, battery and ink tubes, and the four ink cartridges in red, black, green, and purple", full: true },
-        { type: "image", src: moodmuseBrushDetail, alt: "Close-up of the brush tail, with the Mood Muse logo and the three magnetic charging contacts" },
+        { type: "image", src: moodmuseBrushDetail, alt: "A child's hand gripping the white brush, with the Mood Muse logo and one magnetic charging contact visible near the tail" },
         { type: "image", src: moodmuseSensors, alt: "Three sensor modules side by side: a GSR skin-conductance board, a MAX30102 heart-rate module, and an HC-06 Bluetooth module", full: true },
         { type: "image", src: moodmuseDetectMechanism, alt: "Emotion detection panel: GSR and heart-rate sensing, the classification loop, the code, Bluetooth transmission, and the data-processing methods", full: true },
         { type: "image", src: moodmuseColorFeedback, alt: "Replaceable ink cartridges: the refillable ink sacs beside four paint strokes labelled JOY in orange, CALM in green, UPSET in purple, and ANXIOUS in black", full: true },
