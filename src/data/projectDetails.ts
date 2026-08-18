@@ -52,7 +52,6 @@ import moodmuseUiInsights from "@/assets/moodmuse-ui-insights.webp";
 import moodmuseUiCare from "@/assets/moodmuse-ui-care.webp";
 import moodmusePrototyping from "@/assets/moodmuse-prototyping.webp";
 import moodmusePrototypeHands from "@/assets/moodmuse-prototype-hands.webp";
-import moodmuseRenderNose from "@/assets/moodmuse-render-nose.webp";
 import motiHero from "@/assets/moti-hero.webp";
 import inkworkHero from "@/assets/inkwork-hero.webp";
 import inkworkFilm from "@/assets/inkwork-film.mp4";
@@ -523,7 +522,7 @@ const moodmuse: ProjectDetailDocument = {
       headline: "Sensors in the Grip, Ink in the Body",
       figures: [
         { type: "image", src: moodmuseBrushViews, alt: "Side view of the white brush, a translucent view of its motor, board, battery and ink tubes, and the four ink cartridges in red, black, green, and purple", full: true },
-        { type: "image", src: moodmuseBrushDetail, alt: "A child's hand holding the white brush, and a close-up of the brush tip with the Mood Muse logo and three magnetic charging contacts" },
+        { type: "image", src: moodmuseBrushDetail, alt: "Close-up of the brush tail, with the Mood Muse logo and the three magnetic charging contacts" },
         { type: "image", src: moodmuseSensors, alt: "Three sensor modules side by side: a GSR skin-conductance board, a MAX30102 heart-rate module, and an HC-06 Bluetooth module", full: true },
         { type: "image", src: moodmuseDetectMechanism, alt: "Emotion detection panel: GSR and heart-rate sensing, the classification loop, the code, Bluetooth transmission, and the data-processing methods", full: true },
         { type: "image", src: moodmuseColorFeedback, alt: "Replaceable ink cartridges: the refillable ink sacs beside four paint strokes labelled JOY in orange, CALM in green, UPSET in purple, and ANXIOUS in black", full: true },
@@ -561,10 +560,7 @@ const moodmuse: ProjectDetailDocument = {
       id: "reflection",
       label: "Reflection",
       headline: "What the Sensors Can and Cannot Promise",
-      figures: [
-        { type: "image", src: moodmuseRenderNose, alt: "Close-up of the brush tail, with the Mood Muse logo and the three magnetic charging contacts", full: true },
-      ],
-      body: "## The Claim I Kept Small\n\nGSR and heart rate measure arousal well and valence poorly. The brush can tell that something is happening in the child; the labels JOY, CALM, UPSET, ANXIOUS are the classifier's best reading against a baseline, not a diagnosis. I kept the language honest in the app, and I'd keep it honest with families.\n\n## The Question I'd Ask First\n\nA device that senses a child continuously has to earn that. The parent controls what the therapist sees, but the child doesn't control what the brush hears. Co-design with families and occupational therapists is the next step, not a nice-to-have.\n\n## What I'd Do Next\n\nValidate the classifier against real therapy sessions rather than a bench rig, test the color and scent feedback for sensory tolerance with the children it's for, and put the prototype in a classroom.\n\n[[fig:0]]",
+      body: "## The Claim I Kept Small\n\nGSR and heart rate measure arousal well and valence poorly. The brush can tell that something is happening in the child; the labels JOY, CALM, UPSET, ANXIOUS are the classifier's best reading against a baseline, not a diagnosis. I kept the language honest in the app, and I'd keep it honest with families.\n\n## The Question I'd Ask First\n\nA device that senses a child continuously has to earn that. The parent controls what the therapist sees, but the child doesn't control what the brush hears. Co-design with families and occupational therapists is the next step, not a nice-to-have.\n\n## What I'd Do Next\n\nValidate the classifier against real therapy sessions rather than a bench rig, test the color and scent feedback for sensory tolerance with the children it's for, and put the prototype in a classroom.",
     },
   ],
 };
