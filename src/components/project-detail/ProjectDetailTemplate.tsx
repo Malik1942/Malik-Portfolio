@@ -322,6 +322,11 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
             <img
               src={project.heroImage}
               alt={`${project.title} — project visual`}
+              // The hero is this page's largest contentful paint and is discovered
+              // late (only once the route chunk has run), so tell the browser it
+              // outranks the lazy figures below. Lowercase: React 18 does not know
+              // the camelCase prop and would warn.
+              {...{ fetchpriority: "high" }}
               className={
                 project.heroImageFit === "natural"
                   ? "w-full h-auto block"

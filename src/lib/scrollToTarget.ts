@@ -89,6 +89,45 @@ const announceOnScrollEnd = (targetY: number, announce: () => void) => {
   cancelActiveWatch = cancel;
 };
 
+/**
+ * Where the element will sit *after* it has finished animating, in document
+ * coordinates.
+ *
+ * `getBoundingClientRect()` is the wrong ruler for a card that has not been
+ * scrolled to yet. A project card below the fold is still parked on the
+ * `initial` frame of its entrance animation — `scale(0.94) translateY(40px)` —
+ * and, in the two-column grid, its parallax wrapper adds up to another 48px on
+ * top of that. So the rect describes a position the card is about to leave: it
+ * reads ~75px low and ~6% short, and the scroll was aimed at that stale number.
+ * By the time the page stopped, the card had revealed itself and slid up out
+ * from under the landing.
+ *
+ * `offsetTop` / `offsetHeight` are layout values, and transforms do not affect
+ * layout — so they describe the settled box directly, before the animation has
+ * played. Parallax nets out to zero once the card is centred (its range is
+ * symmetric), which is exactly where this aims.
+ *
+ * Falls back to the rect when there is no layout box to read: jsdom reports
+ * `offsetHeight` 0 for everything, and so does a display:none element.
+ */
+const settledBox = (element: HTMLElement) => {
+  const height = element.offsetHeight;
+  if (!height) {
+    const rect = element.getBoundingClientRect();
+    return { top: window.scrollY + rect.top, height: rect.height };
+  }
+
+  let top = 0;
+  for (
+    let node: HTMLElement | null = element;
+    node;
+    node = node.offsetParent as HTMLElement | null
+  ) {
+    top += node.offsetTop;
+  }
+  return { top, height };
+};
+
 interface ScrollTargetOptions {
   element: HTMLElement;
   align?: "center" | "start";
@@ -108,13 +147,13 @@ export const scrollToTarget = ({
     window.dispatchEvent(new CustomEvent(arrivalEventName, { detail: arrivalDetail }));
 
   const startY = window.scrollY;
-  const rect = element.getBoundingClientRect();
+  const box = settledBox(element);
   const viewportOffset =
     align === "center"
-      ? (window.innerHeight - rect.height) / 2
+      ? (window.innerHeight - box.height) / 2
       : startOffset ?? Math.min(window.innerHeight * 0.12, 96);
   const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-  const targetY = Math.max(0, Math.min(startY + rect.top - viewportOffset, maxScroll));
+  const targetY = Math.max(0, Math.min(box.top - viewportOffset, maxScroll));
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     cancelActiveWatch?.();

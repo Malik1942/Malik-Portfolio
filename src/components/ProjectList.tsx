@@ -14,6 +14,12 @@ export interface Project {
   coverImage?: string;
   coverVideo?: string;
   coverFit?: "cover" | "contain";
+  /** The cover media's own intrinsic ratio, as "W/H" (e.g. "1600/1000").
+   *  Reserves the card's media box before the image or video has loaded, so the
+   *  page does not grow underneath a project-dot scroll that is already in
+   *  flight. Must match the asset — `coverAspect.test.ts` reads the real files
+   *  and fails if a cover is swapped without updating this. */
+  coverAspect?: string;
   details?: string;
   externalUrl?: string;
   builtWith?: string;
@@ -78,6 +84,21 @@ const CardMedia = ({
     ? "w-full h-full object-cover"
     : "w-full h-auto block";
 
+  // ── Reserved box ──
+  // An <img> that has not loaded and a <video> that has no frame yet both report
+  // no intrinsic size, so a card whose media is still in flight is only as tall
+  // as its text. Every card on the page is in that state on a cold load, and the
+  // page grows by ~300px as the covers arrive.
+  //
+  // That growth is why clicking a project dot could land you on the *previous*
+  // project: the hero computes where to scroll from the page as it stands, the
+  // covers above the target finish loading mid-flight, and the card slides down
+  // out from under the landing. Declaring the cover's own ratio here reserves the
+  // final height from the first frame, so the page the scroll was aimed at is the
+  // page it arrives on. `coverAspect` is the media's exact intrinsic ratio, so
+  // the rendered size is unchanged — it is only known *earlier*.
+  const reservedAspect = aspectRatio ?? project.coverAspect;
+
   // A cover video is motion the visitor never asked for, so reduced-motion falls
   // through to the still below — which is why a card with `coverVideo` should also
   // carry a `coverImage`. It doubles as the video's poster, so the card paints a
@@ -102,6 +123,23 @@ const CardMedia = ({
   const mediaInView = useInView(mediaRef, { amount: 0.5 });
   const startTimer = useRef<number>();
   const hasPlayed = useRef(false);
+
+  // ── Cover video fetch ──
+  // The reel is not fetched until it is plausibly about to be watched. With a
+  // src on the element from mount, every page — the home page and, through the
+  // "More work" section, every case study — pulled the ~½ MB clip during the
+  // first seconds of load, competing with the fonts and images that the loading
+  // screen was actually waiting on. The card paints from its poster regardless,
+  // so the visitor cannot tell the difference; the clip starts downloading once
+  // the card is within a viewport of the screen (or the pointer enters it),
+  // which is seconds of lead before the settle delay below would let it play.
+  // Latched: once fetching, it stays fetched — leaving the neighbourhood must
+  // never yank the src back out of a video that has already played.
+  const mediaNear = useInView(mediaRef, { margin: "100% 0px 100% 0px" });
+  const [fetchVideo, setFetchVideo] = useState(false);
+  useEffect(() => {
+    if (hasVideo && (mediaNear || mediaInView || hovered)) setFetchVideo(true);
+  }, [hasVideo, mediaNear, mediaInView, hovered]);
 
   const playFromStart = useCallback(() => {
     // Cancels a still-pending arrival start, so an early hover doesn't get yanked
@@ -139,12 +177,12 @@ const CardMedia = ({
     <div
       ref={mediaRef}
       className="overflow-hidden rounded-2xl bg-project-card-surface relative mb-6 w-full"
-      style={forced ? { aspectRatio } : undefined}
+      style={reservedAspect ? { aspectRatio: reservedAspect } : undefined}
     >
       {hasVideo ? (
         <video
           ref={videoRef}
-          src={project.coverVideo}
+          src={fetchVideo ? project.coverVideo : undefined}
           poster={project.coverImage}
           muted playsInline preload="auto"
           className={mediaClass}
