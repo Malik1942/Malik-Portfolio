@@ -27,6 +27,7 @@ export const selectedWork = [
     description: "Shipped solo on the App Store — an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.",
     role: "Product Designer & Builder",
     coverImage: motiCard,
+    coverAspect: "1280/800",
     // The Moti: Plan reel — the title card, then dictating a messy sentence and
     // watching it land on the timeline, then back to the title card. coverImage is
     // that opening frame, so it serves as the poster, the reduced-motion still, and
@@ -42,6 +43,7 @@ export const selectedWork = [
     description: "1st Place, FigBuild 2026 — making invisible brain trauma visible before it becomes irreversible.",
     role: "Product Designer, Maker",
     coverImage: neuralyfeCover,
+    coverAspect: "1920/1074",
     year: "2026",
     details: "Won 1st Place at FigBuild 2026 for Impact Replay, an AI-driven brain-impact visualization for athletes and medical teams.\n\nLed ideation and problem scoping, designed the Impact Replay interface, and contributed across both digital and physical product development.",
   },
@@ -53,6 +55,7 @@ export const selectedWork = [
     role: "Product Designer",
     year: "2025",
     coverImage: auraCover,
+    coverAspect: "2400/1350",
     details: "A speculative concept for anticipating motion sickness in flight, designed with a 5-person team over 5 weeks.\n\nUser testing validated the refined form: 15 of 16 testers (93.75%) preferred it over the initial design.",
   },
   {
@@ -61,6 +64,7 @@ export const selectedWork = [
     description: "An emotion-sensing paintbrush for autistic children — the brush reads the hand, answers with color and scent, and the app turns the session into a record parent and therapist can share.",
     role: "Industrial Design Lead · Sole UX Designer",
     coverImage: moodmuseHero,
+    coverAspect: "1672/941",
     year: "2024",
     details: "A smart paintbrush with GSR and heart-rate sensing in the grip, a rotary ink switcher that changes color with the child's state, and a companion app for parents and therapists.\n\nLed the team, owned the industrial design and working prototype, and was the only designer on the app.",
   },
@@ -71,6 +75,7 @@ export const selectedWork = [
     description: "A 3D-printing onboarding system targeting a setup-time cut from about an hour to 15 minutes.",
     role: "Lead Product Designer",
     coverImage: flowprintCover,
+    coverAspect: "1756/988",
     coverFit: "contain" as const,
     year: "2025",
     details: "Work in progress: a consumer 3D-printing onboarding flow targeting a setup-time cut from about an hour to 15 minutes.\n\nIncludes onboarding flows, real-time print monitoring, and a material recommendation engine.",
@@ -86,6 +91,7 @@ export const aiProjects = [
     role: "Industrial Designer",
     year: "2025",
     coverImage: zeatCard,
+    coverAspect: "4725/2993",
     // Promoted out of the AI grid: this is the only industrial design work in the
     // portfolio, and the tag is what distinguishes it from the software beside it.
     sectionHero: true,
@@ -99,6 +105,7 @@ export const aiProjects = [
     role: "Designer + Builder",
     year: "2026",
     coverImage: inkworkCard,
+    coverAspect: "1280/720",
     // The Arcade theme mid-flight: styles switching, then the gradient controls
     // repainting the code. coverImage stays as its poster / reduced-motion still.
     coverVideo: inkworkCardVideo,
@@ -112,6 +119,7 @@ export const aiProjects = [
     role: "Designer + Builder",
     year: "2026",
     coverImage: studioWatersCover,
+    coverAspect: "2316/1448",
     builtWith: "Claude + p5.js",
     details: "A motion-controlled fishing experience built with Claude and p5.js — physical gestures mapped to calm, responsive digital play.",
   },
@@ -122,6 +130,7 @@ export const aiProjects = [
     description: "Defy gravity. Shape the path.",
     role: "Product Designer, Maker",
     coverImage: tubularCover,
+    coverAspect: "1920/1280",
     year: "2026",
     details: "Work in progress: an experimental physics-based toy exploring fluid dynamics through tactile play.\n\nCombines industrial design with digital prototyping — unshipped and still evolving.",
   },

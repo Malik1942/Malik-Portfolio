@@ -16,16 +16,22 @@ import { ProjectCard } from "./ProjectList";
 // grabbing only the most recent one silently watches the wrong element.
 type Entries = { isIntersecting: boolean; target: Element }[];
 
-const observers: { callback: (entries: Entries) => void; elements: Set<Element> }[] = [];
+type Observer = {
+  callback: (entries: Entries) => void;
+  elements: Set<Element>;
+  rootMargin: string;
+};
+
+const observers: Observer[] = [];
 
 beforeEach(() => {
   observers.length = 0;
   vi.stubGlobal(
     "IntersectionObserver",
     class {
-      private entry: { callback: (entries: Entries) => void; elements: Set<Element> };
-      constructor(callback: (entries: Entries) => void) {
-        this.entry = { callback, elements: new Set() };
+      private entry: Observer;
+      constructor(callback: (entries: Entries) => void, options?: IntersectionObserverInit) {
+        this.entry = { callback, elements: new Set(), rootMargin: options?.rootMargin ?? "" };
         observers.push(this.entry);
       }
       observe(element: Element) {
@@ -93,6 +99,16 @@ const setOnScreen = (isIntersecting: boolean) =>
 const arriveOnScreen = () => setOnScreen(true);
 const leaveScreen = () => setOnScreen(false);
 
+// Scroll to within a viewport of the card, without any of it being on screen yet:
+// only the observer that watches an expanded margin sees it.
+const approach = () =>
+  act(() => {
+    for (const { callback, elements, rootMargin } of [...observers]) {
+      if (elements.size === 0 || !rootMargin.includes("%")) continue;
+      callback([...elements].map((target) => ({ isIntersecting: true, target })));
+    }
+  });
+
 const settle = () =>
   act(() => {
     vi.advanceTimersByTime(600);
@@ -117,6 +133,26 @@ describe("cover video playback", () => {
     settle();
 
     expect(play).not.toHaveBeenCalled();
+  });
+
+  it("does not fetch the reel until the card is within a viewport of the screen", () => {
+    stubMedia();
+    const { container } = renderCard();
+    const video = container.querySelector("video") as HTMLVideoElement;
+
+    // Far below the fold: the poster paints the card and the ½ MB clip stays on
+    // the server. Every page mounts this card (the case studies reuse it in
+    // "More work"), so an eager src here is a download on every single visit.
+    expect(video.getAttribute("src")).toBeNull();
+    expect(video.getAttribute("poster")).toBe(project.coverImage);
+
+    approach();
+    expect(video.getAttribute("src")).toBe(project.coverVideo);
+
+    // Once fetched, it stays attached — scrolling away must not tear the src
+    // out of a clip that may already have played.
+    leaveScreen();
+    expect(video.getAttribute("src")).toBe(project.coverVideo);
   });
 
   it("waits out the settle delay after the card arrives, then plays from the opening frame", () => {

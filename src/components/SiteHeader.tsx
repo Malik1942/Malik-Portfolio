@@ -2,7 +2,7 @@ import { type MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 
 interface SiteHeaderProps {
   /** True when the header is tucked away (direction-aware hide-on-scroll). */

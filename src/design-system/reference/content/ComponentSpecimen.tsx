@@ -1,7 +1,7 @@
 import { useState } from "react";
 import auraCover from "@/assets/aura-cover.webp";
 import motiCard from "@/assets/moti-card.webp";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import { ImageLightbox, type LightboxImage } from "@/components/project-detail/ImageLightbox";
 import { ProjectMediaFrame } from "@/components/project-detail/ProjectMediaFrame";
 import { ProjectMetadataSummary } from "@/components/project-detail/ProjectMetadataSummary";

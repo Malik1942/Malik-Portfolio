@@ -14,6 +14,11 @@ function AutoplayVideo({ src, poster }: { src: string; poster?: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inView = useInView(containerRef, { once: true, amount: 0.5 });
+  // These are the long demo reels (the largest is 11 MB). Nothing is fetched at
+  // page load — but once the frame is within a viewport of the screen the clip
+  // starts buffering, so that by the time it is half on screen and asked to
+  // play, it plays instead of stalling on its poster while the first bytes arrive.
+  const near = useInView(containerRef, { once: true, margin: "100% 0px 100% 0px" });
 
   if (inView && ref.current && ref.current.paused) {
     ref.current.play().catch(() => {});
@@ -21,7 +26,7 @@ function AutoplayVideo({ src, poster }: { src: string; poster?: string }) {
 
   return (
     <div ref={containerRef}>
-      <video ref={ref} src={src} poster={poster} preload="none" muted playsInline controls className="w-full max-h-[min(700px,74vh)] object-contain bg-black" />
+      <video ref={ref} src={src} poster={poster} preload={near ? "auto" : "none"} muted playsInline controls className="w-full max-h-[min(700px,74vh)] object-contain bg-black" />
     </div>
   );
 }
