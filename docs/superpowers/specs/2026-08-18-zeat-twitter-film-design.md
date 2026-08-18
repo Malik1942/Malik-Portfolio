@@ -10,10 +10,11 @@
 
 ## Vibe and Energy
 
-- **Feeling:** Energetic, technical, premium, confident.
+- **Feeling:** AirPods 4 launch-film energy translated into ZEAT: playful, kinetic, clean, premium, and confidently technical.
+- **Reference boundary:** Borrow only the high-level rhythm grammar—an immediate product-first hook, beat-locked close-up punches, bold contrast, elastic pacing, and confident negative space. Do not reproduce Apple's shots, choreography, typography, or soundtrack.
 - **Opening rule:** The stadium rendering owns the opening. No sentence, title, cursor, or interface explanation appears before 3.2 seconds.
-- **Energy curve:** Immediate visual and musical hook, escalating mechanism reveals, then the largest musical moment on the physical prototype.
-- **Avoid:** Cheap EDM, retro-neon styling, corporate trailer music, vocals, excessive text, frantic scrolling, fake mechanism animation, idle camera drift, cross-dissolves, and side-push transitions.
+- **Energy curve:** Begin fully awake on frame zero, alternate sharp punches with short readable holds, escalate through the mechanism reveals, then give the physical prototype the largest musical and visual payoff.
+- **Avoid:** Apple pastiche, cheap EDM, retro-neon styling, corporate trailer music, vocals, excessive text, frantic scrolling, fake mechanism animation, idle camera drift, cross-dissolves, and side-push transitions.
 
 ## Frame
 
@@ -124,26 +125,27 @@ malikzhang.com/project/zeat
 - **Typeface:** General Sans, matching the portfolio.
 - **Palette:** Near-black background, white typography, one cyan accent sampled directly from ZEAT’s light strip. Do not guess the cyan value during scripting; sample it from the source render during implementation.
 - **Wordmark:** Extract the real ZEAT mark from the project artwork rather than recreating it in a substitute typeface.
-- **Motion:** Fast and controlled. Camera moves only to reveal a readable mechanism or relationship.
+- **Motion:** Fast, controlled, and beat-locked. Use short snap–settle moves rather than floating drift; each move must reveal a readable mechanism or relationship.
 - **Cards:** Programmatic Swift end card, styled for ZEAT. No mid-film cards.
 
 ## Sound
 
 - **Tier:** Tier A, frame-locked and license-free. It is preferred over ACE-Step for this cut because the 1.1-second opening punch, visible clicks, scene reveals, and prototype drop must hit exact frames.
-- **Direction:** Energetic but premium; technical and optimistic.
-- **Base contract:** Refined `synthwave` arrangement at approximately 108 BPM, with a controlled kick, softened snare, syncopated low end, warm FM accents, restrained mechanical ticks, and no vocals.
-- **Opening:** Music begins immediately. The first impact lands on the approximately 1.1-second camera punch.
+- **Direction:** Kinetic electronic-pop energy with a polished product-film finish: playful, premium, technical, and optimistic.
+- **Base contract:** Approximately 110 BPM, with a dry punchy kick, rounded clap/snare, elastic syncopated bass, a bright short synth or pluck motif, precise micro-percussion, restrained mechanical ticks, and no vocals.
+- **Originality boundary:** The score may evoke the reference film's energy and polish, but it must not copy a recognizable melody, vocal flow, drum pattern, arrangement, or sound recording from the AirPods 4 film.
+- **Opening:** Music begins fully formed on frame zero rather than fading in. The first major impact lands on the approximately 1.1-second camera punch.
 - **Arm scene:** Three related accents mark seat → arm → intake.
-- **Build:** Collection/compaction precedes and feeds the 360° turn; the arrangement continues rising through service.
-- **Reveal:** The largest drop lands on the physical prototype at approximately 21.7 seconds.
-- **End:** Music ducks under the end card and resolves without a fade-out.
-- **Avoid:** Retro-neon character, aggressive 16th-note hats, trailer braams, spa ambience, cheap corporate uplift, watermarked audio, and stock previews.
+- **Build:** Collection/compaction precedes and feeds the 360° turn. The groove changes shape at each feature reveal instead of merely adding layers, keeping the middle energetic without becoming crowded.
+- **Reveal:** A brief tension reduction precedes the physical prototype; the largest low-end hit and widest musical moment land at approximately 21.7 seconds.
+- **End:** Strip the groove back during the black breath, land a crisp branded resolve on the end card, then sustain cleanly while the final frame holds. Do not fade out.
+- **Avoid:** Retro-neon character, aggressive 16th-note hats, trailer braams, spa ambience, cheap corporate uplift, imitation vocals, watermarked audio, and stock previews.
 - **Implementation:** Write the final `score.json` only after the picture timeline has been measured. Run the mandatory `probe.swift` gate before muxing.
 
 ## Transition and Capture Grammar
 
-- Opening uses a fast fade-up from black; every within-act boundary uses a zoom-through.
-- The end card receives a short black breath.
+- Opening uses a fast fade-up from black; every within-act boundary uses a short, beat-locked zoom-through with a crisp snap–settle finish.
+- The end card receives a short black breath timed as a deliberate musical tension reduction, not an energy collapse.
 - Every feature reveal after the opening has a visible cursor → press → ring cue before the website response.
 - The synthetic cursor uses one consistent style and size in every scene.
 - ScreenCaptureKit is the only capture path. Conform every take to CFR 60 before measuring or trimming.
@@ -160,6 +162,8 @@ malikzhang.com/project/zeat
 - Every click target is measured from the control geometry, not from a redraw centroid.
 - The website fills every frame with no black margins, browser chrome, floating-card treatment, or duplicated pointer.
 - Every payoff remains readable for at least two seconds.
+- Camera punches, click cues, scene reveals, the prototype drop, and the end-card resolve are mapped to named events in the frame-locked score grid.
+- The AirPods 4 reference is visible only in the film's high-level energy and polish; no Apple asset, shot recreation, typography imitation, or recognizable music is present.
 - Extract and inspect frames at every reveal, click, transition, and card.
 - Read the full-resolution end card against the exact Words block.
 - The score passes duration, loudness, correlation, richness, and mono-sum gates.
