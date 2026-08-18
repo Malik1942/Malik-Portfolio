@@ -1,4 +1,5 @@
 import { Bluetooth, ClipboardList, Paintbrush, Activity, Sparkles, Palette } from "lucide-react";
+import { noOrphan } from "@/lib/noOrphan";
 
 // Same grid module Aura uses for its design-requirements and ideation-criteria
 // panels: header band, numbered cards, interior dividers only. Six steps
@@ -93,10 +94,10 @@ export function MoodMuseUsageProcess() {
 
               <div className="flex flex-col gap-2.5">
                 <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">
-                  {step.title}
+                  {noOrphan(step.title)}
                 </p>
                 <p className="text-sm md:text-base font-light text-foreground/72 leading-relaxed">
-                  {step.desc}
+                  {noOrphan(step.desc)}
                 </p>
               </div>
             </div>

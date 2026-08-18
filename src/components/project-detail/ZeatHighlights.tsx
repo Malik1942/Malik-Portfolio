@@ -2,6 +2,7 @@ import zeatInContext from "@/assets/zeat-in-context.webp";
 import zeatArm from "@/assets/zeat-arm.webp";
 import zeatStructure from "@/assets/zeat-structure.webp";
 import { Chips, PullQuote } from "./MotiModules";
+import { noOrphan } from "@/lib/noOrphan";
 
 // ZEAT's case-study hook — mirrors Aura's (highlight chips → pull-quote →
 // artifact gallery). The gallery images reappear in their own sections below,
@@ -45,7 +46,7 @@ function ZeatArtifact({ src, alt, caption }: { src: string; alt: string; caption
         />
       </div>
       <figcaption className="mt-5 md:mt-6 text-base md:text-xl text-foreground text-center leading-relaxed">
-        {caption}
+        {noOrphan(caption)}
       </figcaption>
     </figure>
   );

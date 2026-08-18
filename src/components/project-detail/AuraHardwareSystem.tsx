@@ -1,6 +1,7 @@
 import auraBud1 from "@/assets/aura-bud-1.webp";
 import auraBud2 from "@/assets/aura-bud-2.webp";
 import auraBud3 from "@/assets/aura-bud-3.webp";
+import { noOrphan } from "@/lib/noOrphan";
 
 const features = [
   { label: "Sense",   desc: "HR, HRV, motion, proximity" },
@@ -49,7 +50,7 @@ export function AuraHardwareSystem() {
                 {f.label}
               </p>
               <p className="text-xs font-light leading-snug text-foreground/55">
-                {f.desc}
+                {noOrphan(f.desc)}
               </p>
             </div>
           ))}

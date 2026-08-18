@@ -2,6 +2,7 @@ import moodmuseBrushViews from "@/assets/moodmuse-brush-views.webp";
 import moodmuseSensingErgonomics from "@/assets/moodmuse-sensing-ergonomics.webp";
 import moodmuseUiInsights from "@/assets/moodmuse-ui-insights.webp";
 import { Chips, PullQuote } from "./MotiModules";
+import { noOrphan } from "@/lib/noOrphan";
 
 // Mood Muse's case-study hook — same shape as ZEAT's and Aura's (highlight
 // chips → pull-quote → artifact gallery). The gallery images reappear in
@@ -53,7 +54,7 @@ function MoodMuseArtifact({ src, alt, caption }: { src: string; alt: string; cap
         />
       </div>
       <figcaption className="mt-5 md:mt-6 text-base md:text-xl text-foreground text-center leading-relaxed">
-        {caption}
+        {noOrphan(caption)}
       </figcaption>
     </figure>
   );

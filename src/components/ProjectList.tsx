@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 import { Link } from "react-router-dom";
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { noOrphan } from "@/lib/noOrphan";
 
 export interface Project {
   id?: string;
@@ -338,7 +339,7 @@ export const ProjectCard = ({
           color: "hsl(var(--color-text-primary) / 0.80)",
         }}
       >
-        {project.description}
+        {noOrphan(project.description)}
       </p>
 
       {/* Metadata */}

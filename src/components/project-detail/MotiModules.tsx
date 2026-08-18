@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { noOrphan } from "@/lib/noOrphan";
 import {
   Inbox,
   Split,
@@ -87,11 +88,11 @@ function CardGrid({ items, header, colsClass }: { items: GridItem[]; header?: st
               </div>
               <div className="flex flex-col gap-2.5">
                 <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">
-                  {it.title}
+                  {noOrphan(it.title)}
                 </p>
                 {it.desc ? (
                   <p className="text-sm md:text-base font-light text-foreground/72 leading-relaxed">
-                    {it.desc}
+                    {noOrphan(it.desc)}
                   </p>
                 ) : null}
               </div>
@@ -121,10 +122,12 @@ export function Chips({ items }: { items: string[] }) {
 
 // Pull-quote — reuses the display font + foreground tokens.
 export function PullQuote({ children }: { children: ReactNode }) {
+  // Every caller passes a plain string; guard the type since children is
+  // typed as ReactNode. noOrphan is a no-op on text that already wraps fine.
   return (
     <blockquote className="border-l-2 border-foreground/20 pl-6 md:pl-8">
       <p className="text-xl md:text-title font-light leading-snug tracking-tight text-foreground">
-        {children}
+        {typeof children === "string" ? noOrphan(children) : children}
       </p>
     </blockquote>
   );
@@ -139,7 +142,7 @@ function MotiFigure({ src, alt, caption, narrow }: { src: string; alt: string; c
         <img src={src} alt={alt} loading="lazy" decoding="async" className="w-full h-auto block" />
       </div>
       <figcaption className="mt-3 text-xs md:text-sm text-foreground/55 leading-relaxed">
-        {caption}
+        {noOrphan(caption)}
       </figcaption>
     </figure>
   );
@@ -425,15 +428,15 @@ function VersionBlock({
       <div className="flex items-baseline gap-4 px-6 py-6 md:px-8 md:py-7 border-b border-case-study-module-divider">
         <span className="text-xs font-mono tabular-nums text-accent-violet/70">{tag}</span>
         <div>
-          <p className="text-xl font-medium text-foreground leading-snug">{title}</p>
-          {subtitle ? <p className="mt-1 text-xs md:text-sm text-foreground/55">{subtitle}</p> : null}
+          <p className="text-xl font-medium text-foreground leading-snug">{noOrphan(title)}</p>
+          {subtitle ? <p className="mt-1 text-xs md:text-sm text-foreground/55">{noOrphan(subtitle)}</p> : null}
         </div>
       </div>
       <div className="flex flex-col gap-5 px-6 py-6 md:px-8 md:py-7">
         {points.map((p) => (
           <div key={p.label}>
             <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono mb-1.5">{p.label}</p>
-            <p className="text-sm md:text-base font-light leading-relaxed text-foreground/72">{p.text}</p>
+            <p className="text-sm md:text-base font-light leading-relaxed text-foreground/72">{noOrphan(p.text)}</p>
           </div>
         ))}
         {quote ? <PullQuote>{quote}</PullQuote> : null}

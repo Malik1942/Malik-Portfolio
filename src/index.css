@@ -58,6 +58,16 @@
     cursor: pointer;
   }
 
+  /* No orphans: no line of copy may end with a single word alone. Display copy
+     balances its lines; running text avoids a short last line. The case-study
+     renderer also glues the last two words of each block (src/lib/noOrphan.ts)
+     so the rule holds where text-wrap: pretty isn't supported yet. */
+  h1, h2, h3, h4, blockquote p {
+    text-wrap: balance;
+  }
+  p, li, dd, figcaption {
+    text-wrap: pretty;
+  }
 }
 
 /* Animations */

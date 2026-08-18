@@ -1,4 +1,5 @@
 import { Glasses, Scale, ScanText } from "lucide-react";
+import { noOrphan } from "@/lib/noOrphan";
 
 const findings = [
   {
@@ -49,10 +50,10 @@ export function AuraTestingFindings() {
 
               <div className="flex flex-col gap-2.5">
                 <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">
-                  {finding.title}
+                  {noOrphan(finding.title)}
                 </p>
                 <p className="text-sm md:text-base font-light text-foreground/72 leading-relaxed">
-                  {finding.desc}
+                  {noOrphan(finding.desc)}
                 </p>
               </div>
             </div>
