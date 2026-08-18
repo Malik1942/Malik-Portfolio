@@ -13,6 +13,7 @@ import { AuraHighlights } from "./AuraHighlights";
 import { AuraScenes } from "./AuraScenes";
 import { NeuraLyfeHighlights } from "./NeuraLyfeHighlights";
 import { ZeatHighlights } from "./ZeatHighlights";
+import { RangerHighlights } from "./RangerHighlights";
 import { MoodMuseHighlights } from "./MoodMuseHighlights";
 import { MoodMuseUsageProcess } from "./MoodMuseUsageProcess";
 import { ImageLightbox, type LightboxImage } from "./ImageLightbox";
@@ -134,6 +135,7 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "aura-highlights": <AuraHighlights />,
   "neuralyfe-highlights": <NeuraLyfeHighlights />,
   "zeat-highlights": <ZeatHighlights />,
+  "ranger-highlights": <RangerHighlights />,
   "moodmuse-highlights": <MoodMuseHighlights />,
   "moodmuse-usage-process": <MoodMuseUsageProcess />,
   "aura-hardware": <AuraHardwareSystem />,

@@ -723,6 +723,10 @@ const MainProjectList = ({
 // rest keep the uniform 2-col "gallery" treatment. The 0.88 dimming wraps the
 // grid only — a hero row reads at full strength, which is the point of promoting
 // it out of the gallery in the first place.
+//
+// Hero rows alternate which side the image sits on. With one hero this is a
+// no-op (index 0 keeps image-left); with two or more it stops a stack of
+// full-width rows from reading as the same row printed twice.
 const AIProjectList = ({
   id,
   sectionTitle,
@@ -750,6 +754,7 @@ const AIProjectList = ({
             globalIndex={i}
             rowDelay={0.06}
             horizontal
+            imageRight={i % 2 === 1}
           />
         </div>
       ))}

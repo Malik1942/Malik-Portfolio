@@ -73,6 +73,19 @@ import zeatStairCrossing from "@/assets/zeat-stair-crossing.webp";
 import zeatServiceTopdown from "@/assets/zeat-service-topdown.webp";
 import zeatPrototype from "@/assets/zeat-prototype.webp";
 import zeatPrototypeBooth from "@/assets/zeat-prototype-booth.webp";
+import rangerHero from "@/assets/ranger-hero.webp";
+import rangerAirbagResearch from "@/assets/ranger-airbag-research.webp";
+import rangerSketches from "@/assets/ranger-sketches.webp";
+import rangerUsage from "@/assets/ranger-usage.webp";
+import rangerConstruct from "@/assets/ranger-construct.webp";
+import rangerExploded from "@/assets/ranger-exploded.webp";
+import rangerFront from "@/assets/ranger-front.webp";
+import rangerMovement from "@/assets/ranger-movement.webp";
+import rangerControl from "@/assets/ranger-control.webp";
+import rangerPlatform from "@/assets/ranger-platform.webp";
+import rangerDetailPod from "@/assets/ranger-detail-pod.webp";
+import rangerDetailThruster from "@/assets/ranger-detail-thruster.webp";
+import rangerDetailCharge from "@/assets/ranger-detail-charge.webp";
 
 const aura: ProjectDetailDocument = {
   slug: "aura",
@@ -771,10 +784,124 @@ const zeat: ProjectDetailDocument = {
   ],
 };
 
+// RANGER underwater drone case study (2024). Imagery lives in src/assets
+// (ranger-*.webp), converted from the Behance masters in ~/Documents/ranger-assets
+// via scripts/ranger-convert.mjs. Source: behance.net/gallery/219725415.
+// Register note: this project was never physically prototyped, and the copy says
+// so in Reflection rather than implying a build. Every specification quoted here
+// (the sodium azide inflation, the 48V 12000mAh swappable pack, the four lifting
+// bag geometries, the three modular interfaces, the three movement modes) is
+// labelled on the source boards. No recovery rates, tonnages, or test results
+// are claimed, because none were measured.
+const ranger: ProjectDetailDocument = {
+  slug: "ranger",
+  listSection: WORKSHOP_SECTION_LABEL,
+  title: "RANGER",
+  heroSummary: "An Underwater Drone That Finds Abandoned Fishing Nets,\nPins Them With an Airbag, and Floats Them Up Without a Diver.",
+  heroImage: rangerHero,
+  heroImageFit: "natural",
+  metaCards: [
+    { label: "Role", value: "Industrial Designer" },
+    { label: "Timeline", value: "2024" },
+    { label: "Team", value: "Solo" },
+    { label: "Scope", value: "Vehicle · Airbag Capture · Control · Neptune Net" },
+    { label: "Tools", value: "Rhino 3D · KeyShot · Photoshop · Figma" },
+  ],
+  sections: [
+    {
+      id: "intro",
+      label: "Intro",
+      headline: "A Net Keeps Fishing After the Boat Lets Go",
+      showProjectMeta: true,
+      body: "**RANGER is an underwater drone for ghost gear recovery. It finds an abandoned fishing net, fires an airbag through the mesh, and lets the net float itself up to a waiting boat.**\n\nGhost gear is fishing equipment that was lost or dumped and never stopped working. It drifts, it snags, and it keeps catching. Recovery today is diver work, carried out largely by volunteers from conservation groups.\n\nSolo project, 2024: the vehicle, the capture mechanism, the control system, and the platform that decides where to send it.",
+    },
+    {
+      id: "highlights",
+      label: "Highlights",
+      body: "**One machine that searches, marks, and hands the lifting job to physics.**\n\n[[module:ranger-highlights]]",
+    },
+    {
+      id: "problem",
+      label: "The Problem",
+      headline: "Diving Is the Bottleneck",
+      body: "## Five Steps, One of Them Underwater\n\nThe sequence a recovery crew runs today is search, locate, dive, dismantle, collect. Four of those five steps happen on a boat. The fifth puts a person in the water next to a tangled, fouled, moving net.\n\nThat step sets every ceiling on the operation: how deep a recovery can go, how long anyone can work, how many nets a boat clears in a day, and who is qualified to try at all. Manual collection scales with trained volunteers, and there are only so many of those.\n\n**The design question was never how to cut a net faster. It was how to get the net to the surface without sending anyone down to it.**",
+    },
+    {
+      id: "ideation",
+      label: "Ideation",
+      headline: "Two Ways to Steer, and Only One That Can Hover",
+      figures: [
+        { type: "image", src: rangerSketches, alt: "Ideation board of RANGER concept sketches in two families: differential turning drone, ray fish, and streamline bodies on top; four-axis catfish, tortoiseshell, slimmer, and X-line bodies below, with the final draft called out", full: true },
+      ],
+      body: "[[fig:0]]\n\nI drew the vehicle in two families, split by how it changes direction.\n\n## Differential Turning\n\nTwo horizontal thrusters that steer by the speed difference between them, drawn three ways: a drone type with a roll-up airbag gate, a ray fish body, and a pure streamline hull. Efficient in a straight line, and committed to moving forward in order to turn.\n\n## Four-Axis Control\n\nFour vectoring thrusters instead of two, drawn as catfish, tortoiseshell, slimmer, and an X-line variant. More motors, more linkages, more to fail.\n\nIt buys the one capability the capture sequence cannot do without: stop over a net, hold position against current, and aim.\n\n**Decision: four-axis control. The final body is a biomimetic compromise, a catfish streamline under a tortoiseshell back, hydrodynamic enough to travel and armored enough to work inside debris.**",
+    },
+    {
+      id: "capture",
+      label: "The Catch",
+      headline: "Stop Trying to Hold the Net. Change What It Weighs.",
+      figures: [
+        { type: "image", src: rangerAirbagResearch, alt: "Research board covering how ghost gear is collected today, four lifting-bag geometries, pump versus chemical inflation, and the airbag chamber launching through a net mesh", full: true },
+        { type: "image", src: rangerUsage, alt: "Six-step usage process: travel to the hotspot, detect gear, locate and measure the mesh, launch the airbag, inflate it through the mesh, and release it to the surface for collection", full: true },
+      ],
+      body: "A gripper has to hold what it grabs, and a net is close to the worst thing to grab. No rigid feature, no predictable shape, and enough drag that whatever holds it also has to haul it.\n\n[[fig:0]]\n\n## Buoyancy Instead of Grip\n\nSo RANGER does not carry the net. It marks the net and makes the net rise.\n\nAn airbag chamber is launched through an opening in the mesh. On the far side it inflates, and an inflated bag cannot pass back through the hole it entered by. The bag becomes a mechanical stop and a lifting body at the same time: it holds the mesh, and it pulls upward.\n\nI compared four lifting-bag geometries, pillow, parachute, parachute-enclosed, and cylindrical, then split the job between two of them. A parachute bag does the floating. A pillow bag does the fixing.\n\n## Where the Gas Comes From\n\nTwo ways to inflate a bag underwater: pump it from the vehicle, or generate it at the bag. Pumping means a compressor, a reservoir, and a line to every bag it fills, which caps how many nets one sortie can mark.\n\nI took the second. Each chamber carries the same sodium azide reaction a car airbag uses, 2NaN₃ decomposing into sodium and nitrogen gas. The vehicle launches an inert cartridge and the gas is made on arrival.\n\n**Decision: the vehicle spends cartridges, not effort. Every launch is a single-use mark that a surface crew can collect on its own schedule, so the drone never stops searching to wait for a lift.**\n\n## The Sequence\n\n[[fig:1]]\n\nA collection ship drops RANGER at a hotspot pulled from the platform map. RANGER runs sonar and cameras until it finds gear, measures the mesh at the center of the net, selects a cartridge sized to that mesh, and fires. The bag inflates, fixes the net, and rises with a flashing marker while RANGER returns to searching.",
+    },
+    {
+      id: "final-design",
+      label: "Final Design",
+      headline: "Every Module Earns Its Place on the Hull",
+      figures: [
+        { type: "image", src: rangerFront, alt: "Front elevation of RANGER showing the wide hull, twin side thruster pods, sensor bay, and camera gimbals", full: true },
+        { type: "image", src: rangerConstruct, alt: "Construction diagram labelling the thruster state light, airbag chamber, camera module, environmental detect module, searchlight, multi-directional thruster, side thruster port, obstacle avoidance light, and the three modular collocation components", full: true },
+        { type: "image", src: rangerExploded, alt: "Exploded view labelling the thruster angle control servo motor, ghost net positioning module, searchlights, parachute and pillow airbags, 18650 battery, 360 degree environment detect sensor, airbag launch gate, modular interface, protecting net, status display screen, and swappable battery packs", full: true },
+        { type: "image", src: rangerDetailThruster, alt: "Close-up of a vectoring thruster pod and its angle-control joint mounted under the hull" },
+        { type: "image", src: rangerDetailCharge, alt: "Close-up of the magnetic charging and data contact block recessed into the hull" },
+      ],
+      body: "[[fig:0]]\n\n## What Sits Where\n\n[[fig:1]]\n\nSensing goes where it can see. Camera modules and searchlights face forward, a 360° environment detect module sits on top, obstacle avoidance lights ride the thruster pods, and a thruster state light lets a crew read the machine's condition from the deck. The airbag chamber and its launch gate take the center of the hull, aimed where the cameras are aimed.\n\nThe side thrusters steer by changing the angle of a gate rather than swinging the pod, so RANGER changes direction from a standstill without turning its body first.\n\nThree modular interfaces on the underside take mission hardware: a sonar enhancement module for poor visibility, a seafloor survey module, a long range module. A separate transport interface handles mounting to the ship.\n\n## What Sits Inside\n\n[[fig:2]]\n\nThe battery is a fast-swappable 48V 12000mAh pack, so turnaround on deck is a swap rather than a charge cycle, and a high-capacity pack takes the same bay for deep missions. Behind it: 18650 cells, servo motors driving thruster angle, high-speed motors driving thrust, and a protecting net across the intakes.\n\n[[fig:3]]\n\n[[fig:4]]\n\nThe details are where a concept holds up or stops being one. A gate angle that a nozzle could actually achieve, a contact block a magnetic charger could actually land on, a gimbal that a camera could actually sit in.",
+    },
+    {
+      id: "movement",
+      label: "Movement",
+      headline: "Searching and Catching Want Different Thrust",
+      figures: [
+        { type: "image", src: rangerMovement, alt: "Three movement modes drawn in line art: High Mobility with multi-directional arrows, Fast Float and Sink with the thruster pods rotated vertically, and Horizontal Movement for steady-depth scanning", full: true },
+      ],
+      body: "[[fig:0]]\n\nHigh Mobility gives multi-directional control for the moment that matters, holding over a net and aiming a launch. Fast Float and Sink handles the vertical runs at the start and end of a sortie. Horizontal holds a steady depth so a search sweep covers area instead of wandering through three dimensions.\n\n**One machine, three ways to spend its thrust, matched to the three things a recovery run is actually made of.**",
+    },
+    {
+      id: "control",
+      label: "Control",
+      headline: "It Should Feel Like Flying a Drone, Not Operating a Submarine",
+      figures: [
+        { type: "image", src: rangerControl, alt: "RANGER control interface board: a full-screen underwater camera feed with depth and heading scales, screen control, gyroscope, and auto collect modes, and an operator using a VR headset and controller", full: true },
+      ],
+      body: "[[fig:0]]\n\nWhoever runs this is standing on a boat, in weather, probably wearing gloves, and is more likely to be a volunteer than a submersible pilot. The interface had to be something they already know how to use.\n\nThe phone is the control center. The live camera feed is the whole screen, with depth and heading read off its edges, so the operator's attention stays on the water rather than on instrumentation.\n\nThree control modes, because preference here is personal: screen control with on-screen sticks, gyroscope control by tilting the handset, and auto collect, where the vehicle runs the whole find, measure, and launch sequence itself while the operator watches. A paired controller adds precision for tight work, and the feed maps to a VR headset for operators who would rather have presence than convenience.\n\n**Decision: auto collect is the default, not the expert setting. A crew that has to fly it perfectly is a crew that clears fewer nets.**",
+    },
+    {
+      id: "platform",
+      label: "Neptune Net",
+      headline: "Knowing Where to Send It",
+      figures: [
+        { type: "image", src: rangerPlatform, alt: "Neptune Net app screens: sign in, ocean-by-ocean coverage, a map of nearby ghost nets with distance and count, a device list showing each RANGER's charge, and the mark-and-report flow", full: true },
+      ],
+      body: "A drone that recovers one net is a gadget. What turns it into a system is knowing which water to put it in.\n\n[[fig:0]]\n\nNeptune Net is the operations layer. It opens with coverage by ocean, then narrows to a map of reported gear near you with distance and count, and a device list showing each unit's charge and status for remote dispatch.\n\nThe part I care most about is the report flow. Anyone who sees a net, a diver, a fisher, a passing boat, can mark and describe it. Sightings are the input that makes the map worth dispatching against, and the map is the reason a second RANGER is worth building.\n\nRecovered netting is meant to re-enter the material stream rather than a landfill, which is the difference between cleanup and disposal.\n\n**The vehicle is one node. The map is the product.**",
+    },
+    {
+      id: "reflection",
+      label: "Reflection",
+      headline: "What a Render Cannot Prove",
+      figures: [
+        { type: "image", src: rangerDetailPod, alt: "Close-up of the underside sensor bay between two camera pods" },
+      ],
+      body: "## The Claim I Kept Small\n\nEvery mechanism here is designed and drawn, not built. The capture principle is sound on paper, the chemistry is the same one that works in a steering wheel, and a bag that cannot fit back through its own hole is simple geometry. None of that is the same as a bag inflating correctly against a fouled, drifting net at depth. This is a resolved concept, and I would rather name it as one than imply a test that never happened.\n\n## The Thing I Would Test First\n\nMesh measurement. The entire sequence hangs on reading a mesh and picking a cartridge that fits through it and then cannot return. Every other assumption in the project sits downstream of that one measurement being right in silt, current, and bad light.\n\n## What This Project Taught Me\n\nI lost the first stretch of this project designing a gripper, because a gripper is the obvious answer and a net refuses to be held. The work only moved when I stopped trying to hold the net and started trying to change what it weighs. The mechanism that finally worked was not a better version of the obvious one, it came from asking a different question.\n\n[[fig:0]]\n\n**Where it stands: a concept from 2024, resolved through the vehicle, the mechanism, and the platform. The next honest step is not more rendering. It is a bag, a mesh panel, and a tank.**",
+    },
+  ],
+};
+
 const PROJECT_DETAILS: Record<string, ProjectDetailDocument> = {
   moti,
   inkwork,
   zeat,
+  ranger,
   aura,
   neuralyfe,
   flowprint,
