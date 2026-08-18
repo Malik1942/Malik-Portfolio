@@ -515,7 +515,7 @@ const moodmuse: ProjectDetailDocument = {
       figures: [
         { type: "image", src: moodmuseUsageProcess, alt: "Six-step usage process with device renders: pairing, choosing a treatment, painting and emotion detection, data processing, fragrance diffused, paintbrush changes color", full: true },
       ],
-      body: "[[fig:0]]\n\n## Pair\n\nThe indicator light flashes while the brush pairs with the phone and turns green when it's connected.\n\n## Choose a Treatment\n\nA questionnaire selects a program, and parents can bring in a therapist to read the child's development and adjust it.\n\n## Paint\n\nOn first use the brush sets an emotional baseline from the sensor data. Then the child paints, following the program or freely, while the sensors keep reading.\n\n## Process\n\nWhen the painting is done, the brush sends the session to the app, which summarizes it into a mood spectrum and graph. Fluctuations in the curve are what Mood Connect reads.\n\n## Scent\n\nWhen a positive state is detected, the brush releases a gentle fragrance, a reward that helps the child connect the feeling to the moment.\n\n## Color\n\nWhen the state changes, an internal motor smoothly changes the ink color. The child sees their own shift on the paper.\n\n**Nothing in the loop asks the child to stop and report. The reporting is the painting.**",
+      body: "[[fig:0]]\n\n[[module:moodmuse-usage-process]]\n\n**Nothing in the loop asks the child to stop and report. The reporting is the painting.**",
     },
     {
       id: "final-design",
