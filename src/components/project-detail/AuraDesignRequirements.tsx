@@ -1,3 +1,4 @@
+import { noOrphan } from "@/lib/noOrphan";
 const requirements = [
   {
     num: "01",
@@ -98,10 +99,10 @@ export function AuraDesignRequirements() {
               {/* Text */}
               <div className="flex flex-col gap-2.5">
                 <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">
-                  {r.title}
+                  {noOrphan(r.title)}
                 </p>
                 <p className="text-sm md:text-base font-light text-foreground/72 leading-relaxed">
-                  {r.desc}
+                  {noOrphan(r.desc)}
                 </p>
               </div>
 

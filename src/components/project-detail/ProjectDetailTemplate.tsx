@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSectionScrollSpy } from "@/hooks/useSectionScrollSpy";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
 import { scrollToProjectSection } from "@/lib/projectDetailScroll";
+import { noOrphan } from "@/lib/noOrphan";
 import type { ProjectDetailDocument, ProjectSectionFigure, IntroBlock } from "@/types/projectDetail";
 import Footer from "@/components/Footer";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -178,7 +179,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
               key={i}
               className={`${i === 0 ? "" : "mt-16 md:mt-20"} text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono mb-5 md:mb-6`}
             >
-              {para.slice(3)}
+              {noOrphan(para.slice(3))}
             </p>
           );
         }
@@ -215,7 +216,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
             key={i}
             className={`${spacingClass} text-base md:text-xl font-normal leading-relaxed ${emphasisClass}`}
           >
-            {renderInline(para)}
+            {renderInline(noOrphan(para))}
           </p>
         );
       })}
@@ -309,7 +310,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
               project.heroSummary.includes("\n") ? "md:whitespace-pre-line md:text-pretty" : ""
             }`}
           >
-            {project.heroSummary}
+            {noOrphan(project.heroSummary)}
           </p>
         ) : null}
       </header>
@@ -339,12 +340,12 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
           <div className="max-w-[900px]">
             {project.heroSubtitle ? (
               <p className="text-base md:text-xl text-foreground/72 font-light leading-relaxed">
-                {project.heroSubtitle}
+                {noOrphan(project.heroSubtitle)}
               </p>
             ) : null}
             {project.description ? (
               <p className={`${project.heroSubtitle ? "mt-5 md:mt-6" : ""} text-base md:text-xl font-light leading-relaxed text-foreground/72`}>
-                {project.description}
+                {noOrphan(project.description)}
               </p>
             ) : null}
           </div>
@@ -466,7 +467,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                       </p>
                     ) : null}
                     <h2 className="font-display text-heading md:text-display font-light text-foreground mb-10 md:mb-12">
-                      {s.headline ?? s.label}
+                      {noOrphan(s.headline ?? s.label)}
                     </h2>
                     {s.introBlock ? (
                       <SectionIntroBlock block={s.introBlock} />

@@ -1,4 +1,5 @@
 import type { ProjectMetaCard } from "@/types/projectDetail";
+import { noOrphan } from "@/lib/noOrphan";
 
 function MetadataItem({ label, value }: ProjectMetaCard) {
   return (
@@ -7,7 +8,7 @@ function MetadataItem({ label, value }: ProjectMetaCard) {
         {label}
       </p>
       <p className="text-sm font-normal leading-relaxed text-foreground/72">
-        {value}
+        {noOrphan(value)}
       </p>
     </div>
   );

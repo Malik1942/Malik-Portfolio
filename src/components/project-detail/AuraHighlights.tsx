@@ -3,6 +3,7 @@ import auraBud1 from "@/assets/aura-bud-1.webp";
 import auraApp1 from "@/assets/Aura-app-1.webp";
 import auraSystem1 from "@/assets/aura-system-1.webp";
 import { Chips, PullQuote } from "./MotiModules";
+import { noOrphan } from "@/lib/noOrphan";
 
 // Aura's case-study hook — mirrors Moti's / NeuraLyfe's hook (highlight chips →
 // pull-quote → artifact gallery). Copy is drawn from Aura's own text. The gallery
@@ -51,7 +52,7 @@ function AuraArtifact({ src, alt, caption }: { src: string; alt: string; caption
         />
       </div>
       <figcaption className="mt-5 md:mt-6 text-base md:text-xl text-foreground text-center leading-relaxed">
-        {caption}
+        {noOrphan(caption)}
       </figcaption>
     </figure>
   );

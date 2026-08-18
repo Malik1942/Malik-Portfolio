@@ -16,6 +16,7 @@ import {
   ArrowUpRight,
   type LucideIcon,
 } from "lucide-react";
+import { noOrphan } from "@/lib/noOrphan";
 
 /* ---------------------------------------------------------------------------
  * Inkwork case-study inline modules.
@@ -65,11 +66,11 @@ function CardGrid({ items, header, colsClass }: { items: GridItem[]; header?: st
               </div>
               <div className="flex flex-col gap-2.5">
                 <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">
-                  {it.title}
+                  {noOrphan(it.title)}
                 </p>
                 {it.desc ? (
                   <p className="text-sm md:text-base font-light text-foreground/72 leading-relaxed">
-                    {it.desc}
+                    {noOrphan(it.desc)}
                   </p>
                 ) : null}
               </div>

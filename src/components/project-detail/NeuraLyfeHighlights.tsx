@@ -3,6 +3,7 @@ import neuralyfeBrain from "@/assets/neuralyfe-brain.mp4";
 import neuralyfeReplay from "@/assets/neuralyfe-replay.mp4";
 import neuralyfeHalo from "@/assets/neuralyfe-halo.mp4";
 import { Chips, PullQuote } from "./MotiModules";
+import { noOrphan } from "@/lib/noOrphan";
 
 // NeuraLyfe's case-study hook — mirrors Moti's / Aura's hook (highlight chips →
 // pull-quote → artifact gallery). NeuraLyfe's artifacts are its interactive
@@ -39,7 +40,7 @@ function NeuraLyfeArtifact({ src, label, caption }: { src: string; label: string
         />
       </div>
       <figcaption className="mt-5 md:mt-6 text-base md:text-xl text-foreground text-center leading-relaxed">
-        {caption}
+        {noOrphan(caption)}
       </figcaption>
     </figure>
   );

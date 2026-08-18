@@ -1,3 +1,4 @@
+import { noOrphan } from "@/lib/noOrphan";
 import { useRef, useEffect, useState } from "react";
 import { useInView } from "framer-motion";
 import scene1 from "@/assets/aura-scene-1.mp4";
@@ -100,7 +101,7 @@ export function AuraScenes() {
             <p className={`text-label uppercase tracking-eyebrow transition-colors duration-200 ${
               i === current ? "text-foreground" : "text-foreground/55 group-hover:text-foreground/72"
             }`}>
-              {s.title}
+              {noOrphan(s.title)}
             </p>
           </button>
         ))}
