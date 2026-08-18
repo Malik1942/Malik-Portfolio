@@ -2,7 +2,7 @@
 
 **Story approval:** Approved by Malik on 2026-08-18
 
-**Written-spec review:** Pending
+**Written-spec review:** Approved by Malik on 2026-08-18
 
 **Pipeline:** `product-film` v1.1.1
 
