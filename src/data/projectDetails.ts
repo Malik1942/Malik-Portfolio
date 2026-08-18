@@ -310,7 +310,7 @@ const moti: ProjectDetailDocument = {
     },
     {
       id: "users",
-      label: "What Users Told Me",
+      label: "User Research",
       body: "The same frustrations, in their own words.\n\n[[module:moti-user-quotes]]",
     },
     {
