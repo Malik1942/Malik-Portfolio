@@ -35,3 +35,6 @@ zeat-assets/
 *.sln
 *.sw?
 moodmuse-assets
+
+# Local Superpowers visual-brainstorming sessions
+.superpowers/
