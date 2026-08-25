@@ -41,11 +41,12 @@ import { ProjectMetadataSummary } from "./ProjectMetadataSummary";
 // Shared page container — all major sections align to this grid
 const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-page mx-auto";
 
-// px the mobile section guide sits below the top while the site header is shown,
-// clearing the header's visible bar (pt-7 + nav row + mt-5 divider ≈ 69px) with a
-// small gap so they never touch. It drops to the safe-area top once the header
-// tucks away on scroll-down. Kept in sync with SECTION_ANCHOR_OFFSET below.
-const MOBILE_SECTION_NAV_TOP = 72;
+// The section guide's docked offset while the site header is shown lives in the
+// --guide-docked-top CSS var on the guide itself: 48px on mobile (flush under
+// the menu row — pt-7 + 20px text — so the two read as one merged bar; the
+// header hides its mobile divider for this), 72px on tablet (clearing the
+// taller logo header ≈ 73px, which keeps its divider). It drops to the
+// safe-area top once the header tucks away on scroll-down.
 
 const sectionDomId = (id: string) => `project-section-${id}`;
 
@@ -270,6 +271,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         onSelectedWork={() => navigate("/", { state: { scrollTo: "projects" } })}
         onWorkshop={() => navigate("/", { state: { scrollTo: "ai-projects" } })}
         onAbout={() => navigate("/", { state: { openAbout: true } })}
+        hideMobileDivider
       />
 
       {/* Back — extra top padding clears the fixed site header on load */}
@@ -373,18 +375,23 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         aria-label="Case study"
         className={`${PAGE_OUTER} pb-32 md:pb-48 border-t border-border/30 mt-20 md:mt-28 pt-20 md:pt-28`}
       >
-        {/* Mobile / tablet: horizontal section guide. A separate sticky layer from
-            the global header — z-30 sits beneath the z-50 header but above content,
-            and the near-solid background means taps can't fall through to anything
-            below. Its sticky offset follows the header: dropped below it while
-            shown, flush to the safe-area top once the header tucks away — so the
-            two never overlap or share a tap target. */}
+        {/* Mobile / tablet: horizontal section guide. A separate sticky layer
+            from the global header — translucent like the header's scrim, with
+            the backdrop blur carrying legibility over imagery scrolling under
+            it. Its sticky offset follows the header:
+            dropped below it while shown, flush to the safe-area top once the
+            header tucks away. z-[60] keeps it ABOVE the z-50 header: in their
+            settled states the two never share screen space, but while the header
+            re-reveals mid-scroll the menu links land exactly where the guide sits,
+            and the guide must win that hit-test — otherwise a tap meant for a
+            section chip fires a menu link and navigates away. (The lightbox at
+            z-[2000] still covers it.) */}
         <nav
-          className="lg:hidden sticky z-30 -mx-6 px-6 py-3 mb-14 bg-background/95 backdrop-blur-md border-b border-border/40 transition-[top] duration-300 ease-out"
+          className="lg:hidden sticky z-[60] -mx-6 px-6 py-3 mb-14 bg-background/70 backdrop-blur-md border-b border-border/40 transition-[top] duration-300 ease-out [--guide-docked-top:48px] md:[--guide-docked-top:72px]"
           style={{
             top: headerHidden
               ? "env(safe-area-inset-top, 0px)"
-              : `calc(env(safe-area-inset-top, 0px) + ${MOBILE_SECTION_NAV_TOP}px)`,
+              : "calc(env(safe-area-inset-top, 0px) + var(--guide-docked-top))",
           }}
           aria-label="Section navigation"
         >
