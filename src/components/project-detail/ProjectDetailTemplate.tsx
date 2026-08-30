@@ -34,6 +34,15 @@ import {
   MotiTakeaways,
 } from "./MotiModules";
 import { InkworkSymptoms, InkworkSequence, InkworkThemes, InkworkTryCta, InkworkSkillLink, InkworkCta } from "./InkworkModules";
+import {
+  CalmMouseDemo,
+  CalmMouseFixes,
+  CalmMouseAbsence,
+  CalmMouseMilliseconds,
+  CalmMouseShipping,
+  CalmMouseVisitCta,
+  CalmMouseCta,
+} from "./CalmMouseModules";
 import { MoreProjects } from "./MoreProjects";
 import { ProjectMediaFrame } from "./ProjectMediaFrame";
 import { ProjectMetadataSummary } from "./ProjectMetadataSummary";
@@ -160,6 +169,13 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "inkwork-try": <InkworkTryCta />,
   "inkwork-skill-link": <InkworkSkillLink />,
   "inkwork-cta": <InkworkCta />,
+  "calmmouse-demo": <CalmMouseDemo />,
+  "calmmouse-fixes": <CalmMouseFixes />,
+  "calmmouse-absence": <CalmMouseAbsence />,
+  "calmmouse-milliseconds": <CalmMouseMilliseconds />,
+  "calmmouse-shipping": <CalmMouseShipping />,
+  "calmmouse-visit": <CalmMouseVisitCta />,
+  "calmmouse-cta": <CalmMouseCta />,
 };
 
 function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFirst?: boolean; inlineFigures?: ProjectSectionFigure[] }) {

@@ -81,6 +81,13 @@ const ORB_DEFS = [
   { label: "RANGER",       subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.27, ry: 0.28, mrx: 0.52, mry: 0.19, id: "ranger" },
   // Desktop: the open band right of Moti, above the title cluster.
   { label: "ZEAT",         subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.62, ry: 0.26, mrx: 0.52, mry: 0.30, id: "zeat" },
+  // Desktop: right band between FlowPrint (0.75, 0.45) and Studio Waters (0.72, 0.68).
+  // Mobile: a sixth gold orb — the three verified bottom rows (0.73/0.80/0.87)
+  // stay put and CalmMouse takes a fourth row above them at 0.66, just under
+  // the title cluster. On short phones the band floor clamps 0.66 onto
+  // Inkwork's row; separateMobileColumns (below) then re-spaces the column so
+  // the labels stack instead of overlapping.
+  { label: "CalmMouse",    subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.86, ry: 0.56, mrx: 0.52, mry: 0.66, id: "calmmouse" },
   // Desktop: lower band between NeuraLyfe and Studio Waters.
   { label: "Inkwork",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.5,  ry: 0.8,  mrx: 0.52, mry: 0.73, id: "inkwork" },
   { label: "Studio Waters",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.72, ry: 0.68, mrx: 0.52, mry: 0.80, id: "studiowaters" },
@@ -143,6 +150,42 @@ const repelOrbFromZones = (
     else if (m === dT) { orb.y = top; if (nudge) orb.vy -= 0.03; }
     else { orb.y = bottom; if (nudge) orb.vy += 0.03; }
   }
+};
+
+// Mobile row layout. The hand-tuned mry fractions stopped scaling once the
+// Workshop column grew to six orbs (CalmMouse): zone repulsion clamped rows
+// onto each other on short phones, and any push-apart pass left ragged,
+// column-dependent gaps. So on mobile the mry values now only encode ORDER and
+// BAND (above or below the title cluster, split at 0.5); the actual y positions
+// are distributed evenly across each band here, after the real band edges are
+// known. Every column gets rows at a uniform pitch that fills its band, so the
+// rhythm is consistent at every height — a band too short for its row count
+// degrades to evenly-tight rather than overlapping-at-the-floor.
+const layoutMobileColumns = (
+  orbs: Orb[],
+  w: number,
+  bands: { topStart: number; topEnd: number; bottomStart: number; bottomEnd: number },
+) => {
+  const split = (bands.topEnd + bands.bottomStart) / 2; // middle of the title area
+  // [band][column] — classified up front, before any y is rewritten.
+  const rows: Orb[][][] = [
+    [[], []],
+    [[], []],
+  ];
+  orbs.forEach((o) => rows[o.y < split ? 0 : 1][o.x < w * 0.3 ? 0 : 1].push(o));
+  const place = (lists: Orb[][], start: number, end: number) => {
+    // One pitch for both columns — the fullest column sets it — and each column
+    // centered in the band, so a 3-row column keeps the 4-row column's rhythm
+    // instead of stretching to a looser one of its own.
+    const pitch = (end - start) / Math.max(1, ...lists.map((l) => l.length));
+    lists.forEach((col) => {
+      col.sort((a, b) => a.y - b.y);
+      const off = start + (end - start - pitch * col.length) / 2;
+      col.forEach((o, i) => { o.y = off + pitch * (i + 0.5); });
+    });
+  };
+  place(rows[0], bands.topStart, bands.topEnd);
+  place(rows[1], bands.bottomStart, bands.bottomEnd);
 };
 
 interface StarDot {
@@ -379,6 +422,16 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
 
     // Relocate any orb that spawned inside a zone (position only, no velocity).
     orbsRef.current.forEach((orb) => repelOrbFromZones(orb, zones, w, h, false));
+    // Then lay the mobile rows out evenly inside the bands the zones define —
+    // the mry fractions only picked each orb's column, band, and order.
+    if (isMobile) {
+      layoutMobileColumns(orbsRef.current, w, {
+        topStart: navBottom + ORB_MARGIN,
+        topEnd: titleTop - ORB_MARGIN,
+        bottomStart: titleBottom + ORB_MARGIN,
+        bottomEnd: h - ORB_PAD,
+      });
+    }
 
     sizeRef.current = { w, h };
     initRef.current = true;
