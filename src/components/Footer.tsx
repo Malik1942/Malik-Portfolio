@@ -95,12 +95,12 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true, wide = 
               </li>
               <li>
                 <a
-                  href="https://www.instagram.com/malikz_visual?igsh=dzRpdnlnY3h4cmRs&utm_source=qr"
+                  href="https://x.com/MalikZ1942"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500"
                 >
-                  Instagram
+                  X
                 </a>
               </li>
               <li>
