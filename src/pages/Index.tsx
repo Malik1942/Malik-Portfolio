@@ -15,6 +15,8 @@ import moodmuseHero from "@/assets/moodmuse-hero.webp";
 import studioWatersCover from "@/assets/studio-waters-cover.webp";
 import motiCard from "@/assets/moti-card-poster.webp";
 import motiCardVideo from "@/assets/moti-card.mp4";
+import calmmouseCardPoster from "@/assets/calmmouse-card-poster.webp";
+import calmmouseCardVideo from "@/assets/calmmouse-card.mp4";
 import inkworkCard from "@/assets/inkwork-card.webp";
 import inkworkCardVideo from "@/assets/inkwork-card.mp4";
 import zeatCard from "@/assets/zeat-hero.webp";
@@ -114,6 +116,20 @@ export const aiProjects = [
     sectionHero: true,
     tag: "Industrial Design",
     details: "An underwater drone for ghost gear recovery, designed solo across the vehicle, the airbag capture mechanism, the control system, and the Neptune Net dispatch platform.\n\nA resolved concept: modeled and rendered, never physically prototyped.",
+  },
+  {
+    id: "calmmouse",
+    title: "CalmMouse",
+    description: "A macOS menu-bar app that stops the Magic Mouse from scrolling every time you click — the fix Apple never shipped.",
+    role: "Designer + Builder",
+    year: "2026",
+    coverImage: calmmouseCardPoster,
+    coverAspect: "1280/720",
+    // The hero loop: the site's mouse with its tap ripple, a punch into the
+    // Without/With demo, and a pull back wide. Poster is the loop's first frame.
+    coverVideo: calmmouseCardVideo,
+    builtWith: "Claude Code",
+    details: "A signed, notarized, self-updating native macOS app — free and open source.\n\nThe design problem underneath: a product that succeeds when you notice nothing.",
   },
   {
     id: "inkwork",
