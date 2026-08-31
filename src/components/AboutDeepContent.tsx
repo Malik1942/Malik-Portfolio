@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import { AnimatePresence, motion, useInView } from "framer-motion";
-import { ArrowLeft, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { useState, useRef, useEffect, useCallback, useId } from "react";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
+import { ArrowLeft, ChevronLeft, ChevronRight, Linkedin, Mail, X, type LucideIcon } from "lucide-react";
 import Footer from "@/components/Footer";
+import BoulderWall from "@/components/BoulderWall";
 import {
   AboutEditorialSection,
   aboutEditorialItemVariants,
@@ -571,6 +572,259 @@ const DailyTag = ({ label }: { label: string }) => (
   </span>
 );
 
+// ── Connect rocks ──
+// The two contact links are climbing holds drawn in an ink-sketch style:
+// paper-white fill, bold hand-drawn outline, hatch shading, and small drawn
+// bolt holes, like a route-setter's catalog sheet. Paper is the foreground
+// token and ink is the background token, so the holds are the site palette
+// inverted. When the visitor tops out any route they glow in workshop amber.
+
+const connectAmber = (alpha: number) => `hsl(var(--color-accent-workshop) / ${alpha})`;
+const rockPaper = "hsl(var(--color-text-primary))";
+const rockInk = (alpha = 1) => `hsl(var(--color-background-canvas) / ${alpha})`;
+
+const ROCK_VIEW = { w: 220, h: 124 };
+
+interface SketchRock {
+  /** Silhouette — many short curve segments so the edge bumps and dents like a drawn line. */
+  path: string;
+  /** Hatch strokes on the shadow side: short curved groups that follow the form. */
+  hatch: string;
+  /** Interior form lines (lip, ridge, volume), drawn at near-full ink. */
+  detail: string;
+  /** Drawn bolt holes: ring + center dot. */
+  bolts: [number, number][];
+  /** Optional finger pocket, drawn as a hatched ring. */
+  pocket?: { x: number; y: number; r: number };
+  /** Hand-placed tilt so the pair reads as scattered catalog pieces. */
+  tilt: number;
+  /** Nudge the label into the meat of the shape. */
+  labelDx: number;
+  labelDy: number;
+}
+
+const SKETCH_ROCKS: SketchRock[] = [
+  {
+    // Organic jug: an uneven, lumpy perimeter with no straight runs anywhere.
+    path:
+      "M9 62 C8 53 17 43 27 36 C36 29 52 25 65 20 C79 15 96 7 110 7 C124 6 138 14 152 18 C165 23 182 27 190 34 C198 41 201 53 200 62 C199 71 191 78 184 86 C177 93 169 103 157 109 C145 114 126 118 110 119 C94 120 75 118 62 113 C49 108 40 97 31 89 C22 80 10 71 9 62 Z",
+    hatch:
+      "M191 55 L207 58 M191 65 L205 69 M187 73 L199 79 M180 81 L189 87 M173 88 L182 97 M164 96 L170 106 M153 104 L155 114 M137 109 L136 119 M121 112 L117 122 M106 113 L98 123 M90 113 L79 121 M73 110 L59 117 M59 103 L44 108 M48 95 L32 98 M35 38 L17 37 M50 30 L33 27 M67 25 L53 20",
+    detail:
+      "M56 100 c16 -9 38 -11 55 -4 M24 52 c5 -10 14 -17 26 -22 M186 42 c8 6 12 13 14 21",
+    bolts: [
+      [58, 36],
+      [162, 92],
+    ],
+    tilt: -2,
+    labelDx: 0,
+    labelDy: 0,
+  },
+  {
+    // Organic pinch: same flowing language, different lumps and a low pocket.
+    path:
+      "M18 62 C19 53 27 42 34 34 C42 26 49 16 62 12 C75 7 94 8 110 9 C126 11 145 15 157 19 C169 24 175 28 183 35 C191 42 206 53 207 62 C208 71 196 81 187 87 C178 94 165 97 152 102 C139 106 124 113 110 115 C96 116 79 116 65 112 C51 108 33 97 25 89 C17 81 16 71 18 62 Z",
+    hatch:
+      "M196 65 L211 70 M191 74 L203 80 M183 82 L193 89 M173 89 L181 96 M162 94 L166 102 M149 97 L152 106 M137 103 L137 112 M124 107 L120 117 M108 110 L101 119 M92 110 L82 119 M78 109 L66 116 M64 105 L49 110 M50 97 L33 101 M38 89 L19 91 M36 44 L19 44 M45 32 L30 30 M56 22 L42 18",
+    detail: "M58 28 c12 -6 26 -9 40 -9 M186 46 c6 5 10 12 11 19",
+    bolts: [
+      [104, 32],
+      [166, 86],
+    ],
+    pocket: { x: 54, y: 88, r: 7.5 },
+    tilt: 1.6,
+    labelDx: 0,
+    labelDy: 0,
+  },
+];
+
+const BoltHole = ({ x, y }: { x: number; y: number }) => (
+  <g aria-hidden="true">
+    <circle cx={x} cy={y} r={3.4} fill="none" stroke={rockInk()} strokeWidth={1.4} />
+    <circle cx={x} cy={y} r={1.1} fill={rockInk()} />
+  </g>
+);
+
+const ConnectRock = ({
+  href,
+  label,
+  icon: Icon,
+  lit,
+  delay,
+  shape,
+  external,
+}: {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+  lit: boolean;
+  delay: number;
+  shape: 0 | 1;
+  external?: boolean;
+}) => {
+  const reducedMotion = useReducedMotion();
+  const uid = useId().replace(/:/g, "");
+  const rock = SKETCH_ROCKS[shape];
+  const clipId = `rock-clip-${uid}`;
+  // The top-out pop is a one-shot. Parking its keyframes in `animate` for as
+  // long as the rock is lit makes framer replay the whole run every time the
+  // cursor *leaves*, so it settles to a static pose once the pop has played.
+  const [celebrating, setCelebrating] = useState(false);
+
+  useEffect(() => {
+    if (!lit || reducedMotion) {
+      setCelebrating(false);
+      return;
+    }
+    setCelebrating(true);
+    const timer = window.setTimeout(() => setCelebrating(false), (delay + 0.9) * 1000 + 80);
+    return () => window.clearTimeout(timer);
+  }, [lit, delay, reducedMotion]);
+
+  return (
+    <motion.a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className="group relative block w-[150px] md:w-[214px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-[52px]"
+      style={{ aspectRatio: `${ROCK_VIEW.w} / ${ROCK_VIEW.h}` }}
+      animate={
+        celebrating
+          ? { scale: [1, 1.16, 0.96, 1.06, 1], rotate: [0, -4, 3, -1.5, 0] }
+          : { scale: 1, rotate: 0 }
+      }
+      // The bounce belongs on the way in. Hover carries its own springy
+      // transition so it never inherits the pop's long duration and stagger.
+      whileHover={
+        reducedMotion
+          ? { scale: 1.02, transition: { duration: 0.15 } }
+          : {
+              scale: 1.06,
+              transition: { type: "spring", stiffness: 520, damping: 12, mass: 0.6 },
+            }
+      }
+      transition={
+        celebrating
+          ? { duration: 0.9, delay, ease: easeOutExpo }
+          : { type: "spring", stiffness: 380, damping: 30, mass: 0.6 }
+      }
+    >
+      <div
+        className="absolute inset-0"
+        style={{ transform: `rotate(${rock.tilt}deg)` }}
+      >
+        <svg
+          viewBox={`0 0 ${ROCK_VIEW.w} ${ROCK_VIEW.h}`}
+          className="absolute inset-0 h-full w-full overflow-visible"
+          style={{
+            filter: lit
+              ? `drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35)) drop-shadow(0 0 22px ${connectAmber(0.4)})`
+              : "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35))",
+            transition: "filter 0.7s ease",
+          }}
+          aria-hidden="true"
+        >
+          <defs>
+            <clipPath id={clipId}>
+              <path d={rock.path} />
+            </clipPath>
+          </defs>
+
+          {/* Paper body */}
+          <path d={rock.path} fill={rockPaper} />
+
+          {/* Ink work, clipped to the silhouette so the outline's full weight
+              lands on the paper instead of vanishing into the dark page */}
+          <g clipPath={`url(#${clipId})`}>
+            <path
+              d={rock.hatch}
+              fill="none"
+              stroke={rockInk(0.75)}
+              strokeWidth={1.5}
+              strokeLinecap="round"
+            />
+            <path
+              d={rock.detail}
+              fill="none"
+              stroke={rockInk(0.85)}
+              strokeWidth={1.5}
+              strokeLinecap="round"
+            />
+            <path
+              d={rock.path}
+              fill="none"
+              stroke={rockInk()}
+              strokeWidth={7}
+              strokeLinejoin="round"
+            />
+            {/* A second, slightly diverging pass makes the line weight vary
+                like a pen that went around twice */}
+            <path
+              d={rock.path}
+              fill="none"
+              stroke={rockInk(0.55)}
+              strokeWidth={1.8}
+              strokeLinejoin="round"
+              transform={`rotate(0.7 ${ROCK_VIEW.w / 2} ${ROCK_VIEW.h / 2}) translate(1.4 -1)`}
+            />
+          </g>
+
+          {rock.pocket && (
+            <g>
+              <circle
+                cx={rock.pocket.x}
+                cy={rock.pocket.y}
+                r={rock.pocket.r}
+                fill="none"
+                stroke={rockInk()}
+                strokeWidth={2.4}
+              />
+              <path
+                d={`M${rock.pocket.x - 5} ${rock.pocket.y - 2} l7 7 M${rock.pocket.x - 3} ${rock.pocket.y - 6} l8 8`}
+                fill="none"
+                stroke={rockInk(0.7)}
+                strokeWidth={1.3}
+                strokeLinecap="round"
+              />
+            </g>
+          )}
+
+          {rock.bolts.map(([x, y]) => (
+            <BoltHole key={`${x}-${y}`} x={x} y={y} />
+          ))}
+
+          {/* Top-out celebration: an amber pen line traces the silhouette… */}
+          <motion.path
+            d={rock.path}
+            fill="none"
+            stroke={connectAmber(0.9)}
+            strokeWidth={2.2}
+            strokeLinejoin="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={lit ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
+            transition={
+              reducedMotion
+                ? { duration: 0 }
+                : { duration: 0.9, delay: delay + 0.3, ease: "easeInOut" }
+            }
+          />
+
+        </svg>
+
+        <span
+          className="absolute inset-0 flex items-center justify-center gap-2 md:gap-2.5 text-caption md:text-sm font-medium"
+          style={{
+            color: rockInk(0.9),
+            transform: `translate(${rock.labelDx}px, ${rock.labelDy}px)`,
+          }}
+        >
+          <Icon className="h-4 w-4 md:h-[18px] md:w-[18px]" aria-hidden="true" />
+          {label}
+        </span>
+      </div>
+    </motion.a>
+  );
+};
+
 // ── Main component ──
 const AboutDeepContent = ({
   isVisible,
@@ -583,16 +837,19 @@ const AboutDeepContent = ({
   onBack?: () => void;
 }) => {
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
+  const [toppedOut, setToppedOut] = useState(false);
   const photoSectionRef = useRef<HTMLElement>(null);
   const lifeSectionRef = useRef<HTMLElement>(null);
   const movementSectionRef = useRef<HTMLElement>(null);
   const dailySectionRef = useRef<HTMLElement>(null);
+  const connectSectionRef = useRef<HTMLElement>(null);
 
   const inViewOpts = { once: true, margin: "0px 0px -6% 0px" as const, amount: 0.15 as const };
   const photoInView = useInView(photoSectionRef, inViewOpts);
   const lifeInView = useInView(lifeSectionRef, inViewOpts);
   const movementInView = useInView(movementSectionRef, inViewOpts);
   const dailyInView = useInView(dailySectionRef, inViewOpts);
+  const connectInView = useInView(connectSectionRef, inViewOpts);
 
   if (!isVisible) return null;
 
@@ -703,7 +960,6 @@ const AboutDeepContent = ({
             sectionRef={dailySectionRef}
             inView={dailyInView}
             rowCrossAlign="center"
-            compactBottom
             eyebrow="Daily Life"
             title="Outside the studio"
             description="The rituals, media, and motion that keep thinking grounded — nothing performative, just what actually shows up."
@@ -717,6 +973,44 @@ const AboutDeepContent = ({
               {DAILY_ITEMS.map((item) => (
                 <DailyTag key={item} label={item} />
               ))}
+            </motion.div>
+          </AboutEditorialSection>
+
+          {/* ── Connect ── */}
+          <AboutEditorialSection
+            sectionRef={connectSectionRef}
+            inView={connectInView}
+            compactBottom
+            eyebrow="Connect"
+            title="Coffee or a climb?"
+            description="I'm in Seattle and easy to reach. If you want to talk design, AI, or whatever you're building, the invitation is open: an espresso, a bouldering session, or a plain email."
+          >
+            <motion.div
+              className="min-w-0 flex-1 w-full flex flex-col items-start gap-6"
+              variants={aboutEditorialTextVariants}
+              initial="hidden"
+              animate={connectInView ? "show" : "hidden"}
+            >
+              <BoulderWall onTopOut={() => setToppedOut(true)} />
+              <div className="flex w-full flex-wrap items-center justify-end gap-4 md:gap-6">
+                <ConnectRock
+                  href="mailto:malikzhang19@gmail.com"
+                  label="Email me"
+                  icon={Mail}
+                  lit={toppedOut}
+                  delay={0}
+                  shape={0}
+                />
+                <ConnectRock
+                  href="https://www.linkedin.com/in/malik-zhang"
+                  label="LinkedIn"
+                  icon={Linkedin}
+                  lit={toppedOut}
+                  delay={0.12}
+                  shape={1}
+                  external
+                />
+              </div>
             </motion.div>
           </AboutEditorialSection>
 
