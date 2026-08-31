@@ -1,6 +1,12 @@
 import type { ProjectDetailDocument } from "@/types/projectDetail";
 import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
 import auraCover from "@/assets/aura-cover.webp";
+import calmmouseHeroStill from "@/assets/calmmouse-hero-still.webp";
+import calmmouseHeroFilm from "@/assets/calmmouse-hero.mp4";
+import calmmouseHeroPoster from "@/assets/calmmouse-hero-poster.webp";
+import calmmouseSettings from "@/assets/calmmouse-settings.webp";
+import calmmousePresets from "@/assets/calmmouse-presets.webp";
+import calmmouseWelcome from "@/assets/calmmouse-welcome.webp";
 import studioWatersCover from "@/assets/studio-waters-cover.webp";
 import studioWatersDemo from "@/assets/studio-waters-demo.mp4";
 import auraDetail1 from "@/assets/aura-detail-1.webp";
@@ -628,6 +634,73 @@ const studiowaters: ProjectDetailDocument = {
   ],
 };
 
+// CalmMouse: a native macOS Magic Mouse utility, designed/built/shipped solo.
+const calmmouse: ProjectDetailDocument = {
+  slug: "calmmouse",
+  listSection: WORKSHOP_SECTION_LABEL,
+  title: "CalmMouse",
+  heroSummary: "A macOS App That Stops the Magic Mouse From Scrolling Every Time You Click.",
+  heroSubtitle: "Designed, Built, and Shipped Solo · Signed & Notarized · Free and Open Source on GitHub.",
+  heroImage: calmmouseHeroStill,
+  heroImageFit: "natural",
+  metaCards: [
+    { label: "Role", value: "Design · Build · Ship (Solo)" },
+    { label: "Timeline", value: "Summer 2026" },
+    { label: "Stack", value: "Swift · SwiftUI · CGEventTap" },
+    { label: "Output", value: "Notarized macOS App · In-App Updates · 99 Tests" },
+  ],
+  sections: [
+    {
+      id: "intro",
+      label: "Intro",
+      headline: "The Problem Ships With the Mouse",
+      showProjectMeta: true,
+      afterMetaModule: "calmmouse-visit",
+      figures: [
+        { type: "video", src: calmmouseHeroFilm, poster: calmmouseHeroPoster },
+      ],
+      body: "**The Magic Mouse's whole top shell is a touch surface — and it stays live while you click. Every click is also a tiny swipe, and the page jumps.**\n\n[[fig:0]]\n\nmacOS has no setting for this; the only existing fix is an undocumented preference inside a paid, do-everything app. So the checkbox became a product — a small menu-bar app, built with Claude Code.\n\n[[module:calmmouse-demo]]\n\n**CalmMouse succeeds when you notice nothing. This case study is about designing a product whose best outcome is invisible.**",
+    },
+    {
+      id: "fixes",
+      label: "The Fixes",
+      headline: "One Checkbox, Then the Rest of the Rough Edges",
+      figures: [
+        { type: "image", src: calmmouseSettings, alt: "CalmMouse settings window, General tab" },
+      ],
+      body: "Everything applies only to the Magic Mouse — the app identifies the physical device behind every event, so the trackpad passes through untouched.\n\n[[module:calmmouse-fixes]]\n\n[[fig:0]]",
+    },
+    {
+      id: "absence",
+      label: "Designing for Absence",
+      headline: "Making an Invisible Fix Visible",
+      figures: [
+        { type: "image", src: calmmouseWelcome, alt: "The welcome tour's preset step: Just fix clicking, Extra steady, Trackpad feel" },
+        { type: "image", src: calmmousePresets, alt: "The Presets tab: three built-in starting points and a field to save your own" },
+      ],
+      body: "If the product works, nothing happens. That's a demo problem, an onboarding problem, and a settings problem — each got its own answer.\n\n[[module:calmmouse-absence]]\n\n[[fig:0]]\n\n[[fig:1]]",
+    },
+    {
+      id: "milliseconds",
+      label: "Milliseconds",
+      headline: "Interaction Design at 200 Milliseconds",
+      body: "The other half of the design work lives below the UI, in the timing of events.\n\n[[module:calmmouse-milliseconds]]\n\n**Same craft as easing curves and touch targets — just lower in the stack, where the unit is the millisecond instead of the pixel.**",
+    },
+    {
+      id: "shipping",
+      label: "Shipping",
+      headline: "Shipping Like It's a Real Product",
+      body: "A utility that runs with Accessibility access has to earn trust the way real software does.\n\n[[module:calmmouse-shipping]]\n\n**Open source on GitHub, with 99 tests that run without a device or a permission grant.**",
+    },
+    {
+      id: "reflection",
+      label: "Reflection",
+      headline: "What Absence Taught Me",
+      body: "## Features Compound Inside One Process\n\nTap-to-click exists in other apps. But because CalmMouse already runs the scroll state machine, taps can be vetoed by real scrolling and physical clicks — which standalone tap apps literally cannot see. The second feature was better because the first one was there.\n\n## The Metric Measures Nothing Happening\n\nThe app counts every event it swallows. After a few weeks of daily use, that counter is the honest success metric: thousands of page jumps that didn't happen, one at a time, unnoticed — which was the whole point.\n\n[[module:calmmouse-cta]]",
+    },
+  ],
+};
+
 // Inkwork building story. The rich section blocks live in
 // ./InkworkModules.tsx and render via the [[module:inkwork-*]] refs.
 const inkwork: ProjectDetailDocument = {
@@ -899,6 +972,7 @@ const ranger: ProjectDetailDocument = {
 
 const PROJECT_DETAILS: Record<string, ProjectDetailDocument> = {
   moti,
+  calmmouse,
   inkwork,
   zeat,
   ranger,
