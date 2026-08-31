@@ -170,7 +170,14 @@ export const aiProjects = [
 ];
 
 // aboutOpen: the /about route renders the same page with the About view open on arrival.
-const Index = ({ aboutOpen = false }: { aboutOpen?: boolean }) => {
+// aboutSection: /about/<section> additionally lands on that section, e.g. "connect".
+const Index = ({
+  aboutOpen = false,
+  aboutSection,
+}: {
+  aboutOpen?: boolean;
+  aboutSection?: string;
+}) => {
   const [isAboutOpen, setIsAboutOpen] = useState(aboutOpen);
   const location = useLocation();
   const navigate = useNavigate();
@@ -192,6 +199,22 @@ const Index = ({ aboutOpen = false }: { aboutOpen?: boolean }) => {
       });
     }
   }, [location.state]);
+
+  // Deep-linked /about/<section>: the About view is already open on first paint,
+  // so wait past App's ScrollToTop and layout, then use the same section-nav
+  // scroll the header uses. AboutDeepContent force-reveals the target section so
+  // the scroll cannot land on it mid-entrance.
+  useEffect(() => {
+    if (!aboutSection) return;
+    let inner = 0;
+    const outer = requestAnimationFrame(() => {
+      inner = requestAnimationFrame(() => scrollToSectionNavTarget(aboutSection));
+    });
+    return () => {
+      cancelAnimationFrame(outer);
+      cancelAnimationFrame(inner);
+    };
+  }, [aboutSection]);
 
   // Close the About overlay (if open) and scroll to a homepage section. Works
   // from both the plain hero and the About view — the header nav uses it so the
@@ -238,7 +261,12 @@ const Index = ({ aboutOpen = false }: { aboutOpen?: boolean }) => {
 
       {/* About deep content — below hero, only when about is open */}
       {isAboutOpen && (
-        <AboutDeepContent isVisible={isAboutOpen} onMainProjectsClick={navigateToMainProjects} onBack={closeAbout} />
+        <AboutDeepContent
+          isVisible={isAboutOpen}
+          onMainProjectsClick={navigateToMainProjects}
+          onBack={closeAbout}
+          deepLinkSection={aboutSection}
+        />
       )}
 
       {/* Regular portfolio content — hidden when about is open */}

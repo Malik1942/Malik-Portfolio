@@ -32,6 +32,10 @@ function AnimatedRoutes() {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<Index aboutOpen />} />
+          {/* Deep link straight to a section of About, e.g. /about/connect.
+              The trailing-slash twin keeps a pasted or linked URL off the 404. */}
+          <Route path="/about/connect" element={<Index aboutOpen aboutSection="connect" />} />
+          <Route path="/about/connect/" element={<Index aboutOpen aboutSection="connect" />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/design-system" element={<DesignSystem />} />
