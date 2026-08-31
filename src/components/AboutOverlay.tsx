@@ -213,7 +213,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.4, delay: 1.1, ease: "easeOut" }}
             >
-              <Portrait className="w-32 h-40 sm:w-44 sm:h-56 md:w-60 md:h-72" />
+              <Portrait className="w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72" />
             </motion.div>
           </motion.button>
         </div>
