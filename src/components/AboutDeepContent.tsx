@@ -830,9 +830,12 @@ const AboutDeepContent = ({
   isVisible,
   onMainProjectsClick,
   onBack,
+  deepLinkSection,
 }: {
   isVisible: boolean;
   onMainProjectsClick?: () => void;
+  /** Section id the URL landed on, e.g. "connect" for /about/connect. */
+  deepLinkSection?: string;
   /** Returns to the homepage hero — mirrors the case studies' bottom exit. */
   onBack?: () => void;
 }) => {
@@ -849,7 +852,10 @@ const AboutDeepContent = ({
   const lifeInView = useInView(lifeSectionRef, inViewOpts);
   const movementInView = useInView(movementSectionRef, inViewOpts);
   const dailyInView = useInView(dailySectionRef, inViewOpts);
-  const connectInView = useInView(connectSectionRef, inViewOpts);
+  const connectObserved = useInView(connectSectionRef, inViewOpts);
+  // A deep link scrolls straight here, which outruns the in-view entrance and
+  // would otherwise land the visitor on a section still at opacity 0.
+  const connectInView = connectObserved || deepLinkSection === "connect";
 
   if (!isVisible) return null;
 
@@ -978,6 +984,7 @@ const AboutDeepContent = ({
 
           {/* ── Connect ── */}
           <AboutEditorialSection
+            id="connect"
             sectionRef={connectSectionRef}
             inView={connectInView}
             compactBottom

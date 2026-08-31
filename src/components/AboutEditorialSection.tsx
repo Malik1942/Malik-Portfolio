@@ -61,6 +61,8 @@ const descriptionClass =
 
 export type AboutEditorialSectionProps = {
   sectionRef?: RefObject<HTMLElement | null>;
+  /** Anchor for deep links, e.g. /about/connect finds `id="connect"`. */
+  id?: string;
   inView: boolean;
   /** Small caps label (e.g. Photography, Movement) */
   eyebrow: string;
@@ -77,6 +79,7 @@ export type AboutEditorialSectionProps = {
 
 export function AboutEditorialSection({
   sectionRef,
+  id,
   inView,
   eyebrow,
   title,
@@ -90,11 +93,12 @@ export function AboutEditorialSection({
   const marginClass = compactBottom ? outerSectionMarginCompact : outerSectionMarginDefault;
 
   return (
-    <section ref={sectionRef} className={`${outerSectionBase} ${marginClass}`}>
+    <section id={id} ref={sectionRef} className={`${outerSectionBase} ${marginClass}`}>
       <div className={innerMaxClass}>
         <div className={rowClass}>
           <motion.div
             className={leftColClass}
+            data-section-header={id ? "true" : undefined}
             variants={aboutEditorialTextVariants}
             initial="hidden"
             animate={inView ? "show" : "hidden"}
