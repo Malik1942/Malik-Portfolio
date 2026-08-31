@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { Volume2, VolumeX } from "lucide-react";
+import {
+  isBoulderSoundEnabled,
+  playBoulderSound,
+  setBoulderSoundEnabled,
+} from "@/lib/boulderSound";
 import {
   DESKTOP_WALL,
   MOBILE_WALL,
@@ -193,6 +199,7 @@ const WallGame = ({
   const [outOfReach, setOutOfReach] = useState<{ route: RouteId; hold: string } | null>(null);
   const [fallingRoute, setFallingRoute] = useState<RouteId | null>(null);
   const [fallCount, setFallCount] = useState(0);
+  const [soundOn, setSoundOn] = useState(() => isBoulderSoundEnabled());
   const shakeTimerRef = useRef<number | null>(null);
   const fallTimerRef = useRef<number | null>(null);
   const toppedRef = useRef(false);
@@ -222,6 +229,7 @@ const WallGame = ({
         [route.id]: path.slice(0, litIndex === path.length - 1 ? -1 : litIndex + 1),
       });
       setOutOfReach(null);
+      playBoulderSound("down", Math.max(0, litIndex - 1));
       return;
     }
 
@@ -233,8 +241,10 @@ const WallGame = ({
       const nextPath = [...path, hold.id];
       setProgress({ ...progress, [route.id]: nextPath });
       setOutOfReach(null);
+      if (!hold.top) playBoulderSound("step", nextPath.length - 2);
 
       if (hold.top) {
+        playBoulderSound("send");
         if (!toppedRef.current) {
           toppedRef.current = true;
           onTopOut?.();
@@ -246,6 +256,7 @@ const WallGame = ({
       if (nextPath.length - 1 >= routeBudget(route)) {
         setFallingRoute(route.id);
         setFallCount((count) => count + 1);
+        playBoulderSound("fall", nextPath.length - 2);
         if (fallTimerRef.current !== null) window.clearTimeout(fallTimerRef.current);
         fallTimerRef.current = window.setTimeout(() => {
           setProgress((current) => ({ ...current, [route.id]: [startHold(route).id] }));
@@ -256,11 +267,13 @@ const WallGame = ({
     }
 
     setOutOfReach({ route: route.id, hold: hold.id });
+    playBoulderSound("reject");
     if (shakeTimerRef.current !== null) window.clearTimeout(shakeTimerRef.current);
     shakeTimerRef.current = window.setTimeout(() => setOutOfReach(null), 1200);
   };
 
   const reset = () => {
+    playBoulderSound("brush");
     setProgress(freshProgress(layout));
     setActiveId(null);
     setOutOfReach(null);
@@ -540,6 +553,26 @@ const WallGame = ({
               Brush it off
             </button>
           )}
+          <button
+            type="button"
+            onClick={() => {
+              const next = !soundOn;
+              setSoundOn(next);
+              setBoulderSoundEnabled(next);
+              // Confirm the choice in the medium being switched on.
+              if (next) playBoulderSound("step", 2);
+            }}
+            aria-pressed={soundOn}
+            aria-label={soundOn ? "Mute wall sound" : "Unmute wall sound"}
+            title={soundOn ? "Mute wall sound" : "Unmute wall sound"}
+            className="flex items-center text-foreground/40 hover:text-foreground transition-colors duration-300"
+          >
+            {soundOn ? (
+              <Volume2 className="h-3.5 w-3.5" aria-hidden="true" />
+            ) : (
+              <VolumeX className="h-3.5 w-3.5" aria-hidden="true" />
+            )}
+          </button>
         </div>
       </div>
     </div>
