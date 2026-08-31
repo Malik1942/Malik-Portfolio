@@ -1,7 +1,7 @@
 import type { ProjectDetailDocument } from "@/types/projectDetail";
 import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
 import auraCover from "@/assets/aura-cover.webp";
-import calmmouseCard from "@/assets/calmmouse-card.webp";
+import calmmouseHeroStill from "@/assets/calmmouse-hero-still.webp";
 import calmmouseHeroFilm from "@/assets/calmmouse-hero.mp4";
 import calmmouseHeroPoster from "@/assets/calmmouse-hero-poster.webp";
 import calmmouseSettings from "@/assets/calmmouse-settings.webp";
@@ -641,7 +641,7 @@ const calmmouse: ProjectDetailDocument = {
   title: "CalmMouse",
   heroSummary: "A macOS App That Stops the Magic Mouse From Scrolling Every Time You Click.",
   heroSubtitle: "Designed, Built, and Shipped Solo · Signed & Notarized · Free and Open Source on GitHub.",
-  heroImage: calmmouseCard,
+  heroImage: calmmouseHeroStill,
   heroImageFit: "natural",
   metaCards: [
     { label: "Role", value: "Design · Build · Ship (Solo)" },
