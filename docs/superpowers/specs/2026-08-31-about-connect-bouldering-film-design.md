@@ -22,10 +22,10 @@ film must call the third route V4 rather than V5.
   visible when the story needs context.
 - First three seconds: gameplay is already moving. Do not spend the hook on a
   logo or explanatory card.
-- Pointer: use one pointer contract for the entire film. Prefer a hidden OS
-  cursor during capture plus the product-film synthetic arrow and click rings.
-  If the capture contains a real cursor, use it throughout and do not add a
-  second arrow.
+- Pointer: each version has one internally consistent contract. Version 1
+  records and uses the real OS cursor throughout. Version 2 captures without
+  the OS cursor and uses the product-film synthetic arrow and click rings.
+  Never add a second pointer to either version.
 - Product truth: preserve the live route geometry, chalk counter, status copy,
   completed route lines, V4 fall, and brush animation.
 - Native sound: preserve the game's rising pentatonic step tones, send

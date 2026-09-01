@@ -4,7 +4,7 @@
 
 **Goal:** Produce and deliver two verified 16:9 social films of Malik Zhang's live About Connect bouldering game: a simple native-screen cut and an authored product-film cut.
 
-**Architecture:** Four fresh ScreenCaptureKit takes capture V0, V2, V4, and the clean Connect state from the live website. A project-local ScreenCaptureKit recorder extends the authoritative video recorder with synchronized system audio so the browser's real Web Audio effects survive; the existing product-film tools then conform, measure, condense, composite, stitch, score, mux, verify, and audit the two edits independently.
+**Architecture:** Two isolated four-take sets capture V0, V2, V4, and the clean Connect state from the live website. Version 1 records the real cursor; Version 2 records cursor-free footage for authored pointer cues. A project-local ScreenCaptureKit recorder extends the authoritative video recorder with synchronized system audio so the browser's real Web Audio effects survive; the existing product-film tools then conform, measure, condense, composite, stitch, score, mux, verify, and audit the two edits independently.
 
 **Tech Stack:** Google Chrome, Playwright 1.59, ScreenCaptureKit, AVFoundation, Core Animation, Swift, Node.js, and `/Users/malik/Documents/Skills/product-film` at revision `ca1b7ba877d032373a93b1006ba83ea438f76af5`.
 
@@ -17,7 +17,7 @@
 - Gameplay begins inside the first three seconds.
 - Use fresh live captures and preserve the website's real route geometry, chalk counter, completion messages, V4 fall, brush animation, and game sounds.
 - Use the verified lines: V0 `a1 -> a3 -> a4 -> top`, V2 `p1 -> p3 -> p4 -> p6 -> top`, V4 pump-out `q2 -> q5 -> q3 -> q4 -> q6 -> q7`.
-- Capture without the OS pointer. Version 1 uses the live UI response; Version 2 uses one synthetic 64 px black arrow with white outline and click rings.
+- Version 1 records and uses the real OS cursor throughout. Version 2 records without the OS cursor and uses one synthetic 64 px black arrow with white outline and click rings. Never mix pointer contracts within a version.
 - Version 1 uses native game sound only. Version 2 uses a frame-locked Tier A `apple-pulse` score beneath the native game-sound stem.
 - Keep the native step, send, fall, and brush effects louder than the score.
 - Version 2 uses desktop `FILL=1`; no browser chrome, black edge, floating card, corner, or shadow may enter the picture.
@@ -79,7 +79,10 @@ Create `capture-manifest.json` with:
   "canvas": { "width": 2560, "height": 1440, "fps": 60 },
   "sourceUrl": "https://www.malikzhang.com/about/connect",
   "browser": { "viewportWidth": 1280, "viewportHeight": 720, "deviceScaleFactor": 2 },
-  "pointer": { "recordedCursor": false, "productFilmStyle": "arrow", "sizePx": 64 },
+  "pointer": {
+    "v1": { "recordedCursor": true, "compositeStyle": "none" },
+    "v2": { "recordedCursor": false, "compositeStyle": "arrow", "sizePx": 64 }
+  },
   "takes": [
     { "id": "v0", "buttons": ["V0 hold a1", "V0 hold a3", "V0 hold a4", "V0 top hold"], "moveGapMs": 620, "postRollMs": 1800 },
     { "id": "v2", "buttons": ["V2 hold p1", "V2 hold p3", "V2 hold p4", "V2 hold p6", "V2 top hold"], "moveGapMs": 560, "postRollMs": 1800 },
@@ -116,12 +119,13 @@ Expected: exit 0; only these three files are committed.
 - Create: `projects/about-connect-film/scripts/extract-audio.swift`
 - Create: `projects/about-connect-film/scripts/audio-audit.swift`
 - Modify: `projects/about-connect-film/README.md`
-- Generate: `projects/about-connect-film/artifacts/takes/*.mov`
+- Generate: `projects/about-connect-film/artifacts/takes/v1-*.mov`
+- Generate: `projects/about-connect-film/artifacts/takes/v2-*.mov`
 - Generate: `projects/about-connect-film/artifacts/source-audio/*.m4a`
 
 **Interfaces:**
 - Consumes: a take id from `capture-manifest.json`.
-- Produces: one 2560 x 1440 H.264 video track, synchronized 48 kHz stereo AAC, control geometry, and an audit per take.
+- Produces: eight captures, each with one 2560 x 1440 H.264 video track, synchronized 48 kHz stereo AAC, control geometry, and an audit.
 
 - [ ] **Step 1: Implement the synchronized recorder**
 
@@ -147,11 +151,11 @@ Create a real-time audio writer input. Route `.screen` and `.audio` buffers thro
 
 Use the installed Playwright Chrome channel with a fresh profile, viewport 1280 x 720, device scale factor 2, sound enabled, and the exact live URL. Wait for `document.fonts.ready`, scroll `Coffee or a climb?` into view, and assert all route buttons, `Mute wall sound`, `Email me`, and `LinkedIn` are visible.
 
-For route takes, wait 1.5 seconds, click each exact accessible button from the manifest, and wait `moveGapMs`. Record every button center in viewport pixels and normalized fractions plus `performance.now()`. Assert `flashed` for V0/V2 and `Pumped out on V4` for V4. Keep Chrome still through `postRollMs`. For `connect`, hold five seconds without interaction. Print one JSON line with the global content rect, controls, click times, status, and take id.
+For route takes, accept a version plus take id, wait 1.5 seconds, click each exact accessible button from the manifest, and wait `moveGapMs`. Record every button center in viewport pixels and normalized fractions plus `performance.now()`. Assert `flashed` for V0/V2 and `Pumped out on V4` for V4. Keep Chrome still through `postRollMs`. For `connect`, hold five seconds without interaction. Print one JSON line with the version, global content rect, controls, click times, status, and take id.
 
 - [ ] **Step 3: Implement audio extraction and audit**
 
-The exact proof invocation `extract-audio proof.mov proof.m4a` copies the full audio time range into a zero-based AVMutableComposition and exports 48 kHz stereo AAC; production repeats it with the four explicit take names from the manifest.
+The exact proof invocation `extract-audio proof.mov proof.m4a` copies the full audio time range into a zero-based AVMutableComposition and exports 48 kHz stereo AAC; production repeats it with the eight version-prefixed take names.
 
 The exact proof invocation `audio-audit proof.mov 1.0 3.0` prints:
 
@@ -173,9 +177,9 @@ node --check projects/about-connect-film/capture-route.mjs
 
 Stage V0, record through two moves, stop with SIGINT, and audit both the capture and extracted AAC. Expected: one video track, one audible 48 kHz stereo track, energy in the click window, 2560 x 1440 cursor-free picture, and only the intended page region. If macOS blocks system audio, stop and request Screen Recording and System Audio permission; do not silently replace the sound.
 
-- [ ] **Step 5: Capture all four takes**
+- [ ] **Step 5: Capture both four-take sets**
 
-Capture `v0`, `v2`, `v4`, and `connect` as fresh sessions. Before each, inspect a passive still of the exact rect. Reject browser chrome, Codex UI, another window, permission prompts, duplicate pointers, wrong route state, or muted wall sound. Extract and audit each audio stem. V0 must contain four moves and a send; V2 five moves and a send; V4 six moves plus fall/brush; Connect must be clean and quiet.
+Capture `v1-v0`, `v1-v2`, `v1-v4`, and `v1-connect` with `SHOWCURSOR=1`. Capture `v2-v0`, `v2-v2`, `v2-v4`, and `v2-connect` without `SHOWCURSOR`. Every capture is a fresh session. Before each, inspect a passive still of the exact rect. Reject browser chrome, Codex UI, another window, permission prompts, duplicate pointers, wrong route state, or muted wall sound. Extract and audit each audio stem. Each V0 must contain four moves and a send; each V2 five moves and a send; each V4 six moves plus fall/brush; each Connect take must be clean and quiet.
 
 - [ ] **Step 6: Commit capture tooling only**
 
@@ -191,24 +195,24 @@ Run `git diff --check` and commit only the four source files and README with `fe
 - Generate: `projects/about-connect-film/artifacts/scans/*`
 
 **Interfaces:**
-- Consumes: four raw takes and source-audio stems.
+- Consumes: eight raw takes and source-audio stems.
 - Produces: CFR 60 pictures and one numeric manifest driving both picture and audio edits.
 
 - [ ] **Step 1: Conform every picture before measurement**
 
 ```bash
-for id in v0 v2 v4 connect; do
+for id in v1-v0 v1-v2 v1-v4 v1-connect v2-v0 v2-v2 v2-v4 v2-connect; do
   swift /Users/malik/Documents/Skills/product-film/scripts/conform.swift \
     "projects/about-connect-film/artifacts/takes/$id.mov" \
     "projects/about-connect-film/artifacts/cfr/$id.mp4" 60
 done
 ```
 
-Expected: four 2560 x 1440 CFR 60 files with uniform 1/60-second spacing.
+Expected: eight 2560 x 1440 CFR 60 files with uniform 1/60-second spacing.
 
 - [ ] **Step 2: Frame-scan and diffscan every source**
 
-Run `scan.swift` at 0.20-second steps and `diffscan2.swift` at 0.05-second steps with threshold 1.2 for all sources. Save contact sheets and logs under `artifacts/scans/`. Inspect one raw frame per source. Identify the stable lead, every response frame, send/fall onset, complete animation end, and at least a 0.8-second readable outcome hold.
+Run `scan.swift` at 0.20-second steps and `diffscan2.swift` at 0.05-second steps with threshold 1.2 for all eight sources. Save contact sheets and logs under `artifacts/scans/`. Inspect one raw frame per source. Identify the stable lead, every response frame, send/fall onset, complete animation end, and at least a 0.8-second readable outcome hold. Verify a real cursor in every Version 1 route frame and no recorded cursor in every Version 2 route frame.
 
 - [ ] **Step 3: Write the numeric edit manifest**
 
@@ -218,10 +222,14 @@ Use this schema, replacing all initial zero values and empty arrays with measure
 {
   "fps": 60,
   "sources": {
-    "v0": { "video": "artifacts/cfr/v0.mp4", "audio": "artifacts/source-audio/v0.m4a", "trimStart": 0.0, "trimEnd": 0.0, "responses": [], "controls": [] },
-    "v2": { "video": "artifacts/cfr/v2.mp4", "audio": "artifacts/source-audio/v2.m4a", "trimStart": 0.0, "trimEnd": 0.0, "responses": [], "controls": [] },
-    "v4": { "video": "artifacts/cfr/v4.mp4", "audio": "artifacts/source-audio/v4.m4a", "trimStart": 0.0, "trimEnd": 0.0, "responses": [], "controls": [] },
-    "connect": { "video": "artifacts/cfr/connect.mp4", "audio": "artifacts/source-audio/connect.m4a", "trimStart": 0.0, "trimEnd": 0.0, "responses": [], "controls": [] }
+    "v1-v0": { "video": "artifacts/cfr/v1-v0.mp4", "audio": "artifacts/source-audio/v1-v0.m4a", "trimStart": 0.0, "trimEnd": 0.0, "responses": [], "controls": [] },
+    "v1-v2": { "video": "artifacts/cfr/v1-v2.mp4", "audio": "artifacts/source-audio/v1-v2.m4a", "trimStart": 0.0, "trimEnd": 0.0, "responses": [], "controls": [] },
+    "v1-v4": { "video": "artifacts/cfr/v1-v4.mp4", "audio": "artifacts/source-audio/v1-v4.m4a", "trimStart": 0.0, "trimEnd": 0.0, "responses": [], "controls": [] },
+    "v1-connect": { "video": "artifacts/cfr/v1-connect.mp4", "audio": "artifacts/source-audio/v1-connect.m4a", "trimStart": 0.0, "trimEnd": 0.0, "responses": [], "controls": [] },
+    "v2-v0": { "video": "artifacts/cfr/v2-v0.mp4", "audio": "artifacts/source-audio/v2-v0.m4a", "trimStart": 0.0, "trimEnd": 0.0, "responses": [], "controls": [] },
+    "v2-v2": { "video": "artifacts/cfr/v2-v2.mp4", "audio": "artifacts/source-audio/v2-v2.m4a", "trimStart": 0.0, "trimEnd": 0.0, "responses": [], "controls": [] },
+    "v2-v4": { "video": "artifacts/cfr/v2-v4.mp4", "audio": "artifacts/source-audio/v2-v4.m4a", "trimStart": 0.0, "trimEnd": 0.0, "responses": [], "controls": [] },
+    "v2-connect": { "video": "artifacts/cfr/v2-connect.mp4", "audio": "artifacts/source-audio/v2-connect.m4a", "trimStart": 0.0, "trimEnd": 0.0, "responses": [], "controls": [] }
   },
   "v1": { "duration": 20.0, "clips": [] },
   "v2": { "duration": 20.5, "clips": [], "challengeCard": [6.30, 6.85], "endCard": [18.10, 20.50] }
