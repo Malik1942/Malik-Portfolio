@@ -95,22 +95,22 @@ const Footer = ({ onMainProjectsClick, onAboutClick, constrained = true, wide = 
               </li>
               <li>
                 <a
+                  href="https://github.com/Malik1942"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500"
+                >
+                  GitHub
+                </a>
+              </li>
+              <li>
+                <a
                   href="https://x.com/MalikZ1942"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500"
                 >
                   X
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://medium.com/@malikzhang19"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500"
-                >
-                  Medium
                 </a>
               </li>
             </ul>
