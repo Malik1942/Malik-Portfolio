@@ -5,7 +5,7 @@ import logo from "@/assets/logo.webp";
 import { ImageLightbox, type LightboxImage } from "@/components/project-detail/ImageLightbox";
 import { ProjectMediaFrame } from "@/components/project-detail/ProjectMediaFrame";
 import { ProjectMetadataSummary } from "@/components/project-detail/ProjectMetadataSummary";
-import { NAV_ITEMS } from "@/lib/sections";
+import { NAV_ITEMS, navItemHref } from "@/lib/sections";
 import { Specimen } from "../Specimen";
 
 interface ComponentSpecimenProps {
@@ -70,7 +70,7 @@ function LightboxStage() {
 const SITE_HEADER_DESTINATIONS: readonly [string, string][] = [
   ...NAV_ITEMS.map((item): [string, string] => [
     item.label,
-    item.kind === "section" ? `/#${item.sectionId}` : item.path,
+    navItemHref(item, "/"),
   ]),
   ["About", "/#about"],
   ["Resume", "/resume"],

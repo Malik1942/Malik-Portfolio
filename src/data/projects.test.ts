@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { MAX_SKILLS, PROJECTS, SKILLS, projectIdsWithDots, projectsInSection } from "./projects";
+import { MAX_SKILLS, PROJECTS, SKILLS, projectIdsWithDots, projectReturn, projectsInSection } from "./projects";
 import { SECTIONS, SECTION_ORDER } from "@/lib/sections";
 
 // The homepage is generated from this list, so a malformed entry is a card that
@@ -16,6 +16,12 @@ describe("homepage project list", () => {
     expect(project.skills.length).toBeLessThanOrEqual(MAX_SKILLS);
     for (const skill of project.skills) expect(SKILLS).toContain(skill);
     expect(project.destination.kind).toMatch(/^(case-study|video|external)$/);
+  });
+
+  it("returns each case study to the surface it is listed on", () => {
+    expect(projectReturn("moti")).toEqual({ to: "/", state: { scrollTo: SECTIONS.selected.id } });
+    expect(projectReturn("flowprint")).toEqual({ to: "/", state: { scrollTo: SECTIONS.more.id } });
+    expect(projectReturn("zeat")).toEqual({ to: SECTIONS.studio.path });
   });
 
   it("keeps the skill vocabulary within the cap of 12", () => {

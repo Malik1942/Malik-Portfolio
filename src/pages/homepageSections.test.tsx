@@ -3,7 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 import Index from "./Index";
-import { HOME_SECTION_ORDER, NAV_ITEMS, SECTIONS } from "@/lib/sections";
+import { FOOTER_ITEMS, HOME_SECTION_ORDER, NAV_ITEMS, SECTIONS, sectionHref } from "@/lib/sections";
 import { projectsInSection } from "@/data/projects";
 
 // jsdom ships none of the observers the hero and the cards lean on.
@@ -38,7 +38,8 @@ describe("homepage sections", () => {
     const { container } = renderHome();
     for (const item of NAV_ITEMS) {
       if (item.kind !== "section") continue;
-      expect(container.querySelector(`#${item.sectionId}`), `#${item.sectionId}`).not.toBeNull();
+      const id = SECTIONS[item.section].id;
+      expect(container.querySelector(`#${id}`), `#${id}`).not.toBeNull();
     }
   });
 
@@ -70,7 +71,17 @@ describe("homepage sections", () => {
   it("links the header to Work (a section) and Studio (a page)", () => {
     const { container } = renderHome();
     const hrefs = [...container.querySelectorAll("nav a")].map((a) => [a.textContent, a.getAttribute("href")]);
-    expect(hrefs).toContainEqual(["Work", `#${SECTIONS.selected.id}`]);
+    expect(hrefs).toContainEqual(["Work", sectionHref("selected")]);
     expect(hrefs).toContainEqual(["Studio", SECTIONS.studio.path]);
+  });
+
+  it("lists More Work in the footer so the section is reachable from chrome", () => {
+    const { container } = renderHome();
+    const footer = container.querySelector("footer")!;
+    const hrefs = [...footer.querySelectorAll("a")].map((a) => [a.textContent, a.getAttribute("href")]);
+    expect(FOOTER_ITEMS.map((item) => item.label)).toEqual(["Work", "More Work", "Studio"]);
+    expect(hrefs).toContainEqual(["Work", sectionHref("selected")]);
+    expect(hrefs).toContainEqual(["More Work", sectionHref("more")]);
+    expect(hrefs).toContainEqual(["Studio", sectionHref("studio")]);
   });
 });

@@ -279,6 +279,15 @@ export const projectsInSection = (section: SectionKey): Project[] =>
 export const getProject = (id: string): Project | undefined =>
   PROJECTS.find((project) => project.id === id);
 
+/** Where a case-study page should send the visitor when they leave it. Studio
+ *  projects go back to /studio; homepage projects scroll to their section. */
+export const projectReturn = (id: string): { to: string; state?: { scrollTo: string } } => {
+  const key = getProject(id)?.section ?? "selected";
+  const section = SECTIONS[key];
+  if (section.path !== "/") return { to: section.path };
+  return { to: "/", state: { scrollTo: section.id } };
+};
+
 /** Section eyebrow for a project, e.g. on its case-study page. Throws for an
  *  id that is not on the homepage, so a detail page can't quietly show a stale
  *  label for a project the homepage no longer lists. */

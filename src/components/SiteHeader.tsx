@@ -2,7 +2,7 @@ import { type MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Linkedin, Mail } from "lucide-react";
-import { NAV_ITEMS } from "@/lib/sections";
+import { NAV_ITEMS, SECTIONS, navItemHref } from "@/lib/sections";
 import logo from "@/assets/logo.webp";
 
 const EMAIL_HREF = "mailto:malikzhang19@gmail.com";
@@ -128,9 +128,9 @@ export function SiteHeader({
         item.kind === "section" ? (
           <a
             key={item.label}
-            href={`${hrefBase}#${item.sectionId}`}
+            href={navItemHref(item, hrefBase)}
             className={linkClass}
-            onClick={handle(() => onSection(item.sectionId))}
+            onClick={handle(() => onSection(SECTIONS[item.section].id))}
           >
             {item.label}
           </a>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { NAV_ITEMS } from "@/lib/sections";
+import { FOOTER_ITEMS, SECTIONS, navItemHref } from "@/lib/sections";
 
 interface FooterProps {
   /** A homepage section link was clicked; receives the section's DOM id. */
@@ -32,24 +32,24 @@ const Footer = ({
     <footer className={outerClass}>
       <div className={innerClass}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mb-16 md:mb-24">
-          {/* Left — Explore: mirrors the header nav (Work scrolls to the top of
-              the homepage's work sections; Studio is a page of its own), then
-              About, Resume, Design System. */}
+          {/* Left — Explore: Work, More Work, Studio, then About, Resume,
+              Design System. More Work is footer-only; the header keeps Work
+              as the umbrella over the homepage. */}
           <div>
             <span className="text-label uppercase tracking-eyebrow text-foreground/55 block mb-6">
               Explore
             </span>
             <ul className="space-y-4">
-              {NAV_ITEMS.map((item) => (
+              {FOOTER_ITEMS.map((item) => (
                 <li key={item.label}>
                   {item.kind === "section" ? (
                     <a
-                      href={`${hrefBase}#${item.sectionId}`}
+                      href={navItemHref(item, hrefBase)}
                       className={linkClass}
                       onClick={(event) => {
                         if (!onSectionClick) return;
                         event.preventDefault();
-                        onSectionClick(item.sectionId);
+                        onSectionClick(SECTIONS[item.section].id);
                       }}
                     >
                       {item.label}
