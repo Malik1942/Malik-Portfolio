@@ -1,13 +1,13 @@
-import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
+import type { SectionLabel } from "@/lib/sections";
 
 export type ProjectMetaCard = {
   label: string;
   value: string;
 };
 
-/** All valid listSection eyebrow values. "Main Projects" / "Personal Project"
- *  are Selected Work labels (untouched); Workshop is the shared constant. */
-export type ListSection = "Main Projects" | "Personal Project" | typeof WORKSHOP_SECTION_LABEL;
+/** The eyebrow on a case-study page: the label of the homepage section the
+ *  project lives in. Derived, never hand-written (see projectDetails.ts). */
+export type ListSection = SectionLabel;
 
 export type IntroContextCard = {
   title: string;
@@ -51,7 +51,7 @@ export type ProjectContentSection = {
 
 export type ProjectDetailDocument = {
   slug: string;
-  /** Shown as eyebrow — e.g. Main Projects / Workshop */
+  /** Shown as eyebrow — e.g. Selected Work / More Work / Workshop */
   listSection: ListSection;
   title: string;
   /** Short one-line subtitle shown below the hero image */

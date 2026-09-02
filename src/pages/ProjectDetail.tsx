@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ProjectDetailTemplate } from "@/components/project-detail/ProjectDetailTemplate";
 import { getProjectDetail } from "@/data/projectDetails";
 import { PageTransition } from "@/components/PageTransition";
+import { SECTIONS } from "@/lib/sections";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -45,7 +46,7 @@ const ProjectDetail = () => {
           key={project.slug}
           project={project}
           onBack={() => navigate("/")}
-          onMainProjectsClick={() => navigate("/#projects")}
+          onMainProjectsClick={() => navigate("/", { state: { scrollTo: SECTIONS.selected.id } })}
         />
       </div>
     </PageTransition>

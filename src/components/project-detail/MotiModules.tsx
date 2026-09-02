@@ -112,7 +112,7 @@ export function Chips({ items }: { items: string[] }) {
       {items.map((c) => (
         <span
           key={c}
-          className="inline-flex items-center rounded-full border border-border/50 bg-secondary/[0.08] px-3.5 py-1.5 text-xs text-foreground/72"
+          className="inline-flex items-center rounded-full border border-border/50 bg-secondary/[0.08] px-4 py-2 text-sm text-foreground/80"
         >
           {c}
         </span>
@@ -142,7 +142,9 @@ function MotiFigure({ src, alt, caption, narrow }: { src: string; alt: string; c
       <div className="overflow-hidden rounded-2xl bg-secondary/10">
         <img src={src} alt={alt} loading="lazy" decoding="async" className="w-full h-auto block" />
       </div>
-      <figcaption className="mt-3 text-xs md:text-sm text-foreground/55 leading-relaxed">
+      {/* Same caption treatment as the NeuraLyfe artifacts: body size, full
+          strength, centered under the figure. */}
+      <figcaption className="mt-5 md:mt-6 text-base md:text-xl text-foreground text-center leading-relaxed">
         {noOrphan(caption)}
       </figcaption>
     </figure>
@@ -152,7 +154,7 @@ function MotiFigure({ src, alt, caption, narrow }: { src: string; alt: string; c
 // Image + caption grid (final-artifact gallery).
 export function ArtifactGallery({ items }: { items: { src: string; alt: string; caption: string }[] }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10 md:gap-x-8 md:gap-y-14">
       {items.map((it) => (
         <MotiFigure key={it.src} {...it} />
       ))}

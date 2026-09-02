@@ -36,8 +36,8 @@ const DesignSystem = () => {
     });
   }, [location.hash, location.pathname, location.search, location.state, navigate]);
 
-  const navigateToSelectedWork = () => {
-    navigate("/", { state: { scrollTo: "projects" } });
+  const navigateToSection = (sectionId: string) => {
+    navigate("/", { state: { scrollTo: sectionId } });
   };
 
   const navigateToAbout = () => {
@@ -54,8 +54,7 @@ const DesignSystem = () => {
           entranceVisible
           entranceDelay={0.15}
           hrefBase="/"
-          onSelectedWork={navigateToSelectedWork}
-          onWorkshop={() => navigate("/", { state: { scrollTo: "ai-projects" } })}
+          onSection={navigateToSection}
           onAbout={navigateToAbout}
         />
 
@@ -64,7 +63,8 @@ const DesignSystem = () => {
         </div>
 
         <Footer
-          onMainProjectsClick={navigateToSelectedWork}
+          hrefBase="/"
+          onSectionClick={navigateToSection}
           onAboutClick={navigateToAbout}
           wide
         />

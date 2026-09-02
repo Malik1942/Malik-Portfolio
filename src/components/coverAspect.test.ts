@@ -2,7 +2,7 @@ import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { aiProjects, selectedWork } from "@/pages/Index";
+import { PROJECTS } from "@/data/projects";
 
 // `coverAspect` reserves each card's media box before the cover has loaded, so
 // that a project-dot scroll lands on the card it aimed at instead of drifting
@@ -87,7 +87,7 @@ function mp4Size(file: string): { width: number; height: number } {
   return size;
 }
 
-const projects = [...selectedWork, ...aiProjects];
+const projects = PROJECTS;
 
 describe("cover aspect ratios", () => {
   it("covers every project card that has a cover image", () => {

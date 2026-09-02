@@ -194,8 +194,8 @@
     "size": {
       "$type": "dimension",
       "label": {
-        "$description": "Compact 11-pixel size used by navigation labels and eyebrows.",
-        "$value": { "value": 11, "unit": "px" }
+        "$description": "Compact 12-pixel size used by uppercase, letter-spaced labels and eyebrows (metadata card labels, section eyebrows, chips).",
+        "$value": { "value": 12, "unit": "px" }
       },
       "caption": {
         "$description": "Caption size used for supporting metadata.",

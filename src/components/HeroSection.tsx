@@ -7,14 +7,14 @@ import { motion, useReducedMotion } from "framer-motion";
 import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
 import { usePageLoaded } from "@/hooks/usePageLoaded";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
+import { SECTIONS } from "@/lib/sections";
 
 interface HeroSectionProps {
   isAboutOpen: boolean;
   onAboutClick: () => void;
   onAboutBack: () => void;
-  // Header nav — close About (if open) and scroll to the matching section.
-  onSelectedWorkClick: () => void;
-  onWorkshopClick: () => void;
+  // Header nav — close About (if open) and scroll to the section with this DOM id.
+  onSectionClick: (sectionId: string) => void;
 }
 
 // ── Terminal one-liner ──────────────────────────────────────────────────────
@@ -106,7 +106,7 @@ const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
 };
 
 // ── Hero section ────────────────────────────────────────────────────────────
-const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSelectedWorkClick, onWorkshopClick }: HeroSectionProps) => {
+const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSectionClick }: HeroSectionProps) => {
   const isLoaded = usePageLoaded();
   const shouldReduceMotion = useReducedMotion();
   // Direction-aware header: hide on scroll-down, reveal on scroll-up. Suspended
@@ -148,10 +148,15 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSelectedWorkCli
         <TerminalOneLiner isVisible={terminalVisible} />
       </motion.div>
 
-      {/* Mobile: clean description (< md) */}
+      {/* Mobile: clean description (< md). Anchored to the name's own geometry
+          so the gap under it is the same on every phone: DotGrid draws the name
+          centred at 45vh at a font size of 13.2vw, and its ink (with the g
+          descender) reaches ~0.27em below that centre, i.e. ~3.5vw. The old
+          40vh anchor made the gap shrink as phones got taller (30px on an SE,
+          15px on a Pro Max). */}
       <motion.div
         className="absolute left-0 right-0 flex md:hidden justify-center z-10 pointer-events-none"
-        style={{ top: "calc(40vh + min(6.5vw, 66px) + 48px)" }}
+        style={{ top: "calc(45vh + 3.5vw + 24px)" }}
         initial={{ opacity: 0, y: 8 }}
         animate={{
           opacity: terminalVisible ? 1 : 0,
@@ -159,7 +164,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSelectedWorkCli
         }}
         transition={{ duration: 0.7, delay: isAboutOpen ? 0 : isLoaded ? 1.2 : 0 }}
       >
-        <p className="text-sm text-foreground/72 font-light leading-normal max-w-[320px] text-center px-6">
+        <p className="text-base text-foreground/72 font-light leading-normal max-w-[340px] text-center px-6">
           <MotiLink>{ACCENT_WORD}</MotiLink>{TERMINAL_TEXT.slice(ACCENT_WORD.length)}
         </p>
       </motion.div>
@@ -172,8 +177,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSelectedWorkCli
         shouldReduceMotion={shouldReduceMotion}
         entranceVisible={headerVisible}
         entranceDelay={isLoaded ? 0.8 : 0}
-        onSelectedWork={onSelectedWorkClick}
-        onWorkshop={onWorkshopClick}
+        onSection={onSectionClick}
         onAbout={onAboutClick}
         onLogoClick={onAboutBack}
       />
@@ -186,7 +190,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSelectedWorkCli
         <motion.button
           type="button"
           aria-label="Scroll to projects"
-          onClick={() => scrollToSectionNavTarget("projects")}
+          onClick={() => scrollToSectionNavTarget(SECTIONS.selected.id)}
           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-0 z-10 cursor-pointer appearance-none bg-transparent border-0 p-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

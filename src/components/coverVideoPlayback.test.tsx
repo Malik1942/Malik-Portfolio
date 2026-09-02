@@ -142,7 +142,7 @@ describe("cover video playback", () => {
 
     // Far below the fold: the poster paints the card and the ½ MB clip stays on
     // the server. Every page mounts this card (the case studies reuse it in
-    // "More work"), so an eager src here is a download on every single visit.
+    // "Next up" strip), so an eager src here is a download on every single visit.
     expect(video.getAttribute("src")).toBeNull();
     expect(video.getAttribute("poster")).toBe(project.coverImage);
 

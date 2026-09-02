@@ -5,7 +5,7 @@ import logo from "@/assets/logo.webp";
 import { ImageLightbox, type LightboxImage } from "@/components/project-detail/ImageLightbox";
 import { ProjectMediaFrame } from "@/components/project-detail/ProjectMediaFrame";
 import { ProjectMetadataSummary } from "@/components/project-detail/ProjectMetadataSummary";
-import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
+import { NAV_ITEMS } from "@/lib/sections";
 import { Specimen } from "../Specimen";
 
 interface ComponentSpecimenProps {
@@ -68,8 +68,10 @@ function LightboxStage() {
 // Production nav destinations, in production order. Links are inert here —
 // the stage demonstrates the hover behavior, not navigation.
 const SITE_HEADER_DESTINATIONS: readonly [string, string][] = [
-  ["Selected Work", "/#projects"],
-  [WORKSHOP_SECTION_LABEL, "/#ai-projects"],
+  ...NAV_ITEMS.map((item): [string, string] => [
+    item.label,
+    item.kind === "section" ? `/#${item.sectionId}` : item.path,
+  ]),
   ["About", "/#about"],
   ["Resume", "/resume"],
 ];

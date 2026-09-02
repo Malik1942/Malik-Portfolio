@@ -1,5 +1,5 @@
 import type { ProjectDetailDocument } from "@/types/projectDetail";
-import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
+import { sectionLabelForProject } from "@/data/projects";
 import auraCover from "@/assets/aura-cover.webp";
 import calmmouseHeroStill from "@/assets/calmmouse-hero-still.webp";
 import calmmouseHeroFilm from "@/assets/calmmouse-hero.mp4";
@@ -93,9 +93,10 @@ import rangerDetailPod from "@/assets/ranger-detail-pod.webp";
 import rangerDetailThruster from "@/assets/ranger-detail-thruster.webp";
 import rangerDetailCharge from "@/assets/ranger-detail-charge.webp";
 
-const aura: ProjectDetailDocument = {
+type ProjectDetailSource = Omit<ProjectDetailDocument, "listSection">;
+
+const aura: ProjectDetailSource = {
   slug: "aura",
-  listSection: "Main Projects",
   title: "Aura",
   heroSummary: "A Wearable System Built to Intervene Before Motion Sickness Starts",
     heroImage: auraCover,
@@ -195,9 +196,8 @@ const aura: ProjectDetailDocument = {
   ],
 };
 
-const neuralyfe: ProjectDetailDocument = {
+const neuralyfe: ProjectDetailSource = {
   slug: "neuralyfe",
-  listSection: "Main Projects",
   title: "NeuraLyfe",
   heroSummary: "A Helmet Add-On and Sideline App That Show Football Medical Staff\nWhich Players’ Brains Are at Risk, and Which Hit Caused It.",
     heroImage: neuralyfeDetail1,
@@ -291,9 +291,8 @@ const neuralyfe: ProjectDetailDocument = {
 
 // Real Moti case study. Imagery lives in src/assets (moti-*.webp); the rich section
 // blocks live in ./MotiModules.tsx and render via the [[module:moti-*]] refs.
-const moti: ProjectDetailDocument = {
+const moti: ProjectDetailSource = {
   slug: "moti",
-  listSection: "Main Projects",
   title: "Moti: Plan",
   heroSummary: "Shipped Solo on the App Store: an AI-Native Planner That\nTurns Messy Input Into a Living, Timeline-Aware Plan",
   heroImage: motiHero,
@@ -355,9 +354,8 @@ const moti: ProjectDetailDocument = {
   ],
 };
 
-const flowprint: ProjectDetailDocument = {
+const flowprint: ProjectDetailSource = {
   slug: "flowprint",
-  listSection: "Main Projects",
   title: "FlowPrint",
   heroSummary: "A 3D Printing Onboarding System Designed to Make a Beginner's First Print Succeed, Not Just Start.",
   heroSubtitle: "From Roughly an Hour of Setup Anxiety to a Guided Fifteen-Minute Path In.",
@@ -412,9 +410,8 @@ const flowprint: ProjectDetailDocument = {
   ],
 };
 
-const tubular: ProjectDetailDocument = {
+const tubular: ProjectDetailSource = {
   slug: "tubular",
-  listSection: WORKSHOP_SECTION_LABEL,
   title: "Tubular",
   heroSummary: "Defy Gravity. Shape the Path.",
   heroSubtitle: "A Tactile, Experimental Toy That Teaches Fluid Dynamics Through Play.",
@@ -476,9 +473,8 @@ const tubular: ProjectDetailDocument = {
 // imagery, so they are not shown. The hero and the structure and brush-detail
 // panels are supplied images; the human evidence is the real prototype
 // photography in the Built section.
-const moodmuse: ProjectDetailDocument = {
+const moodmuse: ProjectDetailSource = {
   slug: "moodmuse",
-  listSection: "Main Projects",
   title: "Mood Muse",
   heroSummary: "An Emotion-Sensing Paintbrush That Lets Autistic Children\nSay How They Feel Without Saying Anything.",
     heroImage: moodmuseHero,
@@ -579,9 +575,8 @@ const moodmuse: ProjectDetailDocument = {
   ],
 };
 
-const studiowaters: ProjectDetailDocument = {
+const studiowaters: ProjectDetailSource = {
   slug: "studiowaters",
-  listSection: WORKSHOP_SECTION_LABEL,
   title: "Studio Waters",
   heroSummary: "A Playable Fishing Prototype That Turns Real-World Casting and Reeling Gestures Into Calm, Responsive Play.",
   heroSubtitle: "Built Solo With Claude, p5.js, and a Circuit Playground Express — No Buttons, Just Gestures.",
@@ -633,9 +628,8 @@ const studiowaters: ProjectDetailDocument = {
 };
 
 // CalmMouse: a native macOS Magic Mouse utility, designed/built/shipped solo.
-const calmmouse: ProjectDetailDocument = {
+const calmmouse: ProjectDetailSource = {
   slug: "calmmouse",
-  listSection: WORKSHOP_SECTION_LABEL,
   title: "CalmMouse",
   heroSummary: "A macOS App That Stops the Magic Mouse From Scrolling Every Time You Click.",
   heroSubtitle: "Designed, Built, and Shipped Solo · Signed & Notarized · Free and Open Source on GitHub.",
@@ -701,9 +695,8 @@ const calmmouse: ProjectDetailDocument = {
 
 // Inkwork building story. The rich section blocks live in
 // ./InkworkModules.tsx and render via the [[module:inkwork-*]] refs.
-const inkwork: ProjectDetailDocument = {
+const inkwork: ProjectDetailSource = {
   slug: "inkwork",
-  listSection: WORKSHOP_SECTION_LABEL,
   title: "Inkwork",
   heroSummary: "A Styled-QR Studio, and What It Took to Get From Working to Good.",
   heroSubtitle: "Designed, Built, and Shipped Solo · Live at malikzhang.com/inkwork · Press the Cube.",
@@ -762,9 +755,8 @@ const inkwork: ProjectDetailDocument = {
 // ZEAT industrial design case study. Imagery lives in src/assets (zeat-*.webp).
 // Register note: no patent claim, no fabricated metrics — every number traces to
 // the source deck. The dispatch-app screens are deliberately not shown.
-const zeat: ProjectDetailDocument = {
+const zeat: ProjectDetailSource = {
   slug: "zeat",
-  listSection: WORKSHOP_SECTION_LABEL,
   title: "ZEAT",
   heroSummary: "Intelligent Robots Auto Collect Trash, Clean the Floors,\nand Inspect the Results After Every Event.",
     heroImage: zeatHero,
@@ -863,9 +855,8 @@ const zeat: ProjectDetailDocument = {
 // bag geometries, the three modular interfaces, the three movement modes) is
 // labelled on the source boards. No recovery rates, tonnages, or test results
 // are claimed, because none were measured.
-const ranger: ProjectDetailDocument = {
+const ranger: ProjectDetailSource = {
   slug: "ranger",
-  listSection: WORKSHOP_SECTION_LABEL,
   title: "RANGER",
   heroSummary: "An Underwater Drone That Finds Abandoned Fishing Nets,\nPins Them With an Airbag, and Floats Them Up Without a Diver.",
   heroImage: rangerHero,
@@ -967,7 +958,9 @@ const ranger: ProjectDetailDocument = {
   ],
 };
 
-const PROJECT_DETAILS: Record<string, ProjectDetailDocument> = {
+// Authored without `listSection`: the eyebrow is filled in below from the
+// project's homepage section so the two can never disagree.
+const SOURCES: ProjectDetailSource[] = [
   moti,
   calmmouse,
   inkwork,
@@ -979,7 +972,11 @@ const PROJECT_DETAILS: Record<string, ProjectDetailDocument> = {
   tubular,
   moodmuse,
   studiowaters,
-};
+];
+
+const PROJECT_DETAILS: Record<string, ProjectDetailDocument> = Object.fromEntries(
+  SOURCES.map((doc) => [doc.slug, { ...doc, listSection: sectionLabelForProject(doc.slug) }]),
+);
 
 export function getProjectDetail(slug: string | undefined): ProjectDetailDocument | undefined {
   if (!slug) return undefined;
