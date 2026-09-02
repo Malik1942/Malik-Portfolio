@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FOOTER_ITEMS, SECTIONS, navItemHref } from "@/lib/sections";
+import { NAV_ITEMS, SECTIONS, navItemHref } from "@/lib/sections";
 
 interface FooterProps {
   /** A homepage section link was clicked; receives the section's DOM id. */
@@ -32,15 +32,14 @@ const Footer = ({
     <footer className={outerClass}>
       <div className={innerClass}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mb-16 md:mb-24">
-          {/* Left — Explore: Work, More Work, Studio, then About, Resume,
-              Design System. More Work is footer-only; the header keeps Work
-              as the umbrella over the homepage. */}
+          {/* Left — Explore: Work, Studio, then About, Resume, Design System.
+              More Work is a homepage section, not a chrome destination. */}
           <div>
             <span className="text-label uppercase tracking-eyebrow text-foreground/55 block mb-6">
               Explore
             </span>
             <ul className="space-y-4">
-              {FOOTER_ITEMS.map((item) => (
+              {NAV_ITEMS.map((item) => (
                 <li key={item.label}>
                   {item.kind === "section" ? (
                     <a

@@ -50,18 +50,10 @@ export type NavItem =
 export const navItemHref = (item: NavItem, hrefBase = ""): string =>
   item.kind === "section" ? sectionHref(item.section, hrefBase) : item.path;
 
-/** Header nav, in order: Work, Studio. About and Resume are appended by the
- *  header itself. */
+/** Header and footer Explore, in order: Work, Studio. About and Resume are
+ *  appended by each of those components. More Work is a homepage section, not
+ *  a chrome destination. */
 export const NAV_ITEMS: readonly NavItem[] = [
   { label: WORK_LABEL, kind: "section", section: "selected" },
-  { label: SECTIONS.studio.label, kind: "route", path: STUDIO_PATH },
-];
-
-/** Footer Explore: header destinations plus More Work, so the middle homepage
- *  section is reachable from chrome. About / Resume / Design System are
- *  appended by the footer itself. */
-export const FOOTER_ITEMS: readonly NavItem[] = [
-  { label: WORK_LABEL, kind: "section", section: "selected" },
-  { label: SECTIONS.more.label, kind: "section", section: "more" },
   { label: SECTIONS.studio.label, kind: "route", path: STUDIO_PATH },
 ];

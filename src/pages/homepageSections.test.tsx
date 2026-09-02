@@ -3,7 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 import Index from "./Index";
-import { FOOTER_ITEMS, HOME_SECTION_ORDER, NAV_ITEMS, SECTIONS, sectionHref } from "@/lib/sections";
+import { HOME_SECTION_ORDER, NAV_ITEMS, SECTIONS, sectionHref } from "@/lib/sections";
 import { projectsInSection } from "@/data/projects";
 
 // jsdom ships none of the observers the hero and the cards lean on.
@@ -75,13 +75,12 @@ describe("homepage sections", () => {
     expect(hrefs).toContainEqual(["Studio", SECTIONS.studio.path]);
   });
 
-  it("lists More Work in the footer so the section is reachable from chrome", () => {
+  it("keeps the footer Explore list to Work and Studio, without More Work", () => {
     const { container } = renderHome();
     const footer = container.querySelector("footer")!;
-    const hrefs = [...footer.querySelectorAll("a")].map((a) => [a.textContent, a.getAttribute("href")]);
-    expect(FOOTER_ITEMS.map((item) => item.label)).toEqual(["Work", "More Work", "Studio"]);
-    expect(hrefs).toContainEqual(["Work", sectionHref("selected")]);
-    expect(hrefs).toContainEqual(["More Work", sectionHref("more")]);
-    expect(hrefs).toContainEqual(["Studio", sectionHref("studio")]);
+    const labels = [...footer.querySelectorAll("a, button")].map((el) => el.textContent);
+    expect(labels).toContain("Work");
+    expect(labels).toContain("Studio");
+    expect(labels).not.toContain("More Work");
   });
 });
