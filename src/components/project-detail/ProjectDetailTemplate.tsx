@@ -33,6 +33,19 @@ import {
   MotiBuildJourney,
   MotiTakeaways,
 } from "./MotiModules";
+import {
+  OryneTags,
+  OryneAppStoreCta,
+  OryneHook,
+  OryneProblem,
+  OryneVocabulary,
+  OryneSpaces,
+  OryneDecisions,
+  OryneCapture,
+  OrynePrivacy,
+  OryneShipping,
+  OryneTakeaways,
+} from "./OryneModules";
 import { InkworkSymptoms, InkworkSequence, InkworkThemes, InkworkTryCta, InkworkSkillLink, InkworkCta } from "./InkworkModules";
 import {
   CalmMouseDemo,
@@ -164,6 +177,17 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "moti-before-building": <MotiBeforeBuilding />,
   "moti-build-journey": <MotiBuildJourney />,
   "moti-takeaways": <MotiTakeaways />,
+  "oryne-tags": <OryneTags />,
+  "oryne-app-store": <OryneAppStoreCta />,
+  "oryne-hook": <OryneHook />,
+  "oryne-problem": <OryneProblem />,
+  "oryne-vocabulary": <OryneVocabulary />,
+  "oryne-spaces": <OryneSpaces />,
+  "oryne-decisions": <OryneDecisions />,
+  "oryne-capture": <OryneCapture />,
+  "oryne-privacy": <OrynePrivacy />,
+  "oryne-shipping": <OryneShipping />,
+  "oryne-takeaways": <OryneTakeaways />,
   "inkwork-symptoms": <InkworkSymptoms />,
   "inkwork-sequence": <InkworkSequence />,
   "inkwork-themes": <InkworkThemes />,

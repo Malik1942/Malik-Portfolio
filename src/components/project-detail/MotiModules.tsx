@@ -54,10 +54,10 @@ const accentColor: Record<Accent, { icon: string; num: string }> = {
   slate: { icon: "text-accent-slate", num: "text-accent-slate/50" },
 };
 
-type GridItem = { num: string; title: string; desc?: string; icon: LucideIcon; accent: Accent };
+export type GridItem = { num: string; title: string; desc?: string; icon: LucideIcon; accent: Accent };
 
 // Shared dark card shell — mirrors AuraDesignRequirements / AuraTestingFindings.
-function ModuleCard({ children, header }: { children: ReactNode; header?: string }) {
+export function ModuleCard({ children, header }: { children: ReactNode; header?: string }) {
   return (
     <div className="rounded-2xl overflow-hidden bg-surface-inset border border-case-study-module-border">
       {header ? (
@@ -74,7 +74,7 @@ function ModuleCard({ children, header }: { children: ReactNode; header?: string
 
 // number + icon + title + optional desc cell grid (the core Aura card pattern).
 // gap-px over a white/[0.05] background renders crisp 1px dividers for any layout.
-function CardGrid({ items, header, colsClass }: { items: GridItem[]; header?: string; colsClass: string }) {
+export function CardGrid({ items, header, colsClass }: { items: GridItem[]; header?: string; colsClass: string }) {
   return (
     <ModuleCard header={header}>
       <div className={`grid ${colsClass} gap-px bg-case-study-module-divider`}>
@@ -136,7 +136,10 @@ export function PullQuote({ children }: { children: ReactNode }) {
 
 // Single image + caption. Reuses the SectionFigure container styling.
 // `narrow` constrains portrait phone screenshots so they don't render full-width.
-function MotiFigure({ src, alt, caption, narrow }: { src: string; alt: string; caption: string; narrow?: boolean }) {
+// Optional `label` prefixes the caption ("The Ocean — thoughts drift…").
+export type ArtifactItem = { src: string; alt: string; caption: string; label?: string };
+export function MotiFigure({ src, alt, caption, label, narrow }: ArtifactItem & { narrow?: boolean }) {
+  const text = label ? `${label} — ${caption}` : caption;
   return (
     <figure className={narrow ? "mx-auto w-full max-w-[300px]" : undefined}>
       <div className="overflow-hidden rounded-2xl bg-secondary/10">
@@ -145,14 +148,14 @@ function MotiFigure({ src, alt, caption, narrow }: { src: string; alt: string; c
       {/* Same caption treatment as the NeuraLyfe artifacts: body size, full
           strength, centered under the figure. */}
       <figcaption className="mt-5 md:mt-6 text-base md:text-xl text-foreground text-center leading-relaxed">
-        {noOrphan(caption)}
+        {noOrphan(text)}
       </figcaption>
     </figure>
   );
 }
 
 // Image + caption grid (final-artifact gallery).
-export function ArtifactGallery({ items }: { items: { src: string; alt: string; caption: string }[] }) {
+export function ArtifactGallery({ items }: { items: ArtifactItem[] }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10 md:gap-x-8 md:gap-y-14">
       {items.map((it) => (
@@ -186,7 +189,7 @@ export function MotiAppStoreCta() {
 }
 
 // Subsection label inside a module — matches the template's `##` subhead style.
-function SubHead({ children }: { children: ReactNode }) {
+export function SubHead({ children }: { children: ReactNode }) {
   return (
     <p className="text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
       {children}

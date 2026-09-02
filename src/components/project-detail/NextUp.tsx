@@ -7,7 +7,7 @@ const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-page mx-auto";
 // The rail only ever shows 3, so it doesn't simply inherit homepage order —
 // these lead, and everything else falls in behind them in homepage order
 // (Selected Work, More Work, Workshop).
-const LEAD_ORDER = ["moti", "neuralyfe", "aura", "zeat"];
+const LEAD_ORDER = ["moti", "oryne", "neuralyfe", "aura", "zeat"];
 const rank = (p: Project) => {
   const i = LEAD_ORDER.indexOf(p.id);
   return i === -1 ? LEAD_ORDER.length : i;

@@ -13,6 +13,8 @@ import inkworkCard from "@/assets/inkwork-card.webp";
 import inkworkCardVideo from "@/assets/inkwork-card.mp4";
 import zeatCard from "@/assets/zeat-hero.webp";
 import rangerCard from "@/assets/ranger-hero.webp";
+import oryneCard from "@/assets/oryne-card-poster.webp";
+import oryneCardVideo from "@/assets/oryne-card.mp4";
 
 // ── Skill vocabulary ─────────────────────────────────────────────────────────
 // A controlled list, as a union so a typo fails typecheck. The words match the
@@ -154,6 +156,24 @@ export const PROJECTS: readonly Project[] = [
   },
 
   // ── More Work: the rest of the case studies, told as process ──
+  {
+    id: "oryne",
+    title: "Oryne",
+    section: "more",
+    skills: [],
+    links: [{ label: "App Store", url: "https://apps.apple.com/us/app/oryne/id6778995892" }],
+    destination: CASE_STUDY,
+    description: "Shipped solo on the App Store: an inspiration-capture app where thoughts drift, gather into currents, and come back on their own. All of its intelligence runs on the device.",
+    role: "Product Designer & Builder",
+    coverImage: oryneCard,
+    coverAspect: "1280/800",
+    // The Oryne reel: the icon blooms into the wordmark and the tagline, then the
+    // Ocean gathers a current. coverImage is the wordmark frame, so it serves as the
+    // poster, the reduced-motion still, and the resting state once the reel has played.
+    coverVideo: oryneCardVideo,
+    year: "2026",
+    details: "Shipped solo on the App Store, first commit to 1.0 in 23 days: an inspiration-capture app built around one metaphor, your mind as an ocean.\n\nOn-device intelligence names each thought, gathers related ones into currents, and resurfaces them. Six releases in the first fifteen days, in English and Simplified Chinese.",
+  },
   {
     id: "moodmuse",
     title: "Mood Muse",

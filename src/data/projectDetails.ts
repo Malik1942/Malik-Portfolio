@@ -92,6 +92,9 @@ import rangerPlatform from "@/assets/ranger-platform.webp";
 import rangerDetailPod from "@/assets/ranger-detail-pod.webp";
 import rangerDetailThruster from "@/assets/ranger-detail-thruster.webp";
 import rangerDetailCharge from "@/assets/ranger-detail-charge.webp";
+import oryneHero from "@/assets/oryne-hero.webp";
+import oryneFilm from "@/assets/oryne-film.mp4";
+import oryneFilmPoster from "@/assets/oryne-film-poster.webp";
 
 type ProjectDetailSource = Omit<ProjectDetailDocument, "listSection">;
 
@@ -958,10 +961,84 @@ const ranger: ProjectDetailSource = {
   ],
 };
 
+// Real Oryne case study. Imagery lives in src/assets (oryne-*.webp, the film as
+// oryne-film.mp4); the rich section blocks live in OryneModules.tsx and render via
+// the [[module:oryne-*]] refs. Every date and claim is verified against the App Store
+// listing and the app's git history.
+const oryne: ProjectDetailSource = {
+  slug: "oryne",
+  title: "Oryne",
+  heroSummary: "Shipped Solo on the App Store: an Inspiration-Capture App Where\nThoughts Drift, Gather Into Currents, and Come Back on Their Own",
+  heroImage: oryneHero,
+  heroImageFit: "cover",
+  metaCards: [
+    { label: "Role", value: "Product Designer & Builder" },
+    { label: "Timeline", value: "June–July 2026 · First Commit to App Store in 23 Days" },
+    { label: "Team", value: "Malik, With Claude Code" },
+    { label: "Output", value: "Live on the App Store · v1.5 · On-Device AI · English + 中文" },
+  ],
+  sections: [
+    {
+      id: "overview",
+      label: "Overview",
+      showProjectMeta: true,
+      body: "**Oryne is an inspiration-capture app for iOS where your thoughts don't sit in rows. They float. Designed, built, and shipped solo.**\n\n[[module:oryne-tags]]",
+      afterMetaModule: "oryne-app-store",
+    },
+    {
+      id: "highlights",
+      label: "Highlights",
+      figures: [{ type: "video", src: oryneFilm, poster: oryneFilmPoster }],
+      body: "**Speak or type a thought in one tap and release it into the Ocean. On-device intelligence names it, finds its themes, drifts it next to its relatives, and brings it back when it matters again.**\n\n[[fig:0]]\n\n[[module:oryne-hook]]",
+    },
+    {
+      id: "problem",
+      label: "The Problem",
+      body: "Every notes app makes the same promise: give us your thoughts and we will keep them organized. Every one breaks it the same way. Not by losing the thoughts, but by burying them.\n\n[[module:oryne-problem]]\n\n**The list is honest about storage and dishonest about memory. The problem was never the list. It was the monopoly.**",
+    },
+    {
+      id: "metaphor",
+      label: "The Metaphor",
+      body: "Your mind as an ocean. Each captured thought is a small drifting body with its own buoyancy. Related thoughts gather into currents. Nothing is pinned and nothing is ranked; when you open the app, the water is simply in motion, the way your ideas were when you had them.\n\nThe test I held every interaction to: it had to be derivable from the metaphor. If a behavior needed “that's just how apps work,” the design had failed. If it could be explained with “that's how water works,” it passed. So capture became a thought falling into the ocean, categorization became a thought flowing into a current, and rediscovery became things surfacing.\n\n[[module:oryne-vocabulary]]\n\n**A metaphor is cheap if it is only a skin. This one had to answer questions.**",
+    },
+    {
+      id: "spaces",
+      label: "Felt vs Legible",
+      body: "The tension that shaped nearly every decision. A field of drifting thoughts feels alive; it is also, by default, illegible. Motion fights reading, and ambience fights retrieval. Tune everything toward feeling and you have a screensaver. Tune everything toward legibility and you have reinvented the grid with extra steps.\n\nThe resolution was not a compromise in the middle. It was a separation of spaces, each allowed to be fully itself.\n\n[[module:oryne-spaces]]\n\n**It took a long time to stop trying to make the Ocean also be a good search surface. It isn't, and it shouldn't be.**",
+    },
+    {
+      id: "decisions",
+      label: "Three Decisions",
+      body: "The most valuable design work in Oryne is the part you cannot see: what the Ocean surface refused to do, an effect I loved and killed, and two features that arrived disguised as one.\n\n[[module:oryne-decisions]]",
+    },
+    {
+      id: "capture",
+      label: "Capture",
+      body: "The moment between having a thought and judging it is the product. Anything that lengthens that moment is a regression, whatever it adds. So capture had to be reachable from wherever the thought arrives, and finished before the thought could leave.\n\n[[module:oryne-capture]]\n\n**Would this change make someone hesitate before capturing? Then no.**",
+    },
+    {
+      id: "privacy",
+      label: "Privacy",
+      body: "Oryne runs its intelligence on the device: Apple's Foundation Models, local speech recognition, private CloudKit sync. No thought you capture transits a server I can read.\n\n[[module:oryne-privacy]]",
+    },
+    {
+      id: "shipping",
+      label: "Shipping It",
+      body: "I am a product designer, and before Oryne I had never shipped production Swift. Twenty-three days after the first commit, it was on the App Store. I wrote almost none of its code by hand, and I built everything around the code that made it trustworthy: the workflow, the review gates, the rules, and the tests that treated the AI's own claims as suspect.\n\n[[module:oryne-shipping]]\n\n**The code was the easy part. It arrived on demand, endlessly patient, superficially convincing. The hard part was building the apparatus of distrust that made “superficially convincing” survivable.**",
+    },
+    {
+      id: "learned",
+      label: "What the Ocean Taught Me",
+      body: "Nearly every choice in Oryne trades control for encounter: browsing over managing, drift over sorting, restraint over reach. That is the trade I keep wanting to make, and it is probably the most honest description of the kind of designer I am.\n\n[[module:oryne-takeaways]]",
+    },
+  ],
+};
+
 // Authored without `listSection`: the eyebrow is filled in below from the
 // project's homepage section so the two can never disagree.
 const SOURCES: ProjectDetailSource[] = [
   moti,
+  oryne,
   calmmouse,
   inkwork,
   zeat,

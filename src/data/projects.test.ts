@@ -21,6 +21,7 @@ describe("homepage project list", () => {
   it("returns each case study to the surface it is listed on", () => {
     expect(projectReturn("moti")).toEqual({ to: "/", state: { scrollTo: SECTIONS.selected.id } });
     expect(projectReturn("flowprint")).toEqual({ to: "/", state: { scrollTo: SECTIONS.more.id } });
+    expect(projectReturn("oryne")).toEqual({ to: "/", state: { scrollTo: SECTIONS.more.id } });
     expect(projectReturn("zeat")).toEqual({ to: SECTIONS.studio.path });
   });
 
@@ -35,7 +36,7 @@ describe("homepage project list", () => {
 
   it("holds the locked section assignments", () => {
     expect(projectsInSection("selected").map((p) => p.id)).toEqual(["moti", "neuralyfe", "aura"]);
-    expect(projectsInSection("more").map((p) => p.id)).toEqual(["moodmuse", "tubular", "flowprint"]);
+    expect(projectsInSection("more").map((p) => p.id)).toEqual(["oryne", "moodmuse", "tubular", "flowprint"]);
     expect(projectsInSection("studio").map((p) => p.id)).toEqual([
       "calmmouse",
       "inkwork",
