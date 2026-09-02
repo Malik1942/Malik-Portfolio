@@ -469,15 +469,13 @@ const tubular: ProjectDetailDocument = {
 };
 
 // Mood Muse: an emotion-sensing paintbrush + companion app for autistic
-// children. Imagery lives in src/assets (moodmuse-*.webp), converted from the
-// Figma masters in moodmuse-assets/ (gitignored) via scripts/moodmuse-convert.mjs
-// and scripts/moodmuse-composites.mjs. Register note: every number and study
-// citation traces to the source deck; the sensor-to-emotion pipeline is
-// described as designed and prototyped, not as clinically validated. The
-// child photographs in the deck are generated imagery, so they are not shown.
-// The hero and the structure and brush-detail panels are supplied images (the
-// masters sit in moodmuse-assets/manual/); the human evidence is the real
-// prototype photography in the Built section.
+// children. Imagery lives in src/assets (moodmuse-*.webp). Register note:
+// every number and study citation traces to the source deck; the
+// sensor-to-emotion pipeline is described as designed and prototyped, not as
+// clinically validated. The child photographs in the deck are generated
+// imagery, so they are not shown. The hero and the structure and brush-detail
+// panels are supplied images; the human evidence is the real prototype
+// photography in the Built section.
 const moodmuse: ProjectDetailDocument = {
   slug: "moodmuse",
   listSection: "Main Projects",
@@ -761,8 +759,7 @@ const inkwork: ProjectDetailDocument = {
   ],
 };
 
-// ZEAT industrial design case study. Imagery lives in src/assets (zeat-*.webp),
-// converted from the source Figma masters in zeat-assets/ (gitignored).
+// ZEAT industrial design case study. Imagery lives in src/assets (zeat-*.webp).
 // Register note: no patent claim, no fabricated metrics — every number traces to
 // the source deck. The dispatch-app screens are deliberately not shown.
 const zeat: ProjectDetailDocument = {
