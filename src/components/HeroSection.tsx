@@ -83,11 +83,11 @@ const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
   }, []);
 
   return (
-    <div className="flex items-baseline gap-2 md:gap-3 text-label md:text-xl font-mono leading-relaxed max-w-[320px] md:max-w-[640px] px-6">
+    <div className="flex items-baseline gap-2 md:gap-3 text-label md:text-xl font-mono leading-relaxed px-6">
       {/* Prompt glyph — items-baseline keeps it on the first text line */}
       <span className="text-foreground/55 shrink-0 select-none">{'>'}</span>
-      {/* Typed text + cursor */}
-      <span className="text-foreground/72 text-left">
+      {/* 43ch is just wide enough for "…and build" and just short of "…and build it". */}
+      <span className="text-foreground/72 text-left max-w-[43ch]">
         <MotiLink>{TERMINAL_TEXT.slice(0, Math.min(len, ACCENT_WORD.length))}</MotiLink>
         {TERMINAL_TEXT.slice(ACCENT_WORD.length, len)}
         <span
@@ -164,7 +164,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSectionClick }:
         }}
         transition={{ duration: 0.7, delay: isAboutOpen ? 0 : isLoaded ? 1.2 : 0 }}
       >
-        <p className="text-base text-foreground/72 font-light leading-normal max-w-[340px] text-center px-6">
+        <p className="text-sm text-foreground/72 font-mono leading-snug max-w-[340px] text-left px-6">
           <MotiLink>{ACCENT_WORD}</MotiLink>{TERMINAL_TEXT.slice(ACCENT_WORD.length)}
         </p>
       </motion.div>
@@ -196,11 +196,17 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSectionClick }:
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 2.8 }}
         >
-          <span className="text-label uppercase tracking-eyebrow text-foreground/55">Scroll</span>
+          <motion.span
+            className="text-label uppercase tracking-eyebrow text-foreground"
+            animate={{ opacity: [0.45, 0.7, 0.45] }}
+            transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut" }}
+          >
+            Scroll
+          </motion.span>
           <motion.span
             className="font-display text-title text-foreground leading-none select-none"
             style={{ display: "inline-block", transform: "scaleX(1.6)", marginTop: "-2px" }}
-            animate={{ y: [0, 4, 0], opacity: [0.45, 0.70, 0.45] }}
+            animate={{ y: [0, 4, 0], opacity: [0.45, 0.7, 0.45] }}
             transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut" }}
           >
             ⌄
