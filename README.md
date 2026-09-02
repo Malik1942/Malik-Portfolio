@@ -10,7 +10,7 @@ Personal portfolio of Malik Zhang, a product designer based in Seattle (UW MHCI+
 - **Framer Motion** — page transitions and interaction animation
 - **React Router** — client-side routing
 - **Vitest** + **Testing Library** — unit/component tests
-- **Playwright** — end-to-end tests
+- **Playwright** — Open Graph screenshot generation (`npm run generate:og`), not end-to-end tests
 
 ## Local development
 

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { noOrphan } from "@/lib/noOrphan";
 
 export interface Project {

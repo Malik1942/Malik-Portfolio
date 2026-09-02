@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const Resume = () => {
   const navigate = useNavigate();
