@@ -103,8 +103,8 @@ const aura: ProjectDetailDocument = {
   metaCards: [
     { label: "Role", value: "Product Designer · Industrial Designer" },
     { label: "Timeline", value: "5 Weeks · Fall 2025" },
-    { label: "Team", value: "5-Person Design Team" },
-    { label: "Output", value: "93.75% Preferred Refined Form (n=16) · App Prototype" },
+    { label: "Team", value: "Malik Zhang\nYu-Cheng Yang\nJimmy Huang\nCatherine Fu\nMarlyn Reed" },
+    { label: "Output", value: "93.75% Preferred Refined Form (n=16)\nApp Prototype" },
   ],
   sections: [
     {
@@ -204,8 +204,8 @@ const neuralyfe: ProjectDetailDocument = {
   metaCards: [
     { label: "Role", value: "Product Designer · Maker" },
     { label: "Timeline", value: "3 Days · March 2026" },
-    { label: "Team", value: "Design · Physical · Digital" },
-    { label: "Scope", value: "Problem Framing · Impact Replay · Product Narrative" },
+    { label: "Team", value: "Malik Zhang\nCindy Ly\nNaomi Boruchowicz\nJimmy Huang" },
+    { label: "Scope", value: "Problem Framing\nImpact Replay\nProduct Narrative" },
     { label: "Outcome", value: "1st Place of 690 Teams" },
     { label: "Tools", value: "Figma Make · Figma · Prototyping" },
   ],

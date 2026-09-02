@@ -3,6 +3,15 @@ import { afterEach, describe, expect, it } from "vitest";
 import { DESIGN_SYSTEM_GROUPS, OVERVIEW_SECTION } from "../sectionModel";
 import { getFoundationTokens } from "./Foundations";
 import { renderReferenceSection } from "../sections";
+import { COMPONENT_DOCS } from "./ComponentDoc";
+
+const findSection = (id: string) => {
+  const section = DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections).find(
+    (candidate) => candidate.id === id,
+  );
+  if (!section) throw new Error(`Missing section fixture: ${id}`);
+  return section;
+};
 
 describe("design-system reference content", () => {
   afterEach(cleanup);
@@ -81,7 +90,10 @@ describe("design-system reference content", () => {
   it("gives every component and pattern a live specimen before its guidance without authoring controls", () => {
     const sections = DESIGN_SYSTEM_GROUPS.slice(1)
       .flatMap((group) => group.sections)
-      .filter((section) => section.id !== "component-lineup");
+      .filter((section) => section.id !== "component-lineup")
+      // Sections on the Preview / API / Pairings / Accessibility / Testing
+      // hierarchy are covered by their own test below.
+      .filter((section) => !COMPONENT_DOCS[section.id]);
 
     for (const section of sections) {
       const { container, unmount } = render(<>{renderReferenceSection(section)}</>);
@@ -96,6 +108,67 @@ describe("design-system reference content", () => {
       expect(screen.queryByRole("button", { name: "Export JSON" })).not.toBeInTheDocument();
       unmount();
     }
+  });
+
+  it("orders documented components as Preview, API, Pairings, Accessibility, Testing", () => {
+    for (const sectionId of Object.keys(COMPONENT_DOCS)) {
+      const { container, unmount } = render(<>{renderReferenceSection(findSection(sectionId))}</>);
+      const root = screen.getByTestId(`reference-${sectionId}`);
+
+      const order = ["Preview", "API", "Pairings", "Accessibility", "Testing"];
+      expect(
+        Array.from(root.querySelectorAll("h2[data-doc-heading]")).map((heading) => heading.textContent),
+      ).toEqual(order);
+
+      // The live specimen opens the page, ahead of the API table.
+      const specimen = screen.getByRole("region", { name: "Live specimen" });
+      const api = screen.getByRole("heading", { name: "API", level: 2 });
+      expect(specimen.compareDocumentPosition(api) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+      expect(screen.getByRole("link", { name: /View.*in context/i })).toHaveAttribute("href");
+
+      // Sub-sections must not expose their own hash anchors: the shell resolves
+      // an unknown hash back to Overview, so an in-page jump would drop the reader.
+      const subSectionIds = Array.from(root.querySelectorAll("h2[data-doc-heading], h3[id]")).map(
+        (heading) => heading.id,
+      );
+      const linkedHashes = Array.from(root.querySelectorAll("a[href]"))
+        .map((link) => link.getAttribute("href") ?? "")
+        .filter((href) => href.startsWith("#"))
+        .map((href) => href.slice(1));
+      expect(linkedHashes.filter((hash) => subSectionIds.includes(hash))).toEqual([]);
+
+      // Every prop row is a real table row with a name, type, and notes.
+      for (const table of Array.from(root.querySelectorAll("table"))) {
+        expect(table.querySelectorAll("tbody tr").length).toBeGreaterThan(0);
+        expect(table.querySelectorAll('thead th[scope="col"]').length).toBe(4);
+        expect(table.querySelectorAll('tbody th[scope="row"]').length).toBe(
+          table.querySelectorAll("tbody tr").length,
+        );
+      }
+
+      expect(screen.getByRole("heading", { name: "Do not pair" })).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: "Not covered" })).toBeInTheDocument();
+      expect(root).toHaveTextContent(/\.test\.tsx/);
+      expect(container.querySelector("iframe")).toBeNull();
+      expect(screen.queryByRole("button", { name: "Export JSON" })).not.toBeInTheDocument();
+      unmount();
+    }
+  });
+
+  it("documents the project card's real props, pairings, and test coverage", () => {
+    render(<>{renderReferenceSection(findSection("component-project-card"))}</>);
+    const root = screen.getByTestId("reference-component-project-card");
+
+    for (const prop of ["project", "projectId", "dotClass", "globalIndex", "sectionHero", "wip"]) {
+      expect(screen.getAllByRole("rowheader", { name: new RegExp(`^${prop}`) }).length).toBeGreaterThan(0);
+    }
+    expect(root).toHaveTextContent(/Project list/);
+    expect(root).toHaveTextContent(/project-dot-arrive/);
+    expect(root).toHaveTextContent(/src\/components\/projectDotArrival\.test\.tsx/);
+    expect(root).toHaveTextContent(/src\/components\/coverVideoPlayback\.test\.tsx/);
+    // The known gaps stay on the page rather than being quietly dropped.
+    expect(root).toHaveTextContent(/entrance.*hover.*do not yet respond to reduced motion/i);
+    expect(root).toHaveTextContent(/radius\.large or ease\.enter/);
   });
 
   it("lists only canonical tokens that the documented production artifacts consume", () => {

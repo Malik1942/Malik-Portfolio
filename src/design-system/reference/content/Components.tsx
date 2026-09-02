@@ -1,4 +1,5 @@
 import { ComponentSpecimen } from "./ComponentSpecimen";
+import { COMPONENT_DOCS, ComponentDoc } from "./ComponentDoc";
 
 interface ReferenceEntry {
   purpose: string;
@@ -14,27 +15,18 @@ interface ReferenceEntry {
 
 const COMPONENTS: Record<string, ReferenceEntry> = {
   "component-site-header": {
-    purpose: "Keep Malik’s identity and four primary destinations available without competing with the work below it.",
+    purpose: "Keep Malik’s identity, four primary destinations, and a right-aligned Connect cluster available without competing with the work below it.",
     usage: "Use once at the top of portfolio and case-study routes. It is a fixed, direction-aware navigation layer—not a generic page toolbar.",
     tokens: ["component.siteHeader.scrimColor", "color.text.primary", "color.border.default", "font.family.body"],
     tokenGap: "Header motion values still live directly in CSS and Framer Motion; the duration and easing tokens do not drive them yet.",
-    responsive: "Desktop centers navigation between the logo and a balancing column. Mobile removes the logo and preserves a single compact link row down to 320px.",
+    responsive: "Desktop centers navigation between the logo and a right-aligned Connect cluster. Mobile removes the logo, keeps a compact destination row down to 320px, and places Connect underneath.",
     accessibility: "Navigation uses real links. The outer hide-and-reveal transition is removed under reduced motion, but the SiteHeader inner entrance still animates, as do its CSS nav and divider entrances. Header inline links do not guarantee a 44px target.",
     preview: "/",
     previewLabel: "View site header in context",
     previewNote: "The header is fixed and coordinates with page scroll, so its production behavior is best evaluated at the top of the real homepage.",
   },
-  "component-project-card": {
-    purpose: "Turn a portfolio project into a clear, image-led route with title, signal, role, and year.",
-    usage: "Use for selected work and workshop entries. WIP projects stay visible but intentionally lose link and hover behavior.",
-    tokens: ["component.projectCard.surface", "component.projectCard.hoverOverlay", "color.text.primary", "color.background.canvas", "color.border.default", "font.family.display", "font.family.body"],
-    tokenGap: "The card’s 16px rounding and entrance and hover motion still use local Tailwind and Framer Motion values rather than radius.large or ease.enter.",
-    responsive: "Editorial rows collapse into vertical cards on narrow screens; the two-column collection retains natural media proportions and readable metadata.",
-    accessibility: "Available projects use real anchors for keyboard focus, screen-reader semantics, and native open-in-new-tab behavior. Focus rings remain visible against the canvas; entrance and hover motion do not yet respond to reduced motion.",
-    preview: "/#projects",
-    previewLabel: "View project cards in context",
-    previewNote: "Project cards depend on real project content, media loading, intersection entry, and route behavior. The production collection is the truthful specimen.",
-  },
+  // component-project-card now lives in ComponentDoc.tsx under the
+  // Preview / API / Pairings / Accessibility / Testing hierarchy.
   "component-project-list": {
     purpose: "Organize selected work into a paced collection with a section heading, accent marker, and responsive project arrangement.",
     usage: "Use for the homepage’s Selected Work and Workshop collections, where ordering and visual rhythm are part of the editorial hierarchy.",
@@ -111,6 +103,8 @@ function Guidance({ entry }: { entry: ReferenceEntry }) {
 }
 
 export function ComponentContent({ sectionId }: { sectionId: string }) {
+  if (COMPONENT_DOCS[sectionId]) return <ComponentDoc sectionId={sectionId} />;
+
   const entry = COMPONENTS[sectionId];
   if (!entry) return null;
 

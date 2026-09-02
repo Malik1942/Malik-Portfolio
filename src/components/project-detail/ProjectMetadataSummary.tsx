@@ -7,7 +7,7 @@ function MetadataItem({ label, value }: ProjectMetaCard) {
       <p className="text-label uppercase tracking-eyebrow text-foreground/55 mb-3">
         {label}
       </p>
-      <p className="text-sm font-normal leading-relaxed text-foreground/72">
+      <p className="text-sm font-normal leading-relaxed text-foreground/72 whitespace-pre-line">
         {noOrphan(value)}
       </p>
     </div>

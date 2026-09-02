@@ -17,4 +17,26 @@ describe("ProjectMetadataSummary", () => {
     expect(screen.getByText("Role")).toBeInTheDocument();
     expect(screen.getByText(/wraps safely/)).toBeInTheDocument();
   });
+
+  it("keeps authored line breaks in a card value", () => {
+    render(
+      <ProjectMetadataSummary
+        cards={[
+          {
+            label: "Team",
+            value: "Malik Zhang\nCindy Ly\nNaomi Boruchowicz\nJimmy Huang",
+          },
+        ]}
+      />,
+    );
+
+    const value = screen.getByText(/Malik Zhang/);
+    expect(value).toHaveClass("whitespace-pre-line");
+    expect(value.textContent?.split("\n").map((line) => line.replace(/\u00A0/g, " "))).toEqual([
+      "Malik Zhang",
+      "Cindy Ly",
+      "Naomi Boruchowicz",
+      "Jimmy Huang",
+    ]);
+  });
 });

@@ -1,8 +1,52 @@
 import { type MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Linkedin, Mail } from "lucide-react";
 import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
 import logo from "@/assets/logo.webp";
+
+const EMAIL_HREF = "mailto:malikzhang19@gmail.com";
+const LINKEDIN_HREF = "https://www.linkedin.com/in/malik-zhang";
+
+function HeaderConnect({
+  interactive,
+  className = "",
+  testId,
+}: {
+  interactive: string;
+  className?: string;
+  testId?: string;
+}) {
+  return (
+    <div
+      data-testid={testId}
+      className={`${interactive} flex items-center gap-x-3 text-foreground/72 ${className}`}
+    >
+      <a
+        href={EMAIL_HREF}
+        className="nav-link hover:text-foreground transition-colors duration-500"
+      >
+        Connect
+      </a>
+      <a
+        href={EMAIL_HREF}
+        aria-label="Email"
+        className="hover:text-foreground transition-colors duration-500"
+      >
+        <Mail className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
+      </a>
+      <a
+        href={LINKEDIN_HREF}
+        aria-label="LinkedIn"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hover:text-foreground transition-colors duration-500"
+      >
+        <Linkedin className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
+      </a>
+    </div>
+  );
+}
 
 interface SiteHeaderProps {
   /** True when the header is tucked away (direction-aware hide-on-scroll). */
@@ -41,8 +85,9 @@ interface SiteHeaderProps {
 
 /**
  * The site's primary navigation — logo + Selected Work / Workshop / About /
- * Resume. A fixed, direction-aware unit shared by the homepage hero and the
- * case-study pages so the two never drift.
+ * Resume, with a right-aligned Connect cluster (email + LinkedIn). A fixed,
+ * direction-aware unit shared by the homepage hero and the case-study pages
+ * so the two never drift.
  *
  * The outer layer owns the fixed positioning, the scroll-direction slide, and
  * the background gradient. The inner layer owns the entrance / About fade so
@@ -144,8 +189,12 @@ export function SiteHeader({
             </a>
           </nav>
 
-          {/* Right — intentionally empty to keep nav centered */}
-          <div />
+          {/* Right — Connect; 1fr column keeps the center nav optically centered */}
+          <HeaderConnect
+            testId="header-connect-desktop"
+            interactive={interactive}
+            className="justify-self-end text-base animate-fade-up delay-4"
+          />
         </div>
 
         {/* Mobile — single-row nav, no logo. A fixed 20px gap (not justify-between)
@@ -157,6 +206,11 @@ export function SiteHeader({
           <a href={`${hrefBase}#about`} className="nav-link hover:text-foreground transition-colors duration-500" onClick={handle(onAbout)}>About</a>
           <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">Resume</a>
         </nav>
+
+        <HeaderConnect
+          interactive={interactive}
+          className="mt-4 justify-end text-sm animate-fade-up delay-4 md:hidden"
+        />
 
         <div className={`${hideMobileDivider ? "hidden md:block" : ""} h-px bg-border/40 mt-5 animate-line-reveal delay-3`} />
       </motion.div>
