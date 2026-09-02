@@ -5,7 +5,7 @@ import neuralyfeBrain from "@/assets/neuralyfe-brain.mp4";
 import neuralyfeReplay from "@/assets/neuralyfe-replay.mp4";
 import neuralyfeHalo from "@/assets/neuralyfe-halo.mp4";
 import { Chips, PullQuote } from "./MotiModules";
-import { noOrphan } from "@/lib/noOrphan";
+import { FigureCaption } from "./FigureCaption";
 
 // NeuraLyfe's case-study hook — mirrors Moti's / Aura's hook (highlight chips →
 // pull-quote → artifact gallery). NeuraLyfe's artifacts are its interactive
@@ -23,10 +23,10 @@ const highlights = [
 // the clip's exact ratio before any bytes arrive, so the page never reflows as
 // the videos come in.
 const artifacts = [
-  { src: neuralyfeRoster, width: 1396, height: 1080, label: "Roster View", caption: "Roster View — triage the whole team at a glance" },
-  { src: neuralyfeBrain, width: 1472, height: 1080, label: "Brain View", caption: "Brain View — where neurological stress is building" },
-  { src: neuralyfeReplay, width: 1636, height: 1080, label: "Impact Replay", caption: "Impact Replay — trace an alert back to the play" },
-  { src: neuralyfeHalo, width: 1920, height: 1200, label: "Halo", caption: "Halo — the sensing layer: EEG, biomarkers, impact camera" },
+  { src: neuralyfeRoster, width: 1396, height: 1080, label: "Roster View", caption: "triage the whole team at a glance" },
+  { src: neuralyfeBrain, width: 1472, height: 1080, label: "Brain View", caption: "where neurological stress is building" },
+  { src: neuralyfeReplay, width: 1636, height: 1080, label: "Impact Replay", caption: "trace an alert back to the play" },
+  { src: neuralyfeHalo, width: 1920, height: 1200, label: "Halo", caption: "the sensing layer: EEG, biomarkers, impact camera" },
 ];
 
 // The four clips add up to ~13 MB. With `autoPlay` on the elements they all began
@@ -118,9 +118,7 @@ function NeuraLyfeArtifact({
           className="w-full h-auto block"
         />
       </div>
-      <figcaption className="mt-5 md:mt-6 text-base md:text-xl text-foreground text-center leading-relaxed">
-        {noOrphan(caption)}
-      </figcaption>
+      <FigureCaption label={label}>{caption}</FigureCaption>
     </figure>
   );
 }

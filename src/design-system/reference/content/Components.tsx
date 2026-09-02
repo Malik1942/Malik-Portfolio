@@ -55,7 +55,7 @@ const COMPONENTS: Record<string, ReferenceEntry> = {
     tokens: ["color.surface.secondary"],
     tokenGap: "The frame’s 16px rounding, width constraints, and spacing are still local values rather than radius.large, layout.content, or spacing tokens.",
     responsive: "Media remains fluid, respects its natural or declared aspect ratio, and caps tall assets relative to the viewport.",
-    accessibility: "Images require specific alternative text, video exposes controls, embeds receive titles, and captions remain associated inside figures.",
+    accessibility: "Images require specific alternative text, video exposes controls, embeds receive titles, and captions remain associated inside figures. The caption is FigureCaption: an optional two- or three-word label, an em dash, then one clause on what the reader is looking at, centered under the media in the primary text color at reading size. NeuraLyfe set the format; Moti and Oryne share it.",
     preview: "/project/aura#project-section-highlights",
     previewLabel: "View media frames in context",
     previewNote: "Media frames are content-driven internal renderers. Aura shows the production mix of image, video, and art-directed modules.",

@@ -1,5 +1,6 @@
 import type { ComponentType, ReactNode } from "react";
 import { noOrphan } from "@/lib/noOrphan";
+import { FigureCaption } from "./FigureCaption";
 import { ChatGptMark, MotionMark, NotionMark, SunsamaMark, TodoistMark } from "./motiBrandMarks";
 import {
   Inbox,
@@ -134,22 +135,17 @@ export function PullQuote({ children }: { children: ReactNode }) {
   );
 }
 
-// Single image + caption. Reuses the SectionFigure container styling.
+// Single image + caption. Reuses the SectionFigure container styling and the
+// shared FigureCaption ("Label — what you are looking at").
 // `narrow` constrains portrait phone screenshots so they don't render full-width.
-// Optional `label` prefixes the caption ("The Ocean — thoughts drift…").
 export type ArtifactItem = { src: string; alt: string; caption: string; label?: string };
 export function MotiFigure({ src, alt, caption, label, narrow }: ArtifactItem & { narrow?: boolean }) {
-  const text = label ? `${label} — ${caption}` : caption;
   return (
     <figure className={narrow ? "mx-auto w-full max-w-[300px]" : undefined}>
       <div className="overflow-hidden rounded-2xl bg-secondary/10">
         <img src={src} alt={alt} loading="lazy" decoding="async" className="w-full h-auto block" />
       </div>
-      {/* Same caption treatment as the NeuraLyfe artifacts: body size, full
-          strength, centered under the figure. */}
-      <figcaption className="mt-5 md:mt-6 text-base md:text-xl text-foreground text-center leading-relaxed">
-        {noOrphan(text)}
-      </figcaption>
+      <FigureCaption label={label}>{caption}</FigureCaption>
     </figure>
   );
 }

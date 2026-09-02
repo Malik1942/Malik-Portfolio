@@ -166,7 +166,10 @@ export const PROJECTS: readonly Project[] = [
     description: "Shipped solo on the App Store: an inspiration-capture app where thoughts drift, gather into currents, and come back on their own. All of its intelligence runs on the device.",
     role: "Product Designer & Builder",
     coverImage: oryneCard,
-    coverAspect: "1280/800",
+    // 1920x1200 rather than the 1280x800 the other reels use: the phone screen
+    // is a quarter of the frame, so at 1280 wide it was ~300px and read soft on
+    // a retina card. Composited from the raw 1206x2622 recording, not the film.
+    coverAspect: "1920/1200",
     // The Oryne reel: the icon blooms into the wordmark and the tagline, then the
     // Ocean gathers a current. coverImage is the wordmark frame, so it serves as the
     // poster, the reduced-motion still, and the resting state once the reel has played.
