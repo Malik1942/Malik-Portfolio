@@ -141,7 +141,7 @@ export const PROJECTS: readonly Project[] = [
     description: "1st Place, FigBuild 2026. Making invisible brain trauma visible before it becomes irreversible.",
     role: "Product Designer, Maker",
     coverImage: neuralyfeCover,
-    coverAspect: "1920/1074",
+    coverAspect: "2400/1350",
     year: "2026",
     details: "Won 1st Place at FigBuild 2026 for Impact Replay, an AI-driven brain-impact visualization for athletes and medical teams.\n\nLed ideation and problem scoping, designed the Impact Replay interface, and contributed across both digital and physical product development.",
   },
