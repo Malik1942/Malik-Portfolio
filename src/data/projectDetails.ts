@@ -973,9 +973,9 @@ const oryne: ProjectDetailSource = {
   heroImageFit: "cover",
   metaCards: [
     { label: "Role", value: "Product Designer & Builder" },
-    { label: "Timeline", value: "June–July 2026 · First Commit to App Store in 23 Days" },
+    { label: "Timeline", value: "June 2026–Present" },
     { label: "Team", value: "Malik, With Claude Code" },
-    { label: "Output", value: "Live on the App Store · v1.5 · English + 中文" },
+    { label: "Output", value: "Live on the App Store · v1.5 · English & Chinese" },
   ],
   sections: [
     {
