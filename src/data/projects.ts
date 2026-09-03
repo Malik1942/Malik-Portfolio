@@ -114,7 +114,7 @@ export const PROJECTS: readonly Project[] = [
     links: [{ label: "App Store", url: "https://apps.apple.com/us/app/moti-plan/id6770705491" }],
     destination: CASE_STUDY,
     signal: "An AI-Native Timeline for Real Projects",
-    description: "Shipped solo on the App Store — an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.",
+    description: "Shipped solo on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.",
     role: "Product Designer & Builder",
     coverImage: motiCard,
     coverAspect: "1280/800",
@@ -133,7 +133,7 @@ export const PROJECTS: readonly Project[] = [
     skills: [],
     destination: CASE_STUDY,
     signal: "Brain Impact Visualization for Athletes and Medical Teams",
-    description: "1st Place, FigBuild 2026 — making invisible brain trauma visible before it becomes irreversible.",
+    description: "1st Place, FigBuild 2026. Making invisible brain trauma visible before it becomes irreversible.",
     role: "Product Designer, Maker",
     coverImage: neuralyfeCover,
     coverAspect: "1920/1074",
@@ -147,7 +147,7 @@ export const PROJECTS: readonly Project[] = [
     skills: [],
     destination: CASE_STUDY,
     signal: "AI-Powered Anticipatory Motion Sickness Relief",
-    description: "A speculative in-flight motion-sickness concept — its refined form was preferred by 93.75% of testers.",
+    description: "A speculative in-flight motion-sickness concept. Its refined form was preferred by 93.75% of testers.",
     role: "Product Designer",
     year: "2025",
     coverImage: auraCover,
@@ -163,7 +163,7 @@ export const PROJECTS: readonly Project[] = [
     skills: [],
     links: [{ label: "App Store", url: "https://apps.apple.com/us/app/oryne/id6778995892" }],
     destination: CASE_STUDY,
-    description: "Shipped solo on the App Store: an inspiration-capture app where thoughts drift, gather into currents, and come back on their own. All of its intelligence runs on the device.",
+    description: "Shipped solo on the App Store: an inspiration-capture app where thoughts drift, gather into currents, and come back on their own.",
     role: "Product Designer & Builder",
     coverImage: oryneCard,
     // 1920x1200 rather than the 1280x800 the other reels use: the phone screen
@@ -175,7 +175,7 @@ export const PROJECTS: readonly Project[] = [
     // poster, the reduced-motion still, and the resting state once the reel has played.
     coverVideo: oryneCardVideo,
     year: "2026",
-    details: "Shipped solo on the App Store, first commit to 1.0 in 23 days: an inspiration-capture app built around one metaphor, your mind as an ocean.\n\nOn-device intelligence names each thought, gathers related ones into currents, and resurfaces them. Six releases in the first fifteen days, in English and Simplified Chinese.",
+    details: "First commit to the App Store in 23 days, built around one metaphor: your mind as an ocean.\n\nAll of its intelligence runs on the device, in English and Simplified Chinese.",
   },
   {
     id: "moodmuse",
@@ -183,7 +183,7 @@ export const PROJECTS: readonly Project[] = [
     section: "more",
     skills: [],
     destination: CASE_STUDY,
-    description: "An emotion-sensing paintbrush for autistic children — the brush reads the hand, answers with color and scent, and the app turns the session into a record parent and therapist can share.",
+    description: "An emotion-sensing paintbrush for autistic children. The brush reads the hand, answers with color and scent, and the app turns the session into a record parent and therapist can share.",
     role: "Industrial Design Lead · Sole UX Designer",
     coverImage: moodmuseHero,
     coverAspect: "1672/941",
@@ -227,7 +227,7 @@ export const PROJECTS: readonly Project[] = [
     skills: [],
     links: [{ label: "Live", url: "https://calmmouse.malikzhang.com/" }],
     destination: CASE_STUDY,
-    description: "A macOS menu-bar app that stops the Magic Mouse from scrolling every time you click — the fix Apple never shipped.",
+    description: "A macOS menu-bar app that stops the Magic Mouse from scrolling every time you click: the fix Apple never shipped.",
     role: "Designer + Builder",
     year: "2026",
     coverImage: calmmouseCardPoster,
@@ -235,7 +235,7 @@ export const PROJECTS: readonly Project[] = [
     // The hero loop: the site's mouse with its tap ripple, a punch into the
     // Without/With demo, and a pull back wide. Poster is the loop's first frame.
     coverVideo: calmmouseCardVideo,
-    details: "A signed, notarized, self-updating native macOS app — free and open source.\n\nThe design problem underneath: a product that succeeds when you notice nothing.",
+    details: "A signed, notarized, self-updating native macOS app, free and open source.\n\nThe design problem underneath: a product that succeeds when you notice nothing.",
   },
   {
     id: "inkwork",
@@ -244,7 +244,7 @@ export const PROJECTS: readonly Project[] = [
     skills: [],
     links: [{ label: "Live", url: "https://www.malikzhang.com/inkwork" }],
     destination: CASE_STUDY,
-    description: "A styled-QR studio with a point of view — pick a style, check the proof, export",
+    description: "A styled-QR studio with a point of view: pick a style, check the proof, export",
     role: "Designer + Builder",
     year: "2026",
     coverImage: inkworkCard,
@@ -252,7 +252,7 @@ export const PROJECTS: readonly Project[] = [
     // The Arcade theme mid-flight: styles switching, then the gradient controls
     // repainting the code. coverImage stays as its poster / reduced-motion still.
     coverVideo: inkworkCardVideo,
-    details: "A styled-QR studio, live at malikzhang.com/inkwork — sixteen presets, two complete themes on one token system, and a scannability check that decodes the code you just made.",
+    details: "A styled-QR studio, live at malikzhang.com/inkwork: sixteen presets, two complete themes on one token system, and a scannability check that decodes the code you just made.",
   },
   {
     id: "studiowaters",
@@ -265,7 +265,7 @@ export const PROJECTS: readonly Project[] = [
     year: "2026",
     coverImage: studioWatersCover,
     coverAspect: "2316/1448",
-    details: "A motion-controlled fishing experience built with Claude and p5.js — physical gestures mapped to calm, responsive digital play.",
+    details: "A motion-controlled fishing experience built with Claude and p5.js: physical gestures mapped to calm, responsive digital play.",
   },
   {
     id: "zeat",
@@ -273,7 +273,7 @@ export const PROJECTS: readonly Project[] = [
     section: "studio",
     skills: [],
     destination: CASE_STUDY,
-    description: "A cleaning robot for stadium grandstands — designed around the eight-hour gap between events, when three tons of trash have to disappear.",
+    description: "A cleaning robot for stadium grandstands, designed around the eight-hour gap between events, when three tons of trash have to disappear.",
     role: "Industrial Designer",
     year: "2025",
     coverImage: zeatCard,

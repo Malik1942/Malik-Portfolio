@@ -26,7 +26,7 @@ const artifacts = [
   { src: neuralyfeRoster, width: 1396, height: 1080, label: "Roster View", caption: "triage the whole team at a glance" },
   { src: neuralyfeBrain, width: 1472, height: 1080, label: "Brain View", caption: "where neurological stress is building" },
   { src: neuralyfeReplay, width: 1636, height: 1080, label: "Impact Replay", caption: "trace an alert back to the play" },
-  { src: neuralyfeHalo, width: 1920, height: 1200, label: "Halo", caption: "the sensing layer: EEG, biomarkers, impact camera" },
+  { src: neuralyfeHalo, width: 1920, height: 1200, label: "Halo", caption: "the sensing layer of EEG, biomarkers, and an impact camera" },
 ];
 
 // The four clips add up to ~13 MB. With `autoPlay` on the elements they all began

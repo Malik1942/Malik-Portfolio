@@ -101,7 +101,7 @@ type ProjectDetailSource = Omit<ProjectDetailDocument, "listSection">;
 const aura: ProjectDetailSource = {
   slug: "aura",
   title: "Aura",
-  heroSummary: "A Wearable System Built to Intervene Before Motion Sickness Starts",
+  heroSummary: "A wearable system built to intervene before motion sickness starts",
     heroImage: auraCover,
   heroImageFit: "natural",
   metaCards: [
@@ -202,7 +202,7 @@ const aura: ProjectDetailSource = {
 const neuralyfe: ProjectDetailSource = {
   slug: "neuralyfe",
   title: "NeuraLyfe",
-  heroSummary: "A Helmet Add-On and Sideline App That Show Football Medical Staff\nWhich Players’ Brains Are at Risk, and Which Hit Caused It.",
+  heroSummary: "A helmet add-on and sideline app that show football medical staff\nwhich players’ brains are at risk, and which hit caused it.",
     heroImage: neuralyfeDetail1,
   metaCards: [
     { label: "Role", value: "Product Designer · Maker" },
@@ -297,7 +297,7 @@ const neuralyfe: ProjectDetailSource = {
 const moti: ProjectDetailSource = {
   slug: "moti",
   title: "Moti: Plan",
-  heroSummary: "Shipped Solo on the App Store: an AI-Native Planner That\nTurns Messy Input Into a Living, Timeline-Aware Plan",
+  heroSummary: "Shipped solo on the App Store: an AI-native planner that\nturns messy input into a living, timeline-aware plan",
   heroImage: motiHero,
   heroImageFit: "cover",
   metaCards: [
@@ -360,8 +360,8 @@ const moti: ProjectDetailSource = {
 const flowprint: ProjectDetailSource = {
   slug: "flowprint",
   title: "FlowPrint",
-  heroSummary: "A 3D Printing Onboarding System Designed to Make a Beginner's First Print Succeed, Not Just Start.",
-  heroSubtitle: "From Roughly an Hour of Setup Anxiety to a Guided Fifteen-Minute Path In.",
+  heroSummary: "A 3D printing onboarding system designed to make a beginner's first print succeed, not just start.",
+  heroSubtitle: "From roughly an hour of setup anxiety to a guided fifteen-minute path in.",
   heroImage: flowprintCover,
   heroImageFit: "contain",
   metaCards: [
@@ -416,8 +416,8 @@ const flowprint: ProjectDetailSource = {
 const tubular: ProjectDetailSource = {
   slug: "tubular",
   title: "Tubular",
-  heroSummary: "Defy Gravity. Shape the Path.",
-  heroSubtitle: "A Tactile, Experimental Toy That Teaches Fluid Dynamics Through Play.",
+  heroSummary: "Defy gravity. Shape the path.",
+  heroSubtitle: "A tactile, experimental toy that teaches fluid dynamics through play.",
   heroImage: tubularCover,
   metaCards: [
     { label: "Role", value: "Product Designer · Maker" },
@@ -479,7 +479,7 @@ const tubular: ProjectDetailSource = {
 const moodmuse: ProjectDetailSource = {
   slug: "moodmuse",
   title: "Mood Muse",
-  heroSummary: "An Emotion-Sensing Paintbrush That Lets Autistic Children\nSay How They Feel Without Saying Anything.",
+  heroSummary: "An emotion-sensing paintbrush that lets autistic children\nsay how they feel without saying anything.",
     heroImage: moodmuseHero,
   heroImageFit: "natural",
   metaCards: [
@@ -581,8 +581,8 @@ const moodmuse: ProjectDetailSource = {
 const studiowaters: ProjectDetailSource = {
   slug: "studiowaters",
   title: "Studio Waters",
-  heroSummary: "A Playable Fishing Prototype That Turns Real-World Casting and Reeling Gestures Into Calm, Responsive Play.",
-  heroSubtitle: "Built Solo With Claude, p5.js, and a Circuit Playground Express — No Buttons, Just Gestures.",
+  heroSummary: "A playable fishing prototype that turns real-world casting and reeling gestures into calm, responsive play.",
+  heroSubtitle: "Built solo with Claude, p5.js, and a Circuit Playground Express. No buttons, just gestures.",
   heroImage: studioWatersCover,
   heroImageFit: "cover",
   metaCards: [
@@ -634,8 +634,8 @@ const studiowaters: ProjectDetailSource = {
 const calmmouse: ProjectDetailSource = {
   slug: "calmmouse",
   title: "CalmMouse",
-  heroSummary: "A macOS App That Stops the Magic Mouse From Scrolling Every Time You Click.",
-  heroSubtitle: "Designed, Built, and Shipped Solo · Signed & Notarized · Free and Open Source on GitHub.",
+  heroSummary: "A macOS app that stops the Magic Mouse from scrolling every time you click.",
+  heroSubtitle: "Designed, built, and shipped solo · Signed and notarized · Free and open source on GitHub.",
   heroImage: calmmouseHeroStill,
   heroImageFit: "natural",
   metaCards: [
@@ -701,8 +701,8 @@ const calmmouse: ProjectDetailSource = {
 const inkwork: ProjectDetailSource = {
   slug: "inkwork",
   title: "Inkwork",
-  heroSummary: "A Styled-QR Studio, and What It Took to Get From Working to Good.",
-  heroSubtitle: "Designed, Built, and Shipped Solo · Live at malikzhang.com/inkwork · Press the Cube.",
+  heroSummary: "A styled-QR studio, and what it took to get from working to good.",
+  heroSubtitle: "Designed, built, and shipped solo · Live at malikzhang.com/inkwork · Press the cube.",
   heroImage: inkworkHero,
   heroImageFit: "natural",
   metaCards: [
@@ -761,7 +761,7 @@ const inkwork: ProjectDetailSource = {
 const zeat: ProjectDetailSource = {
   slug: "zeat",
   title: "ZEAT",
-  heroSummary: "Intelligent Robots Auto Collect Trash, Clean the Floors,\nand Inspect the Results After Every Event.",
+  heroSummary: "Intelligent robots auto collect trash, clean the floors,\nand inspect the results after every event.",
     heroImage: zeatHero,
   heroImageFit: "natural",
   metaCards: [
@@ -861,7 +861,7 @@ const zeat: ProjectDetailSource = {
 const ranger: ProjectDetailSource = {
   slug: "ranger",
   title: "RANGER",
-  heroSummary: "An Underwater Drone That Finds Abandoned Fishing Nets,\nPins Them With an Airbag, and Floats Them Up Without a Diver.",
+  heroSummary: "An underwater drone that finds abandoned fishing nets,\npins them with an airbag, and floats them up without a diver.",
   heroImage: rangerHero,
   heroImageFit: "natural",
   metaCards: [
@@ -968,68 +968,58 @@ const ranger: ProjectDetailSource = {
 const oryne: ProjectDetailSource = {
   slug: "oryne",
   title: "Oryne",
-  heroSummary: "Shipped Solo on the App Store: an Inspiration-Capture App Where\nThoughts Drift, Gather Into Currents, and Come Back on Their Own",
+  heroSummary: "An ocean for unfinished thoughts. Shipped solo on the App Store,\nwith all of its intelligence on the device",
   heroImage: oryneHero,
   heroImageFit: "cover",
   metaCards: [
     { label: "Role", value: "Product Designer & Builder" },
     { label: "Timeline", value: "June–July 2026 · First Commit to App Store in 23 Days" },
     { label: "Team", value: "Malik, With Claude Code" },
-    { label: "Output", value: "Live on the App Store · v1.5 · On-Device AI · English + 中文" },
+    { label: "Output", value: "Live on the App Store · v1.5 · English + 中文" },
   ],
   sections: [
     {
       id: "overview",
       label: "Overview",
       showProjectMeta: true,
-      body: "**Oryne is an inspiration-capture app for iOS where your thoughts don't sit in rows. They float. Designed, built, and shipped solo.**\n\n[[module:oryne-tags]]",
+      body: "**Oryne is an inspiration-capture app for iOS. Thoughts don't sit in rows; they float.** Speak or type one, release it, and the device names it, drifts it next to its relatives, and brings it back when it matters again.\n\n[[module:oryne-tags]]",
       afterMetaModule: "oryne-app-store",
     },
     {
       id: "highlights",
       label: "Highlights",
       figures: [{ type: "video", src: oryneFilm, poster: oryneFilmPoster }],
-      body: "**Speak or type a thought in one tap and release it into the Ocean. On-device intelligence names it, finds its themes, drifts it next to its relatives, and brings it back when it matters again.**\n\n[[fig:0]]\n\n[[module:oryne-hook]]",
+      body: "[[fig:0]]\n\n[[module:oryne-hook]]",
     },
     {
       id: "problem",
       label: "The Problem",
-      body: "Every notes app makes the same promise: give us your thoughts and we will keep them organized. Every one breaks it the same way. Not by losing the thoughts, but by burying them.\n\n[[module:oryne-problem]]\n\n**The list is honest about storage and dishonest about memory. The problem was never the list. It was the monopoly.**",
+      body: "Every notes app promises to keep your thoughts organized, and every one breaks the promise the same way: not by losing them, but by burying them.\n\n[[module:oryne-problem]]\n\n**The list is honest about storage and dishonest about memory.**",
     },
     {
-      id: "metaphor",
-      label: "The Metaphor",
-      body: "Your mind as an ocean. Each captured thought is a small drifting body with its own buoyancy. Related thoughts gather into currents. Nothing is pinned and nothing is ranked; when you open the app, the water is simply in motion, the way your ideas were when you had them.\n\nThe test I held every interaction to: it had to be derivable from the metaphor. If a behavior needed “that's just how apps work,” the design had failed. If it could be explained with “that's how water works,” it passed. So capture became a thought falling into the ocean, categorization became a thought flowing into a current, and rediscovery became things surfacing.\n\n[[module:oryne-vocabulary]]\n\n**A metaphor is cheap if it is only a skin. This one had to answer questions.**",
+      id: "idea",
+      label: "The Idea",
+      body: "Your mind as an ocean. Thoughts drift, related ones gather into currents, and forgotten ones resurface. Every interaction had to be explainable as “that's how water works,” never as “that's just how apps work.”\n\n[[module:oryne-idea]]\n\n**A field that feels alive is illegible by default. So the Ocean is for encountering, the Library is for finding, and neither pretends to be the other.**",
     },
     {
-      id: "spaces",
-      label: "Felt vs Legible",
-      body: "The tension that shaped nearly every decision. A field of drifting thoughts feels alive; it is also, by default, illegible. Motion fights reading, and ambience fights retrieval. Tune everything toward feeling and you have a screensaver. Tune everything toward legibility and you have reinvented the grid with extra steps.\n\nThe resolution was not a compromise in the middle. It was a separation of spaces, each allowed to be fully itself.\n\n[[module:oryne-spaces]]\n\n**It took a long time to stop trying to make the Ocean also be a good search surface. It isn't, and it shouldn't be.**",
-    },
-    {
-      id: "decisions",
-      label: "Three Decisions",
-      body: "The most valuable design work in Oryne is the part you cannot see: what the Ocean surface refused to do, an effect I loved and killed, and two features that arrived disguised as one.\n\n[[module:oryne-decisions]]",
-    },
-    {
-      id: "capture",
-      label: "Capture",
-      body: "The moment between having a thought and judging it is the product. Anything that lengthens that moment is a regression, whatever it adds. So capture had to be reachable from wherever the thought arrives, and finished before the thought could leave.\n\n[[module:oryne-capture]]\n\n**Would this change make someone hesitate before capturing? Then no.**",
+      id: "final-design",
+      label: "Final Design",
+      body: "One thought, start to finish, and the decisions underneath. Every screen is the shipped app.\n\n[[module:oryne-flow]]\n\n**Capture in under two seconds from anywhere. If a change would make someone hesitate before capturing, the answer is no.**",
     },
     {
       id: "privacy",
       label: "Privacy",
-      body: "Oryne runs its intelligence on the device: Apple's Foundation Models, local speech recognition, private CloudKit sync. No thought you capture transits a server I can read.\n\n[[module:oryne-privacy]]",
+      body: "What you are willing to capture depends on where you believe it goes. An inspiration tool only works if you will feed it your half-formed, 2 a.m. thoughts, so nothing you capture transits a server I can read.\n\n[[module:oryne-privacy]]",
     },
     {
       id: "shipping",
       label: "Shipping It",
-      body: "I am a product designer, and before Oryne I had never shipped production Swift. Twenty-three days after the first commit, it was on the App Store. I wrote almost none of its code by hand, and I built everything around the code that made it trustworthy: the workflow, the review gates, the rules, and the tests that treated the AI's own claims as suspect.\n\n[[module:oryne-shipping]]\n\n**The code was the easy part. It arrived on demand, endlessly patient, superficially convincing. The hard part was building the apparatus of distrust that made “superficially convincing” survivable.**",
+      body: "I had never shipped production Swift. Twenty-three days after the first commit, Oryne was on the App Store. The AI wrote the code; I designed the review that made it trustworthy, and I tried to make the AI lie before users could.\n\n[[module:oryne-shipping]]",
     },
     {
       id: "learned",
       label: "What the Ocean Taught Me",
-      body: "Nearly every choice in Oryne trades control for encounter: browsing over managing, drift over sorting, restraint over reach. That is the trade I keep wanting to make, and it is probably the most honest description of the kind of designer I am.\n\n[[module:oryne-takeaways]]",
+      body: "Nearly every choice trades control for encounter: browsing over managing, drift over sorting, restraint over reach.\n\n[[module:oryne-takeaways]]",
     },
   ],
 };

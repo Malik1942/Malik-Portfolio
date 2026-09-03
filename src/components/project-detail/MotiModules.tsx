@@ -126,9 +126,12 @@ export function Chips({ items }: { items: string[] }) {
 export function PullQuote({ children }: { children: ReactNode }) {
   // Every caller passes a plain string; guard the type since children is
   // typed as ReactNode. noOrphan is a no-op on text that already wraps fine.
+  // `text-wrap: pretty`, not the page's `balance`: a balanced two-line quote
+  // splits into two half-width lines and leaves the right half of the reading
+  // column empty. Pretty fills the first line and only guards the last one.
   return (
     <blockquote className="border-l-2 border-foreground/20 pl-6 md:pl-8">
-      <p className="text-xl md:text-title font-light leading-snug tracking-tight text-foreground">
+      <p className="text-xl md:text-title font-light leading-snug tracking-tight text-foreground [text-wrap:pretty]">
         {typeof children === "string" ? noOrphan(children) : children}
       </p>
     </blockquote>
@@ -137,11 +140,16 @@ export function PullQuote({ children }: { children: ReactNode }) {
 
 // Single image + caption. Reuses the SectionFigure container styling and the
 // shared FigureCaption ("Label — what you are looking at").
-// `narrow` constrains portrait phone screenshots so they don't render full-width.
+// Every phone screen on a case study renders at this one width, whether it sits
+// alone under a grid, in a pair, or in a gallery. It is the width a two-column
+// gallery cell measures on the reading width, so pairs fill their cells and a
+// single screen matches them. Landscape figures (diagrams, boards) omit `screen`
+// and take the full reading width instead.
+export const SCREEN_FIGURE_WIDTH = "mx-auto w-full max-w-[400px]";
 export type ArtifactItem = { src: string; alt: string; caption: string; label?: string };
-export function MotiFigure({ src, alt, caption, label, narrow }: ArtifactItem & { narrow?: boolean }) {
+export function MotiFigure({ src, alt, caption, label, screen }: ArtifactItem & { screen?: boolean }) {
   return (
-    <figure className={narrow ? "mx-auto w-full max-w-[300px]" : undefined}>
+    <figure className={screen ? SCREEN_FIGURE_WIDTH : undefined}>
       <div className="overflow-hidden rounded-2xl bg-secondary/10">
         <img src={src} alt={alt} loading="lazy" decoding="async" className="w-full h-auto block" />
       </div>
@@ -155,7 +163,7 @@ export function ArtifactGallery({ items }: { items: ArtifactItem[] }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10 md:gap-x-8 md:gap-y-14">
       {items.map((it) => (
-        <MotiFigure key={it.src} {...it} />
+        <MotiFigure key={it.src} {...it} screen />
       ))}
     </div>
   );
@@ -327,9 +335,9 @@ const behaviorItems: GridItem[] = [
   { num: "04", title: "Optimize for Momentum", icon: Gauge, accent: "violet" },
 ];
 const tierItems: GridItem[] = [
-  { num: "01", title: "Rule-Based", desc: "Deterministic logic — due dates, checkpoints, timeline calculations. Fast, reliable, consistent.", icon: Ruler, accent: "slate" },
+  { num: "01", title: "Rule-Based", desc: "Deterministic logic: due dates, checkpoints, timeline calculations. Fast, reliable, consistent.", icon: Ruler, accent: "slate" },
   { num: "02", title: "Foundational Model · SLM", desc: "Understanding, not planning. Fast, lightweight parsing and low-latency interactions.", icon: Cpu, accent: "emerald" },
-  { num: "03", title: "LLM", desc: "Deep reasoning — project-level planning, adaptive refinement, contextual understanding.", icon: Brain, accent: "violet" },
+  { num: "03", title: "LLM", desc: "Deep reasoning: project-level planning, adaptive refinement, contextual understanding.", icon: Brain, accent: "violet" },
 ];
 const interactionItems: GridItem[] = [
   { num: "01", title: "Conversational Capture", desc: "Natural language in.", icon: MessagesSquare, accent: "violet" },
@@ -367,18 +375,18 @@ export function MotiBeforeBuilding() {
         <MotiFigure
           src={motiSlm}
           alt="Moti stage one: the SLM extracts signals, structures intent, and builds context"
-          caption="Stage one — the SLM turns raw, scattered input into structured understanding: fast, lightweight, low-latency."
+          caption="Stage one: the SLM turns raw, scattered input into structured understanding, fast and lightweight"
         />
         <MotiFigure
           src={motiLlm}
           alt="Moti stage two: the LLM planning layer turns structured context into an adaptive plan"
-          caption="Stage two — the LLM turns that structured context into an adaptive, timeline-aware plan."
+          caption="Stage two: the LLM turns that structured context into an adaptive, timeline-aware plan"
         />
         <MotiFigure
           src={motiAi}
           alt="Moti Settings screen showing the three selectable intelligence modes"
-          caption="All three modes ship in the app — rule-based, foundational model (SLM), and LLM."
-          narrow
+          caption="All three modes ship in the app: rule-based, foundational model (SLM), and LLM"
+          screen
         />
         <div className="flex flex-col gap-4 rounded-2xl border border-case-study-module-border bg-surface-inset px-6 py-7 md:px-8 md:py-8">
           <div className="flex items-center justify-between">
@@ -386,7 +394,7 @@ export function MotiBeforeBuilding() {
             <Activity aria-hidden="true" className="w-4 h-4 text-accent-violet" strokeWidth={1.4} />
           </div>
           <p className="text-sm md:text-base font-light leading-relaxed text-foreground/72">
-            Moti checks in at set milestones to learn the user&rsquo;s personal baseline — pace, completion behavior, and
+            Moti checks in at set milestones to learn the user&rsquo;s personal baseline: pace, completion behavior, and
             energy.
           </p>
           <div className="flex flex-wrap gap-2">
@@ -411,11 +419,13 @@ export function MotiBeforeBuilding() {
             src={motiLlmPlan1}
             alt="Moti Smart Capture asking a clarifying question about the captured intent"
             caption="Capture in plain language; Moti asks one clarifying question to resolve intent."
+            screen
           />
           <MotiFigure
             src={motiLlmPlan2}
             alt="Moti Smart Capture proposing a structured, timeline-aware task"
-            caption="Then it proposes a structured, timeline-aware task — Add to Timeline, Refine, or Dismiss."
+            caption="Then it proposes a structured, timeline-aware task: Add to Timeline, Refine, or Dismiss"
+            screen
           />
         </div>
       </div>
