@@ -980,6 +980,26 @@ const AboutDeepContent = ({
         <AmbientDots count={50} />
 
         <div className="relative z-20 max-w-3xl mx-auto px-8 pt-32 pb-8">
+          {/* ── Life & Events ── */}
+          <AboutEditorialSection
+            sectionRef={lifeSectionRef}
+            inView={lifeInView}
+            eyebrow="Life & Events"
+            title="Path and milestones"
+            description="A loose chronology of study, craft, and shipped work — awards, roles, and the experiments that led here."
+          >
+            <motion.div
+              className="min-w-0 flex-1 space-y-6 md:space-y-7 border-l border-foreground/[0.08] pl-6 md:pl-7"
+              variants={aboutEditorialStaggerVariants}
+              initial="hidden"
+              animate={lifeInView ? "show" : "hidden"}
+            >
+              {LIFE_EVENTS.map((event) => (
+                <LifeEventRow key={event.title} event={event} />
+              ))}
+            </motion.div>
+          </AboutEditorialSection>
+
           {/* ── Photography — shared editorial shell + image grid ── */}
           <AboutEditorialSection
             sectionRef={photoSectionRef}
@@ -1017,26 +1037,6 @@ const AboutDeepContent = ({
                   onOpen={() => openPhoto(photoIndexById(PHOTO_EDITORIAL_PANORAMIC.id))}
                 />
               </motion.div>
-            </motion.div>
-          </AboutEditorialSection>
-
-          {/* ── Life & Events ── */}
-          <AboutEditorialSection
-            sectionRef={lifeSectionRef}
-            inView={lifeInView}
-            eyebrow="Life & Events"
-            title="Path and milestones"
-            description="A loose chronology of study, craft, and shipped work — awards, roles, and the experiments that led here."
-          >
-            <motion.div
-              className="min-w-0 flex-1 space-y-6 md:space-y-7 border-l border-foreground/[0.08] pl-6 md:pl-7"
-              variants={aboutEditorialStaggerVariants}
-              initial="hidden"
-              animate={lifeInView ? "show" : "hidden"}
-            >
-              {LIFE_EVENTS.map((event) => (
-                <LifeEventRow key={event.title} event={event} />
-              ))}
             </motion.div>
           </AboutEditorialSection>
 
