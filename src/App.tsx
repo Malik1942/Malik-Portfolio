@@ -10,6 +10,7 @@ import Index from "./pages/Index.tsx";
 
 // Code-split the heavier secondary routes so the landing page doesn't ship them.
 const Resume = lazy(() => import("./pages/Resume.tsx"));
+const Studio = lazy(() => import("./pages/Studio.tsx"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail.tsx"));
 const DesignSystem = lazy(() => import("./pages/DesignSystem.tsx"));
 const OryneSupport = lazy(() => import("./pages/OryneSupport.tsx"));
@@ -37,6 +38,7 @@ function AnimatedRoutes() {
           <Route path="/about/connect" element={<Index aboutOpen aboutSection="connect" />} />
           <Route path="/about/connect/" element={<Index aboutOpen aboutSection="connect" />} />
           <Route path="/resume" element={<Resume />} />
+          <Route path="/studio" element={<Studio />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/design-system" element={<DesignSystem />} />
           <Route path="/oryne/support" element={<OryneSupport />} />

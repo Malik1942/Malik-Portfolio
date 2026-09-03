@@ -1,5 +1,5 @@
 import type { ProjectDetailDocument } from "@/types/projectDetail";
-import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
+import { sectionLabelForProject } from "@/data/projects";
 import auraCover from "@/assets/aura-cover.webp";
 import calmmouseHeroStill from "@/assets/calmmouse-hero-still.webp";
 import calmmouseHeroFilm from "@/assets/calmmouse-hero.mp4";
@@ -92,10 +92,14 @@ import rangerPlatform from "@/assets/ranger-platform.webp";
 import rangerDetailPod from "@/assets/ranger-detail-pod.webp";
 import rangerDetailThruster from "@/assets/ranger-detail-thruster.webp";
 import rangerDetailCharge from "@/assets/ranger-detail-charge.webp";
+import oryneHero from "@/assets/oryne-hero.webp";
+import oryneFilm from "@/assets/oryne-film.mp4";
+import oryneFilmPoster from "@/assets/oryne-film-poster.webp";
 
-const aura: ProjectDetailDocument = {
+type ProjectDetailSource = Omit<ProjectDetailDocument, "listSection">;
+
+const aura: ProjectDetailSource = {
   slug: "aura",
-  listSection: "Main Projects",
   title: "Aura",
   heroSummary: "A Wearable System Built to Intervene Before Motion Sickness Starts",
     heroImage: auraCover,
@@ -195,9 +199,8 @@ const aura: ProjectDetailDocument = {
   ],
 };
 
-const neuralyfe: ProjectDetailDocument = {
+const neuralyfe: ProjectDetailSource = {
   slug: "neuralyfe",
-  listSection: "Main Projects",
   title: "NeuraLyfe",
   heroSummary: "A Helmet Add-On and Sideline App That Show Football Medical Staff\nWhich Players’ Brains Are at Risk, and Which Hit Caused It.",
     heroImage: neuralyfeDetail1,
@@ -291,9 +294,8 @@ const neuralyfe: ProjectDetailDocument = {
 
 // Real Moti case study. Imagery lives in src/assets (moti-*.webp); the rich section
 // blocks live in ./MotiModules.tsx and render via the [[module:moti-*]] refs.
-const moti: ProjectDetailDocument = {
+const moti: ProjectDetailSource = {
   slug: "moti",
-  listSection: "Main Projects",
   title: "Moti: Plan",
   heroSummary: "Shipped Solo on the App Store: an AI-Native Planner That\nTurns Messy Input Into a Living, Timeline-Aware Plan",
   heroImage: motiHero,
@@ -355,9 +357,8 @@ const moti: ProjectDetailDocument = {
   ],
 };
 
-const flowprint: ProjectDetailDocument = {
+const flowprint: ProjectDetailSource = {
   slug: "flowprint",
-  listSection: "Main Projects",
   title: "FlowPrint",
   heroSummary: "A 3D Printing Onboarding System Designed to Make a Beginner's First Print Succeed, Not Just Start.",
   heroSubtitle: "From Roughly an Hour of Setup Anxiety to a Guided Fifteen-Minute Path In.",
@@ -412,9 +413,8 @@ const flowprint: ProjectDetailDocument = {
   ],
 };
 
-const tubular: ProjectDetailDocument = {
+const tubular: ProjectDetailSource = {
   slug: "tubular",
-  listSection: WORKSHOP_SECTION_LABEL,
   title: "Tubular",
   heroSummary: "Defy Gravity. Shape the Path.",
   heroSubtitle: "A Tactile, Experimental Toy That Teaches Fluid Dynamics Through Play.",
@@ -476,9 +476,8 @@ const tubular: ProjectDetailDocument = {
 // imagery, so they are not shown. The hero and the structure and brush-detail
 // panels are supplied images; the human evidence is the real prototype
 // photography in the Built section.
-const moodmuse: ProjectDetailDocument = {
+const moodmuse: ProjectDetailSource = {
   slug: "moodmuse",
-  listSection: "Main Projects",
   title: "Mood Muse",
   heroSummary: "An Emotion-Sensing Paintbrush That Lets Autistic Children\nSay How They Feel Without Saying Anything.",
     heroImage: moodmuseHero,
@@ -579,9 +578,8 @@ const moodmuse: ProjectDetailDocument = {
   ],
 };
 
-const studiowaters: ProjectDetailDocument = {
+const studiowaters: ProjectDetailSource = {
   slug: "studiowaters",
-  listSection: WORKSHOP_SECTION_LABEL,
   title: "Studio Waters",
   heroSummary: "A Playable Fishing Prototype That Turns Real-World Casting and Reeling Gestures Into Calm, Responsive Play.",
   heroSubtitle: "Built Solo With Claude, p5.js, and a Circuit Playground Express — No Buttons, Just Gestures.",
@@ -633,9 +631,8 @@ const studiowaters: ProjectDetailDocument = {
 };
 
 // CalmMouse: a native macOS Magic Mouse utility, designed/built/shipped solo.
-const calmmouse: ProjectDetailDocument = {
+const calmmouse: ProjectDetailSource = {
   slug: "calmmouse",
-  listSection: WORKSHOP_SECTION_LABEL,
   title: "CalmMouse",
   heroSummary: "A macOS App That Stops the Magic Mouse From Scrolling Every Time You Click.",
   heroSubtitle: "Designed, Built, and Shipped Solo · Signed & Notarized · Free and Open Source on GitHub.",
@@ -701,9 +698,8 @@ const calmmouse: ProjectDetailDocument = {
 
 // Inkwork building story. The rich section blocks live in
 // ./InkworkModules.tsx and render via the [[module:inkwork-*]] refs.
-const inkwork: ProjectDetailDocument = {
+const inkwork: ProjectDetailSource = {
   slug: "inkwork",
-  listSection: WORKSHOP_SECTION_LABEL,
   title: "Inkwork",
   heroSummary: "A Styled-QR Studio, and What It Took to Get From Working to Good.",
   heroSubtitle: "Designed, Built, and Shipped Solo · Live at malikzhang.com/inkwork · Press the Cube.",
@@ -762,9 +758,8 @@ const inkwork: ProjectDetailDocument = {
 // ZEAT industrial design case study. Imagery lives in src/assets (zeat-*.webp).
 // Register note: no patent claim, no fabricated metrics — every number traces to
 // the source deck. The dispatch-app screens are deliberately not shown.
-const zeat: ProjectDetailDocument = {
+const zeat: ProjectDetailSource = {
   slug: "zeat",
-  listSection: WORKSHOP_SECTION_LABEL,
   title: "ZEAT",
   heroSummary: "Intelligent Robots Auto Collect Trash, Clean the Floors,\nand Inspect the Results After Every Event.",
     heroImage: zeatHero,
@@ -863,9 +858,8 @@ const zeat: ProjectDetailDocument = {
 // bag geometries, the three modular interfaces, the three movement modes) is
 // labelled on the source boards. No recovery rates, tonnages, or test results
 // are claimed, because none were measured.
-const ranger: ProjectDetailDocument = {
+const ranger: ProjectDetailSource = {
   slug: "ranger",
-  listSection: WORKSHOP_SECTION_LABEL,
   title: "RANGER",
   heroSummary: "An Underwater Drone That Finds Abandoned Fishing Nets,\nPins Them With an Airbag, and Floats Them Up Without a Diver.",
   heroImage: rangerHero,
@@ -967,8 +961,84 @@ const ranger: ProjectDetailDocument = {
   ],
 };
 
-const PROJECT_DETAILS: Record<string, ProjectDetailDocument> = {
+// Real Oryne case study. Imagery lives in src/assets (oryne-*.webp, the film as
+// oryne-film.mp4); the rich section blocks live in OryneModules.tsx and render via
+// the [[module:oryne-*]] refs. Every date and claim is verified against the App Store
+// listing and the app's git history.
+const oryne: ProjectDetailSource = {
+  slug: "oryne",
+  title: "Oryne",
+  heroSummary: "Shipped Solo on the App Store: an Inspiration-Capture App Where\nThoughts Drift, Gather Into Currents, and Come Back on Their Own",
+  heroImage: oryneHero,
+  heroImageFit: "cover",
+  metaCards: [
+    { label: "Role", value: "Product Designer & Builder" },
+    { label: "Timeline", value: "June–July 2026 · First Commit to App Store in 23 Days" },
+    { label: "Team", value: "Malik, With Claude Code" },
+    { label: "Output", value: "Live on the App Store · v1.5 · On-Device AI · English + 中文" },
+  ],
+  sections: [
+    {
+      id: "overview",
+      label: "Overview",
+      showProjectMeta: true,
+      body: "**Oryne is an inspiration-capture app for iOS where your thoughts don't sit in rows. They float. Designed, built, and shipped solo.**\n\n[[module:oryne-tags]]",
+      afterMetaModule: "oryne-app-store",
+    },
+    {
+      id: "highlights",
+      label: "Highlights",
+      figures: [{ type: "video", src: oryneFilm, poster: oryneFilmPoster }],
+      body: "**Speak or type a thought in one tap and release it into the Ocean. On-device intelligence names it, finds its themes, drifts it next to its relatives, and brings it back when it matters again.**\n\n[[fig:0]]\n\n[[module:oryne-hook]]",
+    },
+    {
+      id: "problem",
+      label: "The Problem",
+      body: "Every notes app makes the same promise: give us your thoughts and we will keep them organized. Every one breaks it the same way. Not by losing the thoughts, but by burying them.\n\n[[module:oryne-problem]]\n\n**The list is honest about storage and dishonest about memory. The problem was never the list. It was the monopoly.**",
+    },
+    {
+      id: "metaphor",
+      label: "The Metaphor",
+      body: "Your mind as an ocean. Each captured thought is a small drifting body with its own buoyancy. Related thoughts gather into currents. Nothing is pinned and nothing is ranked; when you open the app, the water is simply in motion, the way your ideas were when you had them.\n\nThe test I held every interaction to: it had to be derivable from the metaphor. If a behavior needed “that's just how apps work,” the design had failed. If it could be explained with “that's how water works,” it passed. So capture became a thought falling into the ocean, categorization became a thought flowing into a current, and rediscovery became things surfacing.\n\n[[module:oryne-vocabulary]]\n\n**A metaphor is cheap if it is only a skin. This one had to answer questions.**",
+    },
+    {
+      id: "spaces",
+      label: "Felt vs Legible",
+      body: "The tension that shaped nearly every decision. A field of drifting thoughts feels alive; it is also, by default, illegible. Motion fights reading, and ambience fights retrieval. Tune everything toward feeling and you have a screensaver. Tune everything toward legibility and you have reinvented the grid with extra steps.\n\nThe resolution was not a compromise in the middle. It was a separation of spaces, each allowed to be fully itself.\n\n[[module:oryne-spaces]]\n\n**It took a long time to stop trying to make the Ocean also be a good search surface. It isn't, and it shouldn't be.**",
+    },
+    {
+      id: "decisions",
+      label: "Three Decisions",
+      body: "The most valuable design work in Oryne is the part you cannot see: what the Ocean surface refused to do, an effect I loved and killed, and two features that arrived disguised as one.\n\n[[module:oryne-decisions]]",
+    },
+    {
+      id: "capture",
+      label: "Capture",
+      body: "The moment between having a thought and judging it is the product. Anything that lengthens that moment is a regression, whatever it adds. So capture had to be reachable from wherever the thought arrives, and finished before the thought could leave.\n\n[[module:oryne-capture]]\n\n**Would this change make someone hesitate before capturing? Then no.**",
+    },
+    {
+      id: "privacy",
+      label: "Privacy",
+      body: "Oryne runs its intelligence on the device: Apple's Foundation Models, local speech recognition, private CloudKit sync. No thought you capture transits a server I can read.\n\n[[module:oryne-privacy]]",
+    },
+    {
+      id: "shipping",
+      label: "Shipping It",
+      body: "I am a product designer, and before Oryne I had never shipped production Swift. Twenty-three days after the first commit, it was on the App Store. I wrote almost none of its code by hand, and I built everything around the code that made it trustworthy: the workflow, the review gates, the rules, and the tests that treated the AI's own claims as suspect.\n\n[[module:oryne-shipping]]\n\n**The code was the easy part. It arrived on demand, endlessly patient, superficially convincing. The hard part was building the apparatus of distrust that made “superficially convincing” survivable.**",
+    },
+    {
+      id: "learned",
+      label: "What the Ocean Taught Me",
+      body: "Nearly every choice in Oryne trades control for encounter: browsing over managing, drift over sorting, restraint over reach. That is the trade I keep wanting to make, and it is probably the most honest description of the kind of designer I am.\n\n[[module:oryne-takeaways]]",
+    },
+  ],
+};
+
+// Authored without `listSection`: the eyebrow is filled in below from the
+// project's homepage section so the two can never disagree.
+const SOURCES: ProjectDetailSource[] = [
   moti,
+  oryne,
   calmmouse,
   inkwork,
   zeat,
@@ -979,7 +1049,11 @@ const PROJECT_DETAILS: Record<string, ProjectDetailDocument> = {
   tubular,
   moodmuse,
   studiowaters,
-};
+];
+
+const PROJECT_DETAILS: Record<string, ProjectDetailDocument> = Object.fromEntries(
+  SOURCES.map((doc) => [doc.slug, { ...doc, listSection: sectionLabelForProject(doc.slug) }]),
+);
 
 export function getProjectDetail(slug: string | undefined): ProjectDetailDocument | undefined {
   if (!slug) return undefined;

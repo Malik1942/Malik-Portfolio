@@ -1,173 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
-import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
+import { HOME_SECTION_ORDER } from "@/lib/sections";
+import { projectsInSection } from "@/data/projects";
 import HeroSection from "@/components/HeroSection";
 import ProjectList from "@/components/ProjectList";
 import Footer from "@/components/Footer";
 import AboutDeepContent from "@/components/AboutDeepContent";
 import { PageTransition } from "@/components/PageTransition";
-import auraCover from "@/assets/aura-cover.webp";
-import neuralyfeCover from "@/assets/neuralyfe-cover.webp";
-import flowprintCover from "@/assets/flowprint-cover.webp";
-import tubularCover from "@/assets/tubular-cover.webp";
-import moodmuseHero from "@/assets/moodmuse-hero.webp";
-import studioWatersCover from "@/assets/studio-waters-cover.webp";
-import motiCard from "@/assets/moti-card-poster.webp";
-import motiCardVideo from "@/assets/moti-card.mp4";
-import calmmouseCardPoster from "@/assets/calmmouse-card-poster.webp";
-import calmmouseCardVideo from "@/assets/calmmouse-card.mp4";
-import inkworkCard from "@/assets/inkwork-card.webp";
-import inkworkCardVideo from "@/assets/inkwork-card.mp4";
-import zeatCard from "@/assets/zeat-hero.webp";
-import rangerCard from "@/assets/ranger-hero.webp";
-
-export const selectedWork = [
-  {
-    id: "moti",
-    title: "Moti",
-    signal: "An AI-Native Timeline for Real Projects",
-    description: "Shipped solo on the App Store — an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.",
-    role: "Product Designer & Builder",
-    coverImage: motiCard,
-    coverAspect: "1280/800",
-    // The Moti: Plan reel — the title card, then dictating a messy sentence and
-    // watching it land on the timeline, then back to the title card. coverImage is
-    // that opening frame, so it serves as the poster, the reduced-motion still, and
-    // the resting state the reel holds on once it has played.
-    coverVideo: motiCardVideo,
-    year: "2026",
-    details: "Shipped solo on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.\n\nBuilt on a hybrid SLM + LLM system, specified spec-first with a full PRD before writing any code.",
-  },
-  {
-    id: "neuralyfe",
-    title: "NeuraLyfe",
-    signal: "Brain Impact Visualization for Athletes and Medical Teams",
-    description: "1st Place, FigBuild 2026 — making invisible brain trauma visible before it becomes irreversible.",
-    role: "Product Designer, Maker",
-    coverImage: neuralyfeCover,
-    coverAspect: "1920/1074",
-    year: "2026",
-    details: "Won 1st Place at FigBuild 2026 for Impact Replay, an AI-driven brain-impact visualization for athletes and medical teams.\n\nLed ideation and problem scoping, designed the Impact Replay interface, and contributed across both digital and physical product development.",
-  },
-  {
-    id: "aura",
-    title: "Aura",
-    signal: "AI-Powered Anticipatory Motion Sickness Relief",
-    description: "A speculative in-flight motion-sickness concept — its refined form was preferred by 93.75% of testers.",
-    role: "Product Designer",
-    year: "2025",
-    coverImage: auraCover,
-    coverAspect: "2400/1350",
-    details: "A speculative concept for anticipating motion sickness in flight, designed with a 5-person team over 5 weeks.\n\nUser testing validated the refined form: 15 of 16 testers (93.75%) preferred it over the initial design.",
-  },
-  {
-    id: "moodmuse",
-    title: "Mood Muse",
-    description: "An emotion-sensing paintbrush for autistic children — the brush reads the hand, answers with color and scent, and the app turns the session into a record parent and therapist can share.",
-    role: "Industrial Design Lead · Sole UX Designer",
-    coverImage: moodmuseHero,
-    coverAspect: "1672/941",
-    year: "2024",
-    details: "A smart paintbrush with GSR and heart-rate sensing in the grip, a rotary ink switcher that changes color with the child's state, and a companion app for parents and therapists.\n\nLed the team, owned the industrial design and working prototype, and was the only designer on the app.",
-  },
-  {
-    id: "flowprint",
-    title: "FlowPrint",
-    wip: true,
-    description: "A 3D-printing onboarding system targeting a setup-time cut from about an hour to 15 minutes.",
-    role: "Lead Product Designer",
-    coverImage: flowprintCover,
-    coverAspect: "1756/988",
-    coverFit: "contain" as const,
-    year: "2025",
-    details: "Work in progress: a consumer 3D-printing onboarding flow targeting a setup-time cut from about an hour to 15 minutes.\n\nIncludes onboarding flows, real-time print monitoring, and a material recommendation engine.",
-  },
-];
-
-export const aiProjects = [
-  {
-    id: "zeat",
-    title: "ZEAT",
-    signal: "Autonomous Grandstand Cleaning Between Events",
-    description: "A cleaning robot for stadium grandstands — designed around the eight-hour gap between events, when three tons of trash have to disappear.",
-    role: "Industrial Designer",
-    year: "2025",
-    coverImage: zeatCard,
-    coverAspect: "4725/2993",
-    // Promoted out of the AI grid, with RANGER below it: the industrial design work
-    // is a different discipline from the software it shares this section with, and
-    // the tag is what tells a reader that before they open anything. The two hero
-    // rows alternate image side (see AIProjectList), so stacking them doesn't read
-    // as one repeated template.
-    sectionHero: true,
-    tag: "Industrial Design",
-    details: "A ground-based cleaning robot for stadium grandstands, designed solo across the robot, its mechanisms, and the system that dispatches it.\n\nModeled, 3D printed, hand-finished, and exhibited as a driving appearance model.",
-  },
-  {
-    id: "ranger",
-    title: "RANGER",
-    signal: "Ghost Net Recovery Without Sending a Diver Down",
-    description: "An underwater drone that finds abandoned fishing nets, fires an airbag through the mesh, and lets the net float itself up to the boat.",
-    role: "Industrial Designer",
-    year: "2024",
-    coverImage: rangerCard,
-    coverAspect: "2400/1345",
-    sectionHero: true,
-    tag: "Industrial Design",
-    details: "An underwater drone for ghost gear recovery, designed solo across the vehicle, the airbag capture mechanism, the control system, and the Neptune Net dispatch platform.\n\nA resolved concept: modeled and rendered, never physically prototyped.",
-  },
-  {
-    id: "calmmouse",
-    title: "CalmMouse",
-    description: "A macOS menu-bar app that stops the Magic Mouse from scrolling every time you click — the fix Apple never shipped.",
-    role: "Designer + Builder",
-    year: "2026",
-    coverImage: calmmouseCardPoster,
-    coverAspect: "1280/720",
-    // The hero loop: the site's mouse with its tap ripple, a punch into the
-    // Without/With demo, and a pull back wide. Poster is the loop's first frame.
-    coverVideo: calmmouseCardVideo,
-    builtWith: "Claude Code",
-    details: "A signed, notarized, self-updating native macOS app — free and open source.\n\nThe design problem underneath: a product that succeeds when you notice nothing.",
-  },
-  {
-    id: "inkwork",
-    title: "Inkwork",
-    description: "A styled-QR studio with a point of view — pick a style, check the proof, export",
-    role: "Designer + Builder",
-    year: "2026",
-    coverImage: inkworkCard,
-    coverAspect: "1280/720",
-    // The Arcade theme mid-flight: styles switching, then the gradient controls
-    // repainting the code. coverImage stays as its poster / reduced-motion still.
-    coverVideo: inkworkCardVideo,
-    builtWith: "Claude Code",
-    details: "A styled-QR studio, live at malikzhang.com/inkwork — sixteen presets, two complete themes on one token system, and a scannability check that decodes the code you just made.",
-  },
-  {
-    id: "studiowaters",
-    title: "Studio Waters",
-    description: "A CPX-powered interactive game built through vibe coding",
-    role: "Designer + Builder",
-    year: "2026",
-    coverImage: studioWatersCover,
-    coverAspect: "2316/1448",
-    builtWith: "Claude + p5.js",
-    details: "A motion-controlled fishing experience built with Claude and p5.js — physical gestures mapped to calm, responsive digital play.",
-  },
-  {
-    id: "tubular",
-    title: "Tubular",
-    wip: true,
-    description: "Defy gravity. Shape the path.",
-    role: "Product Designer, Maker",
-    coverImage: tubularCover,
-    coverAspect: "1920/1280",
-    year: "2026",
-    details: "Work in progress: an experimental physics-based toy exploring fluid dynamics through tactile play.\n\nCombines industrial design with digital prototyping — unshipped and still evolving.",
-  },
-];
 
 // aboutOpen: the /about route renders the same page with the About view open on arrival.
 // aboutSection: /about/<section> additionally lands on that section, e.g. "connect".
@@ -233,8 +73,6 @@ const Index = ({
     });
   }, [aboutOpen, navigate]);
 
-  const navigateToMainProjects = useCallback(() => navigateToSection("projects"), [navigateToSection]);
-
   const closeAbout = useCallback(() => {
     // Deep-linked /about: leave the route so the URL matches the home view again.
     if (aboutOpen) {
@@ -255,15 +93,14 @@ const Index = ({
           setIsAboutOpen(true);
         }}
         onAboutBack={closeAbout}
-        onSelectedWorkClick={navigateToMainProjects}
-        onWorkshopClick={() => navigateToSection("ai-projects")}
+        onSectionClick={navigateToSection}
       />
 
       {/* About deep content — below hero, only when about is open */}
       {isAboutOpen && (
         <AboutDeepContent
           isVisible={isAboutOpen}
-          onMainProjectsClick={navigateToMainProjects}
+          onSectionClick={navigateToSection}
           onBack={closeAbout}
           deepLinkSection={aboutSection}
         />
@@ -279,23 +116,14 @@ const Index = ({
           overflow: isAboutOpen ? "hidden" : "visible",
         }}
       >
-        <ProjectList
-          id="projects"
-          sectionTitle="Selected Work"
-          sectionSubtitle="One shipped solo, one awarded, one tested — plus concepts still in progress."
-          dotColor="red"
-          projects={selectedWork}
-        />
-        <ProjectList
-          id="ai-projects"
-          sectionTitle={WORKSHOP_SECTION_LABEL}
-          sectionSubtitle="Small projects designed and built solo with AI tools."
-          dotColor="gold"
-          projects={aiProjects}
-          variant="ai"
-        />
+        {/* Work: one section per homepage entry in SECTIONS, in order; each
+            derives its own id, eyebrow and layout from the key. Studio is its
+            own page. */}
+        {HOME_SECTION_ORDER.map((key) => (
+          <ProjectList key={key} section={key} projects={projectsInSection(key)} />
+        ))}
         <Footer
-          onMainProjectsClick={navigateToMainProjects}
+          onSectionClick={navigateToSection}
           onAboutClick={() => setIsAboutOpen(true)}
           constrained={false}
         />

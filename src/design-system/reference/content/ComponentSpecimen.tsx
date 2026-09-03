@@ -4,8 +4,9 @@ import motiCard from "@/assets/moti-card.webp";
 import logo from "@/assets/logo.webp";
 import { ImageLightbox, type LightboxImage } from "@/components/project-detail/ImageLightbox";
 import { ProjectMediaFrame } from "@/components/project-detail/ProjectMediaFrame";
+import { FigureCaption } from "@/components/project-detail/FigureCaption";
 import { ProjectMetadataSummary } from "@/components/project-detail/ProjectMetadataSummary";
-import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
+import { NAV_ITEMS, navItemHref } from "@/lib/sections";
 import { Specimen } from "../Specimen";
 
 interface ComponentSpecimenProps {
@@ -68,8 +69,10 @@ function LightboxStage() {
 // Production nav destinations, in production order. Links are inert here —
 // the stage demonstrates the hover behavior, not navigation.
 const SITE_HEADER_DESTINATIONS: readonly [string, string][] = [
-  ["Selected Work", "/#projects"],
-  [WORKSHOP_SECTION_LABEL, "/#ai-projects"],
+  ...NAV_ITEMS.map((item): [string, string] => [
+    item.label,
+    navItemHref(item, "/"),
+  ]),
   ["About", "/#about"],
   ["Resume", "/resume"],
 ];
@@ -129,7 +132,12 @@ function MetadataStage() {
 }
 
 function MediaFrameStage() {
-  return <ProjectMediaFrame fig={{ type: "image", src: auraCover, alt: "Specimen research board" }} />;
+  return (
+    <figure>
+      <ProjectMediaFrame fig={{ type: "image", src: auraCover, alt: "Specimen research board" }} />
+      <FigureCaption label="Research board">where the evidence was pinned before it became a direction</FigureCaption>
+    </figure>
+  );
 }
 
 function FooterStage() {

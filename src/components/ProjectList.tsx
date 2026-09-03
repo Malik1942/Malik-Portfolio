@@ -3,8 +3,15 @@ import { Link } from "react-router-dom";
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { noOrphan } from "@/lib/noOrphan";
+import { SECTIONS, type SectionKey } from "@/lib/sections";
+import { MAX_SKILLS, type ProjectDestination, type ProjectLink, type Skill } from "@/data/projects";
+import { ArrowUpRight, Play } from "lucide-react";
+import { LinkChip } from "./LinkChip";
+import { VideoLightbox, type LightboxVideo } from "./VideoLightbox";
 
-export interface Project {
+/** What a card needs to render. `Project` in src/data/projects.ts is the strict
+ *  homepage record and is assignable to this; tests pass minimal literals. */
+export interface ProjectCardData {
   id?: string;
   title: string;
   description: string;
@@ -21,27 +28,21 @@ export interface Project {
    *  and fails if a cover is swapped without updating this. */
   coverAspect?: string;
   details?: string;
-  externalUrl?: string;
-  builtWith?: string;
-  /** Case study still in development: card stays visible but is not clickable. */
-  wip?: boolean;
-  /** Uppercase eyebrow chip above the title — used to mark a project as a
-   *  different kind of work from the rest of its section (e.g. "Industrial Design"
-   *  inside Workshop, which is otherwise software built with AI tools). */
-  tag?: string;
-  /** Render this project as a full-width row above its section's grid.
-   *  Declarative rather than positional, so reordering the array can't silently
-   *  reassign which project is the hero. */
-  sectionHero?: boolean;
+  /** Skill chips, rendered after role and year. At most MAX_SKILLS. */
+  skills?: Skill[];
+  /** Outbound "shipped" chips (App Store / GitHub / Live). */
+  links?: ProjectLink[];
+  /** Defaults to a case-study route when the card has an id. */
+  destination?: ProjectDestination;
 }
 
 interface ProjectListProps {
-  id: string;
-  sectionTitle: string;
-  sectionSubtitle: string;
-  dotColor: "red" | "gold";
-  projects: Project[];
-  variant?: "main" | "ai";
+  section: SectionKey;
+  projects: ProjectCardData[];
+  /** The Studio page draws its own heading above the grid, so it hides the eyebrow. */
+  showLabel?: boolean;
+  /** Studio only: rendered after the last tile, inside the grid (the GitHub tile). */
+  trailing?: ReactNode;
 }
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -74,10 +75,15 @@ const CardMedia = ({
   project,
   hovered,
   aspectRatio,
+  cornerGlyph,
+  marginClass = "mb-6",
 }: {
-  project: Project;
+  project: ProjectCardData;
   hovered: boolean;
   aspectRatio?: string;
+  /** Top-left slot: a small mark for tiles that do not open a case study. */
+  cornerGlyph?: ReactNode;
+  marginClass?: string;
 }) => {
   const forced = !!aspectRatio;
   const mediaClass = forced
@@ -127,7 +133,7 @@ const CardMedia = ({
   // ── Cover video fetch ──
   // The reel is not fetched until it is plausibly about to be watched. With a
   // src on the element from mount, every page — the home page and, through the
-  // "More work" section, every case study — pulled the ~½ MB clip during the
+  // "Next up" strip, every case study — pulled the ~½ MB clip during the
   // first seconds of load, competing with the fonts and images that the loading
   // screen was actually waiting on. The card paints from its poster regardless,
   // so the visitor cannot tell the difference; the clip starts downloading once
@@ -176,7 +182,7 @@ const CardMedia = ({
   return (
     <div
       ref={mediaRef}
-      className="overflow-hidden rounded-2xl bg-project-card-surface relative mb-6 w-full"
+      className={`overflow-hidden rounded-2xl bg-project-card-surface relative w-full ${marginClass}`}
       style={reservedAspect ? { aspectRatio: reservedAspect } : undefined}
     >
       {hasVideo ? (
@@ -215,20 +221,73 @@ const CardMedia = ({
         animate={{ opacity: hovered ? 1 : 0 }}
         transition={{ duration: 0.35 }}
       />
-      {project.wip ? (
-        <span className="absolute left-3 top-3 z-10 rounded-full border border-border/50 bg-background/75 px-2.5 py-1 text-label uppercase tracking-eyebrow text-foreground/72 backdrop-blur-sm">
-          In Progress
+      {cornerGlyph ? (
+        <span
+          aria-hidden="true"
+          className="absolute left-3 top-3 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-border/50 bg-background/75 leading-none text-foreground/72 backdrop-blur-sm"
+        >
+          {cornerGlyph}
         </span>
       ) : null}
     </div>
   );
 };
 
-// ─── Project card (unified) ───────────────────────────────────────────────────
-// Exported so the project-detail "More work" section can reuse the exact same card.
-// Real link wrapper so cards are keyboard-focusable and open like any anchor
-// (middle-click, cmd-click, screen-reader announcement). WIP cards fall through
-// to a plain div until their case study is ready.
+// ─── Chips ────────────────────────────────────────────────────────────────────
+// Rendered in the metadata line after role and year, never above the title.
+// Skill chips are passive and low-contrast; the outbound LinkChip (see
+// LinkChip.tsx) is the one that has to read as clickable.
+const SkillChip = ({ skill }: { skill: Skill }) => (
+  <span className="inline-flex items-center rounded-full border border-border/50 px-2 py-1 text-label uppercase tracking-eyebrow leading-none whitespace-nowrap text-foreground/60">
+    {skill}
+  </span>
+);
+
+// Metadata line. Case-study sections: role · year, then link chips, then up to
+// three skill chips. Studio tiles: link chips first, then up to two skill
+// chips, then the year (the role is the same on most tiles there).
+const CardMeta = ({
+  project,
+  tile = false,
+  isMobile,
+}: {
+  project: ProjectCardData;
+  tile?: boolean;
+  isMobile: boolean;
+}) => {
+  const skills = (project.skills ?? []).slice(0, tile ? 2 : MAX_SKILLS);
+  const links = project.links ?? [];
+  const textStyle = {
+    // Tiles use the body-small token (14px); the case-study cards keep their
+    // existing sizes.
+    fontSize: tile ? "var(--font-size-body-small)" : isMobile ? "0.9375rem" : "0.875rem",
+    letterSpacing: "0.02em",
+    color: "hsl(var(--color-text-primary) / 0.72)",
+  };
+  return (
+    <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
+      {tile ? null : (
+        <span style={textStyle}>
+          {project.role} · {project.year}
+        </span>
+      )}
+      {links.map((link) => (
+        <LinkChip key={link.url} link={link} />
+      ))}
+      {skills.map((skill) => (
+        <SkillChip key={skill} skill={skill} />
+      ))}
+      {tile ? <span style={textStyle}>{project.year}</span> : null}
+    </div>
+  );
+};
+
+// ─── Card link ────────────────────────────────────────────────────────────────
+// A stretched link: an absolutely positioned anchor that covers the whole card
+// (z-[1]) so the entire tile is the click target, while the card's content stays
+// outside it. That is what lets the metadata line carry real outbound anchors
+// (LinkChip, z-[2]) without nesting <a> inside <a>. It is keyboard-focusable and
+// opens like any anchor (middle-click, cmd-click, screen-reader announcement).
 //
 // Defined at module scope (NOT inside ProjectCard) so its component identity is
 // stable. When it lived in the ProjectCard body, every re-render — useInView
@@ -239,63 +298,67 @@ const CardMedia = ({
 // played (the element was destroyed and recreated already faded). Hoisting fixes
 // this without touching any animation values.
 const CardLink = ({
-  isWip,
-  externalUrl,
+  destination,
   projectId,
-  className,
-  focusRing,
-  children,
+  title,
+  onOpenVideo,
 }: {
-  isWip: boolean;
-  externalUrl?: string;
+  destination?: ProjectDestination;
   projectId?: string;
-  className: string;
-  focusRing: string;
-  children: ReactNode;
+  title: string;
+  onOpenVideo?: () => void;
 }) => {
-  const cls = `${className} ${focusRing}`;
-  if (isWip) {
-    return <div className={className}>{children}</div>;
-  }
-  if (externalUrl) {
+  const cls =
+    "absolute inset-0 z-[1] cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/60 focus-visible:ring-offset-4 focus-visible:ring-offset-background";
+  if (destination?.kind === "external") {
     return (
-      <a href={externalUrl} target="_blank" rel="noopener noreferrer" className={cls}>
-        {children}
-      </a>
+      <a href={destination.url} target="_blank" rel="noopener noreferrer" aria-label={title} className={cls} />
+    );
+  }
+  if (destination?.kind === "video") {
+    return (
+      <button type="button" aria-label={`Play ${title}`} onClick={onOpenVideo} className={cls} />
     );
   }
   if (projectId) {
-    return (
-      <Link to={`/project/${projectId}`} className={cls}>
-        {children}
-      </Link>
-    );
+    return <Link to={`/project/${projectId}`} aria-label={title} className={cls} />;
   }
-  return <div className={className}>{children}</div>;
+  return null;
+};
+
+// Corner glyph for a tile, from its destination: nothing for a case study, a
+// small play mark for a video, an outbound arrow for an external link.
+const cornerGlyphFor = (destination?: ProjectDestination): ReactNode => {
+  if (destination?.kind === "video") return <Play className="h-3 w-3" strokeWidth={2} fill="currentColor" />;
+  if (destination?.kind === "external") return <ArrowUpRight className="h-3 w-3" strokeWidth={2} />;
+  return null;
 };
 
 export const ProjectCard = ({
   project,
   projectId,
-  dotClass,
+  dotClass: _dotClass,
   globalIndex,
   rowDelay = 0,
-  metadataLabel,
   aspectRatio,
   maxWidth,
   horizontal = false,
   imageRight = false,
+  tile = false,
+  onOpenVideo,
 }: {
-  project: Project;
+  project: ProjectCardData;
   projectId?: string;
   dotClass: string;
   globalIndex: number;
   rowDelay?: number;
-  metadataLabel?: string;
   aspectRatio?: string;
   maxWidth?: string;
   horizontal?: boolean;
   imageRight?: boolean;
+  /** Studio tile: uncropped cover, one step smaller type, tile metadata order. */
+  tile?: boolean;
+  onOpenVideo?: (video: LightboxVideo) => void;
 }) => {
   const [hovered, setHovered] = useState(false);
   const isMobile = useIsMobile();
@@ -321,47 +384,49 @@ export const ProjectCard = ({
   }, [projectId]);
 
   const revealed = inView || arriving;
-  // Shared by both card layouts below.
+  // Shared by both card layouts below. `relative` anchors the stretched CardLink.
   const arrivalProps = {
-    className: arriving ? "project-row-arriving" : undefined,
+    className: arriving ? "relative project-row-arriving" : "relative",
     onAnimationEnd: () => setArriving(false),
   };
 
-  // WIP cards stay visible but non-interactive: no link, no pointer, no hover lift.
-  const isWip = !!project.wip;
-  const cursorClass = isWip ? "cursor-default" : "cursor-pointer";
-  const handleEnter = () => { if (!isWip) setHovered(true); };
-  const handleLeave = () => { if (!isWip) setHovered(false); };
+  const handleEnter = () => setHovered(true);
+  const handleLeave = () => setHovered(false);
 
-  // focusRing is passed to the module-scope CardLink (see above ProjectCard).
-  // Keeping CardLink out of this function body keeps its component identity stable
-  // across re-renders, so the card subtree is never unmounted/remounted.
-  const focusRing =
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/60 focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-2xl";
+  const openVideo = () => {
+    if (project.destination?.kind !== "video" || !onOpenVideo) return;
+    onOpenVideo({
+      src: project.destination.src,
+      poster: project.destination.poster,
+      title: project.title,
+      caption: project.description,
+      links: project.links,
+    });
+  };
 
-  // Uppercase eyebrow marking a project as a different kind of work from the rest
-  // of its section. Shared by both card layouts below.
-  const tagChip = () =>
-    project.tag ? (
-      <span
-        className="text-label uppercase tracking-eyebrow text-foreground/60 mb-2 block"
-        style={{ fontSize: "0.6875rem" }}
-      >
-        {project.tag}
-      </span>
-    ) : null;
+  const cardLink = (
+    <CardLink
+      destination={project.destination}
+      projectId={projectId}
+      title={project.title}
+      onOpenVideo={openVideo}
+    />
+  );
 
-  // ── Vertical card text (grid cards) ──
+  // ── Vertical card text (grid cards and tiles) ──
   const textBlock = () => (
     <>
-      {tagChip()}
       {/* Title */}
       <h3
         className="tracking-tight font-semibold leading-snug transition-colors duration-300"
         style={{
-          fontSize: isMobile ? "clamp(1.1rem, 4vw, 1.25rem)" : "clamp(1.2rem, 1.6vw, 1.4rem)",
+          // Tile: body on mobile, body-large on desktop (one token step under
+          // the grid cards' title).
+          fontSize: tile
+            ? isMobile ? "var(--font-size-body)" : "var(--font-size-body-large)"
+            : isMobile ? "clamp(1.1rem, 4vw, 1.25rem)" : "clamp(1.2rem, 1.6vw, 1.4rem)",
           letterSpacing: "-0.025em",
-          marginBottom: isMobile ? "0.5rem" : "0.3rem",
+          marginBottom: tile ? "0.25rem" : isMobile ? "0.5rem" : "0.3rem",
           color: hovered ? "hsl(var(--color-text-primary))" : "hsl(var(--color-text-primary) / 0.88)",
         }}
       >
@@ -372,8 +437,8 @@ export const ProjectCard = ({
       <p
         className={isMobile ? "leading-relaxed line-clamp-2" : "leading-snug line-clamp-2"}
         style={{
-          fontSize: isMobile ? "0.9375rem" : "0.875rem",
-          marginBottom: isMobile ? "0.75rem" : "1rem",
+          fontSize: tile ? "var(--font-size-body-small)" : isMobile ? "0.9375rem" : "0.875rem",
+          marginBottom: tile ? "0.625rem" : isMobile ? "0.75rem" : "1rem",
           color: "hsl(var(--color-text-primary) / 0.80)",
         }}
       >
@@ -381,15 +446,7 @@ export const ProjectCard = ({
       </p>
 
       {/* Metadata */}
-      <p
-        style={{
-          fontSize: isMobile ? "0.9375rem" : "0.875rem",
-          letterSpacing: "0.02em",
-          color: "hsl(var(--color-text-primary) / 0.72)",
-        }}
-      >
-        {metadataLabel ?? project.role} · {project.year}
-      </p>
+      <CardMeta project={project} tile={tile} isMobile={isMobile} />
     </>
   );
 
@@ -412,7 +469,6 @@ export const ProjectCard = ({
         style={isMobile ? undefined : { paddingBottom: "48px" }}
       >
         <div style={isMobile ? undefined : { maxWidth: "380px" }}>
-          {tagChip()}
           {/* Level 1 — Title */}
           <h3
             className="tracking-tight font-semibold leading-none transition-colors duration-300"
@@ -453,15 +509,7 @@ export const ProjectCard = ({
           </div>
 
           {/* Level 4 — Metadata */}
-          <p
-            style={{
-              fontSize: isMobile ? "0.9375rem" : "0.875rem",
-              letterSpacing: "0.02em",
-              color: "hsl(var(--color-text-primary) / 0.72)",
-            }}
-          >
-            {metadataLabel ?? project.role} · {project.year}
-          </p>
+          <CardMeta project={project} isMobile={isMobile} />
         </div>
       </div>
     );
@@ -480,19 +528,14 @@ export const ProjectCard = ({
         }}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        data-clickable={isWip ? undefined : "true"}
+        data-clickable="true"
         {...arrivalProps}
       >
-        <CardLink
-          isWip={isWip}
-          externalUrl={project.externalUrl}
-          projectId={projectId}
-          focusRing={focusRing}
-          className={`${cursorClass} group flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}
-        >
+        <div className={`flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}>
           {imageRight ? textCol : imageCol}
           {imageRight ? imageCol : textCol}
-        </CardLink>
+        </div>
+        {cardLink}
       </motion.div>
     );
   }
@@ -512,19 +555,22 @@ export const ProjectCard = ({
       style={maxWidth ? { maxWidth } : undefined}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
-      data-clickable={isWip ? undefined : "true"}
+      data-clickable="true"
       {...arrivalProps}
     >
-      <CardLink
-        isWip={isWip}
-        externalUrl={project.externalUrl}
-        projectId={projectId}
-        focusRing={focusRing}
-        className={`${cursorClass} group flex flex-col`}
-      >
-        <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
+      <div className="flex flex-col">
+        <CardMedia
+          project={project}
+          hovered={hovered}
+          // A tile shows its cover whole, at the asset's own ratio (coverAspect),
+          // rather than cropping into a uniform box; the covers are all near 16:9.
+          aspectRatio={tile ? undefined : aspectRatio}
+          cornerGlyph={tile ? cornerGlyphFor(project.destination) : undefined}
+          marginClass={tile ? "mb-4" : "mb-6"}
+        />
         <div className="flex flex-col">{textBlock()}</div>
-      </CardLink>
+      </div>
+      {cardLink}
     </motion.div>
   );
 };
@@ -536,13 +582,11 @@ const TwoColCard = ({
   index,
   dotClass,
   startGlobalIndex,
-  aiVariant,
 }: {
-  project: Project;
+  project: ProjectCardData;
   index: number;
   dotClass: string;
   startGlobalIndex: number;
-  aiVariant: boolean;
 }) => {
   const isMobile = useIsMobile();
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -570,27 +614,21 @@ const TwoColCard = ({
         dotClass={dotClass}
         globalIndex={startGlobalIndex + index}
         rowDelay={(index % 2) * 0.06}
-        metadataLabel={
-          aiVariant && project.builtWith
-            ? `Built with ${project.builtWith}`
-            : undefined
-        }
       />
     </motion.div>
   );
 };
 
 // ─── 2-col dynamic grid ───────────────────────────────────────────────────────
+// Alternating aspect, right-column stagger and parallax: the case-study rhythm.
 const TwoColGrid = ({
   projects,
   dotClass,
   startGlobalIndex = 0,
-  aiVariant = false,
 }: {
-  projects: Project[];
+  projects: ProjectCardData[];
   dotClass: string;
   startGlobalIndex?: number;
-  aiVariant?: boolean;
 }) => (
   <div className="project-grid">
     {projects.map((p, i) => (
@@ -600,7 +638,6 @@ const TwoColGrid = ({
         index={i}
         dotClass={dotClass}
         startGlobalIndex={startGlobalIndex}
-        aiVariant={aiVariant}
       />
     ))}
   </div>
@@ -608,8 +645,8 @@ const TwoColGrid = ({
 
 // ─── Section label ────────────────────────────────────────────────────────────
 // Both variants render the same white uppercase label and the same dot size.
-// "primary" (Selected Work) keeps a brighter dot, "secondary" (Workshop) a
-// fainter one; the dot color (red / gold) is passed in via dotClass.
+// "primary" (Selected Work) keeps a brighter dot, "secondary" (More Work and
+// Studio) a fainter one; the dot color (red / gold) is passed in via dotClass.
 const SectionLabel = ({
   title,
   dotClass,
@@ -640,10 +677,10 @@ const SectionLabel = ({
   );
 };
 
-// ─── Main project list ────────────────────────────────────────────────────────
-// Tier 1: Moti + Aura + Neuralyfe as full-width heroes.
-// Tier 2: All remaining projects in the 2-col dynamic grid.
-const MainProjectList = ({
+// ─── Selected Work ────────────────────────────────────────────────────────────
+// Every project is a full-width editorial row (image side alternating, signal
+// line, description, metadata). No grid tail; the section stays bright.
+const SelectedWorkList = ({
   id,
   sectionTitle,
   dotClass,
@@ -652,82 +689,31 @@ const MainProjectList = ({
   id: string;
   sectionTitle: string;
   dotClass: string;
-  projects: Project[];
-}) => {
-  const heroMoti = projects[0]; // Moti (placeholder clone of NeuraLyfe)
-  const hero1    = projects[1]; // Aura
-  const hero2    = projects[2]; // Neuralyfe
-  const gridPro  = projects.slice(3); // FlowPrint, Mood Muse, …
+  projects: ProjectCardData[];
+}) => (
+  <section id={id} className="px-6 md:px-16 lg:px-24 pt-16">
+    <SectionLabel title={sectionTitle} dotClass={dotClass} variant="primary" />
+    {projects.map((p, i) => (
+      <div key={p.id ?? p.title} className="mb-14 md:mb-16">
+        <ProjectCard
+          project={p}
+          projectId={p.id}
+          dotClass={dotClass}
+          globalIndex={i}
+          rowDelay={i % 2 === 0 ? 0.06 : 0}
+          imageRight={i % 2 === 0}
+          horizontal={i % 2 === 1}
+        />
+      </div>
+    ))}
+  </section>
+);
 
-  return (
-    <section id={id} className="px-6 md:px-16 lg:px-24 pt-16">
-      <SectionLabel title={sectionTitle} dotClass={dotClass} variant="primary" />
-
-      {/* ── Hero 0: Moti (styled exactly like NeuraLyfe — image right) ── */}
-      {heroMoti && (
-        <div className="mb-14 md:mb-16">
-          <ProjectCard
-            project={heroMoti}
-            projectId={heroMoti.id}
-            dotClass={dotClass}
-            globalIndex={0}
-            rowDelay={0.06}
-            imageRight
-          />
-        </div>
-      )}
-
-      {/* ── Hero 1: Aura ── */}
-      {hero1 && (
-        <div className="mb-14 md:mb-16">
-          <ProjectCard
-            project={hero1}
-            projectId={hero1.id}
-            dotClass={dotClass}
-            globalIndex={1}
-            horizontal
-          />
-        </div>
-      )}
-
-      {/* ── Hero 2: Neuralyfe ── */}
-      {hero2 && (
-        <div className="mb-14 md:mb-16">
-          <ProjectCard
-            project={hero2}
-            projectId={hero2.id}
-            dotClass={dotClass}
-            globalIndex={2}
-            rowDelay={0.06}
-            imageRight
-          />
-        </div>
-      )}
-
-      {/* ── Grid: remaining projects ── */}
-      {gridPro.length > 0 && (
-        <div className="mt-12 md:mt-24 pb-10">
-          <TwoColGrid
-            projects={gridPro}
-            dotClass={dotClass}
-            startGlobalIndex={3}
-          />
-        </div>
-      )}
-    </section>
-  );
-};
-
-// ─── AI project list ──────────────────────────────────────────────────────────
-// Projects flagged `sectionHero` render as full-width rows above the grid; the
-// rest keep the uniform 2-col "gallery" treatment. The 0.88 dimming wraps the
-// grid only — a hero row reads at full strength, which is the point of promoting
-// it out of the gallery in the first place.
-//
-// Hero rows alternate which side the image sits on. With one hero this is a
-// no-op (index 0 keeps image-left); with two or more it stops a stack of
-// full-width rows from reading as the same row printed twice.
-const AIProjectList = ({
+// ─── More Work ────────────────────────────────────────────────────────────────
+// A uniform 2-col grid with the case-study rhythm (alternating aspect, stagger,
+// parallax), wrapped in the 0.88 dimming. No hero rows, no signal line: the
+// hierarchy is carried by density and brightness, not by promoting anything.
+const MoreWorkList = ({
   id,
   sectionTitle,
   dotClass,
@@ -736,71 +722,86 @@ const AIProjectList = ({
   id: string;
   sectionTitle: string;
   dotClass: string;
-  projects: Project[];
+  projects: ProjectCardData[];
+}) => (
+  <section id={id} className="px-6 md:px-16 lg:px-24 pt-16 md:pt-20 pb-8">
+    <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" />
+    {projects.length > 0 && (
+      <div style={{ opacity: 0.88 }}>
+        <TwoColGrid projects={projects} dotClass={dotClass} />
+      </div>
+    )}
+  </section>
+);
+
+// ─── Studio ───────────────────────────────────────────────────────────────────
+// A denser tile grid that reads as a different kind of thing without a label:
+// 3 columns on desktop, 2 on mobile, uncropped covers, no stagger, no parallax,
+// no alternating aspect (those rhythms are reserved for the case-study
+// sections). It is dimmed by size and type only — no opacity layer, which
+// would look muddy over the hover video.
+const StudioList = ({
+  id,
+  sectionTitle,
+  dotClass,
+  projects,
+  showLabel,
+  trailing,
+}: {
+  id: string;
+  sectionTitle: string;
+  dotClass: string;
+  projects: ProjectCardData[];
+  showLabel: boolean;
+  trailing?: ReactNode;
 }) => {
-  const heroes = projects.filter((p) => p.sectionHero);
-  const gridProjects = projects.filter((p) => !p.sectionHero);
-
+  const [video, setVideo] = useState<LightboxVideo | null>(null);
+  const closeVideo = useCallback(() => setVideo(null), []);
   return (
-    <section id={id} className="px-6 md:px-16 lg:px-24 pt-16 md:pt-20 pb-8">
-      <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" />
-
-      {heroes.map((p, i) => (
-        <div key={p.id ?? p.title} className="mb-14 md:mb-16">
-          <ProjectCard
-            project={p}
-            projectId={p.id}
-            dotClass={dotClass}
-            globalIndex={i}
-            rowDelay={0.06}
-            horizontal
-            imageRight={i % 2 === 1}
-          />
-        </div>
-      ))}
-
-      {gridProjects.length > 0 && (
-        <div style={{ opacity: 0.88 }}>
-          <TwoColGrid
-            projects={gridProjects}
-            dotClass={dotClass}
-            startGlobalIndex={heroes.length}
-            aiVariant
-          />
+    <section id={id} className={`px-6 md:px-16 lg:px-24 pb-8 ${showLabel ? "pt-16 md:pt-20" : ""}`}>
+      {showLabel ? <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" /> : null}
+      {projects.length > 0 && (
+        <div className="studio-grid">
+          {projects.map((p, i) => (
+            <ProjectCard
+              key={p.id ?? p.title}
+              project={p}
+              projectId={p.id}
+              dotClass={dotClass}
+              globalIndex={i}
+              rowDelay={(i % 3) * 0.04}
+              tile
+              onOpenVideo={setVideo}
+            />
+          ))}
+          {trailing}
         </div>
       )}
+      <VideoLightbox video={video} onClose={closeVideo} />
     </section>
   );
 };
 
 // ─── Public component ─────────────────────────────────────────────────────────
-const ProjectList = ({
-  id,
-  sectionTitle,
-  sectionSubtitle: _unused,
-  dotColor,
-  projects,
-  variant = "main",
-}: ProjectListProps) => {
-  const dotClass = dotColor === "red" ? "bg-dot-red" : "bg-dot-gold";
+// The section's DOM id, eyebrow and layout variant all come from SECTIONS.
+const ProjectList = ({ section, projects, showLabel = true, trailing }: ProjectListProps) => {
+  const { id, label } = SECTIONS[section];
+  const dotClass = section === "selected" ? "bg-dot-red" : "bg-dot-gold";
 
-  if (variant === "ai") {
-    return (
-      <AIProjectList
-        id={id}
-        sectionTitle={sectionTitle}
-        dotClass={dotClass}
-        projects={projects}
-      />
-    );
+  if (section === "selected") {
+    return <SelectedWorkList id={id} sectionTitle={label} dotClass={dotClass} projects={projects} />;
   }
-
+  if (section === "more") {
+    return <MoreWorkList id={id} sectionTitle={label} dotClass={dotClass} projects={projects} />;
+  }
   return (
-    <MainProjectList
+    <StudioList
       id={id}
-      sectionTitle={sectionTitle}
+      sectionTitle={label}
       dotClass={dotClass}
       projects={projects}
+      showLabel={showLabel}
+      trailing={trailing}
     />
   );
 };

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
-import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
+import { heroOrbs, type OrbTier } from "./dotGridOrbs";
 import { scrollToTarget } from "@/lib/scrollToTarget";
 import { nextDotGridCanvasSize } from "./dotGridSize";
 
@@ -20,6 +20,9 @@ interface Orb {
   label: string;
   subtitle: string;
   color: "red" | "gold";
+  /** bright: Selected Work, always labeled. dim: More Work, smaller, quieter,
+   *  labeled only while hovered; a background star on mobile. */
+  tier: OrbTier;
   x: number;
   y: number;
   vx: number;
@@ -30,69 +33,17 @@ interface Orb {
   hoverT: number;
 }
 
-// ── Mobile orb layout (mrx/mry): two columns × five rows ─────────────────────
-// On mobile the orbs are held static (see draw loop), so these values are
-// exactly what renders — nothing drifts apart later.
+// ── Orb list ─────────────────────────────────────────────────────────────────
+// Which projects get an orb, and their tier, come from the project list; the
+// hand-tuned rx/ry/mrx/mry table lives in dotGridOrbs.ts (ORB_POSITIONS). The
+// mobile column layout below only handles the bright tier: on a phone the dim
+// orbs draw as unlabeled background stars at their literal positions.
 //
-// The two exclusion zones leave only two usable horizontal bands, and on a short
-// phone they are much smaller than they look. Worked out at 375×667 (iPhone SE,
-// the smallest size still worth supporting):
-//
-//   nav floor      navBottom + ORB_MARGIN            = 160
-//   top band       160 → titleTop - ORB_MARGIN       =  62px
-//   bottom band    titleBottom + ORB_MARGIN → h-PAD  = 101px
-//
-// A label block is ~27px tall (13px label at y-3 over a 10px subtitle at y+11),
-// so the top band holds 2 rows and the bottom holds 3. Five rows total.
-//
-// That is why this is two columns. Eight orbs used to share the left column,
-// which oversubscribed those five rows by three: every orb whose mry*h landed
-// above the nav floor got clamped to exactly 160, so they stacked on top of each
-// other. Aura and Moti overlapped on every phone size, and on a 375×667 they
-// landed on the identical y. Widening the spacing cannot fix that — the band is
-// not tall enough for the orbs that were in it, so half of them moved out.
-//
-// The split is by section, which is also what the dot colors already encode:
-// Selected Work (red) down the left, Workshop (gold) down the right. Labels draw
-// to the RIGHT of the dot, and the longest one ("Studio Waters", ~88px) clears
-// both the next column and the canvas edge at every width down to 344px.
-//
-// Rows are fractions, so they breathe on taller phones while holding their order
-// on short ones. Row 1 sits at or just below the nav floor; row 2 must clear it
-// by a full label block AND stay above the title, which pins it near 0.30.
-//
-// Verified with no overlaps at 344×882, 360×640, 360×780, 375×667, 390×844,
-// 402×874, 412×915 and 430×932. A 320×568 phone (2016 SE) still collapses: its
-// bands hold four rows total, i.e. eight slots for ten orbs, which no mrx/mry
-// value can solve. It degrades from ten overlapping pairs to four.
-//
-// Desktop (rx/ry) is a separate scattered layout and is unaffected by any of this.
-const ORB_DEFS = [
-  // ── Left column (mrx 0.09) — Selected Work ──
-  // Desktop: the band between the nav and the title cluster, left of Mood Muse.
-  { label: "Moti: Plan",   subtitle: "Main Projects", color: "red"  as const, rx: 0.42, ry: 0.2,  mrx: 0.09, mry: 0.19, id: "moti" },
-  { label: "Aura",         subtitle: "Main Projects", color: "red"  as const, rx: 0.1,  ry: 0.25, mrx: 0.09, mry: 0.30, id: "aura" },
-  { label: "NeuraLyfe",    subtitle: "Main Projects", color: "red"  as const, rx: 0.28, ry: 0.72, mrx: 0.09, mry: 0.73, id: "neuralyfe" },
-  { label: "Mood Muse",    subtitle: "Main Projects", color: "red"  as const, rx: 0.88, ry: 0.3,  mrx: 0.09, mry: 0.80, id: "moodmuse" },
-  { label: "FlowPrint",    subtitle: "Main Projects", color: "red"  as const, rx: 0.75, ry: 0.45, mrx: 0.09, mry: 0.87, id: "flowprint" },
-  // ── Right column (mrx 0.52) — Workshop ──
-  // Desktop: the widest gap in the upper band, between Aura (0.10) and Moti
-  // (0.42), dropped to 0.28 so the five top-band orbs don't line up as a row.
-  { label: "RANGER",       subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.27, ry: 0.28, mrx: 0.52, mry: 0.19, id: "ranger" },
-  // Desktop: the open band right of Moti, above the title cluster.
-  { label: "ZEAT",         subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.62, ry: 0.26, mrx: 0.52, mry: 0.30, id: "zeat" },
-  // Desktop: right band between FlowPrint (0.75, 0.45) and Studio Waters (0.72, 0.68).
-  // Mobile: a sixth gold orb — the three verified bottom rows (0.73/0.80/0.87)
-  // stay put and CalmMouse takes a fourth row above them at 0.66, just under
-  // the title cluster. On short phones the band floor clamps 0.66 onto
-  // Inkwork's row; separateMobileColumns (below) then re-spaces the column so
-  // the labels stack instead of overlapping.
-  { label: "CalmMouse",    subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.86, ry: 0.56, mrx: 0.52, mry: 0.66, id: "calmmouse" },
-  // Desktop: lower band between NeuraLyfe and Studio Waters.
-  { label: "Inkwork",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.5,  ry: 0.8,  mrx: 0.52, mry: 0.73, id: "inkwork" },
-  { label: "Studio Waters",subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.72, ry: 0.68, mrx: 0.52, mry: 0.80, id: "studiowaters" },
-  { label: "Tubular",      subtitle: WORKSHOP_SECTION_LABEL, color: "gold" as const, rx: 0.18, ry: 0.7,  mrx: 0.52, mry: 0.87, id: "tubular" },
-];
+// Mobile band geometry, worked out at 375×667 (iPhone SE, the smallest size
+// still worth supporting): nav floor = navBottom + ORB_MARGIN = 160; the top
+// band (160 → titleTop - ORB_MARGIN) is ~62px, the bottom band (titleBottom +
+// ORB_MARGIN → h - PAD) ~101px. A label block is ~27px tall, so the top band
+// holds 2 labeled rows and the bottom 3 — plenty for the bright tier alone.
 
 const RED = "200, 82, 82";
 const GOLD = "201, 169, 110";
@@ -313,15 +264,22 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     }
     starsRef.current = stars;
 
-    orbsRef.current = ORB_DEFS.map((d) => ({
+    orbsRef.current = heroOrbs().map((d) => ({
       ...d,
+      // Hue is still what the hover-link lines key on (same tier links to
+      // same tier); the tier itself sets size, alpha and label behavior below.
+      color: d.tier === "bright" ? ("red" as const) : ("gold" as const),
       x: (isMobile ? d.mrx : d.rx) * w,
       y: (isMobile ? d.mry : d.ry) * h,
       vx: (Math.random() - 0.5) * 0.12,
       vy: (Math.random() - 0.5) * 0.12,
       // baseSize is a radius, so +1 renders a dot 2px wider. Desktop only —
       // mobile keeps the tighter dot so the left-column label band stays clear.
-      baseSize: (isMobile ? 4 : 5) + Math.random() * 1.5,
+      // The dim tier is a smaller dot again, so it reads as a lesser thing.
+      baseSize:
+        d.tier === "bright"
+          ? (isMobile ? 4 : 5) + Math.random() * 1.5
+          : (isMobile ? 2.2 : 3.2) + Math.random() * 0.8,
       mass: 1 + Math.random() * 2,
       hoverT: 0,
     }));
@@ -425,7 +383,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     // Then lay the mobile rows out evenly inside the bands the zones define —
     // the mry fractions only picked each orb's column, band, and order.
     if (isMobile) {
-      layoutMobileColumns(orbsRef.current, w, {
+      layoutMobileColumns(orbsRef.current.filter((o) => o.tier === "bright"), w, {
         topStart: navBottom + ORB_MARGIN,
         topEnd: titleTop - ORB_MARGIN,
         bottomStart: titleBottom + ORB_MARGIN,
@@ -647,7 +605,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         const orbDx = mx - orb.x;
         const orbDy = my - orb.y;
         const orbDist = Math.sqrt(orbDx * orbDx + orbDy * orbDy);
-        if (orbDist < 30) newHoveredOrb = orb.id;
+        if (orbDist < 30 && (isDesktop || orb.tier === "bright")) newHoveredOrb = orb.id;
       });
 
       if (newHoveredOrb) {
@@ -708,26 +666,39 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         // Keep orbs clear of the top nav and the central title cluster.
         repelOrbFromZones(orb, zonesRef.current, w, h, true);
 
-        const isAI = orb.color === "gold";
+        // Both tiers share the calm drift; the dim tier must not be the busier one.
         if (!reduced) {
-          const driftAmt = isAI ? 0.008 : 0.004;
+          const driftAmt = 0.004;
           orb.vx += (Math.random() - 0.5) * driftAmt;
           orb.vy += (Math.random() - 0.5) * driftAmt;
 
-          const maxSpeed = isAI ? 0.28 : 0.18;
+          const maxSpeed = 0.18;
           const speed = Math.sqrt(orb.vx * orb.vx + orb.vy * orb.vy);
           if (speed > maxSpeed) {
             orb.vx = (orb.vx / speed) * maxSpeed;
             orb.vy = (orb.vy / speed) * maxSpeed;
           }
 
-          orb.vx *= isAI ? 0.996 : 0.993;
-          orb.vy *= isAI ? 0.996 : 0.993;
+          orb.vx *= 0.993;
+          orb.vy *= 0.993;
         }
 
         const col = orb.color === "red" ? RED : GOLD;
-        const breathSpeed = isAI ? 1.2 : 0.6;
-        const breathAmp = isAI ? 0.2 : 0.12;
+        const dim = orb.tier === "dim";
+
+        // Mobile: a dim orb is a slightly brighter background star — no ring,
+        // glow or label — so it never crowds the labeled bright column.
+        if (dim && !isDesktop) {
+          ctx.beginPath();
+          ctx.arc(orb.x, orb.y, orb.baseSize, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${col}, 0.55)`;
+          ctx.fill();
+          return;
+        }
+
+        const breathSpeed = 0.6;
+        // Dim tier barely breathes.
+        const breathAmp = dim ? 0.05 : 0.12;
         const breath = reduced ? 1 : 1 - breathAmp / 2 + Math.sin(time * breathSpeed + orb.mass * 3) * breathAmp;
         const opacityBreath = reduced ? 1 : 0.85 + Math.sin(time * breathSpeed * 0.7 + orb.mass * 2) * 0.15;
 
@@ -743,9 +714,13 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         const easedH = 1 - Math.pow(1 - t, 3);
 
         const hoverScale = 1 + easedH * 0.25;
-        const ringAlpha = 0.05 * opacityBreath + easedH * 0.16;
-        const glowRadius = 34 + easedH * 14;
-        const glowIntensity = (0.08 * opacityBreath + easedH * 0.10) * breath;
+        // Dim tier: everything at roughly half strength until hovered, and the
+        // label only exists while hovered.
+        const tierAlpha = dim ? 0.5 + easedH * 0.5 : 1;
+        const labelAlpha = dim ? easedH : 1;
+        const ringAlpha = (0.05 * opacityBreath + easedH * 0.16) * tierAlpha;
+        const glowRadius = (dim ? 22 : 34) + easedH * 14;
+        const glowIntensity = (0.08 * opacityBreath + easedH * 0.10) * breath * tierAlpha;
         const ringWidth = 0.4 + easedH * 0.3;
 
         const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, glowRadius);
@@ -757,24 +732,26 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(orb.x, orb.y, 18 * hoverScale * breath, 0, Math.PI * 2);
+        ctx.arc(orb.x, orb.y, (dim ? 12 : 18) * hoverScale * breath, 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(200, 200, 210, ${ringAlpha})`;
         ctx.lineWidth = ringWidth;
         ctx.stroke();
 
         ctx.beginPath();
         ctx.arc(orb.x, orb.y, orb.baseSize * breath * hoverScale, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${col}, ${(0.85 + easedH * 0.1) * opacityBreath})`;
+        ctx.fillStyle = `rgba(${col}, ${(0.85 + easedH * 0.1) * opacityBreath * tierAlpha})`;
         ctx.fill();
+
+        if (labelAlpha <= 0.01) return;
 
         // Desktop runs both label lines 2px larger; mobile keeps 13/10 so the
         // stacked left-column labels don't collide with each other or the title.
         ctx.font = `500 ${isDesktop ? 15 : 13}px 'Space Grotesk', sans-serif`;
-        ctx.fillStyle = `rgba(${col}, ${(0.68 + easedH * 0.18) * opacityBreath})`;
+        ctx.fillStyle = `rgba(${col}, ${(0.68 + easedH * 0.18) * opacityBreath * labelAlpha})`;
         ctx.fillText(orb.label, orb.x + 20, orb.y - 3);
 
         ctx.font = `500 ${isDesktop ? 12 : 10}px 'Space Grotesk', sans-serif`;
-        ctx.fillStyle = `rgba(${col}, ${(0.55 + easedH * 0.20) * opacityBreath})`;
+        ctx.fillStyle = `rgba(${col}, ${(0.55 + easedH * 0.20) * opacityBreath * labelAlpha})`;
         ctx.fillText(orb.subtitle, orb.x + 20, orb.y + (isDesktop ? 13 : 11));
       });
 
@@ -869,6 +846,8 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       let nearestId: string | null = null;
       let nearestDist = 60;
       for (const orb of orbsRef.current) {
+        // Dim orbs are unlabeled background stars on a phone, not targets.
+        if (orb.tier === "dim" && sizeRef.current.w < 768) continue;
         const dist = Math.sqrt((orb.x - tx) ** 2 + (orb.y - ty) ** 2);
         if (dist < nearestDist) { nearestDist = dist; nearestId = orb.id; }
       }

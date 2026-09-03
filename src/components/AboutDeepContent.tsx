@@ -828,12 +828,13 @@ const ConnectRock = ({
 // ── Main component ──
 const AboutDeepContent = ({
   isVisible,
-  onMainProjectsClick,
+  onSectionClick,
   onBack,
   deepLinkSection,
 }: {
   isVisible: boolean;
-  onMainProjectsClick?: () => void;
+  /** Footer section links — receives the homepage section's DOM id. */
+  onSectionClick?: (sectionId: string) => void;
   /** Section id the URL landed on, e.g. "connect" for /about/connect. */
   deepLinkSection?: string;
   /** Returns to the homepage hero — mirrors the case studies' bottom exit. */
@@ -1052,7 +1053,7 @@ const AboutDeepContent = ({
         ) : null}
 
         <div className="relative z-20">
-          <Footer onMainProjectsClick={onMainProjectsClick} />
+          <Footer onSectionClick={onSectionClick} />
         </div>
 
         {activePhotoIndex !== null && (

@@ -23,7 +23,7 @@ describe("TypographyFoundation", () => {
     const label = screen.getByTestId("type-scale-label");
     expect(label).toHaveTextContent("font.size.label");
     expect(within(label).getByTestId("type-scale-label-specimen")).toHaveStyle({
-      fontSize: "11px",
+      fontSize: "12px",
     });
 
     const display = screen.getByTestId("type-scale-display");

@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ProjectDetailTemplate } from "@/components/project-detail/ProjectDetailTemplate";
 import { getProjectDetail } from "@/data/projectDetails";
 import { PageTransition } from "@/components/PageTransition";
+import { projectReturn } from "@/data/projects";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -44,8 +45,14 @@ const ProjectDetail = () => {
         <ProjectDetailTemplate
           key={project.slug}
           project={project}
-          onBack={() => navigate("/")}
-          onMainProjectsClick={() => navigate("/#projects")}
+          onBack={() => {
+            const origin = projectReturn(project.slug);
+            navigate(origin.to, origin.state ? { state: origin.state } : undefined);
+          }}
+          onMainProjectsClick={() => {
+            const origin = projectReturn(project.slug);
+            navigate(origin.to, origin.state ? { state: origin.state } : undefined);
+          }}
         />
       </div>
     </PageTransition>

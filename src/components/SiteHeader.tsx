@@ -2,7 +2,7 @@ import { type MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Linkedin, Mail } from "lucide-react";
-import { WORKSHOP_SECTION_LABEL } from "@/lib/sectionLabels";
+import { NAV_ITEMS, SECTIONS, navItemHref } from "@/lib/sections";
 import logo from "@/assets/logo.webp";
 
 const EMAIL_HREF = "mailto:malikzhang19@gmail.com";
@@ -60,13 +60,13 @@ interface SiteHeaderProps {
   /** Entrance animation delay, in seconds. */
   entranceDelay: number;
   /**
-   * Prefix for the three section anchors. Empty on the homepage (in-page
-   * anchors like `#projects`); "/" on other pages so the href resolves to the
-   * homepage section (`/#projects`) even though the onClick handles navigation.
+   * Prefix for the section anchors. Empty on the homepage (in-page anchors
+   * like `#projects`); "/" on other pages so the href resolves to the homepage
+   * section (`/#projects`) even though the onClick handles navigation.
    */
   hrefBase?: string;
-  onSelectedWork: () => void;
-  onWorkshop: () => void;
+  /** A homepage-section nav item was clicked; receives the section's DOM id. */
+  onSection: (sectionId: string) => void;
   onAbout: () => void;
   /**
    * Optional logo-click handler. On the homepage this closes the About overlay
@@ -84,7 +84,7 @@ interface SiteHeaderProps {
 }
 
 /**
- * The site's primary navigation — logo + Selected Work / Workshop / About /
+ * The site's primary navigation — logo + NAV_ITEMS (Work / Studio) / About /
  * Resume, with a right-aligned Connect cluster (email + LinkedIn). A fixed,
  * direction-aware unit shared by the homepage hero and the case-study pages
  * so the two never drift.
@@ -100,8 +100,7 @@ export function SiteHeader({
   entranceVisible,
   entranceDelay,
   hrefBase = "",
-  onSelectedWork,
-  onWorkshop,
+  onSection,
   onAbout,
   onLogoClick,
   hideMobileDivider = false,
@@ -119,6 +118,36 @@ export function SiteHeader({
   // interactivity is granted per-link, revoked while hidden or inert (a
   // tucked-away, opacity-0 link must not intercept taps either).
   const interactive = inert || hidden ? "pointer-events-none" : "pointer-events-auto";
+
+  const linkClass = "nav-link hover:text-foreground transition-colors duration-500";
+
+  // The same links render in the desktop and mobile rows.
+  const links = (
+    <>
+      {NAV_ITEMS.map((item) =>
+        item.kind === "section" ? (
+          <a
+            key={item.label}
+            href={navItemHref(item, hrefBase)}
+            className={linkClass}
+            onClick={handle(() => onSection(SECTIONS[item.section].id))}
+          >
+            {item.label}
+          </a>
+        ) : (
+          <Link key={item.label} to={item.path} className={linkClass}>
+            {item.label}
+          </Link>
+        ),
+      )}
+      <a href={`${hrefBase}#about`} className={linkClass} onClick={handle(onAbout)}>
+        About
+      </a>
+      <a href="/resume" className={linkClass}>
+        Resume
+      </a>
+    </>
+  );
 
   return (
     <div
@@ -163,30 +192,7 @@ export function SiteHeader({
 
           {/* Center — nav */}
           <nav className={`${interactive} flex items-center gap-x-8 gap-y-2 text-base text-foreground/72 animate-fade-up delay-4 justify-self-center`}>
-            <a
-              href={`${hrefBase}#projects`}
-              className="nav-link hover:text-foreground transition-colors duration-500"
-              onClick={handle(onSelectedWork)}
-            >
-              Selected Work
-            </a>
-            <a
-              href={`${hrefBase}#ai-projects`}
-              className="nav-link hover:text-foreground transition-colors duration-500"
-              onClick={handle(onWorkshop)}
-            >
-              {WORKSHOP_SECTION_LABEL}
-            </a>
-            <a
-              href={`${hrefBase}#about`}
-              className="nav-link hover:text-foreground transition-colors duration-500"
-              onClick={handle(onAbout)}
-            >
-              About
-            </a>
-            <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">
-              Resume
-            </a>
+            {links}
           </nav>
 
           {/* Right — Connect; 1fr column keeps the center nav optically centered */}
@@ -201,10 +207,7 @@ export function SiteHeader({
             keeps the spacing between links identical at every screen width; the
             centered group + 14px type still fits one line down to ~320px. */}
         <nav className={`${interactive} flex flex-nowrap justify-center gap-x-5 whitespace-nowrap text-sm text-foreground/72 animate-fade-up delay-4 md:hidden`}>
-          <a href={`${hrefBase}#projects`} className="nav-link hover:text-foreground transition-colors duration-500" onClick={handle(onSelectedWork)}>Selected Work</a>
-          <a href={`${hrefBase}#ai-projects`} className="nav-link hover:text-foreground transition-colors duration-500" onClick={handle(onWorkshop)}>{WORKSHOP_SECTION_LABEL}</a>
-          <a href={`${hrefBase}#about`} className="nav-link hover:text-foreground transition-colors duration-500" onClick={handle(onAbout)}>About</a>
-          <a href="/resume" className="nav-link hover:text-foreground transition-colors duration-500">Resume</a>
+          {links}
         </nav>
 
         <HeaderConnect

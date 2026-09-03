@@ -33,6 +33,19 @@ import {
   MotiBuildJourney,
   MotiTakeaways,
 } from "./MotiModules";
+import {
+  OryneTags,
+  OryneAppStoreCta,
+  OryneHook,
+  OryneProblem,
+  OryneVocabulary,
+  OryneSpaces,
+  OryneDecisions,
+  OryneCapture,
+  OrynePrivacy,
+  OryneShipping,
+  OryneTakeaways,
+} from "./OryneModules";
 import { InkworkSymptoms, InkworkSequence, InkworkThemes, InkworkTryCta, InkworkSkillLink, InkworkCta } from "./InkworkModules";
 import {
   CalmMouseDemo,
@@ -43,7 +56,7 @@ import {
   CalmMouseVisitCta,
   CalmMouseCta,
 } from "./CalmMouseModules";
-import { MoreProjects } from "./MoreProjects";
+import { NextUp } from "./NextUp";
 import { ProjectMediaFrame } from "./ProjectMediaFrame";
 import { ProjectMetadataSummary } from "./ProjectMetadataSummary";
 
@@ -164,6 +177,17 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "moti-before-building": <MotiBeforeBuilding />,
   "moti-build-journey": <MotiBuildJourney />,
   "moti-takeaways": <MotiTakeaways />,
+  "oryne-tags": <OryneTags />,
+  "oryne-app-store": <OryneAppStoreCta />,
+  "oryne-hook": <OryneHook />,
+  "oryne-problem": <OryneProblem />,
+  "oryne-vocabulary": <OryneVocabulary />,
+  "oryne-spaces": <OryneSpaces />,
+  "oryne-decisions": <OryneDecisions />,
+  "oryne-capture": <OryneCapture />,
+  "oryne-privacy": <OrynePrivacy />,
+  "oryne-shipping": <OryneShipping />,
+  "oryne-takeaways": <OryneTakeaways />,
   "inkwork-symptoms": <InkworkSymptoms />,
   "inkwork-sequence": <InkworkSequence />,
   "inkwork-themes": <InkworkThemes />,
@@ -264,11 +288,11 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
   const headerHidden = !shouldReduceMotion && scrollHidden;
 
   // Delegated: any case-study image opens the lightbox, except navigational
-  // thumbnails (the "More projects" cards / any linked image).
+  // thumbnails (the "Next up" cards / any linked image).
   const handleImageClick = (e: MouseEvent<HTMLDivElement>) => {
     const img = (e.target as HTMLElement).closest("img") as HTMLImageElement | null;
     if (!img) return;
-    if (img.closest("a") || img.closest('[aria-label="More projects"]')) return;
+    if (img.closest("a") || img.closest('[aria-label="Next up"]')) return;
     setLightbox({ src: img.currentSrc || img.src, alt: img.alt });
   };
 
@@ -284,8 +308,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         entranceVisible
         entranceDelay={0.15}
         hrefBase="/"
-        onSelectedWork={() => navigate("/", { state: { scrollTo: "projects" } })}
-        onWorkshop={() => navigate("/", { state: { scrollTo: "ai-projects" } })}
+        onSection={(sectionId) => navigate("/", { state: { scrollTo: sectionId } })}
         onAbout={() => navigate("/", { state: { openAbout: true } })}
         hideMobileDivider
       />
@@ -322,7 +345,10 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         </h1>
         {project.heroSummary ? (
           <p
-            className={`mt-5 md:mt-8 text-xl font-light text-foreground/72 max-w-reading leading-relaxed text-balance ${
+            // Highlighted exactly like a **bold** run in the body copy (renderInline:
+            // font-semibold, full-strength), so the claim under the title and the
+            // emphasised sentences below it read as one voice.
+            className={`mt-5 md:mt-8 text-xl font-semibold text-foreground max-w-reading leading-relaxed text-balance ${
               // A "\n" in a summary is an authored line break, not stray whitespace.
               // Honor it from md up, where the column is wide enough for the lines
               // it was written for; below that the newline collapses back to a
@@ -528,8 +554,8 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         </div>
       </section>
 
-      {/* More work — related projects (reuses the homepage card, grid + navigation) */}
-      <MoreProjects currentSlug={project.slug} />
+      {/* Next up — related projects (reuses the homepage card, grid + navigation) */}
+      <NextUp currentSlug={project.slug} />
 
       {/* Back to all work — returns to the homepage projects list via the site's own nav */}
       <div className={`${PAGE_OUTER} pt-12 md:pt-16 pb-2`}>
@@ -553,7 +579,12 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         </button>
       </div>
 
-      <Footer onMainProjectsClick={onMainProjectsClick} wide />
+      <Footer
+        hrefBase="/"
+        onSectionClick={(sectionId) => navigate("/", { state: { scrollTo: sectionId } })}
+        onAboutClick={() => navigate("/", { state: { openAbout: true } })}
+        wide
+      />
 
       <ImageLightbox image={lightbox} onClose={() => setLightbox(null)} />
     </div>

@@ -265,7 +265,8 @@ const OrynePrivacy = () => {
 
       <Footer
         constrained
-        onMainProjectsClick={() => navigate("/#projects")}
+        hrefBase="/"
+        onSectionClick={(sectionId) => navigate("/", { state: { scrollTo: sectionId } })}
         onAboutClick={() => navigate("/")}
       />
     </div>

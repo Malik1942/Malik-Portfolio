@@ -1,5 +1,6 @@
 import type { ComponentType, ReactNode } from "react";
 import { noOrphan } from "@/lib/noOrphan";
+import { FigureCaption } from "./FigureCaption";
 import { ChatGptMark, MotionMark, NotionMark, SunsamaMark, TodoistMark } from "./motiBrandMarks";
 import {
   Inbox,
@@ -54,10 +55,10 @@ const accentColor: Record<Accent, { icon: string; num: string }> = {
   slate: { icon: "text-accent-slate", num: "text-accent-slate/50" },
 };
 
-type GridItem = { num: string; title: string; desc?: string; icon: LucideIcon; accent: Accent };
+export type GridItem = { num: string; title: string; desc?: string; icon: LucideIcon; accent: Accent };
 
 // Shared dark card shell — mirrors AuraDesignRequirements / AuraTestingFindings.
-function ModuleCard({ children, header }: { children: ReactNode; header?: string }) {
+export function ModuleCard({ children, header }: { children: ReactNode; header?: string }) {
   return (
     <div className="rounded-2xl overflow-hidden bg-surface-inset border border-case-study-module-border">
       {header ? (
@@ -74,7 +75,7 @@ function ModuleCard({ children, header }: { children: ReactNode; header?: string
 
 // number + icon + title + optional desc cell grid (the core Aura card pattern).
 // gap-px over a white/[0.05] background renders crisp 1px dividers for any layout.
-function CardGrid({ items, header, colsClass }: { items: GridItem[]; header?: string; colsClass: string }) {
+export function CardGrid({ items, header, colsClass }: { items: GridItem[]; header?: string; colsClass: string }) {
   return (
     <ModuleCard header={header}>
       <div className={`grid ${colsClass} gap-px bg-case-study-module-divider`}>
@@ -112,7 +113,7 @@ export function Chips({ items }: { items: string[] }) {
       {items.map((c) => (
         <span
           key={c}
-          className="inline-flex items-center rounded-full border border-border/50 bg-secondary/[0.08] px-3.5 py-1.5 text-xs text-foreground/72"
+          className="inline-flex items-center rounded-full border border-border/50 bg-secondary/[0.08] px-4 py-2 text-sm text-foreground/80"
         >
           {c}
         </span>
@@ -134,25 +135,25 @@ export function PullQuote({ children }: { children: ReactNode }) {
   );
 }
 
-// Single image + caption. Reuses the SectionFigure container styling.
+// Single image + caption. Reuses the SectionFigure container styling and the
+// shared FigureCaption ("Label — what you are looking at").
 // `narrow` constrains portrait phone screenshots so they don't render full-width.
-function MotiFigure({ src, alt, caption, narrow }: { src: string; alt: string; caption: string; narrow?: boolean }) {
+export type ArtifactItem = { src: string; alt: string; caption: string; label?: string };
+export function MotiFigure({ src, alt, caption, label, narrow }: ArtifactItem & { narrow?: boolean }) {
   return (
     <figure className={narrow ? "mx-auto w-full max-w-[300px]" : undefined}>
       <div className="overflow-hidden rounded-2xl bg-secondary/10">
         <img src={src} alt={alt} loading="lazy" decoding="async" className="w-full h-auto block" />
       </div>
-      <figcaption className="mt-3 text-xs md:text-sm text-foreground/55 leading-relaxed">
-        {noOrphan(caption)}
-      </figcaption>
+      <FigureCaption label={label}>{caption}</FigureCaption>
     </figure>
   );
 }
 
 // Image + caption grid (final-artifact gallery).
-export function ArtifactGallery({ items }: { items: { src: string; alt: string; caption: string }[] }) {
+export function ArtifactGallery({ items }: { items: ArtifactItem[] }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10 md:gap-x-8 md:gap-y-14">
       {items.map((it) => (
         <MotiFigure key={it.src} {...it} />
       ))}
@@ -184,7 +185,7 @@ export function MotiAppStoreCta() {
 }
 
 // Subsection label inside a module — matches the template's `##` subhead style.
-function SubHead({ children }: { children: ReactNode }) {
+export function SubHead({ children }: { children: ReactNode }) {
   return (
     <p className="text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
       {children}

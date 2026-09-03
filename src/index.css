@@ -393,7 +393,7 @@ body.loaded .animate-line-reveal { animation-play-state: running; }
   cursor: zoom-in;
 }
 [data-detail-root] a img,
-[data-detail-root] [aria-label="More projects"] img {
+[data-detail-root] [aria-label="Next up"] img {
   cursor: pointer;
 }
 
@@ -416,13 +416,29 @@ html {
     gap: 0 clamp(24px, 3vw, 40px);
   }
 
-  /* The "More work" rail shows 3 cards, so one always wraps to a second row.
+  /* The "Next up" rail shows 3 cards, so one always wraps to a second row.
      The base grid carries no row gap — on the homepage the rows are separated by
      each card's own stagger offset — which leaves the wrapped card's cover image
      butted straight against the metadata line of the card above it. Cards there
      size to their cover's natural ratio, so which card runs long shifts per page;
      an explicit row gap is what keeps the two rows apart in every combination. */
-  .project-grid--more-work {
+  .project-grid--next-up {
     row-gap: clamp(48px, 5vw, 72px);
+  }
+}
+
+/* Studio tile grid: 2 columns on mobile, 3 from md up. Uncropped covers, no
+   stagger and no parallax — those rhythms belong to the case-study sections. */
+.studio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 5vw, 32px) clamp(14px, 4vw, 24px);
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .studio-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(32px, 3vw, 44px) clamp(20px, 2.5vw, 32px);
   }
 }

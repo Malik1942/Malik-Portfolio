@@ -11,7 +11,7 @@ export const tokenSourceCommit =
     : "development";
 export const tokenBundle: TokenBundle = {
   "schemaVersion": 1,
-  "tokenHash": "ab3ce607",
+  "tokenHash": "d0089e65",
   "documents": {
     "primitive.tokens.json": {
       "color": {
@@ -282,9 +282,9 @@ export const tokenBundle: TokenBundle = {
         "size": {
           "$type": "dimension",
           "label": {
-            "$description": "Compact 11-pixel size used by navigation labels and eyebrows.",
+            "$description": "Compact 12-pixel size used by uppercase, letter-spaced labels and eyebrows (metadata card labels, section eyebrows, chips).",
             "$value": {
-              "value": 11,
+              "value": 12,
               "unit": "px"
             }
           },
@@ -2570,16 +2570,16 @@ export const tokenBundle: TokenBundle = {
       "sourceFile": "primitive.tokens.json",
       "type": "dimension",
       "value": {
-        "value": 11,
+        "value": 12,
         "unit": "px"
       },
       "resolvedValue": {
-        "value": 11,
+        "value": 12,
         "unit": "px"
       },
-      "description": "Compact 11-pixel size used by navigation labels and eyebrows.",
+      "description": "Compact 12-pixel size used by uppercase, letter-spaced labels and eyebrows (metadata card labels, section eyebrows, chips).",
       "cssVariable": "--font-size-label",
-      "cssValue": "11px",
+      "cssValue": "12px",
       "dependents": []
     },
     {

@@ -14,8 +14,7 @@ const renderHeader = () =>
         shouldReduceMotion
         entranceVisible
         entranceDelay={0}
-        onSelectedWork={() => {}}
-        onWorkshop={() => {}}
+        onSection={() => {}}
         onAbout={() => {}}
       />
     </MemoryRouter>,
