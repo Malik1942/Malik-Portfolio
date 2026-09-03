@@ -189,21 +189,25 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
               whileHover={{ scale: 1.012, opacity: 0.88 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
             >
-            <div className="flex flex-col items-center sm:items-end text-center sm:text-right max-w-[380px]">
+            <div className="flex flex-col items-center sm:items-end text-center sm:text-right">
+              {/* Same voice as every other display heading on the site: the
+                  display face at Light on the title/heading steps, with the
+                  emphasis carried by Semibold (as in the Studio headline)
+                  rather than by caps. Four authored lines alternate light and
+                  semibold so each emphasis phrase owns a flush-right line, and
+                  the block stays ~380px wide at 40px: the cluster rings are
+                  fixed-size and pinned at 25% / 75%, so a wider two-line
+                  setting runs underneath the upper-left ring on laptops. */}
               <motion.h2
-                className="font-display text-xl sm:text-title text-foreground font-normal leading-snug tracking-tight"
+                className="font-display text-xl sm:text-title xl:text-heading font-light text-foreground"
                 initial={{ opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.2, delay: 1.0, ease: "easeOut" }}
               >
-                <span className="block">
-                  I start with the real{" "}
-                  <span className="text-[1.35em] font-semibold text-foreground">PROBLEM</span>
-                </span>
-                <span className="block">
-                  and build the answer{" "}
-                  <span className="text-[1.35em] font-semibold text-foreground">END TO END</span>
-                </span>
+                <span className="block whitespace-nowrap">I start with the</span>
+                <span className="block whitespace-nowrap font-semibold">real problem</span>
+                <span className="block whitespace-nowrap">and build the answer</span>
+                <span className="block whitespace-nowrap font-semibold">end to end</span>
               </motion.h2>
             </div>
 
@@ -213,7 +217,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.4, delay: 1.1, ease: "easeOut" }}
             >
-              <Portrait className="w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72" />
+              <Portrait className="w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 xl:w-72 xl:h-72" />
             </motion.div>
           </motion.button>
         </div>

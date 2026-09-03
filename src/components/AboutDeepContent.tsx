@@ -337,17 +337,83 @@ interface ResilientParticle {
   vx: number; vy: number;
 }
 
-type SportType = "basketball" | "cycling" | "swimming";
+type SportType = "basketball" | "cycling" | "swimming" | "climbing";
 
 const SPORTS_DATA: { name: string; type: SportType }[] = [
   { name: "Basketball", type: "basketball" },
   { name: "Cycling", type: "cycling" },
   { name: "Swimming", type: "swimming" },
+  { name: "Climbing", type: "climbing" },
 ];
+
+const PARTICLE_COUNT = 28;
+
+// Links the canvas never draws, per formation: the guide outline and the
+// connection lines both skip them. Index i is the link from particle i to
+// i + 1 (the last index is the wrap-around link back to particle 0).
+//  - swimming: two open lanes, so no line joins lane 1's end to lane 2's start
+//    and none closes lane 2 back to lane 1.
+//  - climbing: the wrap-around link is the carabiner's gate opening.
+function isSkippedLink(type: SportType, i: number): boolean {
+  const last = PARTICLE_COUNT - 1;
+  if (type === "swimming") return i === PARTICLE_COUNT / 2 - 1 || i === last;
+  if (type === "climbing") return i === last;
+  return false;
+}
+
+// Carabiner — the object climbing is recognised by, the way the ball, the
+// wheels and the lanes stand for the other three. A tall D-shaped loop
+// (flatter spine on the left, fuller curve on the right) hung at a slight
+// tilt. `u` runs 0→1 from just past the gate round to just before it, so the
+// wrap-around link the canvas never draws (see isSkippedLink) is the gate
+// opening on the upper right.
+function carabinerPoint(u: number, cx: number, cy: number, r: number): [number, number] {
+  const GATE = -Math.PI * 0.3;
+  const GAP = 0.55;
+  const a = GATE + GAP / 2 + u * (Math.PI * 2 - GAP);
+  const W = r * 0.62;
+  const H = r * 0.98;
+  const c = Math.cos(a);
+  const dx = c * W * (c >= 0 ? 1 : 0.3);
+  const dy = Math.sin(a) * H;
+  const tilt = -0.2;
+  return [cx + dx * Math.cos(tilt) - dy * Math.sin(tilt), cy + dx * Math.sin(tilt) + dy * Math.cos(tilt)];
+}
+
+// Sample `count` points evenly by arc length along an open curve.
+function sampleByArcLength(
+  curve: (u: number) => [number, number],
+  count: number,
+): [number, number][] {
+  const STEPS = 600;
+  const pts: [number, number][] = [];
+  const cum: number[] = [0];
+  for (let k = 0; k <= STEPS; k++) {
+    pts.push(curve(k / STEPS));
+    if (k > 0) {
+      const [x0, y0] = pts[k - 1];
+      const [x1, y1] = pts[k];
+      cum.push(cum[k - 1] + Math.hypot(x1 - x0, y1 - y0));
+    }
+  }
+  const total = cum[STEPS];
+  const out: [number, number][] = [];
+  let k = 0;
+  for (let i = 0; i < count; i++) {
+    const target = (i / (count - 1)) * total;
+    while (k < STEPS - 1 && cum[k + 1] < target) k++;
+    const seg = cum[k + 1] - cum[k] || 1;
+    const f = (target - cum[k]) / seg;
+    out.push([pts[k][0] + (pts[k + 1][0] - pts[k][0]) * f, pts[k][1] + (pts[k + 1][1] - pts[k][1]) * f]);
+  }
+  return out;
+}
 
 function createParticles(type: SportType, cx: number, cy: number, r: number): ResilientParticle[] {
   const particles: ResilientParticle[] = [];
-  const count = 28;
+  const count = PARTICLE_COUNT;
+  const carabiner =
+    type === "climbing" ? sampleByArcLength((u) => carabinerPoint(u, cx, cy, r), count) : [];
 
   for (let i = 0; i < count; i++) {
     const t = i / count;
@@ -363,6 +429,11 @@ function createParticles(type: SportType, cx: number, cy: number, r: number): Re
       const angle = t * Math.PI * 2;
       hx = cx + Math.cos(angle) * r;
       hy = cy + Math.sin(angle * 2) * r * 0.5;
+    } else if (type === "climbing") {
+      // Climbing — see carabinerPoint. The outline is resampled by arc
+      // length (not by angle) so the dots sit evenly along the flattened
+      // spine as well as the rounder side.
+      [hx, hy] = carabiner[i];
     } else {
       // Swimming — dual sine lanes (stroke rhythm)
       const lane = i < count / 2 ? -1 : 1;
@@ -376,15 +447,34 @@ function createParticles(type: SportType, cx: number, cy: number, r: number): Re
   return particles;
 }
 
-const ResilienceCanvas = ({ type, isHovered }: { type: SportType; isHovered: boolean }) => {
+// The fly-in. When the tab is hidden the rAF loop pauses, and the first frame
+// back runs with a multi-second dt: the periodic scatter fires and that one
+// oversized step flings every particle 100–300px outside the canvas, after
+// which the recovery spring pulls them back into formation with the lines
+// trailing. That accident is the entrance we want, so it is replayed on
+// purpose: the trigger primes the state machine to scatter on the next frame
+// and hands that frame this dt.
+const FLY_IN_DT = 4;
+
+const ResilienceCanvas = ({ type, isHovered, inView }: { type: SportType; isHovered: boolean; inView: boolean }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<ResilientParticle[]>([]);
   const animRef = useRef(0);
   const phaseRef = useRef<"stable" | "disrupted" | "recovering">("stable");
   const timerRef = useRef(0);
   const hoveredRef = useRef(false);
+  const dtOverrideRef = useRef(0);
 
   useEffect(() => { hoveredRef.current = isHovered; }, [isHovered]);
+
+  // Replay the fly-in whenever the section enters view, including the first
+  // paint after entering the About page.
+  useEffect(() => {
+    if (!inView) return;
+    phaseRef.current = "stable";
+    timerRef.current = 10; // past the 3.5 s scatter threshold
+    dtOverrideRef.current = FLY_IN_DT;
+  }, [inView]);
 
   const init = useCallback(() => {
     const size = 120;
@@ -409,8 +499,12 @@ const ResilienceCanvas = ({ type, isHovered }: { type: SportType; isHovered: boo
 
     const loop = () => {
       const now = performance.now();
-      const dt = (now - lastTime) / 1000;
+      let dt = (now - lastTime) / 1000;
       lastTime = now;
+      if (dtOverrideRef.current) {
+        dt = dtOverrideRef.current;
+        dtOverrideRef.current = 0;
+      }
 
       const particles = particlesRef.current;
       const phase = phaseRef.current;
@@ -477,10 +571,10 @@ const ResilienceCanvas = ({ type, isHovered }: { type: SportType; isHovered: boo
         ctx.globalAlpha = 0.06;
         ctx.beginPath();
         particles.forEach((p, i) => {
-          if (i === 0) ctx.moveTo(p.homeX, p.homeY);
+          if (i === 0 || isSkippedLink(type, i - 1)) ctx.moveTo(p.homeX, p.homeY);
           else ctx.lineTo(p.homeX, p.homeY);
         });
-        ctx.closePath();
+        if (!isSkippedLink(type, particles.length - 1)) ctx.closePath();
         ctx.strokeStyle = "rgba(225, 222, 215, 1)";
         ctx.lineWidth = 0.5;
         ctx.stroke();
@@ -509,6 +603,7 @@ const ResilienceCanvas = ({ type, isHovered }: { type: SportType; isHovered: boo
       if (phase !== "disrupted") {
         ctx.globalAlpha = phase === "stable" ? 0.08 : 0.04;
         for (let i = 0; i < particles.length; i++) {
+          if (isSkippedLink(type, i)) continue;
           const next = particles[(i + 1) % particles.length];
           const p = particles[i];
           ctx.beginPath();
@@ -526,7 +621,7 @@ const ResilienceCanvas = ({ type, isHovered }: { type: SportType; isHovered: boo
 
     animRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(animRef.current);
-  }, [init]);
+  }, [init, type]);
 
   return (
     <canvas
@@ -537,7 +632,7 @@ const ResilienceCanvas = ({ type, isHovered }: { type: SportType; isHovered: boo
   );
 };
 
-const SportNode = ({ sport }: { sport: (typeof SPORTS_DATA)[0] }) => {
+const SportNode = ({ sport, inView }: { sport: (typeof SPORTS_DATA)[0]; inView: boolean }) => {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -547,7 +642,7 @@ const SportNode = ({ sport }: { sport: (typeof SPORTS_DATA)[0] }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <ResilienceCanvas type={sport.type} isHovered={hovered} />
+      <ResilienceCanvas type={sport.type} isHovered={hovered} inView={inView} />
       <motion.span
         className="text-xs uppercase tracking-eyebrow text-foreground"
         animate={{ opacity: hovered ? 1.0 : 0.72 }}
@@ -852,6 +947,9 @@ const AboutDeepContent = ({
   const photoInView = useInView(photoSectionRef, inViewOpts);
   const lifeInView = useInView(lifeSectionRef, inViewOpts);
   const movementInView = useInView(movementSectionRef, inViewOpts);
+  // Not `once`: the sport canvases replay their fly-in each time the section
+  // scrolls back into view. The editorial reveal above stays once-only.
+  const movementReplay = useInView(movementSectionRef, { amount: 0.35 });
   const dailyInView = useInView(dailySectionRef, inViewOpts);
   const connectObserved = useInView(connectSectionRef, inViewOpts);
   // A deep link scrolls straight here, which outruns the in-view entrance and
@@ -957,7 +1055,7 @@ const AboutDeepContent = ({
               animate={movementInView ? "show" : "hidden"}
             >
               {SPORTS_DATA.map((sport) => (
-                <SportNode key={sport.name} sport={sport} />
+                <SportNode key={sport.name} sport={sport} inView={movementReplay} />
               ))}
             </motion.div>
           </AboutEditorialSection>
