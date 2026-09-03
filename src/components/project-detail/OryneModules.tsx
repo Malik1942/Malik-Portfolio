@@ -24,7 +24,8 @@ import {
   CheckCircle2,
   type LucideIcon,
 } from "lucide-react";
-import { CardGrid, Chips, ModuleCard, MotiFigure, PullQuote, SubHead, type ArtifactItem, type GridItem } from "./MotiModules";
+import { FigureCaption } from "./FigureCaption";
+import { CardGrid, Chips, ModuleCard, PullQuote, SCREEN_FIGURE_WIDTH, type ArtifactItem, type GridItem } from "./MotiModules";
 import oryneOcean from "@/assets/oryne-ocean.webp";
 import oryneCurrent from "@/assets/oryne-current.webp";
 import oryneResurface from "@/assets/oryne-resurface.webp";
@@ -69,20 +70,27 @@ function AppStoreLink({ label }: { label: string }) {
 // Term rows: the product's own vocabulary, each pinned to the copy that
 // actually appears in the app, so the metaphor is shown doing work, not claimed.
 type Term = { term: string; meaning: string; inApp: string; icon: LucideIcon };
+const TERM_COLS = "grid-cols-1 md:grid-cols-[minmax(0,1fr)_2fr_minmax(0,1.4fr)]";
+const TERM_COL_RULE = "md:border-l md:border-case-study-module-divider";
 function TermList({ items }: { items: Term[] }) {
   return (
     <ModuleCard>
+      <div className={`hidden md:grid ${TERM_COLS} px-8 py-4 border-b border-case-study-module-divider`}>
+        <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">Term</p>
+        <p className={`text-label uppercase tracking-eyebrow text-foreground/55 font-mono pl-6 ${TERM_COL_RULE}`}>Meaning</p>
+        <p className={`text-label uppercase tracking-eyebrow text-foreground/55 font-mono pl-6 ${TERM_COL_RULE}`}>In the app</p>
+      </div>
       <div className="divide-y divide-case-study-module-divider">
         {items.map((t) => {
           const Icon = t.icon;
           return (
-            <div key={t.term} className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_2fr_minmax(0,1.4fr)] gap-2 md:gap-6 px-6 py-5 md:px-8 md:py-6">
+            <div key={t.term} className={`grid ${TERM_COLS} px-6 py-5 md:px-8 md:py-6`}>
               <div className="flex items-center gap-2.5">
                 <Icon aria-hidden="true" className="w-4 h-4 shrink-0 text-accent-violet" strokeWidth={1.4} />
                 <p className="text-sm md:text-base font-medium text-foreground">{t.term}</p>
               </div>
-              <p className="text-sm font-light leading-relaxed text-foreground/72">{noOrphan(t.meaning)}</p>
-              <p className="text-xs md:text-sm font-mono leading-relaxed text-foreground/55">{noOrphan(t.inApp)}</p>
+              <p className={`mt-2 md:mt-0 md:pl-6 text-sm font-light leading-relaxed text-foreground/72 ${TERM_COL_RULE}`}>{noOrphan(t.meaning)}</p>
+              <p className={`mt-2 md:mt-0 md:pl-6 text-xs md:text-sm font-mono leading-relaxed text-foreground/55 ${TERM_COL_RULE}`}>{noOrphan(t.inApp)}</p>
             </div>
           );
         })}
@@ -92,7 +100,7 @@ function TermList({ items }: { items: Term[] }) {
 }
 
 /* ── 1) Overview — tags + App Store CTA ─────────────────────────────────── */
-const tags = ["More Work", "AI-Native UX", "iOS", "On-Device AI", "Built & Shipped"];
+const tags = ["Selected Work", "AI-Native UX", "iOS", "On-Device AI", "Built & Shipped"];
 export function OryneTags() {
   return <Chips items={tags} />;
 }
@@ -148,12 +156,13 @@ const spaces: GridItem[] = [
 ];
 export function OryneIdea() {
   return (
-    <div className="flex flex-col gap-10 md:gap-12">
+    <div className="flex flex-col gap-8 md:gap-10">
       <TermList items={vocabulary} />
-      <div className="flex flex-col gap-6">
-        <SubHead>Felt vs Legible: Three Spaces, Not One Compromise</SubHead>
-        <CardGrid items={spaces} colsClass="grid-cols-1 sm:grid-cols-3" />
-      </div>
+      <CardGrid
+        items={spaces}
+        header="Felt vs Legible: Three Spaces, Not One Compromise"
+        colsClass="grid-cols-1 sm:grid-cols-3"
+      />
     </div>
   );
 }
@@ -207,31 +216,46 @@ const acts: FlowAct[] = [
 ];
 function FlowStepFigure({ step }: { step: FlowStep }) {
   return (
-    <div className="flex flex-col gap-5">
-      <div className="mx-auto w-full max-w-[400px] flex items-baseline gap-3">
+    <div className="flex h-full flex-col bg-surface-inset px-6 py-7 md:px-8 md:py-8">
+      <div className="flex items-baseline gap-3">
         <span className="text-xs font-mono tabular-nums text-accent-violet/70">{step.num}</span>
         <p className="text-base md:text-xl font-medium text-foreground">{step.title}</p>
       </div>
-      <MotiFigure src={step.src} alt={step.alt} label={step.label} caption={step.caption} screen />
+      <figure className={`${SCREEN_FIGURE_WIDTH} mt-5 flex flex-1 flex-col`}>
+        <div className="overflow-hidden rounded-2xl bg-secondary/10">
+          <img src={step.src} alt={step.alt} loading="lazy" decoding="async" className="w-full h-auto block" />
+        </div>
+        <div className="mt-auto">
+          <FigureCaption label={step.label}>{step.caption}</FigureCaption>
+        </div>
+      </figure>
     </div>
   );
 }
 export function OryneFlow() {
   return (
-    <div className="flex flex-col gap-14 md:gap-20">
+    <div className="flex flex-col gap-8 md:gap-10">
       {acts.map((act) => (
-        <div key={act.title} className="flex flex-col gap-8 md:gap-10">
-          <div className="flex flex-col gap-3">
-            <SubHead>{act.title}</SubHead>
-            <p className="text-base md:text-xl font-light leading-relaxed text-foreground/72 max-w-[60ch]">{noOrphan(act.lead)}</p>
+        <ModuleCard key={act.title}>
+          <div className="px-6 pt-7 pb-6 md:px-8 md:pt-8 md:pb-7 border-b border-case-study-module-divider">
+            <p className="text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
+              {act.title}
+            </p>
+            <p className="mt-3 text-sm md:text-base font-light leading-relaxed text-foreground/72 max-w-[60ch]">
+              {noOrphan(act.lead)}
+            </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-12 md:gap-x-8 md:gap-y-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-case-study-module-divider">
             {act.steps.map((step) => (
               <FlowStepFigure key={step.num} step={step} />
             ))}
+            {act.quote ? (
+              <div className="sm:col-span-2 bg-surface-inset px-6 py-7 md:px-8 md:py-8">
+                <PullQuote>{act.quote}</PullQuote>
+              </div>
+            ) : null}
           </div>
-          {act.quote ? <PullQuote>{act.quote}</PullQuote> : null}
-        </div>
+        </ModuleCard>
       ))}
     </div>
   );
@@ -270,33 +294,37 @@ const askTests: GridItem[] = [
 ];
 export function OryneShipping() {
   return (
-    <div className="flex flex-col gap-12 md:gap-16">
-      <div className="flex flex-col gap-6">
-        <SubHead>Six Releases in Fifteen Days</SubHead>
-        <ModuleCard>
-          <div className="divide-y divide-case-study-module-divider">
-            {releases.map((r) => (
-              <div key={r.date + r.tag} className="grid grid-cols-[4.5rem_minmax(0,1fr)] md:grid-cols-[6rem_6rem_minmax(0,1fr)] gap-x-4 gap-y-1 px-6 py-4 md:px-8 md:py-5">
-                <p className="text-xs md:text-sm font-mono tabular-nums text-foreground/55">{r.date}</p>
-                <p className="text-sm md:text-base font-medium text-foreground">{r.tag}</p>
-                <p className="col-span-2 md:col-span-1 text-sm font-light leading-relaxed text-foreground/72">{noOrphan(r.text)}</p>
-              </div>
-            ))}
-            <div className="flex items-start gap-3 px-6 py-4 md:px-8 md:py-5">
-              <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-success" strokeWidth={1.6} />
-              <p className="text-sm md:text-base font-medium leading-relaxed text-foreground">Live on the App Store. Free, 5 MB.</p>
+    <div className="flex flex-col gap-8 md:gap-10">
+      <ModuleCard header="Six Releases in Fifteen Days">
+        <div className="hidden md:grid md:grid-cols-[6rem_6rem_minmax(0,1fr)] px-8 py-4 border-b border-case-study-module-divider">
+          <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">Date</p>
+          <p className={`text-label uppercase tracking-eyebrow text-foreground/55 font-mono pl-4 ${TERM_COL_RULE}`}>Release</p>
+          <p className={`text-label uppercase tracking-eyebrow text-foreground/55 font-mono pl-4 ${TERM_COL_RULE}`}>What shipped</p>
+        </div>
+        <div className="divide-y divide-case-study-module-divider">
+          {releases.map((r) => (
+            <div key={r.date + r.tag} className="grid grid-cols-[4.5rem_minmax(0,1fr)] md:grid-cols-[6rem_6rem_minmax(0,1fr)] px-6 py-4 md:px-8 md:py-5">
+              <p className="text-xs md:text-sm font-mono tabular-nums text-foreground/55">{r.date}</p>
+              <p className={`text-sm md:text-base font-medium text-foreground md:pl-4 ${TERM_COL_RULE}`}>{r.tag}</p>
+              <p className={`col-span-2 md:col-span-1 mt-1 md:mt-0 text-sm font-light leading-relaxed text-foreground/72 md:pl-4 ${TERM_COL_RULE}`}>{noOrphan(r.text)}</p>
             </div>
+          ))}
+          <div className="flex items-start gap-3 px-6 py-4 md:px-8 md:py-5">
+            <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-success" strokeWidth={1.6} />
+            <p className="text-sm md:text-base font-medium leading-relaxed text-foreground">Live on the App Store. Free, 5 MB.</p>
           </div>
-        </ModuleCard>
-      </div>
-      <div className="flex flex-col gap-6">
-        <SubHead>Don’t Review the Work. Design the Review.</SubHead>
-        <CardGrid items={workflow} colsClass="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" />
-      </div>
-      <div className="flex flex-col gap-6">
-        <SubHead>Testing the AI Meant Trying to Make It Lie</SubHead>
-        <CardGrid items={askTests} colsClass="grid-cols-1 sm:grid-cols-3" />
-      </div>
+        </div>
+      </ModuleCard>
+      <CardGrid
+        items={workflow}
+        header="Don’t Review the Work. Design the Review."
+        colsClass="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+      />
+      <CardGrid
+        items={askTests}
+        header="Testing the AI Meant Trying to Make It Lie"
+        colsClass="grid-cols-1 sm:grid-cols-3"
+      />
     </div>
   );
 }

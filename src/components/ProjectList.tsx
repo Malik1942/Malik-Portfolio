@@ -274,6 +274,11 @@ const CardMeta = ({
       {links.map((link) => (
         <LinkChip key={link.url} link={link} />
       ))}
+      {project.destination?.kind === "placeholder" ? (
+        <span className="inline-flex items-center rounded-full border border-border/50 px-2 py-1 text-label uppercase tracking-eyebrow leading-none whitespace-nowrap text-foreground/60">
+          Coming soon
+        </span>
+      ) : null}
       {skills.map((skill) => (
         <SkillChip key={skill} skill={skill} />
       ))}
@@ -310,6 +315,7 @@ const CardLink = ({
 }) => {
   const cls =
     "absolute inset-0 z-[1] cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/60 focus-visible:ring-offset-4 focus-visible:ring-offset-background";
+  if (destination?.kind === "placeholder") return null;
   if (destination?.kind === "external") {
     return (
       <a href={destination.url} target="_blank" rel="noopener noreferrer" aria-label={title} className={cls} />
@@ -528,7 +534,7 @@ export const ProjectCard = ({
         }}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        data-clickable="true"
+        data-clickable={project.destination?.kind === "placeholder" ? "false" : "true"}
         {...arrivalProps}
       >
         <div className={`flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}>
@@ -555,7 +561,7 @@ export const ProjectCard = ({
       style={maxWidth ? { maxWidth } : undefined}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
-      data-clickable="true"
+      data-clickable={project.destination?.kind === "placeholder" ? "false" : "true"}
       {...arrivalProps}
     >
       <div className="flex flex-col">

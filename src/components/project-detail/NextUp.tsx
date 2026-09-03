@@ -14,7 +14,10 @@ const rank = (p: Project) => {
 };
 
 // Array.prototype.sort is stable, so the non-lead projects keep homepage order.
-const ALL_PROJECTS: Project[] = [...PROJECTS].sort((a, b) => rank(a) - rank(b));
+// Placeholder cards have nowhere to go, so they never appear in this rail.
+const ALL_PROJECTS: Project[] = [...PROJECTS]
+  .filter((p) => p.destination.kind !== "placeholder")
+  .sort((a, b) => rank(a) - rank(b));
 
 interface NextUpProps {
   /** slug/id of the project being viewed; excluded from the list (slug === homepage id). */

@@ -15,6 +15,7 @@ import zeatCard from "@/assets/zeat-hero.webp";
 import rangerCard from "@/assets/ranger-hero.webp";
 import oryneCard from "@/assets/oryne-card-poster.webp";
 import oryneCardVideo from "@/assets/oryne-card.mp4";
+import spatialEditorCard from "@/assets/spatial-editor-card.webp";
 
 // ── Skill vocabulary ─────────────────────────────────────────────────────────
 // A controlled list, as a union so a typo fails typecheck. The words match the
@@ -58,15 +59,18 @@ export interface ProjectLink {
   url: string;
 }
 
-// What clicking the card does. Every card on the homepage is clickable; a
-// project that cannot be opened is not shown.
+// What clicking the card does. Case-study, video, and external cards are
+// clickable. `placeholder` is the one exception: a temporary card with a
+// cover and no destination, used until the case study exists.
 export type ProjectDestination =
   /** Routes to /project/:id. */
   | { kind: "case-study" }
   /** Opens an in-place lightbox, no route change. */
   | { kind: "video"; src: string; poster: string }
   /** Leaves the site. */
-  | { kind: "external"; url: string };
+  | { kind: "external"; url: string }
+  /** Shown on the homepage, not a link. */
+  | { kind: "placeholder" };
 
 export interface Project {
   id: string;
@@ -97,10 +101,11 @@ const CASE_STUDY: ProjectDestination = { kind: "case-study" };
 
 // ── The project list ─────────────────────────────────────────────────────────
 // Order within a section is display order. Selected Work leads with Moti (the
-// shipped one), then NeuraLyfe, then Aura; Spatial Editor has no case study
-// yet, so the section shows three until it does. Never pad with a WIP
-// card. Selected Work + More Work are the homepage ("Work"); Studio is its own
-// page.
+// shipped planner — the most immediately legible product), then NeuraLyfe,
+// Aura, and Oryne. Oryne is the more authored second app and closes the
+// section rather than opening it. Spatial Editor has no case study yet, so it
+// sits in More Work as a placeholder card. Selected Work + More Work are the
+// homepage ("Work"); Studio is its own page.
 //
 // Skill chips are intentionally empty until the vocabulary is confirmed (open
 // item 4 in docs/superpowers/specs/2026-09-02-homepage-tiers-design.md).
@@ -154,15 +159,14 @@ export const PROJECTS: readonly Project[] = [
     coverAspect: "2400/1350",
     details: "A speculative concept for anticipating motion sickness in flight, designed with a 5-person team over 5 weeks.\n\nUser testing validated the refined form: 15 of 16 testers (93.75%) preferred it over the initial design.",
   },
-
-  // ── More Work: the rest of the case studies, told as process ──
   {
     id: "oryne",
     title: "Oryne",
-    section: "more",
+    section: "selected",
     skills: [],
     links: [{ label: "App Store", url: "https://apps.apple.com/us/app/oryne/id6778995892" }],
     destination: CASE_STUDY,
+    signal: "An Ocean for Unfinished Thoughts",
     description: "Shipped solo on the App Store: an inspiration-capture app where thoughts drift, gather into currents, and come back on their own.",
     role: "Product Designer & Builder",
     coverImage: oryneCard,
@@ -176,6 +180,21 @@ export const PROJECTS: readonly Project[] = [
     coverVideo: oryneCardVideo,
     year: "2026",
     details: "First commit to the App Store in 23 days, built around one metaphor: your mind as an ocean.\n\nAll of its intelligence runs on the device, in English and Simplified Chinese.",
+  },
+
+  // ── More Work: the rest of the case studies, told as process ──
+  {
+    id: "spatial",
+    title: "Spatial Editor",
+    section: "more",
+    skills: [],
+    destination: { kind: "placeholder" },
+    description: "MHCI+D capstone: multimodal text input and editing in spatial interfaces. Case study coming.",
+    role: "Product Designer",
+    coverImage: spatialEditorCard,
+    coverAspect: "1024/684",
+    year: "2026",
+    details: "Team XR. A spatial text editor for writing in the air, on the surfaces around you.",
   },
   {
     id: "moodmuse",
@@ -195,8 +214,8 @@ export const PROJECTS: readonly Project[] = [
     title: "Tubular",
     section: "more",
     skills: [],
-    destination: CASE_STUDY,
-    description: "Defy gravity. Shape the path.",
+    destination: { kind: "placeholder" },
+    description: "Defy gravity. Shape the path. Case study coming.",
     role: "Product Designer, Maker",
     coverImage: tubularCover,
     coverAspect: "1920/1280",

@@ -15,13 +15,13 @@ describe("homepage project list", () => {
     expect(Object.keys(SECTIONS)).toContain(project.section);
     expect(project.skills.length).toBeLessThanOrEqual(MAX_SKILLS);
     for (const skill of project.skills) expect(SKILLS).toContain(skill);
-    expect(project.destination.kind).toMatch(/^(case-study|video|external)$/);
+    expect(project.destination.kind).toMatch(/^(case-study|video|external|placeholder)$/);
   });
 
   it("returns each case study to the surface it is listed on", () => {
     expect(projectReturn("moti")).toEqual({ to: "/", state: { scrollTo: SECTIONS.selected.id } });
     expect(projectReturn("flowprint")).toEqual({ to: "/", state: { scrollTo: SECTIONS.more.id } });
-    expect(projectReturn("oryne")).toEqual({ to: "/", state: { scrollTo: SECTIONS.more.id } });
+    expect(projectReturn("oryne")).toEqual({ to: "/", state: { scrollTo: SECTIONS.selected.id } });
     expect(projectReturn("zeat")).toEqual({ to: SECTIONS.studio.path });
   });
 
@@ -35,8 +35,8 @@ describe("homepage project list", () => {
   });
 
   it("holds the locked section assignments", () => {
-    expect(projectsInSection("selected").map((p) => p.id)).toEqual(["moti", "neuralyfe", "aura"]);
-    expect(projectsInSection("more").map((p) => p.id)).toEqual(["oryne", "moodmuse", "tubular", "flowprint"]);
+    expect(projectsInSection("selected").map((p) => p.id)).toEqual(["moti", "neuralyfe", "aura", "oryne"]);
+    expect(projectsInSection("more").map((p) => p.id)).toEqual(["spatial", "moodmuse", "tubular", "flowprint"]);
     expect(projectsInSection("studio").map((p) => p.id)).toEqual([
       "calmmouse",
       "inkwork",

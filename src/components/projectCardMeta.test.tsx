@@ -91,4 +91,19 @@ describe("project card metadata", () => {
     // corner glyph on the cover, drawn as an icon
     expect(container.querySelector("[aria-hidden='true'] svg")).not.toBeNull();
   });
+
+  it("renders a placeholder card with no click target", () => {
+    render(
+      <MemoryRouter>
+        <ProjectCard
+          project={{ ...project, id: "spatial", title: "Spatial Editor", skills: [], links: undefined, destination: { kind: "placeholder" } }}
+          projectId="spatial"
+          dotClass=""
+          globalIndex={0}
+        />
+      </MemoryRouter>,
+    );
+    expect(screen.queryByRole("link", { name: "Spatial Editor" })).toBeNull();
+    expect(screen.getByText("Coming soon")).toBeInTheDocument();
+  });
 });

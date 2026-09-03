@@ -16,8 +16,9 @@ import { SECTIONS } from "@/lib/sections";
 //
 // Desktop layout notes, bright tier: Moti sits in the band between the nav and
 // the title cluster; Aura at the far left of that band; NeuraLyfe in the lower
-  // band. Dim tier fills the gaps around them: Mood Muse and FlowPrint down the
-  // right edge, Tubular in the lower-left, Oryne in the lower-center.
+  // band; Oryne in the lower-center. Dim tier fills the gaps around them: Mood
+  // Muse and FlowPrint down the right edge, Tubular in the lower-left, Spatial
+  // Editor in the mid-right.
 export interface OrbPosition {
   rx: number;
   ry: number;
@@ -33,11 +34,12 @@ export const ORB_POSITIONS: Record<string, OrbPosition> = {
   neuralyfe: { rx: 0.28, ry: 0.72, mrx: 0.09, mry: 0.73 },
   moti: { label: "Moti: Plan", rx: 0.42, ry: 0.2, mrx: 0.09, mry: 0.19 },
   aura: { rx: 0.1, ry: 0.25, mrx: 0.09, mry: 0.3 },
+  oryne: { rx: 0.58, ry: 0.78, mrx: 0.09, mry: 0.85 },
   // More Work — dim
+  spatial: { rx: 0.82, ry: 0.62, mrx: 0.55, mry: 0.55 },
   moodmuse: { rx: 0.88, ry: 0.3, mrx: 0.62, mry: 0.72 },
   tubular: { rx: 0.18, ry: 0.7, mrx: 0.86, mry: 0.8 },
   flowprint: { rx: 0.75, ry: 0.45, mrx: 0.72, mry: 0.9 },
-  oryne: { rx: 0.58, ry: 0.78, mrx: 0.4, mry: 0.62 },
 };
 
 export type OrbTier = "bright" | "dim";
