@@ -206,8 +206,10 @@ const WallGame = ({
   const toppedRef = useRef(false);
 
   const routeById = new Map(layout.routes.map((route) => [route.id, route]));
-  const isSent = (route: BoulderRoute) =>
-    progress[route.id][progress[route.id].length - 1] === topHold(route).id;
+  const isSent = (route: BoulderRoute) => {
+    const path = progress[route.id];
+    return path[path.length - 1] === topHold(route).id && pathChalk(path, route) <= routeBudget(route);
+  };
   const allSent = layout.routes.every(isSent);
   const anyStarted = layout.routes.some((route) => progress[route.id].length > 1);
 
@@ -240,11 +242,16 @@ const WallGame = ({
     const last = holds.get(path[path.length - 1])!;
     if (holdsWithinReach(last, hold, route.reach)) {
       const nextPath = [...path, hold.id];
+      const spent = pathChalk(nextPath, route);
+      const budget = routeBudget(route);
       setProgress({ ...progress, [route.id]: nextPath });
       setOutOfReach(null);
-      if (!hold.top) playBoulderSound("step", nextPath.length - 2);
+      // A top-out only counts if the bag covers it: a 2-chalk grab onto the
+      // top with 1 chalk left still takes the hold, then falls.
+      const topped = hold.top && spent <= budget;
+      if (!topped) playBoulderSound("step", nextPath.length - 2);
 
-      if (hold.top) {
+      if (topped) {
         playBoulderSound("send");
         if (!toppedRef.current) {
           toppedRef.current = true;
@@ -253,8 +260,8 @@ const WallGame = ({
         return;
       }
 
-      // Chalk spent without reaching the top: pumped, off the wall.
-      if (pathChalk(nextPath, route) >= routeBudget(route)) {
+      // Chalk spent without a covered top: pumped, off the wall.
+      if (spent >= budget) {
         setFallingRoute(route.id);
         setFallCount((count) => count + 1);
         playBoulderSound("fall", nextPath.length - 2);

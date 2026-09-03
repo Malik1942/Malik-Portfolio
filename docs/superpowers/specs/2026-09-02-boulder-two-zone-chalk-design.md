@@ -67,10 +67,18 @@ Authoring contract (enforced by tests, not by a coordinate spreadsheet):
 6. No dyno skips a hold: every start-to-top line that fits the bag takes at
    least as many moves as the flash line.
 7. Sends narrow by grade. V4 has exactly one line that fits the bag. V2 has
-   the flash plus fat sends that spend its one slack. V0 has more than V2.
-8. V4 hides at least one inner-ring dead end: a 1-chalk upward grab off the
-   flash line that sits on no sending line. The read is exploring and
-   downclimbing, not just ring-counting.
+   the flash plus one or two fat sends through a single wobble hold near the
+   top. V0 has more than V2.
+8. V2 decoys are fatal, not forgiving. With slack 1 a detour only kills if
+   it costs +2: a dyno onto a hold between rows, or a 1-chalk dead end whose
+   every onward grab is a dyno. V2 forks that way at two or more line holds.
+9. V4's line is hidden, not just exact. All but at most one line hold offer
+   an inner-ring dead end: a 1-chalk upward grab onto a hold no send uses.
+   V4 has more such forks than V2. The read is exploring and downclimbing,
+   not ring-counting. The straight-looking center holds are dynos that die
+   one move under the top.
+10. An unaffordable top-out is a fall. A 2-chalk grab onto the top with 1
+    chalk left takes the hold, then pumps out; it is not a send.
 
 Hold ids may keep today's vocabulary (`s`, `a1`…`t`, `p*`, `q*`) when the
 graph shape still fits. Add or drop holds if the contract needs it.
@@ -138,8 +146,10 @@ Change:
 - Every route has an all-1s start-to-top path whose cost equals `minChalk`.
 - Every route has a legal 2-chalk edge from a hold on a min-chalk all-1s path.
 - Every sending line has at least `minChalk` moves (no dyno skips a hold).
-- Sending-line counts: V4 exactly 1; V2 at least 2 and fewer than V0.
-- V4 has an inner-ring dead end off its flash line.
+- Sending-line counts: V4 exactly 1; V2 between 2 and 3 and fewer than V0.
+- V4 forks (inner-ring dead end off a line hold) at all but at most one
+  line hold, and at more holds than V2. V2 forks at two or more.
+- A dyno onto the top that the bag cannot cover pumps out instead of sending.
 - A 2-chalk grab drops remaining bag dots by 2.
 - Mobile V0's close line still flashes.
 - A wander that empties the bag short of the top still pumps out. Update

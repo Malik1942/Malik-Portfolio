@@ -11,6 +11,15 @@
 // shortcut: if reach approaches 2x close, one far grab covers two hops for two
 // hops' chalk and skips a hold, and the exact-line puzzle collapses. Line hops
 // sit near the close radius so any two of them chord past reach.
+//
+// Decoys are built to a cost, not a look. On V2 (slack 1) a detour is fatal
+// only if it costs +2: a dyno onto a hold between rows, or a 1-chalk dead end
+// whose every onward grab is a dyno. A +1 wobble sends fat; each V2 keeps
+// exactly one, a left hold near the top that finishes on a dyno. V4 (slack 0)
+// weaves an S off-center and puts a 1-chalk upward dead end beside nearly
+// every line hold, so the line is found by trying and downclimbing, not by
+// counting rings. The straight center holds are the obvious route; they are
+// all dynos and die one move under the top.
 
 export type HoldShape = "jug" | "sloper" | "crimp" | "pinch";
 
@@ -83,12 +92,15 @@ export const DESKTOP_WALL: WallLayout = {
       holds: [
         { id: "s", x: 390, y: 425, r: 12, shape: "jug", rotation: 0, start: true },
         { id: "p1", x: 350, y: 348, r: 9, shape: "crimp", rotation: -10 },
-        { id: "p2", x: 445, y: 365, r: 10, shape: "sloper", rotation: 25 },
+        { id: "p2", x: 470, y: 375, r: 10, shape: "sloper", rotation: 25 },
         { id: "p3", x: 395, y: 271, r: 10, shape: "pinch", rotation: -20 },
-        { id: "p4", x: 442, y: 278, r: 10, shape: "sloper", rotation: -35 },
+        { id: "p4", x: 290, y: 310, r: 10, shape: "sloper", rotation: -35 },
         { id: "p5", x: 350, y: 194, r: 9, shape: "crimp", rotation: 12 },
-        { id: "p6", x: 300, y: 130, r: 10, shape: "sloper", rotation: 30 },
+        { id: "p6", x: 283, y: 215, r: 9, shape: "crimp", rotation: 28 },
         { id: "p7", x: 395, y: 117, r: 9, shape: "pinch", rotation: 30 },
+        { id: "p8", x: 490, y: 275, r: 10, shape: "sloper", rotation: -12 },
+        { id: "p9", x: 470, y: 180, r: 9, shape: "pinch", rotation: 40 },
+        { id: "p10", x: 295, y: 125, r: 10, shape: "sloper", rotation: 30 },
         { id: "t", x: 365, y: 40, r: 12, shape: "jug", rotation: 180, top: true },
       ],
     },
@@ -96,21 +108,25 @@ export const DESKTOP_WALL: WallLayout = {
       id: "v4",
       grade: "V4",
       colorVar: "--color-accent-workshop",
-      reach: 110,
+      reach: 108,
       close: 75,
       slack: 0,
       holds: [
         { id: "s", x: 630, y: 425, r: 12, shape: "jug", rotation: 0, start: true },
-        { id: "q1", x: 600, y: 360, r: 8, shape: "crimp", rotation: 18 },
-        { id: "q2", x: 670, y: 365, r: 9, shape: "sloper", rotation: -22 },
-        { id: "q3", x: 560, y: 300, r: 8, shape: "crimp", rotation: -8 },
-        { id: "q4", x: 635, y: 295, r: 9, shape: "pinch", rotation: 24 },
-        { id: "q5", x: 600, y: 230, r: 8, shape: "crimp", rotation: -16 },
-        { id: "q6", x: 655, y: 205, r: 9, shape: "sloper", rotation: 40 },
-        { id: "q7", x: 635, y: 165, r: 9, shape: "pinch", rotation: -28 },
-        { id: "q8", x: 680, y: 95, r: 9, shape: "sloper", rotation: 15 },
-        { id: "q9", x: 600, y: 100, r: 8, shape: "crimp", rotation: 6 },
-        { id: "t", x: 630, y: 35, r: 12, shape: "jug", rotation: 180, top: true },
+        { id: "q1", x: 675, y: 372, r: 9, shape: "sloper", rotation: -22 },
+        { id: "q2", x: 585, y: 372, r: 8, shape: "crimp", rotation: 18 },
+        { id: "q3", x: 630, y: 332, r: 9, shape: "pinch", rotation: 5 },
+        { id: "q4", x: 560, y: 306, r: 8, shape: "crimp", rotation: -8 },
+        { id: "q5", x: 700, y: 270, r: 9, shape: "sloper", rotation: 35 },
+        { id: "q6", x: 645, y: 256, r: 9, shape: "pinch", rotation: -18 },
+        { id: "q7", x: 598, y: 248, r: 8, shape: "crimp", rotation: 24 },
+        { id: "q8", x: 555, y: 235, r: 9, shape: "sloper", rotation: -30 },
+        { id: "q9", x: 648, y: 200, r: 8, shape: "crimp", rotation: -16 },
+        { id: "q10", x: 628, y: 160, r: 9, shape: "pinch", rotation: 12 },
+        { id: "q11", x: 692, y: 148, r: 8, shape: "crimp", rotation: 40 },
+        { id: "q12", x: 662, y: 88, r: 9, shape: "pinch", rotation: -28 },
+        { id: "q13", x: 715, y: 80, r: 8, shape: "sloper", rotation: 15 },
+        { id: "t", x: 618, y: 40, r: 12, shape: "jug", rotation: 180, top: true },
       ],
     },
   ],
@@ -149,12 +165,13 @@ export const MOBILE_WALL: WallLayout = {
       holds: [
         { id: "s", x: 178, y: 435, r: 11, shape: "jug", rotation: 0, start: true },
         { id: "p1", x: 148, y: 361, r: 8, shape: "crimp", rotation: -10 },
-        { id: "p2", x: 212, y: 352, r: 9, shape: "sloper", rotation: 25 },
+        { id: "p2", x: 226, y: 400, r: 9, shape: "sloper", rotation: 25 },
         { id: "p3", x: 178, y: 287, r: 9, shape: "pinch", rotation: -20 },
-        { id: "p4", x: 212, y: 205, r: 9, shape: "sloper", rotation: -35 },
+        { id: "p4", x: 220, y: 305, r: 9, shape: "sloper", rotation: -35 },
         { id: "p5", x: 146, y: 213, r: 8, shape: "crimp", rotation: 12 },
-        { id: "p6", x: 143, y: 139, r: 9, shape: "sloper", rotation: 30 },
+        { id: "p6", x: 224, y: 248, r: 9, shape: "sloper", rotation: 40 },
         { id: "p7", x: 183, y: 139, r: 8, shape: "pinch", rotation: 30 },
+        { id: "p8", x: 143, y: 139, r: 9, shape: "sloper", rotation: 30 },
         { id: "t", x: 185, y: 65, r: 11, shape: "jug", rotation: 180, top: true },
       ],
     },
@@ -163,20 +180,23 @@ export const MOBILE_WALL: WallLayout = {
       grade: "V4",
       colorVar: "--color-accent-workshop",
       reach: 100,
-      close: 70,
+      close: 71,
       slack: 0,
       holds: [
         { id: "s", x: 290, y: 430, r: 11, shape: "jug", rotation: 0, start: true },
-        { id: "q1", x: 320, y: 375, r: 8, shape: "sloper", rotation: -22 },
-        { id: "q2", x: 262, y: 367, r: 8, shape: "crimp", rotation: 18 },
-        { id: "q3", x: 290, y: 304, r: 8, shape: "pinch", rotation: -8 },
-        { id: "q4", x: 320, y: 255, r: 8, shape: "sloper", rotation: 40 },
-        { id: "q5", x: 262, y: 241, r: 8, shape: "crimp", rotation: 24 },
-        { id: "q6", x: 325, y: 205, r: 8, shape: "sloper", rotation: -16 },
-        { id: "q7", x: 290, y: 178, r: 8, shape: "pinch", rotation: -28 },
-        { id: "q8", x: 322, y: 120, r: 8, shape: "sloper", rotation: 15 },
-        { id: "q9", x: 262, y: 115, r: 8, shape: "crimp", rotation: 6 },
-        { id: "t", x: 290, y: 52, r: 11, shape: "jug", rotation: 180, top: true },
+        { id: "q1", x: 326, y: 385, r: 8, shape: "sloper", rotation: -22 },
+        { id: "q2", x: 262, y: 368, r: 8, shape: "crimp", rotation: 18 },
+        { id: "q3", x: 300, y: 312, r: 8, shape: "pinch", rotation: -8 },
+        { id: "q4", x: 330, y: 262, r: 8, shape: "sloper", rotation: 40 },
+        { id: "q5", x: 265, y: 255, r: 8, shape: "crimp", rotation: 24 },
+        { id: "q6", x: 322, y: 222, r: 8, shape: "pinch", rotation: -16 },
+        { id: "q7", x: 285, y: 205, r: 8, shape: "crimp", rotation: -28 },
+        { id: "q8", x: 330, y: 170, r: 8, shape: "sloper", rotation: 15 },
+        { id: "q9", x: 275, y: 148, r: 8, shape: "pinch", rotation: 6 },
+        { id: "q10", x: 245, y: 100, r: 8, shape: "sloper", rotation: -20 },
+        { id: "q11", x: 315, y: 95, r: 8, shape: "crimp", rotation: 30 },
+        { id: "q12", x: 330, y: 50, r: 8, shape: "pinch", rotation: 10 },
+        { id: "t", x: 285, y: 40, r: 11, shape: "jug", rotation: 180, top: true },
       ],
     },
   ],

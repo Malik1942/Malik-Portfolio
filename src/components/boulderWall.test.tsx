@@ -194,21 +194,34 @@ describe.each([
     const [v0, v2, v4] = wall.routes.map((route) => sendingLines(route).length);
     expect(v4).toBe(1);
     expect(v2).toBeGreaterThanOrEqual(2);
+    expect(v2).toBeLessThanOrEqual(3);
     expect(v2).toBeLessThan(v0);
   });
 
-  it("hides an inner-ring dead end on V4 so the read is more than ring-counting", () => {
-    const v4 = wall.routes[2];
-    const lines = sendingLines(v4);
-    const onLine = new Set(lines.flat());
-    const deadEnd = v4.holds.some(
+  // Line holds that offer an upward 1-chalk grab onto a hold no send uses.
+  // Ring-counting cannot tell these from the line; only trying them can.
+  const forkedLineHolds = (route: BoulderRoute) => {
+    const onLine = new Set(sendingLines(route).flat());
+    return route.holds.filter(
       (from) =>
         onLine.has(from.id) &&
-        v4.holds.some(
-          (to) => !onLine.has(to.id) && to.y < from.y && chalkCost(from, to, v4) === 1,
+        !from.top &&
+        route.holds.some(
+          (to) => !onLine.has(to.id) && to.y < from.y && chalkCost(from, to, route) === 1,
         ),
-    );
-    expect(deadEnd).toBe(true);
+    ).length;
+  };
+
+  it("forks V4 at most of its holds so the line takes attempts to find", () => {
+    const [, v2, v4] = wall.routes;
+    const lineHolds = sendingLines(v4)[0].length - 1;
+    expect(forkedLineHolds(v4)).toBeGreaterThanOrEqual(lineHolds - 1);
+    expect(forkedLineHolds(v4)).toBeGreaterThan(forkedLineHolds(v2));
+  });
+
+  it("forks V2 early so it is not V0 with fewer holds", () => {
+    const v2 = wall.routes[1];
+    expect(forkedLineHolds(v2)).toBeGreaterThanOrEqual(2);
   });
 
   it("keeps holds inside the wall and tap areas from overlapping across routes", () => {
@@ -303,14 +316,28 @@ describe("BoulderWall interaction", () => {
   it("pumps out and falls when the chalk runs dry short of the top", async () => {
     render(<BoulderWall />);
     // Mobile V4 is exact-chalk. One early dyno (q1 -> q3) leaves the line a
-    // chalk short: the bag empties on q9 with the top still one move away.
-    for (const label of ["V4 hold q1", "V4 hold q3", "V4 hold q5", "V4 hold q7", "V4 hold q9"]) {
-      fireEvent.click(hold(label));
+    // chalk short: the bag empties on q11 with the top still one move away.
+    for (const label of ["q1", "q3", "q5", "q7", "q9", "q11"]) {
+      fireEvent.click(hold(`V4 hold ${label}`));
     }
     expect(screen.getByRole("status").textContent).toMatch(/pumped out on V4/i);
 
     await waitFor(
       () => expect(hold("V4 hold q1")).toHaveAttribute("aria-pressed", "false"),
+      { timeout: 2500 },
+    );
+  });
+
+  it("pumps out on a dyno to the top that the bag cannot cover", async () => {
+    render(<BoulderWall />);
+    // Mobile V0 budget is 6. An opening dyno plus a wander leave 1 chalk on
+    // a5, and the top sits in a5's outer band: the grab happens, then falls.
+    for (const label of ["V0 hold a2", "V0 hold a1", "V0 hold a3", "V0 hold a5", "V0 top hold"]) {
+      fireEvent.click(hold(label));
+    }
+    expect(screen.getByRole("status").textContent).toMatch(/pumped out on V0/i);
+    await waitFor(
+      () => expect(hold("V0 hold a2")).toHaveAttribute("aria-pressed", "false"),
       { timeout: 2500 },
     );
   });
