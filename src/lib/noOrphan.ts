@@ -4,6 +4,12 @@
 // does the same job more gracefully where the browser supports it; this is the
 // guarantee underneath. Runs before markdown emphasis is parsed, so a trailing
 // `**` rides along with the last word.
+//
+// Short titles (fewer than five words) are left alone: gluing the last pair
+// on a three-word card title ("Rules as Contracts") forces "as Contracts"
+// onto the second line instead of wrapping at a natural break.
 export function noOrphan(text: string): string {
+  const words = text.trim().split(/\s+/).filter(Boolean);
+  if (words.length < 5) return text;
   return text.replace(/(\S)[ \t]+(\S+)\s*$/, "$1 $2");
 }
