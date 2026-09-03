@@ -10,7 +10,8 @@ import {
   DESKTOP_WALL,
   MOBILE_WALL,
   holdsWithinReach,
-  minMoves,
+  minChalk,
+  pathChalk,
   routeBudget,
   startHold,
   topHold,
@@ -253,7 +254,7 @@ const WallGame = ({
       }
 
       // Chalk spent without reaching the top: pumped, off the wall.
-      if (nextPath.length - 1 >= routeBudget(route)) {
+      if (pathChalk(nextPath, route) >= routeBudget(route)) {
         setFallingRoute(route.id);
         setFallCount((count) => count + 1);
         playBoulderSound("fall", nextPath.length - 2);
@@ -283,7 +284,8 @@ const WallGame = ({
   const active = activeId ? routeById.get(activeId) : undefined;
   const activePath = active ? progress[active.id] : [];
   const activeMoves = activePath.length - 1;
-  const activeChalkLeft = active ? Math.max(0, routeBudget(active) - activeMoves) : 0;
+  const activeSpent = active ? pathChalk(activePath, active) : 0;
+  const activeChalkLeft = active ? Math.max(0, routeBudget(active) - activeSpent) : 0;
 
   const statusText = (() => {
     if (fallingRoute) {
@@ -296,18 +298,18 @@ const WallGame = ({
     }
     if (allSent) return "All three sent, even with Malik. The inbox is right below.";
     if (active && isSent(active)) {
-      const min = minMoves(active);
-      return activeMoves === min
-        ? `${active.grade} flashed! ${min} moves, even with Malik.`
-        : `${active.grade} sent in ${activeMoves}. Malik walks it in ${min}.`;
+      const min = minChalk(active);
+      return activeSpent === min
+        ? `${active.grade} flashed! ${min} chalk, even with Malik.`
+        : `${active.grade} sent in ${activeSpent}. Malik walks it in ${min}.`;
     }
     if (active && activeMoves > 0) {
       return `${active.grade}: ${activeMoves} ${activeMoves === 1 ? "move" : "moves"} in, ${activeChalkLeft} chalk left.`;
     }
     if (active) {
-      return `${active.grade}: Malik does it in ${minMoves(active)}. Read the line, then pull on.`;
+      return `${active.grade}: Malik does it in ${minChalk(active)}. Stay inside the inner ring.`;
     }
-    return "Three problems, graded by color. Chalk is short, so read your line before pulling on.";
+    return "Three problems, graded by color. Close hops cost one chalk, dynos cost two.";
   })();
 
   return (
@@ -340,7 +342,7 @@ const WallGame = ({
             strokeWidth={1}
             strokeDasharray="2 7"
           />
-          {/* Reach ring: everything inside is honestly in range from where you hang */}
+          {/* Two rings: inner = 1 chalk, outer = 2. Outside is a shake. */}
           {active &&
             !isSent(active) &&
             fallingRoute !== active.id &&
@@ -349,20 +351,34 @@ const WallGame = ({
               const holds = new Map(active.holds.map((h) => [h.id, h]));
               const last = holds.get(path[path.length - 1])!;
               return (
-                <motion.circle
-                  key={`ring-${active.id}-${last.id}`}
-                  data-testid="reach-ring"
-                  cx={last.x}
-                  cy={last.y}
-                  r={active.reach}
-                  fill="none"
-                  stroke={routeColor(active, 0.25)}
-                  strokeWidth={1}
-                  strokeDasharray="3 7"
-                  initial={reducedMotion ? false : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                />
+                <g key={`rings-${active.id}-${last.id}`}>
+                  <motion.circle
+                    data-testid="reach-ring"
+                    cx={last.x}
+                    cy={last.y}
+                    r={active.reach}
+                    fill="none"
+                    stroke={routeColor(active, 0.25)}
+                    strokeWidth={1}
+                    strokeDasharray="3 7"
+                    initial={reducedMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  />
+                  <motion.circle
+                    data-testid="close-ring"
+                    cx={last.x}
+                    cy={last.y}
+                    r={active.close}
+                    fill="none"
+                    stroke={routeColor(active, 0.42)}
+                    strokeWidth={1}
+                    strokeDasharray="5 4"
+                    initial={reducedMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  />
+                </g>
               );
             })()}
 
@@ -490,7 +506,7 @@ const WallGame = ({
       <div className="relative mt-2 h-6 w-full">
         {layout.routes.map((route) => {
           const start = startHold(route);
-          const min = minMoves(route);
+          const min = minChalk(route);
           const sent = isSent(route);
           return (
             <span
