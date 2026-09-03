@@ -50,6 +50,25 @@ const hopsFrom = (route: BoulderRoute, originId: string, maxDist: number) => {
   return dist;
 };
 
+/** Every simple start-to-top line whose chalk fits the bag, as hold-id lists. */
+const sendingLines = (route: BoulderRoute): string[][] => {
+  const byId = new Map(route.holds.map((hold) => [hold.id, hold]));
+  const budget = routeBudget(route);
+  const lines: string[][] = [];
+  const walk = (path: string[], spent: number) => {
+    const from = byId.get(path[path.length - 1])!;
+    for (const to of route.holds) {
+      if (path.includes(to.id)) continue;
+      const cost = chalkCost(from, to, route);
+      if (cost == null || spent + cost > budget) continue;
+      if (to.top) lines.push([...path, to.id]);
+      else walk([...path, to.id], spent + cost);
+    }
+  };
+  walk([startHold(route).id], 0);
+  return lines;
+};
+
 /** close=60, reach=100. s—a is 1, s—b is 2, s—t is 2, a—t is 1. */
 const toyRoute: BoulderRoute = {
   id: "v0",
@@ -160,6 +179,38 @@ describe.each([
     }
   });
 
+  it("never lets a dyno skip a hold: every send takes at least the flash's move count", () => {
+    for (const route of wall.routes) {
+      for (const line of sendingLines(route)) {
+        expect(
+          line.length - 1,
+          `${route.id} sends in ${line.length - 1} via ${line.join(">")}`,
+        ).toBeGreaterThanOrEqual(minChalk(route));
+      }
+    }
+  });
+
+  it("narrows the sends by grade: one exact line on V4, a single wobble on V2", () => {
+    const [v0, v2, v4] = wall.routes.map((route) => sendingLines(route).length);
+    expect(v4).toBe(1);
+    expect(v2).toBeGreaterThanOrEqual(2);
+    expect(v2).toBeLessThan(v0);
+  });
+
+  it("hides an inner-ring dead end on V4 so the read is more than ring-counting", () => {
+    const v4 = wall.routes[2];
+    const lines = sendingLines(v4);
+    const onLine = new Set(lines.flat());
+    const deadEnd = v4.holds.some(
+      (from) =>
+        onLine.has(from.id) &&
+        v4.holds.some(
+          (to) => !onLine.has(to.id) && to.y < from.y && chalkCost(from, to, v4) === 1,
+        ),
+    );
+    expect(deadEnd).toBe(true);
+  });
+
   it("keeps holds inside the wall and tap areas from overlapping across routes", () => {
     const all = wall.routes.flatMap((route) =>
       route.holds.map((hold) => ({ ...hold, routeId: route.id })),
@@ -251,14 +302,15 @@ describe("BoulderWall interaction", () => {
 
   it("pumps out and falls when the chalk runs dry short of the top", async () => {
     render(<BoulderWall />);
-    // Mobile V4 is exact-chalk. Three dynos spend the bag without the top.
-    for (const label of ["V4 hold q2", "V4 hold q5", "V4 hold q7"]) {
+    // Mobile V4 is exact-chalk. One early dyno (q1 -> q3) leaves the line a
+    // chalk short: the bag empties on q9 with the top still one move away.
+    for (const label of ["V4 hold q1", "V4 hold q3", "V4 hold q5", "V4 hold q7", "V4 hold q9"]) {
       fireEvent.click(hold(label));
     }
     expect(screen.getByRole("status").textContent).toMatch(/pumped out on V4/i);
 
     await waitFor(
-      () => expect(hold("V4 hold q2")).toHaveAttribute("aria-pressed", "false"),
+      () => expect(hold("V4 hold q1")).toHaveAttribute("aria-pressed", "false"),
       { timeout: 2500 },
     );
   });

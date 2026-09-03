@@ -39,12 +39,18 @@ Each route has two radii in wall units: `close` (inner) and `reach` (outer).
 
 | Grade | Target `close / reach` | Slack |
 | ----- | ---------------------- | ----- |
-| V0    | ~0.75                  | +2    |
-| V2    | ~0.64                  | +1    |
-| V4    | ~0.55                  | 0     |
+| V0    | ~0.80                  | +2    |
+| V2    | ~0.75                  | +1    |
+| V4    | ~0.69                  | 0     |
 
 Exact radii may flex in implementation. The tests lock the grade order:
 V0's ratio is strictly greater than V2's, V2's strictly greater than V4's.
+
+Keep `reach` under about 1.5x `close`. A dyno is a tax, not a shortcut: at
+`reach ≈ 2x close` one far grab covers two hops for two hops' chalk, skips a
+hold, and the exact-line puzzle collapses (the first retune shipped a
+3-move V4 send this way). Line hops sit near `close` so any two of them
+chord past `reach`.
 
 Authoring contract (enforced by tests, not by a coordinate spreadsheet):
 
@@ -54,9 +60,17 @@ Authoring contract (enforced by tests, not by a coordinate spreadsheet):
    still a short close-hop line, not a dyno puzzle.
 3. Every grade has at least one hold that is a legal 2-chalk grab from a
    hold on a min-chalk all-1s path — a visible temptation in the outer band.
-4. Stretch `reach` as needed so the two bands are readable, not a hairline.
+4. Stretch `reach` as needed so the two bands are readable, not a hairline,
+   within the 1.5x ceiling above.
 5. Grade tags stay `V0 · 4` style. The number is `minChalk`. Because the
    flash line is all 1s, that number equals the flash-line hop count.
+6. No dyno skips a hold: every start-to-top line that fits the bag takes at
+   least as many moves as the flash line.
+7. Sends narrow by grade. V4 has exactly one line that fits the bag. V2 has
+   the flash plus fat sends that spend its one slack. V0 has more than V2.
+8. V4 hides at least one inner-ring dead end: a 1-chalk upward grab off the
+   flash line that sits on no sending line. The read is exploring and
+   downclimbing, not just ring-counting.
 
 Hold ids may keep today's vocabulary (`s`, `a1`…`t`, `p*`, `q*`) when the
 graph shape still fits. Add or drop holds if the contract needs it.
@@ -123,6 +137,9 @@ Change:
 - `close/reach` strictly decreases V0 → V2 → V4.
 - Every route has an all-1s start-to-top path whose cost equals `minChalk`.
 - Every route has a legal 2-chalk edge from a hold on a min-chalk all-1s path.
+- Every sending line has at least `minChalk` moves (no dyno skips a hold).
+- Sending-line counts: V4 exactly 1; V2 at least 2 and fewer than V0.
+- V4 has an inner-ring dead end off its flash line.
 - A 2-chalk grab drops remaining bag dots by 2.
 - Mobile V0's close line still flashes.
 - A wander that empties the bag short of the top still pumps out. Update
