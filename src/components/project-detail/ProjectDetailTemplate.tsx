@@ -280,6 +280,14 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
   // Direction-aware site header, mirroring the homepage. The section nav below
   // shifts down to sit under it while shown (see MOBILE_SECTION_NAV_TOP).
   const shouldReduceMotion = useReducedMotion();
+  // heroImageFit governs the still and the clip alike, so the two can never
+  // size differently — swapping one for the other must not move the layout.
+  const heroMediaClass =
+    project.heroImageFit === "natural"
+      ? "w-full h-auto block"
+      : `w-full max-h-[min(78vh,900px)] min-h-[200px] ${
+          project.heroImageFit === "contain" ? "object-contain" : "object-cover"
+        } object-center`;
   const scrollHidden = useHideOnScroll();
   const headerHidden = !shouldReduceMotion && scrollHidden;
 
@@ -357,26 +365,37 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         ) : null}
       </header>
 
-      {/* 2 — Hero image */}
+      {/* 2 — Hero media: a looping clip when the project has one, else the still */}
       {project.heroImage ? (
         <div className={`${PAGE_OUTER} mt-10 md:mt-14`}>
           <div className="overflow-hidden rounded-2xl bg-secondary/10">
-            <img
-              src={project.heroImage}
-              alt={`${project.title} — project visual`}
-              // The hero is this page's largest contentful paint and is discovered
-              // late (only once the route chunk has run), so tell the browser it
-              // outranks the lazy figures below. Lowercase: React 18 does not know
-              // the camelCase prop and would warn.
-              {...{ fetchpriority: "high" }}
-              className={
-                project.heroImageFit === "natural"
-                  ? "w-full h-auto block"
-                  : `w-full max-h-[min(78vh,900px)] min-h-[200px] ${
-                      project.heroImageFit === "contain" ? "object-contain" : "object-cover"
-                    } object-center`
-              }
-            />
+            {project.heroVideo && !shouldReduceMotion ? (
+              // A hero clip carries the poster as its first frame, so the LCP is
+              // the same picture either way and nothing reflows when it starts.
+              // No controls and no audio: it is a loop, not a film to watch.
+              <video
+                src={project.heroVideo}
+                poster={project.heroImage}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                aria-label={`${project.title} — project visual`}
+                className={heroMediaClass}
+              />
+            ) : (
+              <img
+                src={project.heroImage}
+                alt={`${project.title} — project visual`}
+                // The hero is this page's largest contentful paint and is discovered
+                // late (only once the route chunk has run), so tell the browser it
+                // outranks the lazy figures below. Lowercase: React 18 does not know
+                // the camelCase prop and would warn.
+                {...{ fetchpriority: "high" }}
+                className={heroMediaClass}
+              />
+            )}
           </div>
         </div>
       ) : null}

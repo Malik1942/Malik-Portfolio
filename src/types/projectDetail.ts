@@ -62,6 +62,9 @@ export type ProjectDetailDocument = {
   heroSubtitle?: string;
   heroImage?: string;
   heroImageFit?: "cover" | "contain" | "natural";
+  /** Optional looping hero clip. heroImage becomes its poster and its
+   *  reduced-motion fallback, so a hero video always needs a heroImage too. */
+  heroVideo?: string;
   /** Omit entirely to hide the overview card grid */
   metaCards?: ProjectMetaCard[];
   sections: ProjectContentSection[];

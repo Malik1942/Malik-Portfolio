@@ -1,7 +1,8 @@
 import type { ProjectDetailDocument } from "@/types/projectDetail";
 import { sectionLabelForProject } from "@/data/projects";
 import auraCover from "@/assets/aura-cover.webp";
-import calmmouseHeroStill from "@/assets/calmmouse-hero-still.webp";
+import calmmouseHeroLoop from "@/assets/calmmouse-hero-loop.mp4";
+import calmmouseHeroLoopPoster from "@/assets/calmmouse-hero-loop-poster.webp";
 import calmmouseHeroFilm from "@/assets/calmmouse-hero.mp4";
 import calmmouseHeroPoster from "@/assets/calmmouse-hero-poster.webp";
 import calmmouseSettings from "@/assets/calmmouse-settings.webp";
@@ -636,8 +637,9 @@ const calmmouse: ProjectDetailSource = {
   title: "CalmMouse",
   heroSummary: "A macOS app that stops the Magic Mouse from scrolling every time you click.",
   heroSubtitle: "Designed, built, and shipped solo · Signed and notarized · Free and open source on GitHub.",
-  heroImage: calmmouseHeroStill,
+  heroImage: calmmouseHeroLoopPoster,
   heroImageFit: "natural",
+  heroVideo: calmmouseHeroLoop,
   metaCards: [
     { label: "Role", value: "Design · Build · Ship (Solo)" },
     { label: "Timeline", value: "Summer 2026" },
