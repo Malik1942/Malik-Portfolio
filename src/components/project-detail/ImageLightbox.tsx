@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
-import { EASE } from "@/design-system/system/motion";
+import { DURATION, EASE } from "@/design-system/system/motion";
 
 export interface LightboxImage {
   src: string;
@@ -46,18 +46,18 @@ export function ImageLightbox({ image, onClose }: ImageLightboxProps) {
           role="dialog"
           aria-modal="true"
           aria-label={image.alt ? `Expanded image: ${image.alt}` : "Expanded image"}
-          className="fixed inset-0 z-[2000] flex items-center justify-center bg-lightbox-backdrop backdrop-blur-sm p-4 md:p-10 cursor-zoom-out"
+          className="fixed inset-0 z-modal flex items-center justify-center bg-lightbox-backdrop backdrop-blur-sm p-4 md:p-10 cursor-zoom-out"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: reduce ? 0 : 0.2, ease: EASE.settle }}
+          transition={{ duration: reduce ? 0 : DURATION.fast, ease: EASE.settle }}
           onClick={onClose}
         >
           <button
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="absolute top-5 right-5 z-[101] flex h-10 w-10 items-center justify-center rounded-full text-foreground-tertiary transition-colors duration-medium hover:text-foreground cursor-pointer"
+            className="absolute top-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full text-foreground-tertiary transition-colors duration-medium hover:text-foreground cursor-pointer"
             aria-label="Close expanded image"
           >
             <X className="h-4 w-4" />
@@ -70,7 +70,7 @@ export function ImageLightbox({ image, onClose }: ImageLightboxProps) {
             initial={{ opacity: 0, scale: reduce ? 1 : 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: reduce ? 1 : 0.98 }}
-            transition={{ duration: reduce ? 0 : 0.22, ease: EASE.move }}
+            transition={{ duration: reduce ? 0 : DURATION.medium, ease: EASE.move }}
             onClick={(e) => e.stopPropagation()}
           />
         </motion.div>

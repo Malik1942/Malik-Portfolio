@@ -201,7 +201,7 @@ export function PublishDialog({
   if (!open) return null;
 
   return createPortal((
-    <div className="fixed inset-0 z-[100] overflow-y-auto bg-lightbox-backdrop px-4 py-6 sm:px-6 sm:py-10">
+    <div className="fixed inset-0 z-modal overflow-y-auto bg-lightbox-backdrop px-4 py-6 sm:px-6 sm:py-10">
       <div
         ref={dialogRef}
         role="dialog"

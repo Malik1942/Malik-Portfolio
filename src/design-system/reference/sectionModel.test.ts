@@ -45,7 +45,7 @@ describe("design system section model", () => {
       "components",
       "patterns",
     ]);
-    expect(DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections)).toHaveLength(24);
+    expect(DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections)).toHaveLength(25);
     expect(DESIGN_SYSTEM_GROUPS[0].sections.map((section) => section.id)).toEqual([
       "foundation-typography",
       "foundation-form",
@@ -65,11 +65,12 @@ describe("design system section model", () => {
       label: "Component lineup",
     });
     // Primitives lead the lineup; composed components follow.
-    expect(DESIGN_SYSTEM_GROUPS[1].sections.slice(1, 5).map((section) => section.id)).toEqual([
+    expect(DESIGN_SYSTEM_GROUPS[1].sections.slice(1, 6).map((section) => section.id)).toEqual([
       "component-eyebrow",
       "component-chip",
       "component-button",
       "component-back-link",
+      "component-text-link",
     ]);
     expect(DESIGN_SYSTEM_GROUPS.at(-1)?.sections.at(-1)?.id).toBe("pattern-accessibility");
   });

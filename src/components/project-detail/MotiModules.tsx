@@ -211,7 +211,7 @@ const hookArtifacts = [
 ];
 export function MotiHook() {
   return (
-    <div className="flex flex-col gap-10 md:gap-12">
+    <div className="flex flex-col gap-stack">
       <Chips items={hookHighlights} />
       <PullQuote>The problem wasn&rsquo;t planning. It was understanding.</PullQuote>
       <ArtifactGallery items={hookArtifacts} />
@@ -403,7 +403,7 @@ export function MotiBeforeBuilding() {
       <div className="flex flex-col gap-6">
         <SubHead>Define Interaction Grammar</SubHead>
         <CardGrid items={interactionItems} colsClass="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-caption">
           <MotiFigure
             src={motiLlmPlan1}
             alt="Moti Smart Capture asking a clarifying question about the captured intent"

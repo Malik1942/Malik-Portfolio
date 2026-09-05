@@ -21,10 +21,10 @@
         }
       },
       "secondary": {
-        "$description": "Supporting ink: descriptions, metadata values, navigation at rest, captions. Authored at 72% but Tailwind never rendered that modifier, so the site was approved at full strength; this alpha is the one lever that dims every supporting line at once.",
+        "$description": "Supporting ink: descriptions, metadata values, navigation at rest, captions. One step below lead, so a page reads title, then lead, then everything that supports it.",
         "$value": "{color.text.primary}",
         "$extensions": {
-          "com.malikzhang.alpha": 1
+          "com.malikzhang.alpha": 0.72
         }
       },
       "tertiary": {
@@ -164,6 +164,13 @@
       "$description": "Minimum interactive target size used across navigation controls.",
       "$value": {
         "value": 44,
+        "unit": "px"
+      }
+    },
+    "reference": {
+      "$description": "Maximum width of the design-system reference column.",
+      "$value": {
+        "value": 900,
         "unit": "px"
       }
     }

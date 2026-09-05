@@ -275,6 +275,53 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
     ],
   },
 
+  "component-text-link": {
+    source: "src/components/ui/TextLink.tsx → TextLink",
+    summary:
+      "The inline link with the underline sweep. It is the header's destinations, the footer's lists, the Connect cluster, and the utility pages' footers: one recipe for every place a word is a link.",
+    contextHref: "/#footer",
+    contextLabel: "View text links in context",
+    recipe: {
+      form: "Inline text carrying the nav-link underline: one pixel below the baseline, drawn by index.css. No padding of its own. size sets body-small or caption; inherit takes the host's size.",
+      material: "Ink at rest in the chosen tier, rising to primary on hover. inherit takes the tier from the container, so a row of links is set once. The underline is primary ink.",
+      motion: "Color on duration.slow with ease.settle, the pace the header and footer share. The underline sweeps in from the left on ease.enter over 0.4s and out to the right.",
+      variants: "tone changes material only; size changes form only; as changes the element and nothing visual.",
+    },
+    signature: '<TextLink as={Link} to="/studio" tone="secondary" size="sm">Studio</TextLink>',
+    props: [
+      { name: "as", type: "ElementType", default: '"a"', description: "Anchor by default. Pass Link for a router route, or button for a link that opens an overlay instead of navigating." },
+      { name: "tone", type: '"inherit" | "primary" | "secondary" | "tertiary"', default: '"inherit"', description: "Ink at rest. inherit for rows where the container sets the tier." },
+      { name: "size", type: '"inherit" | "sm" | "caption"', default: '"inherit"', description: "Type size. inherit takes the host's." },
+      CLASS_NAME_PROP,
+      { name: "children", type: "ReactNode", required: true, description: "The link text. Words, never an icon alone." },
+    ],
+    tokens: ["color.text.secondary", "color.text.tertiary", "color.text.primary", "font.size.bodySmall", "font.size.caption", "duration.slow", "ease.settle", "ease.enter"],
+    tokenGap:
+      "The underline's 0.4s sweep is a local value in index.css, chosen so the line finishes just after the color change.",
+    pairings: [
+      { partner: "Site header", relationship: "Every destination in the header, with the tier inherited from the nav row." },
+      { partner: "Footer", relationship: "The Explore and Social lists at body-small in secondary ink; About is the button form because it opens an overlay." },
+      { partner: "Back link", relationship: "Two different jobs. A text link goes somewhere new; the back link returns. The back link has an arrow and no underline." },
+      { partner: "Button", relationship: "A text link is a word in a sentence or a list; a button is a control set apart. Do not underline a button or fill a link." },
+    ],
+    antipairings: [
+      "Do not use it inside a project card. The card is one anchor.",
+      "Do not use it for the primary action on a page. That is the Button.",
+    ],
+    accessibility: [
+      { title: "Semantics", body: "A real anchor or router Link when it navigates; a button with an explicit type when it opens something in place. The underline is a pseudo-element, so it never enters the accessible name." },
+      { title: "Target size", body: "Inline links sit at text height with the row's spacing around them; they do not guarantee the 44px target." },
+      { title: "Focus", body: "A two-pixel standard focus ring on focus-visible, carried by the recipe so every host gets it." },
+    ],
+    tests: [
+      { path: "src/components/SiteHeader.test.tsx", covers: ["Opens email from Connect and the email icon, and LinkedIn from the LinkedIn icon"] },
+      { path: "src/pages/homepageSections.test.tsx", covers: ["Links the header to Work (a section) and Studio (a page)", "Keeps the footer Explore list to Work and Studio, without More Work"] },
+    ],
+    testGaps: [
+      "No test covers the tone and size variants or the button form.",
+    ],
+  },
+
   "component-site-header": {
     source: "src/components/SiteHeader.tsx → SiteHeader",
     summary:

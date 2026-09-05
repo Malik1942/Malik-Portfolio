@@ -27,6 +27,20 @@ const EXPRESSIVE_FILES = new Set([
   "src/components/HeroSection.tsx",
 ]);
 
+// Sequences tuned as a whole: their durations stay local by decision, on the
+// token curves. Everything else names a DURATION or a MOTION recipe.
+const CHOREOGRAPHED_FILES = new Set([
+  "src/components/DotGrid.tsx",
+  "src/components/HeroSection.tsx",
+  "src/components/SiteHeader.tsx",
+  "src/components/AboutDeepContent.tsx",
+  "src/components/AboutEditorialSection.tsx",
+  "src/components/AboutOverlay.tsx",
+  "src/components/BoulderWall.tsx",
+  // The CalmMouse demo loop is a four-second product demonstration.
+  "src/components/project-detail/CalmMouseModules.tsx",
+]);
+
 // The case-study section guide sets 10 to 11px type at 0.16 to 0.25em: an
 // art-directed lettering kept off the label and eyebrow scale on purpose.
 const CASE_STUDY_GUIDE = "src/components/project-detail/ProjectDetailTemplate.tsx";
@@ -117,6 +131,39 @@ const RULES: Rule[] = [
     hint: "Reference a token variable: hsl(var(--color-…)).",
     // ContrastChecks names the #0a0a0a boot canvas from index.html in prose.
     exempt: (file) => EXPRESSIVE_FILES.has(file) || file === "src/design-system/workbench/ContrastChecks.tsx",
+  },
+  {
+    name: "arbitrary stacking order",
+    pattern: /\bz-\[-?\d+\]/g,
+    hint: "Use a layer (z-header, z-guide, z-overlay, z-modal) or a bare local step (z-1, z-2, z-10, z-20, z-40).",
+  },
+  {
+    name: "layout width written as pixels when a token exists",
+    pattern: /\bmax-w-\[(?:1400|1200|900|760)px\]/g,
+    hint: "Use max-w-page, max-w-content, max-w-reference, or max-w-reading.",
+  },
+  {
+    name: "rhythm pair written by hand",
+    pattern: /\b(?:mt|mb|pt|pb|py|gap|gap-y)-(?:16 md:(?:mt|mb|pt|pb|py|gap|gap-y)-20|14 md:(?:mt|mb|pt|pb|py|gap|gap-y)-18|10 md:(?:mt|mb|pt|pb|py|gap|gap-y)-12|5 md:(?:mt|mb|pt|pb|py|gap|gap-y)-6)\b/g,
+    hint: "Use the rhythm utility: -section, -module, -stack, or -caption.",
+  },
+  {
+    name: "spacing step that is not on the scale",
+    // Tailwind's spacing scale skips these numbers, so md:mt-18 generates
+    // nothing. That is how the module rhythm shipped at 56px on desktop.
+    pattern: /\b(?:[a-z]+:)?(?:-?(?:m|p)[trblxy]?|gap(?:-[xy])?|space-[xy]|w|h|min-w|min-h|top|bottom|left|right|inset(?:-[xy])?)-(?:13|15|17|18|19|2[1-3]|2[5-7]|29|3[013-5]|3[7-9]|4[1-3]|4[5-7]|49|5[013-5]|5[7-9]|6[1-3]|6[5-9]|7[013-9]|8[1-9]|9[0-5]|9[7-9])\b/g,
+    hint: "Use a step Tailwind defines (…12, 14, 16, 20, 24, 28, 32…) or a rhythm utility.",
+  },
+  {
+    name: "arbitrary line height",
+    pattern: /\bleading-\[[^\]]+\]/g,
+    hint: "Use leading-none, -tight, -snug, -normal, or -relaxed.",
+  },
+  {
+    name: "Framer duration literal outside a choreographed file",
+    pattern: /\bduration:\s*(?:reduce(?:d(?:Motion)?)?\s*\?\s*0\s*:\s*)?(?!0(?![\d.]))\d*\.?\d+(?![\d.])/g,
+    hint: "Use DURATION.* or a MOTION recipe. Choreographed sequences are exempt by file name.",
+    exempt: (file) => CHOREOGRAPHED_FILES.has(file),
   },
   {
     name: "Framer easing by name or literal",

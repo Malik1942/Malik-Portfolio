@@ -11,7 +11,7 @@ const PAIRS = [
   // absent on purpose: it is decorative-only and fails AA by design.
   { label: "Primary ink on canvas", foreground: "color.text.primary", background: "color.background.canvas", threshold: 4.5, result: "AA" },
   { label: "Lead ink (85%) on canvas", foreground: "color.text.lead", background: "color.background.canvas", threshold: 4.5, result: "AA" },
-  { label: "Secondary ink on canvas", foreground: "color.text.secondary", background: "color.background.canvas", threshold: 4.5, result: "AA" },
+  { label: "Secondary ink (72%) on canvas", foreground: "color.text.secondary", background: "color.background.canvas", threshold: 4.5, result: "AA" },
   { label: "Tertiary ink (55%) on canvas", foreground: "color.text.tertiary", background: "color.background.canvas", threshold: 4.5, result: "AA" },
   { label: "Primary ink on card", foreground: "color.text.primary", background: "color.surface.card", threshold: 4.5, result: "AA" },
   { label: "Secondary ink on secondary surface", foreground: "color.text.secondary", background: "color.surface.secondary", threshold: 4.5, result: "AA" },

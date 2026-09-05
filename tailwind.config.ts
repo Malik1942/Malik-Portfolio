@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 // Every utility that expresses a system decision references a generated token
 // variable (src/styles/tokens.generated.css). That is what lets the workbench
@@ -19,6 +20,8 @@ const color = (name: string) => `hsl(var(--${name}) / <alpha-value>)`;
 const completeColor = (name: string) => `hsl(var(--${name}))`;
 /** A `measure.*` token is a character count; utilities turn it into a width. */
 const measure = (name: string) => `calc(var(--measure-${name}) * 1ch)`;
+/** A `font.tracking.*` token is an em multiple. */
+const tracking = (name: string) => `calc(var(--font-tracking-${name}) * 1em)`;
 
 export default {
   darkMode: ["class"],
@@ -38,17 +41,17 @@ export default {
       // Label and caption both sit at 12px (Sep 2026: label raised from 11px so
       // metadata labels read comfortably) but stay distinct roles: label is
       // uppercase at eyebrow tracking, caption is sentence case.
-      label: ["var(--font-size-label)", { lineHeight: "1.4" }],
-      caption: ["var(--font-size-caption)", { lineHeight: "1.4" }],
-      sm: ["var(--font-size-body-small)", { lineHeight: "1.5" }],
-      base: ["var(--font-size-body)", { lineHeight: "1.5" }],
-      xl: ["var(--font-size-body-large)", { lineHeight: "1.5" }],
-      title: ["var(--font-size-title)", { lineHeight: "1.3", letterSpacing: "-0.02em" }],
-      heading: ["var(--font-size-heading)", { lineHeight: "1.15", letterSpacing: "-0.02em" }],
-      display: ["var(--font-size-display)", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
+      label: ["var(--font-size-label)", { lineHeight: "var(--font-leading-label)" }],
+      caption: ["var(--font-size-caption)", { lineHeight: "var(--font-leading-label)" }],
+      sm: ["var(--font-size-body-small)", { lineHeight: "var(--font-leading-body)" }],
+      base: ["var(--font-size-body)", { lineHeight: "var(--font-leading-body)" }],
+      xl: ["var(--font-size-body-large)", { lineHeight: "var(--font-leading-body)" }],
+      title: ["var(--font-size-title)", { lineHeight: "var(--font-leading-title)", letterSpacing: tracking("tight") }],
+      heading: ["var(--font-size-heading)", { lineHeight: "var(--font-leading-heading)", letterSpacing: tracking("tight") }],
+      display: ["var(--font-size-display)", { lineHeight: "var(--font-leading-display)", letterSpacing: tracking("tight") }],
       hero: [
         "clamp(var(--font-size-hero-min), 6.5vw, var(--font-size-hero-max))",
-        { lineHeight: "1.06", letterSpacing: "-0.02em" },
+        { lineHeight: "var(--font-leading-hero)", letterSpacing: tracking("tight") },
       ],
     },
     fontFamily: {
@@ -57,9 +60,22 @@ export default {
       mono: "var(--font-family-mono)",
     },
     letterSpacing: {
-      tight: "-0.02em",
-      normal: "0em",
-      eyebrow: "0.18em",
+      tight: tracking("tight"),
+      normal: tracking("normal"),
+      eyebrow: tracking("eyebrow"),
+    },
+    lineHeight: {
+      none: "var(--font-leading-none)",
+      tight: "var(--font-leading-tight)",
+      snug: "var(--font-leading-snug)",
+      normal: "var(--font-leading-body)",
+      relaxed: "var(--font-leading-relaxed)",
+    },
+    fontWeight: {
+      light: "var(--font-weight-light)",
+      normal: "var(--font-weight-regular)",
+      medium: "var(--font-weight-medium)",
+      semibold: "var(--font-weight-semibold)",
     },
 
     // ── Form: shape ─────────────────────────────────────────────────────────
@@ -69,7 +85,23 @@ export default {
       sm: "var(--radius-small)",
       lg: "var(--radius-base)",
       "2xl": "var(--radius-large)",
-      full: "9999px",
+      full: "var(--radius-round)",
+    },
+
+    // ── Form: stacking ──────────────────────────────────────────────────────
+    // Named layers are the site's global stacking order. Bare numbers are for
+    // ordering inside a component's own stacking context (a card, an overlay).
+    zIndex: {
+      0: "0",
+      1: "1",
+      2: "2",
+      10: "10",
+      20: "20",
+      40: "40",
+      header: "var(--layer-header)",
+      guide: "var(--layer-guide)",
+      overlay: "var(--layer-overlay)",
+      modal: "var(--layer-modal)",
     },
 
     // ── Motion ──────────────────────────────────────────────────────────────
@@ -104,6 +136,7 @@ export default {
         content: "var(--layout-content)",
         page: "var(--layout-page)",
         reading: "var(--layout-reading)",
+        reference: "var(--layout-reference)",
         "measure-narrow": measure("narrow"),
         measure: measure("body"),
         "measure-wide": measure("wide"),
@@ -177,5 +210,31 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // ── Form: rhythm ──────────────────────────────────────────────────────
+    // The four vertical rhythms the pages repeat, each a compact value that
+    // steps up at md. One class (`mt-section`, `gap-stack`) carries both, so
+    // the pair can never drift apart at a call site.
+    plugin(({ addUtilities }) => {
+      const roles = ["section", "module", "stack", "caption"];
+      const properties: Record<string, string[]> = {
+        mt: ["marginTop"],
+        mb: ["marginBottom"],
+        pt: ["paddingTop"],
+        pb: ["paddingBottom"],
+        py: ["paddingTop", "paddingBottom"],
+        gap: ["gap"],
+        "gap-y": ["rowGap"],
+      };
+      const utilities: Record<string, Record<string, unknown>> = {};
+      for (const role of roles) {
+        for (const [prefix, props] of Object.entries(properties)) {
+          const compact = Object.fromEntries(props.map((prop) => [prop, `var(--rhythm-${role}-compact)`]));
+          const wide = Object.fromEntries(props.map((prop) => [prop, `var(--rhythm-${role}-wide)`]));
+          utilities[`.${prefix}-${role}`] = { ...compact, "@media (min-width: 768px)": wide };
+        }
+      }
+      addUtilities(utilities);
+    }),
+  ],
 } satisfies Config;

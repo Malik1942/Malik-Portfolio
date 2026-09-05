@@ -48,7 +48,7 @@ export function Chip({ kind = "label", tone = "passive", className, children }: 
 // The "shipped" chip: an outbound link to the App Store, GitHub, or a live
 // site. A real anchor, so it opens like any link (middle-click, cmd-click);
 // stopPropagation keeps the click off any delegated handler on the card's
-// ancestors. Sits above a card's stretched link (z-[2] vs z-[1]) rather than
+// ancestors. Sits above a card's stretched link (z-2 vs z-1) rather than
 // inside it, so no anchor is ever nested.
 export const LinkChip = ({ link, className = "" }: { link: ProjectLink; className?: string }) => (
   <a
@@ -56,7 +56,7 @@ export const LinkChip = ({ link, className = "" }: { link: ProjectLink; classNam
     target="_blank"
     rel="noopener noreferrer"
     onClick={(e) => e.stopPropagation()}
-    className={chipRecipe({ kind: "label", tone: "link" }, `group/chip relative z-[2] gap-1 pl-2.5 pr-1.5 ${className}`)}
+    className={chipRecipe({ kind: "label", tone: "link" }, `group/chip relative z-2 gap-1 pl-2.5 pr-1.5 ${className}`)}
   >
     {link.label}
     <ArrowUpRight

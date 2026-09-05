@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Linkedin, Mail } from "lucide-react";
 import { NAV_ITEMS, SECTIONS, navItemHref } from "@/lib/sections";
 import logo from "@/assets/logo.webp";
+import { TextLink } from "@/components/ui/TextLink";
 
 const EMAIL_HREF = "mailto:malikzhang19@gmail.com";
 const LINKEDIN_HREF = "https://www.linkedin.com/in/malik-zhang";
@@ -22,12 +23,7 @@ function HeaderConnect({
       data-testid={testId}
       className={`${interactive} flex items-center gap-x-3 text-foreground-secondary ${className}`}
     >
-      <a
-        href={EMAIL_HREF}
-        className="nav-link hover:text-foreground transition-colors duration-slow"
-      >
-        Connect
-      </a>
+      <TextLink href={EMAIL_HREF}>Connect</TextLink>
       <a
         href={EMAIL_HREF}
         aria-label="Email"
@@ -119,39 +115,34 @@ export function SiteHeader({
   // tucked-away, opacity-0 link must not intercept taps either).
   const interactive = inert || hidden ? "pointer-events-none" : "pointer-events-auto";
 
-  const linkClass = "nav-link hover:text-foreground transition-colors duration-slow";
-
   // The same links render in the desktop and mobile rows.
   const links = (
     <>
       {NAV_ITEMS.map((item) =>
         item.kind === "section" ? (
-          <a
+          <TextLink
             key={item.label}
             href={navItemHref(item, hrefBase)}
-            className={linkClass}
             onClick={handle(() => onSection(SECTIONS[item.section].id))}
           >
             {item.label}
-          </a>
+          </TextLink>
         ) : (
-          <Link key={item.label} to={item.path} className={linkClass}>
+          <TextLink key={item.label} as={Link} to={item.path}>
             {item.label}
-          </Link>
+          </TextLink>
         ),
       )}
-      <a href={`${hrefBase}#about`} className={linkClass} onClick={handle(onAbout)}>
+      <TextLink href={`${hrefBase}#about`} onClick={handle(onAbout)}>
         About
-      </a>
-      <a href="/resume" className={linkClass}>
-        Resume
-      </a>
+      </TextLink>
+      <TextLink href="/resume">Resume</TextLink>
     </>
   );
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 z-50 pointer-events-none"
+      className="fixed top-0 left-0 right-0 z-header pointer-events-none"
       style={{
         // Subtle fade-slide instead of a full-height slide: while hidden the
         // header is transparent anyway, so a short 20px drift reads softer.
@@ -161,8 +152,8 @@ export function SiteHeader({
         transition: shouldReduceMotion
           ? "none"
           : hidden
-            ? "transform 240ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms cubic-bezier(0.4, 0, 1, 1)"
-            : "transform 450ms cubic-bezier(0.22, 1, 0.36, 1), opacity 350ms cubic-bezier(0, 0, 0.2, 1)",
+            ? "transform 240ms var(--ease-standard), opacity var(--duration-fast) var(--ease-exit)"
+            : "transform var(--duration-page) var(--ease-move), opacity 350ms var(--ease-settle)",
       }}
     >
       <motion.div

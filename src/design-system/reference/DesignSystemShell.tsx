@@ -207,7 +207,7 @@ export function DesignSystemShell({
         </nav>
       </div>
 
-      <main className="min-w-0 w-full max-w-[900px] flex-1">
+      <main className="min-w-0 w-full max-w-reference flex-1">
         <AdjacentSectionLinks section={activeSection} position="Top" />
         <article className="py-12 md:py-16">
           <Eyebrow className="mb-5">Design system</Eyebrow>

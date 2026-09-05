@@ -53,7 +53,7 @@ function MoodMuseArtifact({ src, alt, caption }: { src: string; alt: string; cap
           className="w-full h-auto block"
         />
       </div>
-      <figcaption className="mt-5 md:mt-6 text-base md:text-xl text-foreground text-center leading-relaxed">
+      <figcaption className="mt-caption text-base md:text-xl text-foreground text-center leading-relaxed">
         {noOrphan(caption)}
       </figcaption>
     </figure>
@@ -62,7 +62,7 @@ function MoodMuseArtifact({ src, alt, caption }: { src: string; alt: string; cap
 
 export function MoodMuseHighlights() {
   return (
-    <div className="flex flex-col gap-10 md:gap-12">
+    <div className="flex flex-col gap-stack">
       <Chips items={highlights} />
       <PullQuote>A child who can&rsquo;t say the feeling can still paint it. The brush listens to the hand.</PullQuote>
       <div className="flex flex-col gap-12 md:gap-16">

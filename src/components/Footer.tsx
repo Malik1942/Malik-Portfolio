@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { NAV_ITEMS, SECTIONS, navItemHref } from "@/lib/sections";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { TextLink } from "@/components/ui/TextLink";
 
 interface FooterProps {
   /** A homepage section link was clicked; receives the section's DOM id. */
@@ -13,9 +14,6 @@ interface FooterProps {
   /** true = matches project detail page grid (1400px, tighter padding). Default false. */
   wide?: boolean;
 }
-
-const linkClass =
-  "nav-link text-foreground-secondary hover:text-foreground text-sm transition-colors duration-slow";
 
 const Footer = ({
   onSectionClick,
@@ -43,9 +41,10 @@ const Footer = ({
               {NAV_ITEMS.map((item) => (
                 <li key={item.label}>
                   {item.kind === "section" ? (
-                    <a
+                    <TextLink
                       href={navItemHref(item, hrefBase)}
-                      className={linkClass}
+                      tone="secondary"
+                      size="sm"
                       onClick={(event) => {
                         if (!onSectionClick) return;
                         event.preventDefault();
@@ -53,37 +52,35 @@ const Footer = ({
                       }}
                     >
                       {item.label}
-                    </a>
+                    </TextLink>
                   ) : (
-                    <Link to={item.path} className={linkClass}>
+                    <TextLink as={Link} to={item.path} tone="secondary" size="sm">
                       {item.label}
-                    </Link>
+                    </TextLink>
                   )}
                 </li>
               ))}
               <li>
-                <button
-                  type="button"
+                <TextLink
+                  as="button"
+                  tone="secondary"
+                  size="sm"
+                  className="text-left"
                   onClick={() => {
                     if (onAboutClick) {
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                       onAboutClick();
                     }
                   }}
-                  className={`${linkClass} text-left`}
                 >
                   About
-                </button>
+                </TextLink>
               </li>
               <li>
-                <a href="/resume" className={linkClass}>
-                  Resume
-                </a>
+                <TextLink href="/resume" tone="secondary" size="sm">Resume</TextLink>
               </li>
               <li>
-                <a href="/design-system" className={linkClass}>
-                  Design System
-                </a>
+                <TextLink href="/design-system" tone="secondary" size="sm">Design System</TextLink>
               </li>
             </ul>
           </div>
@@ -95,39 +92,40 @@ const Footer = ({
             </Eyebrow>
             <ul className="space-y-4">
               <li>
-                <a href="mailto:malikzhang19@gmail.com" className={linkClass}>
-                  Email
-                </a>
+                <TextLink href="mailto:malikzhang19@gmail.com" tone="secondary" size="sm">Email</TextLink>
               </li>
               <li>
-                <a
+                <TextLink
                   href="https://www.linkedin.com/in/malik-zhang"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={linkClass}
-                >
-                  LinkedIn
-                </a>
+                  tone="secondary"
+                  size="sm"
+                  >
+                    LinkedIn
+                  </TextLink>
               </li>
               <li>
-                <a
+                <TextLink
                   href="https://github.com/Malik1942"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={linkClass}
-                >
-                  GitHub
-                </a>
+                  tone="secondary"
+                  size="sm"
+                  >
+                    GitHub
+                  </TextLink>
               </li>
               <li>
-                <a
+                <TextLink
                   href="https://x.com/MalikZ1942"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={linkClass}
-                >
-                  X
-                </a>
+                  tone="secondary"
+                  size="sm"
+                  >
+                    X
+                  </TextLink>
               </li>
             </ul>
           </div>

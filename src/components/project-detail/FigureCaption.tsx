@@ -14,7 +14,7 @@ import { noOrphan } from "@/lib/noOrphan";
 export function FigureCaption({ label, children }: { label?: string; children: string }) {
   const text = label ? `${label}: ${children}` : children;
   return (
-    <figcaption className="mt-5 md:mt-6 text-base md:text-xl text-foreground text-center leading-relaxed">
+    <figcaption className="mt-caption text-base md:text-xl text-foreground text-center leading-relaxed">
       {noOrphan(text)}
     </figcaption>
   );

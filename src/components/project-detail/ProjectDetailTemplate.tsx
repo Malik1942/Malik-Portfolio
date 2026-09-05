@@ -217,7 +217,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
           return (
             <p
               key={i}
-              className={`${i === 0 ? "" : "mt-16 md:mt-20"} text-caption md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono mb-5 md:mb-6`}
+              className={`${i === 0 ? "" : "mt-section"} text-caption md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono mb-caption`}
             >
               {noOrphan(para.slice(3))}
             </p>
@@ -227,7 +227,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
         const figIdx = parseFigRef(para);
         if (figIdx !== null && inlineFigures?.[figIdx]) {
           return (
-            <div key={i} className={i === 0 ? "" : "mt-14 md:mt-18"}>
+            <div key={i} className={i === 0 ? "" : "mt-module"}>
               <ProjectMediaFrame fig={inlineFigures[figIdx]} />
             </div>
           );
@@ -236,7 +236,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
         const modName = parseModuleRef(para);
         if (modName !== null && INLINE_MODULES[modName]) {
           return (
-            <div key={i} className={i === 0 ? "" : "mt-14 md:mt-18"}>
+            <div key={i} className={i === 0 ? "" : "mt-module"}>
               {INLINE_MODULES[modName]}
             </div>
           );
@@ -389,14 +389,14 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
       {/* 3 — Secondary copy below hero */}
       {(project.heroSubtitle || project.description) ? (
         <div className={`${PAGE_OUTER} ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-12"}`}>
-          <div className="max-w-[900px]">
+          <div className="max-w-reference">
             {project.heroSubtitle ? (
               <p className="text-base md:text-xl text-foreground-secondary font-light leading-relaxed">
                 {noOrphan(project.heroSubtitle)}
               </p>
             ) : null}
             {project.description ? (
-              <p className={`${project.heroSubtitle ? "mt-5 md:mt-6" : ""} text-base md:text-xl font-light leading-relaxed text-foreground-secondary`}>
+              <p className={`${project.heroSubtitle ? "mt-caption" : ""} text-base md:text-xl font-light leading-relaxed text-foreground-secondary`}>
                 {noOrphan(project.description)}
               </p>
             ) : null}
@@ -407,7 +407,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
       {/* 4 — Standalone metadata */}
       {!hasIntroSection && !hasInlineProjectMeta && project.metaCards?.length ? (
         <div className={`${PAGE_OUTER} mt-12 md:mt-16`}>
-          <div className="max-w-[900px]">
+          <div className="max-w-reference">
             <ProjectMetadataSummary cards={project.metaCards} />
           </div>
         </div>
@@ -423,14 +423,14 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
             the backdrop blur carrying legibility over imagery scrolling under
             it. Its sticky offset follows the header:
             dropped below it while shown, flush to the safe-area top once the
-            header tucks away. z-[60] keeps it ABOVE the z-50 header: in their
+            header tucks away. z-guide keeps it ABOVE the z-header header: in their
             settled states the two never share screen space, but while the header
             re-reveals mid-scroll the menu links land exactly where the guide sits,
             and the guide must win that hit-test — otherwise a tap meant for a
             section chip fires a menu link and navigates away. (The lightbox at
-            z-[2000] still covers it.) */}
+            z-modal still covers it.) */}
         <nav
-          className="lg:hidden sticky z-[60] -mx-6 px-6 py-3 mb-14 bg-background/70 backdrop-blur-md border-b border-hairline transition-[top] duration-medium ease-settle [--guide-docked-top:48px] md:[--guide-docked-top:72px]"
+          className="lg:hidden sticky z-guide -mx-6 px-6 py-3 mb-14 bg-background/70 backdrop-blur-md border-b border-hairline transition-[top] duration-medium ease-settle [--guide-docked-top:48px] md:[--guide-docked-top:72px]"
           style={{
             top: headerHidden
               ? "env(safe-area-inset-top, 0px)"
@@ -489,7 +489,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
           </nav>
 
           {/* Main content column */}
-          <div className="min-w-0 flex-1 max-w-[900px]">
+          <div className="min-w-0 flex-1 max-w-reference">
             {project.sections.map((s) => (
               <article
                 key={s.id}
@@ -498,7 +498,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
               >
                 {s.subtitle ? (
                   <>
-                    <h2 className="font-display text-heading md:text-display font-light text-foreground mb-10 md:mb-12">
+                    <h2 className="font-display text-heading md:text-display font-light text-foreground mb-stack">
                       {s.subtitle}
                     </h2>
                     <SectionBody text={s.body} leadFirst />
@@ -523,7 +523,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                         {s.label}
                       </p>
                     ) : null}
-                    <h2 className="font-display text-heading md:text-display font-light text-foreground mb-10 md:mb-12">
+                    <h2 className="font-display text-heading md:text-display font-light text-foreground mb-stack">
                       {noOrphan(s.headline ?? s.label)}
                     </h2>
                     {s.introBlock ? (
@@ -534,12 +534,12 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                   </>
                 )}
                 {s.showProjectMeta && project.metaCards?.length ? (
-                  <div className="mt-14 md:mt-18">
+                  <div className="mt-module">
                     <ProjectMetadataSummary cards={project.metaCards} />
                   </div>
                 ) : null}
                 {s.afterMetaModule && INLINE_MODULES[s.afterMetaModule] ? (
-                  <div className="mt-14 md:mt-18">{INLINE_MODULES[s.afterMetaModule]}</div>
+                  <div className="mt-module">{INLINE_MODULES[s.afterMetaModule]}</div>
                 ) : null}
                 {s.figures?.length && !s.body.includes("[[fig:") ? (
                   <div className="mt-14 space-y-10">

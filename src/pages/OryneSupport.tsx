@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "@/components/Footer";
 import { BackLink } from "@/components/ui/BackLink";
 import { Button } from "@/components/ui/Button";
+import { TextLink } from "@/components/ui/TextLink";
 
 const SUPPORT_EMAIL = "malikdes9gn@gmail.com";
 
@@ -89,12 +90,9 @@ const FAQS: Faq[] = [
     a: (
       <>
         Email us at{" "}
-        <a
-          href={`mailto:${SUPPORT_EMAIL}`}
-          className="nav-link text-foreground hover:text-foreground"
-        >
+        <TextLink href={`mailto:${SUPPORT_EMAIL}`} tone="primary">
           {SUPPORT_EMAIL}
-        </a>
+        </TextLink>
         . If you are reporting a bug, a short description of what you did, what you expected, and
         your device model helps us track it down faster. We read every message.
       </>
@@ -169,7 +167,7 @@ const OryneSupport = () => {
           </header>
 
           {/* FAQ */}
-          <section aria-labelledby="faq-heading" className="mt-16 md:mt-20">
+          <section aria-labelledby="faq-heading" className="mt-section">
             <h2
               id="faq-heading"
               className="text-xl md:text-title font-light text-foreground mb-8"
@@ -191,7 +189,7 @@ const OryneSupport = () => {
           </section>
 
           {/* Privacy note */}
-          <section aria-labelledby="privacy-heading" className="mt-16 md:mt-20">
+          <section aria-labelledby="privacy-heading" className="mt-section">
             <h2
               id="privacy-heading"
               className="text-xl md:text-title font-light text-foreground mb-6"
@@ -210,7 +208,7 @@ const OryneSupport = () => {
           </section>
 
           {/* Contact */}
-          <section aria-labelledby="contact-heading" className="mt-16 md:mt-20">
+          <section aria-labelledby="contact-heading" className="mt-section">
             <h2
               id="contact-heading"
               className="text-xl md:text-title font-light text-foreground mb-4"
@@ -230,12 +228,9 @@ const OryneSupport = () => {
           <div className="mt-14 md:mt-16 pt-8 border-t border-border">
             <p className="text-sm text-foreground-tertiary">
               Read how Oryne handles your data in our{" "}
-              <a
-                href="/oryne/privacy"
-                className="nav-link text-foreground-secondary hover:text-foreground transition-colors duration-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus rounded-sm"
-              >
-                Privacy Policy
-              </a>
+              <TextLink href="/oryne/privacy" tone="secondary">
+                  Privacy Policy
+                </TextLink>
               .
             </p>
           </div>

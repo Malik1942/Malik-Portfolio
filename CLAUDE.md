@@ -67,7 +67,12 @@ Foundations, component docs, and code all use that vocabulary.
   or `border-hairline-faint`; focus is `ring-focus` or `ring-focus-strong`.
   Never write `text-foreground/72`: Tailwind's opacity scale is multiples of 5
   and anything else generates no CSS at all. That is how the secondary tier
-  shipped at 100% for months; its alpha lives in `tokens/semantic.tokens.json`.
+  shipped at 100% for months before it was adopted at 72% in Sep 2026; its
+  alpha lives in `tokens/semantic.tokens.json`.
+- Vertical rhythm: `mt-section`, `mt-module`, `gap-stack`, `mt-caption` (each
+  steps up at md). Stacking: `z-header`, `z-guide`, `z-overlay`, `z-modal`.
+  Framer durations come from `DURATION` or a `MOTION` recipe except in the
+  choreographed files named in the boundary test.
 - Motion in CSS and Tailwind: `duration-fast|medium|slow|page|reveal|ambient`,
   `ease-enter|move|standard|settle|exit|ambient`. In Framer Motion import
   `DURATION`, `EASE`, or a `MOTION` recipe from `src/design-system/system/motion`.

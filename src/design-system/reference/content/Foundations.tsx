@@ -18,7 +18,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 
 const FOUNDATION_PREFIXES: Record<string, string[]> = {
   "foundation-typography": ["font."],
-  "foundation-form": ["space.", "layout.", "measure.", "radius."],
+  "foundation-form": ["space.", "rhythm.", "layout.", "measure.", "radius.", "layer."],
   "foundation-material": [
     "color.",
     "component.siteHeader.scrimColor",
@@ -39,10 +39,22 @@ const FORM_SECTIONS: readonly { title: string; intro: string; prefixes: string[]
     prefixes: ["space.", "layout."],
   },
   {
+    title: "Rhythm",
+    intro:
+      "The four vertical distances the pages repeat, each a compact value that steps up at md: section between page sections, module between blocks in a case-study section, stack between the parts of a module, caption between a figure and its line. One utility carries both values (mt-section, gap-stack), so a pair cannot drift apart at a call site.",
+    prefixes: ["rhythm."],
+  },
+  {
     title: "Measure",
     intro:
       "Line length in characters, not pixels, so it follows the type size. Narrow for statements, body for prose, wide for reference copy that sits beside tables. Utilities: max-w-measure-narrow, max-w-measure, max-w-measure-wide.",
     prefixes: ["measure."],
+  },
+  {
+    title: "Stacking",
+    intro:
+      "The global stacking order as named layers: header, guide (above the header so its taps win while the header re-reveals), overlay, and modal. Bare z-index numbers are reserved for ordering inside a component's own stacking context.",
+    prefixes: ["layer."],
   },
   {
     title: "Radius",

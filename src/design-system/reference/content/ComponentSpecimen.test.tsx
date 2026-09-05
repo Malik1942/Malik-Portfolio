@@ -57,6 +57,7 @@ describe("ComponentSpecimen", () => {
     for (const sectionId of [
       "component-eyebrow",
       "component-back-link",
+      "component-text-link",
       "component-site-header",
       "component-project-list",
       "component-metadata-card",

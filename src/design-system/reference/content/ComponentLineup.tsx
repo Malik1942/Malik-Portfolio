@@ -20,6 +20,11 @@ const COMPONENT_LINEUP = [
     purpose: "Quiet inline return control with a nudging arrow.",
   },
   {
+    id: "component-text-link",
+    name: "Text link",
+    purpose: "Inline link with the underline sweep, in the header, footer, and utility pages.",
+  },
+  {
     id: "component-site-header",
     name: "Site header",
     purpose: "Direction-aware navigation shared across portfolio routes.",
@@ -61,7 +66,7 @@ export function ComponentLineup() {
     <div data-testid="reference-component-lineup" className="space-y-10">
       <div className="max-w-reading space-y-4">
         <p className="text-base leading-relaxed text-foreground-secondary md:text-xl">
-          Four primitives and seven composed components carry the portfolio
+          Five primitives and seven composed components carry the portfolio
           across navigation, project discovery, case-study evidence, and
           focused media.
         </p>

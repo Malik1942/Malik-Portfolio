@@ -38,7 +38,7 @@ const outerSectionBase =
   "w-screen max-w-[100vw] relative left-1/2 -translate-x-1/2 overflow-x-clip px-6 md:px-16 lg:px-24";
 const outerSectionMarginDefault = "mb-40";
 /** Tighter bottom margin before footer / closing elements */
-const outerSectionMarginCompact = "mb-10 md:mb-12";
+const outerSectionMarginCompact = "mb-stack";
 
 const innerMaxClass = "mx-auto max-w-[1180px]";
 

@@ -4,7 +4,7 @@ import { Github } from "lucide-react";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { noOrphan } from "@/lib/noOrphan";
 import { LinkChip } from "./ui/Chip";
-import { DURATION, EASE } from "@/design-system/system/motion";
+import { DURATION, EASE, MOTION } from "@/design-system/system/motion";
 
 export const GITHUB_URL = "https://github.com/Malik1942";
 
@@ -69,7 +69,7 @@ export function GitHubTile({ index = 0 }: { index?: number }) {
           <motion.div
             className="pointer-events-none absolute inset-0 bg-project-card-hover-overlay"
             animate={{ opacity: hovered ? 1 : 0 }}
-            transition={{ duration: 0.35 }}
+            transition={MOTION.fade}
           />
         </div>
 
@@ -89,7 +89,7 @@ export function GitHubTile({ index = 0 }: { index?: number }) {
           style={{
             fontSize: "var(--font-size-body-small)",
             marginBottom: "0.625rem",
-            color: "hsl(var(--color-text-lead))",
+            color: "hsl(var(--color-text-secondary))",
           }}
         >
           {noOrphan("Skills, agent workflows, and experiments that did not get a tile yet.")}
@@ -104,7 +104,7 @@ export function GitHubTile({ index = 0 }: { index?: number }) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="More on GitHub"
-        className="absolute inset-0 z-[1] cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+        className="absolute inset-0 z-1 cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-4 focus-visible:ring-offset-background"
       />
     </motion.div>
   );

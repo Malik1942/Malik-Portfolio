@@ -115,7 +115,7 @@ const hookHighlights = [
 ];
 export function OryneHook() {
   return (
-    <div className="flex flex-col gap-10 md:gap-12">
+    <div className="flex flex-col gap-stack">
       <Chips items={hookHighlights} />
       <PullQuote>Lists are excellent at storing thoughts. They were never meant to remember them.</PullQuote>
     </div>
@@ -328,7 +328,7 @@ const takeaways: GridItem[] = [
 ];
 export function OryneTakeaways() {
   return (
-    <div className="flex flex-col gap-10 md:gap-12">
+    <div className="flex flex-col gap-stack">
       <CardGrid items={takeaways} colsClass="grid-cols-1 sm:grid-cols-3" />
       <div className="flex justify-center">
         <AppStoreLink label="Get Oryne on the App Store" />

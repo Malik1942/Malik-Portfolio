@@ -148,7 +148,7 @@ const PhotographyLightbox = ({
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-[100] bg-background/92 backdrop-blur-md"
+        className="fixed inset-0 z-modal bg-background/92 backdrop-blur-md"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -158,7 +158,7 @@ const PhotographyLightbox = ({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-5 right-5 z-[101] flex h-10 w-10 items-center justify-center rounded-full text-foreground-tertiary transition-colors duration-medium hover:text-foreground cursor-pointer"
+          className="absolute top-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full text-foreground-tertiary transition-colors duration-medium hover:text-foreground cursor-pointer"
           aria-label="Close photography lightbox"
         >
           <X className="h-4 w-4" />
@@ -170,7 +170,7 @@ const PhotographyLightbox = ({
             event.stopPropagation();
             onNavigate(-1);
           }}
-          className="absolute left-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground-tertiary transition-colors duration-medium hover:text-foreground md:flex cursor-pointer"
+          className="absolute left-3 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground-tertiary transition-colors duration-medium hover:text-foreground md:flex cursor-pointer"
           aria-label="Previous image"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -182,7 +182,7 @@ const PhotographyLightbox = ({
             event.stopPropagation();
             onNavigate(1);
           }}
-          className="absolute right-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground-tertiary transition-colors duration-medium hover:text-foreground md:flex cursor-pointer"
+          className="absolute right-3 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground-tertiary transition-colors duration-medium hover:text-foreground md:flex cursor-pointer"
           aria-label="Next image"
         >
           <ChevronRight className="h-5 w-5" />

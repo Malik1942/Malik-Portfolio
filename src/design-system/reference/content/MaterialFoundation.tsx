@@ -25,7 +25,7 @@ interface ColorGroup {
 const INK_LADDER: readonly ColorRole[] = [
   { label: "Primary", path: "color.text.primary", note: "Headings, lead sentences, the active state of any control." },
   { label: "Lead", path: "color.text.lead", note: "Body paragraphs after the lead; the active item in a guide or chip set." },
-  { label: "Secondary", path: "color.text.secondary", note: "Descriptions, metadata values, navigation at rest, captions. Held at full strength today." },
+  { label: "Secondary", path: "color.text.secondary", note: "Descriptions, metadata values, navigation at rest, captions." },
   { label: "Tertiary", path: "color.text.tertiary", note: "Eyebrows, labels, inactive guide items, footnotes." },
   { label: "Quiet", path: "color.text.quiet", note: "Decorative only: bullets, quote marks, hairline glyphs. Never words." },
 ];
@@ -97,11 +97,9 @@ function InkLadder() {
       <div className="mb-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-hairline pb-3">
         <Eyebrow as="h2" id="material-ink" tone="secondary">Ink</Eyebrow>
         <p className="max-w-measure text-caption leading-relaxed text-foreground-tertiary">
-          One warm foreground, five roles. Every tier is an alias of the primary
+          One warm foreground, five strengths. Every tier is an alias of the primary
           with its own alpha, so the whole ladder retunes when the primary moves.
-          Secondary was authored at 72% but never rendered, so the site was
-          approved at full strength; its alpha is the one lever that dims every
-          supporting line at once. The ratio is measured against the canvas.
+          The ratio is measured against the canvas.
         </p>
       </div>
       <ul className="border-t border-hairline">

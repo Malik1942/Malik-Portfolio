@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "@/components/Footer";
 import { BackLink } from "@/components/ui/BackLink";
 import { Button } from "@/components/ui/Button";
+import { TextLink } from "@/components/ui/TextLink";
 
 const SUPPORT_EMAIL = "malikdes9gn@gmail.com";
 const EFFECTIVE_DATE = "June 28, 2026";
@@ -96,7 +97,7 @@ const OrynePrivacy = () => {
           </section>
 
           {/* Storage and sync */}
-          <section aria-labelledby="storage-heading" className="mt-16 md:mt-20">
+          <section aria-labelledby="storage-heading" className="mt-section">
             <h2
               id="storage-heading"
               className="text-xl md:text-title font-light text-foreground mb-5"
@@ -114,7 +115,7 @@ const OrynePrivacy = () => {
           </section>
 
           {/* AI processing */}
-          <section aria-labelledby="ai-heading" className="mt-16 md:mt-20">
+          <section aria-labelledby="ai-heading" className="mt-section">
             <h2
               id="ai-heading"
               className="text-xl md:text-title font-light text-foreground mb-5"
@@ -130,7 +131,7 @@ const OrynePrivacy = () => {
           </section>
 
           {/* Microphone and photos */}
-          <section aria-labelledby="permissions-heading" className="mt-16 md:mt-20">
+          <section aria-labelledby="permissions-heading" className="mt-section">
             <h2
               id="permissions-heading"
               className="text-xl md:text-title font-light text-foreground mb-5"
@@ -156,7 +157,7 @@ const OrynePrivacy = () => {
           </section>
 
           {/* Selling and advertising */}
-          <section aria-labelledby="selling-heading" className="mt-16 md:mt-20">
+          <section aria-labelledby="selling-heading" className="mt-section">
             <h2
               id="selling-heading"
               className="text-xl md:text-title font-light text-foreground mb-5"
@@ -172,7 +173,7 @@ const OrynePrivacy = () => {
           </section>
 
           {/* Deleting your content */}
-          <section aria-labelledby="deletion-heading" className="mt-16 md:mt-20">
+          <section aria-labelledby="deletion-heading" className="mt-section">
             <h2
               id="deletion-heading"
               className="text-xl md:text-title font-light text-foreground mb-5"
@@ -187,7 +188,7 @@ const OrynePrivacy = () => {
           </section>
 
           {/* Changes */}
-          <section aria-labelledby="changes-heading" className="mt-16 md:mt-20">
+          <section aria-labelledby="changes-heading" className="mt-section">
             <h2
               id="changes-heading"
               className="text-xl md:text-title font-light text-foreground mb-5"
@@ -202,7 +203,7 @@ const OrynePrivacy = () => {
           </section>
 
           {/* Contact */}
-          <section aria-labelledby="contact-heading" className="mt-16 md:mt-20">
+          <section aria-labelledby="contact-heading" className="mt-section">
             <h2
               id="contact-heading"
               className="text-xl md:text-title font-light text-foreground mb-4"
@@ -221,12 +222,9 @@ const OrynePrivacy = () => {
           <div className="mt-14 md:mt-16 pt-8 border-t border-border">
             <p className="text-sm text-foreground-tertiary">
               Need help using Oryne? Visit{" "}
-              <a
-                href="/oryne/support"
-                className="nav-link text-foreground-secondary hover:text-foreground transition-colors duration-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus rounded-sm"
-              >
-                Oryne Support
-              </a>
+              <TextLink href="/oryne/support" tone="secondary">
+                  Oryne Support
+                </TextLink>
               .
             </p>
           </div>

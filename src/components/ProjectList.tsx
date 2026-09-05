@@ -8,7 +8,7 @@ import { MAX_SKILLS, type ProjectDestination, type ProjectLink, type Skill } fro
 import { ArrowUpRight, Play } from "lucide-react";
 import { Chip, LinkChip } from "./ui/Chip";
 import { VideoLightbox, type LightboxVideo } from "./VideoLightbox";
-import { DURATION, EASE } from "@/design-system/system/motion";
+import { DURATION, EASE, MOTION } from "@/design-system/system/motion";
 
 /** What a card needs to render. `Project` in src/data/projects.ts is the strict
  *  homepage record and is assignable to this; tests pass minimal literals. */
@@ -219,7 +219,7 @@ const CardMedia = ({
       <motion.div
         className="absolute inset-0 bg-project-card-hover-overlay pointer-events-none"
         animate={{ opacity: hovered ? 1 : 0 }}
-        transition={{ duration: 0.35 }}
+        transition={MOTION.fade}
       />
       {cornerGlyph ? (
         <span
@@ -258,7 +258,7 @@ const CardMeta = ({
     // existing sizes.
     fontSize: tile ? "var(--font-size-body-small)" : isMobile ? "0.9375rem" : "0.875rem",
     letterSpacing: "0.02em",
-    color: "hsl(var(--color-text-primary) / 0.72)",
+    color: "hsl(var(--color-text-secondary))",
   };
   return (
     <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
@@ -283,9 +283,9 @@ const CardMeta = ({
 
 // ─── Card link ────────────────────────────────────────────────────────────────
 // A stretched link: an absolutely positioned anchor that covers the whole card
-// (z-[1]) so the entire tile is the click target, while the card's content stays
+// (z-1) so the entire tile is the click target, while the card's content stays
 // outside it. That is what lets the metadata line carry real outbound anchors
-// (LinkChip, z-[2]) without nesting <a> inside <a>. It is keyboard-focusable and
+// (LinkChip, z-2) without nesting <a> inside <a>. It is keyboard-focusable and
 // opens like any anchor (middle-click, cmd-click, screen-reader announcement).
 //
 // Defined at module scope (NOT inside ProjectCard) so its component identity is
@@ -308,7 +308,7 @@ const CardLink = ({
   onOpenVideo?: () => void;
 }) => {
   const cls =
-    "absolute inset-0 z-[1] cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-4 focus-visible:ring-offset-background";
+    "absolute inset-0 z-1 cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-4 focus-visible:ring-offset-background";
   if (destination?.kind === "placeholder") return null;
   if (destination?.kind === "external") {
     return (
@@ -439,7 +439,7 @@ export const ProjectCard = ({
         style={{
           fontSize: tile ? "var(--font-size-body-small)" : isMobile ? "0.9375rem" : "0.875rem",
           marginBottom: tile ? "0.625rem" : isMobile ? "0.75rem" : "1rem",
-          color: "hsl(var(--color-text-lead))",
+          color: "hsl(var(--color-text-secondary))",
         }}
       >
         {noOrphan(project.description)}
@@ -664,7 +664,7 @@ const SectionLabel = ({
       ref={ref}
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 16 }}
-      transition={{ duration: 0.6, ease: EASE.enter }}
+      transition={MOTION.enter}
       className="flex items-center gap-3 mb-10"
     >
       <span
@@ -724,7 +724,7 @@ const MoreWorkList = ({
   dotClass: string;
   projects: ProjectCardData[];
 }) => (
-  <section id={id} className="px-6 md:px-16 lg:px-24 pt-16 md:pt-20 pb-8">
+  <section id={id} className="px-6 md:px-16 lg:px-24 pt-section pb-8">
     <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" />
     {projects.length > 0 && (
       <div style={{ opacity: 0.88 }}>
@@ -758,7 +758,7 @@ const StudioList = ({
   const [video, setVideo] = useState<LightboxVideo | null>(null);
   const closeVideo = useCallback(() => setVideo(null), []);
   return (
-    <section id={id} className={`px-6 md:px-16 lg:px-24 pb-8 ${showLabel ? "pt-16 md:pt-20" : ""}`}>
+    <section id={id} className={`px-6 md:px-16 lg:px-24 pb-8 ${showLabel ? "pt-section" : ""}`}>
       {showLabel ? <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" /> : null}
       {projects.length > 0 && (
         <div className="studio-grid">

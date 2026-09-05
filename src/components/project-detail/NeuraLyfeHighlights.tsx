@@ -125,7 +125,7 @@ function NeuraLyfeArtifact({
 
 export function NeuraLyfeHighlights() {
   return (
-    <div className="flex flex-col gap-10 md:gap-12">
+    <div className="flex flex-col gap-stack">
       <Chips items={highlights} />
       <PullQuote>Invisible problems require visible systems.</PullQuote>
       <div className="flex flex-col gap-12 md:gap-16">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Specimen } from "../Specimen";
-import { EASE } from "@/design-system/system/motion";
+import { DURATION, EASE } from "@/design-system/system/motion";
 
 interface PatternSpecimenProps {
   sectionId: string;
@@ -63,7 +63,7 @@ function TransitionStage() {
         <motion.div
           initial={false}
           animate={phase === "settled" || reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-          transition={{ duration: reduce ? 0 : 0.22, ease: EASE.move }}
+          transition={{ duration: reduce ? 0 : DURATION.fast, ease: EASE.move }}
         >
           <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">Project arrival</p>
           <p className="mt-5 font-display text-title text-foreground">A page enters without making the work wait.</p>
@@ -80,7 +80,7 @@ function HomepageHeroStage() {
   const reduce = useReducedMotion();
   return (
     <div className="relative overflow-hidden rounded-sm border border-hairline bg-secondary/[0.08] p-6 sm:p-8">
-      <motion.div aria-hidden="true" animate={reduce ? { opacity: 0.45 } : { opacity: [0.28, 0.55, 0.28] }} transition={{ duration: 4, repeat: Infinity, ease: EASE.ambient }} className="absolute inset-0 opacity-45 [background-image:radial-gradient(circle_at_1px_1px,hsl(var(--foreground)/0.4)_1px,transparent_0)] [background-size:18px_18px]" />
+      <motion.div aria-hidden="true" animate={reduce ? { opacity: 0.45 } : { opacity: [0.28, 0.55, 0.28] }} transition={{ duration: DURATION.ambient, repeat: Infinity, ease: EASE.ambient }} className="absolute inset-0 opacity-45 [background-image:radial-gradient(circle_at_1px_1px,hsl(var(--foreground)/0.4)_1px,transparent_0)] [background-size:18px_18px]" />
       <div className="relative max-w-measure-narrow"><p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">malik@portfolio:~$</p><p className="mt-5 font-display text-title text-foreground">I design useful systems for people and the work around them.</p></div>
     </div>
   );
@@ -112,7 +112,7 @@ function ExpressiveStage() {
   return (
     <div data-testid="expressive-stage" data-paused={paused ? "true" : "false"} data-reduced-motion={reduce ? "true" : "false"} className="space-y-5">
       <div className="relative h-40 overflow-hidden rounded-sm border border-hairline bg-secondary/[0.08]">
-        {[0, 1, 2].map((index) => <motion.span key={index} aria-hidden="true" animate={paused ? { x: 0, y: 0, opacity: 0.5 } : { x: [0, 22 - index * 8, 0], y: [0, -10 + index * 7, 0], opacity: [0.35, 0.85, 0.35] }} transition={{ duration: 3.6 + index * 0.4, repeat: Infinity, ease: EASE.ambient }} className="absolute h-24 w-24 rounded-full bg-foreground/15 blur-xl" style={{ left: `${18 + index * 28}%`, top: `${30 + (index % 2) * 20}%` }} />)}
+        {[0, 1, 2].map((index) => <motion.span key={index} aria-hidden="true" animate={paused ? { x: 0, y: 0, opacity: 0.5 } : { x: [0, 22 - index * 8, 0], y: [0, -10 + index * 7, 0], opacity: [0.35, 0.85, 0.35] }} transition={{ duration: DURATION.ambient + index * 0.4, repeat: Infinity, ease: EASE.ambient }} className="absolute h-24 w-24 rounded-full bg-foreground/15 blur-xl" style={{ left: `${18 + index * 28}%`, top: `${30 + (index % 2) * 20}%` }} />)}
         <p className="relative z-10 p-5 text-sm text-foreground-secondary">Expression remains art-directed rather than promoted to a generic primitive.</p>
       </div>
       <button type="button" onClick={() => setPaused((value) => !value)} className="min-h-11 rounded-sm border border-hairline px-4 text-sm text-foreground-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">{paused ? "Resume ambient motion" : "Pause ambient motion"}</button>

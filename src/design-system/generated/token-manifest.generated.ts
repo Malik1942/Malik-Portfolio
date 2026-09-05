@@ -11,7 +11,7 @@ export const tokenSourceCommit =
     : "development";
 export const tokenBundle: TokenBundle = {
   "schemaVersion": 1,
-  "tokenHash": "2dfffbaf",
+  "tokenHash": "88f95a60",
   "documents": {
     "primitive.tokens.json": {
       "color": {
@@ -76,7 +76,31 @@ export const tokenBundle: TokenBundle = {
               "hex": "#0a0a0a"
             }
           },
-          "$type": "color"
+          "1000": {
+            "$description": "Pure black, used only as the base of scrims and backdrops.",
+            "$value": {
+              "colorSpace": "hsl",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "hex": "#000000"
+            }
+          },
+          "$type": "color",
+          "000": {
+            "$description": "Pure white, used only as the base of translucent hairlines inside case-study modules.",
+            "$value": {
+              "colorSpace": "hsl",
+              "components": [
+                0,
+                0,
+                100
+              ],
+              "hex": "#ffffff"
+            }
+          }
         },
         "warm": {
           "100": {
@@ -221,6 +245,21 @@ export const tokenBundle: TokenBundle = {
             }
           },
           "$type": "color"
+        },
+        "cool": {
+          "950": {
+            "$description": "Slightly cool near-black used by the inset case-study module surface.",
+            "$value": {
+              "colorSpace": "hsl",
+              "components": [
+                240,
+                4,
+                5
+              ],
+              "hex": "#0c0c0d"
+            }
+          },
+          "$type": "color"
         }
       },
       "font": {
@@ -338,6 +377,64 @@ export const tokenBundle: TokenBundle = {
               "value": 88,
               "unit": "px"
             }
+          }
+        },
+        "tracking": {
+          "$type": "number",
+          "tight": {
+            "$description": "Letter spacing in em for display type: titles, headings, the hero.",
+            "$value": -0.02
+          },
+          "normal": {
+            "$description": "Letter spacing in em for running text.",
+            "$value": 0
+          },
+          "eyebrow": {
+            "$description": "Letter spacing in em for uppercase labels, eyebrows, and chips.",
+            "$value": 0.18
+          }
+        },
+        "leading": {
+          "$type": "number",
+          "none": {
+            "$description": "Line height for single-line chips and dots.",
+            "$value": 1
+          },
+          "hero": {
+            "$description": "Line height for the fluid hero heading.",
+            "$value": 1.06
+          },
+          "display": {
+            "$description": "Line height for display headings.",
+            "$value": 1.1
+          },
+          "heading": {
+            "$description": "Line height for section headings.",
+            "$value": 1.15
+          },
+          "tight": {
+            "$description": "Line height for tight multi-line titles.",
+            "$value": 1.25
+          },
+          "title": {
+            "$description": "Line height for module and section titles.",
+            "$value": 1.3
+          },
+          "snug": {
+            "$description": "Line height for compact supporting copy.",
+            "$value": 1.375
+          },
+          "label": {
+            "$description": "Line height for labels and captions.",
+            "$value": 1.4
+          },
+          "body": {
+            "$description": "Line height for interface copy at the default size.",
+            "$value": 1.5
+          },
+          "relaxed": {
+            "$description": "Line height for long-form reading.",
+            "$value": 1.625
           }
         }
       },
@@ -539,6 +636,92 @@ export const tokenBundle: TokenBundle = {
             1
           ]
         }
+      },
+      "rhythm": {
+        "$type": "dimension",
+        "section": {
+          "compact": {
+            "$description": "Space between page sections on narrow screens.",
+            "$value": {
+              "value": 64,
+              "unit": "px"
+            }
+          },
+          "wide": {
+            "$description": "Space between page sections from the md breakpoint.",
+            "$value": {
+              "value": 80,
+              "unit": "px"
+            }
+          }
+        },
+        "module": {
+          "compact": {
+            "$description": "Space between modules inside a case-study section on narrow screens.",
+            "$value": {
+              "value": 56,
+              "unit": "px"
+            }
+          },
+          "wide": {
+            "$description": "Space between modules inside a case-study section from md. Authored as 72px, but Tailwind has no mt-18, so the site shipped and was approved at 56px; raise this to widen the desktop rhythm.",
+            "$value": {
+              "value": 56,
+              "unit": "px"
+            }
+          }
+        },
+        "stack": {
+          "compact": {
+            "$description": "Gap between the blocks of a module stack on narrow screens.",
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            }
+          },
+          "wide": {
+            "$description": "Gap between the blocks of a module stack from md.",
+            "$value": {
+              "value": 48,
+              "unit": "px"
+            }
+          }
+        },
+        "caption": {
+          "compact": {
+            "$description": "Space between a figure or title and the line beneath it on narrow screens.",
+            "$value": {
+              "value": 20,
+              "unit": "px"
+            }
+          },
+          "wide": {
+            "$description": "Space between a figure or title and the line beneath it from md.",
+            "$value": {
+              "value": 24,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "layer": {
+        "$type": "number",
+        "header": {
+          "$description": "The fixed site header.",
+          "$value": 50
+        },
+        "guide": {
+          "$description": "The sticky case-study section guide; above the header so its taps win while the header re-reveals.",
+          "$value": 60
+        },
+        "overlay": {
+          "$description": "Full-screen overlays: About, the preview bar, the publish dialog.",
+          "$value": 100
+        },
+        "modal": {
+          "$description": "Topmost modal surfaces: the image and video lightboxes and the publish dialog.",
+          "$value": 2000
+        }
       }
     },
     "semantic.tokens.json": {
@@ -564,10 +747,10 @@ export const tokenBundle: TokenBundle = {
             }
           },
           "secondary": {
-            "$description": "Supporting ink: descriptions, metadata values, navigation at rest, captions. Authored at 72% but Tailwind never rendered that modifier, so the site was approved at full strength; this alpha is the one lever that dims every supporting line at once.",
+            "$description": "Supporting ink: descriptions, metadata values, navigation at rest, captions. One step below lead, so a page reads title, then lead, then everything that supports it.",
             "$value": "{color.text.primary}",
             "$extensions": {
-              "com.malikzhang.alpha": 1
+              "com.malikzhang.alpha": 0.72
             }
           },
           "tertiary": {
@@ -709,6 +892,13 @@ export const tokenBundle: TokenBundle = {
             "value": 44,
             "unit": "px"
           }
+        },
+        "reference": {
+          "$description": "Maximum width of the design-system reference column.",
+          "$value": {
+            "value": 900,
+            "unit": "px"
+          }
         }
       },
       "measure": {
@@ -732,15 +922,10 @@ export const tokenBundle: TokenBundle = {
         "siteHeader": {
           "scrimColor": {
             "$type": "color",
-            "$description": "Black color used by the site-header scrim; gradient stops remain component-owned.",
-            "$value": {
-              "colorSpace": "hsl",
-              "components": [
-                0,
-                0,
-                0
-              ],
-              "hex": "#000000"
+            "$description": "Black scrim behind the site header; gradient stops remain component-owned.",
+            "$value": "{color.neutral.1000}",
+            "$extensions": {
+              "com.malikzhang.alpha": 1
             }
           }
         },
@@ -748,29 +933,17 @@ export const tokenBundle: TokenBundle = {
           "surface": {
             "$type": "color",
             "$description": "Translucent secondary surface behind real project-card media.",
-            "$value": {
-              "colorSpace": "hsl",
-              "components": [
-                0,
-                0,
-                8
-              ],
-              "alpha": 0.15,
-              "hex": "#141414"
+            "$value": "{color.neutral.900}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.15
             }
           },
           "hoverOverlay": {
             "$type": "color",
             "$description": "Warm translucent overlay revealed over project-card media on hover.",
-            "$value": {
-              "colorSpace": "hsl",
-              "components": [
-                40,
-                6,
-                90
-              ],
-              "alpha": 0.04,
-              "hex": "#e7e6e4"
+            "$value": "{color.warm.100}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.04
             }
           }
         },
@@ -778,42 +951,22 @@ export const tokenBundle: TokenBundle = {
           "surface": {
             "$type": "color",
             "$description": "Inset near-black surface used by repeated case-study modules.",
-            "$value": {
-              "colorSpace": "hsl",
-              "components": [
-                240,
-                4,
-                5
-              ],
-              "hex": "#0c0c0d"
-            }
+            "$value": "{color.cool.950}"
           },
           "border": {
             "$type": "color",
             "$description": "Subtle white boundary around repeated case-study modules.",
-            "$value": {
-              "colorSpace": "hsl",
-              "components": [
-                0,
-                0,
-                100
-              ],
-              "alpha": 0.07,
-              "hex": "#ffffff"
+            "$value": "{color.neutral.000}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.07
             }
           },
           "divider": {
             "$type": "color",
             "$description": "Quieter white divider between sections inside case-study modules.",
-            "$value": {
-              "colorSpace": "hsl",
-              "components": [
-                0,
-                0,
-                100
-              ],
-              "alpha": 0.05,
-              "hex": "#ffffff"
+            "$value": "{color.neutral.000}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.05
             }
           },
           "accentViolet": {
@@ -836,15 +989,9 @@ export const tokenBundle: TokenBundle = {
           "flash": {
             "$type": "color",
             "$description": "Warm peak color used during a project-section arrival flash.",
-            "$value": {
-              "colorSpace": "hsl",
-              "components": [
-                40,
-                6,
-                90
-              ],
-              "alpha": 0.018,
-              "hex": "#e7e6e4"
+            "$value": "{color.warm.100}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.018
             }
           }
         },
@@ -852,15 +999,9 @@ export const tokenBundle: TokenBundle = {
           "backdrop": {
             "$type": "color",
             "$description": "Near-opaque black backdrop behind expanded case-study images.",
-            "$value": {
-              "colorSpace": "hsl",
-              "components": [
-                0,
-                0,
-                0
-              ],
-              "alpha": 0.9,
-              "hex": "#000000"
+            "$value": "{color.neutral.1000}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.9
             }
           }
         },
@@ -868,29 +1009,17 @@ export const tokenBundle: TokenBundle = {
           "awardDot": {
             "$type": "color",
             "$description": "Amber marker identifying award events on the about timeline.",
-            "$value": {
-              "colorSpace": "hsl",
-              "components": [
-                43.26,
-                96.41,
-                56.27
-              ],
-              "alpha": 0.4,
-              "hex": "#fbbf24"
+            "$value": "{color.amber.400}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.4
             }
           },
           "educationDot": {
             "$type": "color",
             "$description": "Blue marker identifying education events on the about timeline.",
-            "$value": {
-              "colorSpace": "hsl",
-              "components": [
-                211.7,
-                96.36,
-                78.43
-              ],
-              "alpha": 0.3,
-              "hex": "#93c5fd"
+            "$value": "{color.blue.300}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.3
             }
           }
         }
@@ -1003,7 +1132,9 @@ export const tokenBundle: TokenBundle = {
       "description": "Warm amber used to mark award events on the about timeline.",
       "cssVariable": "--color-amber-400",
       "cssValue": "43.26 96.41% 56.27%",
-      "dependents": []
+      "dependents": [
+        "component.aboutTimeline.awardDot"
+      ]
     },
     {
       "path": "color.background.canvas",
@@ -1050,7 +1181,9 @@ export const tokenBundle: TokenBundle = {
       "description": "Soft blue used to mark education events on the about timeline.",
       "cssVariable": "--color-blue-300",
       "cssValue": "211.7 96.36% 78.43%",
-      "dependents": []
+      "dependents": [
+        "component.aboutTimeline.educationDot"
+      ]
     },
     {
       "path": "color.border.default",
@@ -1116,6 +1249,35 @@ export const tokenBundle: TokenBundle = {
       "aliasOf": "color.border.default",
       "aliasAlpha": 0.5,
       "dependents": []
+    },
+    {
+      "path": "color.cool.950",
+      "sourceFile": "primitive.tokens.json",
+      "type": "color",
+      "value": {
+        "colorSpace": "hsl",
+        "components": [
+          240,
+          4,
+          5
+        ],
+        "hex": "#0c0c0d"
+      },
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          240,
+          4,
+          5
+        ],
+        "hex": "#0c0c0d"
+      },
+      "description": "Slightly cool near-black used by the inset case-study module surface.",
+      "cssVariable": "--color-cool-950",
+      "cssValue": "240 4% 5%",
+      "dependents": [
+        "component.caseStudyModule.surface"
+      ]
     },
     {
       "path": "color.emerald.400",
@@ -1219,6 +1381,66 @@ export const tokenBundle: TokenBundle = {
       ]
     },
     {
+      "path": "color.neutral.000",
+      "sourceFile": "primitive.tokens.json",
+      "type": "color",
+      "value": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          100
+        ],
+        "hex": "#ffffff"
+      },
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          100
+        ],
+        "hex": "#ffffff"
+      },
+      "description": "Pure white, used only as the base of translucent hairlines inside case-study modules.",
+      "cssVariable": "--color-neutral-000",
+      "cssValue": "0 0% 100%",
+      "dependents": [
+        "component.caseStudyModule.border",
+        "component.caseStudyModule.divider"
+      ]
+    },
+    {
+      "path": "color.neutral.1000",
+      "sourceFile": "primitive.tokens.json",
+      "type": "color",
+      "value": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          0
+        ],
+        "hex": "#000000"
+      },
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          0
+        ],
+        "hex": "#000000"
+      },
+      "description": "Pure black, used only as the base of scrims and backdrops.",
+      "cssVariable": "--color-neutral-1000",
+      "cssValue": "0 0% 0%",
+      "dependents": [
+        "component.lightbox.backdrop",
+        "component.siteHeader.scrimColor"
+      ]
+    },
+    {
       "path": "color.neutral.820",
       "sourceFile": "primitive.tokens.json",
       "type": "color",
@@ -1305,7 +1527,8 @@ export const tokenBundle: TokenBundle = {
       "cssVariable": "--color-neutral-900",
       "cssValue": "0 0% 8%",
       "dependents": [
-        "color.surface.secondary"
+        "color.surface.secondary",
+        "component.projectCard.surface"
       ]
     },
     {
@@ -1676,13 +1899,13 @@ export const tokenBundle: TokenBundle = {
           6,
           90
         ],
-        "alpha": 1
+        "alpha": 0.72
       },
-      "description": "Supporting ink: descriptions, metadata values, navigation at rest, captions. Authored at 72% but Tailwind never rendered that modifier, so the site was approved at full strength; this alpha is the one lever that dims every supporting line at once.",
+      "description": "Supporting ink: descriptions, metadata values, navigation at rest, captions. One step below lead, so a page reads title, then lead, then everything that supports it.",
       "cssVariable": "--color-text-secondary",
-      "cssValue": "40 6% 90%",
+      "cssValue": "40 6% 90% / 0.72",
       "aliasOf": "color.text.primary",
-      "aliasAlpha": 1,
+      "aliasAlpha": 0.72,
       "dependents": []
     },
     {
@@ -1795,23 +2018,16 @@ export const tokenBundle: TokenBundle = {
         "color.text.primary",
         "color.text.quiet",
         "color.text.secondary",
-        "color.text.tertiary"
+        "color.text.tertiary",
+        "component.projectCard.hoverOverlay",
+        "component.projectSection.flash"
       ]
     },
     {
       "path": "component.aboutTimeline.awardDot",
       "sourceFile": "component.tokens.json",
       "type": "color",
-      "value": {
-        "colorSpace": "hsl",
-        "components": [
-          43.26,
-          96.41,
-          56.27
-        ],
-        "alpha": 0.4,
-        "hex": "#fbbf24"
-      },
+      "value": "{color.amber.400}",
       "resolvedValue": {
         "colorSpace": "hsl",
         "components": [
@@ -1819,28 +2035,20 @@ export const tokenBundle: TokenBundle = {
           96.41,
           56.27
         ],
-        "alpha": 0.4,
-        "hex": "#fbbf24"
+        "alpha": 0.4
       },
       "description": "Amber marker identifying award events on the about timeline.",
       "cssVariable": "--component-about-timeline-award-dot",
       "cssValue": "43.26 96.41% 56.27% / 0.4",
+      "aliasOf": "color.amber.400",
+      "aliasAlpha": 0.4,
       "dependents": []
     },
     {
       "path": "component.aboutTimeline.educationDot",
       "sourceFile": "component.tokens.json",
       "type": "color",
-      "value": {
-        "colorSpace": "hsl",
-        "components": [
-          211.7,
-          96.36,
-          78.43
-        ],
-        "alpha": 0.3,
-        "hex": "#93c5fd"
-      },
+      "value": "{color.blue.300}",
       "resolvedValue": {
         "colorSpace": "hsl",
         "components": [
@@ -1848,12 +2056,13 @@ export const tokenBundle: TokenBundle = {
           96.36,
           78.43
         ],
-        "alpha": 0.3,
-        "hex": "#93c5fd"
+        "alpha": 0.3
       },
       "description": "Blue marker identifying education events on the about timeline.",
       "cssVariable": "--component-about-timeline-education-dot",
       "cssValue": "211.7 96.36% 78.43% / 0.3",
+      "aliasOf": "color.blue.300",
+      "aliasAlpha": 0.3,
       "dependents": []
     },
     {
@@ -1920,16 +2129,7 @@ export const tokenBundle: TokenBundle = {
       "path": "component.caseStudyModule.border",
       "sourceFile": "component.tokens.json",
       "type": "color",
-      "value": {
-        "colorSpace": "hsl",
-        "components": [
-          0,
-          0,
-          100
-        ],
-        "alpha": 0.07,
-        "hex": "#ffffff"
-      },
+      "value": "{color.neutral.000}",
       "resolvedValue": {
         "colorSpace": "hsl",
         "components": [
@@ -1937,28 +2137,20 @@ export const tokenBundle: TokenBundle = {
           0,
           100
         ],
-        "alpha": 0.07,
-        "hex": "#ffffff"
+        "alpha": 0.07
       },
       "description": "Subtle white boundary around repeated case-study modules.",
       "cssVariable": "--component-case-study-module-border",
       "cssValue": "0 0% 100% / 0.07",
+      "aliasOf": "color.neutral.000",
+      "aliasAlpha": 0.07,
       "dependents": []
     },
     {
       "path": "component.caseStudyModule.divider",
       "sourceFile": "component.tokens.json",
       "type": "color",
-      "value": {
-        "colorSpace": "hsl",
-        "components": [
-          0,
-          0,
-          100
-        ],
-        "alpha": 0.05,
-        "hex": "#ffffff"
-      },
+      "value": "{color.neutral.000}",
       "resolvedValue": {
         "colorSpace": "hsl",
         "components": [
@@ -1966,27 +2158,20 @@ export const tokenBundle: TokenBundle = {
           0,
           100
         ],
-        "alpha": 0.05,
-        "hex": "#ffffff"
+        "alpha": 0.05
       },
       "description": "Quieter white divider between sections inside case-study modules.",
       "cssVariable": "--component-case-study-module-divider",
       "cssValue": "0 0% 100% / 0.05",
+      "aliasOf": "color.neutral.000",
+      "aliasAlpha": 0.05,
       "dependents": []
     },
     {
       "path": "component.caseStudyModule.surface",
       "sourceFile": "component.tokens.json",
       "type": "color",
-      "value": {
-        "colorSpace": "hsl",
-        "components": [
-          240,
-          4,
-          5
-        ],
-        "hex": "#0c0c0d"
-      },
+      "value": "{color.cool.950}",
       "resolvedValue": {
         "colorSpace": "hsl",
         "components": [
@@ -1999,22 +2184,14 @@ export const tokenBundle: TokenBundle = {
       "description": "Inset near-black surface used by repeated case-study modules.",
       "cssVariable": "--component-case-study-module-surface",
       "cssValue": "240 4% 5%",
+      "aliasOf": "color.cool.950",
       "dependents": []
     },
     {
       "path": "component.lightbox.backdrop",
       "sourceFile": "component.tokens.json",
       "type": "color",
-      "value": {
-        "colorSpace": "hsl",
-        "components": [
-          0,
-          0,
-          0
-        ],
-        "alpha": 0.9,
-        "hex": "#000000"
-      },
+      "value": "{color.neutral.1000}",
       "resolvedValue": {
         "colorSpace": "hsl",
         "components": [
@@ -2022,28 +2199,20 @@ export const tokenBundle: TokenBundle = {
           0,
           0
         ],
-        "alpha": 0.9,
-        "hex": "#000000"
+        "alpha": 0.9
       },
       "description": "Near-opaque black backdrop behind expanded case-study images.",
       "cssVariable": "--component-lightbox-backdrop",
       "cssValue": "0 0% 0% / 0.9",
+      "aliasOf": "color.neutral.1000",
+      "aliasAlpha": 0.9,
       "dependents": []
     },
     {
       "path": "component.projectCard.hoverOverlay",
       "sourceFile": "component.tokens.json",
       "type": "color",
-      "value": {
-        "colorSpace": "hsl",
-        "components": [
-          40,
-          6,
-          90
-        ],
-        "alpha": 0.04,
-        "hex": "#e7e6e4"
-      },
+      "value": "{color.warm.100}",
       "resolvedValue": {
         "colorSpace": "hsl",
         "components": [
@@ -2051,28 +2220,20 @@ export const tokenBundle: TokenBundle = {
           6,
           90
         ],
-        "alpha": 0.04,
-        "hex": "#e7e6e4"
+        "alpha": 0.04
       },
       "description": "Warm translucent overlay revealed over project-card media on hover.",
       "cssVariable": "--component-project-card-hover-overlay",
       "cssValue": "40 6% 90% / 0.04",
+      "aliasOf": "color.warm.100",
+      "aliasAlpha": 0.04,
       "dependents": []
     },
     {
       "path": "component.projectCard.surface",
       "sourceFile": "component.tokens.json",
       "type": "color",
-      "value": {
-        "colorSpace": "hsl",
-        "components": [
-          0,
-          0,
-          8
-        ],
-        "alpha": 0.15,
-        "hex": "#141414"
-      },
+      "value": "{color.neutral.900}",
       "resolvedValue": {
         "colorSpace": "hsl",
         "components": [
@@ -2080,28 +2241,20 @@ export const tokenBundle: TokenBundle = {
           0,
           8
         ],
-        "alpha": 0.15,
-        "hex": "#141414"
+        "alpha": 0.15
       },
       "description": "Translucent secondary surface behind real project-card media.",
       "cssVariable": "--component-project-card-surface",
       "cssValue": "0 0% 8% / 0.15",
+      "aliasOf": "color.neutral.900",
+      "aliasAlpha": 0.15,
       "dependents": []
     },
     {
       "path": "component.projectSection.flash",
       "sourceFile": "component.tokens.json",
       "type": "color",
-      "value": {
-        "colorSpace": "hsl",
-        "components": [
-          40,
-          6,
-          90
-        ],
-        "alpha": 0.018,
-        "hex": "#e7e6e4"
-      },
+      "value": "{color.warm.100}",
       "resolvedValue": {
         "colorSpace": "hsl",
         "components": [
@@ -2109,27 +2262,20 @@ export const tokenBundle: TokenBundle = {
           6,
           90
         ],
-        "alpha": 0.018,
-        "hex": "#e7e6e4"
+        "alpha": 0.018
       },
       "description": "Warm peak color used during a project-section arrival flash.",
       "cssVariable": "--component-project-section-flash",
       "cssValue": "40 6% 90% / 0.018",
+      "aliasOf": "color.warm.100",
+      "aliasAlpha": 0.018,
       "dependents": []
     },
     {
       "path": "component.siteHeader.scrimColor",
       "sourceFile": "component.tokens.json",
       "type": "color",
-      "value": {
-        "colorSpace": "hsl",
-        "components": [
-          0,
-          0,
-          0
-        ],
-        "hex": "#000000"
-      },
+      "value": "{color.neutral.1000}",
       "resolvedValue": {
         "colorSpace": "hsl",
         "components": [
@@ -2137,11 +2283,13 @@ export const tokenBundle: TokenBundle = {
           0,
           0
         ],
-        "hex": "#000000"
+        "alpha": 1
       },
-      "description": "Black color used by the site-header scrim; gradient stops remain component-owned.",
+      "description": "Black scrim behind the site header; gradient stops remain component-owned.",
       "cssVariable": "--component-site-header-scrim-color",
       "cssValue": "0 0% 0%",
+      "aliasOf": "color.neutral.1000",
+      "aliasAlpha": 1,
       "dependents": []
     },
     {
@@ -2424,6 +2572,116 @@ export const tokenBundle: TokenBundle = {
       "dependents": []
     },
     {
+      "path": "font.leading.body",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 1.5,
+      "resolvedValue": 1.5,
+      "description": "Line height for interface copy at the default size.",
+      "cssVariable": "--font-leading-body",
+      "cssValue": "1.5",
+      "dependents": []
+    },
+    {
+      "path": "font.leading.display",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 1.1,
+      "resolvedValue": 1.1,
+      "description": "Line height for display headings.",
+      "cssVariable": "--font-leading-display",
+      "cssValue": "1.1",
+      "dependents": []
+    },
+    {
+      "path": "font.leading.heading",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 1.15,
+      "resolvedValue": 1.15,
+      "description": "Line height for section headings.",
+      "cssVariable": "--font-leading-heading",
+      "cssValue": "1.15",
+      "dependents": []
+    },
+    {
+      "path": "font.leading.hero",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 1.06,
+      "resolvedValue": 1.06,
+      "description": "Line height for the fluid hero heading.",
+      "cssVariable": "--font-leading-hero",
+      "cssValue": "1.06",
+      "dependents": []
+    },
+    {
+      "path": "font.leading.label",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 1.4,
+      "resolvedValue": 1.4,
+      "description": "Line height for labels and captions.",
+      "cssVariable": "--font-leading-label",
+      "cssValue": "1.4",
+      "dependents": []
+    },
+    {
+      "path": "font.leading.none",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 1,
+      "resolvedValue": 1,
+      "description": "Line height for single-line chips and dots.",
+      "cssVariable": "--font-leading-none",
+      "cssValue": "1",
+      "dependents": []
+    },
+    {
+      "path": "font.leading.relaxed",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 1.625,
+      "resolvedValue": 1.625,
+      "description": "Line height for long-form reading.",
+      "cssVariable": "--font-leading-relaxed",
+      "cssValue": "1.625",
+      "dependents": []
+    },
+    {
+      "path": "font.leading.snug",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 1.375,
+      "resolvedValue": 1.375,
+      "description": "Line height for compact supporting copy.",
+      "cssVariable": "--font-leading-snug",
+      "cssValue": "1.375",
+      "dependents": []
+    },
+    {
+      "path": "font.leading.tight",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 1.25,
+      "resolvedValue": 1.25,
+      "description": "Line height for tight multi-line titles.",
+      "cssVariable": "--font-leading-tight",
+      "cssValue": "1.25",
+      "dependents": []
+    },
+    {
+      "path": "font.leading.title",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 1.3,
+      "resolvedValue": 1.3,
+      "description": "Line height for module and section titles.",
+      "cssVariable": "--font-leading-title",
+      "cssValue": "1.3",
+      "dependents": []
+    },
+    {
       "path": "font.size.body",
       "sourceFile": "primitive.tokens.json",
       "type": "dimension",
@@ -2594,6 +2852,39 @@ export const tokenBundle: TokenBundle = {
       "dependents": []
     },
     {
+      "path": "font.tracking.eyebrow",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 0.18,
+      "resolvedValue": 0.18,
+      "description": "Letter spacing in em for uppercase labels, eyebrows, and chips.",
+      "cssVariable": "--font-tracking-eyebrow",
+      "cssValue": "0.18",
+      "dependents": []
+    },
+    {
+      "path": "font.tracking.normal",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 0,
+      "resolvedValue": 0,
+      "description": "Letter spacing in em for running text.",
+      "cssVariable": "--font-tracking-normal",
+      "cssValue": "0",
+      "dependents": []
+    },
+    {
+      "path": "font.tracking.tight",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": -0.02,
+      "resolvedValue": -0.02,
+      "description": "Letter spacing in em for display type: titles, headings, the hero.",
+      "cssVariable": "--font-tracking-tight",
+      "cssValue": "-0.02",
+      "dependents": []
+    },
+    {
       "path": "font.weight.light",
       "sourceFile": "primitive.tokens.json",
       "type": "fontWeight",
@@ -2635,6 +2926,50 @@ export const tokenBundle: TokenBundle = {
       "description": "Semibold weight used for prominent card titles.",
       "cssVariable": "--font-weight-semibold",
       "cssValue": "600",
+      "dependents": []
+    },
+    {
+      "path": "layer.guide",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 60,
+      "resolvedValue": 60,
+      "description": "The sticky case-study section guide; above the header so its taps win while the header re-reveals.",
+      "cssVariable": "--layer-guide",
+      "cssValue": "60",
+      "dependents": []
+    },
+    {
+      "path": "layer.header",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 50,
+      "resolvedValue": 50,
+      "description": "The fixed site header.",
+      "cssVariable": "--layer-header",
+      "cssValue": "50",
+      "dependents": []
+    },
+    {
+      "path": "layer.modal",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 2000,
+      "resolvedValue": 2000,
+      "description": "Topmost modal surfaces: the image and video lightboxes and the publish dialog.",
+      "cssVariable": "--layer-modal",
+      "cssValue": "2000",
+      "dependents": []
+    },
+    {
+      "path": "layer.overlay",
+      "sourceFile": "primitive.tokens.json",
+      "type": "number",
+      "value": 100,
+      "resolvedValue": 100,
+      "description": "Full-screen overlays: About, the preview bar, the publish dialog.",
+      "cssVariable": "--layer-overlay",
+      "cssValue": "100",
       "dependents": []
     },
     {
@@ -2686,6 +3021,23 @@ export const tokenBundle: TokenBundle = {
       "description": "Maximum width for comfortable long-form reading.",
       "cssVariable": "--layout-reading",
       "cssValue": "760px",
+      "dependents": []
+    },
+    {
+      "path": "layout.reference",
+      "sourceFile": "semantic.tokens.json",
+      "type": "dimension",
+      "value": {
+        "value": 900,
+        "unit": "px"
+      },
+      "resolvedValue": {
+        "value": 900,
+        "unit": "px"
+      },
+      "description": "Maximum width of the design-system reference column.",
+      "cssVariable": "--layout-reference",
+      "cssValue": "900px",
       "dependents": []
     },
     {
@@ -2821,6 +3173,142 @@ export const tokenBundle: TokenBundle = {
       "description": "Subtle corner treatment for compact controls.",
       "cssVariable": "--radius-small",
       "cssValue": "4px",
+      "dependents": []
+    },
+    {
+      "path": "rhythm.caption.compact",
+      "sourceFile": "primitive.tokens.json",
+      "type": "dimension",
+      "value": {
+        "value": 20,
+        "unit": "px"
+      },
+      "resolvedValue": {
+        "value": 20,
+        "unit": "px"
+      },
+      "description": "Space between a figure or title and the line beneath it on narrow screens.",
+      "cssVariable": "--rhythm-caption-compact",
+      "cssValue": "20px",
+      "dependents": []
+    },
+    {
+      "path": "rhythm.caption.wide",
+      "sourceFile": "primitive.tokens.json",
+      "type": "dimension",
+      "value": {
+        "value": 24,
+        "unit": "px"
+      },
+      "resolvedValue": {
+        "value": 24,
+        "unit": "px"
+      },
+      "description": "Space between a figure or title and the line beneath it from md.",
+      "cssVariable": "--rhythm-caption-wide",
+      "cssValue": "24px",
+      "dependents": []
+    },
+    {
+      "path": "rhythm.module.compact",
+      "sourceFile": "primitive.tokens.json",
+      "type": "dimension",
+      "value": {
+        "value": 56,
+        "unit": "px"
+      },
+      "resolvedValue": {
+        "value": 56,
+        "unit": "px"
+      },
+      "description": "Space between modules inside a case-study section on narrow screens.",
+      "cssVariable": "--rhythm-module-compact",
+      "cssValue": "56px",
+      "dependents": []
+    },
+    {
+      "path": "rhythm.module.wide",
+      "sourceFile": "primitive.tokens.json",
+      "type": "dimension",
+      "value": {
+        "value": 56,
+        "unit": "px"
+      },
+      "resolvedValue": {
+        "value": 56,
+        "unit": "px"
+      },
+      "description": "Space between modules inside a case-study section from md. Authored as 72px, but Tailwind has no mt-18, so the site shipped and was approved at 56px; raise this to widen the desktop rhythm.",
+      "cssVariable": "--rhythm-module-wide",
+      "cssValue": "56px",
+      "dependents": []
+    },
+    {
+      "path": "rhythm.section.compact",
+      "sourceFile": "primitive.tokens.json",
+      "type": "dimension",
+      "value": {
+        "value": 64,
+        "unit": "px"
+      },
+      "resolvedValue": {
+        "value": 64,
+        "unit": "px"
+      },
+      "description": "Space between page sections on narrow screens.",
+      "cssVariable": "--rhythm-section-compact",
+      "cssValue": "64px",
+      "dependents": []
+    },
+    {
+      "path": "rhythm.section.wide",
+      "sourceFile": "primitive.tokens.json",
+      "type": "dimension",
+      "value": {
+        "value": 80,
+        "unit": "px"
+      },
+      "resolvedValue": {
+        "value": 80,
+        "unit": "px"
+      },
+      "description": "Space between page sections from the md breakpoint.",
+      "cssVariable": "--rhythm-section-wide",
+      "cssValue": "80px",
+      "dependents": []
+    },
+    {
+      "path": "rhythm.stack.compact",
+      "sourceFile": "primitive.tokens.json",
+      "type": "dimension",
+      "value": {
+        "value": 40,
+        "unit": "px"
+      },
+      "resolvedValue": {
+        "value": 40,
+        "unit": "px"
+      },
+      "description": "Gap between the blocks of a module stack on narrow screens.",
+      "cssVariable": "--rhythm-stack-compact",
+      "cssValue": "40px",
+      "dependents": []
+    },
+    {
+      "path": "rhythm.stack.wide",
+      "sourceFile": "primitive.tokens.json",
+      "type": "dimension",
+      "value": {
+        "value": 48,
+        "unit": "px"
+      },
+      "resolvedValue": {
+        "value": 48,
+        "unit": "px"
+      },
+      "description": "Gap between the blocks of a module stack from md.",
+      "cssVariable": "--rhythm-stack-wide",
+      "cssValue": "48px",
       "dependents": []
     },
     {

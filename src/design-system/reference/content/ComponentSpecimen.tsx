@@ -12,6 +12,7 @@ import { BackLink } from "@/components/ui/BackLink";
 import { Button } from "@/components/ui/Button";
 import { Chip, LinkChip } from "@/components/ui/Chip";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { TextLink } from "@/components/ui/TextLink";
 import { Specimen } from "../Specimen";
 
 interface ComponentSpecimenProps {
@@ -101,14 +102,9 @@ function SiteHeaderStage() {
             including production's documented focus-ring and target-size gaps. */}
         <nav aria-label="Site header destinations" className="flex flex-wrap justify-end gap-x-5 gap-y-2 text-sm text-foreground-secondary">
           {SITE_HEADER_DESTINATIONS.map(([label, href]) => (
-            <a
-              key={label}
-              href={href}
-              onClick={(event) => event.preventDefault()}
-              className="nav-link hover:text-foreground transition-colors duration-slow"
-            >
+            <TextLink key={label} href={href} onClick={(event) => event.preventDefault()}>
               {label}
-            </a>
+            </TextLink>
           ))}
         </nav>
       </div>
@@ -209,7 +205,32 @@ function BackLinkStage() {
   );
 }
 
+function TextLinkStage() {
+  const stop = (event: { preventDefault: () => void }) => event.preventDefault();
+  return (
+    <div className="grid gap-6 sm:grid-cols-3">
+      <div className="flex gap-x-6 text-base text-foreground-secondary">
+        <TextLink href="#text-link-specimen" onClick={stop}>Work</TextLink>
+        <TextLink href="#text-link-specimen" onClick={stop}>Studio</TextLink>
+        <TextLink href="#text-link-specimen" onClick={stop}>About</TextLink>
+      </div>
+      <div className="flex flex-col gap-4">
+        <TextLink href="#text-link-specimen" tone="secondary" size="sm" onClick={stop}>Resume</TextLink>
+        <TextLink as="button" tone="secondary" size="sm" className="text-left">About</TextLink>
+      </div>
+      <div>
+        <TextLink href="#text-link-specimen" tone="primary" onClick={stop}>malikzhang19@gmail.com</TextLink>
+        <p className="mt-2 text-sm text-foreground-tertiary">primary tone</p>
+      </div>
+    </div>
+  );
+}
+
 const COMPONENT_STAGES: Record<string, { description: string; render: () => JSX.Element }> = {
+  "component-text-link": {
+    description: "Hover any link for the underline sweep. The first row inherits its ink from the container, as the header does.",
+    render: TextLinkStage,
+  },
   "component-eyebrow": {
     description: "Three settings of one label: the two ink tiers and the mono family.",
     render: EyebrowStage,

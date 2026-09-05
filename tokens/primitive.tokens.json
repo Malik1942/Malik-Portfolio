@@ -2,6 +2,18 @@
   "color": {
     "neutral": {
       "$type": "color",
+      "000": {
+        "$description": "Pure white, used only as the base of translucent hairlines inside case-study modules.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [
+            0,
+            0,
+            100
+          ],
+          "hex": "#ffffff"
+        }
+      },
       "950": {
         "$description": "Deep neutral used as the portfolio canvas primitive.",
         "$value": {
@@ -60,6 +72,18 @@
             14
           ],
           "hex": "#242424"
+        }
+      },
+      "1000": {
+        "$description": "Pure black, used only as the base of scrims and backdrops.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [
+            0,
+            0,
+            0
+          ],
+          "hex": "#000000"
         }
       }
     },
@@ -206,6 +230,21 @@
           "hex": "#93c5fd"
         }
       }
+    },
+    "cool": {
+      "$type": "color",
+      "950": {
+        "$description": "Slightly cool near-black used by the inset case-study module surface.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [
+            240,
+            4,
+            5
+          ],
+          "hex": "#0c0c0d"
+        }
+      }
     }
   },
   "font": {
@@ -323,6 +362,64 @@
           "value": 88,
           "unit": "px"
         }
+      }
+    },
+    "tracking": {
+      "$type": "number",
+      "tight": {
+        "$description": "Letter spacing in em for display type: titles, headings, the hero.",
+        "$value": -0.02
+      },
+      "normal": {
+        "$description": "Letter spacing in em for running text.",
+        "$value": 0
+      },
+      "eyebrow": {
+        "$description": "Letter spacing in em for uppercase labels, eyebrows, and chips.",
+        "$value": 0.18
+      }
+    },
+    "leading": {
+      "$type": "number",
+      "none": {
+        "$description": "Line height for single-line chips and dots.",
+        "$value": 1
+      },
+      "hero": {
+        "$description": "Line height for the fluid hero heading.",
+        "$value": 1.06
+      },
+      "display": {
+        "$description": "Line height for display headings.",
+        "$value": 1.1
+      },
+      "heading": {
+        "$description": "Line height for section headings.",
+        "$value": 1.15
+      },
+      "tight": {
+        "$description": "Line height for tight multi-line titles.",
+        "$value": 1.25
+      },
+      "title": {
+        "$description": "Line height for module and section titles.",
+        "$value": 1.3
+      },
+      "snug": {
+        "$description": "Line height for compact supporting copy.",
+        "$value": 1.375
+      },
+      "label": {
+        "$description": "Line height for labels and captions.",
+        "$value": 1.4
+      },
+      "body": {
+        "$description": "Line height for interface copy at the default size.",
+        "$value": 1.5
+      },
+      "relaxed": {
+        "$description": "Line height for long-form reading.",
+        "$value": 1.625
       }
     }
   },
@@ -523,6 +620,92 @@
         0.58,
         1
       ]
+    }
+  },
+  "rhythm": {
+    "$type": "dimension",
+    "section": {
+      "compact": {
+        "$description": "Space between page sections on narrow screens.",
+        "$value": {
+          "value": 64,
+          "unit": "px"
+        }
+      },
+      "wide": {
+        "$description": "Space between page sections from the md breakpoint.",
+        "$value": {
+          "value": 80,
+          "unit": "px"
+        }
+      }
+    },
+    "module": {
+      "compact": {
+        "$description": "Space between modules inside a case-study section on narrow screens.",
+        "$value": {
+          "value": 56,
+          "unit": "px"
+        }
+      },
+      "wide": {
+        "$description": "Space between modules inside a case-study section from md. Authored as 72px, but Tailwind has no mt-18, so the site shipped and was approved at 56px; raise this to widen the desktop rhythm.",
+        "$value": {
+          "value": 56,
+          "unit": "px"
+        }
+      }
+    },
+    "stack": {
+      "compact": {
+        "$description": "Gap between the blocks of a module stack on narrow screens.",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        }
+      },
+      "wide": {
+        "$description": "Gap between the blocks of a module stack from md.",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        }
+      }
+    },
+    "caption": {
+      "compact": {
+        "$description": "Space between a figure or title and the line beneath it on narrow screens.",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        }
+      },
+      "wide": {
+        "$description": "Space between a figure or title and the line beneath it from md.",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        }
+      }
+    }
+  },
+  "layer": {
+    "$type": "number",
+    "header": {
+      "$description": "The fixed site header.",
+      "$value": 50
+    },
+    "guide": {
+      "$description": "The sticky case-study section guide; above the header so its taps win while the header re-reveals.",
+      "$value": 60
+    },
+    "overlay": {
+      "$description": "Full-screen overlays: About, the preview bar, the publish dialog.",
+      "$value": 100
+    },
+    "modal": {
+      "$description": "Topmost modal surfaces: the image and video lightboxes and the publish dialog.",
+      "$value": 2000
     }
   }
 }

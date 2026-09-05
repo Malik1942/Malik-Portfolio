@@ -19,7 +19,7 @@ export function AuraHardwareSystem() {
       </p>
 
       {/* Two-column grid: ~60% left / ~40% right */}
-      <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-10 md:gap-12 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-stack items-center">
 
         {/* Left: product visuals */}
         <div className="flex flex-col gap-5">

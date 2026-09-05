@@ -80,6 +80,11 @@ export const DESIGN_SYSTEM_GROUPS: DesignSystemGroup[] = [
         description: "The quiet inline control that returns the reader to where they came from.",
       },
       {
+        id: "component-text-link",
+        label: "Text link",
+        description: "The inline link with the underline sweep, shared by the header, footer, and utility pages.",
+      },
+      {
         id: "component-site-header",
         label: "Site header",
         description: "Shared responsive navigation and hide-on-scroll behavior.",

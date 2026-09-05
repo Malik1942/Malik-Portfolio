@@ -10,7 +10,7 @@ import { DesignSystemShell } from "@/design-system/reference/DesignSystemShell";
 import { useDesignSystemMetadata } from "@/design-system/reference/useDesignSystemMetadata";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
 
-const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto";
+const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-page mx-auto";
 
 const DesignSystem = () => {
   useDesignSystemMetadata();

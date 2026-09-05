@@ -61,7 +61,7 @@ export function AdminAuthoringDialog({
   if (!open) return null;
 
   return createPortal((
-    <div className="fixed inset-0 z-[90] overflow-y-auto bg-lightbox-backdrop px-3 py-4 sm:px-6 sm:py-8">
+    <div className="fixed inset-0 z-overlay overflow-y-auto bg-lightbox-backdrop px-3 py-4 sm:px-6 sm:py-8">
       <div
         ref={dialogRef}
         role="dialog"
