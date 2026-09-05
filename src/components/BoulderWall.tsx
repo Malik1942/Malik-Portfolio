@@ -20,6 +20,7 @@ import {
   type HoldShape,
   type WallLayout,
 } from "@/components/boulderRoute";
+import { DURATION, EASE } from "@/design-system/system/motion";
 
 const pct = (value: number, total: number) => `${(value / total) * 100}%`;
 
@@ -130,7 +131,7 @@ const HoldButton = ({
       // visible hold is the inner SVG. Centering happens in left/top
       // arithmetic, not CSS translate: framer-motion owns this element's
       // transform and would silently drop a class-based translate.
-      className="absolute flex items-center justify-center cursor-pointer rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
+      className="absolute flex items-center justify-center cursor-pointer rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
       style={{
         left: pct(hold.x - hit / 2, layout.width),
         top: pct(hold.y - hit / 2, layout.height),
@@ -148,12 +149,12 @@ const HoldButton = ({
       }
       transition={
         falling
-          ? { duration: 0.55, delay: fallDelay, ease: "easeIn" }
+          ? { duration: 0.55, delay: fallDelay, ease: EASE.exit }
           : shaking
-          ? { duration: 0.3 }
+          ? { duration: DURATION.medium }
           : sent && lit
-          ? { duration: 0.45, delay: litIndex * 0.06 }
-          : { duration: 0.2 }
+          ? { duration: DURATION.page, delay: litIndex * 0.06 }
+          : { duration: DURATION.fast }
       }
       whileHover={lit ? undefined : { scale: 1.18 }}
     >
@@ -171,7 +172,7 @@ const HoldButton = ({
           beckoning && !reducedMotion ? { opacity: [0.7, 1, 0.7] } : { opacity: 1 }
         }
         transition={
-          beckoning ? { duration: 2.4, repeat: Infinity, ease: "easeInOut" } : undefined
+          beckoning ? { duration: 2.4, repeat: Infinity, ease: EASE.ambient } : undefined
         }
         aria-hidden="true"
       >
@@ -370,7 +371,7 @@ const WallGame = ({
                     strokeDasharray="3 7"
                     initial={reducedMotion ? false : { opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    transition={{ duration: 0.4, ease: EASE.settle }}
                   />
                   <motion.circle
                     data-testid="close-ring"
@@ -383,7 +384,7 @@ const WallGame = ({
                     strokeDasharray="5 4"
                     initial={reducedMotion ? false : { opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    transition={{ duration: 0.4, ease: EASE.settle }}
                   />
                 </g>
               );
@@ -410,8 +411,8 @@ const WallGame = ({
                   }
                   transition={
                     falling
-                      ? { duration: 0.85, times: reducedMotion ? undefined : [0, 0.65, 1], ease: "easeIn" }
-                      : { duration: 0.2 }
+                      ? { duration: 0.85, times: reducedMotion ? undefined : [0, 0.65, 1], ease: EASE.exit }
+                      : { duration: DURATION.fast }
                   }
                 >
                   <motion.polyline
@@ -422,7 +423,7 @@ const WallGame = ({
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     animate={{ pathLength: falling && !reducedMotion ? 0 : 1 }}
-                    transition={{ duration: 0.6, ease: "easeIn" }}
+                    transition={{ duration: 0.6, ease: EASE.exit }}
                   />
                   <motion.polyline
                     points={points}
@@ -436,7 +437,7 @@ const WallGame = ({
                       opacity: 1,
                       pathLength: falling && !reducedMotion ? 0 : 1,
                     }}
-                    transition={{ duration: falling ? 0.6 : 0.3, ease: "easeIn" }}
+                    transition={{ duration: falling ? 0.6 : 0.3, ease: EASE.exit }}
                   />
                   {/* Send zip: a bright pulse retraces the whole line bottom to top */}
                   {isSent(route) && (
@@ -449,7 +450,7 @@ const WallGame = ({
                       strokeLinejoin="round"
                       initial={reducedMotion ? false : { pathLength: 0 }}
                       animate={{ pathLength: 1 }}
-                      transition={{ duration: 0.7, ease: "easeOut" }}
+                      transition={{ duration: 0.7, ease: EASE.settle }}
                     />
                   )}
                 </motion.g>
@@ -466,7 +467,7 @@ const WallGame = ({
                         fill="hsl(var(--color-text-primary) / 0.7)"
                         initial={{ x: 0, y: 0, opacity: 0.9 }}
                         animate={{ x: dx * 1.4, y: dy * 1.4 + 10, opacity: 0 }}
-                        transition={{ duration: 0.7, delay: 0.05 + i * 0.02, ease: "easeOut" }}
+                        transition={{ duration: 0.7, delay: 0.05 + i * 0.02, ease: EASE.settle }}
                       />
                     ))}
                   </g>
@@ -478,7 +479,7 @@ const WallGame = ({
 
         {/* TOP marker sits on the finish line, clear of every top hold */}
         <span
-          className="absolute right-3 text-label uppercase tracking-eyebrow text-foreground/55 pointer-events-none"
+          className="absolute right-3 text-label uppercase tracking-eyebrow text-foreground-tertiary pointer-events-none"
           style={{ top: pct(16, layout.height), transform: "translateY(-50%)" }}
         >
           Top
@@ -518,7 +519,7 @@ const WallGame = ({
           return (
             <span
               key={route.id}
-              className="absolute top-0 -translate-x-1/2 flex items-center gap-1.5 text-label uppercase tracking-eyebrow text-foreground/55 whitespace-nowrap"
+              className="absolute top-0 -translate-x-1/2 flex items-center gap-1.5 text-label uppercase tracking-eyebrow text-foreground-tertiary whitespace-nowrap"
               style={{ left: pct(start.x, layout.width) }}
             >
               <span
@@ -543,7 +544,7 @@ const WallGame = ({
       </div>
 
       <div className="mt-3 flex items-baseline justify-between gap-4">
-        <p className="text-caption text-foreground/55" role="status">
+        <p className="text-caption text-foreground-tertiary" role="status">
           {statusText}
         </p>
         <div className="flex items-baseline gap-4 flex-shrink-0">
@@ -556,7 +557,7 @@ const WallGame = ({
               {Array.from({ length: routeBudget(active) }, (_, i) => (
                 <span
                   key={i}
-                  className="inline-block h-[5px] w-[5px] rounded-full transition-colors duration-300"
+                  className="inline-block h-[5px] w-[5px] rounded-full transition-colors duration-medium"
                   style={{
                     background:
                       i < activeChalkLeft
@@ -571,7 +572,7 @@ const WallGame = ({
             <button
               type="button"
               onClick={reset}
-              className="nav-link text-caption text-foreground/55 hover:text-foreground transition-colors duration-300"
+              className="nav-link text-caption text-foreground-tertiary hover:text-foreground transition-colors duration-medium"
             >
               Brush it off
             </button>
@@ -588,7 +589,7 @@ const WallGame = ({
             aria-pressed={soundOn}
             aria-label={soundOn ? "Mute wall sound" : "Unmute wall sound"}
             title={soundOn ? "Mute wall sound" : "Unmute wall sound"}
-            className="flex items-center text-foreground/40 hover:text-foreground transition-colors duration-300"
+            className="flex items-center text-foreground-quiet hover:text-foreground transition-colors duration-medium"
           >
             {soundOn ? (
               <Volume2 className="h-3.5 w-3.5" aria-hidden="true" />

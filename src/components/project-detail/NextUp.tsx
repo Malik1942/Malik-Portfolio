@@ -35,11 +35,11 @@ export function NextUp({ currentSlug }: NextUpProps) {
   if (others.length === 0) return null;
 
   return (
-    <section aria-label="Next up" className={`${PAGE_OUTER} border-t border-border/30 pt-16 md:pt-20`}>
+    <section aria-label="Next up" className={`${PAGE_OUTER} border-t border-hairline-faint pt-16 md:pt-20`}>
       {/* Section label — same tokens/style as the homepage section headings */}
       <div className="flex items-center gap-3 mb-10">
         <span className="rounded-full bg-dot-red w-1.5 h-1.5 opacity-70" />
-        <span className="text-sm text-foreground/55 uppercase tracking-eyebrow font-medium">
+        <span className="text-sm text-foreground-tertiary uppercase tracking-eyebrow font-medium">
           Next up
         </span>
       </div>

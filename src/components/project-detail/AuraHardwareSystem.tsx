@@ -14,7 +14,7 @@ export function AuraHardwareSystem() {
   return (
     <div>
       {/* Section label */}
-      <p className="text-label uppercase tracking-eyebrow text-foreground/55 mb-6">
+      <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary mb-6">
         Hardware System
       </p>
 
@@ -49,7 +49,7 @@ export function AuraHardwareSystem() {
               <p className="text-label uppercase tracking-eyebrow font-medium text-foreground mb-1.5">
                 {f.label}
               </p>
-              <p className="text-xs font-light leading-snug text-foreground/55">
+              <p className="text-caption font-light leading-snug text-foreground-tertiary">
                 {noOrphan(f.desc)}
               </p>
             </div>

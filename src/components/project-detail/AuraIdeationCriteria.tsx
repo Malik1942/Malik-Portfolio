@@ -42,7 +42,7 @@ export function AuraIdeationCriteria() {
   return (
     <div className="rounded-2xl overflow-hidden bg-surface-inset border border-case-study-module-border">
       <div className="px-8 pt-8 pb-7 md:px-10 border-b border-case-study-module-divider">
-        <p className="text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
+        <p className="text-caption md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
           Why I pushed for the earbud direction
         </p>
       </div>
@@ -55,7 +55,7 @@ export function AuraIdeationCriteria() {
           return (
             <div key={criterion.num} className="flex flex-col gap-5 px-6 py-7 md:px-7 md:py-8 border-case-study-module-divider">
               <div className="flex items-center justify-between">
-                <span className={`text-xs font-mono tabular-nums ${accent.num}`}>
+                <span className={`text-caption font-mono tabular-nums ${accent.num}`}>
                   {criterion.num}
                 </span>
                 <Icon aria-hidden="true" className={`w-4 h-4 ${accent.icon}`} strokeWidth={1.4} />
@@ -65,7 +65,7 @@ export function AuraIdeationCriteria() {
                 <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">
                   {noOrphan(criterion.title)}
                 </p>
-                <p className="text-sm md:text-base font-light text-foreground/72 leading-relaxed">
+                <p className="text-sm md:text-base font-light text-foreground-secondary leading-relaxed">
                   {noOrphan(criterion.desc)}
                 </p>
               </div>

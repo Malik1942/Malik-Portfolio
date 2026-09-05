@@ -6,8 +6,9 @@ import { noOrphan } from "@/lib/noOrphan";
 import { SECTIONS, type SectionKey } from "@/lib/sections";
 import { MAX_SKILLS, type ProjectDestination, type ProjectLink, type Skill } from "@/data/projects";
 import { ArrowUpRight, Play } from "lucide-react";
-import { LinkChip } from "./LinkChip";
+import { Chip, LinkChip } from "./ui/Chip";
 import { VideoLightbox, type LightboxVideo } from "./VideoLightbox";
+import { DURATION, EASE } from "@/design-system/system/motion";
 
 /** What a card needs to render. `Project` in src/data/projects.ts is the strict
  *  homepage record and is assignable to this; tests pass minimal literals. */
@@ -45,7 +46,6 @@ interface ProjectListProps {
   trailing?: ReactNode;
 }
 
-const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -211,7 +211,7 @@ const CardMedia = ({
         />
       ) : (
         <div className="w-full aspect-video flex items-center justify-center">
-          <span className="text-foreground/55 text-xs uppercase tracking-eyebrow">
+          <span className="text-foreground-tertiary text-caption uppercase tracking-eyebrow">
             No image
           </span>
         </div>
@@ -224,7 +224,7 @@ const CardMedia = ({
       {cornerGlyph ? (
         <span
           aria-hidden="true"
-          className="absolute left-3 top-3 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-border/50 bg-background/75 leading-none text-foreground/72 backdrop-blur-sm"
+          className="absolute left-3 top-3 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-hairline bg-background/75 leading-none text-foreground-secondary backdrop-blur-sm"
         >
           {cornerGlyph}
         </span>
@@ -237,11 +237,7 @@ const CardMedia = ({
 // Rendered in the metadata line after role and year, never above the title.
 // Skill chips are passive and low-contrast; the outbound LinkChip (see
 // LinkChip.tsx) is the one that has to read as clickable.
-const SkillChip = ({ skill }: { skill: Skill }) => (
-  <span className="inline-flex items-center rounded-full border border-border/50 px-2 py-1 text-label uppercase tracking-eyebrow leading-none whitespace-nowrap text-foreground/60">
-    {skill}
-  </span>
-);
+const SkillChip = ({ skill }: { skill: Skill }) => <Chip>{skill}</Chip>;
 
 // Metadata line. Case-study sections: role · year, then link chips, then up to
 // three skill chips. Studio tiles: link chips first, then up to two skill
@@ -275,9 +271,7 @@ const CardMeta = ({
         <LinkChip key={link.url} link={link} />
       ))}
       {project.destination?.kind === "placeholder" ? (
-        <span className="inline-flex items-center rounded-full border border-border/50 px-2 py-1 text-label uppercase tracking-eyebrow leading-none whitespace-nowrap text-foreground/60">
-          Coming soon
-        </span>
+        <Chip>Coming soon</Chip>
       ) : null}
       {skills.map((skill) => (
         <SkillChip key={skill} skill={skill} />
@@ -314,7 +308,7 @@ const CardLink = ({
   onOpenVideo?: () => void;
 }) => {
   const cls =
-    "absolute inset-0 z-[1] cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/60 focus-visible:ring-offset-4 focus-visible:ring-offset-background";
+    "absolute inset-0 z-[1] cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-4 focus-visible:ring-offset-background";
   if (destination?.kind === "placeholder") return null;
   if (destination?.kind === "external") {
     return (
@@ -424,7 +418,7 @@ export const ProjectCard = ({
     <>
       {/* Title */}
       <h3
-        className="tracking-tight font-semibold leading-snug transition-colors duration-300"
+        className="tracking-tight font-semibold leading-snug transition-colors duration-medium"
         style={{
           // Tile: body on mobile, body-large on desktop (one token step under
           // the grid cards' title).
@@ -445,7 +439,7 @@ export const ProjectCard = ({
         style={{
           fontSize: tile ? "var(--font-size-body-small)" : isMobile ? "0.9375rem" : "0.875rem",
           marginBottom: tile ? "0.625rem" : isMobile ? "0.75rem" : "1rem",
-          color: "hsl(var(--color-text-primary) / 0.80)",
+          color: "hsl(var(--color-text-lead))",
         }}
       >
         {noOrphan(project.description)}
@@ -477,7 +471,7 @@ export const ProjectCard = ({
         <div style={isMobile ? undefined : { maxWidth: "380px" }}>
           {/* Level 1 — Title */}
           <h3
-            className="tracking-tight font-semibold leading-none transition-colors duration-300"
+            className="tracking-tight font-semibold leading-none transition-colors duration-medium"
             style={{
               fontSize: isMobile ? "clamp(1.4rem, 5vw, 1.8rem)" : "clamp(1.6rem, 2.2vw, 2.4rem)",
               letterSpacing: "-0.03em",
@@ -492,7 +486,7 @@ export const ProjectCard = ({
           <div style={{ marginBottom: isMobile ? "1rem" : "1.375rem" }}>
             {project.signal && (
               <p
-                className="font-medium leading-snug transition-colors duration-300"
+                className="font-medium leading-snug transition-colors duration-medium"
                 style={{
                   fontSize: isMobile ? "0.875rem" : "0.9375rem",
                   letterSpacing: "-0.01em",
@@ -507,7 +501,7 @@ export const ProjectCard = ({
               className="leading-relaxed"
               style={{
                 fontSize: "0.875rem",
-                color: hovered ? "hsl(var(--color-text-primary) / 0.90)" : "hsl(var(--color-text-primary) / 0.72)",
+                color: hovered ? "hsl(var(--color-text-primary) / 0.90)" : "hsl(var(--color-text-secondary))",
               }}
             >
               {project.description}
@@ -527,10 +521,10 @@ export const ProjectCard = ({
         initial={{ opacity: 0, scale: 0.94, y: 40 }}
         animate={{ opacity: revealed ? 1 : 0, scale: revealed ? 1 : 0.94, y: revealed ? 0 : 40 }}
         transition={{
-          duration: 0.75,
-          ease: [0.16, 1, 0.3, 1],
+          duration: DURATION.reveal,
+          ease: EASE.enter,
           delay: rowDelay + globalIndex * 0.1,
-          opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
+          opacity: { duration: DURATION.slow, ease: EASE.settle, delay: rowDelay + globalIndex * 0.1 },
         }}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
@@ -553,10 +547,10 @@ export const ProjectCard = ({
       initial={{ opacity: 0, scale: 0.94, y: 40 }}
       animate={{ opacity: revealed ? 1 : 0, scale: revealed ? 1 : 0.94, y: revealed ? 0 : 40 }}
       transition={{
-        duration: 0.75,
-        ease: [0.16, 1, 0.3, 1],
+        duration: DURATION.reveal,
+        ease: EASE.enter,
         delay: rowDelay + globalIndex * 0.1,
-        opacity: { duration: 0.5, ease: "easeOut", delay: rowDelay + globalIndex * 0.1 },
+        opacity: { duration: DURATION.slow, ease: EASE.settle, delay: rowDelay + globalIndex * 0.1 },
       }}
       style={maxWidth ? { maxWidth } : undefined}
       onMouseEnter={handleEnter}
@@ -670,7 +664,7 @@ const SectionLabel = ({
       ref={ref}
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 16 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.6, ease: EASE.enter }}
       className="flex items-center gap-3 mb-10"
     >
       <span

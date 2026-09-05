@@ -11,23 +11,11 @@ export const tokenSourceCommit =
     : "development";
 export const tokenBundle: TokenBundle = {
   "schemaVersion": 1,
-  "tokenHash": "d0089e65",
+  "tokenHash": "2dfffbaf",
   "documents": {
     "primitive.tokens.json": {
       "color": {
         "neutral": {
-          "580": {
-            "$description": "Mid neutral used for intentionally muted text.",
-            "$value": {
-              "colorSpace": "hsl",
-              "components": [
-                0,
-                0,
-                42
-              ],
-              "hex": "#6b6b6b"
-            }
-          },
           "820": {
             "$description": "Visible neutral used for accents, borders, and inputs.",
             "$value": {
@@ -480,6 +468,13 @@ export const tokenBundle: TokenBundle = {
             "unit": "ms"
           }
         },
+        "reveal": {
+          "$description": "Reveal duration used when content enters the viewport: card entrances, scroll reveals, and editorial staggers.",
+          "$value": {
+            "value": 750,
+            "unit": "ms"
+          }
+        },
         "ambient": {
           "$description": "Ambient duration used for repeating decorative motion.",
           "$value": {
@@ -517,6 +512,24 @@ export const tokenBundle: TokenBundle = {
             1
           ]
         },
+        "settle": {
+          "$description": "Plain deceleration (CSS ease-out) used by fades and small hover moves.",
+          "$value": [
+            0,
+            0,
+            0.58,
+            1
+          ]
+        },
+        "exit": {
+          "$description": "Acceleration (CSS ease-in) used when something leaves.",
+          "$value": [
+            0.42,
+            0,
+            1,
+            1
+          ]
+        },
         "ambient": {
           "$description": "Symmetric curve used by calm repeating motion.",
           "$value": [
@@ -540,20 +553,40 @@ export const tokenBundle: TokenBundle = {
         "text": {
           "$type": "color",
           "primary": {
-            "$description": "Default warm foreground for primary text and icons.",
+            "$description": "Full-strength ink: headings, lead sentences, and the active state of any control.",
             "$value": "{color.warm.100}"
           },
-          "muted": {
-            "$description": "Muted foreground for de-emphasized labels and supporting copy.",
-            "$value": "{color.neutral.580}"
+          "lead": {
+            "$description": "Ink one step down: body paragraphs after the lead, and the active item in a guide or chip set.",
+            "$value": "{color.text.primary}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.85
+            }
+          },
+          "secondary": {
+            "$description": "Supporting ink: descriptions, metadata values, navigation at rest, captions. Authored at 72% but Tailwind never rendered that modifier, so the site was approved at full strength; this alpha is the one lever that dims every supporting line at once.",
+            "$value": "{color.text.primary}",
+            "$extensions": {
+              "com.malikzhang.alpha": 1
+            }
+          },
+          "tertiary": {
+            "$description": "Quiet ink: eyebrows, labels, inactive guide items, and footnotes. The lowest tier that still passes AA on the canvas.",
+            "$value": "{color.text.primary}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.55
+            }
+          },
+          "quiet": {
+            "$description": "Decorative ink only: bullets, quote marks, and hairline glyphs. Fails AA for text at small sizes, so never set words in it.",
+            "$value": "{color.text.primary}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.44
+            }
           },
           "onPrimary": {
-            "$description": "Dark foreground used on the light primary action color.",
+            "$description": "Dark ink used on the light primary action color.",
             "$value": "{color.neutral.950}"
-          },
-          "onDestructive": {
-            "$description": "High-contrast warm foreground used on destructive actions.",
-            "$value": "{color.warm.050}"
           }
         },
         "surface": {
@@ -593,22 +626,39 @@ export const tokenBundle: TokenBundle = {
         "border": {
           "$type": "color",
           "default": {
-            "$description": "Default visible border for controls and structural separation.",
+            "$description": "Full-strength boundary for controls and structural separation.",
             "$value": "{color.neutral.820}"
-          }
-        },
-        "input": {
-          "$type": "color",
-          "default": {
-            "$description": "Default input boundary color.",
-            "$value": "{color.neutral.820}"
+          },
+          "hairline": {
+            "$description": "The everyday rule: card edges, table rules, and specimen frames.",
+            "$value": "{color.border.default}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.5
+            }
+          },
+          "faint": {
+            "$description": "A barely-there rule for dividing rows inside an already bounded surface.",
+            "$value": "{color.border.default}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.25
+            }
           }
         },
         "focus": {
           "$type": "color",
           "ring": {
-            "$description": "Focus ring color used to identify keyboard focus.",
-            "$value": "{color.warm.100}"
+            "$description": "Focus ring for controls on the canvas: two pixels, no offset.",
+            "$value": "{color.text.primary}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.4
+            }
+          },
+          "ringStrong": {
+            "$description": "Focus ring over media and filled surfaces, where the standard ring would sink.",
+            "$value": "{color.text.primary}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.6
+            }
           }
         },
         "accent": {
@@ -627,41 +677,6 @@ export const tokenBundle: TokenBundle = {
           "positive": {
             "$description": "Positive status role for success, strengths, and confirmations.",
             "$value": "{color.emerald.400}"
-          }
-        },
-        "sidebar": {
-          "$type": "color",
-          "background": {
-            "$description": "Background for sidebar navigation surfaces.",
-            "$value": "{color.neutral.925}"
-          },
-          "foreground": {
-            "$description": "Default foreground for sidebar navigation content.",
-            "$value": "{color.warm.100}"
-          },
-          "primary": {
-            "$description": "Primary sidebar action and selection color.",
-            "$value": "{color.warm.100}"
-          },
-          "primaryForeground": {
-            "$description": "Foreground used on the primary sidebar color.",
-            "$value": "{color.neutral.950}"
-          },
-          "accent": {
-            "$description": "Accent surface for active sidebar items.",
-            "$value": "{color.neutral.820}"
-          },
-          "accentForeground": {
-            "$description": "Foreground used on active sidebar items.",
-            "$value": "{color.warm.100}"
-          },
-          "border": {
-            "$description": "Border color separating sidebar regions.",
-            "$value": "{color.neutral.820}"
-          },
-          "ring": {
-            "$description": "Focus ring color used within sidebar navigation.",
-            "$value": "{color.warm.100}"
           }
         }
       },
@@ -694,6 +709,21 @@ export const tokenBundle: TokenBundle = {
             "value": 44,
             "unit": "px"
           }
+        }
+      },
+      "measure": {
+        "$type": "number",
+        "narrow": {
+          "$description": "Characters per line for a statement or a short lead: hero copy, table notes, and single-clause captions.",
+          "$value": 44
+        },
+        "body": {
+          "$description": "Characters per line for running prose. The default reading measure.",
+          "$value": 64
+        },
+        "wide": {
+          "$description": "Characters per line for reference and documentation prose, where a slightly longer line keeps tables and copy aligned.",
+          "$value": 72
         }
       }
     },
@@ -1036,10 +1066,55 @@ export const tokenBundle: TokenBundle = {
         ],
         "hex": "#242424"
       },
-      "description": "Default visible border for controls and structural separation.",
+      "description": "Full-strength boundary for controls and structural separation.",
       "cssVariable": "--color-border-default",
       "cssValue": "0 0% 14%",
       "aliasOf": "color.neutral.820",
+      "dependents": [
+        "color.border.faint",
+        "color.border.hairline"
+      ]
+    },
+    {
+      "path": "color.border.faint",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.border.default}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          14
+        ],
+        "alpha": 0.25
+      },
+      "description": "A barely-there rule for dividing rows inside an already bounded surface.",
+      "cssVariable": "--color-border-faint",
+      "cssValue": "0 0% 14% / 0.25",
+      "aliasOf": "color.border.default",
+      "aliasAlpha": 0.25,
+      "dependents": []
+    },
+    {
+      "path": "color.border.hairline",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.border.default}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          14
+        ],
+        "alpha": 0.5
+      },
+      "description": "The everyday rule: card edges, table rules, and specimen frames.",
+      "cssVariable": "--color-border-hairline",
+      "cssValue": "0 0% 14% / 0.5",
+      "aliasOf": "color.border.default",
+      "aliasAlpha": 0.5,
       "dependents": []
     },
     {
@@ -1076,7 +1151,7 @@ export const tokenBundle: TokenBundle = {
       "path": "color.focus.ring",
       "sourceFile": "semantic.tokens.json",
       "type": "color",
-      "value": "{color.warm.100}",
+      "value": "{color.text.primary}",
       "resolvedValue": {
         "colorSpace": "hsl",
         "components": [
@@ -1084,12 +1159,34 @@ export const tokenBundle: TokenBundle = {
           6,
           90
         ],
-        "hex": "#e7e6e4"
+        "alpha": 0.4
       },
-      "description": "Focus ring color used to identify keyboard focus.",
+      "description": "Focus ring for controls on the canvas: two pixels, no offset.",
       "cssVariable": "--color-focus-ring",
-      "cssValue": "40 6% 90%",
-      "aliasOf": "color.warm.100",
+      "cssValue": "40 6% 90% / 0.4",
+      "aliasOf": "color.text.primary",
+      "aliasAlpha": 0.4,
+      "dependents": []
+    },
+    {
+      "path": "color.focus.ringStrong",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.text.primary}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          40,
+          6,
+          90
+        ],
+        "alpha": 0.6
+      },
+      "description": "Focus ring over media and filled surfaces, where the standard ring would sink.",
+      "cssVariable": "--color-focus-ring-strong",
+      "cssValue": "40 6% 90% / 0.6",
+      "aliasOf": "color.text.primary",
+      "aliasAlpha": 0.6,
       "dependents": []
     },
     {
@@ -1122,55 +1219,6 @@ export const tokenBundle: TokenBundle = {
       ]
     },
     {
-      "path": "color.input.default",
-      "sourceFile": "semantic.tokens.json",
-      "type": "color",
-      "value": "{color.neutral.820}",
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          0,
-          0,
-          14
-        ],
-        "hex": "#242424"
-      },
-      "description": "Default input boundary color.",
-      "cssVariable": "--color-input-default",
-      "cssValue": "0 0% 14%",
-      "aliasOf": "color.neutral.820",
-      "dependents": []
-    },
-    {
-      "path": "color.neutral.580",
-      "sourceFile": "primitive.tokens.json",
-      "type": "color",
-      "value": {
-        "colorSpace": "hsl",
-        "components": [
-          0,
-          0,
-          42
-        ],
-        "hex": "#6b6b6b"
-      },
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          0,
-          0,
-          42
-        ],
-        "hex": "#6b6b6b"
-      },
-      "description": "Mid neutral used for intentionally muted text.",
-      "cssVariable": "--color-neutral-580",
-      "cssValue": "0 0% 42%",
-      "dependents": [
-        "color.text.muted"
-      ]
-    },
-    {
       "path": "color.neutral.820",
       "sourceFile": "primitive.tokens.json",
       "type": "color",
@@ -1197,9 +1245,8 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "0 0% 14%",
       "dependents": [
         "color.border.default",
-        "color.input.default",
-        "color.sidebar.accent",
-        "color.sidebar.border",
+        "color.border.faint",
+        "color.border.hairline",
         "color.surface.accent"
       ]
     },
@@ -1287,7 +1334,6 @@ export const tokenBundle: TokenBundle = {
       "cssVariable": "--color-neutral-925",
       "cssValue": "0 0% 6%",
       "dependents": [
-        "color.sidebar.background",
         "color.surface.card",
         "color.surface.popover"
       ]
@@ -1319,7 +1365,6 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "0 0% 4%",
       "dependents": [
         "color.background.canvas",
-        "color.sidebar.primaryForeground",
         "color.text.onPrimary"
       ]
     },
@@ -1380,166 +1425,6 @@ export const tokenBundle: TokenBundle = {
       "dependents": [
         "color.accent.selectedWork"
       ]
-    },
-    {
-      "path": "color.sidebar.accent",
-      "sourceFile": "semantic.tokens.json",
-      "type": "color",
-      "value": "{color.neutral.820}",
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          0,
-          0,
-          14
-        ],
-        "hex": "#242424"
-      },
-      "description": "Accent surface for active sidebar items.",
-      "cssVariable": "--color-sidebar-accent",
-      "cssValue": "0 0% 14%",
-      "aliasOf": "color.neutral.820",
-      "dependents": []
-    },
-    {
-      "path": "color.sidebar.accentForeground",
-      "sourceFile": "semantic.tokens.json",
-      "type": "color",
-      "value": "{color.warm.100}",
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          40,
-          6,
-          90
-        ],
-        "hex": "#e7e6e4"
-      },
-      "description": "Foreground used on active sidebar items.",
-      "cssVariable": "--color-sidebar-accent-foreground",
-      "cssValue": "40 6% 90%",
-      "aliasOf": "color.warm.100",
-      "dependents": []
-    },
-    {
-      "path": "color.sidebar.background",
-      "sourceFile": "semantic.tokens.json",
-      "type": "color",
-      "value": "{color.neutral.925}",
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          0,
-          0,
-          6
-        ],
-        "hex": "#0f0f0f"
-      },
-      "description": "Background for sidebar navigation surfaces.",
-      "cssVariable": "--color-sidebar-background",
-      "cssValue": "0 0% 6%",
-      "aliasOf": "color.neutral.925",
-      "dependents": []
-    },
-    {
-      "path": "color.sidebar.border",
-      "sourceFile": "semantic.tokens.json",
-      "type": "color",
-      "value": "{color.neutral.820}",
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          0,
-          0,
-          14
-        ],
-        "hex": "#242424"
-      },
-      "description": "Border color separating sidebar regions.",
-      "cssVariable": "--color-sidebar-border",
-      "cssValue": "0 0% 14%",
-      "aliasOf": "color.neutral.820",
-      "dependents": []
-    },
-    {
-      "path": "color.sidebar.foreground",
-      "sourceFile": "semantic.tokens.json",
-      "type": "color",
-      "value": "{color.warm.100}",
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          40,
-          6,
-          90
-        ],
-        "hex": "#e7e6e4"
-      },
-      "description": "Default foreground for sidebar navigation content.",
-      "cssVariable": "--color-sidebar-foreground",
-      "cssValue": "40 6% 90%",
-      "aliasOf": "color.warm.100",
-      "dependents": []
-    },
-    {
-      "path": "color.sidebar.primary",
-      "sourceFile": "semantic.tokens.json",
-      "type": "color",
-      "value": "{color.warm.100}",
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          40,
-          6,
-          90
-        ],
-        "hex": "#e7e6e4"
-      },
-      "description": "Primary sidebar action and selection color.",
-      "cssVariable": "--color-sidebar-primary",
-      "cssValue": "40 6% 90%",
-      "aliasOf": "color.warm.100",
-      "dependents": []
-    },
-    {
-      "path": "color.sidebar.primaryForeground",
-      "sourceFile": "semantic.tokens.json",
-      "type": "color",
-      "value": "{color.neutral.950}",
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          0,
-          0,
-          4
-        ],
-        "hex": "#0a0a0a"
-      },
-      "description": "Foreground used on the primary sidebar color.",
-      "cssVariable": "--color-sidebar-primary-foreground",
-      "cssValue": "0 0% 4%",
-      "aliasOf": "color.neutral.950",
-      "dependents": []
-    },
-    {
-      "path": "color.sidebar.ring",
-      "sourceFile": "semantic.tokens.json",
-      "type": "color",
-      "value": "{color.warm.100}",
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          40,
-          6,
-          90
-        ],
-        "hex": "#e7e6e4"
-      },
-      "description": "Focus ring color used within sidebar navigation.",
-      "cssVariable": "--color-sidebar-ring",
-      "cssValue": "40 6% 90%",
-      "aliasOf": "color.warm.100",
-      "dependents": []
     },
     {
       "path": "color.slate.400",
@@ -1691,43 +1576,24 @@ export const tokenBundle: TokenBundle = {
       "dependents": []
     },
     {
-      "path": "color.text.muted",
+      "path": "color.text.lead",
       "sourceFile": "semantic.tokens.json",
       "type": "color",
-      "value": "{color.neutral.580}",
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          0,
-          0,
-          42
-        ],
-        "hex": "#6b6b6b"
-      },
-      "description": "Muted foreground for de-emphasized labels and supporting copy.",
-      "cssVariable": "--color-text-muted",
-      "cssValue": "0 0% 42%",
-      "aliasOf": "color.neutral.580",
-      "dependents": []
-    },
-    {
-      "path": "color.text.onDestructive",
-      "sourceFile": "semantic.tokens.json",
-      "type": "color",
-      "value": "{color.warm.050}",
+      "value": "{color.text.primary}",
       "resolvedValue": {
         "colorSpace": "hsl",
         "components": [
           40,
           6,
-          95
+          90
         ],
-        "hex": "#f3f3f1"
+        "alpha": 0.85
       },
-      "description": "High-contrast warm foreground used on destructive actions.",
-      "cssVariable": "--color-text-on-destructive",
-      "cssValue": "40 6% 95%",
-      "aliasOf": "color.warm.050",
+      "description": "Ink one step down: body paragraphs after the lead, and the active item in a guide or chip set.",
+      "cssVariable": "--color-text-lead",
+      "cssValue": "40 6% 90% / 0.85",
+      "aliasOf": "color.text.primary",
+      "aliasAlpha": 0.85,
       "dependents": []
     },
     {
@@ -1744,7 +1610,7 @@ export const tokenBundle: TokenBundle = {
         ],
         "hex": "#0a0a0a"
       },
-      "description": "Dark foreground used on the light primary action color.",
+      "description": "Dark ink used on the light primary action color.",
       "cssVariable": "--color-text-on-primary",
       "cssValue": "0 0% 4%",
       "aliasOf": "color.neutral.950",
@@ -1764,10 +1630,80 @@ export const tokenBundle: TokenBundle = {
         ],
         "hex": "#e7e6e4"
       },
-      "description": "Default warm foreground for primary text and icons.",
+      "description": "Full-strength ink: headings, lead sentences, and the active state of any control.",
       "cssVariable": "--color-text-primary",
       "cssValue": "40 6% 90%",
       "aliasOf": "color.warm.100",
+      "dependents": [
+        "color.focus.ring",
+        "color.focus.ringStrong",
+        "color.text.lead",
+        "color.text.quiet",
+        "color.text.secondary",
+        "color.text.tertiary"
+      ]
+    },
+    {
+      "path": "color.text.quiet",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.text.primary}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          40,
+          6,
+          90
+        ],
+        "alpha": 0.44
+      },
+      "description": "Decorative ink only: bullets, quote marks, and hairline glyphs. Fails AA for text at small sizes, so never set words in it.",
+      "cssVariable": "--color-text-quiet",
+      "cssValue": "40 6% 90% / 0.44",
+      "aliasOf": "color.text.primary",
+      "aliasAlpha": 0.44,
+      "dependents": []
+    },
+    {
+      "path": "color.text.secondary",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.text.primary}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          40,
+          6,
+          90
+        ],
+        "alpha": 1
+      },
+      "description": "Supporting ink: descriptions, metadata values, navigation at rest, captions. Authored at 72% but Tailwind never rendered that modifier, so the site was approved at full strength; this alpha is the one lever that dims every supporting line at once.",
+      "cssVariable": "--color-text-secondary",
+      "cssValue": "40 6% 90%",
+      "aliasOf": "color.text.primary",
+      "aliasAlpha": 1,
+      "dependents": []
+    },
+    {
+      "path": "color.text.tertiary",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.text.primary}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          40,
+          6,
+          90
+        ],
+        "alpha": 0.55
+      },
+      "description": "Quiet ink: eyebrows, labels, inactive guide items, and footnotes. The lowest tier that still passes AA on the canvas.",
+      "cssVariable": "--color-text-tertiary",
+      "cssValue": "40 6% 90% / 0.55",
+      "aliasOf": "color.text.primary",
+      "aliasAlpha": 0.55,
       "dependents": []
     },
     {
@@ -1824,9 +1760,7 @@ export const tokenBundle: TokenBundle = {
       "description": "Light warm off-white used where stronger contrast is required.",
       "cssVariable": "--color-warm-050",
       "cssValue": "40 6% 95%",
-      "dependents": [
-        "color.text.onDestructive"
-      ]
+      "dependents": []
     },
     {
       "path": "color.warm.100",
@@ -1856,11 +1790,12 @@ export const tokenBundle: TokenBundle = {
       "dependents": [
         "color.action.primary",
         "color.focus.ring",
-        "color.sidebar.accentForeground",
-        "color.sidebar.foreground",
-        "color.sidebar.primary",
-        "color.sidebar.ring",
-        "color.text.primary"
+        "color.focus.ringStrong",
+        "color.text.lead",
+        "color.text.primary",
+        "color.text.quiet",
+        "color.text.secondary",
+        "color.text.tertiary"
       ]
     },
     {
@@ -2278,6 +2213,23 @@ export const tokenBundle: TokenBundle = {
       "dependents": []
     },
     {
+      "path": "duration.reveal",
+      "sourceFile": "primitive.tokens.json",
+      "type": "duration",
+      "value": {
+        "value": 750,
+        "unit": "ms"
+      },
+      "resolvedValue": {
+        "value": 750,
+        "unit": "ms"
+      },
+      "description": "Reveal duration used when content enters the viewport: card entrances, scroll reveals, and editorial staggers.",
+      "cssVariable": "--duration-reveal",
+      "cssValue": "750ms",
+      "dependents": []
+    },
+    {
       "path": "duration.slow",
       "sourceFile": "primitive.tokens.json",
       "type": "duration",
@@ -2337,6 +2289,27 @@ export const tokenBundle: TokenBundle = {
       "dependents": []
     },
     {
+      "path": "ease.exit",
+      "sourceFile": "primitive.tokens.json",
+      "type": "cubicBezier",
+      "value": [
+        0.42,
+        0,
+        1,
+        1
+      ],
+      "resolvedValue": [
+        0.42,
+        0,
+        1,
+        1
+      ],
+      "description": "Acceleration (CSS ease-in) used when something leaves.",
+      "cssVariable": "--ease-exit",
+      "cssValue": "cubic-bezier(0.42, 0, 1, 1)",
+      "dependents": []
+    },
+    {
       "path": "ease.move",
       "sourceFile": "primitive.tokens.json",
       "type": "cubicBezier",
@@ -2355,6 +2328,27 @@ export const tokenBundle: TokenBundle = {
       "description": "Smooth movement curve used for spatial transitions.",
       "cssVariable": "--ease-move",
       "cssValue": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "dependents": []
+    },
+    {
+      "path": "ease.settle",
+      "sourceFile": "primitive.tokens.json",
+      "type": "cubicBezier",
+      "value": [
+        0,
+        0,
+        0.58,
+        1
+      ],
+      "resolvedValue": [
+        0,
+        0,
+        0.58,
+        1
+      ],
+      "description": "Plain deceleration (CSS ease-out) used by fades and small hover moves.",
+      "cssVariable": "--ease-settle",
+      "cssValue": "cubic-bezier(0, 0, 0.58, 1)",
       "dependents": []
     },
     {
@@ -2709,6 +2703,39 @@ export const tokenBundle: TokenBundle = {
       "description": "Minimum interactive target size used across navigation controls.",
       "cssVariable": "--layout-touch-target",
       "cssValue": "44px",
+      "dependents": []
+    },
+    {
+      "path": "measure.body",
+      "sourceFile": "semantic.tokens.json",
+      "type": "number",
+      "value": 64,
+      "resolvedValue": 64,
+      "description": "Characters per line for running prose. The default reading measure.",
+      "cssVariable": "--measure-body",
+      "cssValue": "64",
+      "dependents": []
+    },
+    {
+      "path": "measure.narrow",
+      "sourceFile": "semantic.tokens.json",
+      "type": "number",
+      "value": 44,
+      "resolvedValue": 44,
+      "description": "Characters per line for a statement or a short lead: hero copy, table notes, and single-clause captions.",
+      "cssVariable": "--measure-narrow",
+      "cssValue": "44",
+      "dependents": []
+    },
+    {
+      "path": "measure.wide",
+      "sourceFile": "semantic.tokens.json",
+      "type": "number",
+      "value": 72,
+      "resolvedValue": 72,
+      "description": "Characters per line for reference and documentation prose, where a slightly longer line keeps tables and copy aligned.",
+      "cssVariable": "--measure-wide",
+      "cssValue": "72",
       "dependents": []
     },
     {

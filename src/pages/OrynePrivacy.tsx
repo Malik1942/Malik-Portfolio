@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "@/components/Footer";
+import { BackLink } from "@/components/ui/BackLink";
+import { Button } from "@/components/ui/Button";
 
 const SUPPORT_EMAIL = "malikdes9gn@gmail.com";
 const EFFECTIVE_DATE = "June 28, 2026";
@@ -50,42 +52,27 @@ const OrynePrivacy = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Top bar, mirrors the support page back bar */}
-      <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-border/40 bg-background z-10">
-        <button
-          type="button"
-          onClick={() => navigate("/")}
-          aria-label="Back to home"
-          className="group flex items-center gap-2 min-h-11 px-1 text-sm font-mono text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200"
-        >
-          <svg
-            aria-hidden="true"
-            className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-          </svg>
+      <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-hairline bg-background z-10">
+        <BackLink onClick={() => navigate("/")} aria-label="Back to home" family="mono">
           Back
-        </button>
-        <span className="text-xs font-mono text-foreground/55">Oryne Privacy</span>
+        </BackLink>
+        <span className="text-caption font-mono text-foreground-tertiary">Oryne Privacy</span>
       </div>
 
       <main className="flex-1 px-6 md:px-16 lg:px-20 pt-16 md:pt-24 pb-8">
         <div className="max-w-reading mx-auto">
           {/* Intro */}
           <header>
-            <span className="text-label uppercase tracking-eyebrow text-foreground/55 block mb-6">
+            <span className="text-label uppercase tracking-eyebrow text-foreground-tertiary block mb-6">
               Privacy
             </span>
             <h1 className="font-display text-title md:text-display font-light text-foreground mb-5">
               Oryne Privacy Policy
             </h1>
-            <p className="text-xs font-mono text-foreground/55 mb-8">
+            <p className="text-caption font-mono text-foreground-tertiary mb-8">
               Effective {EFFECTIVE_DATE}
             </p>
-            <p className="text-base md:text-xl text-foreground/72 leading-relaxed max-w-[62ch]">
+            <p className="text-base md:text-xl text-foreground-secondary leading-relaxed max-w-[62ch]">
               Oryne is built so your captures stay yours. What you create stays on your device and
               syncs only through your own private iCloud. Oryne does not sell your data, and does
               not use your content for advertising. Every AI feature runs on your device.
@@ -98,7 +85,7 @@ const OrynePrivacy = () => {
               Summary
             </h2>
             <div className="rounded-lg border border-border bg-card/40 p-6 md:p-8">
-              <ul className="space-y-3 text-sm md:text-base text-foreground/72 leading-relaxed max-w-[64ch]">
+              <ul className="space-y-3 text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
                 <li>Your thoughts, notes, voice transcripts, and images stay on your device.</li>
                 <li>They sync across your devices only through your own private iCloud, which the developer cannot access.</li>
                 <li>All AI (link summaries, themes, titles, and Ask the Ocean) runs on-device.</li>
@@ -116,7 +103,7 @@ const OrynePrivacy = () => {
             >
               What Oryne stores, and where
             </h2>
-            <p className="text-sm md:text-base text-foreground/72 leading-relaxed max-w-[64ch]">
+            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
               Oryne stores the things you capture: your thoughts, notes, voice transcripts, and
               imported images. These are stored on your device. Oryne syncs them through your own
               private iCloud (Apple's CloudKit), so they stay in sync across the devices signed in
@@ -134,7 +121,7 @@ const OrynePrivacy = () => {
             >
               How AI works in Oryne
             </h2>
-            <p className="text-sm md:text-base text-foreground/72 leading-relaxed max-w-[64ch]">
+            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
               All of Oryne's AI features run on your device using Apple's on-device intelligence.
               This includes link summaries, themes, titles, and Ask the Ocean. No user content is
               sent to any external, third-party, or cloud AI service, for any feature. Your captures
@@ -153,14 +140,14 @@ const OrynePrivacy = () => {
             <dl className="divide-y divide-border">
               <div className="py-6 first:pt-0">
                 <dt className="text-base md:text-xl text-foreground tracking-tight mb-2">Microphone</dt>
-                <dd className="text-sm md:text-base text-foreground/72 leading-relaxed max-w-[64ch]">
+                <dd className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
                   Oryne uses the microphone only for voice capture, and only when you record. The
                   audio is transcribed on your device so you can capture a thought by speaking.
                 </dd>
               </div>
               <div className="py-6">
                 <dt className="text-base md:text-xl text-foreground tracking-tight mb-2">Photos</dt>
-                <dd className="text-sm md:text-base text-foreground/72 leading-relaxed max-w-[64ch]">
+                <dd className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
                   Oryne accesses your photos only when you choose to import or attach an image. It
                   does not browse or read your photo library in the background.
                 </dd>
@@ -176,7 +163,7 @@ const OrynePrivacy = () => {
             >
               No selling, no advertising
             </h2>
-            <p className="text-sm md:text-base text-foreground/72 leading-relaxed max-w-[64ch]">
+            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
               Oryne does not sell your data. Oryne does not use your content for advertising. There
               is no tracking and no advertising profile. Because your content stays on your device
               and within your own private iCloud, there is nothing for the developer to collect,
@@ -192,7 +179,7 @@ const OrynePrivacy = () => {
             >
               Deleting your content
             </h2>
-            <p className="text-sm md:text-base text-foreground/72 leading-relaxed max-w-[64ch]">
+            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
               You are in control of your content. You can delete it in the app by deleting the
               captures or thoughts you no longer want. Deleting a thought removes it from your
               device and from your private iCloud sync across your devices.
@@ -207,7 +194,7 @@ const OrynePrivacy = () => {
             >
               Changes to this policy
             </h2>
-            <p className="text-sm md:text-base text-foreground/72 leading-relaxed max-w-[64ch]">
+            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
               This policy describes how Oryne works today. If the app changes in a way that affects
               your privacy, this page will be updated with a new effective date before that change
               ships.
@@ -222,38 +209,21 @@ const OrynePrivacy = () => {
             >
               Contact
             </h2>
-            <p className="text-sm md:text-base text-foreground/72 leading-relaxed mb-6 max-w-[62ch]">
+            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed mb-6 max-w-[62ch]">
               Questions about privacy or anything in this policy? Reach the Oryne team directly.
             </p>
-            <a
-              href={`mailto:${SUPPORT_EMAIL}`}
-              className="inline-flex items-center gap-3 px-5 py-3 text-sm md:text-base font-mono text-foreground border border-border/60 hover:border-border rounded-sm transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
-            >
-              <svg
-                aria-hidden="true"
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-                />
-              </svg>
+            <Button href={`mailto:${SUPPORT_EMAIL}`} tone="secondary" iconPosition="leading" icon={<svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} > <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /> </svg>}>
               {SUPPORT_EMAIL}
-            </a>
+            </Button>
           </section>
 
           {/* Cross-link to the support page */}
           <div className="mt-14 md:mt-16 pt-8 border-t border-border">
-            <p className="text-sm text-foreground/55">
+            <p className="text-sm text-foreground-tertiary">
               Need help using Oryne? Visit{" "}
               <a
                 href="/oryne/support"
-                className="nav-link text-foreground/72 hover:text-foreground transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm"
+                className="nav-link text-foreground-secondary hover:text-foreground transition-colors duration-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus rounded-sm"
               >
                 Oryne Support
               </a>

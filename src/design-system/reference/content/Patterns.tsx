@@ -17,7 +17,7 @@ const PATTERNS: Record<string, PatternEntry> = {
     purpose: "Introduce Malik’s point of view through a terminal-like statement, DotGrid identity field, and layered navigation.",
     usage: "Reserve for the homepage opening. It is a composed identity moment, not a reusable marketing hero.",
     tokens: ["color.background.canvas", "color.text.primary", "color.accent.selectedWork", "font.family.body", "font.family.mono", "component.siteHeader.scrimColor"],
-    tokenGap: "Hero geometry and motion remain local values. DotGrid’s orb palette is intentionally expressive code, while duration and easing tokens do not drive the composition yet.",
+    tokenGap: "Hero geometry and the entrance choreography (0.6 to 0.8s, staggered) remain local values on the token curves. DotGrid’s orb palette is intentionally expressive code.",
     responsive: "Copy, terminal geometry, and navigation density adapt independently so the statement remains legible from mobile through ultrawide screens.",
     accessibility: "The canvas is decorative and the text remains real DOM content. Under reduced motion, the direction-aware header’s outer transition is removed and DotGrid freezes ambient twinkle, orb drift, and breathing. The terminal, hero entrances, scroll indicator, SiteHeader inner entrance, DotGrid mode morph, and About motion still animate.",
     preview: "/",
@@ -38,8 +38,8 @@ const PATTERNS: Record<string, PatternEntry> = {
   "pattern-section-navigation": {
     purpose: "Keep readers oriented inside long case studies and allow direct movement to stable narrative sections.",
     usage: "Use when the number and length of project sections make scroll position difficult to infer from content alone.",
-    tokens: ["color.background.canvas", "color.text.primary", "color.border.default", "radius.small", "font.family.body"],
-    tokenGap: "Sticky offsets, transition timing, and control sizing remain local values. layout.touchTarget and ease.standard are not wired here, and the section controls do not guarantee 44px targets.",
+    tokens: ["color.background.canvas", "color.text.primary", "color.text.tertiary", "color.border.default", "radius.small", "duration.medium", "font.family.body"],
+    tokenGap: "Sticky offsets and control sizing remain local values. The guide transitions on duration.medium, but layout.touchTarget is not wired here and the section controls do not guarantee 44px targets.",
     responsive: "Desktop uses a left sticky rail; mobile switches to a horizontal sticky strip that clears the direction-aware site header.",
     accessibility: "Both variants are named navigation landmarks with real, labeled controls and a visible active state reinforced beyond color.",
     preview: "/project/aura#project-section-research",
@@ -60,8 +60,8 @@ const PATTERNS: Record<string, PatternEntry> = {
   "pattern-transitions": {
     purpose: "Make font loading, route changes, and content arrival feel continuous without blocking access to the work.",
     usage: "Use sparingly at page boundaries and meaningful entrances; state changes should remain clear without relying on choreography.",
-    tokens: ["color.text.primary"],
-    tokenGap: "The duration and easing tokens are documented but not wired to these effects; current CSS and Framer Motion values are local.",
+    tokens: ["color.text.primary", "duration.page", "duration.reveal", "ease.enter", "ease.move"],
+    tokenGap: "Route transitions, card entrances, and scroll reveals now read duration and easing tokens through Tailwind and the MOTION recipes. The hero entrance keeps its choreographed local durations on the token curves.",
     responsive: "Transition intent stays consistent across viewports while layout-specific movement distances remain local to each artifact.",
     accessibility: "Reduced motion removes the SiteHeader outer hide-and-reveal transition, freezes DotGrid’s ambient movement, and removes the lightbox backdrop and image durations. PageTransition, ProjectCard entrances and hover motion, and the SiteHeader inner entrance still animate. No essential content depends on completing the animation.",
     preview: "/project/neuralyfe",
@@ -72,7 +72,7 @@ const PATTERNS: Record<string, PatternEntry> = {
     purpose: "Give Malik’s portfolio a recognizable voice through DotGrid and the About experience while preserving their art-directed character.",
     usage: "Use these patterns only where identity and narrative justify bespoke behavior. Do not promote particle geometry or scene-specific constants into shared primitives.",
     tokens: ["color.background.canvas", "color.text.primary", "font.family.body", "font.family.display"],
-    tokenGap: "DotGrid’s palette and movement constants remain inside the expressive implementation; duration.ambient and ease.ambient do not drive it today.",
+    tokenGap: "DotGrid’s palette and movement constants remain inside the expressive implementation; the About and Boulder sequences take their curves from the ease tokens but keep their own choreographed durations.",
     responsive: "Density, composition, and movement adapt to device capability and viewport while the expressive premise remains intact.",
     accessibility: "Decorative canvas output stays outside the content model and About retains readable DOM content. Under reduced motion, DotGrid freezes ambient twinkle, orb drift, and breathing; the name-to-About morph and About’s Framer Motion entrances and scroll cue still animate.",
     preview: "/",
@@ -82,8 +82,8 @@ const PATTERNS: Record<string, PatternEntry> = {
   "pattern-accessibility": {
     purpose: "Treat keyboard use, focus, contrast, target size, motion preference, and resilient content as system behavior rather than cleanup.",
     usage: "Apply at every token, component, and pattern boundary, then verify in the composed production route where interactions meet.",
-    tokens: ["color.text.primary", "color.background.canvas", "color.border.default", "component.lightbox.backdrop"],
-    tokenGap: "The focus ring and touch target tokens exist but are not wired to the documented production paths; focus rings derive from the foreground color and many target sizes remain local values.",
+    tokens: ["color.text.primary", "color.background.canvas", "color.border.default", "color.focus.ring", "color.focus.ringStrong", "layout.touchTarget", "component.lightbox.backdrop"],
+    tokenGap: "Focus rings are wired: every control uses ring-focus, or ring-focus-strong over media. The touch target token drives the 44px controls that use min-h-11, while header and footer inline links and the case-study guide still size locally.",
     responsive: "Navigation remains reachable and content order remains logical through reflow. Header and footer inline links and case-study section controls do not guarantee a 44px target.",
     accessibility: "Visible focus, semantic HTML, labeled landmarks, alternative text, Escape dismissal, and contrast are present across the referenced paths. Reduced-motion coverage is partial: header outer motion, DotGrid ambient movement, and lightbox motion respond, while several entrances and transitions still animate.",
     preview: "/design-system#overview",
@@ -99,7 +99,7 @@ export function PatternContent({ sectionId }: { sectionId: string }) {
   return (
     <div data-testid={`reference-${sectionId}`} className="space-y-8 md:space-y-10">
       <PatternSpecimen sectionId={sectionId} contextHref={entry.preview} contextLabel={entry.label} />
-      <div className="grid gap-px overflow-hidden rounded-lg border border-border/50 bg-border/50 md:grid-cols-2">
+      <div className="grid gap-px overflow-hidden rounded-lg border border-hairline bg-hairline md:grid-cols-2">
         {[
           ["Purpose", entry.purpose],
           ["Use it when", entry.usage],
@@ -108,16 +108,16 @@ export function PatternContent({ sectionId }: { sectionId: string }) {
         ].map(([title, copy]) => (
           <section key={title} className="bg-background p-5 sm:p-6">
             <h2 className="text-sm font-medium text-foreground">{title}</h2>
-            <p className="mt-2 text-sm leading-relaxed text-foreground/72">{copy}</p>
+            <p className="mt-2 text-sm leading-relaxed text-foreground-secondary">{copy}</p>
           </section>
         ))}
       </div>
       <section aria-labelledby={`${sectionId}-tokens`}>
         <h2 id={`${sectionId}-tokens`} className="text-sm font-medium text-foreground">Token dependencies</h2>
-        <ul className="mt-3 flex flex-wrap gap-2">{entry.tokens.map((token) => <li key={token}><code className="block rounded-sm border border-border/50 px-2.5 py-1.5 text-label text-foreground/72 font-mono">{token}</code></li>)}</ul>
+        <ul className="mt-3 flex flex-wrap gap-2">{entry.tokens.map((token) => <li key={token}><code className="block rounded-sm border border-hairline px-2.5 py-1.5 text-label text-foreground-secondary font-mono">{token}</code></li>)}</ul>
         {entry.tokenGap ? (
-          <p className="mt-3 max-w-[70ch] text-sm leading-relaxed text-foreground/55">
-            <span className="font-medium text-foreground/72">Current wiring gap:</span> {entry.tokenGap}
+          <p className="mt-3 max-w-measure-wide text-sm leading-relaxed text-foreground-tertiary">
+            <span className="font-medium text-foreground-secondary">Current wiring gap:</span> {entry.tokenGap}
           </p>
         ) : null}
       </section>

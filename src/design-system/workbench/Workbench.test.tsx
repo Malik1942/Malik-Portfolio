@@ -48,13 +48,13 @@ describe("public workbench utilities", () => {
       <OverrideButton path="color.background.canvas" value={{ colorSpace: "hsl", components: [40, 6, 90] } as never} />
       <ContrastChecks />
     </>);
-    expect(screen.getAllByText(/^\d+\.\d{2}:1$/)).toHaveLength(7);
-    expect(screen.getByText("Primary text on canvas").closest("li")).toHaveTextContent("Pass AA");
+    expect(screen.getAllByText(/^\d+\.\d{2}:1$/)).toHaveLength(8);
+    expect(screen.getByText("Primary ink on canvas").closest("li")).toHaveTextContent("Pass AA");
     // /55 is the dimmest approved readable-text tier; it must clear AA on the canvas.
-    expect(screen.getByText("Muted tier (55%) on canvas").closest("li")).toHaveTextContent("Pass AA");
+    expect(screen.getByText("Tertiary ink (55%) on canvas").closest("li")).toHaveTextContent("Pass AA");
 
     fireEvent.click(screen.getByRole("button", { name: "Apply override" }));
-    expect(screen.getByText("Primary text on canvas").closest("li")).toHaveTextContent("Fail AA");
+    expect(screen.getByText("Primary ink on canvas").closest("li")).toHaveTextContent("Fail AA");
     expect(screen.getByText("Focus ring on canvas").closest("li")).toHaveTextContent("Fail 3:1");
   });
 
@@ -71,7 +71,7 @@ describe("public workbench utilities", () => {
       <ContrastChecks />
     </>);
     fireEvent.click(screen.getByRole("button", { name: "Apply override" }));
-    const result = screen.getByText("Primary text on canvas").closest("li");
+    const result = screen.getByText("Primary ink on canvas").closest("li");
     expect(result).toHaveTextContent("1.00:1");
     expect(result).toHaveTextContent("Fail AA");
   });

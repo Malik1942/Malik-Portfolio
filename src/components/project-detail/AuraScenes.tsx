@@ -87,19 +87,19 @@ export function AuraScenes() {
             key={i}
             type="button"
             onClick={() => handleSelect(i)}
-            className={`group text-left px-4 py-3 rounded-sm border transition-colors duration-200 ${
+            className={`group text-left px-4 py-3 rounded-sm border transition-colors duration-fast ${
               i === current
                 ? "border-foreground/20 bg-foreground/[0.06]"
-                : "border-border/15 hover:border-border/30 bg-transparent"
+                : "border-hairline-faint hover:border-hairline-faint bg-transparent"
             }`}
           >
-            <p className={`text-label font-mono tabular-nums mb-1 transition-colors duration-200 ${
-              i === current ? "text-foreground/55" : "text-foreground/55 group-hover:text-foreground/72"
+            <p className={`text-label font-mono tabular-nums mb-1 transition-colors duration-fast ${
+              i === current ? "text-foreground-tertiary" : "text-foreground-tertiary group-hover:text-foreground-secondary"
             }`}>
               {s.num}
             </p>
-            <p className={`text-label uppercase tracking-eyebrow transition-colors duration-200 ${
-              i === current ? "text-foreground" : "text-foreground/55 group-hover:text-foreground/72"
+            <p className={`text-label uppercase tracking-eyebrow transition-colors duration-fast ${
+              i === current ? "text-foreground" : "text-foreground-tertiary group-hover:text-foreground-secondary"
             }`}>
               {noOrphan(s.title)}
             </p>

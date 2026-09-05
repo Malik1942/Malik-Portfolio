@@ -74,7 +74,7 @@ export function AuraDesignRequirements() {
 
       {/* Header band */}
       <div className="px-8 pt-8 pb-7 md:px-10 border-b border-case-study-module-divider">
-        <p className="text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
+        <p className="text-caption md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
           Design Requirements
         </p>
       </div>
@@ -88,7 +88,7 @@ export function AuraDesignRequirements() {
 
               {/* Top row: number + icon */}
               <div className="flex items-center justify-between">
-                <span className={`text-xs font-mono tabular-nums ${a.num}`}>
+                <span className={`text-caption font-mono tabular-nums ${a.num}`}>
                   {r.num}
                 </span>
                 <span className={a.icon}>
@@ -101,7 +101,7 @@ export function AuraDesignRequirements() {
                 <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">
                   {noOrphan(r.title)}
                 </p>
-                <p className="text-sm md:text-base font-light text-foreground/72 leading-relaxed">
+                <p className="text-sm md:text-base font-light text-foreground-secondary leading-relaxed">
                   {noOrphan(r.desc)}
                 </p>
               </div>

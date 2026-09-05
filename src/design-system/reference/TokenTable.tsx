@@ -22,7 +22,7 @@ function TokenVisual({ token }: { token: TokenRecord }) {
     return (
       <span
         {...common}
-        className="block h-14 w-full rounded-sm border border-border/50"
+        className="block h-14 w-full rounded-sm border border-hairline"
         style={{ background: `hsl(${token.cssValue})` }}
       />
     );
@@ -70,7 +70,7 @@ function TokenVisual({ token }: { token: TokenRecord }) {
     const values = Array.isArray(token.resolvedValue) ? token.resolvedValue : [0, 0, 1, 1];
     const [x1, y1, x2, y2] = values as number[];
     return (
-      <span {...common} className="block h-14 w-24 text-foreground/55">
+      <span {...common} className="block h-14 w-24 text-foreground-tertiary">
         <svg viewBox="0 0 100 56" aria-hidden="true" className="h-full w-full overflow-visible">
           <path d={`M 2 54 C ${x1 * 100} ${54 - y1 * 52}, ${x2 * 100} ${54 - y2 * 52}, 98 2`} fill="none" stroke="currentColor" strokeWidth="2" />
           <path d="M2 54H98M2 54V2" fill="none" stroke="currentColor" strokeOpacity=".2" />
@@ -111,7 +111,7 @@ export function TokenTable({ title, tokens }: { title: string; tokens: readonly 
           <article
             role="listitem"
             key={token.path}
-            className="grid min-w-0 gap-5 rounded-lg border border-border/50 bg-card/30 p-5 sm:grid-cols-[minmax(112px,0.7fr)_minmax(0,1.8fr)] sm:p-6"
+            className="grid min-w-0 gap-5 rounded-lg border border-hairline bg-card/30 p-5 sm:grid-cols-[minmax(112px,0.7fr)_minmax(0,1.8fr)] sm:p-6"
           >
             <div className="min-w-0">
               <TokenVisual token={token} />
@@ -119,16 +119,19 @@ export function TokenTable({ title, tokens }: { title: string; tokens: readonly 
             </div>
             <div className="min-w-0 space-y-3">
               <div className="grid gap-2 text-label leading-relaxed font-mono md:grid-cols-2">
-                <code className="min-w-0 break-all text-foreground/72">{token.path}</code>
-                <code className="min-w-0 break-all text-foreground/55">{token.cssVariable}</code>
+                <code className="min-w-0 break-all text-foreground-secondary">{token.path}</code>
+                <code className="min-w-0 break-all text-foreground-tertiary">{token.cssVariable}</code>
               </div>
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 <span className="text-sm text-foreground font-mono">{token.cssValue}</span>
                 {token.aliasOf ? (
-                  <span className="break-all text-label text-foreground/55 font-mono">Aliases {token.aliasOf}</span>
+                  <span className="break-all text-label text-foreground-tertiary font-mono">
+                    Aliases {token.aliasOf}
+                    {token.aliasAlpha === undefined ? "" : ` at ${Math.round(token.aliasAlpha * 100)}%`}
+                  </span>
                 ) : null}
               </div>
-              <p className="max-w-[62ch] text-sm leading-relaxed text-foreground/72">{token.description}</p>
+              <p className="max-w-measure text-sm leading-relaxed text-foreground-secondary">{token.description}</p>
             </div>
           </article>
         ))}

@@ -7,6 +7,7 @@ import {
   type DesignSystemSection,
 } from "./sectionModel";
 import { renderBaselineSection } from "./sections";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 
 interface DesignSystemShellProps {
   renderSection?: (section: DesignSystemSection) => ReactNode;
@@ -32,19 +33,19 @@ function AdjacentSectionLinks({
   return (
     <nav
       aria-label={`${position} section navigation`}
-      className="grid grid-cols-2 gap-4 border-y border-border/40 py-5"
+      className="grid grid-cols-2 gap-4 border-y border-hairline py-5"
     >
       <div>
         {previous ? (
           <a
             href={`#${previous.id}`}
             aria-label={`Previous: ${previous.label}`}
-            className="group inline-flex min-h-11 flex-col justify-center text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
+            className="group inline-flex min-h-11 flex-col justify-center text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
           >
-            <span className="text-label uppercase tracking-eyebrow text-foreground/55">
+            <span className="text-label uppercase tracking-eyebrow text-foreground-tertiary">
               Previous
             </span>
-            <span className="mt-1 text-sm text-foreground/72 transition-colors group-hover:text-foreground">
+            <span className="mt-1 text-sm text-foreground-secondary transition-colors group-hover:text-foreground">
               {previous.label}
             </span>
           </a>
@@ -55,12 +56,12 @@ function AdjacentSectionLinks({
           <a
             href={`#${next.id}`}
             aria-label={`Next: ${next.label}`}
-            className="group inline-flex min-h-11 flex-col justify-center text-right focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
+            className="group inline-flex min-h-11 flex-col justify-center text-right focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
           >
-            <span className="text-label uppercase tracking-eyebrow text-foreground/55">
+            <span className="text-label uppercase tracking-eyebrow text-foreground-tertiary">
               Next
             </span>
-            <span className="mt-1 text-sm text-foreground/72 transition-colors group-hover:text-foreground">
+            <span className="mt-1 text-sm text-foreground-secondary transition-colors group-hover:text-foreground">
               {next.label}
             </span>
           </a>
@@ -137,7 +138,7 @@ export function DesignSystemShell({
           aria-expanded={railOpen}
           aria-controls="design-system-section-navigation"
           onClick={() => setRailOpen((open) => !open)}
-          className="flex min-h-11 w-full items-center justify-between border-y border-border/40 py-3 text-left text-label uppercase tracking-eyebrow text-foreground/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 lg:hidden"
+          className="flex min-h-11 w-full items-center justify-between border-y border-hairline py-3 text-left text-label uppercase tracking-eyebrow text-foreground-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus lg:hidden"
         >
           Browse sections
           <span aria-hidden="true">{railOpen ? "−" : "+"}</span>
@@ -146,7 +147,7 @@ export function DesignSystemShell({
         <nav
           id="design-system-section-navigation"
           aria-label="Design system sections"
-          className={`${railOpen ? "block" : "hidden"} border-b border-border/40 py-5 lg:block lg:border-b-0 lg:py-0`}
+          className={`${railOpen ? "block" : "hidden"} border-b border-hairline py-5 lg:block lg:border-b-0 lg:py-0`}
         >
           <div className="space-y-5">
             <a
@@ -154,10 +155,10 @@ export function DesignSystemShell({
               aria-current={
                 activeSection.id === OVERVIEW_SECTION.id ? "location" : undefined
               }
-              className={`flex min-h-11 w-full items-center text-left text-label uppercase tracking-eyebrow transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 lg:min-h-0 lg:py-1 ${
+              className={`flex min-h-11 w-full items-center text-left text-label uppercase tracking-eyebrow transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus lg:min-h-0 lg:py-1 ${
                 activeSection.id === OVERVIEW_SECTION.id
                   ? "text-foreground"
-                  : "text-foreground/55 hover:text-foreground/72"
+                  : "text-foreground-tertiary hover:text-foreground-secondary"
               }`}
             >
               {OVERVIEW_SECTION.label}
@@ -174,7 +175,7 @@ export function DesignSystemShell({
                     aria-expanded={isExpanded}
                     aria-controls={listId}
                     onClick={() => toggleGroup(group.id)}
-                    className="flex min-h-11 w-full items-center justify-between text-left text-label uppercase tracking-eyebrow text-foreground/55 transition-colors hover:text-foreground/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 lg:min-h-0 lg:py-1"
+                    className="flex min-h-11 w-full items-center justify-between text-left text-label uppercase tracking-eyebrow text-foreground-tertiary transition-colors hover:text-foreground-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus lg:min-h-0 lg:py-1"
                   >
                     {group.label}
                     <span aria-hidden="true">{isExpanded ? "−" : "+"}</span>
@@ -187,10 +188,10 @@ export function DesignSystemShell({
                           <a
                             href={`#${section.id}`}
                             aria-current={isActive ? "location" : undefined}
-                            className={`block min-h-11 border-l py-3 pl-3 text-xs leading-snug transition-[color,border-color] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 lg:min-h-0 lg:py-2.5 lg:text-label lg:uppercase lg:tracking-eyebrow ${
+                            className={`block min-h-11 border-l py-3 pl-3 text-caption leading-snug transition-[color,border-color] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus lg:min-h-0 lg:py-2.5 lg:text-label lg:uppercase lg:tracking-eyebrow ${
                               isActive
-                                ? "border-foreground/75 text-foreground"
-                                : "border-transparent text-foreground/55 hover:border-foreground/30 hover:text-foreground/72"
+                                ? "border-foreground-lead text-foreground"
+                                : "border-transparent text-foreground-tertiary hover:border-foreground/30 hover:text-foreground-secondary"
                             }`}
                           >
                             {section.label}
@@ -209,9 +210,7 @@ export function DesignSystemShell({
       <main className="min-w-0 w-full max-w-[900px] flex-1">
         <AdjacentSectionLinks section={activeSection} position="Top" />
         <article className="py-12 md:py-16">
-          <p className="mb-5 text-label uppercase tracking-eyebrow text-foreground/55">
-            Design system
-          </p>
+          <Eyebrow className="mb-5">Design system</Eyebrow>
           <h1
             ref={headingRef}
             tabIndex={-1}

@@ -34,7 +34,7 @@ export function AuraReflectionLearnings() {
           return (
             <div key={learning.num} className="flex flex-col gap-5 px-6 py-7 md:px-7 md:py-8">
               <div className="flex items-center justify-between">
-                <span className={`text-xs font-mono tabular-nums ${accent.num}`}>
+                <span className={`text-caption font-mono tabular-nums ${accent.num}`}>
                   {learning.num}
                 </span>
                 <Icon aria-hidden="true" className={`w-4 h-4 ${accent.icon}`} strokeWidth={1.4} />
@@ -44,7 +44,7 @@ export function AuraReflectionLearnings() {
                 <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">
                   {noOrphan(learning.title)}
                 </p>
-                <p className="text-sm md:text-base font-light text-foreground/72 leading-relaxed">
+                <p className="text-sm md:text-base font-light text-foreground-secondary leading-relaxed">
                   {noOrphan(learning.desc)}
                 </p>
               </div>

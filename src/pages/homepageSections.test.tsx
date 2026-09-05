@@ -63,6 +63,13 @@ describe("homepage sections", () => {
       for (const project of projectsInSection(key)) {
         const card = section.querySelector(`#project-${project.id}`);
         expect(card, `${project.id} card missing from ${key}`).not.toBeNull();
+        if (project.destination.kind === "placeholder") {
+          // The one sanctioned dead card: a cover with a "Coming soon" chip
+          // and nothing focusable, until the case study exists.
+          expect(card!.querySelector("a[href], button"), `${project.id} placeholder must not be clickable`).toBeNull();
+          expect(card!.textContent, `${project.id} placeholder needs its Coming soon chip`).toMatch(/Coming soon/);
+          continue;
+        }
         expect(card!.querySelector("a[href], button"), `${project.id} has no click target`).not.toBeNull();
       }
     }

@@ -6,15 +6,17 @@ type Rgb = [number, number, number];
 const SITE_BOOT_CANVAS: Rgb = [10 / 255, 10 / 255, 10 / 255];
 
 const PAIRS = [
-  { label: "Primary text on canvas", foreground: "color.text.primary", background: "color.background.canvas", threshold: 4.5, result: "AA" },
-  { label: "Muted text on canvas", foreground: "color.text.muted", background: "color.background.canvas", threshold: 4.5, result: "AA" },
-  { label: "Primary text on card", foreground: "color.text.primary", background: "color.surface.card", threshold: 4.5, result: "AA" },
+  // The ink ladder. Each tier is an alias of color.text.primary with its own
+  // alpha, so every row here follows an edit to the primary. text.quiet is
+  // absent on purpose: it is decorative-only and fails AA by design.
+  { label: "Primary ink on canvas", foreground: "color.text.primary", background: "color.background.canvas", threshold: 4.5, result: "AA" },
+  { label: "Lead ink (85%) on canvas", foreground: "color.text.lead", background: "color.background.canvas", threshold: 4.5, result: "AA" },
+  { label: "Secondary ink on canvas", foreground: "color.text.secondary", background: "color.background.canvas", threshold: 4.5, result: "AA" },
+  { label: "Tertiary ink (55%) on canvas", foreground: "color.text.tertiary", background: "color.background.canvas", threshold: 4.5, result: "AA" },
+  { label: "Primary ink on card", foreground: "color.text.primary", background: "color.surface.card", threshold: 4.5, result: "AA" },
+  { label: "Secondary ink on secondary surface", foreground: "color.text.secondary", background: "color.surface.secondary", threshold: 4.5, result: "AA" },
   { label: "Focus ring on canvas", foreground: "color.focus.ring", background: "color.background.canvas", threshold: 3, result: "3:1" },
-  // Emphasis ladder: text tiers are primary-foreground opacities. /55 is the
-  // dimmest tier approved for readable text; /44 is decorative-only.
-  { label: "Secondary text (85%) on canvas", foreground: "color.text.primary", foregroundAlpha: 0.85, background: "color.background.canvas", threshold: 4.5, result: "AA" },
-  { label: "Supporting text (72%) on canvas", foreground: "color.text.primary", foregroundAlpha: 0.72, background: "color.background.canvas", threshold: 4.5, result: "AA" },
-  { label: "Muted tier (55%) on canvas", foreground: "color.text.primary", foregroundAlpha: 0.55, background: "color.background.canvas", threshold: 4.5, result: "AA" },
+  { label: "Strong focus ring on card", foreground: "color.focus.ringStrong", background: "color.surface.card", threshold: 3, result: "3:1" },
 ] as const;
 
 function hslToSrgb(color: DtcgColor): Rgb {
@@ -76,21 +78,19 @@ export function ContrastChecks() {
   return (
     <section aria-labelledby="contrast-heading">
       <h2 id="contrast-heading" className="text-xl font-medium text-foreground">Contrast checks</h2>
-      <p className="mt-1 text-sm text-foreground/55">Advisory WCAG checks update with the compiled draft and never block export. Transparency is composited in sRGB over the effective background; translucent backgrounds use the site's #0a0a0a boot canvas as a deterministic substrate.</p>
+      <p className="mt-1 text-sm text-foreground-tertiary">Advisory WCAG checks update with the compiled draft and never block export. Transparency is composited in sRGB over the effective background; translucent backgrounds use the site's #0a0a0a boot canvas as a deterministic substrate.</p>
       <ul className="mt-5 grid gap-3 sm:grid-cols-2">
         {PAIRS.map((pair) => {
-          const foregroundValue = tokens.get(pair.foreground)!.resolvedValue as DtcgColor;
-          const tierAlpha = "foregroundAlpha" in pair ? pair.foregroundAlpha : undefined;
           const ratio = contrastRatio(
-            tierAlpha === undefined ? foregroundValue : { ...foregroundValue, alpha: tierAlpha },
+            tokens.get(pair.foreground)!.resolvedValue as DtcgColor,
             tokens.get(pair.background)!.resolvedValue as DtcgColor,
           );
           const passes = ratio >= pair.threshold;
           return (
-            <li key={pair.label} className="rounded-lg border border-border/50 p-4">
-              <p className="text-sm text-foreground/72">{pair.label}</p>
-              <p className="mt-2 font-mono text-xs text-foreground">{ratio.toFixed(2)}:1</p>
-              <p className={`mt-1 text-xs ${passes ? "text-foreground/72" : "text-destructive"}`}>{passes ? `Pass ${pair.result}` : `Fail ${pair.result}`}</p>
+            <li key={pair.label} className="rounded-lg border border-hairline p-4">
+              <p className="text-sm text-foreground-secondary">{pair.label}</p>
+              <p className="mt-2 font-mono text-caption text-foreground">{ratio.toFixed(2)}:1</p>
+              <p className={`mt-1 text-caption ${passes ? "text-foreground-secondary" : "text-destructive"}`}>{passes ? `Pass ${pair.result}` : `Fail ${pair.result}`}</p>
             </li>
           );
         })}

@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
+import { EASE } from "@/design-system/system/motion";
 
 export interface LightboxImage {
   src: string;
@@ -49,14 +50,14 @@ export function ImageLightbox({ image, onClose }: ImageLightboxProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: reduce ? 0 : 0.2, ease: "easeOut" }}
+          transition={{ duration: reduce ? 0 : 0.2, ease: EASE.settle }}
           onClick={onClose}
         >
           <button
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="absolute top-5 right-5 z-[101] flex h-10 w-10 items-center justify-center rounded-full text-foreground/55 transition-colors duration-300 hover:text-foreground cursor-pointer"
+            className="absolute top-5 right-5 z-[101] flex h-10 w-10 items-center justify-center rounded-full text-foreground-tertiary transition-colors duration-medium hover:text-foreground cursor-pointer"
             aria-label="Close expanded image"
           >
             <X className="h-4 w-4" />
@@ -69,7 +70,7 @@ export function ImageLightbox({ image, onClose }: ImageLightboxProps) {
             initial={{ opacity: 0, scale: reduce ? 1 : 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: reduce ? 1 : 0.98 }}
-            transition={{ duration: reduce ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reduce ? 0 : 0.22, ease: EASE.move }}
             onClick={(e) => e.stopPropagation()}
           />
         </motion.div>

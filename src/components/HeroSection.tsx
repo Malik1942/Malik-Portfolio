@@ -8,6 +8,7 @@ import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
 import { usePageLoaded } from "@/hooks/usePageLoaded";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
 import { SECTIONS } from "@/lib/sections";
+import { DURATION, EASE } from "@/design-system/system/motion";
 
 interface HeroSectionProps {
   isAboutOpen: boolean;
@@ -30,7 +31,7 @@ const MotiLink = ({ children }: { children: ReactNode }) => (
   <Link
     to="/project/moti"
     aria-label="Go to Moti, my AI-native iOS app"
-    className="pointer-events-auto cursor-pointer rounded-sm text-inherit no-underline transition-colors duration-300 hover:text-dot-red focus-visible:text-dot-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dot-red/60"
+    className="pointer-events-auto cursor-pointer rounded-sm text-inherit no-underline transition-colors duration-medium hover:text-dot-red focus-visible:text-dot-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dot-red/60"
   >
     {children}
   </Link>
@@ -85,9 +86,9 @@ const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
   return (
     <div className="flex items-baseline gap-2 md:gap-3 text-label md:text-xl font-mono leading-relaxed px-6">
       {/* Prompt glyph — items-baseline keeps it on the first text line */}
-      <span className="text-foreground/55 shrink-0 select-none">{'>'}</span>
+      <span className="text-foreground-tertiary shrink-0 select-none">{'>'}</span>
       {/* 43ch is just wide enough for "…and build" and just short of "…and build it". */}
-      <span className="text-foreground/72 text-left max-w-[43ch]">
+      <span className="text-foreground-secondary text-left max-w-[43ch]">
         <MotiLink>{TERMINAL_TEXT.slice(0, Math.min(len, ACCENT_WORD.length))}</MotiLink>
         {TERMINAL_TEXT.slice(ACCENT_WORD.length, len)}
         <span
@@ -95,7 +96,7 @@ const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
           style={{
             width: "0.5em",
             height: "1.05em",
-            background: "rgba(231,230,228,0.64)",
+            background: "hsl(var(--color-text-primary) / 0.64)",
             opacity: cursorOn ? 1 : 0,
             transition: cursorOn ? "none" : "opacity 0.1s",
           }}
@@ -164,7 +165,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSectionClick }:
         }}
         transition={{ duration: 0.7, delay: isAboutOpen ? 0 : isLoaded ? 1.2 : 0 }}
       >
-        <p className="text-sm text-foreground/72 font-mono leading-snug max-w-[340px] text-left px-6">
+        <p className="text-sm text-foreground-secondary font-mono leading-snug max-w-[340px] text-left px-6">
           <MotiLink>{ACCENT_WORD}</MotiLink>{TERMINAL_TEXT.slice(ACCENT_WORD.length)}
         </p>
       </motion.div>
@@ -199,7 +200,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSectionClick }:
           <motion.span
             className="text-label uppercase tracking-eyebrow text-foreground"
             animate={{ opacity: [0.45, 0.7, 0.45] }}
-            transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: DURATION.ambient, repeat: Infinity, ease: EASE.ambient }}
           >
             Scroll
           </motion.span>
@@ -207,7 +208,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSectionClick }:
             className="font-display text-title text-foreground leading-none select-none"
             style={{ display: "inline-block", transform: "scaleX(1.6)", marginTop: "-2px" }}
             animate={{ y: [0, 4, 0], opacity: [0.45, 0.7, 0.45] }}
-            transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: DURATION.ambient, repeat: Infinity, ease: EASE.ambient }}
           >
             ⌄
           </motion.span>

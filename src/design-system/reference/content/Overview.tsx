@@ -7,6 +7,12 @@ const PRINCIPLES = [
   ["Systemize what repeats; preserve what expresses", "Shared decisions become tokens and components. Art-directed moments keep the implementation freedom they need."],
 ] as const;
 
+const FACETS = [
+  ["Form", "Shape and structure: type role, spacing, radius, measure, layout width, target size.", "rounded-full px-8 py-4 text-base"],
+  ["Material", "Surface and ink: background, border, the ink tier, the focus ring.", "bg-foreground text-background ring-focus"],
+  ["Motion", "Pace and curve: what transitions, how long, and along which easing.", "transition-colors duration-fast ease-settle"],
+] as const;
+
 const REPORTS = [
   ["Format report", "https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/"],
   ["Color report", "https://www.w3.org/community/reports/design-tokens/CG-FINAL-color-20251028/"],
@@ -16,19 +22,38 @@ const REPORTS = [
 export function OverviewContent() {
   return (
     <div data-testid="reference-overview" className="space-y-14 md:space-y-16">
-      <div className="max-w-reading space-y-5 text-base leading-relaxed text-foreground/72 md:text-xl">
+      <div className="max-w-reading space-y-5 text-base leading-relaxed text-foreground-secondary md:text-xl">
         <p>This is the working language behind Malik’s portfolio: the decisions that repeat, the artifacts that carry them, and the expressive patterns that remain intentionally art-directed.</p>
         <p>Its structure follows VMedium’s focused-reference philosophy, but its content, rhythm, and specimens come from this portfolio’s production system.</p>
       </div>
 
       <section aria-labelledby="principles-heading">
         <h2 id="principles-heading" className="font-display text-title font-medium">Principles</h2>
-        <div className="mt-6 grid gap-px overflow-hidden rounded-lg border border-border/50 bg-border/50 md:grid-cols-2">
+        <div className="mt-6 grid gap-px overflow-hidden rounded-lg border border-hairline bg-hairline md:grid-cols-2">
           {PRINCIPLES.map(([title, copy], index) => (
             <article key={title} className="bg-background p-6 md:p-7">
-              <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">0{index + 1}</p>
+              <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">0{index + 1}</p>
               <h3 className="mt-3 text-xl font-medium tracking-tight text-foreground">{title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-foreground/72">{copy}</p>
+              <p className="mt-3 text-sm leading-relaxed text-foreground-secondary">{copy}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section aria-labelledby="facets-heading" className="space-y-5">
+        <h2 id="facets-heading" className="font-display text-title font-medium">Three facets</h2>
+        <p className="max-w-measure-wide text-sm leading-relaxed text-foreground-secondary">
+          Every decision in the system is one of three kinds, and the foundations,
+          the components, and the code are all written in the same three. A pattern
+          is a form, a material, and a motion composed together; a variant changes
+          one facet and leaves the other two alone.
+        </p>
+        <div className="grid gap-4 md:grid-cols-3">
+          {FACETS.map(([title, copy, example]) => (
+            <article key={title} className="rounded-lg border border-hairline p-5">
+              <h3 className="text-sm font-medium text-foreground">{title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-foreground-secondary">{copy}</p>
+              <code className="mt-3 block text-label leading-relaxed text-foreground-tertiary font-mono">{example}</code>
             </article>
           ))}
         </div>
@@ -36,28 +61,32 @@ export function OverviewContent() {
 
       <section aria-labelledby="flow-heading" className="space-y-5">
         <h2 id="flow-heading" className="font-display text-title font-medium">How it works</h2>
-        <p className="overflow-x-auto rounded-lg border border-border/50 bg-card/25 p-5 text-sm leading-relaxed text-foreground/72 font-mono sm:p-6">
+        <p className="overflow-x-auto rounded-lg border border-hairline bg-card/25 p-5 text-sm leading-relaxed text-foreground-secondary font-mono sm:p-6">
           DTCG JSON → generated CSS + typed metadata → portfolio + reference
         </p>
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-lg border border-border/50 p-5">
+          <article className="rounded-lg border border-hairline p-5">
             <h3 className="text-sm font-medium text-foreground">Shipped production values</h3>
-            <p className="mt-2 text-sm leading-relaxed text-foreground/72">Generated at build time and used by both the public site and this reference. These values change only through reviewed source files.</p>
+            <p className="mt-2 text-sm leading-relaxed text-foreground-secondary">Generated at build time and used by both the public site and this reference. These values change only through reviewed source files.</p>
           </article>
-          <article className="rounded-lg border border-border/50 p-5">
+          <article className="rounded-lg border border-hairline p-5">
+            <h3 className="text-sm font-medium text-foreground">Recipes in code</h3>
+            <p className="mt-2 text-sm leading-relaxed text-foreground-secondary">A component declares its classes as form, material, and motion (defineRecipe in src/design-system/system/recipe.ts). Framer Motion reads the same duration and easing tokens through the MOTION recipes.</p>
+          </article>
+          <article className="rounded-lg border border-hairline p-5">
             <h3 className="text-sm font-medium text-foreground">Curated public reference</h3>
-            <p className="mt-2 text-sm leading-relaxed text-foreground/72">Foundations, components, and patterns are selected from the production token graph and shown without public authoring controls.</p>
+            <p className="mt-2 text-sm leading-relaxed text-foreground-secondary">Foundations, components, and patterns are selected from the production token graph and shown without public authoring controls.</p>
           </article>
         </div>
       </section>
 
       <section aria-labelledby="standards-heading" className="space-y-4">
         <h2 id="standards-heading" className="font-display text-title font-medium">Standards reference</h2>
-        <p className="max-w-[70ch] text-sm leading-relaxed text-foreground/72">The compiler implements a documented subset of the current Design Tokens Community Group modules: explicit types, whole-token aliases, the supported color structure, and deterministic resolution. It does not claim complete support for every module feature.</p>
+        <p className="max-w-measure-wide text-sm leading-relaxed text-foreground-secondary">The compiler implements a documented subset of the current Design Tokens Community Group modules: explicit types, whole-token aliases, the supported color structure, and deterministic resolution. It does not claim complete support for every module feature.</p>
         <ul className="flex flex-wrap gap-3">
           {REPORTS.map(([label, href]) => (
             <li key={href}>
-              <a href={href} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded-sm border border-border/60 px-4 text-sm text-foreground/72 transition-colors hover:border-foreground/35 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40">{label} ↗</a>
+              <a href={href} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded-sm border border-hairline px-4 text-sm text-foreground-secondary transition-colors hover:border-foreground/35 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">{label} ↗</a>
             </li>
           ))}
         </ul>

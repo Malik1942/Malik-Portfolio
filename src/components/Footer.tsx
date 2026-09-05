@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { NAV_ITEMS, SECTIONS, navItemHref } from "@/lib/sections";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 
 interface FooterProps {
   /** A homepage section link was clicked; receives the section's DOM id. */
@@ -14,7 +15,7 @@ interface FooterProps {
 }
 
 const linkClass =
-  "nav-link text-foreground/72 hover:text-foreground text-sm transition-colors duration-500";
+  "nav-link text-foreground-secondary hover:text-foreground text-sm transition-colors duration-slow";
 
 const Footer = ({
   onSectionClick,
@@ -35,9 +36,9 @@ const Footer = ({
           {/* Left — Explore: Work, Studio, then About, Resume, Design System.
               More Work is a homepage section, not a chrome destination. */}
           <div>
-            <span className="text-label uppercase tracking-eyebrow text-foreground/55 block mb-6">
+            <Eyebrow as="span" className="block mb-6">
               Explore
-            </span>
+            </Eyebrow>
             <ul className="space-y-4">
               {NAV_ITEMS.map((item) => (
                 <li key={item.label}>
@@ -89,9 +90,9 @@ const Footer = ({
 
           {/* Right — Social */}
           <div>
-            <span className="text-label uppercase tracking-eyebrow text-foreground/55 block mb-6">
+            <Eyebrow as="span" className="block mb-6">
               Social
-            </span>
+            </Eyebrow>
             <ul className="space-y-4">
               <li>
                 <a href="mailto:malikzhang19@gmail.com" className={linkClass}>
@@ -134,7 +135,7 @@ const Footer = ({
 
         {/* Bottom row */}
         <div className="flex items-center border-t border-border pt-8">
-          <span className="text-xs text-foreground/55">
+          <span className="text-caption text-foreground-tertiary">
             &copy; 2026 Malik Zhang
           </span>
         </div>

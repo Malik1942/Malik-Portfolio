@@ -48,7 +48,7 @@ function Field({ label, text, onText, min, max, step = "any" }: {
   step?: number | "any";
 }) {
   return (
-    <label className="grid min-w-0 gap-1 text-label text-foreground/72">
+    <label className="grid min-w-0 gap-1 text-label text-foreground-secondary">
       <span className="min-w-0 break-all">{label}</span>
       <input
         aria-label={label}
@@ -68,17 +68,17 @@ export function TokenControl({ token, value, onChange }: TokenControlProps) {
   const [error, setError] = useState("");
 
   return (
-    <fieldset aria-label={token.path} className="min-w-0 rounded-lg border border-border/60 p-4">
-      <legend className="max-w-full px-1 font-mono text-label text-foreground/72 break-all">{token.path}</legend>
-      <p className="mt-1 text-xs text-foreground/55">{token.description}</p>
-      <div className="mt-3 grid gap-1 text-xs">
+    <fieldset aria-label={token.path} className="min-w-0 rounded-lg border border-hairline p-4">
+      <legend className="max-w-full px-1 font-mono text-label text-foreground-secondary break-all">{token.path}</legend>
+      <p className="mt-1 text-caption text-foreground-tertiary">{token.description}</p>
+      <div className="mt-3 grid gap-1 text-caption">
         <span>Production: {formatValue(token.resolvedValue)}</span>
         <span>Draft: {formatValue(value)}</span>
       </div>
       <div className="mt-4">
         <TypedControl token={token} value={value} onChange={(next) => { setError(""); onChange(next); }} setError={setError} />
       </div>
-      <p role="status" aria-live="polite" className="mt-2 min-h-4 text-xs text-destructive">{error}</p>
+      <p role="status" aria-live="polite" className="mt-2 min-h-4 text-caption text-destructive">{error}</p>
     </fieldset>
   );
 }
@@ -111,7 +111,7 @@ function ColorControl({ path, value, onChange, setError }: { path: string; value
       : [0, 0, 0];
     setTexts([...nextChannels.map(String), String(value.alpha ?? 1)]);
   }, [value]);
-  if (!numeric) return <p className="text-xs text-foreground/72">This color contains an unspecified channel and is read-only.</p>;
+  if (!numeric) return <p className="text-caption text-foreground-secondary">This color contains an unspecified channel and is read-only.</p>;
 
   const change = (index: number, text: string) => {
     const nextTexts = [...texts];
@@ -179,7 +179,7 @@ function FamilyControl({ path, value, onChange }: { path: string; value: string 
   }, []);
   const current = (Array.isArray(value) ? value : [value]).join("|");
   return (
-    <label className="grid gap-1 text-label text-foreground/72">
+    <label className="grid gap-1 text-label text-foreground-secondary">
       <span>{path} family</span>
       <select aria-label={`${path} family`} value={current} onChange={(event) => onChange(families.find(([key]) => key === event.target.value)![1])} className="min-h-11 rounded-lg border border-border bg-background px-3 text-sm text-foreground">
         {families.map(([key, family]) => <option key={key} value={key}>{family.join(", ")}</option>)}
@@ -202,7 +202,7 @@ function BezierControl({ path, value, onChange, setError }: { path: string; valu
   return (
     <div>
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">{names.map((name, index) => <Field key={name} label={`${path} ${name}`} text={texts[index]} onText={(text) => change(index, text)} />)}</div>
-      <svg data-testid="curve-preview" aria-label={`${path} curve preview`} viewBox="0 0 100 48" className="mt-3 h-12 w-full text-foreground/72"><path d={`M 0 48 C ${value[0] * 100} ${48 - value[1] * 48}, ${value[2] * 100} ${48 - value[3] * 48}, 100 0`} fill="none" stroke="currentColor" strokeWidth="2" /></svg>
+      <svg data-testid="curve-preview" aria-label={`${path} curve preview`} viewBox="0 0 100 48" className="mt-3 h-12 w-full text-foreground-secondary"><path d={`M 0 48 C ${value[0] * 100} ${48 - value[1] * 48}, ${value[2] * 100} ${48 - value[3] * 48}, 100 0`} fill="none" stroke="currentColor" strokeWidth="2" /></svg>
     </div>
   );
 }

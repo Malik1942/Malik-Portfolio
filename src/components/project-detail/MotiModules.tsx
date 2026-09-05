@@ -37,6 +37,8 @@ import motiLlm from "@/assets/moti-llm.webp";
 import motiAi from "@/assets/moti-ai.webp";
 import motiLlmPlan1 from "@/assets/moti-llm-plan1.webp";
 import motiLlmPlan2 from "@/assets/moti-llm-plan2.webp";
+import { Button } from "@/components/ui/Button";
+import { Chip } from "@/components/ui/Chip";
 
 /* ---------------------------------------------------------------------------
  * Moti case-study inline modules.
@@ -63,7 +65,7 @@ export function ModuleCard({ children, header }: { children: ReactNode; header?:
     <div className="rounded-2xl overflow-hidden bg-surface-inset border border-case-study-module-border">
       {header ? (
         <div className="px-8 pt-8 pb-7 md:px-10 border-b border-case-study-module-divider">
-          <p className="text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
+          <p className="text-caption md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
             {header}
           </p>
         </div>
@@ -85,7 +87,7 @@ export function CardGrid({ items, header, colsClass }: { items: GridItem[]; head
           return (
             <div key={it.num} className="flex flex-col gap-5 bg-surface-inset px-6 py-7 md:px-7 md:py-8">
               <div className="flex items-center justify-between">
-                <span className={`text-xs font-mono tabular-nums ${a.num}`}>{it.num}</span>
+                <span className={`text-caption font-mono tabular-nums ${a.num}`}>{it.num}</span>
                 <Icon aria-hidden="true" className={`w-4 h-4 ${a.icon}`} strokeWidth={1.4} />
               </div>
               <div className="flex flex-col gap-2.5">
@@ -93,7 +95,7 @@ export function CardGrid({ items, header, colsClass }: { items: GridItem[]; head
                   {noOrphan(it.title)}
                 </p>
                 {it.desc ? (
-                  <p className="text-sm md:text-base font-light text-foreground/72 leading-relaxed">
+                  <p className="text-sm md:text-base font-light text-foreground-secondary leading-relaxed">
                     {noOrphan(it.desc)}
                   </p>
                 ) : null}
@@ -111,12 +113,9 @@ export function Chips({ items }: { items: string[] }) {
   return (
     <div className="flex flex-wrap gap-2.5">
       {items.map((c) => (
-        <span
-          key={c}
-          className="inline-flex items-center rounded-full border border-border/50 bg-secondary/[0.08] px-4 py-2 text-sm text-foreground/80"
-        >
+        <Chip key={c} kind="text" tone="lead">
           {c}
-        </span>
+        </Chip>
       ))}
     </div>
   );
@@ -175,19 +174,9 @@ const MOTI_APP_STORE_URL = "https://apps.apple.com/us/app/moti-plan/id6770705491
 export function MotiAppStoreCta() {
   return (
     <div className="flex justify-center">
-      <a
-        href={MOTI_APP_STORE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group inline-flex items-center gap-2.5 rounded-full bg-foreground px-8 py-4 text-base md:text-lg font-medium text-background hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors duration-200"
-      >
+      <Button href={MOTI_APP_STORE_URL} external icon={<ArrowUpRight strokeWidth={1.8} />}>
         View on the App Store
-        <ArrowUpRight
-          aria-hidden="true"
-          className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-          strokeWidth={1.8}
-        />
-      </a>
+      </Button>
     </div>
   );
 }
@@ -195,7 +184,7 @@ export function MotiAppStoreCta() {
 // Subsection label inside a module — matches the template's `##` subhead style.
 export function SubHead({ children }: { children: ReactNode }) {
   return (
-    <p className="text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
+    <p className="text-caption md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
       {children}
     </p>
   );
@@ -265,11 +254,11 @@ export function MotiCompetitive() {
             <p className="text-sm md:text-base font-medium text-foreground">{c.name}</p>
             <div className="flex items-start gap-2.5">
               <Check aria-hidden="true" className="w-4 h-4 mt-0.5 shrink-0 text-success" strokeWidth={1.6} />
-              <p className="text-sm font-light text-foreground/72">{c.strength}</p>
+              <p className="text-sm font-light text-foreground-secondary">{c.strength}</p>
             </div>
             <div className="flex items-start gap-2.5">
-              <Minus aria-hidden="true" className="w-4 h-4 mt-0.5 shrink-0 text-foreground/55" strokeWidth={1.6} />
-              <p className="text-sm font-light text-foreground/55">{c.gap}</p>
+              <Minus aria-hidden="true" className="w-4 h-4 mt-0.5 shrink-0 text-foreground-tertiary" strokeWidth={1.6} />
+              <p className="text-sm font-light text-foreground-tertiary">{c.gap}</p>
             </div>
           </div>
         ))}
@@ -298,12 +287,12 @@ export function MotiUserQuotes() {
         return (
           <figure key={i} className="flex flex-col gap-4 rounded-2xl border border-case-study-module-border bg-surface-inset px-6 py-7">
             {/* Decorative glyph (aria-hidden): /44 is reserved for non-text ornament. */}
-            <Quote aria-hidden="true" className="w-5 h-5 text-foreground/44" strokeWidth={1.4} />
+            <Quote aria-hidden="true" className="w-5 h-5 text-foreground-quiet" strokeWidth={1.4} />
             <blockquote className="text-sm md:text-base font-light leading-relaxed text-foreground">
               “{q.quote}”
             </blockquote>
             {/* mt-auto: grid rows stretch, so the attribution sits on one baseline across a row. */}
-            <figcaption className="mt-auto flex items-center gap-2 pt-1 text-label uppercase tracking-eyebrow text-foreground/55 font-mono">
+            <figcaption className="mt-auto flex items-center gap-2 pt-1 text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">
               <Mark className="w-3.5 h-3.5 shrink-0" />
               {q.product}
             </figcaption>
@@ -366,8 +355,8 @@ export function MotiBeforeBuilding() {
         <SubHead>Define System Architecture</SubHead>
         <CardGrid items={tierItems} colsClass="grid-cols-1 sm:grid-cols-3" />
         <div className="rounded-2xl border border-case-study-module-border bg-surface-inset px-6 py-7 md:px-8 md:py-8">
-          <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono mb-3">Pipeline</p>
-          <p className="text-sm md:text-base font-light leading-relaxed text-foreground/72">
+          <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono mb-3">Pipeline</p>
+          <p className="text-sm md:text-base font-light leading-relaxed text-foreground-secondary">
             Messy human input → SLM builds structured understanding → LLM turns it into an adaptive, timeline-aware plan. A
             context store and feedback loop run underneath.
           </p>
@@ -393,7 +382,7 @@ export function MotiBeforeBuilding() {
             <p className="text-base md:text-xl font-medium text-foreground">Adaptive Learning Loop</p>
             <Activity aria-hidden="true" className="w-4 h-4 text-accent-violet" strokeWidth={1.4} />
           </div>
-          <p className="text-sm md:text-base font-light leading-relaxed text-foreground/72">
+          <p className="text-sm md:text-base font-light leading-relaxed text-foreground-secondary">
             Moti checks in at set milestones to learn the user&rsquo;s personal baseline: pace, completion behavior, and
             energy.
           </p>
@@ -401,7 +390,7 @@ export function MotiBeforeBuilding() {
             {["25%", "50%", "75%", "100%"].map((p) => (
               <span
                 key={p}
-                className="inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.03] px-3 py-1 text-xs font-mono tabular-nums text-foreground/72"
+                className="inline-flex items-center rounded-full border border-hairline bg-foreground/[0.03] px-3 py-1 text-caption font-mono tabular-nums text-foreground-secondary"
               >
                 {p}
               </span>
@@ -457,17 +446,17 @@ function VersionBlock({
   return (
     <div className="rounded-2xl overflow-hidden border border-case-study-module-border bg-surface-inset">
       <div className="flex items-baseline gap-4 px-6 py-6 md:px-8 md:py-7 border-b border-case-study-module-divider">
-        <span className="text-xs font-mono tabular-nums text-accent-violet/70">{tag}</span>
+        <span className="text-caption font-mono tabular-nums text-accent-violet/70">{tag}</span>
         <div>
           <p className="text-xl font-medium text-foreground leading-snug">{noOrphan(title)}</p>
-          {subtitle ? <p className="mt-1 text-xs md:text-sm text-foreground/55">{noOrphan(subtitle)}</p> : null}
+          {subtitle ? <p className="mt-1 text-caption md:text-sm text-foreground-tertiary">{noOrphan(subtitle)}</p> : null}
         </div>
       </div>
       <div className="flex flex-col gap-5 px-6 py-6 md:px-8 md:py-7">
         {points.map((p) => (
           <div key={p.label}>
-            <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono mb-1.5">{p.label}</p>
-            <p className="text-sm md:text-base font-light leading-relaxed text-foreground/72">{noOrphan(p.text)}</p>
+            <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono mb-1.5">{p.label}</p>
+            <p className="text-sm md:text-base font-light leading-relaxed text-foreground-secondary">{noOrphan(p.text)}</p>
           </div>
         ))}
         {quote ? <PullQuote>{quote}</PullQuote> : null}
@@ -517,8 +506,8 @@ export function MotiBuildJourney() {
         <div className="flex flex-col gap-4 px-6 py-7 md:px-8 md:py-8">
           {iterationPoints.map((p, i) => (
             <div key={i} className="flex items-start gap-3">
-              <span className="mt-[0.6em] h-1 w-1 shrink-0 rounded-full bg-foreground/44" />
-              <p className="text-sm md:text-base font-light leading-relaxed text-foreground/72">{p}</p>
+              <span className="mt-[0.6em] h-1 w-1 shrink-0 rounded-full bg-foreground-quiet" />
+              <p className="text-sm md:text-base font-light leading-relaxed text-foreground-secondary">{p}</p>
             </div>
           ))}
           <div className="mt-2 flex items-start gap-3">

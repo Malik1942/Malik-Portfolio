@@ -7,6 +7,11 @@ import { ProjectMediaFrame } from "@/components/project-detail/ProjectMediaFrame
 import { FigureCaption } from "@/components/project-detail/FigureCaption";
 import { ProjectMetadataSummary } from "@/components/project-detail/ProjectMetadataSummary";
 import { NAV_ITEMS, navItemHref } from "@/lib/sections";
+import { ArrowUpRight, Mail } from "lucide-react";
+import { BackLink } from "@/components/ui/BackLink";
+import { Button } from "@/components/ui/Button";
+import { Chip, LinkChip } from "@/components/ui/Chip";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Specimen } from "../Specimen";
 
 interface ComponentSpecimenProps {
@@ -17,7 +22,7 @@ interface ComponentSpecimenProps {
 
 function ContextLink({ href, label }: { href: string; label: string }) {
   return (
-    <a href={href} className="inline-flex min-h-11 items-center text-sm text-foreground/72 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+    <a href={href} className="inline-flex min-h-11 items-center text-sm text-foreground-secondary transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
       {label} <span aria-hidden="true" className="ml-2">→</span>
     </a>
   );
@@ -34,14 +39,14 @@ function ProjectCardStage() {
       onMouseEnter={() => setActive(true)}
       onMouseLeave={() => setActive(false)}
       data-active={active}
-      className="group relative block overflow-hidden rounded-lg border border-border/50 bg-secondary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="group relative block overflow-hidden rounded-lg border border-hairline bg-secondary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
     >
-      <img src={motiCard} alt="Moti mobile product interface" className="aspect-[16/9] w-full object-cover transition-transform duration-300 group-hover:scale-[1.025] group-focus-visible:scale-[1.025]" />
-      <div className={`absolute inset-0 flex items-end bg-gradient-to-t from-background via-background/15 to-transparent p-5 transition-opacity duration-200 ${active ? "opacity-100" : "opacity-75"}`}>
+      <img src={motiCard} alt="Moti mobile product interface" className="aspect-[16/9] w-full object-cover transition-transform duration-medium group-hover:scale-[1.025] group-focus-visible:scale-[1.025]" />
+      <div className={`absolute inset-0 flex items-end bg-gradient-to-t from-background via-background/15 to-transparent p-5 transition-opacity duration-fast ${active ? "opacity-100" : "opacity-75"}`}>
         <div>
-          <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">Selected work · 2025</p>
+          <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">Selected work · 2025</p>
           <p className="mt-2 text-xl font-medium tracking-tight text-foreground">Moti</p>
-          <p className="mt-1 text-sm text-foreground/72">Product design</p>
+          <p className="mt-1 text-sm text-foreground-secondary">Product design</p>
         </div>
       </div>
     </a>
@@ -55,11 +60,11 @@ function LightboxStage() {
       <button
         type="button"
         onClick={() => setImage({ src: auraCover, alt: "Specimen product interface" })}
-        className="group relative block w-full overflow-hidden rounded-lg border border-border/50 bg-secondary/30 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="group relative block w-full overflow-hidden rounded-lg border border-hairline bg-secondary/30 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
         aria-label="Open image lightbox"
       >
-        <img src={auraCover} alt="" className="aspect-[16/8] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02] group-focus-visible:scale-[1.02]" />
-        <span className="absolute inset-0 grid place-items-center bg-background/15 text-sm text-foreground opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">Inspect image</span>
+        <img src={auraCover} alt="" className="aspect-[16/8] w-full object-cover transition-transform duration-medium group-hover:scale-[1.02] group-focus-visible:scale-[1.02]" />
+        <span className="absolute inset-0 grid place-items-center bg-background/15 text-sm text-foreground opacity-0 transition-opacity duration-fast group-hover:opacity-100 group-focus-visible:opacity-100">Inspect image</span>
       </button>
       <ImageLightbox image={image} onClose={() => setImage(null)} />
     </>
@@ -81,26 +86,26 @@ function SiteHeaderStage() {
   return (
     // Full-bleed inside the specimen stage: cancel the card padding so the
     // header and its divider span the component's full width, like production.
-    <div className="-mx-5 -mt-5 border-b border-border/45 px-5 pb-4 pt-5 sm:-mx-6 sm:-mt-6 sm:px-6 sm:pt-6">
+    <div className="-mx-5 -mt-5 border-b border-hairline px-5 pb-4 pt-5 sm:-mx-6 sm:-mt-6 sm:px-6 sm:pt-6">
       <div className="flex items-center justify-between gap-4">
         <a
           href="/"
           aria-label="Malik Zhang — home"
           onClick={(event) => event.preventDefault()}
-          className="inline-block w-fit shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="inline-block w-fit shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
         >
           <img src={logo} alt="Malik Zhang" className="h-6 w-auto select-none" />
         </a>
         {/* Same classes as the production SiteHeader links: the .nav-link
             underline sweep and 500ms color transition are the real behavior,
             including production's documented focus-ring and target-size gaps. */}
-        <nav aria-label="Site header destinations" className="flex flex-wrap justify-end gap-x-5 gap-y-2 text-sm text-foreground/72">
+        <nav aria-label="Site header destinations" className="flex flex-wrap justify-end gap-x-5 gap-y-2 text-sm text-foreground-secondary">
           {SITE_HEADER_DESTINATIONS.map(([label, href]) => (
             <a
               key={label}
               href={href}
               onClick={(event) => event.preventDefault()}
-              className="nav-link hover:text-foreground transition-colors duration-500"
+              className="nav-link hover:text-foreground transition-colors duration-slow"
             >
               {label}
             </a>
@@ -118,9 +123,9 @@ function ProjectListStage() {
         [motiCard, "Moti", "Product design"],
         [auraCover, "Aura", "End-to-end experience"],
       ].map(([image, title, role]) => (
-        <a key={title} href="#project-list-specimen" onClick={(event) => event.preventDefault()} className="group overflow-hidden rounded-sm border border-border/45 bg-secondary/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-          <img src={image} alt="" className="aspect-[16/10] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02] group-focus-visible:scale-[1.02]" />
-          <div className="p-4"><p className="text-xl tracking-tight text-foreground">{title}</p><p className="mt-1 text-sm text-foreground/55">{role}</p></div>
+        <a key={title} href="#project-list-specimen" onClick={(event) => event.preventDefault()} className="group overflow-hidden rounded-sm border border-hairline bg-secondary/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+          <img src={image} alt="" className="aspect-[16/10] w-full object-cover transition-transform duration-medium group-hover:scale-[1.02] group-focus-visible:scale-[1.02]" />
+          <div className="p-4"><p className="text-xl tracking-tight text-foreground">{title}</p><p className="mt-1 text-sm text-foreground-tertiary">{role}</p></div>
         </a>
       ))}
     </div>
@@ -142,14 +147,85 @@ function MediaFrameStage() {
 
 function FooterStage() {
   return (
-    <div className="grid gap-5 border-t border-border/45 pt-5 sm:grid-cols-2">
-      <div><p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">Explore</p><div className="mt-3 flex flex-wrap gap-x-4 gap-y-2"><a href="#footer-work" onClick={(event) => event.preventDefault()} className="text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Selected Work</a><a href="#footer-about" onClick={(event) => event.preventDefault()} className="text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">About</a></div></div>
-      <div className="sm:text-right"><p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">Elsewhere</p><p className="mt-3 text-sm text-foreground/72">A quieter path to the rest of the work.</p></div>
+    <div className="grid gap-5 border-t border-hairline pt-5 sm:grid-cols-2">
+      <div><p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">Explore</p><div className="mt-3 flex flex-wrap gap-x-4 gap-y-2"><a href="#footer-work" onClick={(event) => event.preventDefault()} className="text-sm text-foreground-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">Selected Work</a><a href="#footer-about" onClick={(event) => event.preventDefault()} className="text-sm text-foreground-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">About</a></div></div>
+      <div className="sm:text-right"><p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">Elsewhere</p><p className="mt-3 text-sm text-foreground-secondary">A quieter path to the rest of the work.</p></div>
+    </div>
+  );
+}
+
+function EyebrowStage() {
+  return (
+    <div className="grid gap-6 sm:grid-cols-3">
+      <div>
+        <Eyebrow>Selected work</Eyebrow>
+        <p className="mt-2 text-sm text-foreground-secondary">tertiary, body</p>
+      </div>
+      <div>
+        <Eyebrow tone="secondary">Photography</Eyebrow>
+        <p className="mt-2 text-sm text-foreground-secondary">secondary, body</p>
+      </div>
+      <div>
+        <Eyebrow family="mono">malik@portfolio:~$</Eyebrow>
+        <p className="mt-2 text-sm text-foreground-secondary">tertiary, mono</p>
+      </div>
+    </div>
+  );
+}
+
+function ChipStage() {
+  return (
+    <div className="flex flex-wrap items-center gap-x-2 gap-y-2">
+      <span className="text-sm text-foreground-secondary">Product designer · 2026</span>
+      <LinkChip link={{ label: "App Store", url: "#chip-specimen" }} />
+      <Chip>Coming soon</Chip>
+      <Chip>Interaction</Chip>
+      <Chip>Strategy</Chip>
+      <Chip kind="text" tone="lead">Plan the day out loud</Chip>
+    </div>
+  );
+}
+
+function ButtonStage() {
+  return (
+    <div className="flex flex-wrap items-center gap-4">
+      <Button href="#button-specimen" icon={<ArrowUpRight strokeWidth={1.8} />} onClick={(event) => event.preventDefault()}>
+        View on the App Store
+      </Button>
+      <Button href="#button-specimen" tone="secondary" iconPosition="leading" icon={<Mail strokeWidth={1.5} />} onClick={(event) => event.preventDefault()}>
+        Email support
+      </Button>
+      <Button tone="secondary">Replay</Button>
+    </div>
+  );
+}
+
+function BackLinkStage() {
+  return (
+    <div className="flex flex-wrap items-center gap-8">
+      <BackLink aria-label="Back to home">Back to home</BackLink>
+      <BackLink family="mono" aria-label="Back to home">Back</BackLink>
     </div>
   );
 }
 
 const COMPONENT_STAGES: Record<string, { description: string; render: () => JSX.Element }> = {
+  "component-eyebrow": {
+    description: "Three settings of one label: the two ink tiers and the mono family.",
+    render: EyebrowStage,
+  },
+  "component-chip": {
+    description: "A metadata line as the card renders it: the outbound link chip reads as clickable, the skill chips do not.",
+    render: ChipStage,
+  },
+  "component-button": {
+    description: "Hover the primary pill for the ink lift and the arrow nudge; the secondary control brightens only its border.",
+    render: ButtonStage,
+  },
+  "component-back-link": {
+    description: "Hover to see the arrow nudge left and the ink rise from secondary to primary.",
+    render: BackLinkStage,
+  },
   "component-project-card": {
     description: "Hover or focus the card to inspect its image-led overlay state.",
     render: ProjectCardStage,

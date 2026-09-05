@@ -1,7 +1,7 @@
 import { motion, type Variants } from "framer-motion";
 import type { ReactNode, RefObject } from "react";
-
-const easeOutExpo: [number, number, number, number] = [0.22, 1, 0.36, 1];
+import { DURATION, EASE } from "@/design-system/system/motion";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 
 /** Left column — matches Photography rhythm */
 export const aboutEditorialTextVariants: Variants = {
@@ -9,7 +9,7 @@ export const aboutEditorialTextVariants: Variants = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.75, ease: easeOutExpo },
+    transition: { duration: DURATION.reveal, ease: EASE.move },
   },
 };
 
@@ -30,7 +30,7 @@ export const aboutEditorialItemVariants: Variants = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.65, ease: easeOutExpo },
+    transition: { duration: 0.65, ease: EASE.move },
   },
 };
 
@@ -50,14 +50,11 @@ const rowClassCenter =
 const leftColClass =
   "lg:w-[min(100%,248px)] xl:w-[260px] flex-shrink-0 lg:sticky lg:top-28";
 
-const eyebrowClass =
-  "text-label uppercase tracking-eyebrow text-foreground/72 mb-5";
-
 const titleClass =
   "text-xl sm:text-title font-light text-foreground leading-tight mb-5";
 
 const descriptionClass =
-  "text-xs sm:text-sm font-light leading-relaxed text-foreground/72 max-w-[36ch]";
+  "text-caption sm:text-sm font-light leading-relaxed text-foreground-secondary max-w-[36ch]";
 
 export type AboutEditorialSectionProps = {
   sectionRef?: RefObject<HTMLElement | null>;
@@ -103,7 +100,7 @@ export function AboutEditorialSection({
             initial="hidden"
             animate={inView ? "show" : "hidden"}
           >
-            <p className={eyebrowClass}>{eyebrow}</p>
+            <Eyebrow tone="secondary" className="mb-5">{eyebrow}</Eyebrow>
             <h2 className={titleClass}>{title}</h2>
             <p className={descriptionClass}>{description}</p>
           </motion.div>

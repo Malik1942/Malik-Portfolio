@@ -1,8 +1,24 @@
 import type { Config } from "tailwindcss";
-import tailwindcssAnimate from "tailwindcss-animate";
 
+// Every utility that expresses a system decision references a generated token
+// variable (src/styles/tokens.generated.css). That is what lets the workbench
+// edit tokens live: change the variable and the running portfolio follows.
+//
+// The theme is read in three facets, the same three the reference uses:
+//   form      shape and structure: type scale, radius, measure, layout, target
+//   material  surface and ink: color roles, hairlines, focus rings
+//   motion    pace and curve: durations and easings
+// Top-level keys (fontSize, borderRadius, transitionDuration, ...) REPLACE
+// Tailwind's defaults, so only system steps exist as utilities. An off-system
+// class such as text-lg or duration-150 generates nothing; the boundary test in
+// src/design-system/boundary.test.ts fails the build before that can ship.
+
+/** A token color with an alpha channel left open for `/NN` modifiers. */
 const color = (name: string) => `hsl(var(--${name}) / <alpha-value>)`;
+/** A token color whose alpha is part of the token (ink tiers, hairlines, rings). */
 const completeColor = (name: string) => `hsl(var(--${name}))`;
+/** A `measure.*` token is a character count; utilities turn it into a width. */
+const measure = (name: string) => `calc(var(--measure-${name}) * 1ch)`;
 
 export default {
   darkMode: ["class"],
@@ -16,19 +32,14 @@ export default {
         "2xl": "1400px",
       },
     },
-    // Top-level overrides define the ENFORCEABLE system boundary: only these
-    // steps exist as utilities, and every one references an editable token
-    // variable so workbench edits update the live portfolio.
+
+    // ── Form: type ──────────────────────────────────────────────────────────
     fontSize: {
+      // Label and caption both sit at 12px (Sep 2026: label raised from 11px so
+      // metadata labels read comfortably) but stay distinct roles: label is
+      // uppercase at eyebrow tracking, caption is sentence case.
       label: ["var(--font-size-label)", { lineHeight: "1.4" }],
-      // `caption` is the role name; `xs` is a value-named alias kept for the
-      // existing call sites. Both bind the same token, so they stay in lockstep
-      // under workbench edits. Prefer `text-caption` in new code. Label and
-      // caption both sit at 12px (Sep 2026: label raised from 11px so metadata
-      // labels read comfortably) but stay distinct roles: label is uppercase at
-      // 0.18em eyebrow tracking, caption is sentence case.
       caption: ["var(--font-size-caption)", { lineHeight: "1.4" }],
-      xs: ["var(--font-size-caption)", { lineHeight: "1.4" }],
       sm: ["var(--font-size-body-small)", { lineHeight: "1.5" }],
       base: ["var(--font-size-body)", { lineHeight: "1.5" }],
       xl: ["var(--font-size-body-large)", { lineHeight: "1.5" }],
@@ -50,6 +61,8 @@ export default {
       normal: "0em",
       eyebrow: "0.18em",
     },
+
+    // ── Form: shape ─────────────────────────────────────────────────────────
     borderRadius: {
       none: "0",
       DEFAULT: "var(--radius-small)",
@@ -58,32 +71,69 @@ export default {
       "2xl": "var(--radius-large)",
       full: "9999px",
     },
+
+    // ── Motion ──────────────────────────────────────────────────────────────
+    // `transition-*` utilities pick up DEFAULT, so an unqualified transition
+    // runs at the fast pace on the standard curve.
+    transitionDuration: {
+      DEFAULT: "var(--duration-fast)",
+      fast: "var(--duration-fast)",
+      medium: "var(--duration-medium)",
+      slow: "var(--duration-slow)",
+      page: "var(--duration-page)",
+      reveal: "var(--duration-reveal)",
+      ambient: "var(--duration-ambient)",
+    },
+    transitionTimingFunction: {
+      DEFAULT: "var(--ease-standard)",
+      enter: "var(--ease-enter)",
+      move: "var(--ease-move)",
+      standard: "var(--ease-standard)",
+      settle: "var(--ease-settle)",
+      exit: "var(--ease-exit)",
+      ambient: "var(--ease-ambient)",
+    },
+
     extend: {
+      // ── Form: layout ──────────────────────────────────────────────────────
       spacing: {
         // 44px touch target, kept live-editable via the layout token.
         11: "var(--layout-touch-target)",
       },
+      maxWidth: {
+        content: "var(--layout-content)",
+        page: "var(--layout-page)",
+        reading: "var(--layout-reading)",
+        "measure-narrow": measure("narrow"),
+        measure: measure("body"),
+        "measure-wide": measure("wide"),
+      },
+
+      // ── Material ──────────────────────────────────────────────────────────
       colors: {
-        border: color("color-border-default"),
-        input: color("color-input-default"),
-        ring: color("color-focus-ring"),
         background: color("color-background-canvas"),
-        foreground: color("color-text-primary"),
+        // The ink ladder. `foreground` keeps an open alpha for the rare
+        // decorative wash (bg-foreground/[0.08] on a chip); text should use a
+        // named tier so the hierarchy stays editable as five roles.
+        foreground: {
+          DEFAULT: color("color-text-primary"),
+          lead: completeColor("color-text-lead"),
+          secondary: completeColor("color-text-secondary"),
+          tertiary: completeColor("color-text-tertiary"),
+          quiet: completeColor("color-text-quiet"),
+        },
         primary: {
           DEFAULT: color("color-action-primary"),
           foreground: color("color-text-on-primary"),
         },
+        destructive: color("color-action-destructive"),
         secondary: {
           DEFAULT: color("color-surface-secondary"),
           foreground: color("color-text-primary"),
         },
-        destructive: {
-          DEFAULT: color("color-action-destructive"),
-          foreground: color("color-text-on-destructive"),
-        },
         muted: {
           DEFAULT: color("color-surface-muted"),
-          foreground: color("color-text-muted"),
+          foreground: color("color-text-tertiary"),
         },
         accent: {
           DEFAULT: color("color-surface-accent"),
@@ -96,6 +146,19 @@ export default {
         card: {
           DEFAULT: color("color-surface-card"),
           foreground: color("color-text-primary"),
+        },
+        // Boundaries: `border` is the full-strength rule, `hairline` the
+        // everyday one, `hairline-faint` for rows inside a bounded surface.
+        border: color("color-border-default"),
+        hairline: {
+          DEFAULT: completeColor("color-border-hairline"),
+          faint: completeColor("color-border-faint"),
+        },
+        // Focus rings: `ring-focus` on the canvas, `ring-focus-strong` over
+        // media and filled surfaces.
+        focus: {
+          DEFAULT: completeColor("color-focus-ring"),
+          strong: completeColor("color-focus-ring-strong"),
         },
         "surface-inset": color("component-case-study-module-surface"),
         "project-card-surface": completeColor("component-project-card-surface"),
@@ -111,45 +174,8 @@ export default {
         "accent-slate": color("component-case-study-module-accent-slate"),
         "timeline-award": completeColor("component-about-timeline-award-dot"),
         "timeline-education": completeColor("component-about-timeline-education-dot"),
-        sidebar: {
-          DEFAULT: color("color-sidebar-background"),
-          foreground: color("color-sidebar-foreground"),
-          primary: color("color-sidebar-primary"),
-          "primary-foreground": color("color-sidebar-primary-foreground"),
-          accent: color("color-sidebar-accent"),
-          "accent-foreground": color("color-sidebar-accent-foreground"),
-          border: color("color-sidebar-border"),
-          ring: color("color-sidebar-ring"),
-        },
-      },
-      maxWidth: {
-        content: "var(--layout-content)",
-        page: "var(--layout-page)",
-        reading: "var(--layout-reading)",
-      },
-      keyframes: {
-        "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
-        },
-        "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [],
 } satisfies Config;

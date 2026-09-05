@@ -20,18 +20,18 @@ function HeaderConnect({
   return (
     <div
       data-testid={testId}
-      className={`${interactive} flex items-center gap-x-3 text-foreground/72 ${className}`}
+      className={`${interactive} flex items-center gap-x-3 text-foreground-secondary ${className}`}
     >
       <a
         href={EMAIL_HREF}
-        className="nav-link hover:text-foreground transition-colors duration-500"
+        className="nav-link hover:text-foreground transition-colors duration-slow"
       >
         Connect
       </a>
       <a
         href={EMAIL_HREF}
         aria-label="Email"
-        className="hover:text-foreground transition-colors duration-500"
+        className="hover:text-foreground transition-colors duration-slow"
       >
         <Mail className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
       </a>
@@ -40,7 +40,7 @@ function HeaderConnect({
         aria-label="LinkedIn"
         target="_blank"
         rel="noopener noreferrer"
-        className="hover:text-foreground transition-colors duration-500"
+        className="hover:text-foreground transition-colors duration-slow"
       >
         <Linkedin className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
       </a>
@@ -119,7 +119,7 @@ export function SiteHeader({
   // tucked-away, opacity-0 link must not intercept taps either).
   const interactive = inert || hidden ? "pointer-events-none" : "pointer-events-auto";
 
-  const linkClass = "nav-link hover:text-foreground transition-colors duration-500";
+  const linkClass = "nav-link hover:text-foreground transition-colors duration-slow";
 
   // The same links render in the desktop and mobile rows.
   const links = (
@@ -191,7 +191,7 @@ export function SiteHeader({
           </div>
 
           {/* Center — nav */}
-          <nav className={`${interactive} flex items-center gap-x-8 gap-y-2 text-base text-foreground/72 animate-fade-up delay-4 justify-self-center`}>
+          <nav className={`${interactive} flex items-center gap-x-8 gap-y-2 text-base text-foreground-secondary animate-fade-up delay-4 justify-self-center`}>
             {links}
           </nav>
 
@@ -206,7 +206,7 @@ export function SiteHeader({
         {/* Mobile — single-row nav, no logo. A fixed 20px gap (not justify-between)
             keeps the spacing between links identical at every screen width; the
             centered group + 14px type still fits one line down to ~320px. */}
-        <nav className={`${interactive} flex flex-nowrap justify-center gap-x-5 whitespace-nowrap text-sm text-foreground/72 animate-fade-up delay-4 md:hidden`}>
+        <nav className={`${interactive} flex flex-nowrap justify-center gap-x-5 whitespace-nowrap text-sm text-foreground-secondary animate-fade-up delay-4 md:hidden`}>
           {links}
         </nav>
 

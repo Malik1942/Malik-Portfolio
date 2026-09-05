@@ -3,7 +3,8 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
 import type { ProjectLink } from "@/data/projects";
-import { LinkChip } from "./LinkChip";
+import { LinkChip } from "./ui/Chip";
+import { EASE } from "@/design-system/system/motion";
 
 export interface LightboxVideo {
   src: string;
@@ -58,14 +59,14 @@ export function VideoLightbox({ video, onClose }: VideoLightboxProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: reduce ? 0 : 0.2, ease: "easeOut" }}
+          transition={{ duration: reduce ? 0 : 0.2, ease: EASE.settle }}
           onClick={onClose}
         >
           <button
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="absolute top-5 right-5 z-[101] flex h-10 w-10 items-center justify-center rounded-full text-foreground/55 transition-colors duration-300 hover:text-foreground cursor-pointer"
+            className="absolute top-5 right-5 z-[101] flex h-10 w-10 items-center justify-center rounded-full text-foreground-tertiary transition-colors duration-medium hover:text-foreground cursor-pointer"
             aria-label="Close video"
           >
             <X className="h-4 w-4" />
@@ -76,7 +77,7 @@ export function VideoLightbox({ video, onClose }: VideoLightboxProps) {
             initial={{ opacity: 0, scale: reduce ? 1 : 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: reduce ? 1 : 0.98 }}
-            transition={{ duration: reduce ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reduce ? 0 : 0.22, ease: EASE.move }}
             onClick={(e) => e.stopPropagation()}
           >
             <video
@@ -85,10 +86,10 @@ export function VideoLightbox({ video, onClose }: VideoLightboxProps) {
               controls
               autoPlay
               playsInline
-              className="max-h-[80vh] w-auto max-w-full rounded-lg bg-black shadow-2xl"
+              className="max-h-[80vh] w-auto max-w-full rounded-lg bg-background shadow-2xl"
             />
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 px-1">
-              <p className="text-sm text-foreground/72">{video.caption}</p>
+              <p className="text-sm text-foreground-secondary">{video.caption}</p>
               {video.links?.map((link) => (
                 <LinkChip key={link.url} link={link} />
               ))}

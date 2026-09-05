@@ -39,8 +39,24 @@ describe("ComponentSpecimen", () => {
     expect(trigger).toHaveFocus();
   });
 
+  it("renders the primitives as their production components", () => {
+    const view = render(
+      <ComponentSpecimen sectionId="component-button" contextHref="/" contextLabel="View in context" />,
+    );
+    expect(screen.getByRole("link", { name: /View on the App Store/ })).toHaveClass("rounded-full");
+    expect(screen.getByRole("link", { name: /Email support/ })).toHaveClass("font-mono");
+    expect(screen.getByRole("button", { name: "Replay" })).toBeInTheDocument();
+    view.unmount();
+
+    render(<ComponentSpecimen sectionId="component-chip" contextHref="/" contextLabel="View in context" />);
+    expect(screen.getByRole("link", { name: /App Store/ })).toHaveAttribute("rel", "noopener noreferrer");
+    expect(screen.getByText("Coming soon")).toBeInTheDocument();
+  });
+
   it("renders a visual stage for every remaining documented component", () => {
     for (const sectionId of [
+      "component-eyebrow",
+      "component-back-link",
       "component-site-header",
       "component-project-list",
       "component-metadata-card",

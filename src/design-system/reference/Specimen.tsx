@@ -20,17 +20,17 @@ export function Specimen({
       role="region"
       aria-labelledby={labelId}
       aria-describedby={descriptionId}
-      className="min-w-0 overflow-hidden rounded-lg border border-border/50 bg-card/25"
+      className="min-w-0 overflow-hidden rounded-lg border border-hairline bg-card/25"
     >
-      <div className="border-b border-border/40 px-5 py-4 sm:px-6">
+      <div className="border-b border-hairline px-5 py-4 sm:px-6">
         <h2 id={labelId} className="text-sm font-medium text-foreground">{label}</h2>
-        <p id={descriptionId} className="mt-1 max-w-[70ch] break-words text-sm leading-relaxed text-foreground/55">
+        <p id={descriptionId} className="mt-1 max-w-measure-wide break-words text-sm leading-relaxed text-foreground-tertiary">
           {description}
         </p>
       </div>
       <div className="min-w-0 overflow-x-auto p-5 sm:p-6">{children}</div>
       {footer ? (
-        <div className="border-t border-border/40 px-5 py-4 sm:px-6">
+        <div className="border-t border-hairline px-5 py-4 sm:px-6">
           {footer}
         </div>
       ) : null}

@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { createPortal } from "react-dom";
 import profileImage from "@/assets/profile-malik.webp";
 import { ABOUT_CLUSTER_DEFS } from "@/lib/aboutClusters";
+import { DURATION, EASE } from "@/design-system/system/motion";
 
 // ── Cluster data — text only, particles come from DotGrid ──
 interface ClusterTextData {
@@ -62,7 +63,7 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
       }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+      transition={{ duration: DURATION.slow, delay, ease: EASE.settle }}
       onPointerEnter={(e) => {
         if (e.pointerType !== "mouse") return;
         mouseInsideRef.current = true;
@@ -85,13 +86,13 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
     >
       {/* Default label */}
       <motion.span
-        className="text-label uppercase tracking-eyebrow text-foreground/72 whitespace-nowrap absolute pointer-events-none"
+        className="text-label uppercase tracking-eyebrow text-foreground-secondary whitespace-nowrap absolute pointer-events-none"
         animate={{
           opacity: expanded ? 0 : 1,
           scale: expanded ? 0.94 : 1,
           filter: expanded ? "blur(3px)" : "blur(0px)",
         }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
+        transition={{ duration: DURATION.fast, ease: EASE.settle }}
       >
         {data.label}
       </motion.span>
@@ -111,7 +112,7 @@ const ClusterLabel = ({ data, delay }: { data: ClusterTextData; delay: number })
             transition={{
               duration: 0.22,
               delay: expanded ? i * 0.03 : 0,
-              ease: "easeOut",
+              ease: EASE.settle,
             }}
           >
             {line}
@@ -154,13 +155,13 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
         <motion.button
           onClick={onBack}
           aria-label="Back to home"
-          className="group absolute top-24 md:top-28 left-8 md:left-16 lg:left-24 flex items-center gap-2 min-h-11 px-1 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200 z-40"
+          className="group absolute top-24 md:top-28 left-8 md:left-16 lg:left-24 flex items-center gap-2 min-h-11 px-1 text-sm text-foreground-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus rounded-sm transition-colors duration-fast z-40"
           initial={{ opacity: 0 }}
           animate={{ opacity: isVisible ? 1 : 0 }}
-          transition={{ duration: 0.5, delay: isVisible ? 0.7 : 0 }}
+          transition={{ duration: DURATION.slow, delay: isVisible ? 0.7 : 0 }}
           style={{ pointerEvents: isVisible ? "auto" : "none" }}
         >
-          <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+          <ArrowLeft className="w-4 h-4 transition-transform duration-fast group-hover:-translate-x-0.5" />
           Back
         </motion.button>,
         document.body
@@ -185,9 +186,9 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
               type="button"
               aria-label="Return to homepage"
               onClick={onBack}
-              className="flex flex-col-reverse sm:flex-row items-center gap-5 sm:gap-6 md:gap-8 px-6 pointer-events-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30 rounded-2xl"
+              className="flex flex-col-reverse sm:flex-row items-center gap-5 sm:gap-6 md:gap-8 px-6 pointer-events-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus rounded-2xl"
               whileHover={{ scale: 1.012, opacity: 0.88 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              transition={{ duration: DURATION.medium, ease: EASE.settle }}
             >
             <div className="flex flex-col items-center sm:items-end text-center sm:text-right">
               {/* Same voice as every other display heading on the site: the
@@ -202,7 +203,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
                 className="font-display text-xl sm:text-title xl:text-heading font-light text-foreground"
                 initial={{ opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1.2, delay: 1.0, ease: "easeOut" }}
+                transition={{ duration: 1.2, delay: 1.0, ease: EASE.settle }}
               >
                 <span className="block whitespace-nowrap">I start with the</span>
                 <span className="block whitespace-nowrap font-semibold">real problem</span>
@@ -215,7 +216,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
               className="relative flex-shrink-0"
               initial={{ opacity: 0, scale: 0.88 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.4, delay: 1.1, ease: "easeOut" }}
+              transition={{ duration: 1.4, delay: 1.1, ease: EASE.settle }}
             >
               <Portrait className="w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 xl:w-72 xl:h-72" />
             </motion.div>
@@ -231,12 +232,12 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 2.8 }}
         >
-          <span className="text-label uppercase tracking-eyebrow text-foreground/55">Scroll</span>
+          <span className="text-label uppercase tracking-eyebrow text-foreground-tertiary">Scroll</span>
           <motion.span
             className="font-display text-title text-foreground leading-none select-none"
             style={{ display: "inline-block", transform: "scaleX(1.6)", marginTop: "-2px" }}
             animate={{ y: [0, 4, 0], opacity: [0.45, 0.70, 0.45] }}
-            transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: DURATION.ambient, repeat: Infinity, ease: EASE.ambient }}
           >
             ⌄
           </motion.span>

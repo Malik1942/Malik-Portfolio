@@ -29,6 +29,13 @@ const RECOGNIZED_PROPERTIES = new Set([
   "$extensions",
 ]);
 const HEX_COLOR_PATTERN = /^#[0-9a-f]{6}$/i;
+/**
+ * Vendor extension: a color alias may carry an alpha that is applied to the
+ * resolved target. This is how the ink ladder (text.secondary = text.primary
+ * at 0.72) stays a *reference* to the primary foreground instead of a copied
+ * literal, so editing the primary retunes every tier.
+ */
+export const ALPHA_EXTENSION = "com.malikzhang.alpha";
 const FONT_WEIGHT_CSS_VALUES = new Map<string, string>([
   ["thin", "100"],
   ["hairline", "100"],
@@ -72,6 +79,8 @@ interface FlattenedToken {
   value: DtcgValue;
   description: string;
   aliasOf?: string;
+  /** Alpha applied to the resolved alias target (color aliases only). */
+  alpha?: number;
 }
 
 export class TokenCompilationError extends Error {
@@ -188,6 +197,7 @@ export function compileTokenSources(sources: TokenSource[]): TokenBundle {
         cssVariable: tokenPathToCssVariable(token.path),
         cssValue: formatTokenCss(token.type, resolvedValue),
         ...(token.aliasOf === undefined ? {} : { aliasOf: token.aliasOf }),
+        ...(token.alpha === undefined ? {} : { aliasAlpha: token.alpha }),
         dependents: dependents.get(token.path) ?? [],
       };
     });
@@ -416,6 +426,28 @@ function flattenNode(
       }
     }
 
+    let alpha: number | undefined;
+    if (isRecord(node.$extensions) && Object.prototype.hasOwnProperty.call(node.$extensions, ALPHA_EXTENSION)) {
+      const extensionValue = node.$extensions[ALPHA_EXTENSION];
+      if (type !== "color" || aliasOf === undefined) {
+        issues.push({
+          path,
+          code: "invalid-alpha-extension",
+          message: `"${ALPHA_EXTENSION}" only applies to color aliases.`,
+        });
+        return;
+      }
+      if (!isFiniteNumber(extensionValue) || extensionValue < 0 || extensionValue > 1) {
+        issues.push({
+          path,
+          code: "invalid-alpha-extension",
+          message: `"${ALPHA_EXTENSION}" must be a finite number between 0 and 1.`,
+        });
+        return;
+      }
+      alpha = extensionValue;
+    }
+
     if (flattened.has(path)) {
       issues.push({
         path,
@@ -432,6 +464,7 @@ function flattenNode(
       value: value as DtcgValue,
       description: typeof node.$description === "string" ? node.$description : "",
       ...(aliasOf === undefined ? {} : { aliasOf }),
+      ...(alpha === undefined ? {} : { alpha }),
     });
     return;
   }
@@ -491,6 +524,13 @@ function resolveAliases(
         });
       } else {
         value = resolve(token.aliasOf, [...stack, path]);
+        if (value !== undefined && token.alpha !== undefined) {
+          // The hex fallback describes the opaque target; a tinted alias has
+          // no single hex, so the composited value is expressed in HSL only.
+          const { hex: _hex, ...base } = value as DtcgColor;
+          void _hex;
+          value = { ...base, alpha: token.alpha } as DtcgColor;
+        }
       }
     }
 

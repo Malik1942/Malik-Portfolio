@@ -3,7 +3,8 @@ import { motion, useInView } from "framer-motion";
 import { Github } from "lucide-react";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { noOrphan } from "@/lib/noOrphan";
-import { LinkChip } from "./LinkChip";
+import { LinkChip } from "./ui/Chip";
+import { DURATION, EASE } from "@/design-system/system/motion";
 
 export const GITHUB_URL = "https://github.com/Malik1942";
 
@@ -29,10 +30,10 @@ export function GitHubTile({ index = 0 }: { index?: number }) {
       initial={{ opacity: 0, scale: 0.94, y: 40 }}
       animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.94, y: inView ? 0 : 40 }}
       transition={{
-        duration: 0.75,
-        ease: [0.16, 1, 0.3, 1],
+        duration: DURATION.reveal,
+        ease: EASE.enter,
         delay: (index % 3) * 0.04 + index * 0.1,
-        opacity: { duration: 0.5, ease: "easeOut", delay: (index % 3) * 0.04 + index * 0.1 },
+        opacity: { duration: DURATION.slow, ease: EASE.settle, delay: (index % 3) * 0.04 + index * 0.1 },
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -57,10 +58,10 @@ export function GitHubTile({ index = 0 }: { index?: number }) {
           <div className="absolute inset-0 flex items-center justify-center">
             <Github
               aria-hidden="true"
-              className="h-12 w-12 transition-[color,transform] duration-500"
+              className="h-12 w-12 transition-[color,transform] duration-slow"
               strokeWidth={1.5}
               style={{
-                color: hovered ? "hsl(var(--color-text-primary))" : "hsl(var(--color-text-primary) / 0.72)",
+                color: hovered ? "hsl(var(--color-text-primary))" : "hsl(var(--color-text-secondary))",
                 transform: hovered ? "scale(1.06)" : "scale(1)",
               }}
             />
@@ -73,7 +74,7 @@ export function GitHubTile({ index = 0 }: { index?: number }) {
         </div>
 
         <h3
-          className="font-semibold leading-snug tracking-tight transition-colors duration-300"
+          className="font-semibold leading-snug tracking-tight transition-colors duration-medium"
           style={{
             fontSize: isMobile ? "var(--font-size-body)" : "var(--font-size-body-large)",
             letterSpacing: "-0.025em",
@@ -88,7 +89,7 @@ export function GitHubTile({ index = 0 }: { index?: number }) {
           style={{
             fontSize: "var(--font-size-body-small)",
             marginBottom: "0.625rem",
-            color: "hsl(var(--color-text-primary) / 0.80)",
+            color: "hsl(var(--color-text-lead))",
           }}
         >
           {noOrphan("Skills, agent workflows, and experiments that did not get a tile yet.")}
@@ -103,7 +104,7 @@ export function GitHubTile({ index = 0 }: { index?: number }) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="More on GitHub"
-        className="absolute inset-0 z-[1] cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/60 focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+        className="absolute inset-0 z-[1] cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-4 focus-visible:ring-offset-background"
       />
     </motion.div>
   );

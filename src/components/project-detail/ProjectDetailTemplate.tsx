@@ -57,6 +57,7 @@ import {
 import { NextUp } from "./NextUp";
 import { ProjectMediaFrame } from "./ProjectMediaFrame";
 import { ProjectMetadataSummary } from "./ProjectMetadataSummary";
+import { BackLink } from "@/components/ui/BackLink";
 
 // Shared page container — all major sections align to this grid
 const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-page mx-auto";
@@ -73,7 +74,7 @@ const sectionDomId = (id: string) => `project-section-${id}`;
 function SectionIntroBlock({ block }: { block: IntroBlock }) {
   return (
     <div className="space-y-10">
-      <p className="text-base md:text-xl font-normal leading-relaxed text-foreground/72">
+      <p className="text-base md:text-xl font-normal leading-relaxed text-foreground-secondary">
         {block.openingParagraph}
       </p>
 
@@ -82,12 +83,12 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
           {block.contextCards.map((card) => (
             <div
               key={card.title}
-              className="border border-border/50 bg-secondary/[0.08] rounded-sm px-5 py-5"
+              className="border border-hairline bg-secondary/[0.08] rounded-sm px-5 py-5"
             >
-              <p className="text-label uppercase tracking-eyebrow text-foreground/72 mb-2.5">
+              <p className="text-label uppercase tracking-eyebrow text-foreground-secondary mb-2.5">
                 {card.title}
               </p>
-              <p className="text-sm font-normal leading-relaxed text-foreground/72">
+              <p className="text-sm font-normal leading-relaxed text-foreground-secondary">
                 {card.body}
               </p>
             </div>
@@ -100,12 +101,12 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
           {block.infoCards.map((card) => (
             <div
               key={card.label}
-              className="border border-border/40 bg-transparent rounded-sm px-4 py-4"
+              className="border border-hairline bg-transparent rounded-sm px-4 py-4"
             >
-              <p className="text-label uppercase tracking-eyebrow text-foreground/55 mb-2">
+              <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary mb-2">
                 {card.label}
               </p>
-              <p className="text-sm font-normal leading-snug text-foreground/72">
+              <p className="text-sm font-normal leading-snug text-foreground-secondary">
                 {card.value}
               </p>
             </div>
@@ -115,14 +116,14 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
 
       {block.whatIDid?.length ? (
         <div>
-          <p className="text-label uppercase tracking-eyebrow text-foreground/55 mb-6">
+          <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary mb-6">
             What I Did
           </p>
           <ul className="space-y-4">
             {block.whatIDid.map((item, i) => (
               <li key={i} className="flex items-start gap-4">
                 <span className="mt-[0.5em] w-1 h-1 rounded-full bg-foreground/30 flex-shrink-0" />
-                <span className="text-base md:text-xl font-normal leading-relaxed text-foreground/72">
+                <span className="text-base md:text-xl font-normal leading-relaxed text-foreground-secondary">
                   {item}
                 </span>
               </li>
@@ -216,7 +217,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
           return (
             <p
               key={i}
-              className={`${i === 0 ? "" : "mt-16 md:mt-20"} text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono mb-5 md:mb-6`}
+              className={`${i === 0 ? "" : "mt-16 md:mt-20"} text-caption md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono mb-5 md:mb-6`}
             >
               {noOrphan(para.slice(3))}
             </p>
@@ -249,7 +250,7 @@ function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFir
         // Editorial hierarchy: the lead paragraph reads at full strength while
         // the remaining copy sits one emphasis step down (/85).
         const emphasisClass =
-          leadFirst && i === 0 ? "text-foreground" : "text-foreground/85";
+          leadFirst && i === 0 ? "text-foreground" : "text-foreground-lead";
         return (
           <p
             key={i}
@@ -319,29 +320,14 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
 
       {/* Back — extra top padding clears the fixed site header on load */}
       <div className={`${PAGE_OUTER} pt-24 md:pt-28 pb-0`}>
-        <button
-          type="button"
-          onClick={onBack}
-          aria-label="Back to home"
-          className="group flex items-center gap-2 min-h-11 px-1 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200"
-        >
-          <svg
-            aria-hidden="true"
-            className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-          </svg>
+        <BackLink onClick={onBack} aria-label="Back to home">
           Back
-        </button>
+        </BackLink>
       </div>
 
       {/* 1 — Title + hook */}
       <header className={`${PAGE_OUTER} pt-8 md:pt-12`}>
-        <p className="text-foreground/55 text-label uppercase tracking-eyebrow mb-5">
+        <p className="text-foreground-tertiary text-label uppercase tracking-eyebrow mb-5">
           {project.listSection}
         </p>
         <h1 className="font-display text-hero font-light text-foreground">
@@ -405,12 +391,12 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
         <div className={`${PAGE_OUTER} ${project.heroImage ? "mt-10 md:mt-14" : "mt-8 md:mt-12"}`}>
           <div className="max-w-[900px]">
             {project.heroSubtitle ? (
-              <p className="text-base md:text-xl text-foreground/72 font-light leading-relaxed">
+              <p className="text-base md:text-xl text-foreground-secondary font-light leading-relaxed">
                 {noOrphan(project.heroSubtitle)}
               </p>
             ) : null}
             {project.description ? (
-              <p className={`${project.heroSubtitle ? "mt-5 md:mt-6" : ""} text-base md:text-xl font-light leading-relaxed text-foreground/72`}>
+              <p className={`${project.heroSubtitle ? "mt-5 md:mt-6" : ""} text-base md:text-xl font-light leading-relaxed text-foreground-secondary`}>
                 {noOrphan(project.description)}
               </p>
             ) : null}
@@ -430,7 +416,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
       {/* 5 — Body: sticky nav + sections */}
       <section
         aria-label="Case study"
-        className={`${PAGE_OUTER} pb-32 md:pb-48 border-t border-border/30 mt-20 md:mt-28 pt-20 md:pt-28`}
+        className={`${PAGE_OUTER} pb-32 md:pb-48 border-t border-hairline-faint mt-20 md:mt-28 pt-20 md:pt-28`}
       >
         {/* Mobile / tablet: horizontal section guide. A separate sticky layer
             from the global header — translucent like the header's scrim, with
@@ -444,7 +430,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
             section chip fires a menu link and navigates away. (The lightbox at
             z-[2000] still covers it.) */}
         <nav
-          className="lg:hidden sticky z-[60] -mx-6 px-6 py-3 mb-14 bg-background/70 backdrop-blur-md border-b border-border/40 transition-[top] duration-300 ease-out [--guide-docked-top:48px] md:[--guide-docked-top:72px]"
+          className="lg:hidden sticky z-[60] -mx-6 px-6 py-3 mb-14 bg-background/70 backdrop-blur-md border-b border-hairline transition-[top] duration-medium ease-settle [--guide-docked-top:48px] md:[--guide-docked-top:72px]"
           style={{
             top: headerHidden
               ? "env(safe-area-inset-top, 0px)"
@@ -458,10 +444,10 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                 key={s.id}
                 type="button"
                 onClick={() => scrollToProjectSection(s.id)}
-                className={`flex-shrink-0 whitespace-nowrap px-3 py-2 rounded-sm text-[10px] uppercase tracking-[0.18em] transition-colors duration-300 ${
+                className={`flex-shrink-0 whitespace-nowrap px-3 py-2 rounded-sm text-[10px] uppercase tracking-eyebrow transition-colors duration-medium ${
                   activeSectionId === s.id
-                    ? "bg-foreground/[0.08] text-foreground/90 border border-border/60"
-                    : "text-foreground/55 border border-transparent hover:text-foreground/75"
+                    ? "bg-foreground/[0.08] text-foreground-lead border border-hairline"
+                    : "text-foreground-tertiary border border-transparent hover:text-foreground-lead"
                 }`}
               >
                 {s.label}
@@ -480,7 +466,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
             className="hidden lg:block w-[200px] xl:w-[220px] flex-shrink-0 sticky top-28 self-start"
             aria-label="Section navigation"
           >
-            <p className="text-[10px] uppercase tracking-[0.25em] text-foreground/55 mb-6">
+            <p className="text-[10px] uppercase tracking-[0.25em] text-foreground-tertiary mb-6">
               On this page
             </p>
             <ul className="space-y-0.5">
@@ -489,10 +475,10 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                   <button
                     type="button"
                     onClick={() => scrollToProjectSection(s.id)}
-                    className={`w-full text-left pl-3 py-2.5 border-l transition-[color,border-color] duration-300 text-[11px] uppercase tracking-[0.16em] leading-tight ${
+                    className={`w-full text-left pl-3 py-2.5 border-l transition-[color,border-color] duration-medium text-[11px] uppercase tracking-[0.16em] leading-tight ${
                       activeSectionId === s.id
-                        ? "border-foreground/75 text-foreground/92"
-                        : "border-transparent text-foreground/55 hover:text-foreground/78 hover:border-foreground/30"
+                        ? "border-foreground/75 text-foreground"
+                        : "border-transparent text-foreground-tertiary hover:text-foreground hover:border-foreground/30"
                     }`}
                   >
                     {s.label}
@@ -533,7 +519,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                       </div>
                     ) : null}
                     {s.headline ? (
-                      <p className="text-label uppercase tracking-eyebrow text-foreground/55 mb-4 md:mb-5">
+                      <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary mb-4 md:mb-5">
                         {s.label}
                       </p>
                     ) : null}
@@ -574,24 +560,9 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
 
       {/* Back to all work — returns to the homepage projects list via the site's own nav */}
       <div className={`${PAGE_OUTER} pt-12 md:pt-16 pb-2`}>
-        <button
-          type="button"
-          onClick={onMainProjectsClick ?? onBack}
-          aria-label="Back to all work"
-          className="group flex items-center gap-2 min-h-11 px-1 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200"
-        >
-          <svg
-            aria-hidden="true"
-            className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-          </svg>
+        <BackLink onClick={onMainProjectsClick ?? onBack} aria-label="Back to all work">
           Back to all work
-        </button>
+        </BackLink>
       </div>
 
       <Footer

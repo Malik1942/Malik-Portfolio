@@ -40,6 +40,62 @@ describe("compileTokenSources", () => {
     });
   });
 
+  describe("alpha alias extension", () => {
+    it("tints a color alias and keeps the reference live under overrides", () => {
+      const sources: TokenSource[] = [{ filename: "tokens.json", document: {
+        color: {
+          $type: "color",
+          ink: { $value: { colorSpace: "hsl", components: [40, 6, 90], hex: "#e7e6e4" } },
+          secondary: { $value: "{color.ink}", $extensions: { "com.malikzhang.alpha": 0.72 } },
+        },
+      } }];
+      const bundle = compileTokenSources(sources);
+      const secondary = bundle.tokens.find((token) => token.path === "color.secondary");
+      expect(secondary).toMatchObject({
+        aliasOf: "color.ink",
+        aliasAlpha: 0.72,
+        cssValue: "40 6% 90% / 0.72",
+      });
+      // The tinted value has no single hex fallback.
+      expect((secondary?.resolvedValue as DtcgColor).hex).toBeUndefined();
+
+      const retuned = applyOverrides(bundle, {
+        "color.ink": { colorSpace: "hsl", components: [0, 0, 100] },
+      });
+      expect(retuned.tokens.find((token) => token.path === "color.secondary")?.cssValue).toBe("0 0% 100% / 0.72");
+    });
+
+    it("rejects the extension on literals, non-colors, and out-of-range values", () => {
+      const literal = captureCompilationError([{ filename: "tokens.json", document: {
+        color: {
+          $type: "color",
+          ink: {
+            $value: { colorSpace: "hsl", components: [40, 6, 90] },
+            $extensions: { "com.malikzhang.alpha": 0.5 },
+          },
+        },
+      } }]);
+      expect(literal.issues).toEqual([{
+        path: "color.ink",
+        code: "invalid-alpha-extension",
+        message: '"com.malikzhang.alpha" only applies to color aliases.',
+      }]);
+
+      const range = captureCompilationError([{ filename: "tokens.json", document: {
+        color: {
+          $type: "color",
+          ink: { $value: { colorSpace: "hsl", components: [40, 6, 90] } },
+          faint: { $value: "{color.ink}", $extensions: { "com.malikzhang.alpha": 1.5 } },
+        },
+      } }]);
+      expect(range.issues).toEqual([{
+        path: "color.faint",
+        code: "invalid-alpha-extension",
+        message: '"com.malikzhang.alpha" must be a finite number between 0 and 1.',
+      }]);
+    });
+  });
+
   it("reports circular aliases", () => {
     expect(() => compileTokenSources([{ filename: "tokens.json", document: {
       duration: {

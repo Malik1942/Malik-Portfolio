@@ -213,20 +213,23 @@
 /* Animations start paused so they don't run behind the loading screen on slow
    connections. main.tsx adds body.loaded when fonts are ready and the screen fades,
    which unpauses them — users always see the entrance animation play. */
+/* Motion: curves come from the ease tokens. The hero entrance keeps its own
+   choreographed durations and delays (0.6 to 0.8s, staggered), which are an
+   expressive sequence rather than a system pace. */
 .animate-fade-up {
-  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fade-up 0.8s var(--ease-enter) both;
   animation-play-state: paused;
 }
 body.loaded .animate-fade-up { animation-play-state: running; }
 
 .animate-fade-in {
-  animation: fade-in 0.6s ease-out both;
+  animation: fade-in 0.6s var(--ease-settle) both;
   animation-play-state: paused;
 }
 body.loaded .animate-fade-in { animation-play-state: running; }
 
 .animate-line-reveal {
-  animation: line-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: line-reveal 0.8s var(--ease-enter) both;
   transform-origin: left;
   animation-play-state: paused;
 }
@@ -239,11 +242,12 @@ body.loaded .animate-line-reveal { animation-play-state: running; }
 .delay-5 { animation-delay: 0.65s; }
 .delay-6 { animation-delay: 0.8s; }
 
-/* Scroll reveal */
+/* Scroll reveal: the generic "content enters the viewport" recipe, so it runs
+   on the reveal pace and the enter curve like the card and editorial entrances. */
 .reveal {
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity var(--duration-reveal) var(--ease-enter), transform var(--duration-reveal) var(--ease-enter);
 }
 
 .reveal.visible {
@@ -256,7 +260,7 @@ body.loaded .animate-line-reveal { animation-play-state: running; }
 }
 
 .project-section-arriving {
-  animation: project-section-arrival 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: project-section-arrival 0.32s var(--ease-move);
 }
 
 @keyframes project-section-arrival {
@@ -276,9 +280,9 @@ body.loaded .animate-line-reveal { animation-play-state: running; }
   isolation: isolate;
   overflow: visible;
   transition:
-    background-color 0.24s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.24s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+    background-color 0.24s var(--ease-move),
+    border-color 0.24s var(--ease-move),
+    box-shadow 0.24s var(--ease-move);
 }
 
 .project-row::before,
@@ -289,8 +293,8 @@ body.loaded .animate-line-reveal { animation-play-state: running; }
   pointer-events: none;
   opacity: 0;
   transition:
-    opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.32s var(--ease-move),
+    transform 0.32s var(--ease-move);
 }
 
 .project-row::before {
@@ -374,7 +378,7 @@ body.loaded .animate-line-reveal { animation-play-state: running; }
   background: hsl(var(--color-text-primary));
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s var(--ease-enter);
 }
 
 .nav-link:hover::after {

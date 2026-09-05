@@ -51,3 +51,30 @@ mean "jump". Any call here that must not animate (the reduced-motion branch) has
 to pass `behavior: "instant"` explicitly, or it will smooth-scroll anyway.
 
 Coverage: `src/components/projectDotArrival.test.tsx`.
+
+## Design system conventions
+
+The system is read in three facets: **form** (type role, spacing, radius,
+measure), **material** (surfaces, the five-tier ink ladder, hairlines, focus
+rings), and **motion** (duration and easing tokens, five named recipes).
+Foundations, component docs, and code all use that vocabulary.
+
+- Tokens are DTCG JSON in `tokens/`; `npm run tokens:build` generates the CSS
+  variables and manifest. Every Tailwind utility that expresses a system
+  decision references a token variable, so the workbench can edit live.
+- Ink is a role, never a raw opacity: `text-foreground`, `-lead`, `-secondary`,
+  `-tertiary`, `-quiet` (quiet is decorative-only). Rules are `border-hairline`
+  or `border-hairline-faint`; focus is `ring-focus` or `ring-focus-strong`.
+  Never write `text-foreground/72`: Tailwind's opacity scale is multiples of 5
+  and anything else generates no CSS at all. That is how the secondary tier
+  shipped at 100% for months; its alpha lives in `tokens/semantic.tokens.json`.
+- Motion in CSS and Tailwind: `duration-fast|medium|slow|page|reveal|ambient`,
+  `ease-enter|move|standard|settle|exit|ambient`. In Framer Motion import
+  `DURATION`, `EASE`, or a `MOTION` recipe from `src/design-system/system/motion`.
+- Reusable primitives live in `src/components/ui/` (Button, BackLink, Chip,
+  Eyebrow). They declare their classes with `defineRecipe` split into the three
+  facets; add a variant by adding to one facet.
+- `src/design-system/boundary.test.ts` fails on off-system classes and color
+  literals. Tailwind drops an unknown class silently, so the test is the only
+  thing that catches `text-lg` or `duration-150`. Art-directed exemptions are
+  listed there by name; add to the list, do not loosen the rule.

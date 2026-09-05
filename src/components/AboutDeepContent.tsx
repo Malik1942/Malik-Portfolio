@@ -9,6 +9,8 @@ import {
   aboutEditorialStaggerVariants,
   aboutEditorialTextVariants,
 } from "@/components/AboutEditorialSection";
+import { EASE } from "@/design-system/system/motion";
+import { BackLink } from "@/components/ui/BackLink";
 
 const easeOutExpo: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -48,7 +50,7 @@ const AmbientDots = ({ count = 40 }: { count?: number }) => {
             duration: dot.duration,
             delay: dot.delay,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: EASE.ambient,
           }}
         />
       ))}
@@ -150,13 +152,13 @@ const PhotographyLightbox = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.24, ease: "easeOut" }}
+        transition={{ duration: 0.24, ease: EASE.settle }}
         onClick={onClose}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-5 right-5 z-[101] flex h-10 w-10 items-center justify-center rounded-full text-foreground/55 transition-colors duration-300 hover:text-foreground cursor-pointer"
+          className="absolute top-5 right-5 z-[101] flex h-10 w-10 items-center justify-center rounded-full text-foreground-tertiary transition-colors duration-medium hover:text-foreground cursor-pointer"
           aria-label="Close photography lightbox"
         >
           <X className="h-4 w-4" />
@@ -168,7 +170,7 @@ const PhotographyLightbox = ({
             event.stopPropagation();
             onNavigate(-1);
           }}
-          className="absolute left-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground/55 transition-colors duration-300 hover:text-foreground md:flex cursor-pointer"
+          className="absolute left-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground-tertiary transition-colors duration-medium hover:text-foreground md:flex cursor-pointer"
           aria-label="Previous image"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -180,7 +182,7 @@ const PhotographyLightbox = ({
             event.stopPropagation();
             onNavigate(1);
           }}
-          className="absolute right-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground/55 transition-colors duration-300 hover:text-foreground md:flex cursor-pointer"
+          className="absolute right-3 top-1/2 z-[101] hidden -translate-y-1/2 items-center justify-center rounded-full p-3 text-foreground-tertiary transition-colors duration-medium hover:text-foreground md:flex cursor-pointer"
           aria-label="Next image"
         >
           <ChevronRight className="h-5 w-5" />
@@ -211,7 +213,7 @@ const PhotographyLightbox = ({
             initial={{ opacity: 0, scale: 0.985 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.99 }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
+            transition={{ duration: 0.22, ease: EASE.settle }}
             draggable={false}
           />
         </div>
@@ -233,7 +235,7 @@ const EditorialPhotoFrame = ({
   <button
     type="button"
     onClick={onOpen}
-    className="group block w-full cursor-pointer rounded-lg text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20"
+    className="group block w-full cursor-pointer rounded-lg text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-focus"
     aria-label={`Open ${photo.alt}`}
   >
     <div
@@ -244,7 +246,7 @@ const EditorialPhotoFrame = ({
       <img
         src={photo.src}
         alt={photo.alt}
-        className="h-full w-full rounded-lg object-cover object-center transition-[filter] duration-[420ms] ease-out group-hover:brightness-[1.03]"
+        className="h-full w-full rounded-lg object-cover object-center transition-[filter] duration-[420ms] ease-settle group-hover:brightness-[1.03]"
         loading={photo.priority ? "eager" : "lazy"}
         decoding="async"
         sizes={layout === "pair" ? "(min-width: 1024px) 42vw, 50vw" : "100vw"}
@@ -293,7 +295,7 @@ const LifeEventRow = ({ event }: { event: LifeEvent }) => {
       onMouseLeave={() => setHovered(false)}
     >
       {/* Year */}
-      <span className="text-xs text-foreground/72 font-normal w-12 pt-0.5 flex-shrink-0">
+      <span className="text-caption text-foreground-secondary font-normal w-12 pt-0.5 flex-shrink-0">
         {event.year}
       </span>
 
@@ -310,7 +312,7 @@ const LifeEventRow = ({ event }: { event: LifeEvent }) => {
       {/* Content */}
       <div className="flex flex-col gap-0.5">
         <motion.span
-          className="text-sm text-foreground/72 font-normal"
+          className="text-sm text-foreground-secondary font-normal"
           animate={{ opacity: hovered ? 0.95 : 0.8 }}
           transition={{ duration: 0.4 }}
         >
@@ -644,7 +646,7 @@ const SportNode = ({ sport, inView }: { sport: (typeof SPORTS_DATA)[0]; inView: 
     >
       <ResilienceCanvas type={sport.type} isHovered={hovered} inView={inView} />
       <motion.span
-        className="text-xs uppercase tracking-eyebrow text-foreground"
+        className="text-caption uppercase tracking-eyebrow text-foreground"
         animate={{ opacity: hovered ? 1.0 : 0.72 }}
         transition={{ duration: 0.4 }}
       >
@@ -662,7 +664,7 @@ const DAILY_ITEMS = [
 ];
 
 const DailyTag = ({ label }: { label: string }) => (
-  <span className="text-xs text-foreground/72 font-normal px-4 py-2.5 rounded-sm border border-foreground/[0.22] hover:text-foreground hover:border-foreground/[0.35] transition-colors duration-300 cursor-default">
+  <span className="text-caption text-foreground-secondary font-normal px-4 py-2.5 rounded-sm border border-foreground/[0.22] hover:text-foreground hover:border-foreground/[0.35] transition-colors duration-medium cursor-default">
     {label}
   </span>
 );
@@ -780,7 +782,7 @@ const ConnectRock = ({
     <motion.a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="group relative block w-[150px] md:w-[214px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-[52px]"
+      className="group relative block w-[150px] md:w-[214px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus rounded-[52px]"
       style={{ aspectRatio: `${ROCK_VIEW.w} / ${ROCK_VIEW.h}` }}
       animate={
         celebrating
@@ -899,7 +901,7 @@ const ConnectRock = ({
             transition={
               reducedMotion
                 ? { duration: 0 }
-                : { duration: 0.9, delay: delay + 0.3, ease: "easeInOut" }
+                : { duration: 0.9, delay: delay + 0.3, ease: EASE.ambient }
             }
           />
 
@@ -973,7 +975,7 @@ const AboutDeepContent = ({
         <div
           className="absolute top-0 left-0 right-0 h-32 pointer-events-none z-10"
           style={{
-            background: "linear-gradient(to bottom, hsl(0 0% 4%) 0%, transparent 100%)",
+            background: "linear-gradient(to bottom, hsl(var(--color-background-canvas)) 0%, transparent 100%)",
           }}
         />
 
@@ -1137,15 +1139,9 @@ const AboutDeepContent = ({
         {onBack ? (
           <div className="relative z-20 px-6 md:px-16 lg:px-20 pt-4 pb-2">
             <div className="max-w-content mx-auto">
-              <button
-                type="button"
-                onClick={onBack}
-                aria-label="Back to home"
-                className="group flex items-center gap-2 min-h-11 -ml-1 px-1 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200"
-              >
-                <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+              <BackLink onClick={onBack} aria-label="Back to home" className="-ml-1">
                 Back to home
-              </button>
+              </BackLink>
             </div>
           </div>
         ) : null}

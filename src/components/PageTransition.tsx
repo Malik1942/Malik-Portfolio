@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { DURATION, EASE } from "@/design-system/system/motion";
 
 const variants = {
   initial: { opacity: 0, y: 18 },
@@ -14,7 +15,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       initial="initial"
       animate="animate"
       exit="exit"
-      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: DURATION.page, ease: EASE.move }}
     >
       {children}
     </motion.div>

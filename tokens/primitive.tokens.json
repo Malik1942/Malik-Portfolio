@@ -6,7 +6,11 @@
         "$description": "Deep neutral used as the portfolio canvas primitive.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [0, 0, 4],
+          "components": [
+            0,
+            0,
+            4
+          ],
           "hex": "#0a0a0a"
         }
       },
@@ -14,7 +18,11 @@
         "$description": "Raised neutral used by dark cards and popovers.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [0, 0, 6],
+          "components": [
+            0,
+            0,
+            6
+          ],
           "hex": "#0f0f0f"
         }
       },
@@ -22,7 +30,11 @@
         "$description": "Secondary neutral used for quiet supporting surfaces.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [0, 0, 8],
+          "components": [
+            0,
+            0,
+            8
+          ],
           "hex": "#141414"
         }
       },
@@ -30,7 +42,11 @@
         "$description": "Muted neutral used for subdued surface treatments.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [0, 0, 12],
+          "components": [
+            0,
+            0,
+            12
+          ],
           "hex": "#1f1f1f"
         }
       },
@@ -38,16 +54,12 @@
         "$description": "Visible neutral used for accents, borders, and inputs.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [0, 0, 14],
+          "components": [
+            0,
+            0,
+            14
+          ],
           "hex": "#242424"
-        }
-      },
-      "580": {
-        "$description": "Mid neutral used for intentionally muted text.",
-        "$value": {
-          "colorSpace": "hsl",
-          "components": [0, 0, 42],
-          "hex": "#6b6b6b"
         }
       }
     },
@@ -57,7 +69,11 @@
         "$description": "Warm off-white used for the portfolio's primary foreground.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [40, 6, 90],
+          "components": [
+            40,
+            6,
+            90
+          ],
           "hex": "#e7e6e4"
         }
       },
@@ -65,7 +81,11 @@
         "$description": "Light warm off-white used where stronger contrast is required.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [40, 6, 95],
+          "components": [
+            40,
+            6,
+            95
+          ],
           "hex": "#f3f3f1"
         }
       }
@@ -76,7 +96,11 @@
         "$description": "Saturated red reserved for destructive actions and states.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [3, 82, 53],
+          "components": [
+            3,
+            82,
+            53
+          ],
           "hex": "#e92f25"
         }
       },
@@ -84,7 +108,11 @@
         "$description": "Softer red used to identify the Selected Work collection.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [358, 68, 56],
+          "components": [
+            358,
+            68,
+            56
+          ],
           "hex": "#db4348"
         }
       }
@@ -95,7 +123,11 @@
         "$description": "Muted gold used to identify the Workshop collection.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [36, 40, 60],
+          "components": [
+            36,
+            40,
+            60
+          ],
           "hex": "#c2a170"
         }
       }
@@ -106,7 +138,11 @@
         "$description": "Soft violet used in the case-study module accent rotation.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [255.14, 91.74, 76.27],
+          "components": [
+            255.14,
+            91.74,
+            76.27
+          ],
           "hex": "#a78bfa"
         }
       }
@@ -117,7 +153,11 @@
         "$description": "Bright emerald used in the case-study module accent rotation.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [158.11, 64.37, 51.57],
+          "components": [
+            158.11,
+            64.37,
+            51.57
+          ],
           "hex": "#34d399"
         }
       }
@@ -128,7 +168,11 @@
         "$description": "Cool slate used in the case-study module accent rotation.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [215.0, 20.22, 65.1],
+          "components": [
+            215.0,
+            20.22,
+            65.1
+          ],
           "hex": "#94a3b8"
         }
       }
@@ -139,7 +183,11 @@
         "$description": "Warm amber used to mark award events on the about timeline.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [43.26, 96.41, 56.27],
+          "components": [
+            43.26,
+            96.41,
+            56.27
+          ],
           "hex": "#fbbf24"
         }
       }
@@ -150,7 +198,11 @@
         "$description": "Soft blue used to mark education events on the about timeline.",
         "$value": {
           "colorSpace": "hsl",
-          "components": [211.7, 96.36, 78.43],
+          "components": [
+            211.7,
+            96.36,
+            78.43
+          ],
           "hex": "#93c5fd"
         }
       }
@@ -161,15 +213,24 @@
       "$type": "fontFamily",
       "display": {
         "$description": "Display stack used for portfolio headings and titles.",
-        "$value": ["General Sans", "sans-serif"]
+        "$value": [
+          "General Sans",
+          "sans-serif"
+        ]
       },
       "body": {
         "$description": "Body stack used for interface and editorial copy.",
-        "$value": ["General Sans", "sans-serif"]
+        "$value": [
+          "General Sans",
+          "sans-serif"
+        ]
       },
       "mono": {
         "$description": "Monospace stack used for metadata and technical labels.",
-        "$value": ["JetBrains Mono", "monospace"]
+        "$value": [
+          "JetBrains Mono",
+          "monospace"
+        ]
       }
     },
     "weight": {
@@ -195,43 +256,73 @@
       "$type": "dimension",
       "label": {
         "$description": "Compact 12-pixel size used by uppercase, letter-spaced labels and eyebrows (metadata card labels, section eyebrows, chips).",
-        "$value": { "value": 12, "unit": "px" }
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        }
       },
       "caption": {
         "$description": "Caption size used for supporting metadata.",
-        "$value": { "value": 12, "unit": "px" }
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        }
       },
       "bodySmall": {
         "$description": "Small body size used for secondary interface copy.",
-        "$value": { "value": 14, "unit": "px" }
+        "$value": {
+          "value": 14,
+          "unit": "px"
+        }
       },
       "body": {
         "$description": "Default body size used for readable interface copy.",
-        "$value": { "value": 16, "unit": "px" }
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
       },
       "bodyLarge": {
         "$description": "Large body size used for lead and editorial copy.",
-        "$value": { "value": 20, "unit": "px" }
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        }
       },
       "title": {
         "$description": "Title size used for module and section titles.",
-        "$value": { "value": 28, "unit": "px" }
+        "$value": {
+          "value": 28,
+          "unit": "px"
+        }
       },
       "heading": {
         "$description": "Heading size used for major case-study sections.",
-        "$value": { "value": 40, "unit": "px" }
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        }
       },
       "display": {
         "$description": "Display size used for the largest case-study headings.",
-        "$value": { "value": 56, "unit": "px" }
+        "$value": {
+          "value": 56,
+          "unit": "px"
+        }
       },
       "heroMin": {
         "$description": "Lower bound of the fluid hero heading size.",
-        "$value": { "value": 44, "unit": "px" }
+        "$value": {
+          "value": 44,
+          "unit": "px"
+        }
       },
       "heroMax": {
         "$description": "Upper bound of the fluid hero heading size.",
-        "$value": { "value": 88, "unit": "px" }
+        "$value": {
+          "value": 88,
+          "unit": "px"
+        }
       }
     }
   },
@@ -239,100 +330,199 @@
     "$type": "dimension",
     "1": {
       "$description": "Smallest spacing step for tight internal alignment.",
-      "$value": { "value": 4, "unit": "px" }
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
     },
     "2": {
       "$description": "Compact spacing step for closely related elements.",
-      "$value": { "value": 8, "unit": "px" }
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
     },
     "3": {
       "$description": "Small spacing step for compact component gaps.",
-      "$value": { "value": 12, "unit": "px" }
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
     },
     "4": {
       "$description": "Base spacing step for standard component rhythm.",
-      "$value": { "value": 16, "unit": "px" }
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
     },
     "5": {
       "$description": "Comfortable spacing step for grouped content.",
-      "$value": { "value": 24, "unit": "px" }
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      }
     },
     "6": {
       "$description": "Large spacing step for component separation.",
-      "$value": { "value": 32, "unit": "px" }
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      }
     },
     "7": {
       "$description": "Section spacing step for distinct content regions.",
-      "$value": { "value": 48, "unit": "px" }
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      }
     },
     "8": {
       "$description": "Largest core spacing step for page-level rhythm.",
-      "$value": { "value": 64, "unit": "px" }
+      "$value": {
+        "value": 64,
+        "unit": "px"
+      }
     }
   },
   "radius": {
     "$type": "dimension",
     "none": {
       "$description": "Square corner treatment for elements without rounding.",
-      "$value": { "value": 0, "unit": "px" }
+      "$value": {
+        "value": 0,
+        "unit": "px"
+      }
     },
     "small": {
       "$description": "Subtle corner treatment for compact controls.",
-      "$value": { "value": 4, "unit": "px" }
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
     },
     "base": {
       "$description": "Default corner treatment matching the current rounded-lg utility.",
-      "$value": { "value": 8, "unit": "px" }
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
     },
     "large": {
       "$description": "Large corner treatment used by portfolio media and modules.",
-      "$value": { "value": 16, "unit": "px" }
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
     },
     "round": {
       "$description": "Fully rounded treatment used for circular and pill elements.",
-      "$value": { "value": 9999, "unit": "px" }
+      "$value": {
+        "value": 9999,
+        "unit": "px"
+      }
     }
   },
   "duration": {
     "$type": "duration",
     "fast": {
       "$description": "Fast duration used for immediate interaction feedback.",
-      "$value": { "value": 200, "unit": "ms" }
+      "$value": {
+        "value": 200,
+        "unit": "ms"
+      }
     },
     "medium": {
       "$description": "Medium duration used for standard interface transitions.",
-      "$value": { "value": 300, "unit": "ms" }
+      "$value": {
+        "value": 300,
+        "unit": "ms"
+      }
     },
     "slow": {
       "$description": "Slow duration used for deliberate reveal transitions.",
-      "$value": { "value": 500, "unit": "ms" }
+      "$value": {
+        "value": 500,
+        "unit": "ms"
+      }
     },
     "page": {
       "$description": "Page duration used by route and header movement.",
-      "$value": { "value": 450, "unit": "ms" }
+      "$value": {
+        "value": 450,
+        "unit": "ms"
+      }
+    },
+    "reveal": {
+      "$description": "Reveal duration used when content enters the viewport: card entrances, scroll reveals, and editorial staggers.",
+      "$value": {
+        "value": 750,
+        "unit": "ms"
+      }
     },
     "ambient": {
       "$description": "Ambient duration used for repeating decorative motion.",
-      "$value": { "value": 3000, "unit": "ms" }
+      "$value": {
+        "value": 3000,
+        "unit": "ms"
+      }
     }
   },
   "ease": {
     "$type": "cubicBezier",
     "enter": {
       "$description": "Expressive deceleration used when content enters.",
-      "$value": [0.16, 1, 0.3, 1]
+      "$value": [
+        0.16,
+        1,
+        0.3,
+        1
+      ]
     },
     "move": {
       "$description": "Smooth movement curve used for spatial transitions.",
-      "$value": [0.22, 1, 0.36, 1]
+      "$value": [
+        0.22,
+        1,
+        0.36,
+        1
+      ]
     },
     "standard": {
       "$description": "Standard material curve used for balanced state changes.",
-      "$value": [0.4, 0, 0.2, 1]
+      "$value": [
+        0.4,
+        0,
+        0.2,
+        1
+      ]
+    },
+    "settle": {
+      "$description": "Plain deceleration (CSS ease-out) used by fades and small hover moves.",
+      "$value": [
+        0,
+        0,
+        0.58,
+        1
+      ]
+    },
+    "exit": {
+      "$description": "Acceleration (CSS ease-in) used when something leaves.",
+      "$value": [
+        0.42,
+        0,
+        1,
+        1
+      ]
     },
     "ambient": {
       "$description": "Symmetric curve used by calm repeating motion.",
-      "$value": [0.42, 0, 0.58, 1]
+      "$value": [
+        0.42,
+        0,
+        0.58,
+        1
+      ]
     }
   }
 }

@@ -38,6 +38,7 @@ import oryneShowRelated from "@/assets/oryne-show-related.webp";
 import oryneFastCaptureOverlay from "@/assets/oryne-fast-capture-overlay.webp";
 import oryneWidgetsHome from "@/assets/oryne-widgets-home.webp";
 import oryneBranch from "@/assets/oryne-branch.webp";
+import { Button } from "@/components/ui/Button";
 
 /* ---------------------------------------------------------------------------
  * Oryne case-study inline modules.
@@ -51,19 +52,9 @@ const ORYNE_APP_STORE_URL = "https://apps.apple.com/us/app/oryne/id6778995892";
 
 function AppStoreLink({ label }: { label: string }) {
   return (
-    <a
-      href={ORYNE_APP_STORE_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group inline-flex items-center gap-2.5 rounded-full bg-foreground px-8 py-4 text-base md:text-lg font-medium text-background hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors duration-200"
-    >
+    <Button href={ORYNE_APP_STORE_URL} external icon={<ArrowUpRight strokeWidth={1.8} />}>
       {label}
-      <ArrowUpRight
-        aria-hidden="true"
-        className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-        strokeWidth={1.8}
-      />
-    </a>
+    </Button>
   );
 }
 
@@ -76,9 +67,9 @@ function TermList({ items }: { items: Term[] }) {
   return (
     <ModuleCard>
       <div className={`hidden md:grid ${TERM_COLS} px-8 py-4 border-b border-case-study-module-divider`}>
-        <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">Term</p>
-        <p className={`text-label uppercase tracking-eyebrow text-foreground/55 font-mono pl-6 ${TERM_COL_RULE}`}>Meaning</p>
-        <p className={`text-label uppercase tracking-eyebrow text-foreground/55 font-mono pl-6 ${TERM_COL_RULE}`}>In the app</p>
+        <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">Term</p>
+        <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-6 ${TERM_COL_RULE}`}>Meaning</p>
+        <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-6 ${TERM_COL_RULE}`}>In the app</p>
       </div>
       <div className="divide-y divide-case-study-module-divider">
         {items.map((t) => {
@@ -89,8 +80,8 @@ function TermList({ items }: { items: Term[] }) {
                 <Icon aria-hidden="true" className="w-4 h-4 shrink-0 text-accent-violet" strokeWidth={1.4} />
                 <p className="text-sm md:text-base font-medium text-foreground">{t.term}</p>
               </div>
-              <p className={`mt-2 md:mt-0 md:pl-6 text-sm font-light leading-relaxed text-foreground/72 ${TERM_COL_RULE}`}>{noOrphan(t.meaning)}</p>
-              <p className={`mt-2 md:mt-0 md:pl-6 text-xs md:text-sm font-mono leading-relaxed text-foreground/55 ${TERM_COL_RULE}`}>{noOrphan(t.inApp)}</p>
+              <p className={`mt-2 md:mt-0 md:pl-6 text-sm font-light leading-relaxed text-foreground-secondary ${TERM_COL_RULE}`}>{noOrphan(t.meaning)}</p>
+              <p className={`mt-2 md:mt-0 md:pl-6 text-caption md:text-sm font-mono leading-relaxed text-foreground-tertiary ${TERM_COL_RULE}`}>{noOrphan(t.inApp)}</p>
             </div>
           );
         })}
@@ -218,7 +209,7 @@ function FlowStepFigure({ step }: { step: FlowStep }) {
   return (
     <div className="flex h-full flex-col bg-surface-inset px-6 py-7 md:px-8 md:py-8">
       <div className="flex items-baseline gap-3">
-        <span className="text-xs font-mono tabular-nums text-accent-violet/70">{step.num}</span>
+        <span className="text-caption font-mono tabular-nums text-accent-violet/70">{step.num}</span>
         <p className="text-base md:text-xl font-medium text-foreground">{step.title}</p>
       </div>
       <figure className={`${SCREEN_FIGURE_WIDTH} mt-5 flex flex-1 flex-col`}>
@@ -238,10 +229,10 @@ export function OryneFlow() {
       {acts.map((act) => (
         <ModuleCard key={act.title}>
           <div className="px-6 pt-7 pb-6 md:px-8 md:pt-8 md:pb-7 border-b border-case-study-module-divider">
-            <p className="text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
+            <p className="text-caption md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
               {act.title}
             </p>
-            <p className="mt-3 text-sm md:text-base font-light leading-relaxed text-foreground/72 max-w-[60ch]">
+            <p className="mt-3 text-sm md:text-base font-light leading-relaxed text-foreground-secondary max-w-measure">
               {noOrphan(act.lead)}
             </p>
           </div>
@@ -297,16 +288,16 @@ export function OryneShipping() {
     <div className="flex flex-col gap-8 md:gap-10">
       <ModuleCard header="Six Releases in Fifteen Days">
         <div className="hidden md:grid md:grid-cols-[6rem_6rem_minmax(0,1fr)] px-8 py-4 border-b border-case-study-module-divider">
-          <p className="text-label uppercase tracking-eyebrow text-foreground/55 font-mono">Date</p>
-          <p className={`text-label uppercase tracking-eyebrow text-foreground/55 font-mono pl-4 ${TERM_COL_RULE}`}>Release</p>
-          <p className={`text-label uppercase tracking-eyebrow text-foreground/55 font-mono pl-4 ${TERM_COL_RULE}`}>What shipped</p>
+          <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">Date</p>
+          <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-4 ${TERM_COL_RULE}`}>Release</p>
+          <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-4 ${TERM_COL_RULE}`}>What shipped</p>
         </div>
         <div className="divide-y divide-case-study-module-divider">
           {releases.map((r) => (
             <div key={r.date + r.tag} className="grid grid-cols-[4.5rem_minmax(0,1fr)] md:grid-cols-[6rem_6rem_minmax(0,1fr)] px-6 py-4 md:px-8 md:py-5">
-              <p className="text-xs md:text-sm font-mono tabular-nums text-foreground/55">{r.date}</p>
+              <p className="text-caption md:text-sm font-mono tabular-nums text-foreground-tertiary">{r.date}</p>
               <p className={`text-sm md:text-base font-medium text-foreground md:pl-4 ${TERM_COL_RULE}`}>{r.tag}</p>
-              <p className={`col-span-2 md:col-span-1 mt-1 md:mt-0 text-sm font-light leading-relaxed text-foreground/72 md:pl-4 ${TERM_COL_RULE}`}>{noOrphan(r.text)}</p>
+              <p className={`col-span-2 md:col-span-1 mt-1 md:mt-0 text-sm font-light leading-relaxed text-foreground-secondary md:pl-4 ${TERM_COL_RULE}`}>{noOrphan(r.text)}</p>
             </div>
           ))}
           <div className="flex items-start gap-3 px-6 py-4 md:px-8 md:py-5">

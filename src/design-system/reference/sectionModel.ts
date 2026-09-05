@@ -29,14 +29,19 @@ export const DESIGN_SYSTEM_GROUPS: DesignSystemGroup[] = [
         description: "Display, body, and mono roles extracted from the current site.",
       },
       {
-        id: "foundation-color",
-        label: "Color",
-        description: "Warm neutrals, semantic surfaces, text, borders, and portfolio accents.",
+        id: "foundation-form",
+        label: "Form",
+        description: "Shape and structure: spacing rhythm, layout widths, reading measures, radius, and the touch target.",
       },
       {
-        id: "foundation-tokens",
-        label: "Spacing & motion",
-        description: "Spacing rhythm, layout measures, radius, and motion values in one place.",
+        id: "foundation-material",
+        label: "Material",
+        description: "Surface and ink: the five-tier ink ladder, surfaces, hairlines, focus rings, and the two collection accents.",
+      },
+      {
+        id: "foundation-motion",
+        label: "Motion",
+        description: "Pace and curve: six durations, six easings, and the five recipes that pair them.",
       },
       {
         id: "foundation-icons",
@@ -53,6 +58,26 @@ export const DESIGN_SYSTEM_GROUPS: DesignSystemGroup[] = [
         id: "component-lineup",
         label: "Component lineup",
         description: "The production building blocks used across Malik's portfolio.",
+      },
+      {
+        id: "component-eyebrow",
+        label: "Eyebrow",
+        description: "The uppercase label that names a block: section headings, metadata labels, guide titles.",
+      },
+      {
+        id: "component-chip",
+        label: "Chip",
+        description: "Small rounded labels in a metadata line: passive skills, and the outbound link chip.",
+      },
+      {
+        id: "component-button",
+        label: "Button",
+        description: "The filled primary pill and the bordered secondary control.",
+      },
+      {
+        id: "component-back-link",
+        label: "Back link",
+        description: "The quiet inline control that returns the reader to where they came from.",
       },
       {
         id: "component-site-header",
@@ -141,8 +166,16 @@ const SECTIONS = [
   ...DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections),
 ];
 
+// Hashes that shipped before the foundations were regrouped into form,
+// material, and motion. They keep resolving so old links still land.
+const LEGACY_SECTION_IDS: Record<string, string> = {
+  "foundation-color": "foundation-material",
+  "foundation-tokens": "foundation-form",
+};
+
 export function resolveSectionHash(hash: string): DesignSystemSection {
-  const id = hash.startsWith("#") ? hash.slice(1) : hash;
+  const raw = hash.startsWith("#") ? hash.slice(1) : hash;
+  const id = LEGACY_SECTION_IDS[raw] ?? raw;
   return SECTIONS.find((section) => section.id === id) ?? OVERVIEW_SECTION;
 }
 

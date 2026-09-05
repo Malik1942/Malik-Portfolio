@@ -56,6 +56,8 @@ export interface TokenRecord {
   cssVariable: `--${string}`;
   cssValue: string;
   aliasOf?: string;
+  /** Alpha the alias applies to its target (see ALPHA_EXTENSION). */
+  aliasAlpha?: number;
   dependents: string[];
 }
 

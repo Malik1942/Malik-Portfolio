@@ -25,15 +25,15 @@ class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-5 px-6 text-center">
-          <p className="text-sm uppercase tracking-eyebrow text-foreground/72 font-medium">
+          <p className="text-sm uppercase tracking-eyebrow text-foreground-secondary font-medium">
             Something went wrong
           </p>
-          <p className="text-sm text-foreground/55 max-w-[360px] leading-relaxed">
+          <p className="text-sm text-foreground-tertiary max-w-[360px] leading-relaxed">
             This page hit an unexpected error. Try reloading, or head back home.
           </p>
           <a
             href="/"
-            className="text-sm text-foreground/72 hover:text-foreground transition-colors underline underline-offset-4"
+            className="text-sm text-foreground-secondary hover:text-foreground transition-colors underline underline-offset-4"
           >
             ← Back home
           </a>

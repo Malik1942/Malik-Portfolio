@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { BackLink } from "@/components/ui/BackLink";
 
 const Resume = () => {
   const navigate = useNavigate();
@@ -9,30 +10,15 @@ const Resume = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-border/40 bg-background z-10">
-        <button
-          type="button"
-          onClick={() => navigate("/")}
-          aria-label="Back to home"
-          className="group flex items-center gap-2 min-h-11 px-1 text-sm font-mono text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200"
-        >
-          <svg
-            aria-hidden="true"
-            className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-          </svg>
+      <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-hairline bg-background z-10">
+        <BackLink onClick={() => navigate("/")} aria-label="Back to home" family="mono">
           Back
-        </button>
+        </BackLink>
 
         <a
           href={pdfPath}
           download="malik-resume-2026.pdf"
-          className="flex items-center gap-2 px-4 py-2 text-sm font-mono text-foreground/72 hover:text-foreground border border-border/50 hover:border-border rounded-sm transition-colors duration-300"
+          className="flex items-center gap-2 px-4 py-2 text-sm font-mono text-foreground-secondary hover:text-foreground border border-hairline hover:border-border rounded-sm transition-colors duration-medium"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -44,7 +30,7 @@ const Resume = () => {
       {/* PDF viewer — iframe on desktop, fallback on mobile */}
       {isMobile ? (
         <div className="flex-1 flex flex-col items-center justify-center gap-6 px-8 py-16 text-center">
-          <p className="text-foreground/55 text-sm leading-relaxed max-w-[280px]">
+          <p className="text-foreground-tertiary text-sm leading-relaxed max-w-[280px]">
             PDF previews aren't supported on mobile browsers. Open or download the resume below.
           </p>
           <div className="flex flex-col gap-3 w-full max-w-[240px]">
@@ -52,14 +38,14 @@ const Resume = () => {
               href={pdfPath}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 px-5 py-3 text-sm font-mono text-foreground border border-border/60 hover:border-border rounded-sm transition-colors duration-300"
+              className="flex items-center justify-center gap-2 px-5 py-3 text-sm font-mono text-foreground border border-hairline hover:border-border rounded-sm transition-colors duration-medium"
             >
               View PDF
             </a>
             <a
               href={pdfPath}
               download="malik-resume-2026.pdf"
-              className="flex items-center justify-center gap-2 px-5 py-3 text-sm font-mono text-foreground/55 hover:text-foreground transition-colors duration-300"
+              className="flex items-center justify-center gap-2 px-5 py-3 text-sm font-mono text-foreground-tertiary hover:text-foreground transition-colors duration-medium"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />

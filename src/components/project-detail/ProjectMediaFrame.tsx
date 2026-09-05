@@ -26,7 +26,7 @@ function AutoplayVideo({ src, poster }: { src: string; poster?: string }) {
 
   return (
     <div ref={containerRef}>
-      <video ref={ref} src={src} poster={poster} preload={near ? "auto" : "none"} muted playsInline controls className="w-full max-h-[min(700px,74vh)] object-contain bg-black" />
+      <video ref={ref} src={src} poster={poster} preload={near ? "auto" : "none"} muted playsInline controls className="w-full max-h-[min(700px,74vh)] object-contain bg-background" />
     </div>
   );
 }

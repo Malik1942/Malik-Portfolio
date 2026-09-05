@@ -3,6 +3,7 @@ import { ProjectDetailTemplate } from "@/components/project-detail/ProjectDetail
 import { getProjectDetail } from "@/data/projectDetails";
 import { PageTransition } from "@/components/PageTransition";
 import { projectReturn } from "@/data/projects";
+import { BackLink } from "@/components/ui/BackLink";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,24 +16,9 @@ const ProjectDetail = () => {
         <div className="min-h-screen bg-background flex items-center justify-center px-6">
           <div className="text-center max-w-md">
             <h1 className="font-display text-title font-light text-foreground mb-4">Project not found</h1>
-            <button
-              type="button"
-              onClick={() => navigate("/")}
-              aria-label="Back to home"
-              className="group flex items-center gap-2 min-h-11 px-1 text-sm text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200"
-            >
-              <svg
-                aria-hidden="true"
-                className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-              </svg>
+            <BackLink onClick={() => navigate("/")} aria-label="Back to home">
               Back to home
-            </button>
+            </BackLink>
           </div>
         </div>
       </PageTransition>

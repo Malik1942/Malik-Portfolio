@@ -1,13 +1,12 @@
 import type { ProjectMetaCard } from "@/types/projectDetail";
 import { noOrphan } from "@/lib/noOrphan";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 
 function MetadataItem({ label, value }: ProjectMetaCard) {
   return (
-    <div className="border border-border/40 bg-secondary/[0.07] rounded-sm px-5 py-5 md:px-6 md:py-6">
-      <p className="text-label uppercase tracking-eyebrow text-foreground/55 mb-3">
-        {label}
-      </p>
-      <p className="text-sm font-normal leading-relaxed text-foreground/72 whitespace-pre-line">
+    <div className="border border-hairline bg-secondary/[0.07] rounded-sm px-5 py-5 md:px-6 md:py-6">
+      <Eyebrow className="mb-3">{label}</Eyebrow>
+      <p className="text-sm font-normal leading-relaxed text-foreground-secondary whitespace-pre-line">
         {noOrphan(value)}
       </p>
     </div>

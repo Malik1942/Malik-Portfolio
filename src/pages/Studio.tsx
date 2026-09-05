@@ -72,7 +72,7 @@ const Studio = () => {
           </p>
           {/* Body-paragraph role, as in a case-study SectionBody: 16 / 20px,
               regular, 85% strength. The <strong> run inside is the body highlight. */}
-          <p className="mt-5 md:mt-6 text-base md:text-xl font-normal leading-relaxed text-foreground/85 max-w-reading">
+          <p className="mt-5 md:mt-6 text-base md:text-xl font-normal leading-relaxed text-foreground-lead max-w-reading">
             {blurbBefore}
             <strong className="font-semibold text-foreground">{STUDIO_BLURB_HIGHLIGHT}</strong>
             {noOrphan(blurbAfter)}

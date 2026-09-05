@@ -8,16 +8,21 @@ import {
 
 describe("design system section model", () => {
   it("resolves a stable hash and falls back to overview", () => {
-    expect(resolveSectionHash("#foundation-color").id).toBe("foundation-color");
+    expect(resolveSectionHash("#foundation-material").id).toBe("foundation-material");
     expect(resolveSectionHash("#playground").id).toBe("overview");
     expect(resolveSectionHash("#unknown").id).toBe("overview");
     expect(resolveSectionHash("").id).toBe("overview");
   });
 
+  it("keeps the pre-regroup foundation hashes resolving", () => {
+    expect(resolveSectionHash("#foundation-color").id).toBe("foundation-material");
+    expect(resolveSectionHash("#foundation-tokens").id).toBe("foundation-form");
+  });
+
   it("returns linear previous and next sections", () => {
-    expect(getAdjacentSections("foundation-color")).toEqual({
-      previous: expect.objectContaining({ id: "foundation-typography" }),
-      next: expect.objectContaining({ id: "foundation-tokens" }),
+    expect(getAdjacentSections("foundation-material")).toEqual({
+      previous: expect.objectContaining({ id: "foundation-form" }),
+      next: expect.objectContaining({ id: "foundation-motion" }),
     });
   });
 
@@ -40,23 +45,32 @@ describe("design system section model", () => {
       "components",
       "patterns",
     ]);
-    expect(DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections)).toHaveLength(19);
+    expect(DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections)).toHaveLength(24);
     expect(DESIGN_SYSTEM_GROUPS[0].sections.map((section) => section.id)).toEqual([
       "foundation-typography",
-      "foundation-color",
-      "foundation-tokens",
+      "foundation-form",
+      "foundation-material",
+      "foundation-motion",
       "foundation-icons",
     ]);
     expect(DESIGN_SYSTEM_GROUPS[0].sections.map((section) => section.label)).toEqual([
       "Type",
-      "Color",
-      "Spacing & motion",
+      "Form",
+      "Material",
+      "Motion",
       "Icons",
     ]);
     expect(DESIGN_SYSTEM_GROUPS[1].sections[0]).toMatchObject({
       id: "component-lineup",
       label: "Component lineup",
     });
+    // Primitives lead the lineup; composed components follow.
+    expect(DESIGN_SYSTEM_GROUPS[1].sections.slice(1, 5).map((section) => section.id)).toEqual([
+      "component-eyebrow",
+      "component-chip",
+      "component-button",
+      "component-back-link",
+    ]);
     expect(DESIGN_SYSTEM_GROUPS.at(-1)?.sections.at(-1)?.id).toBe("pattern-accessibility");
   });
 

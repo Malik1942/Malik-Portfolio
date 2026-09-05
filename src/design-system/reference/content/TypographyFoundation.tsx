@@ -38,8 +38,8 @@ function getToken(path: string, type: TokenRecord["type"]): TokenRecord {
 function TechnicalLabel({ token }: { token: TokenRecord }) {
   return (
     <div className="min-w-0">
-      <code className="block break-all text-label text-foreground/55 font-mono">{token.path}</code>
-      <code className="mt-1 block text-xs text-foreground/72 font-mono">{token.cssValue}</code>
+      <code className="block break-all text-label text-foreground-tertiary font-mono">{token.path}</code>
+      <code className="mt-1 block text-caption text-foreground-secondary font-mono">{token.cssValue}</code>
     </div>
   );
 }
@@ -48,11 +48,11 @@ export function TypographyFoundation() {
   return (
     <div data-testid="reference-foundation-typography" className="space-y-14 md:space-y-20">
       <div className="max-w-reading space-y-4">
-        <p className="text-base leading-relaxed text-foreground/72 md:text-xl">
+        <p className="text-base leading-relaxed text-foreground-secondary md:text-xl">
           General Sans carries editorial hierarchy and reading. JetBrains Mono
           marks technical metadata without competing with the work.
         </p>
-        <p className="text-sm leading-relaxed text-foreground/55">
+        <p className="text-sm leading-relaxed text-foreground-tertiary">
           The scale is compact by design: eight roles cover navigation,
           narrative copy, module titles, section headings, and the portfolio's
           largest moments, with a fluid hero clamped between dedicated
@@ -64,14 +64,14 @@ export function TypographyFoundation() {
         <h2 id="type-families-heading" className="text-xl font-medium tracking-tight text-foreground">
           Families
         </h2>
-        <ul className="mt-5 border-t border-border/50">
+        <ul className="mt-5 border-t border-hairline">
           {FAMILY_ROLES.map((role) => {
             const token = getToken(role.path, "fontFamily");
             return (
               <li
                 key={role.path}
                 data-testid={`type-family-${role.id}`}
-                className="grid min-w-0 gap-5 border-b border-border/50 py-6 sm:grid-cols-[120px_minmax(150px,0.75fr)_minmax(0,1.4fr)] sm:items-center"
+                className="grid min-w-0 gap-5 border-b border-hairline py-6 sm:grid-cols-[120px_minmax(150px,0.75fr)_minmax(0,1.4fr)] sm:items-center"
               >
                 <p className="text-sm font-medium text-foreground">{role.label}</p>
                 <TechnicalLabel token={token} />
@@ -89,18 +89,18 @@ export function TypographyFoundation() {
           <h2 id="type-scale-heading" className="text-xl font-medium tracking-tight text-foreground">
             Type scale
           </h2>
-          <p className="text-label uppercase tracking-eyebrow text-foreground/55">
+          <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary">
             Production roles · px
           </p>
         </div>
-        <ul className="mt-5 border-t border-border/50">
+        <ul className="mt-5 border-t border-hairline">
           {SIZE_ROLES.map((role) => {
             const token = getToken(role.path, "dimension");
             return (
               <li
                 key={role.path}
                 data-testid={`type-scale-${role.id}`}
-                className="grid min-w-0 gap-5 border-b border-border/50 py-6 sm:grid-cols-[120px_minmax(150px,0.75fr)_minmax(0,1.4fr)] sm:items-center"
+                className="grid min-w-0 gap-5 border-b border-hairline py-6 sm:grid-cols-[120px_minmax(150px,0.75fr)_minmax(0,1.4fr)] sm:items-center"
               >
                 <p className="text-sm font-medium text-foreground">{role.label}</p>
                 <TechnicalLabel token={token} />
@@ -121,14 +121,14 @@ export function TypographyFoundation() {
         <h2 id="type-weights-heading" className="text-xl font-medium tracking-tight text-foreground">
           Weights
         </h2>
-        <ul className="mt-5 border-t border-border/50">
+        <ul className="mt-5 border-t border-hairline">
           {WEIGHT_ROLES.map((role) => {
             const token = getToken(role.path, "fontWeight");
             return (
               <li
                 key={role.path}
                 data-testid={`type-weight-${role.id}`}
-                className="grid min-w-0 gap-5 border-b border-border/50 py-6 sm:grid-cols-[120px_minmax(150px,0.75fr)_minmax(0,1.4fr)] sm:items-center"
+                className="grid min-w-0 gap-5 border-b border-hairline py-6 sm:grid-cols-[120px_minmax(150px,0.75fr)_minmax(0,1.4fr)] sm:items-center"
               >
                 <p className="text-sm font-medium text-foreground">{role.label}</p>
                 <TechnicalLabel token={token} />

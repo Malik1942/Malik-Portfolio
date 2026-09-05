@@ -18,3 +18,14 @@
 - Reject a broad standalone Component Playground, because it would recreate the same undifferentiated catalog under a more professional name.
 - Reject database-backed instant production tokens, because they add runtime dependency, caching, failure, and operational complexity without improving the review workflow.
 - Reject an exhaustive generic control catalog, because documentation should reflect the portfolio that actually exists.
+- Read every decision in three facets, form, material, and motion, because a variant then changes one facet and leaves the other two alone, and the foundations, the component docs, and the code recipes all share one vocabulary.
+- Name the ink ladder as five semantic tiers (primary, lead, secondary, tertiary, quiet) that alias the primary foreground with an alpha, because the two most used colors on the site were raw opacity modifiers with no role, and the workbench could not retune them.
+- Extend the DTCG compiler with a vendor `$extensions` alpha on color aliases rather than copying literal values, because a tier that references the primary follows an edit to it, which is the point of a ladder.
+- Bind Tailwind's transition duration and timing scales to the motion tokens and lift the same tokens into Framer Motion through a generated-manifest module, because motion tokens that nothing consumes are documentation, not a system.
+- Keep choreographed sequences (hero entrance, DotGrid, About, Boulder wall) on their local timings while giving them the token curves, because a sequence is tuned as a whole and a shared pace would flatten it.
+- Express recipes in code as form, material, and motion class facets (`defineRecipe`), because a className that reads as three decisions is easier to vary and to document than one that reads as thirty classes.
+- Extract Button, Back link, Chip, and Eyebrow as primitives and document them ahead of the composed components, because they were the four recipes the portfolio copied most and the reference had none of them.
+- Enforce the boundary with a test that scans the source for off-system classes and literals, because Tailwind drops an unknown class silently and the `md:text-lg` no-op shipped for months.
+- Keep art-directed exemptions (the case-study guide lettering, the About editorial measure, canvas-drawn palettes) as named entries in that test, because an exemption that has to be listed stays a decision.
+- Retire the shadcn-era sidebar, input, and on-destructive tokens, because nothing in the portfolio consumed them and a public reference should describe the site that exists.
+- Hold the secondary ink tier at full strength for now, because Tailwind silently dropped the authored `/72` modifier (only multiples of 5 exist on its opacity scale), so the site Malik approved renders supporting copy at 100%; the role is now at every site and one alpha edit in the workbench dims them all together.

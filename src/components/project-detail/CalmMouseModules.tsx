@@ -22,6 +22,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { noOrphan } from "@/lib/noOrphan";
+import { EASE } from "@/design-system/system/motion";
+import { Button } from "@/components/ui/Button";
 
 /* ---------------------------------------------------------------------------
  * CalmMouse case-study inline modules.
@@ -45,7 +47,7 @@ function ModuleCard({ children, header }: { children: ReactNode; header?: string
     <div className="rounded-2xl overflow-hidden bg-surface-inset border border-case-study-module-border">
       {header ? (
         <div className="px-8 pt-8 pb-7 md:px-10 border-b border-case-study-module-divider">
-          <p className="text-xs md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
+          <p className="text-caption md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
             {header}
           </p>
         </div>
@@ -66,7 +68,7 @@ function CardGrid({ items, header, colsClass }: { items: GridItem[]; header?: st
           return (
             <div key={it.num} className="flex flex-col gap-5 bg-surface-inset px-6 py-7 md:px-7 md:py-8">
               <div className="flex items-center justify-between">
-                <span className={`text-xs font-mono tabular-nums ${a.num}`}>{it.num}</span>
+                <span className={`text-caption font-mono tabular-nums ${a.num}`}>{it.num}</span>
                 <Icon aria-hidden="true" className={`w-4 h-4 ${a.icon}`} strokeWidth={1.4} />
               </div>
               <div className="flex flex-col gap-2.5">
@@ -74,7 +76,7 @@ function CardGrid({ items, header, colsClass }: { items: GridItem[]; header?: st
                   {noOrphan(it.title)}
                 </p>
                 {it.desc ? (
-                  <p className="text-sm md:text-base font-light text-foreground/72 leading-relaxed">
+                  <p className="text-sm md:text-base font-light text-foreground-secondary leading-relaxed">
                     {noOrphan(it.desc)}
                   </p>
                 ) : null}
@@ -93,7 +95,7 @@ function CardGrid({ items, header, colsClass }: { items: GridItem[]; header?: st
  * mouse's content lurches, CalmMouse's holds still. Honors reduced motion by
  * freezing both panes (the still frame reads as "steady", which is the point).
  */
-const DEMO_LOOP = { duration: 4, repeat: Infinity, ease: "easeOut" as const };
+const DEMO_LOOP = { duration: 4, repeat: Infinity, ease: EASE.settle };
 
 function ClickRipple({ className }: { className: string }) {
   const reduced = useReducedMotion();
@@ -144,12 +146,12 @@ function DemoPane({ fixed }: { fixed: boolean }) {
           <ClickRipple className={fixed ? "border-accent-emerald" : "border-accent-slate"} />
           <MousePointerClick
             aria-hidden="true"
-            className="relative w-5 h-5 text-foreground/85"
+            className="relative w-5 h-5 text-foreground-lead"
             strokeWidth={1.6}
           />
         </div>
       </div>
-      <p className="text-sm font-light text-foreground/60 leading-relaxed">
+      <p className="text-sm font-light text-foreground-tertiary leading-relaxed">
         {fixed
           ? "Same click. The page holds still — the swipe is swallowed."
           : "The click lands, the finger rolls half a millimetre, the page jumps."}
@@ -308,19 +310,9 @@ export function CalmMouseShipping() {
 function LinkCta({ href, children }: { href: string; children: ReactNode }) {
   return (
     <div className="flex justify-center">
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group inline-flex items-center gap-2.5 rounded-full bg-foreground px-8 py-4 text-base md:text-lg font-medium text-background hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors duration-200"
-      >
+      <Button href={href} external icon={<ArrowUpRight strokeWidth={1.8} />}>
         {children}
-        <ArrowUpRight
-          aria-hidden="true"
-          className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-          strokeWidth={1.8}
-        />
-      </a>
+      </Button>
     </div>
   );
 }

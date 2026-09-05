@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import type { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "@/components/Footer";
+import { BackLink } from "@/components/ui/BackLink";
+import { Button } from "@/components/ui/Button";
 
 const SUPPORT_EMAIL = "malikdes9gn@gmail.com";
 
@@ -141,39 +143,24 @@ const OryneSupport = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Top bar — mirrors the Resume page back bar */}
-      <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-border/40 bg-background z-10">
-        <button
-          type="button"
-          onClick={() => navigate("/")}
-          aria-label="Back to home"
-          className="group flex items-center gap-2 min-h-11 px-1 text-sm font-mono text-foreground/72 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm transition-colors duration-200"
-        >
-          <svg
-            aria-hidden="true"
-            className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-          </svg>
+      <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-hairline bg-background z-10">
+        <BackLink onClick={() => navigate("/")} aria-label="Back to home" family="mono">
           Back
-        </button>
-        <span className="text-xs font-mono text-foreground/55">Oryne Support</span>
+        </BackLink>
+        <span className="text-caption font-mono text-foreground-tertiary">Oryne Support</span>
       </div>
 
       <main className="flex-1 px-6 md:px-16 lg:px-20 pt-16 md:pt-24 pb-8">
         <div className="max-w-reading mx-auto">
           {/* Intro */}
           <header>
-            <span className="text-label uppercase tracking-eyebrow text-foreground/55 block mb-6">
+            <span className="text-label uppercase tracking-eyebrow text-foreground-tertiary block mb-6">
               Support
             </span>
             <h1 className="font-display text-title md:text-display font-light text-foreground mb-6">
               Oryne
             </h1>
-            <p className="text-base md:text-xl text-foreground/72 leading-relaxed max-w-[60ch]">
+            <p className="text-base md:text-xl text-foreground-secondary leading-relaxed max-w-[60ch]">
               Oryne is a frictionless place to catch inspiration by voice or text before it's gone.
               Start a Whisper the moment an idea arrives, then Release it into the Ocean. On-device
               intelligence names each Thought and connects it to the others, so what you capture
@@ -195,7 +182,7 @@ const OryneSupport = () => {
                   <dt className="text-base md:text-xl text-foreground tracking-tight mb-3">
                     {faq.q}
                   </dt>
-                  <dd className="text-sm md:text-base text-foreground/72 leading-relaxed max-w-[64ch]">
+                  <dd className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
                     {faq.a}
                   </dd>
                 </div>
@@ -212,7 +199,7 @@ const OryneSupport = () => {
               Your privacy
             </h2>
             <div className="rounded-lg border border-border bg-card/40 p-6 md:p-8">
-              <p className="text-sm md:text-base text-foreground/72 leading-relaxed max-w-[64ch]">
+              <p className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
                 Oryne is built so your Thoughts stay yours. The intelligence that titles, themes,
                 and connects your Whispers runs on your device. Your captures sync only through your
                 own private iCloud, tied to your Apple Account, so they reach your other devices
@@ -230,39 +217,22 @@ const OryneSupport = () => {
             >
               Contact
             </h2>
-            <p className="text-sm md:text-base text-foreground/72 leading-relaxed mb-6 max-w-[60ch]">
+            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed mb-6 max-w-[60ch]">
               Questions, feedback, or a bug to report? Reach the Oryne team directly. This is the
               fastest way to get help.
             </p>
-            <a
-              href={`mailto:${SUPPORT_EMAIL}`}
-              className="inline-flex items-center gap-3 px-5 py-3 text-sm md:text-base font-mono text-foreground border border-border/60 hover:border-border rounded-sm transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
-            >
-              <svg
-                aria-hidden="true"
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-                />
-              </svg>
+            <Button href={`mailto:${SUPPORT_EMAIL}`} tone="secondary" iconPosition="leading" icon={<svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} > <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /> </svg>}>
               {SUPPORT_EMAIL}
-            </a>
+            </Button>
           </section>
 
           {/* Cross-link to the privacy policy */}
           <div className="mt-14 md:mt-16 pt-8 border-t border-border">
-            <p className="text-sm text-foreground/55">
+            <p className="text-sm text-foreground-tertiary">
               Read how Oryne handles your data in our{" "}
               <a
                 href="/oryne/privacy"
-                className="nav-link text-foreground/72 hover:text-foreground transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 rounded-sm"
+                className="nav-link text-foreground-secondary hover:text-foreground transition-colors duration-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus rounded-sm"
               >
                 Privacy Policy
               </a>

@@ -11,12 +11,15 @@ import {
 import { tokenBundle } from "../../generated/token-manifest.generated";
 import type { TokenRecord } from "../../tokens/types";
 import { TokenTable } from "../TokenTable";
-import { ColorFoundation } from "./ColorFoundation";
+import { MaterialFoundation } from "./MaterialFoundation";
+import { MotionFoundation } from "./MotionFoundation";
 import { TypographyFoundation } from "./TypographyFoundation";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 
 const FOUNDATION_PREFIXES: Record<string, string[]> = {
   "foundation-typography": ["font."],
-  "foundation-color": [
+  "foundation-form": ["space.", "layout.", "measure.", "radius."],
+  "foundation-material": [
     "color.",
     "component.siteHeader.scrimColor",
     "component.projectCard.",
@@ -24,28 +27,28 @@ const FOUNDATION_PREFIXES: Record<string, string[]> = {
     "component.lightbox.backdrop",
     "component.projectSection.flash",
   ],
-  "foundation-tokens": ["space.", "layout.", "radius.", "color.border.", "duration.", "ease."],
+  "foundation-motion": ["duration.", "ease."],
 };
 
-// Sub-tables shown on the merged Tokens page (spacing, radius, and motion in one place).
-const TOKEN_SECTIONS: readonly { title: string; intro: string; prefixes: string[] }[] = [
+// Sub-tables on the Form page: the dimensional decisions the interface repeats.
+const FORM_SECTIONS: readonly { title: string; intro: string; prefixes: string[] }[] = [
   {
     title: "Spacing & layout",
     intro:
-      "An eight-step spacing rhythm supports local composition. Named layout measures define readable content, page boundaries, and minimum interaction size.",
+      "An eight-step spacing rhythm supports local composition. Named layout widths bound content, the page, and long-form reading, and the touch target sets the minimum interactive size.",
     prefixes: ["space.", "layout."],
   },
   {
-    title: "Radius & borders",
+    title: "Measure",
     intro:
-      "Shape is restrained: small controls, standard cards, larger media, and fully rounded affordances. Border color remains a semantic separation role.",
-    prefixes: ["radius.", "color.border."],
+      "Line length in characters, not pixels, so it follows the type size. Narrow for statements, body for prose, wide for reference copy that sits beside tables. Utilities: max-w-measure-narrow, max-w-measure, max-w-measure-wide.",
+    prefixes: ["measure."],
   },
   {
-    title: "Motion",
+    title: "Radius",
     intro:
-      "Durations describe pace and cubic Bézier roles describe intent. Reduced-motion preference remains authoritative over every decorative transition.",
-    prefixes: ["duration.", "ease."],
+      "Shape is restrained: small controls, standard cards, larger media and modules, and fully rounded pills and chips.",
+    prefixes: ["radius."],
   },
 ];
 
@@ -63,20 +66,27 @@ export function getFoundationTokens(sectionId: string): TokenRecord[] {
   return tokensForPrefixes(FOUNDATION_PREFIXES[sectionId] ?? []);
 }
 
-function TokensFoundation() {
+function FormFoundation() {
   return (
-    <div data-testid="reference-foundation-tokens" className="space-y-12 md:space-y-16">
-      <p className="max-w-reading text-base leading-relaxed text-foreground/72 md:text-xl">
-        Spacing, radius, and motion share one page: the quiet dimensional and
-        temporal decisions the interface repeats. Every value below is read from
-        the generated production manifest, so this reference never duplicates the
-        canonical source.
-      </p>
-      {TOKEN_SECTIONS.map((section) => (
+    <div data-testid="reference-foundation-form" className="space-y-12 md:space-y-16">
+      <div className="max-w-reading space-y-4">
+        <p className="text-base leading-relaxed text-foreground-secondary md:text-xl">
+          Form is shape and structure: how much room a thing takes, how wide a
+          line runs, how soft a corner is. Type has its own page; everything
+          else dimensional lives here.
+        </p>
+        <p className="text-sm leading-relaxed text-foreground-tertiary">
+          Every value below is read from the generated production manifest, so
+          this reference never duplicates the canonical source. Spacing steps
+          describe the rhythm; the Tailwind spacing scale that composes it is
+          not token-bound and stays a local utility.
+        </p>
+      </div>
+      {FORM_SECTIONS.map((section) => (
         <section key={section.title} className="space-y-5">
           <div className="max-w-reading space-y-2">
-            <h2 className="text-label uppercase tracking-eyebrow text-foreground/72">{section.title}</h2>
-            <p className="text-sm leading-relaxed text-foreground/55">{section.intro}</p>
+            <Eyebrow as="h2" tone="secondary">{section.title}</Eyebrow>
+            <p className="text-sm leading-relaxed text-foreground-tertiary">{section.intro}</p>
           </div>
           <TokenTable title={`${section.title} tokens`} tokens={tokensForPrefixes(section.prefixes)} />
         </section>
@@ -98,7 +108,7 @@ const ICONS: readonly { icon: LucideIcon; name: string; usage: string }[] = [
 function IconsFoundation() {
   return (
     <div data-testid="reference-foundation-icons" className="space-y-10 md:space-y-12">
-      <p className="max-w-reading text-base leading-relaxed text-foreground/72 md:text-xl">
+      <p className="max-w-reading text-base leading-relaxed text-foreground-secondary md:text-xl">
         Icons come from lucide-react drawn at a consistent stroke, kept to a small
         functional set: navigation, dismissal, and the strength / gap markers used
         in case-study comparisons. They inherit the current text color and size to
@@ -109,12 +119,12 @@ function IconsFoundation() {
           <li
             key={name}
             data-testid={`icon-${name}`}
-            className="flex flex-col items-start gap-3 rounded-lg border border-border/50 bg-surface-card/40 p-4"
+            className="flex flex-col items-start gap-3 rounded-lg border border-hairline bg-surface-card/40 p-4"
           >
             <Icon className="h-5 w-5 text-foreground" strokeWidth={1.75} aria-hidden="true" />
             <div className="min-w-0">
               <code className="block truncate text-sm text-foreground font-mono">{name}</code>
-              <p className="mt-0.5 text-label uppercase tracking-eyebrow text-foreground/55">{usage}</p>
+              <Eyebrow className="mt-0.5">{usage}</Eyebrow>
             </div>
           </li>
         ))}
@@ -124,9 +134,10 @@ function IconsFoundation() {
 }
 
 export function FoundationContent({ sectionId }: { sectionId: string }) {
-  if (sectionId === "foundation-color") return <ColorFoundation />;
   if (sectionId === "foundation-typography") return <TypographyFoundation />;
-  if (sectionId === "foundation-tokens") return <TokensFoundation />;
+  if (sectionId === "foundation-form") return <FormFoundation />;
+  if (sectionId === "foundation-material") return <MaterialFoundation />;
+  if (sectionId === "foundation-motion") return <MotionFoundation />;
   if (sectionId === "foundation-icons") return <IconsFoundation />;
   return null;
 }

@@ -26,14 +26,14 @@ describe("DesignSystemShell", () => {
   });
 
   it("renders only the section selected by the current hash", () => {
-    window.history.replaceState(null, "", "/design-system#foundation-color");
+    window.history.replaceState(null, "", "/design-system#foundation-material");
 
     renderShell();
 
-    expect(screen.getByRole("heading", { level: 1, name: "Color" })).toBeInTheDocument();
-    expect(screen.getByTestId("body-foundation-color")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "Material" })).toBeInTheDocument();
+    expect(screen.getByTestId("body-foundation-material")).toBeInTheDocument();
     expect(screen.queryByTestId("body-overview")).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Color" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Material" })).toHaveAttribute(
       "aria-current",
       "location",
     );
@@ -92,7 +92,7 @@ describe("DesignSystemShell", () => {
     );
 
     act(() => {
-      window.history.replaceState(null, "", "/design-system#foundation-color");
+      window.history.replaceState(null, "", "/design-system#foundation-material");
       window.dispatchEvent(new HashChangeEvent("hashchange"));
     });
 
@@ -100,13 +100,13 @@ describe("DesignSystemShell", () => {
       "aria-expanded",
       "true",
     );
-    expect(screen.getAllByRole("link", { name: /Previous: Type/ })[0]).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /Previous: Form/ })[0]).toHaveAttribute(
       "href",
-      "#foundation-typography",
+      "#foundation-form",
     );
-    expect(screen.getAllByRole("link", { name: /Next: Spacing & motion/ })[0]).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /Next: Motion/ })[0]).toHaveAttribute(
       "href",
-      "#foundation-tokens",
+      "#foundation-motion",
     );
   });
 
