@@ -59,6 +59,17 @@ export default {
       full: "9999px",
     },
     extend: {
+      // Color opacity modifiers (`text-foreground/72`) only generate for steps on
+      // this scale. Tailwind ships 0..100 in fives; the text-emphasis ladder
+      // documented in src/design-system/workbench/ContrastChecks.tsx also has a
+      // 72% "supporting" tier and a 44% decorative tier. Without these entries
+      // every `/72` and `/44` site silently rendered at full strength for five
+      // months (no error, no missing class, just no CSS). Any new off-scale step
+      // must be added here or it will not exist.
+      opacity: {
+        44: "0.44",
+        72: "0.72",
+      },
       spacing: {
         // 44px touch target, kept live-editable via the layout token.
         11: "var(--layout-touch-target)",

@@ -46,6 +46,9 @@ import motiLlmPlan2 from "@/assets/moti-llm-plan2.webp";
  * Images are imported from src/assets (moti-*.webp).
  * ------------------------------------------------------------------------- */
 
+// Text emphasis: /72 (supporting) and /44 (decorative) are off Tailwind's
+// default 5-step opacity scale and only generate because tailwind.config.ts
+// extends `opacity` with them. Do not introduce other off-scale steps.
 // Module accent rotation: three token-backed hues differentiate grid categories
 // (and map semantically where the data has tiers, e.g. Rule-Based/SLM/LLM).
 type Accent = "violet" | "emerald" | "slate";

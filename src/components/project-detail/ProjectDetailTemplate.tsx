@@ -491,8 +491,8 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                     onClick={() => scrollToProjectSection(s.id)}
                     className={`w-full text-left pl-3 py-2.5 border-l transition-[color,border-color] duration-300 text-[11px] uppercase tracking-[0.16em] leading-tight ${
                       activeSectionId === s.id
-                        ? "border-foreground/75 text-foreground/92"
-                        : "border-transparent text-foreground/55 hover:text-foreground/78 hover:border-foreground/30"
+                        ? "border-foreground/75 text-foreground/90"
+                        : "border-transparent text-foreground/55 hover:text-foreground/80 hover:border-foreground/30"
                     }`}
                   >
                     {s.label}
