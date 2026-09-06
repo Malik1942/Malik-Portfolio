@@ -27,13 +27,13 @@ describe("TokenTable", () => {
         tokens={[
           token({}),
           token({
-            path: "space.4",
+            path: "rhythm.section.compact",
             type: "dimension",
-            value: { value: 16, unit: "px" },
-            resolvedValue: { value: 16, unit: "px" },
-            cssVariable: "--space-4",
-            cssValue: "16px",
-            description: "Base spacing step for standard component rhythm.",
+            value: { value: 64, unit: "px" },
+            resolvedValue: { value: 64, unit: "px" },
+            cssVariable: "--rhythm-section-compact",
+            cssValue: "64px",
+            description: "Space between page sections on narrow screens.",
             aliasOf: undefined,
           }),
         ]}
@@ -48,7 +48,7 @@ describe("TokenTable", () => {
     expect(screen.getByText("Primary foreground for readable portfolio copy.")).toBeInTheDocument();
     expect(screen.getByText("Aliases color.warm.100")).toBeInTheDocument();
     expect(screen.getByLabelText("Visual sample for color.text.primary")).toBeInTheDocument();
-    expect(screen.getByLabelText("Visual sample for space.4")).toBeInTheDocument();
+    expect(screen.getByLabelText("Visual sample for rhythm.section.compact")).toBeInTheDocument();
   });
 
   it("renders an explanatory sample for every supported token type", () => {
