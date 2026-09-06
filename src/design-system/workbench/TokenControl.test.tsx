@@ -53,9 +53,9 @@ describe("TokenControl", () => {
   });
 
   it("preserves a dimension's production unit and does not invent a slider", () => {
-    const onChange = renderControl(token("space.1"));
+    const onChange = renderControl(token("radius.small"));
     expect(screen.queryByRole("slider")).not.toBeInTheDocument();
-    fireEvent.change(screen.getByLabelText("space.1 value"), { target: { value: "6" } });
+    fireEvent.change(screen.getByLabelText("radius.small value"), { target: { value: "6" } });
     expect(onChange).toHaveBeenLastCalledWith({ value: 6, unit: "px" });
   });
 

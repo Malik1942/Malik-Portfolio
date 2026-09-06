@@ -28,14 +28,6 @@ export default {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
-
     // ── Form: type ──────────────────────────────────────────────────────────
     fontSize: {
       // Label and caption both sit at 12px (Sep 2026: label raised from 11px so

@@ -11,7 +11,7 @@ export const tokenSourceCommit =
     : "development";
 export const tokenBundle: TokenBundle = {
   "schemaVersion": 1,
-  "tokenHash": "88f95a60",
+  "tokenHash": "06ad1d8c",
   "documents": {
     "primitive.tokens.json": {
       "color": {
@@ -437,65 +437,6 @@ export const tokenBundle: TokenBundle = {
             "$value": 1.625
           }
         }
-      },
-      "space": {
-        "1": {
-          "$description": "Smallest spacing step for tight internal alignment.",
-          "$value": {
-            "value": 4,
-            "unit": "px"
-          }
-        },
-        "2": {
-          "$description": "Compact spacing step for closely related elements.",
-          "$value": {
-            "value": 8,
-            "unit": "px"
-          }
-        },
-        "3": {
-          "$description": "Small spacing step for compact component gaps.",
-          "$value": {
-            "value": 12,
-            "unit": "px"
-          }
-        },
-        "4": {
-          "$description": "Base spacing step for standard component rhythm.",
-          "$value": {
-            "value": 16,
-            "unit": "px"
-          }
-        },
-        "5": {
-          "$description": "Comfortable spacing step for grouped content.",
-          "$value": {
-            "value": 24,
-            "unit": "px"
-          }
-        },
-        "6": {
-          "$description": "Large spacing step for component separation.",
-          "$value": {
-            "value": 32,
-            "unit": "px"
-          }
-        },
-        "7": {
-          "$description": "Section spacing step for distinct content regions.",
-          "$value": {
-            "value": 48,
-            "unit": "px"
-          }
-        },
-        "8": {
-          "$description": "Largest core spacing step for page-level rhythm.",
-          "$value": {
-            "value": 64,
-            "unit": "px"
-          }
-        },
-        "$type": "dimension"
       },
       "radius": {
         "$type": "dimension",
@@ -3309,142 +3250,6 @@ export const tokenBundle: TokenBundle = {
       "description": "Gap between the blocks of a module stack from md.",
       "cssVariable": "--rhythm-stack-wide",
       "cssValue": "48px",
-      "dependents": []
-    },
-    {
-      "path": "space.1",
-      "sourceFile": "primitive.tokens.json",
-      "type": "dimension",
-      "value": {
-        "value": 4,
-        "unit": "px"
-      },
-      "resolvedValue": {
-        "value": 4,
-        "unit": "px"
-      },
-      "description": "Smallest spacing step for tight internal alignment.",
-      "cssVariable": "--space-1",
-      "cssValue": "4px",
-      "dependents": []
-    },
-    {
-      "path": "space.2",
-      "sourceFile": "primitive.tokens.json",
-      "type": "dimension",
-      "value": {
-        "value": 8,
-        "unit": "px"
-      },
-      "resolvedValue": {
-        "value": 8,
-        "unit": "px"
-      },
-      "description": "Compact spacing step for closely related elements.",
-      "cssVariable": "--space-2",
-      "cssValue": "8px",
-      "dependents": []
-    },
-    {
-      "path": "space.3",
-      "sourceFile": "primitive.tokens.json",
-      "type": "dimension",
-      "value": {
-        "value": 12,
-        "unit": "px"
-      },
-      "resolvedValue": {
-        "value": 12,
-        "unit": "px"
-      },
-      "description": "Small spacing step for compact component gaps.",
-      "cssVariable": "--space-3",
-      "cssValue": "12px",
-      "dependents": []
-    },
-    {
-      "path": "space.4",
-      "sourceFile": "primitive.tokens.json",
-      "type": "dimension",
-      "value": {
-        "value": 16,
-        "unit": "px"
-      },
-      "resolvedValue": {
-        "value": 16,
-        "unit": "px"
-      },
-      "description": "Base spacing step for standard component rhythm.",
-      "cssVariable": "--space-4",
-      "cssValue": "16px",
-      "dependents": []
-    },
-    {
-      "path": "space.5",
-      "sourceFile": "primitive.tokens.json",
-      "type": "dimension",
-      "value": {
-        "value": 24,
-        "unit": "px"
-      },
-      "resolvedValue": {
-        "value": 24,
-        "unit": "px"
-      },
-      "description": "Comfortable spacing step for grouped content.",
-      "cssVariable": "--space-5",
-      "cssValue": "24px",
-      "dependents": []
-    },
-    {
-      "path": "space.6",
-      "sourceFile": "primitive.tokens.json",
-      "type": "dimension",
-      "value": {
-        "value": 32,
-        "unit": "px"
-      },
-      "resolvedValue": {
-        "value": 32,
-        "unit": "px"
-      },
-      "description": "Large spacing step for component separation.",
-      "cssVariable": "--space-6",
-      "cssValue": "32px",
-      "dependents": []
-    },
-    {
-      "path": "space.7",
-      "sourceFile": "primitive.tokens.json",
-      "type": "dimension",
-      "value": {
-        "value": 48,
-        "unit": "px"
-      },
-      "resolvedValue": {
-        "value": 48,
-        "unit": "px"
-      },
-      "description": "Section spacing step for distinct content regions.",
-      "cssVariable": "--space-7",
-      "cssValue": "48px",
-      "dependents": []
-    },
-    {
-      "path": "space.8",
-      "sourceFile": "primitive.tokens.json",
-      "type": "dimension",
-      "value": {
-        "value": 64,
-        "unit": "px"
-      },
-      "resolvedValue": {
-        "value": 64,
-        "unit": "px"
-      },
-      "description": "Largest core spacing step for page-level rhythm.",
-      "cssVariable": "--space-8",
-      "cssValue": "64px",
       "dependents": []
     }
   ]

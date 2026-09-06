@@ -35,3 +35,4 @@
 - Express the translucent component colors as alpha aliases of primitives, because a copied HSL literal cannot follow the primitive it was copied from.
 - Ban Framer duration literals outside a named list of choreographed files, because a sequence tuned as a whole is a decision and a stray 0.37s in a product component is drift.
 - Hold the module rhythm at 56px on both steps even though it was authored as 56 to 72, because Tailwind has no `mt-18` and the desktop case studies shipped and were approved at 56; the boundary test now rejects off-scale spacing numbers so a no-op step cannot recur.
+- Retire the eight-step `space` scale and the Tailwind container block, because nothing bound them: rhythm carries vertical structure, composition uses the 4px utility scale, and a container media query cannot read a token.

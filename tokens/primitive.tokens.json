@@ -423,65 +423,6 @@
       }
     }
   },
-  "space": {
-    "$type": "dimension",
-    "1": {
-      "$description": "Smallest spacing step for tight internal alignment.",
-      "$value": {
-        "value": 4,
-        "unit": "px"
-      }
-    },
-    "2": {
-      "$description": "Compact spacing step for closely related elements.",
-      "$value": {
-        "value": 8,
-        "unit": "px"
-      }
-    },
-    "3": {
-      "$description": "Small spacing step for compact component gaps.",
-      "$value": {
-        "value": 12,
-        "unit": "px"
-      }
-    },
-    "4": {
-      "$description": "Base spacing step for standard component rhythm.",
-      "$value": {
-        "value": 16,
-        "unit": "px"
-      }
-    },
-    "5": {
-      "$description": "Comfortable spacing step for grouped content.",
-      "$value": {
-        "value": 24,
-        "unit": "px"
-      }
-    },
-    "6": {
-      "$description": "Large spacing step for component separation.",
-      "$value": {
-        "value": 32,
-        "unit": "px"
-      }
-    },
-    "7": {
-      "$description": "Section spacing step for distinct content regions.",
-      "$value": {
-        "value": 48,
-        "unit": "px"
-      }
-    },
-    "8": {
-      "$description": "Largest core spacing step for page-level rhythm.",
-      "$value": {
-        "value": 64,
-        "unit": "px"
-      }
-    }
-  },
   "radius": {
     "$type": "dimension",
     "none": {

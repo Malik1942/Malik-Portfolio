@@ -13,7 +13,7 @@ function Probe() {
       <span data-testid="count">{Object.keys(preview.draft.overrides).length}</span>
       <span data-testid="discarded">{preview.discarded.join(",")}</span>
       <button type="button" onClick={() => preview.setOverride("duration.fast", { value: 120, unit: "ms" })}>Set fast duration</button>
-      <button type="button" onClick={() => preview.setOverride("space.1", { value: 6, unit: "px" })}>Set space</button>
+      <button type="button" onClick={() => preview.setOverride("radius.small", { value: 6, unit: "px" })}>Set space</button>
       <button type="button" onClick={() => preview.setOverride("duration.fast", { value: 2, unit: "px" } as never)}>Set invalid</button>
       <button type="button" onClick={() => preview.resetToken("duration.fast")}>Reset fast</button>
       <button type="button" onClick={() => preview.resetCategory("duration")}>Reset duration</button>

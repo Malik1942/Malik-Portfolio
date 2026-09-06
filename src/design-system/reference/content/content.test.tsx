@@ -21,10 +21,12 @@ describe("design-system reference content", () => {
     expect(typography.length).toBeGreaterThan(0);
     expect(typography.every((token) => token.path.startsWith("font."))).toBe(true);
     expect(typography.map((token) => token.path)).toContain("font.family.display");
-    expect(typography.map((token) => token.path)).not.toContain("space.4");
+    expect(typography.map((token) => token.path)).not.toContain("rhythm.section.compact");
 
     const form = getFoundationTokens("foundation-form");
-    expect(form.some((token) => token.path.startsWith("space."))).toBe(true);
+    expect(form.some((token) => token.path.startsWith("rhythm."))).toBe(true);
+    expect(form.some((token) => token.path.startsWith("layer."))).toBe(true);
+    expect(form.some((token) => token.path.startsWith("space."))).toBe(false);
     expect(form.some((token) => token.path.startsWith("layout."))).toBe(true);
     expect(form.some((token) => token.path.startsWith("measure."))).toBe(true);
     expect(form.some((token) => token.path.startsWith("radius."))).toBe(true);

@@ -18,7 +18,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 
 const FOUNDATION_PREFIXES: Record<string, string[]> = {
   "foundation-typography": ["font."],
-  "foundation-form": ["space.", "rhythm.", "layout.", "measure.", "radius.", "layer."],
+  "foundation-form": ["rhythm.", "layout.", "measure.", "radius.", "layer."],
   "foundation-material": [
     "color.",
     "component.siteHeader.scrimColor",
@@ -33,10 +33,10 @@ const FOUNDATION_PREFIXES: Record<string, string[]> = {
 // Sub-tables on the Form page: the dimensional decisions the interface repeats.
 const FORM_SECTIONS: readonly { title: string; intro: string; prefixes: string[] }[] = [
   {
-    title: "Spacing & layout",
+    title: "Layout",
     intro:
-      "An eight-step spacing rhythm supports local composition. Named layout widths bound content, the page, and long-form reading, and the touch target sets the minimum interactive size.",
-    prefixes: ["space.", "layout."],
+      "Named widths bound content, the page, long-form reading, and the reference column, and the touch target sets the minimum interactive size. Local composition inside a component uses Tailwind's 4px spacing scale directly; it is a utility, not a token, and the boundary test rejects the steps the scale skips.",
+    prefixes: ["layout."],
   },
   {
     title: "Rhythm",
@@ -89,9 +89,10 @@ function FormFoundation() {
         </p>
         <p className="text-sm leading-relaxed text-foreground-tertiary">
           Every value below is read from the generated production manifest, so
-          this reference never duplicates the canonical source. Spacing steps
-          describe the rhythm; the Tailwind spacing scale that composes it is
-          not token-bound and stays a local utility.
+          this reference never duplicates the canonical source. There is no
+          spacing scale here on purpose: the four rhythms below are the
+          vertical distances the pages repeat, and everything smaller is
+          composition.
         </p>
       </div>
       {FORM_SECTIONS.map((section) => (

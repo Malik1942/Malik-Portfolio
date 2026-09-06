@@ -388,11 +388,11 @@ describe("validated token publishing", () => {
   it("sorts direct changed paths and writes each changed document once", async () => {
     const github = new FakeGithub();
     const result = await publishTokens(validRequest({ overrides: {
-      "space.1": { value: 5, unit: "px" },
+      "radius.small": { value: 5, unit: "px" },
       "duration.fast": { value: 120, unit: "ms" },
     } }), ENV, github, DEPS);
 
-    expect(result.body).toMatchObject({ changedTokens: ["duration.fast", "space.1"] });
+    expect(result.body).toMatchObject({ changedTokens: ["duration.fast", "radius.small"] });
     expect(github.blobInputs).toHaveLength(1);
   });
 
@@ -444,7 +444,7 @@ describe("validated token publishing", () => {
     [{ "duration.fast": { value: 200, unit: "ms" } }, "no-op override"],
     [{
       "duration.fast": { value: 200, unit: "ms" },
-      "space.1": { value: 5, unit: "px" },
+      "radius.small": { value: 5, unit: "px" },
     }, "mixed real and no-op overrides"],
   ] as [PublishRequest["overrides"], string][])("rejects %s with no GitHub writes", async (overrides, _label) => {
     const github = new FakeGithub();
