@@ -245,6 +245,21 @@
           "hex": "#0c0c0d"
         }
       }
+    },
+    "green": {
+      "$type": "color",
+      "700": {
+        "$description": "Deep green that sections the resume on white paper; the one accent the document carries.",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [
+            158,
+            100,
+            23
+          ],
+          "hex": "#00754a"
+        }
+      }
     }
   },
   "font": {

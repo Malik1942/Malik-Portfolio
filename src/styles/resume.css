@@ -1,0 +1,253 @@
+/* The resume document.
+   One stylesheet serves the /resume page and the printed PDF. Every size is
+   an em of the document root, so the screen and print versions differ only
+   in that root: the sheet reads at 15px on screen and 8.5pt on paper. The
+   colours are the component.resume tokens, a light palette on purpose: the
+   document is paper inside the site's dark canvas.
+
+   Ligatures are off so "flow" is never one glyph: a parser that does not
+   normalise U+FB02 would miss "Workflows" and "Flows" in a keyword match.
+
+   Print: the sheet is the page. @page has no margin, so the padding here is
+   the printed margin and the geometry is identical in a browser's print
+   dialog and in scripts/generate-resume-pdf.mjs. */
+
+.resume-sheet {
+  background: hsl(var(--component-resume-paper));
+  color: hsl(var(--component-resume-ink));
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  line-height: 1.4;
+  font-variant-ligatures: none;
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 32px 22px 48px;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+@media (min-width: 640px) {
+  .resume-sheet {
+    font-size: 15px;
+    margin: 48px auto 96px;
+    padding: 56px 64px 64px;
+    border-radius: var(--radius-base);
+  }
+}
+
+.resume-sheet a {
+  color: inherit;
+  text-decoration: none;
+}
+.resume-sheet a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* Header: name and title left, contact right. */
+.resume-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.6em 2em;
+}
+.resume-name {
+  font-size: 2.8em;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.resume-title {
+  margin: 0.2em 0 0;
+  font-size: 1.2em;
+  font-weight: var(--font-weight-medium);
+  color: hsl(var(--component-resume-accent));
+}
+.resume-contact {
+  font-style: normal;
+  font-size: 0.95em;
+  line-height: 1.45;
+  color: hsl(var(--component-resume-ink-tertiary));
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  column-gap: 1.6em;
+  row-gap: 0.1em;
+}
+@media (min-width: 640px) {
+  .resume-contact {
+    text-align: right;
+    grid-template-columns: 1fr;
+    column-gap: 0;
+  }
+}
+
+.resume-summary {
+  margin: 1em 0 0;
+  max-width: 68em;
+  color: hsl(var(--component-resume-ink-secondary));
+}
+
+/* Body: the main column and, from md up, the aside beside it. */
+.resume-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 2.6em;
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .resume-body {
+    grid-template-columns: 1fr 13.5em;
+  }
+}
+
+/* Sections: a green uppercase heading over a hairline. */
+.resume-section {
+  margin-top: 1.5em;
+}
+.resume-section-heading {
+  margin: 0 0 0.65em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid hsl(var(--component-resume-rule));
+  font-size: 1em;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--component-resume-accent));
+}
+
+/* Entries: title and dates on the first row, role on the second. */
+.resume-entry + .resume-entry {
+  margin-top: 0.85em;
+}
+.resume-entry-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0 1.5em;
+}
+.resume-entry-title {
+  margin: 0;
+  font-size: 1.1em;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
+}
+.resume-entry-when {
+  margin: 0;
+  font-size: 0.93em;
+  font-variant-numeric: tabular-nums;
+  color: hsl(var(--component-resume-ink-tertiary));
+  white-space: nowrap;
+}
+.resume-entry-role {
+  margin: 0;
+  font-weight: var(--font-weight-medium);
+}
+.resume-entry-role .resume-entry-subtitle {
+  font-weight: var(--font-weight-regular);
+  color: hsl(var(--component-resume-ink-secondary));
+}
+.resume-entry-summary {
+  margin: 0.25em 0 0;
+  color: hsl(var(--component-resume-ink-secondary));
+}
+.resume-entry-bullets {
+  margin: 0.2em 0 0;
+  padding-left: 1.1em;
+  list-style: disc;
+  color: hsl(var(--component-resume-ink-secondary));
+}
+.resume-entry-bullets li {
+  padding-left: 0.1em;
+}
+.resume-entry-bullets li::marker {
+  color: hsl(var(--component-resume-ink-tertiary));
+}
+
+/* Aside: Education entries stack their lines; Skills list one item per line,
+   set tighter than the gap between groups so each group reads as one unit. */
+.resume-aside .resume-entry-title {
+  font-size: 1em;
+}
+.resume-aside .resume-entry-role {
+  font-weight: var(--font-weight-regular);
+  color: hsl(var(--component-resume-ink-secondary));
+}
+.resume-aside .resume-entry-when {
+  white-space: normal;
+}
+.resume-skill-group + .resume-skill-group {
+  margin-top: 1em;
+}
+.resume-skill-label {
+  margin: 0 0 0.2em;
+  font-size: 1em;
+  font-weight: var(--font-weight-semibold);
+}
+.resume-skill-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: hsl(var(--component-resume-ink-secondary));
+}
+.resume-skill-list li {
+  line-height: 1.3;
+}
+.resume-aside .resume-entry + .resume-entry {
+  margin-top: 0.6em;
+}
+
+/* Print: no site chrome, the sheet is a US Letter page. */
+@page {
+  size: letter;
+  margin: 0;
+}
+@media print {
+  html,
+  body {
+    background: hsl(var(--component-resume-paper)) !important;
+  }
+  .resume-page-chrome {
+    display: none !important;
+  }
+  .resume-sheet {
+    font-size: 8.5pt;
+    line-height: 1.28;
+    width: 8.5in;
+    max-width: none;
+    min-height: 11in;
+    margin: 0;
+    padding: 0.42in 0.5in;
+    border-radius: 0;
+    box-sizing: border-box;
+  }
+  .resume-body {
+    grid-template-columns: 1fr 12.5em;
+    column-gap: 2em;
+  }
+  .resume-section {
+    margin-top: 1.2em;
+  }
+  .resume-section-heading {
+    margin-bottom: 0.55em;
+  }
+  .resume-entry + .resume-entry {
+    margin-top: 0.7em;
+  }
+  .resume-summary {
+    margin-top: 0.8em;
+  }
+  .resume-skill-group + .resume-skill-group {
+    margin-top: 0.8em;
+  }
+  .resume-entry,
+  .resume-skill-group {
+    break-inside: avoid;
+  }
+  .resume-section-heading {
+    break-after: avoid;
+  }
+}

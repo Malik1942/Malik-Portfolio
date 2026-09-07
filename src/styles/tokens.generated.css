@@ -15,6 +15,7 @@
   --color-focus-ring: 40 6% 90% / 0.4;
   --color-focus-ring-strong: 40 6% 90% / 0.6;
   --color-gold-500: 36 40% 60%;
+  --color-green-700: 158 100% 23%;
   --color-neutral-000: 0 0% 100%;
   --color-neutral-1000: 0 0% 0%;
   --color-neutral-820: 0 0% 14%;
@@ -52,6 +53,12 @@
   --component-project-card-hover-overlay: 40 6% 90% / 0.04;
   --component-project-card-surface: 0 0% 8% / 0.15;
   --component-project-section-flash: 40 6% 90% / 0.018;
+  --component-resume-accent: 158 100% 23%;
+  --component-resume-ink: 0 0% 8%;
+  --component-resume-ink-secondary: 0 0% 8% / 0.72;
+  --component-resume-ink-tertiary: 0 0% 8% / 0.55;
+  --component-resume-paper: 0 0% 100%;
+  --component-resume-rule: 0 0% 8% / 0.14;
   --component-site-header-scrim-color: 0 0% 0%;
   --duration-ambient: 3000ms;
   --duration-fast: 200ms;
