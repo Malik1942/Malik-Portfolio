@@ -293,8 +293,15 @@ const neuralyfe: ProjectDetailSource = {
   ],
 };
 
-// Real Moti case study. Imagery lives in src/assets (moti-*.webp); the rich section
-// blocks live in ./MotiModules.tsx and render via the [[module:moti-*]] refs.
+// Real Moti case study. Imagery lives in src/assets (moti-*.webp, moti-card.mp4);
+// the rich section blocks live in ./MotiModules.tsx and render via the
+// [[module:moti-*]] refs.
+//
+// Section order is load bearing. The product loop (final-design) comes BEFORE the
+// architecture (intelligence) on purpose: the two system diagrams explain a loop
+// the reader has already watched run, instead of arriving as a spec wall in front
+// of the product. Every section sets a `headline`, so the display heading is the
+// claim the section proves and the short `label` demotes to the eyebrow above it.
 const moti: ProjectDetailSource = {
   slug: "moti",
   title: "Moti: Plan",
@@ -311,52 +318,67 @@ const moti: ProjectDetailSource = {
     {
       id: "overview",
       label: "Overview",
+      headline: "A Planner That Understands Before It Plans",
       showProjectMeta: true,
-      body: "**Moti is an AI-native iOS planner, designed, built, and shipped solo on the App Store.**\n\n[[module:moti-tags]]",
+      body: "**Moti is an AI-native iOS planner, designed, built, and shipped solo on the App Store.** Say it or type it, and it comes back as work already sorted by project, waiting for your yes.\n\n[[module:moti-tags]]",
       afterMetaModule: "moti-app-store",
     },
     {
       id: "highlights",
       label: "Highlights",
-      body: "**An AI-native iOS app that turns messy, natural language into a living, timeline-aware plan. Designed, built, and shipped solo.**\n\n[[module:moti-hook]]",
+      headline: "Type It Messy. Moti Works Out What You Meant.",
+      body: "Type the sentence the way you would say it, lowercase and unpunctuated. What comes back is not a task in a list. It is the work pulled out of that sentence, each piece carrying the project Moti thinks it belongs to, and not one of them filed.\n\nDrawing bars on a timeline is the easy part. The hard part is deciding that a review is an appointment, a case study is work with a duration, and a launch is a deadline. That understanding layer is the thing I got wrong twice before it behaved like this.\n\n[[module:moti-hook]]",
     },
     {
       id: "problem",
       label: "The Problem",
-      body: "Capable people, drowning in their own inputs.\n\n[[module:moti-problem]]",
+      headline: "The Failure Is Between Capture and Action",
+      body: "This is not built for people who lack a system. It is built for the moment a system is already full, when what fails is not capture, and not the list that shows the result.\n\nIt is the step between the two. Something has to read what arrived, work out what it is for and when it is due, and set it against everything already owed. That step has no owner, so the input stays exactly as it landed, and the cost only shows up at the far end.\n\n[[module:moti-problem]]\n\n**Three stages, one failure, and only the middle one is worth fixing. Make capture easier and the pile arrives faster. Act on the list and you are sorting work that nothing has understood.**",
     },
     {
       id: "competitive",
       label: "Competitive Analysis",
-      body: "Most tools help you capture, organize, or automate work. Few help you regain clarity and sustained momentum.\n\n[[module:moti-competitive]]\n\n**The gap is clarity and momentum, not more capture.**",
+      headline: "Five Tools, Five Strengths, Five Different Gaps",
+      body: "Five tools answer that middle step five different ways. I looked at each one for a single thing: what happens to a sentence after you type it.\n\nTodoist takes the sentence down. Motion schedules it for you. Sunsama asks for the discipline to plan the day deliberately. Notion holds it in any structure, after you have built one. ChatGPT reasons about it and never sees your timeline.\n\nFive different destinations, and five different things still left for you to do once the sentence arrives.\n\n[[module:moti-competitive]]\n\n**The gap is not capture. It is the step after: understanding what arrived, and keeping it moving.**",
     },
     {
-      id: "users",
-      label: "User Research",
-      body: "The same frustrations, in their own words.\n\n[[module:moti-user-quotes]]",
-    },
-    {
+      // Merges the old `users` and `principles` sections. The six quotes and the
+      // six principles map one to one and nothing on the page used to say so.
+      // SLOT A: once Malik confirms where the six frustrations came from and how
+      // many people they came from, one sentence of provenance belongs at the head
+      // of this lead. Until then the lead claims a design position only.
       id: "principles",
-      label: "Design Principles",
-      body: "Six principles to move from chaos to clarity.\n\n[[module:moti-principles]]",
+      label: "Principles",
+      headline: "Six Frustrations Became Six Refusals",
+      body: "Each of these frustrations names something one of those five tools does to you. I turned every one into a rule Moti had to obey.\n\nA rule that only names a virtue can be satisfied by anything, so each of them also names the thing it rules out.\n\n[[module:moti-principles]]\n\n**Every principle is a refusal. That is what kept Moti from becoming another place to put things.**",
     },
     {
-      id: "before-building",
-      label: "Before Building",
-      body: "I specified the product before writing a line of code. Only after these systems were defined did I start AI-assisted implementation.\n\n[[module:moti-before-building]]\n\n**PRD created.**",
+      id: "final-design",
+      label: "Final Design",
+      headline: "Seven Steps From Spoken to Scheduled",
+      body: "The principles above are refusals, and refusals are cheap until a product has to keep them. So here is the loop itself, one sentence in and a plan out. Each step is there because the one before it left something undecided.\n\n[[module:moti-workflow]]\n\n**Nothing in this loop asks you to file anything. When Moti is unsure it asks instead of guessing, and when it proposes, one of the three answers is no. Everything else is its job.**",
+    },
+    {
+      id: "intelligence",
+      label: "Intelligence",
+      headline: "Three Jobs That No Single Model Does Well",
+      body: "The loop above contains three jobs with nothing in common. A due date has to be exactly right. Parsing has to be instant. Planning has to reason. One model doing all three is one model doing two of them badly.\n\n[[module:moti-intelligence]]\n\n**The tiers are not a hedge. Understanding is the step nobody owned, and it is the one job that needed a model of its own.**",
     },
     {
       id: "build-journey",
       label: "Build Journey",
-      body: "Then I built it, and let real behavior reshape the intelligence layer.\n\n[[module:moti-build-journey]]",
+      headline: "Specified First, Then Rebuilt Twice",
+      body: "All three tiers were in the spec before any code existed, with how Moti should behave, how you talk to it, and what it looks like. What no spec could settle was how far to trust the model. The three versions below are that question, answered with real builds.\n\n[[module:moti-build-journey]]\n\n**What kept changing was never the interface. It was how much of the thinking belonged to the machine.**",
     },
     {
       id: "proved",
-      label: "What Moti Proved",
-      body: "[[module:moti-takeaways]]",
+      label: "What It Proved",
+      headline: "Understanding First Was the Whole Bet",
+      body: "Three versions later, the bet held: the failure sits in understanding, not in scheduling.\n\n[[module:moti-takeaways]]\n\n**V0 asked the machine to plan, and trust broke. What shipped asks it to understand, and leaves the planning as a proposal you answer.**\n\n[[module:moti-app-store-close]]",
     },
   ],
 };
+
 
 const flowprint: ProjectDetailSource = {
   slug: "flowprint",

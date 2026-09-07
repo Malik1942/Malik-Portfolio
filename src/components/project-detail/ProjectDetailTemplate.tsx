@@ -27,11 +27,12 @@ import {
   MotiAppStoreCta,
   MotiProblem,
   MotiCompetitive,
-  MotiUserQuotes,
   MotiPrinciples,
-  MotiBeforeBuilding,
+  MotiWorkflow,
+  MotiIntelligence,
   MotiBuildJourney,
   MotiTakeaways,
+  MotiAppStoreCtaClose,
 } from "./MotiModules";
 import {
   OryneTags,
@@ -153,6 +154,10 @@ function renderInline(text: string) {
   );
 }
 
+// Exported for src/data/projectDetailRefs.test.ts. A [[module:key]] whose key is missing
+// from this record falls through to the plain-paragraph branch in SectionBody and
+// renders the literal string "[[module:foo]]" on the page: no error, no failing test.
+// CLAUDE.md records the same silent-breakage class biting this repo once already.
 const INLINE_MODULES: Record<string, React.ReactNode> = {
   "aura-highlights": <AuraHighlights />,
   "neuralyfe-highlights": <NeuraLyfeHighlights />,
@@ -171,11 +176,12 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "moti-app-store": <MotiAppStoreCta />,
   "moti-problem": <MotiProblem />,
   "moti-competitive": <MotiCompetitive />,
-  "moti-user-quotes": <MotiUserQuotes />,
   "moti-principles": <MotiPrinciples />,
-  "moti-before-building": <MotiBeforeBuilding />,
+  "moti-workflow": <MotiWorkflow />,
+  "moti-intelligence": <MotiIntelligence />,
   "moti-build-journey": <MotiBuildJourney />,
   "moti-takeaways": <MotiTakeaways />,
+  "moti-app-store-close": <MotiAppStoreCtaClose />,
   "oryne-tags": <OryneTags />,
   "oryne-app-store": <OryneAppStoreCta />,
   "oryne-hook": <OryneHook />,
@@ -199,6 +205,8 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "calmmouse-visit": <CalmMouseVisitCta />,
   "calmmouse-cta": <CalmMouseCta />,
 };
+
+export const INLINE_MODULE_KEYS: readonly string[] = Object.keys(INLINE_MODULES);
 
 function SectionBody({ text, leadFirst, inlineFigures }: { text: string; leadFirst?: boolean; inlineFigures?: ProjectSectionFigure[] }) {
   const blocks = text.split(/\n\n+/).filter(Boolean);
