@@ -103,6 +103,47 @@
           "com.malikzhang.alpha": 0.3
         }
       }
+    },
+    "resume": {
+      "paper": {
+        "$type": "color",
+        "$description": "White paper the resume is set on, on screen and in the printed PDF.",
+        "$value": "{color.neutral.000}"
+      },
+      "ink": {
+        "$type": "color",
+        "$description": "Primary ink on the resume paper: name, entry titles, skill labels.",
+        "$value": "{color.neutral.900}"
+      },
+      "inkSecondary": {
+        "$type": "color",
+        "$description": "Running text on the resume paper: summaries and bullets, at the site's secondary tier.",
+        "$value": "{color.neutral.900}",
+        "$extensions": {
+          "com.malikzhang.alpha": 0.72
+        }
+      },
+      "inkTertiary": {
+        "$type": "color",
+        "$description": "Dates, locations, and contact lines on the resume paper.",
+        "$value": "{color.neutral.900}",
+        "$extensions": {
+          "com.malikzhang.alpha": 0.55
+        }
+      },
+      "accent": {
+        "$type": "color",
+        "$description": "Section headings and the title line, the resume's one accent.",
+        "$value": "{color.green.700}"
+      },
+      "rule": {
+        "$type": "color",
+        "$description": "Hairline under each resume section heading.",
+        "$value": "{color.neutral.900}",
+        "$extensions": {
+          "com.malikzhang.alpha": 0.14
+        }
+      }
     }
   }
 }

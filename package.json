@@ -17,7 +17,8 @@
     "test": "vitest run",
     "pretest:watch": "npm run tokens:build",
     "test:watch": "vitest",
-    "generate:og": "node scripts/generate-og.mjs"
+    "generate:og": "node scripts/generate-og.mjs",
+    "generate:resume": "node scripts/generate-resume-pdf.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
