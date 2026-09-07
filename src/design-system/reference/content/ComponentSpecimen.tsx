@@ -91,7 +91,7 @@ function SiteHeaderStage() {
       <div className="flex items-center justify-between gap-4">
         <a
           href="/"
-          aria-label="Malik Zhang — home"
+          aria-label="Malik Zhang, home"
           onClick={(event) => event.preventDefault()}
           className="inline-block w-fit shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
         >

@@ -32,12 +32,12 @@ const artifacts = [
   {
     src: moodmuseSensingErgonomics,
     alt: "The brush's GSR sensing window beside an open child's palm, marked with Pressure Zone 1 across the fingers, Pressure Zone 2 on the little finger, and the heart rate and GSR sensor detection areas on the pad below",
-    caption: "Sensors where the hand already presses — the two pressure zones double as the contact points",
+    caption: "Sensors where the hand already presses: the two pressure zones double as the contact points",
   },
   {
     src: moodmuseUiInsights,
     alt: "Three Mood Connect screens: an emotion-state ring, the memory slider of past paintings, and an emotion analysis breakdown",
-    caption: "Mood Connect — where a session becomes something a parent and therapist can read",
+    caption: "Mood Connect: where a session becomes something a parent and therapist can read",
   },
 ];
 

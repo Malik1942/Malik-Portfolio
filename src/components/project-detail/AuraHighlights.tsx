@@ -25,17 +25,17 @@ const artifacts = [
   {
     src: auraBud1,
     alt: "Aura Buds product render",
-    caption: "Aura Buds — sensing and 100 Hz audio in a familiar form",
+    caption: "Aura Buds: sensing and 100 Hz audio in a familiar form",
   },
   {
     src: auraApp1,
     alt: "Aura app interface showing setup, trip context, support preferences, and at-a-glance status",
-    caption: "The app — quiet preparation and at-a-glance status",
+    caption: "The app: quiet preparation and status at a glance",
   },
   {
     src: auraSystem1,
     alt: "Aura system architecture",
-    caption: "The adaptive system — sensing, prediction, and support working as one",
+    caption: "The adaptive system: sensing, prediction, and support working as one",
   },
 ];
 

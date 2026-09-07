@@ -176,7 +176,7 @@ export function SiteHeader({
 
           {/* Left — personal logo (top-left); links home via the router */}
           <div className="animate-fade-up delay-3">
-            <Link to="/" aria-label="Malik Zhang — home" onClick={onLogoClick} className={`${interactive} inline-block w-fit`}>
+            <Link to="/" aria-label="Malik Zhang, home" onClick={onLogoClick} className={`${interactive} inline-block w-fit`}>
               <img src={logo} alt="Malik Zhang" className="h-6 w-auto select-none" />
             </Link>
           </div>

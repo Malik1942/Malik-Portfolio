@@ -153,7 +153,7 @@ function DemoPane({ fixed }: { fixed: boolean }) {
       </div>
       <p className="text-sm font-light text-foreground-tertiary leading-relaxed">
         {fixed
-          ? "Same click. The page holds still — the swipe is swallowed."
+          ? "Same click. The swipe is swallowed and the page holds still."
           : "The click lands, the finger rolls half a millimetre, the page jumps."}
       </p>
     </div>
@@ -183,7 +183,7 @@ const fixes: GridItem[] = [
   {
     num: "02",
     title: "Dead Zone",
-    desc: "A gesture must travel before it counts — kills the jitter of a finger just resting on the shell.",
+    desc: "A gesture must travel before it counts, which kills the jitter of a finger resting on the shell.",
     icon: Crosshair,
     accent: "emerald",
   },
@@ -204,7 +204,7 @@ const fixes: GridItem[] = [
   {
     num: "05",
     title: "Per-App Rules",
-    desc: "Any fix, overridden per application — no Magic Mouse scrolling in Figma at all, if you like.",
+    desc: "Any fix, overridden per application. No Magic Mouse scrolling in Figma at all, if you like.",
     icon: AppWindow,
     accent: "emerald",
   },
@@ -225,7 +225,7 @@ const absence: GridItem[] = [
   {
     num: "01",
     title: "The Tour Keeps Score",
-    desc: "First launch has you try the fix live — and counts the accidental scrolls it just caught. The number is the demo.",
+    desc: "First launch has you try the fix live, and counts the accidental scrolls it just caught. The number is the demo.",
     icon: ListChecks,
     accent: "violet",
   },
@@ -253,14 +253,14 @@ const milliseconds: GridItem[] = [
   {
     num: "01",
     title: "The 200 ms Grace Period",
-    desc: "Your finger makes one last swipe as it leaves the shell after a click. Blocking keeps going just long enough to eat it — a number tuned by feel, not spec.",
+    desc: "Your finger makes one last swipe as it leaves the shell after a click. Blocking keeps going just long enough to eat it, on a number tuned by feel rather than spec.",
     icon: Timer,
     accent: "violet",
   },
   {
     num: "02",
     title: "The Deferred Press",
-    desc: "Tap-and-drag posts nothing until the cursor actually moves. The obvious version presses immediately — and grabs objects in Figma you never meant to touch. Deferred, a resting finger has no side effect at all.",
+    desc: "Tap-and-drag posts nothing until the cursor actually moves. The obvious version presses immediately, and grabs objects in Figma you never meant to touch. Deferred, a resting finger has no side effect at all.",
     icon: GitBranch,
     accent: "emerald",
   },
@@ -274,7 +274,7 @@ const shipping: GridItem[] = [
   {
     num: "01",
     title: "Signed & Notarized",
-    desc: "Developer ID + Apple notarization. Opens like any real app — no security dialogs.",
+    desc: "Developer ID + Apple notarization. Opens like any real app, with no security dialogs.",
     icon: BadgeCheck,
     accent: "violet",
   },
@@ -326,5 +326,5 @@ export function CalmMouseVisitCta() {
 
 // Closing CTA — the calm line pays off after the whole story.
 export function CalmMouseCta() {
-  return <LinkCta href={CALMMOUSE_URL}>Get CalmMouse — free & open source</LinkCta>;
+  return <LinkCta href={CALMMOUSE_URL}>Get CalmMouse, free and open source</LinkCta>;
 }

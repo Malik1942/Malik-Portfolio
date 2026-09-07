@@ -120,27 +120,27 @@ const aura: ProjectDetailSource = {
       label: "Intro",
       headline: "An Invisible Problem That Starts Before Symptoms",
       showProjectMeta: true,
-      body: "**Aura is a wearable system that intervenes before motion sickness starts — and the refined earbud form tested at 93.75% preference among 16 users.**\n\nFor motion-sensitive travelers, discomfort often begins before they consciously recognize it. Aura senses early physiological and motion signals, predicts risk, and delivers subtle audio guidance before symptoms escalate.\n\nAs a product and industrial designer on a 5-person team, I shaped the product logic, physical prototype, app experience, and interaction flow across a 5-week sprint.",
+      body: "**Aura is a wearable system that intervenes before motion sickness starts. The refined earbud form tested at 93.75% preference among 16 users.**\n\nFor motion-sensitive travelers, discomfort often begins before they consciously recognize it. Aura senses early physiological and motion signals, predicts risk, and delivers subtle audio guidance before symptoms escalate.\n\nAs a product and industrial designer on a 5-person team, I shaped the product logic, physical prototype, app experience, and interaction flow across a 5-week sprint.",
     },
     {
       id: "highlights",
       label: "Highlights",
-      body: "**Aura treats motion sickness as a timing problem — sensing early signals and intervening with calm audio before discomfort takes hold.**\n\n[[module:aura-highlights]]",
+      body: "**Aura treats motion sickness as a timing problem: it senses the early signals and intervenes with calm audio before discomfort takes hold.**\n\n[[module:aura-highlights]]",
     },
     {
       id: "situation",
       label: "Situation",
       headline: "Travel Was Rich, but Too Broad to Solve as One Problem",
-      body: "An open brief led us to travel: emotionally rich, physically demanding, and full of unresolved friction. But travel is too broad to solve as one problem — planning, airports, flying, and recovery each carry different needs and constraints.\n\nOur first job was narrowing: finding the one moment in the journey where a product could matter most.",
+      body: "An open brief led us to travel: emotionally rich, physically demanding, and full of unresolved friction. But travel is too broad to solve as one problem. Planning, airports, flying, and recovery each carry different needs and constraints.\n\nOur first job was narrowing: finding the one moment in the journey where a product could matter most.",
     },
     {
       id: "discovery",
       label: "Discovery",
       headline: "We Narrowed the Journey to the Moment With the Least Control",
       figures: [
-        { type: "image", src: auraDiscovery1, alt: "Aura discovery — travel journey mapping" },
+        { type: "image", src: auraDiscovery1, alt: "Aura discovery: travel journey mapping" },
       ],
-      body: "We broke the journey into three phases — **before**, **during**, and **after travel** — and compared where discomfort was most intense and traveler control was lowest.\n\n[[fig:0]]\n\nIn-flight motion sickness stood out: high discomfort, low control. Travelers can’t change their environment, stop moving, or recover once symptoms begin.\n\n**Decision: Narrow Aura from a general travel concept to an in-flight support system for motion-sensitive travelers.**\n\n[[module:aura-design-requirements]]",
+      body: "We broke the journey into three phases, **before**, **during**, and **after travel**, then compared where discomfort was most intense and traveler control was lowest.\n\n[[fig:0]]\n\nIn-flight motion sickness stood out: high discomfort, low control. Travelers can’t change their environment, stop moving, or recover once symptoms begin.\n\n**Decision: Narrow Aura from a general travel concept to an in-flight support system for motion-sensitive travelers.**\n\n[[module:aura-design-requirements]]",
     },
     {
       id: "research",
@@ -148,10 +148,10 @@ const aura: ProjectDetailSource = {
       headline: "Existing Support Often Arrives After Travelers Already Feel Sick",
       figures: [
         { type: "image", src: auraResearch1, alt: "Motion sickness mechanism showing visual and inner-ear mismatch, brain conflict, and symptoms" },
-        { type: "image", src: auraResearch2, alt: "Aura audio intervention research — 100 Hz sound" },
-        { type: "image", src: auraResearch3, alt: "Aura competitive analysis — motion sickness solutions" },
+        { type: "image", src: auraResearch2, alt: "Aura audio intervention research: 100 Hz sound" },
+        { type: "image", src: auraResearch3, alt: "Aura competitive analysis: motion sickness solutions" },
       ],
-      body: "## Motion Sickness Is a Timing Problem\n\nSecondary research reframed the problem: motion sickness is not a sudden symptom but a gradual response to conflict between visual and vestibular signals. The body reacts before the mind notices — so waiting until users feel nauseous is already too late.\n\n[[fig:0]]\n\n**Decision: Support should begin before discomfort becomes difficult to manage.**\n\n## Audio as Intervention\n\nResearch identified 100 Hz low-frequency audio as a credible way to reduce dizziness — passive support that works while sitting still or with eyes closed.\n\n[[fig:1]]\n\n**Design implication: Make calming audio Aura’s first response — no visual attention or active input required.**\n\n## The Gap in Existing Solutions\n\nComparing remedies across medication, patches, wearables, pressure tools, and behavioral strategies revealed a shared weakness: nearly all require advance preparation or active self-management after discomfort begins. Few support the early buildup phase, when travelers need help but may not yet recognize it.\n\n[[fig:2]]\n\n**Insight: Aura’s opportunity was not relieving nausea — it was anticipating discomfort.**",
+      body: "## Motion Sickness Is a Timing Problem\n\nSecondary research reframed the problem: motion sickness is not a sudden symptom but a gradual response to conflict between visual and vestibular signals. The body reacts before the mind notices, so waiting until users feel nauseous is already too late.\n\n[[fig:0]]\n\n**Decision: Support should begin before discomfort becomes difficult to manage.**\n\n## Audio as Intervention\n\nResearch identified 100 Hz low-frequency audio as a credible way to reduce dizziness, a passive support that works while sitting still or with eyes closed.\n\n[[fig:1]]\n\n**Design implication: Make calming audio Aura’s first response, with no visual attention or active input required.**\n\n## The Gap in Existing Solutions\n\nComparing remedies across medication, patches, wearables, pressure tools, and behavioral strategies revealed a shared weakness: nearly all require advance preparation or active self-management after discomfort begins. Few support the early buildup phase, when travelers need help but may not yet recognize it.\n\n[[fig:2]]\n\n**Insight: Aura’s opportunity was not relieving nausea. It was anticipating discomfort.**",
     },
     {
       id: "ideation",
@@ -161,7 +161,7 @@ const aura: ProjectDetailSource = {
         { type: "image", src: auraIdeation1, alt: "Aura ideation overview showing early concepts across digital, physical, and sensory interventions" },
         { type: "image", src: auraIdeation2, alt: "Aura 2 by 2 concept evaluation matrix showing the selected ear-worn wearable direction" },
       ],
-      body: "I sketched broadly across levels of intervention — app guidance, pressure wearables, visual reduction tools, environmental supports, audio concepts — keeping the field open before narrowing.\n\n[[fig:0]]\n\nA 2×2 of user value against feasibility exposed the core tradeoff: concepts that were easy to build depended on user action, while passive physical remedies lacked the sensing needed for proactive support. Only an ear-worn wearable could deliver both.\n\n[[fig:1]]\n\n[[module:aura-ideation-criteria]]\n\n**Decision: Focus on an audio-first wearable that senses early risk, interprets flight context, and intervenes quietly before symptoms escalate.**",
+      body: "I sketched broadly across levels of intervention, keeping the field open before narrowing: app guidance, pressure wearables, visual reduction tools, environmental supports, and audio concepts.\n\n[[fig:0]]\n\nA 2×2 of user value against feasibility exposed the core tradeoff: concepts that were easy to build depended on user action, while passive physical remedies lacked the sensing needed for proactive support. Only an ear-worn wearable could deliver both.\n\n[[fig:1]]\n\n[[module:aura-ideation-criteria]]\n\n**Decision: Focus on an audio-first wearable that senses early risk, interprets flight context, and intervenes quietly before symptoms escalate.**",
     },
     {
       id: "testing",
@@ -182,7 +182,7 @@ const aura: ProjectDetailSource = {
         { type: "image", src: auraRefinement2, alt: "Aura Bud ergonomic testing across different users and wearing contexts" },
         { type: "image", src: auraRefinement3, alt: "Aura app interface refinement for low-attention status feedback" },
       ],
-      body: "## Physical Refinement\n\nErgonomic testing revealed fit, pressure, and weight issues across different ear shapes, glasses, hairstyles, and head movement.\n\n[[fig:0]]\n\nI shifted the hardware toward a bar-oriented structure: more stable, more even weight distribution, more internal room for sensing and audio components.\n\nValidated with **16 people** — **93.75%** preferred the refined earbud form.\n\n[[fig:1]]\n\n## Digital Refinement\n\n[[fig:2]]\n\nI simplified the interface around low-attention feedback: clearer status cards, calmer motion states, and direct cues showing when Aura is monitoring, preparing, or intervening.\n\n**Decision: Refine Aura as one connected hardware and app experience — more stable to wear, easier to read, easier to trust.**",
+      body: "## Physical Refinement\n\nErgonomic testing revealed fit, pressure, and weight issues across different ear shapes, glasses, hairstyles, and head movement.\n\n[[fig:0]]\n\nI shifted the hardware toward a bar-oriented structure: more stable, more even weight distribution, more internal room for sensing and audio components.\n\nValidated with **16 people**, and **93.75%** preferred the refined earbud form.\n\n[[fig:1]]\n\n## Digital Refinement\n\n[[fig:2]]\n\nI simplified the interface around low-attention feedback: clearer status cards, calmer motion states, and direct cues showing when Aura is monitoring, preparing, or intervening.\n\n**Decision: Refine Aura as one connected hardware and app experience, more stable to wear, easier to read, and easier to trust.**",
     },
     {
       id: "final-design",
@@ -192,13 +192,13 @@ const aura: ProjectDetailSource = {
         { type: "image", src: auraSystem1, alt: "Aura system architecture", full: true },
         { type: "image", src: auraApp1, alt: "Aura app interface showing setup, trip context, support preferences, and at-a-glance status" },
       ],
-      body: "## A Connected System for Proactive Support\n\nThe final concept works in three layers: **Aura Buds** capture early body and motion signals, the **app** interprets them with travel context, and the **system** responds with subtle audio guidance — before the traveler has to actively manage symptoms.\n\n[[fig:0]]\n\n**System logic: Aura doesn’t wait for users to report discomfort. It prepares support early, so the experience feels timely, calm, and low-effort.**\n\n## In-Flight Experience\n\nI mapped Aura across three key moments — pre-travel preparation, in-flight monitoring, and turbulence response — to define its tone: proactive but not alarming, explaining enough to build trust without demanding attention.\n\n[[module:aura-scenes]]\n\n**Decision: Design Aura’s support as quiet preparation, not urgent correction.**\n\n## Aura Buds\n\n[[module:aura-hardware]]\n\nThe buds sense physiological and motion signals, deliver 100 Hz grounding audio and calming soundscapes, and give low-attention feedback through subtle cues — familiar enough for travel, with a clear reason to exist beyond everyday earbuds.\n\n## Aura App\n\n[[fig:1]]\n\nOne interaction principle: **guided, not demanding**. The interface focuses on setup, trip context, support preferences, and at-a-glance status, so users stay informed without managing the system.\n\n**Final outcome: A proactive support system — wearable enough for travel, intelligent enough to respond to changing conditions, calm enough not to overwhelm.**",
+      body: "## A Connected System for Proactive Support\n\nThe final concept works in three layers: **Aura Buds** capture early body and motion signals, the **app** interprets them with travel context, and the **system** responds with subtle audio guidance, before the traveler has to actively manage symptoms.\n\n[[fig:0]]\n\n**System logic: Aura doesn’t wait for users to report discomfort. It prepares support early, so the experience feels timely, calm, and low-effort.**\n\n## In-Flight Experience\n\nI mapped Aura across pre-travel preparation, in-flight monitoring, and turbulence response to define its tone: proactive but not alarming, explaining enough to build trust without demanding attention.\n\n[[module:aura-scenes]]\n\n**Decision: Design Aura’s support as quiet preparation, not urgent correction.**\n\n## Aura Buds\n\n[[module:aura-hardware]]\n\nThe buds sense physiological and motion signals, deliver 100 Hz grounding audio and calming soundscapes, and give low-attention feedback through subtle cues, familiar enough for travel and with a clear reason to exist beyond everyday earbuds.\n\n## Aura App\n\n[[fig:1]]\n\nOne interaction principle: **guided, not demanding**. The interface focuses on setup, trip context, support preferences, and at-a-glance status, so users stay informed without managing the system.\n\n**Final outcome: A proactive support system, wearable enough for travel, intelligent enough to respond to changing conditions, and calm enough not to overwhelm.**",
     },
     {
       id: "reflection",
       label: "Reflection",
       headline: "Proactive Systems Need to Earn Trust, Not Just Act Early",
-      body: "## Next Step: From Concept to Evidence\n\nContinuing Aura would mean longitudinal testing across repeated flights and different motion-sickness patterns — shifting the question from whether the concept feels compelling to whether the system senses risk reliably and stays trusted over time.\n\n**The conceptual case is made. The next case is evidence.**\n\n## What I Learned\n\n[[module:aura-reflection-learnings]]",
+      body: "## Next Step: From Concept to Evidence\n\nContinuing Aura would mean longitudinal testing across repeated flights and different motion-sickness patterns, shifting the question from whether the concept feels compelling to whether the system senses risk reliably and stays trusted over time.\n\n**The conceptual case is made. The next case is evidence.**\n\n## What I Learned\n\n[[module:aura-reflection-learnings]]",
     },
   ],
 };
@@ -222,19 +222,19 @@ const neuralyfe: ProjectDetailSource = {
       label: "Intro",
       headline: "A Sideline Call That Cannot Wait for Symptoms",
       showProjectMeta: true,
-      body: "**NeuraLyfe is a sideline decision-support system that helps football medical staff catch brain-impact risk before it becomes irreversible — designed and built in three days for the FigBuild 2026 hackathon, entirely in Figma Make.**\n\nIt tackles Chronic Traumatic Encephalopathy (CTE): a degenerative condition from repeated head impacts that accumulates invisibly and can't be confirmed until after death.\n\nI ideated the concept and helped the team choose it over a rougher direction around dreams, where the pain point never got sharp. Over the 72 hours, I designed and built **Halo** and the **Impact Replay** interface, and co-designed the **Roster View**.\n\n**It won 1st Place out of 690 teams.**",
+      body: "**NeuraLyfe is a sideline decision-support system that helps football medical staff catch brain-impact risk before it becomes irreversible. It was designed and built in three days for the FigBuild 2026 hackathon, entirely in Figma Make.**\n\nIt tackles Chronic Traumatic Encephalopathy (CTE): a degenerative condition from repeated head impacts that accumulates invisibly and can't be confirmed until after death.\n\nI ideated the concept and helped the team choose it over a rougher direction around dreams, where the pain point never got sharp. Over the 72 hours, I designed and built **Halo** and the **Impact Replay** interface, and co-designed the **Roster View**.\n\n**It won 1st Place out of 690 teams.**",
     },
     {
       id: "highlights",
       label: "Highlights",
       headline: "From Helmet Signal to a Decision in Seconds",
-      body: "**Turning raw helmet-sensor signals into fast, confident sideline decisions — catching cumulative brain risk before symptoms appear.**\n\n[[module:neuralyfe-highlights]]",
+      body: "**Turning raw helmet-sensor signals into fast, confident sideline decisions that catch cumulative brain risk before symptoms appear.**\n\n[[module:neuralyfe-highlights]]",
     },
     {
       id: "situation",
       label: "Situation",
       headline: "Thousands of Hits, and Only the Visible Ones Get Checked",
-      body: "Football players take thousands of hits across a career, and repeated sub-concussive impacts are strongly linked to long-term brain damage. Sideline checks only catch visible symptoms — and by then, the damage is done.\n\n[[fig:0]]\n\n**Staff need to see cumulative impact as it builds, not react once symptoms show.**",
+      body: "Football players take thousands of hits across a career, and repeated sub-concussive impacts are strongly linked to long-term brain damage. Sideline checks only catch visible symptoms, and by then the damage is done.\n\n[[fig:0]]\n\n**Staff need to see cumulative impact as it builds, not react once symptoms show.**",
       figures: [
         { type: "image", src: neuralyfeDeckHits, alt: "Repeated sub-concussive hits accumulate into long-term brain damage" },
       ],
@@ -243,9 +243,9 @@ const neuralyfe: ProjectDetailSource = {
       id: "research",
       label: "Research",
       headline: "Helmets Measure Force, Not What the Brain Did",
-      body: "Helmet sensors today capture **force** — not how the brain responded. The signal that matters, cumulative neurological stress, goes unmeasured.\n\n[[fig:0]]\n\n**The opportunity: track brain-impact risk as it builds, not just flag individual hits.**",
+      body: "Helmet sensors today capture **force**, not how the brain responded. The signal that matters, cumulative neurological stress, goes unmeasured.\n\n[[fig:0]]\n\n**The opportunity: track brain-impact risk as it builds, not just flag individual hits.**",
       figures: [
-        { type: "image", src: neuralyfeDeckIndex, alt: "The CTE Progression Index combines biomarkers — p-Tau 217, NfL, GFAP — into a cumulative risk signal" },
+        { type: "image", src: neuralyfeDeckIndex, alt: "The CTE Progression Index combines the biomarkers p-Tau 217, NfL, and GFAP into a cumulative risk signal" },
       ],
     },
     {
@@ -270,7 +270,7 @@ const neuralyfe: ProjectDetailSource = {
       id: "process",
       label: "Design Process",
       headline: "Triage First, Depth Only When Asked",
-      body: "Staff can't explore data mid-game, so the interface leads with triage and reveals depth only on demand:\n\n· **Roster View** — who needs attention, at a glance\n\n· **Brain View** — where stress is building\n\n· **Impact Replay** — which play caused it\n\n[[fig:0]]\n\nI pressure-tested one question throughout the Figma Make build: can staff go from alert to decision in seconds?",
+      body: "Staff can't explore data mid-game, so the interface leads with triage and reveals depth only on demand:\n\n· **Roster View**: who needs attention, at a glance\n\n· **Brain View**: where stress is building\n\n· **Impact Replay**: which play caused it\n\n[[fig:0]]\n\nI pressure-tested one question throughout the Figma Make build: can staff go from alert to decision in seconds?",
       figures: [
         { type: "image", src: neuralyfeDeckViews, alt: "From impact data to medical decisions in three views: Roster, Brain, and Impact Replay" },
       ],
@@ -279,7 +279,7 @@ const neuralyfe: ProjectDetailSource = {
       id: "final-design",
       label: "Final Design",
       headline: "Three Views, and the Hardware That Feeds Them",
-      body: "## Halo\n\nAn add-on, not a new helmet — teams keep the equipment they already trust. EEG maps brain connectivity, biomarker sensors catch early damage indicators, and the impact camera ties each force event to a moment on the field.\n\n[[fig:3]]\n\n## Roster View\n\nRanks players by medical urgency — cumulative impacts, recent hit severity, brain health — turning a static player list into a live risk map.\n\n[[fig:0]]\n\n## Brain View\n\nMaps neurological stress by region in 3D. A risk score says how much; Brain View shows where — which matters most when repeated impacts hit the same region.\n\n[[fig:1]]\n\n## Impact Replay\n\nTraces an alert back to the exact play: when the hit happened, how severe it was, which regions were affected, and whether to pull the player now.\n\n[[fig:2]]\n\n**Together: identify risk, inspect impact, act with context.**",
+      body: "## Halo\n\nAn add-on, not a new helmet, so teams keep the equipment they already trust. EEG maps brain connectivity, biomarker sensors catch early damage indicators, and the impact camera ties each force event to a moment on the field.\n\n[[fig:3]]\n\n## Roster View\n\nRanks players by medical urgency, weighing cumulative impacts, recent hit severity, and brain health, so a static player list becomes a live risk map.\n\n[[fig:0]]\n\n## Brain View\n\nMaps neurological stress by region in 3D. A risk score says how much. Brain View shows where, which matters most when repeated impacts hit the same region.\n\n[[fig:1]]\n\n## Impact Replay\n\nTraces an alert back to the exact play: when the hit happened, how severe it was, which regions were affected, and whether to pull the player now.\n\n[[fig:2]]\n\n**Together: identify risk, inspect impact, act with context.**",
       figures: [
         { type: "video", src: neuralyfeRoster },
         { type: "video", src: neuralyfeBrain },
@@ -300,7 +300,7 @@ const neuralyfe: ProjectDetailSource = {
       id: "reflection",
       label: "Reflection",
       headline: "Designing for Interpretation, Not Just Accuracy",
-      body: "Designing for health means designing for interpretation, not data display. A system can collect perfectly accurate signals, but if staff can't read them under pressure, those signals never become care.\n\n## High-Pressure Interfaces Need Different Logic\n\nThe first question is never \"what does all the data say?\" It's \"who needs help right now?\" That pushed me to cut competing information and make the most urgent cases immediately visible.\n\n## What I Would Do Next\n\nClinical validation with sports-medicine professionals — testing whether the decision flow holds up in real sideline calls.\n\nNeuraLyfe showed me that making hidden risk visible is a design problem. The harder part is making that visibility useful when it matters most.",
+      body: "Designing for health means designing for interpretation, not data display. A system can collect perfectly accurate signals, but if staff can't read them under pressure, those signals never become care.\n\n## High-Pressure Interfaces Need Different Logic\n\nThe first question is never \"what does all the data say?\" It's \"who needs help right now?\" That pushed me to cut competing information and make the most urgent cases immediately visible.\n\n## What I Would Do Next\n\nClinical validation with sports-medicine professionals, testing whether the decision flow holds up in real sideline calls.\n\nNeuraLyfe showed me that making hidden risk visible is a design problem. The harder part is making that visibility useful when it matters most.",
     },
   ],
 };
@@ -423,12 +423,12 @@ const flowprint: ProjectDetailSource = {
     {
       id: "problem",
       label: "Problem",
-      body: "How might we guide someone from box to first successful print without forcing them to master slicer vocabulary on day one?\n\nThe system needed progressive disclosure, proactive checks, and monitoring that feels reassuring — not alarming.",
+      body: "How might we guide someone from box to first successful print without forcing them to master slicer vocabulary on day one?\n\nThe system needed progressive disclosure, proactive checks, and monitoring that feels reassuring rather than alarming.",
     },
     {
       id: "process",
       label: "Design Process",
-      body: "Journey maps separated 'setup,' 'first print,' and 'steady use.' I prototyped onboarding as a checklist with live device state, and monitoring as a timeline + clear next actions.\n\nMaterial recommendation emerged as a high-leverage moment to reduce choice paralysis.",
+      body: "Journey maps separated 'setup,' 'first print,' and 'steady use.' I prototyped onboarding as a checklist with live device state, and monitoring as a timeline + clear next actions.\n\nMaterial recommendation was where one good suggestion removes the most doubt.",
     },
     {
       id: "final-design",
@@ -438,7 +438,7 @@ const flowprint: ProjectDetailSource = {
     {
       id: "impact",
       label: "Impact",
-      body: "The design gives engineering a prioritized surface area: onboarding, monitoring, and recommendations as connected modules rather than three disconnected features.\n\nIt also sets a tone of quiet confidence — important for retention after the first print.",
+      body: "The design gives engineering a prioritized surface area: onboarding, monitoring, and recommendations as connected modules rather than three disconnected features.\n\nIt also sets a tone of quiet confidence, which is what matters for retention after the first print.",
     },
     {
       id: "reflection",
@@ -635,13 +635,13 @@ const studiowaters: ProjectDetailSource = {
       headline: "No Buttons. The Rod Is the Controller.",
       showProjectMeta: true,
       figures: [{ type: "video", src: studioWatersDemo, poster: studioWatersCover }],
-      body: "**Studio Waters is a playable, motion-controlled fishing prototype built with Claude and p5.js — no buttons, just real-world gestures.**\n\nPlayers cast and reel through physical motion, read by a Circuit Playground Express. The project chases one design question: how can motion, timing, and feedback shape a calm, engaging interaction?",
+      body: "**Studio Waters is a playable, motion-controlled fishing prototype built with Claude and p5.js. No buttons, just real-world gestures.**\n\nPlayers cast and reel through physical motion, read by a Circuit Playground Express. The project chases one design question: how can motion, timing, and feedback shape a calm, engaging interaction?",
     },
     {
       id: "inspiration",
       label: "Inspiration",
       headline: "Fishing Runs on Waiting, Not Action",
-      body: "Fishing runs on pacing and anticipation, not constant action. I wanted to borrow that rhythm, not simulate the sport: the arc of a cast, the tension of a reel, the quiet between attempts.\n\nThe body becomes the interface — repetitive physical motion as a source of immersion, something most games actively work against.",
+      body: "Fishing runs on pacing and anticipation, not constant action. I wanted to borrow that rhythm, not simulate the sport: the arc of a cast, the tension of a reel, the quiet between attempts.\n\nThe body becomes the interface, with repetitive physical motion as the source of immersion, something most games actively work against.",
     },
     {
       id: "interaction",
@@ -662,7 +662,7 @@ const studiowaters: ProjectDetailSource = {
       id: "experience",
       label: "Experience Design",
       headline: "The Fish Set the Difficulty, Not the Buttons",
-      body: "A nostalgic pixel world and restrained UI keep the focus on the gesture — the screen supports the motion, not the other way around.\n\nDifficulty comes from fish behavior: different species require different timing and tension, rewarding rhythm over fast reaction. The loop is tight and forgiving — tension visible on screen, success felt in the motion.",
+      body: "A nostalgic pixel world and restrained UI keep the focus on the gesture. The screen supports the motion, not the other way around.\n\nDifficulty comes from fish behavior: different species require different timing and tension, rewarding rhythm over fast reaction. The loop is tight and forgiving, with tension visible on screen and success felt in the motion.",
       figures: [
         {
           type: "image",
@@ -677,13 +677,13 @@ const studiowaters: ProjectDetailSource = {
       id: "ai",
       label: "How I Used AI",
       headline: "AI Wrote the Scaffold. The Feel Was Tuned by Hand.",
-      body: "AI was my rapid prototyping tool:\n\n· Claude generated the initial p5.js game structure\n\n· Prompting rounds refined the visuals toward a cohesive pixel style\n\n· AI-drafted interaction logic gave me a base to tune by hand\n\nThe real refinement was physical: tuning sensor thresholds, adjusting difficulty, and restructuring the code around how the CPX actually behaves under motion — things testing reveals and generation can't.",
+      body: "AI was my rapid prototyping tool:\n\n· Claude generated the initial p5.js game structure\n\n· Prompting rounds refined the visuals toward a cohesive pixel style\n\n· AI-drafted interaction logic gave me a base to tune by hand\n\nThe real refinement was physical: tuning sensor thresholds, adjusting difficulty, and restructuring the code around how the CPX actually behaves under motion, which is what testing reveals and generation cannot.",
     },
     {
       id: "reflection",
       label: "Reflection",
       headline: "Restraint Is the Unexplored Space in Physical Computing",
-      body: "The AI wrote the scaffold; I designed the feel. Vibe coding lowers the barrier to building, but the interaction only got good through intentional mapping and hands-on refinement.\n\nIt also surfaced an underexplored space: most physical computing projects chase spectacle. There is real design value in restraint — slow, rhythmic, embodied play.",
+      body: "The AI wrote the scaffold; I designed the feel. Vibe coding lowers the barrier to building, but the interaction only got good through intentional mapping and hands-on refinement.\n\nIt also surfaced an underexplored space: most physical computing projects chase spectacle. There is real design value in restraint, in play that is slow, rhythmic, and embodied.",
     },
   ],
 };
@@ -713,7 +713,7 @@ const calmmouse: ProjectDetailSource = {
       figures: [
         { type: "video", src: calmmouseHeroFilm, poster: calmmouseHeroPoster },
       ],
-      body: "**The Magic Mouse's whole top shell is a touch surface — and it stays live while you click. Every click is also a tiny swipe, and the page jumps.**\n\n[[fig:0]]\n\nmacOS has no setting for this; the only existing fix is an undocumented preference inside a paid, do-everything app. So the checkbox became a product — a small menu-bar app, built with Claude Code.\n\n[[module:calmmouse-demo]]\n\n**CalmMouse succeeds when you notice nothing. This case study is about designing a product whose best outcome is invisible.**",
+      body: "**The Magic Mouse's whole top shell is a touch surface, and it stays live while you click. Every click is also a tiny swipe, and the page jumps.**\n\n[[fig:0]]\n\nmacOS has no setting for this; the only existing fix is an undocumented preference inside a paid, do-everything app. So the checkbox became a product: a small menu-bar app, built with Claude Code.\n\n[[module:calmmouse-demo]]\n\n**CalmMouse succeeds when you notice nothing. This case study is about designing a product whose best outcome is invisible.**",
     },
     {
       id: "fixes",
@@ -722,7 +722,7 @@ const calmmouse: ProjectDetailSource = {
       figures: [
         { type: "image", src: calmmouseSettings, alt: "CalmMouse settings window, General tab" },
       ],
-      body: "Everything applies only to the Magic Mouse — the app identifies the physical device behind every event, so the trackpad passes through untouched.\n\n[[module:calmmouse-fixes]]\n\n[[fig:0]]",
+      body: "Everything applies only to the Magic Mouse. The app identifies the physical device behind every event, so the trackpad passes through untouched.\n\n[[module:calmmouse-fixes]]\n\n[[fig:0]]",
     },
     {
       id: "absence",
@@ -732,13 +732,13 @@ const calmmouse: ProjectDetailSource = {
         { type: "image", src: calmmouseWelcome, alt: "The welcome tour's preset step: Just fix clicking, Extra steady, Trackpad feel" },
         { type: "image", src: calmmousePresets, alt: "The Presets tab: three built-in starting points and a field to save your own" },
       ],
-      body: "If the product works, nothing happens. That's a demo problem, an onboarding problem, and a settings problem — each got its own answer.\n\n[[module:calmmouse-absence]]\n\n[[fig:0]]\n\n[[fig:1]]",
+      body: "If the product works, nothing happens. That's a demo problem, an onboarding problem, and a settings problem. Each got its own answer.\n\n[[module:calmmouse-absence]]\n\n[[fig:0]]\n\n[[fig:1]]",
     },
     {
       id: "milliseconds",
       label: "Milliseconds",
       headline: "Interaction Design at 200 Milliseconds",
-      body: "The other half of the design work lives below the UI, in the timing of events.\n\n[[module:calmmouse-milliseconds]]\n\n**Same craft as easing curves and touch targets — just lower in the stack, where the unit is the millisecond instead of the pixel.**",
+      body: "The other half of the design work lives below the UI, in the timing of events.\n\n[[module:calmmouse-milliseconds]]\n\n**Same craft as easing curves and touch targets, just lower in the stack, where the unit is the millisecond instead of the pixel.**",
     },
     {
       id: "shipping",
@@ -750,7 +750,7 @@ const calmmouse: ProjectDetailSource = {
       id: "reflection",
       label: "Reflection",
       headline: "What Absence Taught Me",
-      body: "## Features Compound Inside One Process\n\nTap-to-click exists in other apps. But because CalmMouse already runs the scroll state machine, taps can be vetoed by real scrolling and physical clicks — which standalone tap apps literally cannot see. The second feature was better because the first one was there.\n\n## The Metric Measures Nothing Happening\n\nThe app counts every event it swallows. After a few weeks of daily use, that counter is the honest success metric: thousands of page jumps that didn't happen, one at a time, unnoticed — which was the whole point.\n\n[[module:calmmouse-cta]]",
+      body: "## Features Compound Inside One Process\n\nTap-to-click exists in other apps. But because CalmMouse already runs the scroll state machine, taps can be vetoed by real scrolling and physical clicks, which standalone tap apps literally cannot see. The second feature was better because the first one was there.\n\n## The Metric Measures Nothing Happening\n\nThe app counts every event it swallows. After a few weeks of daily use, that counter is the honest success metric: thousands of page jumps that didn't happen, one at a time and unnoticed. That was the whole point.\n\n[[module:calmmouse-cta]]",
     },
   ],
 };
@@ -777,7 +777,7 @@ const inkwork: ProjectDetailSource = {
       headline: "From Working to Good",
       showProjectMeta: true,
       figures: [{ type: "video", src: inkworkFilm, poster: inkworkFilmPoster }],
-      body: "**Inkwork is a small studio for styled QR codes: type your link, pick a style, check the proof, export. This case study is about the harder half of building it — getting from a product that worked to one with a point of view.**\n\n[[fig:0]]\n\nI wanted to generate a QR code in seconds and have real control over how it looked. Most generators give you one or the other: instant but ugly, or styleable but buried in settings.\n\nWorking with Claude Code, I had a functional version fast: sixteen style presets, logo embedding, preset import and export, shareable links, print-quality export, and a scannability check that actually decodes the code you just made. Everything worked.\n\nIt just hadn’t decided what it was.",
+      body: "**Inkwork is a small studio for styled QR codes: type your link, pick a style, check the proof, export. This case study is about the harder half of building it, the part that takes a product that works and gives it a point of view.**\n\n[[fig:0]]\n\nI wanted to generate a QR code in seconds and have real control over how it looked. Most generators give you one or the other: instant but ugly, or styleable but buried in settings.\n\nWorking with Claude Code, I had a functional version fast: sixteen style presets, logo embedding, preset import and export, shareable links, print-quality export, and a scannability check that actually decodes the code you just made. Everything worked.\n\nIt just hadn’t decided what it was.",
       afterMetaModule: "inkwork-try",
     },
     {
@@ -791,7 +791,7 @@ const inkwork: ProjectDetailSource = {
       id: "decision",
       label: "The Decision",
       headline: "A Style Picker, Not a Control Panel",
-      body: "**Inkwork is a style picker, not a control panel. Everything in the redesign follows from that one sentence.**\n\n[[fig:0]]\n\n## The Page Became a Sequence, Not a Dashboard\n\nOne primary action per stage: a single “Update QR code” button after the input, a single primary “Download PNG” at export, with “Copy PNG” as the quiet secondary.\n\n[[module:inkwork-sequence]]\n\n## The Styles Moved to the Front\n\n“Choose a style” now sits immediately after the content field, with named presets as first-class tiles. This is what the old subtitle always promised and the old layout never delivered — the actual reason to use Inkwork over any other generator.\n\n## Everything Else Waits Behind a Click\n\nColor, Logo, and Fine-tune sit behind buttons. Print formats collapsed into “More export formats.” Share and Presets moved to the header, where features for returning users belong. Textbook progressive disclosure — but the point isn’t the pattern. The pattern only became applicable once the decision existed: you can’t defer “secondary” controls until you’ve decided what’s primary.\n\n## One Voice\n\n“What goes in your QR code?” instead of “Content.” The library internals moved inside Fine-tune, where the people who want them will look for them.",
+      body: "**Inkwork is a style picker, not a control panel. Everything in the redesign follows from that one sentence.**\n\n[[fig:0]]\n\n## The Page Became a Sequence, Not a Dashboard\n\nOne primary action per stage: a single “Update QR code” button after the input, a single primary “Download PNG” at export, with “Copy PNG” as the quiet secondary.\n\n[[module:inkwork-sequence]]\n\n## The Styles Moved to the Front\n\n“Choose a style” now sits immediately after the content field, with named presets as first-class tiles. This is what the old subtitle always promised and the old layout never delivered, and it is the actual reason to use Inkwork over any other generator.\n\n## Everything Else Waits Behind a Click\n\nColor, Logo, and Fine-tune sit behind buttons. Print formats collapsed into “More export formats.” Share and Presets moved to the header, where features for returning users belong. Textbook progressive disclosure, but the point isn’t the pattern. The pattern only became applicable once the decision existed: you can’t defer “secondary” controls until you’ve decided what’s primary.\n\n## One Voice\n\n“What goes in your QR code?” instead of “Content.” The library internals moved inside Fine-tune, where the people who want them will look for them.",
       figures: [
         {
           type: "image",
@@ -806,7 +806,7 @@ const inkwork: ProjectDetailSource = {
       id: "themes",
       label: "Two Themes",
       headline: "Then I Gave It a Personality. Two, Actually.",
-      body: "Once the product knew what it was, it could afford to have moods.\n\n[[module:inkwork-themes]]\n\n[[fig:0]]\n\nOne token system drives both. That constraint was the real design exercise: the themes had to differ in every surface quality — color, shadow, corner treatment, energy — while sharing every structural decision. If the hierarchy was right, it would survive the costume change. It did.",
+      body: "Once the product knew what it was, it could afford to have moods.\n\n[[module:inkwork-themes]]\n\n[[fig:0]]\n\nOne token system drives both. That constraint was the real design exercise: the themes had to differ in every surface quality, in color, shadow, corner treatment, and energy, while sharing every structural decision. If the hierarchy was right, it would survive the costume change. It did.",
       figures: [
         {
           type: "image",
@@ -821,13 +821,13 @@ const inkwork: ProjectDetailSource = {
       id: "film",
       label: "The Film",
       headline: "Automation That Carries Judgment",
-      body: "The product film above was made by an agent skill I wrote in Claude Code. It produces product films across five surfaces — title and end cards, the edit, camera energy, animation, and soundtrack — with brand identity flowing in through configuration. It has engineering gates it won’t cross: measure before trimming, splice whole animations, verify frames, audit gaps, no watermarked audio. Along the way I built my own ScreenCaptureKit-based recorder after the macOS default stalled on writes mid-capture.\n\n[[module:inkwork-skill-link]]\n\nThe skill didn’t make any of the design decisions above. That’s the point. It encodes my direction so the decisions I make survive into everything I ship, applied the same way every time.\n\n**Automation that replaces judgment produces the sameness this whole project was a reaction against. Automation that carries judgment is just leverage.**",
+      body: "The product film above was made by an agent skill I wrote in Claude Code. It produces product films across five surfaces: title and end cards, the edit, camera energy, animation, and soundtrack. Brand identity flows in through configuration. It has engineering gates it won’t cross: measure before trimming, splice whole animations, verify frames, audit gaps, no watermarked audio. Along the way I built my own ScreenCaptureKit-based recorder after the macOS default stalled on writes mid-capture.\n\n[[module:inkwork-skill-link]]\n\nThe skill didn’t make any of the design decisions above. That’s the point. It encodes my direction so the decisions I make survive into everything I ship, applied the same way every time.\n\n**Automation that replaces judgment produces the sameness this whole project was a reaction against. Automation that carries judgment is just leverage.**",
     },
     {
       id: "reflection",
       label: "Reflection",
       headline: "What I Took From This",
-      body: "AI got me from idea to working product fast. Getting from working to good took taste, judgment, and a lot of rebuilding — and I think that gap is now the most interesting place to work in product design. The generation cost of “functional” is approaching zero. What that raises, rather than lowers, is the value of being able to look at a functional thing and articulate precisely why it isn’t good yet.\n\n**The transferable habit: when a design has many small problems, resist fixing them one by one. Ask what single unmade decision is producing all of them. Fix that, and most of the symptoms resolve themselves.**\n\n[[module:inkwork-cta]]",
+      body: "AI got me from idea to working product fast. Getting from working to good took taste, judgment, and a lot of rebuilding. I think that gap is now the most interesting place to work in product design. The generation cost of “functional” is approaching zero. What that raises, rather than lowers, is the value of being able to look at a functional thing and articulate precisely why it isn’t good yet.\n\n**The transferable habit: when a design has many small problems, resist fixing them one by one. Ask what single unmade decision is producing all of them. Fix that, and most of the symptoms resolve themselves.**\n\n[[module:inkwork-cta]]",
     },
   ],
 };
@@ -865,27 +865,27 @@ const zeat: ProjectDetailSource = {
       label: "The Problem",
       headline: "What the Crowd Leaves Behind",
       figures: [
-        { type: "image", src: zeatAftermath, alt: "Stadium seats after an event — cups, food containers, and wrappers left between the rows", full: true },
+        { type: "image", src: zeatAftermath, alt: "Stadium seats after an event: cups, food containers, and wrappers left between the rows", full: true },
       ],
-      body: "A grandstand after the crowd leaves — my own photo, from field research.\n\n[[fig:0]]\n\nCleaning machines exist, but nearly all assume the one thing a grandstand never offers: flat, open floor. Stepped tiers, narrow aisles, trash on seats.\n\n**The design question wasn't a better vacuum. It was a machine that survives the architecture.**",
+      body: "A grandstand after the crowd leaves. My own photo, from field research.\n\n[[fig:0]]\n\nCleaning machines exist, but nearly all assume the one thing a grandstand never offers: flat, open floor. Stepped tiers, narrow aisles, trash on seats.\n\n**The design question wasn't a better vacuum. It was a machine that survives the architecture.**",
     },
     {
       id: "research",
       label: "Research",
       headline: "Everyone Cleans the Floor. Nobody Cleans the Seats.",
       figures: [
-        { type: "image", src: zeatTrashTypes, alt: "Typical grandstand trash — paper cups, snack packaging, bottles, cans, and crumpled napkins" },
+        { type: "image", src: zeatTrashTypes, alt: "Typical grandstand trash: paper cups, snack packaging, bottles, cans, and crumpled napkins" },
       ],
-      body: "On-site field visits during and after events, interviews with a cleaner of seven years and an operations manager of ten, and a questionnaire on spectator littering.\n\n## What the Trash Is\n\n[[fig:0]]\n\nCups and bottles, snack packaging, crumbs and dust, liquid spills. Light, irregular, and split across two surfaces — floor and seat — exactly the combination existing equipment can't handle.\n\n## What Already Exists\n\nCurrent machines are single-function tools for flat floors. The research frontier held the missing pieces — a patented stair-cleaning concept, published shape-morphing wheels, YOLO-family recognition — but no product had put them together.\n\n**Three jobs emerged: recognize trash on both surfaces, collect it — oversized pieces included — and route itself through an unfamiliar seating layout.**",
+      body: "On-site field visits during and after events, interviews with a cleaner of seven years and an operations manager of ten, and a questionnaire on spectator littering.\n\n## What the Trash Is\n\n[[fig:0]]\n\nCups and bottles, snack packaging, crumbs and dust, liquid spills. Light, irregular, and split across two surfaces, the floor and the seat. That is exactly the combination existing equipment can't handle.\n\n## What Already Exists\n\nCurrent machines are single-function tools for flat floors. The research frontier held the missing pieces: a patented stair-cleaning concept, published shape-morphing wheels, and YOLO-family recognition. No product had put them together.\n\n**Three jobs emerged: recognize trash on both surfaces, collect it including the oversized pieces, and route itself through an unfamiliar seating layout.**",
     },
     {
       id: "ideation",
       label: "Ideation",
       headline: "Three Ways to Move Through a Grandstand",
       figures: [
-        { type: "image", src: zeatIdeationSheet, alt: "ZEAT ideation sheet — concept sketches, form development, and usage-flow storyboard with handwritten annotations" },
+        { type: "image", src: zeatIdeationSheet, alt: "ZEAT ideation sheet: concept sketches, form development, and usage-flow storyboard with handwritten annotations" },
       ],
-      body: "In a grandstand, how the machine moves decides everything else it can do.\n\n[[fig:0]]\n\n## Seat-Back Rail\n\nRides the seat backs. Cleans seats well, needs no construction — but can't cross a step, barely touches the floor, and only fits fixed seating.\n\n## Overhead Track\n\nHangs from installed track. Wide coverage — but permanent infrastructure in every venue, and hardware above the stands intrudes on the one thing a stadium sells: the view.\n\n## Ground-Mobile\n\nHarder engineering — but it collects and compacts floor trash, reaches seats with a folding arm, crosses steps on deformable wheels, and adapts to any layout without touching the building.\n\n**Both rivals cleaned well. Neither could cross a step. Going to the ground cost complexity and bought the machine the run of the building.**",
+      body: "In a grandstand, how the machine moves decides everything else it can do.\n\n[[fig:0]]\n\n## Seat-Back Rail\n\nRides the seat backs. Cleans seats well and needs no construction, but it can't cross a step, barely touches the floor, and only fits fixed seating.\n\n## Overhead Track\n\nHangs from installed track. Wide coverage, but it needs permanent infrastructure in every venue, and hardware above the stands intrudes on the one thing a stadium sells: the view.\n\n## Ground-Mobile\n\nHarder engineering, but it collects and compacts floor trash, reaches seats with a folding arm, crosses steps on deformable wheels, and adapts to any layout without touching the building.\n\n**Both rivals cleaned well. Neither could cross a step. Going to the ground cost complexity and bought the machine the run of the building.**",
     },
     {
       id: "final-design",
@@ -893,35 +893,35 @@ const zeat: ProjectDetailSource = {
       headline: "A Machine Sized by Its Terrain",
       figures: [
         { type: "image", src: zeatInContext, alt: "ZEAT working a littered grandstand, arm raised and collection lid open", full: true },
-        { type: "image", src: zeatDimensions, alt: "Three-view dimensioned drawing — 816mm long, 496mm wide, 388mm tall" },
-        { type: "image", src: zeatSideProfile, alt: "Side profile — front scraper ramp, large drive wheels, underbody brushes" },
+        { type: "image", src: zeatDimensions, alt: "Three-view dimensioned drawing: 816mm long, 496mm wide, 388mm tall" },
+        { type: "image", src: zeatSideProfile, alt: "Side profile: front scraper ramp, large drive wheels, underbody brushes" },
         { type: "image", src: zeatTurn, alt: "Top-down view with rotation arrows showing ZEAT pivoting in place on its four independently driven wheels" },
-        { type: "image", src: zeatStructure, alt: "Ghosted side view revealing the internal layout — intake path, collection volume, and drive components", full: true },
-        { type: "image", src: zeatUnderbody, alt: "Underbody — toothed intake conveyor, cleaning roller, and twin side brushes" },
+        { type: "image", src: zeatStructure, alt: "Ghosted side view revealing the internal layout: intake path, collection volume, and drive components", full: true },
+        { type: "image", src: zeatUnderbody, alt: "Underbody: toothed intake conveyor, cleaning roller, and twin side brushes" },
         { type: "image", src: zeatArm, alt: "Articulated arm raised above the garbage inlet, lid open" },
-        { type: "image", src: zeatStairCrossing, alt: "Two states of the shape-morphing wheel — spokes deployed on flat ground, and the machine descending a grandstand step" },
-        { type: "image", src: zeatPrototype, alt: "The finished physical model in three-quarter view — printed, hand-finished, sprayed, and assembled, with the intake mouth and CMF split visible", full: true },
+        { type: "image", src: zeatStairCrossing, alt: "Two states of the shape-morphing wheel: spokes deployed on flat ground, and the machine descending a grandstand step" },
+        { type: "image", src: zeatPrototype, alt: "The finished physical model in three-quarter view: printed, hand-finished, sprayed, and assembled, with the intake mouth and CMF split visible", full: true },
         { type: "image", src: zeatPrototypeBooth, alt: "The physical ZEAT model on the exhibition stand, shown with the project poster and printed brochure" },
       ],
-      body: "[[fig:0]]\n\n## Every Dimension Argues With the Building\n\n816mm long, 496mm wide, 388mm tall — none of it arbitrary. Wheelbase from the step geometry, height from seat clearance, width from how much floor one pass should clean.\n\n[[fig:1]]\n\n[[fig:2]]\n\nFour wheels, four motors: the body rotates in place, so a machine nearly a meter long reverses inside an aisle it almost fills.\n\n[[fig:3]]\n\n## Swallow First, Sort Later\n\nEvent trash is oversized, so ZEAT leads with a high-suction intake wide enough to take cups and boxes whole, then compacts them with an internal roller.\n\n[[fig:4]]\n\nDrive and control hardware sits in the wheel housings and floor pan, leaving the middle of the machine empty for collection. The underbody does the fine work: toothed intake conveyor, cleaning roller, twin edge brushes for the space under the seats.\n\n[[fig:5]]\n\n## The Arm Is Why It's Not a Floor Robot\n\nHalf the trash never touches the floor. A folding arm lifts what the crowd left and drops it through a dedicated inlet — clearing one step's seat and the next step's seat back in the same pass.\n\n[[fig:6]]\n\n## Wheels That Trade Shape for Terrain\n\nOn flat ground the wheels stay round and roll. At a step, the rim opens into curved spokes that walk the machine up the riser — the obstacle that kills every other cleaning robot in this building.\n\n[[fig:7]]\n\n## Sensing\n\nCameras handle trash recognition on YOLOv5, ultrasonic radar covers obstacles, and an IMU with wheel encoders keeps the machine located on the venue map.\n\n## Built\n\nI modeled every component for fabrication, printed across SLA and FDM, finished the surfaces by hand, sprayed the paint, and assembled the body with its lighting — a driving appearance model in the production CMF.\n\n[[fig:8]]\n\n[[fig:9]]\n\n**A render can hide a weak surface transition behind a camera angle. A painted part on a table in front of a critic cannot.**",
+      body: "[[fig:0]]\n\n## Every Dimension Argues With the Building\n\n816mm long, 496mm wide, 388mm tall, and none of it arbitrary. Wheelbase from the step geometry, height from seat clearance, width from how much floor one pass should clean.\n\n[[fig:1]]\n\n[[fig:2]]\n\nFour wheels, four motors: the body rotates in place, so a machine nearly a meter long reverses inside an aisle it almost fills.\n\n[[fig:3]]\n\n## Swallow First, Sort Later\n\nEvent trash is oversized, so ZEAT leads with a high-suction intake wide enough to take cups and boxes whole, then compacts them with an internal roller.\n\n[[fig:4]]\n\nDrive and control hardware sits in the wheel housings and floor pan, leaving the middle of the machine empty for collection. The underbody does the fine work: toothed intake conveyor, cleaning roller, twin edge brushes for the space under the seats.\n\n[[fig:5]]\n\n## The Arm Is Why It's Not a Floor Robot\n\nHalf the trash never touches the floor. A folding arm lifts what the crowd left and drops it through a dedicated inlet, clearing one step's seat and the next step's seat back in the same pass.\n\n[[fig:6]]\n\n## Wheels That Trade Shape for Terrain\n\nOn flat ground the wheels stay round and roll. At a step, the rim opens into curved spokes that walk the machine up the riser, the obstacle that kills every other cleaning robot in this building.\n\n[[fig:7]]\n\n## Sensing\n\nCameras handle trash recognition on YOLOv5, ultrasonic radar covers obstacles, and an IMU with wheel encoders keeps the machine located on the venue map.\n\n## Built\n\nI modeled every component for fabrication, printed across SLA and FDM, finished the surfaces by hand, sprayed the paint, and assembled the body with its lighting. It is an appearance model in the production CMF, and it drives.\n\n[[fig:8]]\n\n[[fig:9]]\n\n**A render can hide a weak surface transition behind a camera angle. A painted part on a table in front of a critic cannot.**",
     },
     {
       id: "system",
       label: "The System",
       headline: "One Robot Is a Gadget. A Fleet Is Infrastructure.",
       figures: [
-        { type: "image", src: zeatServiceTopdown, alt: "Top-down service view — dust bag, battery compartment, and garbage inlet, with the rear status screen reading Sector 01, 92%" },
+        { type: "image", src: zeatServiceTopdown, alt: "Top-down service view: dust bag, battery compartment, and garbage inlet, with the rear status screen reading Sector 01, 92%" },
       ],
-      body: "A single robot doesn't clean a stadium in eight hours. ZEAT is designed as a fleet with a loop.\n\n## The Operating Loop\n\nScan and initialize, take assigned zones, clean the floors, work the seat rows — then return to base, empty into a self-cleaning station, recharge, and upload the report.\n\n[[fig:0]]\n\nDust bag and battery sit under one lid, placed for fast turnaround at the station rather than mid-shift maintenance.\n\n## Dispatch\n\nThe management app runs the fleet against the venue's calendar: a floor plan shows each zone's load as a heat map, device cards track battery and progress, and scheduling follows the events — the system knows when the window opens.\n\n## The Report\n\nEach finished zone returns the area it covered and photographs of the rows behind it, so the cleaning can be checked in the app rather than on foot.",
+      body: "A single robot doesn't clean a stadium in eight hours. ZEAT is designed as a fleet with a loop.\n\n## The Operating Loop\n\nScan and initialize, take assigned zones, clean the floors, and work the seat rows. Then return to base, empty into a self-cleaning station, recharge, and upload the report.\n\n[[fig:0]]\n\nDust bag and battery sit under one lid, placed for fast turnaround at the station rather than mid-shift maintenance.\n\n## Dispatch\n\nThe management app runs the fleet against the venue's calendar: a floor plan shows each zone's load as a heat map, device cards track battery and progress, and scheduling follows the events, so the system knows when the window opens.\n\n## The Report\n\nEach finished zone returns the area it covered and photographs of the rows behind it, so the cleaning can be checked in the app rather than on foot.",
     },
     {
       id: "reflection",
       label: "Reflection",
       headline: "The Concept Evaluation Refused to Flatter the Concept",
       figures: [
-        { type: "image", src: zeatIntake, alt: "Detail of the top deck — open hopper, clear intake cover, and indicator light" },
+        { type: "image", src: zeatIntake, alt: "Detail of the top deck: open hopper, clear intake cover, and indicator light" },
       ],
-      body: "## The Cost I Wrote Down Instead of Hiding\n\nThe ground-mobile concept's biggest liability wasn't engineering — a working fleet displaces much of the cleaning crew that does this job today. I kept that line in the evaluation rather than deleting it. A design that automates labor should say so.\n\n## What This Project Taught Me\n\nIndustrial design here meant negotiating with a building. Every dimension and mechanism answers something the grandstand refuses to change. Screens ask what the user wants. Terrain doesn't negotiate.\n\n## What I'd Do Next\n\nThe model proves the form, not the mechanisms — it drives, but its wheels don't morph and its arm doesn't lift. Next is functional: build the morphing wheel against real step geometry, validate the arm's reach across seat types, and put the dispatch flow in front of the people whose 3 a.m. problem this is.\n\n[[fig:0]]",
+      body: "## The Cost I Wrote Down Instead of Hiding\n\nThe ground-mobile concept's biggest liability wasn't engineering. A working fleet displaces much of the cleaning crew that does this job today. I kept that line in the evaluation rather than deleting it. A design that automates labor should say so.\n\n## What This Project Taught Me\n\nIndustrial design here meant negotiating with a building. Every dimension and mechanism answers something the grandstand refuses to change. Screens ask what the user wants. Terrain doesn't negotiate.\n\n## What I'd Do Next\n\nThe model proves the form, not the mechanisms. It drives, but its wheels don't morph and its arm doesn't lift. Next is functional: build the morphing wheel against real step geometry, validate the arm's reach across seat types, and put the dispatch flow in front of the people whose 3 a.m. problem this is.\n\n[[fig:0]]",
     },
   ],
 };
