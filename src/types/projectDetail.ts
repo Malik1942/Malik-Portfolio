@@ -24,9 +24,16 @@ export type IntroBlock = {
   whatIDid?: string[];
 };
 
+/** A figure's caption is opt-in. Most case studies show their imagery without
+ *  one on purpose, so a figure with no `caption` renders exactly as before:
+ *  the frame and nothing under it. Where a caption is given it uses the shared
+ *  `FigureCaption`, so an image in a `figures:` array reads the same as one
+ *  inside a module. Keep `label` to two or three words. */
+type FigureCaptionFields = { label?: string; caption?: string };
+
 export type ProjectSectionFigure =
-  | { type?: "image"; src: string; alt: string; full?: boolean }
-  | { type: "video"; src: string; poster?: string }
+  | ({ type?: "image"; src: string; alt: string; full?: boolean } & FigureCaptionFields)
+  | ({ type: "video"; src: string; poster?: string } & FigureCaptionFields)
   | { type: "embed"; url: string; title?: string };
 
 export type ProjectContentSection = {

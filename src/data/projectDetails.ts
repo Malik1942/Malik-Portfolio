@@ -10,6 +10,8 @@ import calmmousePresets from "@/assets/calmmouse-presets.webp";
 import calmmouseWelcome from "@/assets/calmmouse-welcome.webp";
 import studioWatersCover from "@/assets/studio-waters-cover.webp";
 import studioWatersDemo from "@/assets/studio-waters-demo.mp4";
+import studioWatersCast from "@/assets/studio-waters-cast.webp";
+import studioWatersScreen from "@/assets/studio-waters-screen.webp";
 import auraDetail1 from "@/assets/aura-detail-1.webp";
 import auraDiscovery1 from "@/assets/aura-discovery-1.webp";
 import auraResearch1 from "@/assets/aura-research-1.webp";
@@ -64,6 +66,8 @@ import inkworkHero from "@/assets/inkwork-hero.webp";
 import inkworkFilm from "@/assets/inkwork-film.mp4";
 import inkworkFilmPoster from "@/assets/inkwork-film-poster.webp";
 import inkworkBefore from "@/assets/inkwork-before.mp4";
+import inkworkAfterPaper from "@/assets/inkwork-after-paper.webp";
+import inkworkAfterArcade from "@/assets/inkwork-after-arcade.webp";
 import zeatHero from "@/assets/zeat-hero.webp";
 import zeatAftermath from "@/assets/zeat-aftermath.webp";
 import zeatTrashTypes from "@/assets/zeat-trash-types.webp";
@@ -83,7 +87,6 @@ import zeatPrototypeBooth from "@/assets/zeat-prototype-booth.webp";
 import rangerHero from "@/assets/ranger-hero.webp";
 import rangerAirbagResearch from "@/assets/ranger-airbag-research.webp";
 import rangerSketches from "@/assets/ranger-sketches.webp";
-import rangerUsage from "@/assets/ranger-usage.webp";
 import rangerConstruct from "@/assets/ranger-construct.webp";
 import rangerExploded from "@/assets/ranger-exploded.webp";
 import rangerFront from "@/assets/ranger-front.webp";
@@ -217,19 +220,21 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "context",
       label: "Intro",
-      subtitle: "Intro",
+      headline: "A Sideline Call That Cannot Wait for Symptoms",
       showProjectMeta: true,
       body: "**NeuraLyfe is a sideline decision-support system that helps football medical staff catch brain-impact risk before it becomes irreversible — designed and built in three days for the FigBuild 2026 hackathon, entirely in Figma Make.**\n\nIt tackles Chronic Traumatic Encephalopathy (CTE): a degenerative condition from repeated head impacts that accumulates invisibly and can't be confirmed until after death.\n\nI ideated the concept and helped the team choose it over a rougher direction around dreams, where the pain point never got sharp. Over the 72 hours, I designed and built **Halo** and the **Impact Replay** interface, and co-designed the **Roster View**.\n\n**It won 1st Place out of 690 teams.**",
     },
     {
       id: "highlights",
       label: "Highlights",
+      headline: "From Helmet Signal to a Decision in Seconds",
       body: "**Turning raw helmet-sensor signals into fast, confident sideline decisions — catching cumulative brain risk before symptoms appear.**\n\n[[module:neuralyfe-highlights]]",
     },
     {
       id: "situation",
       label: "Situation",
-      body: "## The Problem With Cumulative Damage\n\nFootball players take thousands of hits across a career, and repeated sub-concussive impacts are strongly linked to long-term brain damage. Sideline checks only catch visible symptoms — and by then, the damage is done.\n\n[[fig:0]]\n\n**Staff need to see cumulative impact as it builds, not react once symptoms show.**",
+      headline: "Thousands of Hits, and Only the Visible Ones Get Checked",
+      body: "Football players take thousands of hits across a career, and repeated sub-concussive impacts are strongly linked to long-term brain damage. Sideline checks only catch visible symptoms — and by then, the damage is done.\n\n[[fig:0]]\n\n**Staff need to see cumulative impact as it builds, not react once symptoms show.**",
       figures: [
         { type: "image", src: neuralyfeDeckHits, alt: "Repeated sub-concussive hits accumulate into long-term brain damage" },
       ],
@@ -237,7 +242,8 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "research",
       label: "Research",
-      body: "## Where the Detection Gap Is\n\nHelmet sensors today capture **force** — not how the brain responded. The signal that matters, cumulative neurological stress, goes unmeasured.\n\n[[fig:0]]\n\n**The opportunity: track brain-impact risk as it builds, not just flag individual hits.**",
+      headline: "Helmets Measure Force, Not What the Brain Did",
+      body: "Helmet sensors today capture **force** — not how the brain responded. The signal that matters, cumulative neurological stress, goes unmeasured.\n\n[[fig:0]]\n\n**The opportunity: track brain-impact risk as it builds, not just flag individual hits.**",
       figures: [
         { type: "image", src: neuralyfeDeckIndex, alt: "The CTE Progression Index combines biomarkers — p-Tau 217, NfL, GFAP — into a cumulative risk signal" },
       ],
@@ -245,7 +251,8 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "problem",
       label: "Design Challenge",
-      body: "## From Complex Data to Fast Decisions\n\nThe core problem was interpretive, not technical: show too much data and it overwhelms; simplify too much and it loses credibility.\n\n[[fig:0]]\n\n**The question I kept returning to: what does a sideline medic need to know in the next five seconds?**",
+      headline: "Too Much Data Overwhelms. Too Little Loses Trust.",
+      body: "The core problem was interpretive, not technical: show too much data and it overwhelms; simplify too much and it loses credibility.\n\n[[fig:0]]\n\n**The question I kept returning to: what does a sideline medic need to know in the next five seconds?**",
       figures: [
         { type: "image", src: neuralyfeDeckProof, alt: "Sideline doctors need proof, not suspicion" },
       ],
@@ -253,7 +260,8 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "system-direction",
       label: "System Direction",
-      body: "## Two Layers Working Together\n\n**Halo**, a helmet add-on, senses what force data can't: EEG for brain connectivity, biomarkers for early neurological stress, and an impact camera that reconstructs hits.\n\n[[fig:0]]\n\n**The sideline interface** turns those signals into three questions: who needs attention, what's happening in their brain, and what caused it.",
+      headline: "Sensing Is Half the System. Reading It Is the Other Half.",
+      body: "**Halo**, a helmet add-on, senses what force data can't: EEG for brain connectivity, biomarkers for early neurological stress, and an impact camera that reconstructs hits.\n\n[[fig:0]]\n\n**The sideline interface** turns those signals into three questions: who needs attention, what's happening in their brain, and what caused it.",
       figures: [
         { type: "image", src: neuralyfeDeckHalo, alt: "NeuraLyfe Halo turns any helmet into a brain-health sensor with EEG, biomarker, and impact-camera sensing" },
       ],
@@ -261,7 +269,8 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "process",
       label: "Design Process",
-      body: "## Building the Decision Flow\n\nStaff can't explore data mid-game, so the interface leads with triage and reveals depth only on demand:\n\n· **Roster View** — who needs attention, at a glance\n\n· **Brain View** — where stress is building\n\n· **Impact Replay** — which play caused it\n\n[[fig:0]]\n\nI pressure-tested one question throughout the Figma Make build: can staff go from alert to decision in seconds?",
+      headline: "Triage First, Depth Only When Asked",
+      body: "Staff can't explore data mid-game, so the interface leads with triage and reveals depth only on demand:\n\n· **Roster View** — who needs attention, at a glance\n\n· **Brain View** — where stress is building\n\n· **Impact Replay** — which play caused it\n\n[[fig:0]]\n\nI pressure-tested one question throughout the Figma Make build: can staff go from alert to decision in seconds?",
       figures: [
         { type: "image", src: neuralyfeDeckViews, alt: "From impact data to medical decisions in three views: Roster, Brain, and Impact Replay" },
       ],
@@ -269,6 +278,7 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "final-design",
       label: "Final Design",
+      headline: "Three Views, and the Hardware That Feeds Them",
       body: "## Halo\n\nAn add-on, not a new helmet — teams keep the equipment they already trust. EEG maps brain connectivity, biomarker sensors catch early damage indicators, and the impact camera ties each force event to a moment on the field.\n\n[[fig:3]]\n\n## Roster View\n\nRanks players by medical urgency — cumulative impacts, recent hit severity, brain health — turning a static player list into a live risk map.\n\n[[fig:0]]\n\n## Brain View\n\nMaps neurological stress by region in 3D. A risk score says how much; Brain View shows where — which matters most when repeated impacts hit the same region.\n\n[[fig:1]]\n\n## Impact Replay\n\nTraces an alert back to the exact play: when the hit happened, how severe it was, which regions were affected, and whether to pull the player now.\n\n[[fig:2]]\n\n**Together: identify risk, inspect impact, act with context.**",
       figures: [
         { type: "video", src: neuralyfeRoster },
@@ -280,6 +290,7 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "impact",
       label: "Impact",
+      headline: "Risk Should Not Stay Hidden Until Symptoms Appear",
       body: "NeuraLyfe's claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\n**1st Place at FigBuild 2026, out of 690 teams.**",
       figures: [
         { type: "image", src: neuralyfeDeckScenario, alt: "In a live scenario, a player's frontal lobe hits critical levels and his card turns red" },
@@ -288,7 +299,8 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "reflection",
       label: "Reflection",
-      body: "## Designing for Interpretation, Not Just Accuracy\n\nDesigning for health means designing for interpretation, not data display. A system can collect perfectly accurate signals, but if staff can't read them under pressure, those signals never become care.\n\n## High-Pressure Interfaces Need Different Logic\n\nThe first question is never \"what does all the data say?\" It's \"who needs help right now?\" That pushed me to cut competing information and make the most urgent cases immediately visible.\n\n## What I Would Do Next\n\nClinical validation with sports-medicine professionals — testing whether the decision flow holds up in real sideline calls.\n\nNeuraLyfe showed me that making hidden risk visible is a design problem. The harder part is making that visibility useful when it matters most.",
+      headline: "Designing for Interpretation, Not Just Accuracy",
+      body: "Designing for health means designing for interpretation, not data display. A system can collect perfectly accurate signals, but if staff can't read them under pressure, those signals never become care.\n\n## High-Pressure Interfaces Need Different Logic\n\nThe first question is never \"what does all the data say?\" It's \"who needs help right now?\" That pushed me to cut competing information and make the most urgent cases immediately visible.\n\n## What I Would Do Next\n\nClinical validation with sports-medicine professionals — testing whether the decision flow holds up in real sideline calls.\n\nNeuraLyfe showed me that making hidden risk visible is a design problem. The harder part is making that visibility useful when it matters most.",
     },
   ],
 };
@@ -620,7 +632,7 @@ const studiowaters: ProjectDetailSource = {
     {
       id: "context",
       label: "Context",
-      subtitle: "Intro",
+      headline: "No Buttons. The Rod Is the Controller.",
       showProjectMeta: true,
       figures: [{ type: "video", src: studioWatersDemo, poster: studioWatersCover }],
       body: "**Studio Waters is a playable, motion-controlled fishing prototype built with Claude and p5.js — no buttons, just real-world gestures.**\n\nPlayers cast and reel through physical motion, read by a Circuit Playground Express. The project chases one design question: how can motion, timing, and feedback shape a calm, engaging interaction?",
@@ -628,26 +640,49 @@ const studiowaters: ProjectDetailSource = {
     {
       id: "inspiration",
       label: "Inspiration",
+      headline: "Fishing Runs on Waiting, Not Action",
       body: "Fishing runs on pacing and anticipation, not constant action. I wanted to borrow that rhythm, not simulate the sport: the arc of a cast, the tension of a reel, the quiet between attempts.\n\nThe body becomes the interface — repetitive physical motion as a source of immersion, something most games actively work against.",
     },
     {
       id: "interaction",
       label: "How It Works",
-      body: "Simple physical gestures map directly to game states:\n\n· Swing to cast the line into the water\n· Tilt and pull to reel the fish back in\n· On-screen feedback tracks tension, timing, and outcome\n\nThe target: obvious on first try, no tutorial required.",
+      headline: "Swing to Cast, Tilt and Pull to Reel",
+      body: "Simple physical gestures map directly to game states:\n\n· Swing to cast the line into the water\n\n· Tilt and pull to reel the fish back in\n\n· On-screen feedback tracks tension, timing, and outcome\n\nThe target: obvious on first try, no tutorial required.",
+      figures: [
+        {
+          type: "image",
+          src: studioWatersCast,
+          alt: "Playing Studio Waters: casting with the rod in hand, the game running on the screen behind",
+          label: "Playtest",
+          caption: "the swing is the input, read by the Circuit Playground Express in the rod",
+        },
+      ],
     },
     {
       id: "experience",
       label: "Experience Design",
+      headline: "The Fish Set the Difficulty, Not the Buttons",
       body: "A nostalgic pixel world and restrained UI keep the focus on the gesture — the screen supports the motion, not the other way around.\n\nDifficulty comes from fish behavior: different species require different timing and tension, rewarding rhythm over fast reaction. The loop is tight and forgiving — tension visible on screen, success felt in the motion.",
+      figures: [
+        {
+          type: "image",
+          src: studioWatersScreen,
+          alt: "The Studio Waters screen: a cast line arcing into pixel water with a fish on the hook and a tension readout",
+          label: "On the line",
+          caption: "the cast arcs out, a fish takes it, and the readout at bottom left is the tension to hold",
+        },
+      ],
     },
     {
       id: "ai",
       label: "How I Used AI",
-      body: "AI was my rapid prototyping tool:\n\n· Claude generated the initial p5.js game structure\n· Prompting rounds refined the visuals toward a cohesive pixel style\n· AI-drafted interaction logic gave me a base to tune by hand\n\nThe real refinement was physical: tuning sensor thresholds, adjusting difficulty, and restructuring the code around how the CPX actually behaves under motion — things testing reveals and generation can't.",
+      headline: "AI Wrote the Scaffold. The Feel Was Tuned by Hand.",
+      body: "AI was my rapid prototyping tool:\n\n· Claude generated the initial p5.js game structure\n\n· Prompting rounds refined the visuals toward a cohesive pixel style\n\n· AI-drafted interaction logic gave me a base to tune by hand\n\nThe real refinement was physical: tuning sensor thresholds, adjusting difficulty, and restructuring the code around how the CPX actually behaves under motion — things testing reveals and generation can't.",
     },
     {
       id: "reflection",
       label: "Reflection",
+      headline: "Restraint Is the Unexplored Space in Physical Computing",
       body: "The AI wrote the scaffold; I designed the feel. Vibe coding lowers the barrier to building, but the interaction only got good through intentional mapping and hands-on refinement.\n\nIt also surfaced an underexplored space: most physical computing projects chase spectacle. There is real design value in restraint — slow, rhythmic, embodied play.",
     },
   ],
@@ -756,13 +791,31 @@ const inkwork: ProjectDetailSource = {
       id: "decision",
       label: "The Decision",
       headline: "A Style Picker, Not a Control Panel",
-      body: "**Inkwork is a style picker, not a control panel. Everything in the redesign follows from that one sentence.**\n\n## The Page Became a Sequence, Not a Dashboard\n\nOne primary action per stage: a single “Update QR code” button after the input, a single primary “Download PNG” at export, with “Copy PNG” as the quiet secondary.\n\n[[module:inkwork-sequence]]\n\n## The Styles Moved to the Front\n\n“Choose a style” now sits immediately after the content field, with named presets as first-class tiles. This is what the old subtitle always promised and the old layout never delivered — the actual reason to use Inkwork over any other generator.\n\n## Everything Else Waits Behind a Click\n\nColor, Logo, and Fine-tune sit behind buttons. Print formats collapsed into “More export formats.” Share and Presets moved to the header, where features for returning users belong. Textbook progressive disclosure — but the point isn’t the pattern. The pattern only became applicable once the decision existed: you can’t defer “secondary” controls until you’ve decided what’s primary.\n\n## One Voice\n\n“What goes in your QR code?” instead of “Content.” The library internals moved inside Fine-tune, where the people who want them will look for them.",
+      body: "**Inkwork is a style picker, not a control panel. Everything in the redesign follows from that one sentence.**\n\n[[fig:0]]\n\n## The Page Became a Sequence, Not a Dashboard\n\nOne primary action per stage: a single “Update QR code” button after the input, a single primary “Download PNG” at export, with “Copy PNG” as the quiet secondary.\n\n[[module:inkwork-sequence]]\n\n## The Styles Moved to the Front\n\n“Choose a style” now sits immediately after the content field, with named presets as first-class tiles. This is what the old subtitle always promised and the old layout never delivered — the actual reason to use Inkwork over any other generator.\n\n## Everything Else Waits Behind a Click\n\nColor, Logo, and Fine-tune sit behind buttons. Print formats collapsed into “More export formats.” Share and Presets moved to the header, where features for returning users belong. Textbook progressive disclosure — but the point isn’t the pattern. The pattern only became applicable once the decision existed: you can’t defer “secondary” controls until you’ve decided what’s primary.\n\n## One Voice\n\n“What goes in your QR code?” instead of “Content.” The library internals moved inside Fine-tune, where the people who want them will look for them.",
+      figures: [
+        {
+          type: "image",
+          src: inkworkAfterPaper,
+          alt: "Inkwork after the redesign: one content field, one Update QR code button, named style tiles, and a proof panel with a single primary download",
+          label: "Version two",
+          caption: "one field, one primary action, the styles moved to the front, and everything else behind a button",
+        },
+      ],
     },
     {
       id: "themes",
       label: "Two Themes",
       headline: "Then I Gave It a Personality. Two, Actually.",
-      body: "Once the product knew what it was, it could afford to have moods.\n\n[[module:inkwork-themes]]\n\nOne token system drives both. That constraint was the real design exercise: the themes had to differ in every surface quality — color, shadow, corner treatment, energy — while sharing every structural decision. If the hierarchy was right, it would survive the costume change. It did.",
+      body: "Once the product knew what it was, it could afford to have moods.\n\n[[module:inkwork-themes]]\n\n[[fig:0]]\n\nOne token system drives both. That constraint was the real design exercise: the themes had to differ in every surface quality — color, shadow, corner treatment, energy — while sharing every structural decision. If the hierarchy was right, it would survive the costume change. It did.",
+      figures: [
+        {
+          type: "image",
+          src: inkworkAfterArcade,
+          alt: "The same Inkwork page in the Arcade theme: yellow ground, hard shadows, thick borders, and the same layout",
+          label: "Arcade",
+          caption: "every surface quality changes and every structural decision stays",
+        },
+      ],
     },
     {
       id: "film",
@@ -906,6 +959,7 @@ const ranger: ProjectDetailSource = {
     {
       id: "highlights",
       label: "Highlights",
+      headline: "Search, Mark, and Let the Net Float Itself Up",
       body: "**One machine that searches, marks, and hands the lifting job to physics.**\n\n[[module:ranger-highlights]]",
     },
     {
@@ -929,9 +983,8 @@ const ranger: ProjectDetailSource = {
       headline: "Stop Trying to Hold the Net. Change What It Weighs.",
       figures: [
         { type: "image", src: rangerAirbagResearch, alt: "Research board covering how ghost gear is collected today, four lifting-bag geometries, pump versus chemical inflation, and the airbag chamber launching through a net mesh", full: true },
-        { type: "image", src: rangerUsage, alt: "Six-step usage process: travel to the hotspot, detect gear, locate and measure the mesh, launch the airbag, inflate it through the mesh, and release it to the surface for collection", full: true },
       ],
-      body: "A gripper has to hold what it grabs, and a net is close to the worst thing to grab. No rigid feature, no predictable shape, and enough drag that whatever holds it also has to haul it.\n\n[[fig:0]]\n\n## Buoyancy Instead of Grip\n\nSo RANGER does not carry the net. It marks the net and makes the net rise.\n\nAn airbag chamber is launched through an opening in the mesh. On the far side it inflates, and an inflated bag cannot pass back through the hole it entered by. The bag becomes a mechanical stop and a lifting body at the same time: it holds the mesh, and it pulls upward.\n\nI compared four lifting-bag geometries, pillow, parachute, parachute-enclosed, and cylindrical, then split the job between two of them. A parachute bag does the floating. A pillow bag does the fixing.\n\n## Where the Gas Comes From\n\nTwo ways to inflate a bag underwater: pump it from the vehicle, or generate it at the bag. Pumping means a compressor, a reservoir, and a line to every bag it fills, which caps how many nets one sortie can mark.\n\nI took the second. Each chamber carries the same sodium azide reaction a car airbag uses, 2NaN₃ decomposing into sodium and nitrogen gas. The vehicle launches an inert cartridge and the gas is made on arrival.\n\n**Decision: the vehicle spends cartridges, not effort. Every launch is a single-use mark that a surface crew can collect on its own schedule, so the drone never stops searching to wait for a lift.**\n\n## The Sequence\n\n[[fig:1]]\n\nA collection ship drops RANGER at a hotspot pulled from the platform map. RANGER runs sonar and cameras until it finds gear, measures the mesh at the center of the net, selects a cartridge sized to that mesh, and fires. The bag inflates, fixes the net, and rises with a flashing marker while RANGER returns to searching.",
+      body: "A gripper has to hold what it grabs, and a net is close to the worst thing to grab. No rigid feature, no predictable shape, and enough drag that whatever holds it also has to haul it.\n\n[[fig:0]]\n\n## Buoyancy Instead of Grip\n\nSo RANGER does not carry the net. It marks the net and makes the net rise.\n\nAn airbag chamber is launched through an opening in the mesh. On the far side it inflates, and an inflated bag cannot pass back through the hole it entered by. The bag becomes a mechanical stop and a lifting body at the same time: it holds the mesh, and it pulls upward.\n\nI compared four lifting-bag geometries, pillow, parachute, parachute-enclosed, and cylindrical, then split the job between two of them. A parachute bag does the floating. A pillow bag does the fixing.\n\n## Where the Gas Comes From\n\nTwo ways to inflate a bag underwater: pump it from the vehicle, or generate it at the bag. Pumping means a compressor, a reservoir, and a line to every bag it fills, which caps how many nets one sortie can mark.\n\nI took the second. Each chamber carries the same sodium azide reaction a car airbag uses, 2NaN₃ decomposing into sodium and nitrogen gas. The vehicle launches an inert cartridge and the gas is made on arrival.\n\n**Decision: the vehicle spends cartridges, not effort. Every launch is a single-use mark that a surface crew can collect on its own schedule, so the drone never stops searching to wait for a lift.**\n\n## The Sequence\n\n[[module:ranger-sequence]]",
     },
     {
       id: "final-design",

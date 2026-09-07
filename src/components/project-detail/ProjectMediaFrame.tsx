@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 import type { ProjectSectionFigure } from "@/types/projectDetail";
+import { FigureCaption } from "./FigureCaption";
 
 function toEmbedUrl(url: string): string {
   const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
@@ -31,12 +32,31 @@ function AutoplayVideo({ src, poster }: { src: string; poster?: string }) {
   );
 }
 
+// The frame is the rounded, clipped surface the media sits on. With a caption
+// it becomes an inner element, so the caption sits outside the clip and on the
+// page ground, the way a module's figure does. Without one the markup is
+// unchanged, which is what keeps every uncaptioned case study rendering as it did.
+const FRAME = "overflow-hidden rounded-2xl bg-secondary/10";
+
 export function ProjectMediaFrame({ fig }: { fig: ProjectSectionFigure }) {
-  if (fig.type === "video") {
-    return <figure data-testid="project-media-frame" className="overflow-hidden rounded-2xl bg-secondary/10"><AutoplayVideo src={fig.src} poster={fig.poster} /></figure>;
+  const media =
+    fig.type === "video" ? (
+      <AutoplayVideo src={fig.src} poster={fig.poster} />
+    ) : fig.type === "embed" ? (
+      <iframe src={toEmbedUrl(fig.url)} title={fig.title ?? "Video"} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" />
+    ) : (
+      <img src={fig.src} alt={fig.alt} loading="lazy" decoding="async" className="w-full h-auto block" />
+    );
+  const frameClass = fig.type === "embed" ? `${FRAME} aspect-video` : FRAME;
+  const caption = fig.type === "embed" ? undefined : fig.caption;
+
+  if (!caption) {
+    return <figure data-testid="project-media-frame" className={frameClass}>{media}</figure>;
   }
-  if (fig.type === "embed") {
-    return <figure data-testid="project-media-frame" className="overflow-hidden rounded-2xl bg-secondary/10 aspect-video"><iframe src={toEmbedUrl(fig.url)} title={fig.title ?? "Video"} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" /></figure>;
-  }
-  return <figure data-testid="project-media-frame" className="overflow-hidden rounded-2xl bg-secondary/10"><img src={fig.src} alt={fig.alt} loading="lazy" decoding="async" className="w-full h-auto block" /></figure>;
+  return (
+    <figure data-testid="project-media-frame">
+      <div className={frameClass}>{media}</div>
+      <FigureCaption label={fig.label}>{caption}</FigureCaption>
+    </figure>
+  );
 }
