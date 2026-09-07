@@ -148,7 +148,7 @@ const PhotographyLightbox = ({
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-modal bg-background/92 backdrop-blur-md"
+        className="fixed inset-0 z-modal bg-background/90 backdrop-blur-md"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}

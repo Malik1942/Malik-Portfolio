@@ -93,6 +93,15 @@ const RULES: Rule[] = [
     hint: "Use a token color: foreground tiers, background, surfaces, hairline, focus, accents.",
   },
   {
+    name: "color opacity modifier off Tailwind's scale",
+    // Tailwind only generates modifiers on theme.opacity, which ships in fives.
+    // bg-background/92 produced no CSS at all: the photography lightbox had
+    // no backdrop until it was noticed.
+    pattern: /\b(?:bg|text|border|ring|from|to|via|divide|outline|fill|stroke)-[a-z-]+\/(?:[0-9]|[1-9][0-9])(?![0-9.\]])\b/g,
+    hint: "Use a multiple of 5, an arbitrary value in brackets, or a token role.",
+    exempt: () => false,
+  },
+  {
     name: "ink as a raw opacity",
     pattern: /\btext-foreground\/\d+\b/g,
     hint: "Use the ink ladder: text-foreground, -lead, -secondary, -tertiary, or -quiet.",
