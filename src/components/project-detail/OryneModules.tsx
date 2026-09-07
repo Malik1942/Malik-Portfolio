@@ -109,7 +109,7 @@ const hookHighlights = [
   "Live on the App Store",
   "First commit to 1.0 in 23 days",
   "Six releases in 15 days",
-  "Built solo with Claude Code",
+  "Built with Claude Code",
   "Intelligence runs on the device",
   "English and Simplified Chinese",
 ];

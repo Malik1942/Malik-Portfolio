@@ -167,7 +167,7 @@ export const PROJECTS: readonly Project[] = [
     links: [{ label: "App Store", url: "https://apps.apple.com/us/app/oryne/id6778995892" }],
     destination: CASE_STUDY,
     signal: "An Ocean for Unfinished Thoughts",
-    description: "Shipped solo on the App Store: an inspiration-capture app where thoughts drift, gather into currents, and come back on their own.",
+    description: "Live on the App Store: an inspiration-capture app where thoughts drift, gather into currents, and come back on their own.",
     role: "Product Designer & Builder",
     coverImage: oryneCard,
     // 1920x1200 rather than the 1280x800 the other reels use: the phone screen
@@ -237,7 +237,7 @@ export const PROJECTS: readonly Project[] = [
     details: "A consumer 3D-printing onboarding flow targeting a setup-time cut from about an hour to 15 minutes.\n\nIncludes onboarding flows, real-time print monitoring, and a material recommendation engine.",
   },
 
-  // ── Studio: the thing is the story. Small software designed and built solo
+  // ── Studio: the thing is the story. Small software designed, built, and shipped
   // with AI tools, then the industrial design work that came before it. ──
   {
     id: "calmmouse",
@@ -297,7 +297,7 @@ export const PROJECTS: readonly Project[] = [
     year: "2025",
     coverImage: zeatCard,
     coverAspect: "4725/2993",
-    details: "A ground-based cleaning robot for stadium grandstands, designed solo across the robot, its mechanisms, and the system that dispatches it.\n\nModeled, 3D printed, hand-finished, and exhibited as a driving appearance model.",
+    details: "A ground-based cleaning robot for stadium grandstands, designed end to end across the robot, its mechanisms, and the system that dispatches it.\n\nModeled, 3D printed, hand-finished, and exhibited as a driving appearance model.",
   },
   {
     id: "ranger",
@@ -310,7 +310,7 @@ export const PROJECTS: readonly Project[] = [
     year: "2024",
     coverImage: rangerCard,
     coverAspect: "2400/1345",
-    details: "An underwater drone for ghost gear recovery, designed solo across the vehicle, the airbag capture mechanism, the control system, and the Neptune Net dispatch platform.\n\nA resolved concept: modeled and rendered, never physically prototyped.",
+    details: "An underwater drone for ghost gear recovery, designed end to end across the vehicle, the airbag capture mechanism, the control system, and the Neptune Net dispatch platform.\n\nA resolved concept: modeled and rendered, never physically prototyped.",
   },
 ];
 

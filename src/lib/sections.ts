@@ -5,7 +5,7 @@
 //
 // Site shape: the homepage is "Work", made of two sections (Selected Work, the
 // three case studies a recruiter should see first, then More Work). Studio is
-// a separate page: small software built solo with AI tools alongside the
+// a separate page: small software built and shipped with AI tools alongside the
 // industrial design that came before it. Work is where the process is the
 // story; Studio is where the thing is.
 //

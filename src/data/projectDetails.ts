@@ -445,7 +445,7 @@ const tubular: ProjectDetailSource = {
   metaCards: [
     { label: "Role", value: "Product Designer · Maker" },
     { label: "Timeline", value: "Spring 2026" },
-    { label: "Team", value: "Solo · Design + Build" },
+    { label: "Team", value: "One Designer, End to End" },
     { label: "Scope", value: "Concept · Industrial Form · Digital Prototyping" },
     { label: "Outcome", value: "Product Narrative · Physical-Digital Prototype" },
     { label: "Tools", value: "CAD · Prototyping · Motion Studies" },
@@ -605,13 +605,13 @@ const studiowaters: ProjectDetailSource = {
   slug: "studiowaters",
   title: "Studio Waters",
   heroSummary: "A playable fishing prototype that turns real-world casting and reeling gestures into calm, responsive play.",
-  heroSubtitle: "Built solo with Claude, p5.js, and a Circuit Playground Express. No buttons, just gestures.",
+  heroSubtitle: "Built with Claude, p5.js, and a Circuit Playground Express. No buttons, just gestures.",
   heroImage: studioWatersCover,
   heroImageFit: "cover",
   metaCards: [
     { label: "Role", value: "Designer · Builder" },
     { label: "Timeline", value: "Spring 2026" },
-    { label: "Team", value: "Solo · Vibe Coded" },
+    { label: "Team", value: "One Designer · Vibe Coded" },
     { label: "Scope", value: "Embodied Interaction · Game Feel · Physical UI" },
     { label: "Outcome", value: "Playable CPX Prototype" },
     { label: "Tools", value: "Claude · p5.js · Circuit Playground Express" },
@@ -653,17 +653,17 @@ const studiowaters: ProjectDetailSource = {
   ],
 };
 
-// CalmMouse: a native macOS Magic Mouse utility, designed/built/shipped solo.
+// CalmMouse: a native macOS Magic Mouse utility, designed, built, and shipped.
 const calmmouse: ProjectDetailSource = {
   slug: "calmmouse",
   title: "CalmMouse",
   heroSummary: "A macOS app that stops the Magic Mouse from scrolling every time you click.",
-  heroSubtitle: "Designed, built, and shipped solo · Signed and notarized · Free and open source on GitHub.",
+  heroSubtitle: "Designed, built, and shipped · Signed and notarized · Free and open source on GitHub.",
   heroImage: calmmouseHeroLoopPoster,
   heroImageFit: "natural",
   heroVideo: calmmouseHeroLoop,
   metaCards: [
-    { label: "Role", value: "Design · Build · Ship (Solo)" },
+    { label: "Role", value: "Design · Build · Ship" },
     { label: "Timeline", value: "Summer 2026" },
     { label: "Stack", value: "Swift · SwiftUI · CGEventTap" },
     { label: "Output", value: "Notarized macOS App · In-App Updates · 99 Tests" },
@@ -726,11 +726,11 @@ const inkwork: ProjectDetailSource = {
   slug: "inkwork",
   title: "Inkwork",
   heroSummary: "A styled-QR studio, and what it took to get from working to good.",
-  heroSubtitle: "Designed, built, and shipped solo · Live at malikzhang.com/inkwork · Press the cube.",
+  heroSubtitle: "Designed, built, and shipped · Live at malikzhang.com/inkwork · Press the cube.",
   heroImage: inkworkHero,
   heroImageFit: "natural",
   metaCards: [
-    { label: "Role", value: "Design · Build · Ship (Solo)" },
+    { label: "Role", value: "Design · Build · Ship" },
     { label: "Timeline", value: "Summer 2026" },
     { label: "Stack", value: "React + Vite · qr-code-styling · Vercel" },
     { label: "Output", value: "Live Product · Two Themes · Product Film" },
@@ -791,7 +791,7 @@ const zeat: ProjectDetailSource = {
   metaCards: [
     { label: "Role", value: "Industrial Designer" },
     { label: "Timeline", value: "2025" },
-    { label: "Team", value: "Solo" },
+    { label: "Team", value: "One Designer, End to End" },
     { label: "Scope", value: "Robot · Mechanisms · Physical Model · Dispatch System" },
   ],
   sections: [
@@ -800,7 +800,7 @@ const zeat: ProjectDetailSource = {
       label: "Intro",
       headline: "Eight Hours to Make Three Tons Disappear",
       showProjectMeta: true,
-      body: "**ZEAT is a ground-based cleaning robot for stadium grandstands — solo industrial design across the robot, its mechanisms, and the system that dispatches it.**\n\nEvery event leaves three to four tons of trash, and the building has eight to twelve hours to be clean before the next crowd. Today dozens of people close that gap overnight.\n\nZEAT works that window: sweeping the aisles, reaching onto seats with a folding arm, crossing steps on deformable wheels.",
+      body: "**ZEAT is a ground-based cleaning robot for stadium grandstands: industrial design across the robot, its mechanisms, and the system that dispatches it.**\n\nEvery event leaves three to four tons of trash, and the building has eight to twelve hours to be clean before the next crowd. Today dozens of people close that gap overnight.\n\nZEAT works that window: sweeping the aisles, reaching onto seats with a folding arm, crossing steps on deformable wheels.",
     },
     {
       id: "highlights",
@@ -891,7 +891,7 @@ const ranger: ProjectDetailSource = {
   metaCards: [
     { label: "Role", value: "Industrial Designer" },
     { label: "Timeline", value: "2024" },
-    { label: "Team", value: "Solo" },
+    { label: "Team", value: "One Designer, End to End" },
     { label: "Scope", value: "Vehicle · Airbag Capture · Control · Neptune Net" },
     { label: "Tools", value: "Rhino 3D · KeyShot · Photoshop · Figma" },
   ],
@@ -901,7 +901,7 @@ const ranger: ProjectDetailSource = {
       label: "Intro",
       headline: "A Net Keeps Fishing After the Boat Lets Go",
       showProjectMeta: true,
-      body: "**RANGER is an underwater drone for ghost gear recovery. It finds an abandoned fishing net, fires an airbag through the mesh, and lets the net float itself up to a waiting boat.**\n\nGhost gear is fishing equipment that was lost or dumped and never stopped working. It drifts, it snags, and it keeps catching. Recovery today is diver work, carried out largely by volunteers from conservation groups.\n\nSolo project, 2024: the vehicle, the capture mechanism, the control system, and the platform that decides where to send it.",
+      body: "**RANGER is an underwater drone for ghost gear recovery. It finds an abandoned fishing net, fires an airbag through the mesh, and lets the net float itself up to a waiting boat.**\n\nGhost gear is fishing equipment that was lost or dumped and never stopped working. It drifts, it snags, and it keeps catching. Recovery today is diver work, carried out largely by volunteers from conservation groups.\n\nDesigned end to end in 2024: the vehicle, the capture mechanism, the control system, and the platform that decides where to send it.",
     },
     {
       id: "highlights",
@@ -992,13 +992,13 @@ const ranger: ProjectDetailSource = {
 const oryne: ProjectDetailSource = {
   slug: "oryne",
   title: "Oryne",
-  heroSummary: "An ocean for unfinished thoughts. Shipped solo on the App Store,\nwith all of its intelligence on the device",
+  heroSummary: "An ocean for unfinished thoughts. Live on the App Store,\nwith all of its intelligence on the device",
   heroImage: oryneHero,
   heroImageFit: "cover",
   metaCards: [
     { label: "Role", value: "Product Designer & Builder" },
     { label: "Timeline", value: "June 2026–Present" },
-    { label: "Team", value: "Malik, With Claude Code" },
+    { label: "Tools", value: "SwiftUI · SwiftData + CloudKit · Foundation Models · Claude Code" },
     { label: "Output", value: "Live on the App Store · v1.5 · English & Chinese" },
   ],
   sections: [
