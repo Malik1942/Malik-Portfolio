@@ -19,17 +19,17 @@ const artifacts = [
   {
     src: zeatInContext,
     alt: "ZEAT working a littered grandstand, arm raised and collection lid open",
-    caption: "Working the rows — floor, seats, and everything wedged between",
+    caption: "Working the rows: floor, seats, and everything wedged between",
   },
   {
     src: zeatArm,
     alt: "Articulated arm raised above the garbage inlet, lid open",
-    caption: "The folding arm — for the half of the trash that never touches the floor",
+    caption: "The folding arm: for the half of the trash that never touches the floor",
   },
   {
     src: zeatStructure,
     alt: "Ghosted side view revealing the internal layout",
-    caption: "Inside — the body is mostly collection volume",
+    caption: "Inside: the body is mostly collection volume",
   },
 ];
 
@@ -56,7 +56,7 @@ export function ZeatHighlights() {
   return (
     <div className="flex flex-col gap-stack">
       <Chips items={highlights} />
-      <PullQuote>The hard part isn&rsquo;t the trash — it&rsquo;s the terrain.</PullQuote>
+      <PullQuote>The hard part isn&rsquo;t the trash. It&rsquo;s the terrain.</PullQuote>
       <div className="flex flex-col gap-12 md:gap-16">
         {artifacts.map((a) => (
           <ZeatArtifact key={a.src} {...a} />

@@ -131,7 +131,7 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSectionClick }:
       }`}
     >
       {/* Accessible page heading — the visible name is canvas pixels (aria-hidden). */}
-      <h1 className="sr-only">Malik Zhang — Product Designer</h1>
+      <h1 className="sr-only">Malik Zhang, Product Designer</h1>
       <DotGrid aboutMode={isAboutOpen} onNameClick={onAboutClick} />
       <AboutOverlay isVisible={isAboutOpen} onBack={onAboutBack} />
 

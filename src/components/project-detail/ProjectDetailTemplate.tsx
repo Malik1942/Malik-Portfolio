@@ -377,13 +377,13 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                 muted
                 playsInline
                 preload="auto"
-                aria-label={`${project.title} — project visual`}
+                aria-label={`${project.title} project visual`}
                 className={heroMediaClass}
               />
             ) : (
               <img
                 src={project.heroImage}
-                alt={`${project.title} — project visual`}
+                alt={`${project.title} project visual`}
                 // The hero is this page's largest contentful paint and is discovered
                 // late (only once the route chunk has run), so tell the browser it
                 // outranks the lazy figures below. Lowercase: React 18 does not know

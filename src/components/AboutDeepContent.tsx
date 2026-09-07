@@ -265,14 +265,14 @@ interface LifeEvent {
 
 const LIFE_EVENTS: LifeEvent[] = [
   { year: "2026", title: "Inkwork",        caption: "A styled-QR studio with a point of view",    type: "design"    },
-  { year: "2026", title: "FigBuild 2026",  caption: "1st Place — NeuraLyfe",                    type: "award"     },
+  { year: "2026", title: "FigBuild 2026",  caption: "1st Place with NeuraLyfe",                    type: "award"     },
   { year: "2026", title: "NeuraLyfe",      caption: "Making invisible brain trauma visible",      type: "design"    },
   { year: "2026", title: "Studio Waters",  caption: "Vibe-coded CPX controlled fishing game",     type: "design"    },
   { year: "2026", title: "Tubular",        caption: "Designing the mini-golf experience beyond the surface",  type: "design"    },
   { year: "2025", title: "Aura",           caption: "AI-driven wearable for motion sickness",     type: "design"    },
   { year: "2025", title: "FlowPrint",      caption: "Led consumer 3D printing redesign",          type: "design"    },
   { year: "2024", title: "Design Systems", caption: "Deep dive into systematic design thinking",  type: "education" },
-  { year: "2024", title: "Mood Muse",      caption: "Physical craft meets digital experience — design beyond form", type: "design" },
+  { year: "2024", title: "Mood Muse",      caption: "Physical craft meets digital experience, design beyond form", type: "design" },
   { year: "2023", title: "Started Building", caption: "First experiments with design + code",     type: "education" },
 ];
 
@@ -988,7 +988,7 @@ const AboutDeepContent = ({
             inView={lifeInView}
             eyebrow="Life & Events"
             title="Path and milestones"
-            description="A loose chronology of study, craft, and shipped work — awards, roles, and the experiments that led here."
+            description="A loose chronology of study, craft, and shipped work: awards, roles, and the experiments that led here."
           >
             <motion.div
               className="min-w-0 flex-1 space-y-6 md:space-y-7 border-l border-foreground/[0.08] pl-6 md:pl-7"
@@ -1008,7 +1008,7 @@ const AboutDeepContent = ({
             inView={photoInView}
             eyebrow="Photography"
             title="Selected frames"
-            description="Personal stills from travel and everyday light — composed quietly, without narrative noise."
+            description="Personal stills from travel and everyday light, composed quietly, without narrative noise."
           >
             <motion.div
               className="min-w-0 flex-1 flex flex-col gap-3 md:gap-4"
@@ -1048,7 +1048,7 @@ const AboutDeepContent = ({
             inView={movementInView}
             eyebrow="Movement"
             title="Body and rhythm"
-            description="Sports as a small resilience metaphor — structure that holds, breaks, and comes back together."
+            description="Sports as a small resilience metaphor: structure that holds, breaks, and comes back together."
           >
             <motion.div
               className="min-w-0 w-full flex-1 flex flex-wrap content-start items-start justify-start gap-x-16 gap-y-12 md:gap-x-20 md:gap-y-14 lg:gap-x-24"
@@ -1069,7 +1069,7 @@ const AboutDeepContent = ({
             rowCrossAlign="center"
             eyebrow="Daily Life"
             title="Outside the studio"
-            description="The rituals, media, and motion that keep thinking grounded — nothing performative, just what actually shows up."
+            description="The rituals, media, and motion that keep thinking grounded. Nothing performative, just what actually shows up."
           >
             <motion.div
               className="min-w-0 flex-1 w-full max-w-full flex flex-wrap content-start items-start justify-start gap-3 md:gap-4"

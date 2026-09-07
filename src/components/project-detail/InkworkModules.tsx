@@ -88,28 +88,28 @@ const symptoms: GridItem[] = [
   {
     num: "01",
     title: "Two Primary Buttons, One Intent",
-    desc: "A black “Download PNG” next to an indigo “Download SVG,” identical weight. The accent color then reappeared on “Copy share link” — marking two unrelated things, meaning nothing.",
+    desc: "A black “Download PNG” next to an indigo “Download SVG,” identical weight. The accent color then reappeared on “Copy share link,” marking two unrelated things and meaning nothing.",
     icon: MousePointerClick,
     accent: "violet",
   },
   {
     num: "02",
     title: "Every Card Weighed the Same",
-    desc: "Content, preview, Share, Preset I/O, and Print export all sat at identical elevation. Print PDF at 40mm — a power-user feature — was as prominent as the one thing everyone came to do.",
+    desc: "Content, preview, Share, Preset I/O, and Print export all sat at identical elevation. Print PDF at 40mm, a power-user feature, was as prominent as the one thing everyone came to do.",
     icon: Layers,
     accent: "emerald",
   },
   {
     num: "03",
     title: "A Promise the Layout Didn’t Keep",
-    desc: "“Pick a preset, tune the ink, export” — but the page opened on a textarea, an error-correction dropdown, and two hex fields. The presets weren’t where the eye landed first.",
+    desc: "“Pick a preset, tune the ink, export,” but the page opened on a textarea, an error-correction dropdown, and two hex fields. The presets weren’t where the eye landed first.",
     icon: LayoutTemplate,
     accent: "slate",
   },
   {
     num: "04",
     title: "Two Voices on One Screen",
-    desc: "“Module color” and “Error correction · L · ~7%” were library internals leaking through, sitting next to “Center logo” and “tune the ink” — the voice I actually wrote.",
+    desc: "“Module color” and “Error correction · L · ~7%” were library internals leaking through, sitting next to “Center logo” and “tune the ink,” which is the voice I actually wrote.",
     icon: MessagesSquare,
     accent: "violet",
   },
@@ -144,7 +144,7 @@ const sequence: GridItem[] = [
   {
     num: "02",
     title: "Pick a Style",
-    desc: "Named presets as first-class tiles — Pebble, Classic Ink, Inkdrop, Classy Noir, Velvet.",
+    desc: "Named presets as first-class tiles: Pebble, Classic Ink, Inkdrop, Classy Noir, Velvet.",
     icon: Shapes,
     accent: "emerald",
   },
@@ -179,14 +179,14 @@ const themes: GridItem[] = [
   {
     num: "02",
     title: "Arcade",
-    desc: "Loud yellow neubrutalism — hard shadows, thick borders, and a 3D cube in the corner that flips between the two.",
+    desc: "Loud yellow neubrutalism: hard shadows, thick borders, and a 3D cube in the corner that flips between the two.",
     icon: Zap,
     accent: "violet",
   },
   {
     num: "03",
     title: "One Token System",
-    desc: "The themes differ in every surface quality and share every structural decision. The cube is the proof the system is real — not two hand-painted skins.",
+    desc: "The themes differ in every surface quality and share every structural decision. The cube is the proof the system is real, not two hand-painted skins.",
     icon: Box,
     accent: "emerald",
   },
@@ -224,5 +224,5 @@ export function InkworkSkillLink() {
 // Closing CTA — same link as the intro; the cube line pays off only after the
 // Two Themes section has introduced it.
 export function InkworkCta() {
-  return <LinkCta href={INKWORK_URL}>Try Inkwork — press the cube</LinkCta>;
+  return <LinkCta href={INKWORK_URL}>Try Inkwork: press the cube</LinkCta>;
 }
