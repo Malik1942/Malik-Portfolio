@@ -119,7 +119,7 @@ export const PROJECTS: readonly Project[] = [
     links: [{ label: "App Store", url: "https://apps.apple.com/us/app/moti-plan/id6770705491" }],
     destination: CASE_STUDY,
     signal: "An AI-Native Timeline for Real Projects",
-    description: "Shipped solo on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.",
+    description: "Designed, built, and shipped on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.",
     role: "Product Designer & Builder",
     coverImage: motiCard,
     coverAspect: "1280/800",
@@ -129,7 +129,7 @@ export const PROJECTS: readonly Project[] = [
     // the resting state the reel holds on once it has played.
     coverVideo: motiCardVideo,
     year: "2026",
-    details: "Shipped solo on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.\n\nBuilt on a hybrid SLM + LLM system, specified spec-first with a full PRD before writing any code.",
+    details: "Designed, built, and shipped on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.\n\nBuilt on a hybrid SLM + LLM system, specified spec-first with a full PRD before writing any code.",
   },
   {
     id: "neuralyfe",

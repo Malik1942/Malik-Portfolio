@@ -305,13 +305,13 @@ const neuralyfe: ProjectDetailSource = {
 const moti: ProjectDetailSource = {
   slug: "moti",
   title: "Moti: Plan",
-  heroSummary: "Shipped solo on the App Store: an AI-native planner that\nturns messy input into a living, timeline-aware plan",
+  heroSummary: "From spec to App Store in two weeks: an AI-native planner that\nturns messy input into a living, timeline-aware plan",
   heroImage: motiHero,
   heroImageFit: "cover",
   metaCards: [
     { label: "Role", value: "Product Designer & Builder" },
     { label: "Timeline", value: "2 Weeks · May–June 2026" },
-    { label: "Team", value: "Malik, With Claude + Codex" },
+    { label: "Tools", value: "SwiftUI · Foundation Models · Gemini · Claude · Codex" },
     { label: "Output", value: "Shipped on the App Store · SLM + LLM Integrated" },
   ],
   sections: [
@@ -320,7 +320,7 @@ const moti: ProjectDetailSource = {
       label: "Overview",
       headline: "A Planner That Understands Before It Plans",
       showProjectMeta: true,
-      body: "**Moti is an AI-native iOS planner, designed, built, and shipped solo on the App Store.** Say it or type it, and it comes back as work already sorted by project, waiting for your yes.\n\n[[module:moti-tags]]",
+      body: "**Moti is an AI-native iOS planner, designed, built, and shipped end to end.** Say it or type it, and it comes back as work already sorted by project, waiting for your yes.\n\n[[module:moti-tags]]",
       afterMetaModule: "moti-app-store",
     },
     {

@@ -780,7 +780,7 @@ export function MotiBuildJourney() {
 
 /* ── 9) What Moti Proved — closing takeaways ─────────────────────────────── */
 const takeaways: GridItem[] = [
-  { num: "01", title: "A Complete Loop, Shipped Solo", desc: "Capture, clarify, propose, plan, check in. Built with Claude and Codex, live on the App Store.", icon: Rocket, accent: "violet" },
+  { num: "01", title: "A Complete Loop, Shipped End to End", desc: "Capture, clarify, propose, plan, check in. Built with Claude and Codex, live on the App Store.", icon: Rocket, accent: "violet" },
   { num: "02", title: "Understanding Beat Autonomy", desc: "Trust broke in V0. The model got one job, understanding, and the user kept Add, Refine and Dismiss.", icon: Brain, accent: "emerald" },
   { num: "03", title: "A Spec Settles Behavior, Not Trust", desc: "Behavior and interaction were fixed before any code. How far to trust the model took three versions.", icon: Ruler, accent: "slate" },
 ];
