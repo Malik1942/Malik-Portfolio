@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { MAX_SKILLS, PROJECTS, SKILLS, projectIdsWithDots, projectReturn, projectsInSection } from "./projects";
+import {
+  MAX_SKILLS,
+  PROJECTS,
+  SKILLS,
+  STUDIO_GROUPS,
+  projectIdsWithDots,
+  projectReturn,
+  projectsInSection,
+  studioGroups,
+} from "./projects";
 import { SECTIONS, SECTION_ORDER } from "@/lib/sections";
 
 // The homepage is generated from this list, so a malformed entry is a card that
@@ -43,6 +52,26 @@ describe("homepage project list", () => {
       "studiowaters",
       "zeat",
       "ranger",
+    ]);
+  });
+
+  it("puts every Studio project in a group, and no other project in one", () => {
+    for (const project of PROJECTS) {
+      if (project.section === "studio") {
+        expect(project.studioGroup, `${project.id} needs a studioGroup`).toBeDefined();
+        expect(STUDIO_GROUPS.map((g) => g.key)).toContain(project.studioGroup);
+      } else {
+        expect(project.studioGroup, `${project.id} is not in Studio`).toBeUndefined();
+      }
+    }
+    const grouped = studioGroups().flatMap((group) => group.projects.map((p) => p.id));
+    expect(grouped).toEqual(projectsInSection("studio").map((p) => p.id));
+  });
+
+  it("holds the locked Studio grouping: the software first, then the machines", () => {
+    expect(studioGroups().map((group) => [group.key, group.projects.map((p) => p.id)])).toEqual([
+      ["software", ["calmmouse", "inkwork", "studiowaters"]],
+      ["machines", ["zeat", "ranger"]],
     ]);
   });
 

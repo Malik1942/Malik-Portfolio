@@ -45,7 +45,7 @@ export function ProjectMediaFrame({ fig }: { fig: ProjectSectionFigure }) {
     ) : fig.type === "embed" ? (
       <iframe src={toEmbedUrl(fig.url)} title={fig.title ?? "Video"} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" />
     ) : (
-      <img src={fig.src} alt={fig.alt} loading="lazy" decoding="async" className="w-full h-auto block" />
+      <img src={fig.src} alt={fig.alt} loading="lazy" decoding="async" className="mx-auto w-full h-auto block" />
     );
   const frameClass = fig.type === "embed" ? `${FRAME} aspect-video` : FRAME;
   const caption = fig.type === "embed" ? undefined : fig.caption;

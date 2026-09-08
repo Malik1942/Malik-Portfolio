@@ -59,6 +59,14 @@ import {
   CalmMouseCta,
 } from "./CalmMouseModules";
 import { FlowPrintHmi } from "./FlowPrintHmi";
+import {
+  FlowPrintFindings,
+  FlowPrintHighlights,
+  FlowPrintIterations,
+  FlowPrintLanes,
+  FlowPrintLearnings,
+  FlowPrintRequirements,
+} from "./FlowPrintModules";
 import { NextUp } from "./NextUp";
 import { ProjectMediaFrame } from "./ProjectMediaFrame";
 import { ProjectMetadataSummary } from "./ProjectMetadataSummary";
@@ -216,6 +224,12 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "calmmouse-visit": <CalmMouseVisitCta />,
   "calmmouse-cta": <CalmMouseCta />,
   "flowprint-hmi": <FlowPrintHmi />,
+  "flowprint-highlights": <FlowPrintHighlights />,
+  "flowprint-findings": <FlowPrintFindings />,
+  "flowprint-requirements": <FlowPrintRequirements />,
+  "flowprint-lanes": <FlowPrintLanes />,
+  "flowprint-iterations": <FlowPrintIterations />,
+  "flowprint-learnings": <FlowPrintLearnings />,
 };
 
 export const INLINE_MODULE_KEYS: readonly string[] = Object.keys(INLINE_MODULES);

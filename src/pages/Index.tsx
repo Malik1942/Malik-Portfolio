@@ -6,8 +6,10 @@ import { projectsInSection } from "@/data/projects";
 import HeroSection from "@/components/HeroSection";
 import ProjectList from "@/components/ProjectList";
 import Footer from "@/components/Footer";
+import { StudioTeaser } from "@/components/StudioTeaser";
 import AboutDeepContent from "@/components/AboutDeepContent";
 import { PageTransition } from "@/components/PageTransition";
+import { LensBar, LensProvider, LensRow } from "@/components/Lens";
 
 // aboutOpen: the /about route renders the same page with the About view open on arrival.
 // aboutSection: /about/<section> additionally lands on that section, e.g. "connect".
@@ -85,6 +87,10 @@ const Index = ({
 
   return (
     <PageTransition>
+    {/* The skill lens (?lens=…) spans the hero dots and both Work sections, so
+        the provider sits above all of them. Its bar steps aside with the rest
+        of the portfolio content while About is open. */}
+    <LensProvider>
     <div className={`bg-background ${isAboutOpen ? "" : "min-h-screen"}`}>
       <HeroSection
         isAboutOpen={isAboutOpen}
@@ -118,17 +124,25 @@ const Index = ({
       >
         {/* Work: one section per homepage entry in SECTIONS, in order; each
             derives its own id, eyebrow and layout from the key. Studio is its
-            own page. */}
+            own page, so Work closes with a hand-off to it. */}
         {HOME_SECTION_ORDER.map((key) => (
-          <ProjectList key={key} section={key} projects={projectsInSection(key)} />
+          <ProjectList
+            key={key}
+            section={key}
+            projects={projectsInSection(key)}
+            intro={key === "selected" ? <LensRow /> : undefined}
+          />
         ))}
+        <StudioTeaser />
         <Footer
           onSectionClick={navigateToSection}
           onAboutClick={() => setIsAboutOpen(true)}
           constrained={false}
         />
       </div>
+      <LensBar hidden={isAboutOpen} />
     </div>
+    </LensProvider>
     </PageTransition>
   );
 };

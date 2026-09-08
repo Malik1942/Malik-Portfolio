@@ -417,21 +417,18 @@ html {
 @media (min-width: 768px) {
   .project-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0 clamp(24px, 3vw, 40px);
+    gap: clamp(48px, 5vw, 72px) clamp(24px, 3vw, 40px);
   }
 
   /* The "Next up" rail shows 3 cards, so one always wraps to a second row.
-     The base grid carries no row gap — on the homepage the rows are separated by
-     each card's own stagger offset — which leaves the wrapped card's cover image
-     butted straight against the metadata line of the card above it. Cards there
-     size to their cover's natural ratio, so which card runs long shifts per page;
-     an explicit row gap is what keeps the two rows apart in every combination. */
+     Same row gap as More Work, restated so the wrap stays spaced if the
+     homepage grid gap ever changes. */
   .project-grid--next-up {
     row-gap: clamp(48px, 5vw, 72px);
   }
 }
 
-/* Studio tile grid: 2 columns on mobile, 3 from md up. Uncropped covers, no
+/* Studio tile grid: 2 columns on mobile, 3 from md up. 16/9 covers, no
    stagger and no parallax — those rhythms belong to the case-study sections. */
 .studio-grid {
   display: grid;

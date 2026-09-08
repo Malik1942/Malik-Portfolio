@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useReducedMotion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Footer from "@/components/Footer";
-import { GitHubTile } from "@/components/GitHubTile";
+import { GitHubStrip } from "@/components/GitHubStrip";
+import { LensBar, LensProvider, LensRow } from "@/components/Lens";
 import { PageTransition } from "@/components/PageTransition";
 import ProjectList from "@/components/ProjectList";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -22,9 +23,9 @@ const PAGE_TITLE = `${SECTIONS.studio.label} | Malik Zhang`;
 export const STUDIO_HEADLINE =
   "From industrial design to products I design, build with AI, and ship for real.";
 export const STUDIO_BLURB =
-  "Work shows the process. Studio shows the outcome: apps and tools taken from idea to public release, designed, built, and shipped with an AI workflow that keeps the whole thing moving fast, plus the physical products I designed before moving into software.";
+  "Work shows the process. Studio shows the outcome: apps and tools taken from idea to public release, designed, built, and shipped with my AI workflow that keeps the whole thing moving fast, plus the physical products I designed before moving into software.";
 /** The phrase in the blurb that gets the body-highlight treatment. */
-export const STUDIO_BLURB_HIGHLIGHT = "designed, built, and shipped with an AI workflow";
+export const STUDIO_BLURB_HIGHLIGHT = "designed, built, and shipped with my AI workflow";
 
 // Split the blurb around the highlighted phrase so it can be wrapped in the
 // same semibold, full-strength run the case-study body copy uses for **bold**.
@@ -50,6 +51,9 @@ const Studio = () => {
 
   return (
     <PageTransition>
+      {/* Same skill lens as the homepage: `/studio?lens=…` dims the tiles the
+          same way, and the bar's cross-page link carries the lens back. */}
+      <LensProvider>
       <div className="min-h-screen bg-background">
         <SiteHeader
           hidden={headerHidden}
@@ -77,14 +81,19 @@ const Studio = () => {
             <strong className="font-semibold text-foreground">{STUDIO_BLURB_HIGHLIGHT}</strong>
             {noOrphan(blurbAfter)}
           </p>
+          {/* The skill lens, offered the same way the homepage offers it under
+              the Selected Work eyebrow. */}
+          <LensRow className="mt-8 md:mt-10" />
         </header>
 
+        {/* Two grids under two eyebrows (STUDIO_GROUPS): the software, closed by
+            the GitHub strip, then the industrial design. */}
         <div className="mt-14 md:mt-20">
           <ProjectList
             section="studio"
             projects={projectsInSection("studio")}
             showLabel={false}
-            trailing={<GitHubTile index={projectsInSection("studio").length} />}
+            trailing={{ software: <GitHubStrip /> }}
           />
         </div>
 
@@ -94,7 +103,9 @@ const Studio = () => {
           onAboutClick={() => navigate("/", { state: { openAbout: true } })}
           constrained={false}
         />
+        <LensBar />
       </div>
+      </LensProvider>
     </PageTransition>
   );
 };

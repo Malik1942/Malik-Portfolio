@@ -74,10 +74,42 @@ export type ProjectDestination =
   /** Shown on the homepage, not a link. */
   | { kind: "placeholder" };
 
+// ── Studio groups ────────────────────────────────────────────────────────────
+// The Studio page reads in two halves, named for the two ends of the page's
+// headline ("From industrial design to products I ... build with AI"). Order
+// here is page order: the software first, because it is what the headline
+// promises, then the industrial design it grew out of.
+export type StudioGroupKey = "software" | "machines";
+
+export interface StudioGroup {
+  key: StudioGroupKey;
+  /** Group heading, set as an eyebrow above its grid. */
+  label: string;
+  /** One line under the heading that says what the group is. */
+  blurb: string;
+}
+
+export const STUDIO_GROUPS: readonly StudioGroup[] = [
+  {
+    key: "software",
+    label: "Built with AI",
+    blurb:
+      "A macOS app, a web tool, and a game you play with your hands: designed, built, and shipped with my AI workflow.",
+  },
+  {
+    key: "machines",
+    label: "Industrial design",
+    blurb:
+      "The physical products that came before the software: a stadium-cleaning robot and a ghost-net drone, each designed end to end.",
+  },
+];
+
 export interface Project {
   id: string;
   title: string;
   section: SectionKey;
+  /** Studio projects only: which half of the Studio page the tile sits in. */
+  studioGroup?: StudioGroupKey;
   /** 0 to 3 entries from the controlled vocabulary. */
   skills: Skill[];
   links?: ProjectLink[];
@@ -109,15 +141,17 @@ const CASE_STUDY: ProjectDestination = { kind: "case-study" };
 // sits in More Work as a placeholder card. Selected Work + More Work are the
 // homepage ("Work"); Studio is its own page.
 //
-// Skill chips are intentionally empty until the vocabulary is confirmed (open
-// item 4 in docs/superpowers/specs/2026-09-02-homepage-tiers-design.md).
+// Skill chips are the second facet on a card: sections answer "how deep", the
+// chips answer "which skills". They are also the lens controls (src/lib/lens.ts):
+// clicking one highlights every project that carries it, across all three
+// sections. Order matters — a Studio tile shows only its first two.
 export const PROJECTS: readonly Project[] = [
   // ── Selected Work: full case studies ──
   {
     id: "moti",
     title: "Moti",
     section: "selected",
-    skills: [],
+    skills: ["AI-Native", "iOS / SwiftUI", "Prototyping in Code"],
     links: [{ label: "App Store", url: "https://apps.apple.com/us/app/moti-plan/id6770705491" }],
     destination: CASE_STUDY,
     signal: "An AI-Native Timeline for Real Projects",
@@ -137,7 +171,7 @@ export const PROJECTS: readonly Project[] = [
     id: "neuralyfe",
     title: "NeuraLyfe",
     section: "selected",
-    skills: [],
+    skills: ["Data-Dense UI", "AI-Native", "Physical Prototyping"],
     destination: CASE_STUDY,
     signal: "Brain Impact Visualization for Athletes and Medical Teams",
     description: "1st Place, FigBuild 2026. Making invisible brain trauma visible before it becomes irreversible.",
@@ -154,7 +188,7 @@ export const PROJECTS: readonly Project[] = [
     id: "aura",
     title: "Aura",
     section: "selected",
-    skills: [],
+    skills: ["Interaction Design", "User Research", "Physical Prototyping"],
     destination: CASE_STUDY,
     signal: "AI-Powered Anticipatory Motion Sickness Relief",
     description: "A speculative in-flight motion-sickness concept. Its refined form was preferred by 93.75% of testers.",
@@ -176,7 +210,7 @@ export const PROJECTS: readonly Project[] = [
     id: "oryne",
     title: "Oryne",
     section: "selected",
-    skills: [],
+    skills: ["AI-Native", "iOS / SwiftUI", "Visual Design"],
     links: [{ label: "App Store", url: "https://apps.apple.com/us/app/oryne/id6778995892" }],
     destination: CASE_STUDY,
     signal: "An Ocean for Unfinished Thoughts",
@@ -200,7 +234,7 @@ export const PROJECTS: readonly Project[] = [
     id: "spatial",
     title: "Spatial Editor",
     section: "more",
-    skills: [],
+    skills: ["Interaction Design", "User Research"],
     destination: { kind: "placeholder" },
     description: "MHCI+D capstone: multimodal text input and editing in spatial interfaces. Case study coming.",
     role: "Product Designer",
@@ -213,7 +247,7 @@ export const PROJECTS: readonly Project[] = [
     id: "moodmuse",
     title: "Mood Muse",
     section: "more",
-    skills: [],
+    skills: ["Industrial Design", "Physical Prototyping", "Interaction Design"],
     destination: CASE_STUDY,
     description: "An emotion-sensing paintbrush for autistic children. The brush reads the hand, answers with color and scent, and the app turns the session into a record parent and therapist can share.",
     role: "Industrial Design Lead · Sole UX Designer",
@@ -226,7 +260,7 @@ export const PROJECTS: readonly Project[] = [
     id: "tubular",
     title: "Tubular",
     section: "more",
-    skills: [],
+    skills: ["Industrial Design", "Physical Prototyping", "Prototyping in Code"],
     destination: { kind: "placeholder" },
     description: "Defy gravity. Shape the path. Case study coming.",
     role: "Product Designer, Maker",
@@ -239,24 +273,27 @@ export const PROJECTS: readonly Project[] = [
     id: "flowprint",
     title: "FlowPrint",
     section: "more",
-    skills: [],
+    skills: ["User Research", "Interaction Design"],
     destination: CASE_STUDY,
-    description: "A 3D-printing onboarding system targeting a setup-time cut from about an hour to 15 minutes.",
+    description: "A 3D-printing onboarding system for first-time owners, targeting a setup-time cut from about an hour to 15 minutes.",
     role: "Lead Product Designer",
     coverImage: flowprintCover,
     coverAspect: "1756/988",
     coverFit: "contain",
     year: "2025",
-    details: "A consumer 3D-printing onboarding flow targeting a setup-time cut from about an hour to 15 minutes.\n\nIncludes onboarding flows, real-time print monitoring, and a material recommendation engine.",
+    details: "Research with first-time 3D printer owners, then onboarding, material guidance, and monitoring on the printer's own screen.\n\nTarget journey: first-print setup from about an hour to 15 minutes.",
   },
 
   // ── Studio: the thing is the story. Small software designed, built, and shipped
-  // with AI tools, then the industrial design work that came before it. ──
+  // with AI tools (studioGroup "software", shown as "Built with AI"), then the
+  // industrial design work that came before it ("machines", shown as
+  // "Industrial design"). Each group is its own grid on the page. ──
   {
     id: "calmmouse",
     title: "CalmMouse",
     section: "studio",
-    skills: [],
+    studioGroup: "software",
+    skills: ["Prototyping in Code", "AI-Native"],
     links: [{ label: "Live", url: "https://calmmouse.malikzhang.com/" }],
     destination: CASE_STUDY,
     description: "A macOS menu-bar app that stops the Magic Mouse from scrolling every time you click: the fix Apple never shipped.",
@@ -265,7 +302,9 @@ export const PROJECTS: readonly Project[] = [
     coverImage: calmmouseCardPoster,
     coverAspect: "1280/720",
     // The hero loop: the site's mouse with its tap ripple, a punch into the
-    // Without/With demo, and a pull back wide. Poster is the loop's first frame.
+    // Without/With demo, and a pull back wide to the title card. coverImage is
+    // that closing frame, so the tile rests on "CalmMouse" rather than the
+    // opening mouse-only shot.
     coverVideo: calmmouseCardVideo,
     details: "A signed, notarized, self-updating native macOS app, free and open source.\n\nThe design problem underneath: a product that succeeds when you notice nothing.",
   },
@@ -273,7 +312,8 @@ export const PROJECTS: readonly Project[] = [
     id: "inkwork",
     title: "Inkwork",
     section: "studio",
-    skills: [],
+    studioGroup: "software",
+    skills: ["Design Systems", "Visual Design", "Prototyping in Code"],
     links: [{ label: "Live", url: "https://www.malikzhang.com/inkwork" }],
     destination: CASE_STUDY,
     description: "A styled-QR studio with a point of view: pick a style, check the proof, export",
@@ -290,7 +330,8 @@ export const PROJECTS: readonly Project[] = [
     id: "studiowaters",
     title: "Studio Waters",
     section: "studio",
-    skills: [],
+    studioGroup: "software",
+    skills: ["Prototyping in Code", "Interaction Design", "AI-Native"],
     destination: CASE_STUDY,
     description: "A CPX-powered interactive game built through vibe coding",
     role: "Designer + Builder",
@@ -303,7 +344,8 @@ export const PROJECTS: readonly Project[] = [
     id: "zeat",
     title: "ZEAT",
     section: "studio",
-    skills: [],
+    studioGroup: "machines",
+    skills: ["Industrial Design", "Physical Prototyping"],
     destination: CASE_STUDY,
     description: "A cleaning robot for stadium grandstands, designed around the eight-hour gap between events, when three tons of trash have to disappear.",
     role: "Industrial Designer",
@@ -316,7 +358,8 @@ export const PROJECTS: readonly Project[] = [
     id: "ranger",
     title: "RANGER",
     section: "studio",
-    skills: [],
+    studioGroup: "machines",
+    skills: ["Industrial Design", "Interaction Design"],
     destination: CASE_STUDY,
     description: "An underwater drone that finds abandoned fishing nets, fires an airbag through the mesh, and lets the net float itself up to the boat.",
     role: "Industrial Designer",
@@ -330,6 +373,13 @@ export const PROJECTS: readonly Project[] = [
 /** Projects in one section, in display order. */
 export const projectsInSection = (section: SectionKey): Project[] =>
   PROJECTS.filter((project) => project.section === section);
+
+/** The Studio projects split into their groups, in page order. */
+export const studioGroups = (): (StudioGroup & { projects: Project[] })[] =>
+  STUDIO_GROUPS.map((group) => ({
+    ...group,
+    projects: projectsInSection("studio").filter((project) => project.studioGroup === group.key),
+  }));
 
 export const getProject = (id: string): Project | undefined =>
   PROJECTS.find((project) => project.id === id);
@@ -355,3 +405,7 @@ export const sectionLabelForProject = (id: string): SectionLabel => {
 /** Ids of every project whose section draws hero dots. */
 export const projectIdsWithDots = (): string[] =>
   PROJECTS.filter((project) => SECTIONS[project.section].dots !== "none").map((p) => p.id);
+
+/** Every project carrying a skill, in list order, across all sections. */
+export const projectsWithSkill = (skill: Skill): Project[] =>
+  PROJECTS.filter((project) => project.skills.includes(skill));

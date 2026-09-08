@@ -2,6 +2,8 @@ import { useEffect, useRef, useCallback } from "react";
 import { heroOrbs, type OrbTier } from "./dotGridOrbs";
 import { scrollToTarget } from "@/lib/scrollToTarget";
 import { nextDotGridCanvasSize } from "./dotGridSize";
+import { useLens } from "./Lens";
+import { lensProjectIds } from "@/lib/lens";
 
 // ── Cluster positions: balanced quadrant layout ──
 // 0: Who I Am — upper-left
@@ -31,7 +33,16 @@ interface Orb {
   mass: number;
   id: string;
   hoverT: number;
+  /** Skill lens (see src/lib/lens.ts). lensT eases toward 1 while a lens is
+   *  active and this project is outside it; promoteT toward 1 while a lens is
+   *  active and this project is inside it. Both are render-only. */
+  lensT: number;
+  promoteT: number;
 }
+
+// How far an orb outside the active lens recedes: to 30%, the same level the
+// cards below settle to (the lens-dim token), so the hero and the page agree.
+const LENS_FADE = 0.7;
 
 // ── Orb list ─────────────────────────────────────────────────────────────────
 // Which projects get an orb, and their tier, come from the project list; the
@@ -212,6 +223,15 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
   const zonesRef = useRef<Zone[]>([]);
   // Honor the OS "reduce motion" setting — freeze ambient star/orb motion when set.
   const prefersReducedMotionRef = useRef(false);
+  // The active skill lens as the set of project ids inside it, or null for no
+  // lens. Read by the draw loop each frame; the orbs ease toward it. Nothing
+  // about the click-to-scroll path reads this — a faded orb is still a target.
+  const lens = useLens()?.lens ?? null;
+  const lensIdsRef = useRef<Set<string> | null>(null);
+
+  useEffect(() => {
+    lensIdsRef.current = lens ? lensProjectIds(lens) : null;
+  }, [lens]);
 
   useEffect(() => {
     aboutModeRef.current = aboutMode;
@@ -282,6 +302,8 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
           : (isMobile ? 2.2 : 3.2) + Math.random() * 0.8,
       mass: 1 + Math.random() * 2,
       hoverT: 0,
+      lensT: 0,
+      promoteT: 0,
     }));
 
     // Cluster positions
@@ -686,12 +708,21 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         const col = orb.color === "red" ? RED : GOLD;
         const dim = orb.tier === "dim";
 
+        // Skill lens: ease each orb toward its place in the lens. Outside it,
+        // the orb recedes by LENS_FADE; inside it, a dim orb is promoted — held
+        // at full strength with its label up, so the hero names every match.
+        const lensIds = lensIdsRef.current;
+        const lensEase = reduced ? 1 : 0.06;
+        orb.lensT += ((lensIds && !lensIds.has(orb.id) ? 1 : 0) - orb.lensT) * lensEase;
+        orb.promoteT += ((lensIds && lensIds.has(orb.id) ? 1 : 0) - orb.promoteT) * lensEase;
+        const lensAlpha = 1 - LENS_FADE * orb.lensT;
+
         // Mobile: a dim orb is a slightly brighter background star — no ring,
         // glow or label — so it never crowds the labeled bright column.
         if (dim && !isDesktop) {
           ctx.beginPath();
           ctx.arc(orb.x, orb.y, orb.baseSize, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${col}, 0.55)`;
+          ctx.fillStyle = `rgba(${col}, ${0.55 * lensAlpha})`;
           ctx.fill();
           return;
         }
@@ -715,9 +746,11 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
 
         const hoverScale = 1 + easedH * 0.25;
         // Dim tier: everything at roughly half strength until hovered, and the
-        // label only exists while hovered.
-        const tierAlpha = dim ? 0.5 + easedH * 0.5 : 1;
-        const labelAlpha = dim ? easedH : 1;
+        // label only exists while hovered — unless the lens promotes it. Then
+        // the whole thing is scaled by where the orb stands in the lens.
+        const restTier = dim ? 0.5 + easedH * 0.5 : 1;
+        const tierAlpha = (restTier + (1 - restTier) * orb.promoteT) * lensAlpha;
+        const labelAlpha = (dim ? Math.max(easedH, orb.promoteT) : 1) * lensAlpha;
         const ringAlpha = (0.05 * opacityBreath + easedH * 0.16) * tierAlpha;
         const glowRadius = (dim ? 22 : 34) + easedH * 14;
         const glowIntensity = (0.08 * opacityBreath + easedH * 0.10) * breath * tierAlpha;

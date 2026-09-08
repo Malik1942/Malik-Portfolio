@@ -123,24 +123,26 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
   },
 
   "component-chip": {
-    source: "src/components/ui/Chip.tsx → Chip, LinkChip",
+    source: "src/components/ui/Chip.tsx → Chip, LinkChip, ChipButton",
     summary:
-      "Small rounded labels in a metadata line. Skill chips and the Coming soon marker are passive; the outbound LinkChip carries a filled surface and stronger ink so it reads as clickable at a glance. One recipe, two forms, three materials.",
+      "Small rounded labels in a metadata line. The Coming soon marker is passive; the outbound LinkChip carries a filled surface and stronger ink so it reads as clickable at a glance. Skill chips are ChipButtons: they rest as passive labels and become the skill-lens control on the homepage and Studio, taking the link material while pressed. One recipe, two forms, four materials.",
     contextHref: "/#projects",
     contextLabel: "View chips in context",
     recipe: {
       form: "Pill (rounded-full) that never wraps. label: 8px by 4px padding, label size, uppercase, eyebrow tracking, leading-none. text: 16px by 8px padding at body-small, sentence case.",
-      material: "Hairline border on every chip. passive: tertiary ink, no fill. lead: lead ink on an 8% secondary wash. link: 8% foreground wash and lead ink, filling to 14% and primary ink on hover, strong focus ring.",
-      motion: "Passive chips do not move. The link chip transitions background, border, and color on duration.medium with ease.settle, and its arrow nudges one pixel out on hover.",
-      variants: "kind changes form only; tone changes material only. LinkChip is kind label with tone link plus the outbound arrow.",
+      material: "Hairline border on every chip. passive: tertiary ink, no fill. lead: lead ink on an 8% secondary wash. link: 8% foreground wash and lead ink, filling to 14% and primary ink on hover, strong focus ring. toggle: passive at rest, border and lead ink on hover, and the 14% wash with primary ink while aria-pressed.",
+      motion: "Passive chips do not move. The link and toggle chips transition background, border, and color on duration.medium with ease.settle; the link chip's arrow nudges one pixel out on hover.",
+      variants: "kind changes form only; tone changes material only. LinkChip is kind label with tone link plus the outbound arrow. ChipButton is kind label with tone toggle, as a real button.",
     },
-    signature: '<Chip kind="label" tone="passive">Interaction</Chip>\n<LinkChip link={{ label: "App Store", url }} />',
+    signature: '<Chip kind="label" tone="passive">Coming soon</Chip>\n<LinkChip link={{ label: "App Store", url }} />\n<ChipButton pressed={lens === skill} onPress={() => toggle(skill)}>{skill}</ChipButton>',
     props: [
       { name: "kind", type: '"label" | "text"', default: '"label"', description: "Form. label is the uppercase eyebrow chip; text is a sentence-case phrase chip." },
       { name: "tone", type: '"passive" | "lead"', default: '"passive"', description: "Material. lead is for phrase chips inside a case-study module." },
       CLASS_NAME_PROP,
       { name: "children", type: "ReactNode", required: true, description: "The chip text. One or two words for label; a short phrase for text." },
       { name: "link", type: "ProjectLink", required: true, description: "LinkChip only. The outbound destination; the label is the chip text." },
+      { name: "pressed", type: "boolean", required: true, description: "ChipButton only. Whether this chip's skill is the active lens; rendered as aria-pressed." },
+      { name: "onPress", type: "() => void", required: true, description: "ChipButton only. Toggles the lens. The click stops at the chip so the card beneath never opens." },
     ],
     dataShape: {
       name: "ProjectLink",
@@ -157,11 +159,12 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
     ],
     antipairings: [
       "Do not nest a LinkChip inside another anchor. On a card it sits above the stretched card link at z-2, not inside it.",
-      "Do not use passive chips as filters or toggles. They are labels; a control needs a button and a state.",
+      "Do not use passive chips as filters or toggles. They are labels; a control needs a button and a state, which is what ChipButton is.",
+      "Do not make the lens reorder or hide cards. It changes brightness only: sections carry importance, and the lens must not be able to overrule them.",
     ],
     accessibility: [
-      { title: "Semantics", body: "Passive chips are spans read in the flow of the metadata line. LinkChip is a real anchor with the outbound rel, so middle-click and cmd-click behave, and stopPropagation keeps the click off the card's delegated handler." },
-      { title: "Focus", body: "LinkChip uses the strong focus ring with a canvas offset because it sits on a filled wash over media. Passive chips are not focusable." },
+      { title: "Semantics", body: "Passive chips are spans read in the flow of the metadata line. LinkChip is a real anchor with the outbound rel, so middle-click and cmd-click behave, and stopPropagation keeps the click off the card's delegated handler. ChipButton is a button with aria-pressed, so the active lens is announced as state, not as a colour." },
+      { title: "Focus", body: "LinkChip and ChipButton use the strong focus ring with a canvas offset because they sit on a filled wash over media. Passive chips are not focusable." },
       { title: "Contrast", body: "Tertiary ink at 12px uppercase clears AA on the canvas. The link chip's lead ink on an 8% wash is higher still." },
       { title: "Target size", body: "The link chip is about 22px tall, below the 44px target token. It is the one control on a card that is not the card itself, and the card around it is the fallback target." },
     ],
@@ -384,9 +387,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
     contextHref: "/#projects",
     contextLabel: "View project cards in context",
     recipe: {
-      form: "A cover in a reserved aspect box (coverAspect on every project, so the page never grows mid-scroll), large radius, then title, signal, description, and the metadata line of role, year, chips. Portrait and landscape alternate per pair in the grid; Studio tiles are uncropped.",
+      form: "A cover in a reserved aspect box (coverAspect on every project, so the page never grows mid-scroll), large radius, then title, signal, description, and the metadata line of role, year, chips. Selected Work heroes keep each cover's own ratio. Studio tiles and the More Work grid crop into a shared 16/9 box.",
       material: "The card wash (projectCard.surface) behind the media and the warm hover overlay (projectCard.hoverOverlay) on top. Title in primary ink, description in lead, metadata in secondary. Strong focus ring with a 4px offset, since the ring sits over media.",
-      motion: "Enters on MOTION.enter, staggered by its global index. Media lifts on ease.move over duration.medium on hover. A cover reel plays when the card is half in view, never on load. The hero-dot arrival pulse is its own 0.28s keyframe, tuned separately and left alone.",
+      motion: "Enters on MOTION.enter, staggered by its global index. Media lifts on ease.move over duration.medium on hover. A cover reel plays only while hovered, never on load or on arrival. The hero-dot arrival pulse is its own 0.28s keyframe, tuned separately and left alone.",
       variants: "horizontal and imageRight change form only. dotClass changes material only. Placeholder destination removes the link and the motion.",
     },
     signature: "<ProjectCard project={project} projectId=\"moti\" dotClass=\"bg-dot-red\" globalIndex={0} />",
@@ -413,7 +416,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
         { name: "signal", type: "string", description: "Short editorial line above the description." },
         { name: "coverImage", type: "string", description: "Cover still. Alt text is the project title." },
         { name: "coverAspect", type: "string", description: "Reserves the media box before the image loads, so hero dot navigation lands on the right card." },
-        { name: "coverVideo", type: "string", description: "Cover reel. Never autoplays or loops: the card starts it, and reduced motion parks it entirely." },
+        { name: "coverVideo", type: "string", description: "Cover reel. Plays on hover only, never loops: the card starts and parks it, and reduced motion leaves it off entirely." },
         { name: "coverFit", type: '"cover" | "contain"', description: "Media fit inside the frame." },
         { name: "details", type: "string", description: "Extra copy for editorial rows." },
         { name: "destination", type: "ProjectDestination", required: true, description: "case-study, video, external, or placeholder. Placeholder is the one card with no click target." },
@@ -426,7 +429,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
     tokenGap:
       "The hero-dot arrival pulse keeps its own 0.28s keyframe on the move curve. It is tuned as part of the dot-to-card animation and is documented in the repo notes as off limits to refactoring.",
     pairings: [
-      { partner: "Project list", relationship: "The only supported container. It supplies dotClass, globalIndex, and the layout flags, and it owns the alternating portrait/landscape rhythm. A card mounted outside it loses its stagger and its section accent." },
+      { partner: "Project list", relationship: "The only supported container. It supplies dotClass, globalIndex, and the layout flags, and it owns the grid rhythm. A card mounted outside it loses its stagger and its section accent." },
       { partner: "Homepage hero dot grid", relationship: "Clicking a project dot eases the page to the matching card and fires project-dot-arrive on landing. The card answers with a brief pulse and force-reveals itself, since the scroll outruns the entrance animation." },
       { partner: "Chip", relationship: "The metadata line's link chips and skill chips. The link chip sits above the card's stretched anchor, not inside it." },
       { partner: "Case-study structure", relationship: "The card's destination. projectId must resolve to a route under /project/:id, or the card should ship without it and stay inert." },
@@ -445,7 +448,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
     ],
     tests: [
       { path: "src/components/projectDotArrival.test.tsx", covers: ["Flags the matching card as arriving so the landing pulse can play", "Leaves other cards untouched", "Reveals a card that never entered the viewport, so it is composed on landing", "Announces arrival immediately when the target is already in place"] },
-      { path: "src/components/coverVideoPlayback.test.tsx", covers: ["Never autoplays or loops: the reel is driven from the card, not the element", "Stays parked below the fold, and waits out the settle delay after arrival", "Ignores a card that only sweeps through the viewport, and does not replay on a second pass", "Replays from the start on pointer re-entry without restarting mid-reel", "Lets an early hover win over the pending arrival start, without a double take"] },
+      { path: "src/components/coverVideoPlayback.test.tsx", covers: ["Never autoplays or loops: the reel is driven from the card, not the element", "Stays parked below the fold and on arrival; only hover starts it", "Does not replay on a second pass through the viewport", "Plays from the start on pointer entry, parks on leave, and does not restart mid-reel"] },
       { path: "src/components/coverAspect.test.ts", covers: ["Covers every project card that has a cover image"] },
       { path: "src/components/projectCardMeta.test.tsx", covers: ["Renders a placeholder card with no click target", "Gives an external tile an outbound card link and an arrow glyph"] },
     ],
@@ -462,25 +465,26 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
     contextHref: "/#projects",
     contextLabel: "View project list in context",
     recipe: {
-      form: "A section with the homepage id the header scrolls to. Heading row: a 6px collection dot and the section label. Grid: one column, two from 768px with alternating portrait and landscape pairs (.project-grid); Studio: two columns, three from 768px, uncropped (.studio-grid).",
+      form: "A section with the homepage id the header scrolls to. Heading row: a 6px collection dot and the section label. Grid: one column, two from 768px with uniform 16/9 covers (.project-grid); Studio: two columns, three from 768px, 16/9 (.studio-grid), split into two groups (Apps and tools, then Machines) each under its own eyebrow and one-line blurb.",
       material: "The dot in the collection accent, red for Selected Work and gold for Workshop. Label in tertiary ink. Cards bring their own surfaces.",
-      motion: "Cards enter on MOTION.enter, staggered by globalIndex across every section so the page reads as one sequence. Selected Work adds a slow parallax on scroll. Studio has no stagger and no parallax.",
-      variants: "section changes form, material, and motion together: it selects the list layout, the dot color, and whether parallax runs. showLabel and trailing change form only.",
+      motion: "Cards enter on MOTION.enter, staggered by globalIndex across every section so the page reads as one sequence. Studio restarts the stagger per group. Studio and More Work have no scroll parallax.",
+      variants: "section changes form, material, and motion together: it selects the list layout and the dot color. showLabel and trailing change form only.",
     },
     signature: '<ProjectList section="selected" projects={projects} />',
     props: [
       { name: "section", type: '"selected" | "more" | "studio"', required: true, description: "Which collection. Also selects the dot color and the grid." },
       { name: "projects", type: "ProjectCardData[]", required: true, description: "The cards, in editorial order." },
       { name: "showLabel", type: "boolean", default: "true", description: "The Studio page draws its own heading above the grid, so it hides the eyebrow." },
-      { name: "trailing", type: "ReactNode", description: "Studio only: rendered after the last tile, inside the grid (the GitHub tile)." },
+      { name: "trailing", type: "Partial<Record<StudioGroupKey, ReactNode>>", description: "Studio only: rendered under a group's grid, keyed by group (the GitHub strip closes the software group)." },
     ],
     tokens: ["color.accent.selectedWork", "color.accent.workshop", "color.text.primary", "color.text.tertiary", "duration.reveal", "ease.enter", "font.family.body"],
     tokenGap:
-      "Grid gaps and the alternating aspect ratios are local clamp() values in index.css; the spacing tokens describe the rhythm but do not drive the grid.",
+      "Grid gaps are local clamp() values in index.css; the spacing tokens describe the rhythm but do not drive the grid.",
     pairings: [
       { partner: "Project card", relationship: "The list supplies dotClass, globalIndex, and the layout flags; the card never chooses its own place." },
       { partner: "Site header", relationship: "Work in the header scrolls to the Selected Work section id; the list owns that id." },
-      { partner: "Studio page", relationship: "Hosts the studio section with showLabel off and the GitHub tile trailing." },
+      { partner: "Studio page", relationship: "Hosts the studio section with showLabel off, grouped by studioGroup, and the GitHub strip trailing the software group." },
+      { partner: "Studio teaser", relationship: "The homepage hands off to Studio with a teaser after More Work: the section label, the Work / Studio line, ZEAT shown in three views, and a Go to Studio button. It reuses SectionLabel, not the list." },
       { partner: "Case-study structure", relationship: "Next up at the foot of a case study reuses the .project-grid and three cards, but is its own component so it never shares a name with More Work." },
     ],
     antipairings: [
@@ -489,15 +493,15 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
     ],
     accessibility: [
       { title: "Semantics", body: "Each collection is a section with a stable id and a visible heading, so the header, footer, and hero dots can all target it." },
-      { title: "Order", body: "Keyboard order matches visual order; the alternating aspect ratios change height, never sequence." },
-      { title: "Motion", body: "The entrance stagger and parallax are not gated by reduced motion. Cover reels inside the cards are." },
+      { title: "Order", body: "Keyboard order matches visual order; the 16/9 cover box changes crop, never sequence." },
+      { title: "Motion", body: "The entrance stagger is not gated by reduced motion. Cover reels inside the cards are." },
     ],
     tests: [
-      { path: "src/pages/homepageSections.test.tsx", covers: ["Renders every section-type nav item as a DOM id the header can scroll to", "Renders the homepage sections in order with their eyebrows, and not the Studio page", "Gives every homepage project a card in its own section, and every card a link, with the placeholder as the one inert card"] },
-      { path: "src/pages/studio.test.tsx", covers: ["Renders every Studio project as a clickable tile", "Ends the grid with a GitHub tile that opens the profile in a new tab", "Does not repeat the section eyebrow under the page title"] },
+      { path: "src/pages/homepageSections.test.tsx", covers: ["Renders every section-type nav item as a DOM id the header can scroll to", "Renders the homepage sections in order with their eyebrows, and not the Studio page", "Gives every homepage project a card in its own section, and every card a link, with the placeholder as the one inert card", "Closes Work with a Studio hand-off after More Work, with a Go to Studio button and a Studio project", "Aligns More Work covers to 16/9 without changing Selected Work hero ratios"] },
+      { path: "src/pages/studio.test.tsx", covers: ["Renders every Studio project as a clickable tile", "Splits the tiles into the software and the machines, each under its own heading, in that order", "Closes the software group with a GitHub strip that opens the profile in a new tab", "Does not repeat the section eyebrow under the page title", "Puts every Studio cover in the same 16/9 box"] },
     ],
     testGaps: [
-      "The portrait and landscape pairing and the parallax are checked by eye.",
+      "The 16/9 grid crop is checked by eye.",
     ],
   },
 

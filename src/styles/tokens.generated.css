@@ -51,6 +51,8 @@
   --component-case-study-module-surface: 240 4% 5%;
   --component-lightbox-backdrop: 0 0% 0% / 0.9;
   --component-project-card-hover-overlay: 40 6% 90% / 0.04;
+  --component-project-card-lens-dim: 0.3;
+  --component-project-card-rest-dim: 0.88;
   --component-project-card-surface: 0 0% 8% / 0.15;
   --component-project-section-flash: 40 6% 90% / 0.018;
   --component-resume-accent: 158 100% 23%;

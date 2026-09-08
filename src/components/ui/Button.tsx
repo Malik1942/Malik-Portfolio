@@ -6,7 +6,8 @@ import { defineRecipe } from "@/design-system/system/recipe";
  *
  * `primary` is the filled pill: the strongest affordance in the system,
  * reserved for the one live-product link on a case study (App Store, a
- * shipped site). `secondary` is the bordered mono control used on utility
+ * shipped site) and the homepage's single hand-off to Studio (which renders
+ * a router Link with `buttonRecipe`). `secondary` is the bordered mono control used on utility
  * pages (email support, download a resume) where the action is useful but
  * must not compete with the copy.
  *

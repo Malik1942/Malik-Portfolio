@@ -1,13 +1,22 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { noOrphan } from "@/lib/noOrphan";
 import { SECTIONS, type SectionKey } from "@/lib/sections";
-import { MAX_SKILLS, type ProjectDestination, type ProjectLink, type Skill } from "@/data/projects";
+import {
+  MAX_SKILLS,
+  STUDIO_GROUPS,
+  type ProjectDestination,
+  type ProjectLink,
+  type Skill,
+  type StudioGroupKey,
+} from "@/data/projects";
 import { ArrowUpRight, Play } from "lucide-react";
-import { Chip, LinkChip } from "./ui/Chip";
+import { Chip, ChipButton, LinkChip } from "./ui/Chip";
 import { VideoLightbox, type LightboxVideo } from "./VideoLightbox";
+import { useLens } from "./Lens";
+import { lensMatch } from "@/lib/lens";
 import { DURATION, EASE, MOTION } from "@/design-system/system/motion";
 
 /** What a card needs to render. `Project` in src/data/projects.ts is the strict
@@ -35,6 +44,8 @@ export interface ProjectCardData {
   links?: ProjectLink[];
   /** Defaults to a case-study route when the card has an id. */
   destination?: ProjectDestination;
+  /** Studio only: which group's grid the tile belongs in. */
+  studioGroup?: StudioGroupKey;
 }
 
 interface ProjectListProps {
@@ -42,30 +53,22 @@ interface ProjectListProps {
   projects: ProjectCardData[];
   /** The Studio page draws its own heading above the grid, so it hides the eyebrow. */
   showLabel?: boolean;
-  /** Studio only: rendered after the last tile, inside the grid (the GitHub tile). */
-  trailing?: ReactNode;
+  /** Selected Work only: something set between the eyebrow and the first row
+   *  (the skill lens row). */
+  intro?: ReactNode;
+  /** Studio only: something rendered under a group's grid, keyed by the group
+   *  (the GitHub strip closes the software group). */
+  trailing?: Partial<Record<StudioGroupKey, ReactNode>>;
 }
 
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-// Grid alternates portrait/landscape per pair — creates height rhythm without fixed px.
-// Pair 0: left=portrait, right=landscape. Pair 1: left=landscape, right=portrait. etc.
-function getGridAspectRatio(index: number): string {
-  const pair    = Math.floor(index / 2);
-  const pos     = index % 2;
-  const portrait = pair % 2 === 0 ? pos === 0 : pos === 1;
-  return portrait ? "4/5" : "3/2";
-}
-
-// Right-column cards stagger down for organic rhythm
-function getGridMarginTop(index: number): string {
-  return index % 2 === 1 ? "clamp(24px, 3vw, 44px)" : "0px";
-}
-
-// How long a cover video waits after its card lands on screen before the reel
-// runs. Without it the reel competes with the scroll that brought it into view.
-const COVER_VIDEO_START_DELAY_MS = 600;
+// Studio tiles and the More Work grid share one cover box. The source files
+// keep their own ratios (coverAspect / coverAspect.test.ts); object-cover
+// crops them into this frame so a row of cards lines up. Selected Work hero
+// rows do not use it — they stay at each cover's own shape.
+const GRID_COVER_ASPECT = "16/9";
 
 // ─── Media helper (shared) ────────────────────────────────────────────────────
 // Default: w-full h-auto — container scales to the image's natural ratio.
@@ -107,77 +110,60 @@ const CardMedia = ({
 
   // A cover video is motion the visitor never asked for, so reduced-motion falls
   // through to the still below — which is why a card with `coverVideo` should also
-  // carry a `coverImage`. It doubles as the video's poster, so the card paints a
-  // real frame instead of an empty box while the video decodes, and it's what the
-  // reel returns to at the top of every run.
+  // carry a `coverImage`. That still is the card's cover: the video's `poster`,
+  // and a real <img> on top of the reel, because once the clip has a decoded
+  // frame the browser paints that instead of the poster attribute. Hover hides
+  // the still; leaving it brings it back.
   const shouldReduceMotion = useReducedMotion();
   const hasVideo = !!project.coverVideo && !shouldReduceMotion;
 
   // ── Cover video playback ──
-  // The reel plays on arrival, once, and then holds on its closing frame. It does
-  // NOT autoplay at page load: a hero card's video would be several seconds deep by
-  // the time you scrolled down to it, so you'd never see the opening. And it does
-  // not loop — a second viewing is something the visitor asks for by hovering,
-  // rather than ambient motion running in the corner of the page forever.
+  // Hover-only, and it does not loop. Arrival is not a request to watch the
+  // reel; hovering is. The clip is fetched once the card is within a viewport
+  // of the screen (or the pointer enters), so hover can start without waiting
+  // on the download. Latched: once fetching, it stays fetched — leaving the
+  // neighbourhood must never yank the src back out of a video that may already
+  // have played.
   const videoRef = useRef<HTMLVideoElement>(null);
   const mediaRef = useRef<HTMLDivElement>(null);
-  // Deliberately not `once: true`. A one-shot latch fires on any intersection the
-  // observer ever reports, including the transient ones during load — restoring
-  // the scroll position on a reload can sweep a card through the viewport, which
-  // burned the trigger for a card the visitor never actually saw. Watching
-  // continuously lets the delay below double as the filter for those.
-  const mediaInView = useInView(mediaRef, { amount: 0.5 });
-  const startTimer = useRef<number>();
-  const hasPlayed = useRef(false);
-
-  // ── Cover video fetch ──
-  // The reel is not fetched until it is plausibly about to be watched. With a
-  // src on the element from mount, every page — the home page and, through the
-  // "Next up" strip, every case study — pulled the ~½ MB clip during the
-  // first seconds of load, competing with the fonts and images that the loading
-  // screen was actually waiting on. The card paints from its poster regardless,
-  // so the visitor cannot tell the difference; the clip starts downloading once
-  // the card is within a viewport of the screen (or the pointer enters it),
-  // which is seconds of lead before the settle delay below would let it play.
-  // Latched: once fetching, it stays fetched — leaving the neighbourhood must
-  // never yank the src back out of a video that has already played.
   const mediaNear = useInView(mediaRef, { margin: "100% 0px 100% 0px" });
   const [fetchVideo, setFetchVideo] = useState(false);
   useEffect(() => {
-    if (hasVideo && (mediaNear || mediaInView || hovered)) setFetchVideo(true);
-  }, [hasVideo, mediaNear, mediaInView, hovered]);
+    if (hasVideo && (mediaNear || hovered)) setFetchVideo(true);
+  }, [hasVideo, mediaNear, hovered]);
 
   const playFromStart = useCallback(() => {
-    // Cancels a still-pending arrival start, so an early hover doesn't get yanked
-    // back to frame 0 when that timer fires a moment later.
-    window.clearTimeout(startTimer.current);
     const video = videoRef.current;
     if (!video) return;
     video.currentTime = 0;
     video.play().catch(() => {});
   }, []);
 
-  // First run: the card has to be half on screen and *stay* there for the delay.
-  // Leaving the viewport cancels the pending start, so only a card the visitor
-  // actually settled on gets to play. Once is enough — scrolling back to it later
-  // is not a request to see it again; hovering is.
-  useEffect(() => {
-    if (!hasVideo || !mediaInView || hasPlayed.current) return;
-    startTimer.current = window.setTimeout(() => {
-      hasPlayed.current = true;
-      playFromStart();
-    }, COVER_VIDEO_START_DELAY_MS);
-    return () => window.clearTimeout(startTimer.current);
-  }, [hasVideo, mediaInView, playFromStart]);
-
-  // Replay: on the pointer *entering* the card, not on every render where it
+  // Play on the pointer *entering* the card, not on every render where it
   // happens to already be inside — otherwise a re-render mid-reel restarts it.
+  // Leaving pauses and rewinds; the still on top is what the visitor sees.
   const wasHovered = useRef(false);
   useEffect(() => {
     const entered = hovered && !wasHovered.current;
+    const left = !hovered && wasHovered.current;
     wasHovered.current = hovered;
-    if (hasVideo && entered) playFromStart();
+    if (!hasVideo) return;
+    if (entered) {
+      playFromStart();
+      return;
+    }
+    if (left) {
+      const video = videoRef.current;
+      if (!video) return;
+      video.pause();
+      video.currentTime = 0;
+    }
   }, [hovered, hasVideo, playFromStart]);
+
+  const liftStyle = {
+    transform: hovered ? "scale(1.03)" : "scale(1)",
+    transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
+  };
 
   return (
     <div
@@ -186,17 +172,28 @@ const CardMedia = ({
       style={reservedAspect ? { aspectRatio: reservedAspect } : undefined}
     >
       {hasVideo ? (
-        <video
-          ref={videoRef}
-          src={fetchVideo ? project.coverVideo : undefined}
-          poster={project.coverImage}
-          muted playsInline preload="auto"
-          className={mediaClass}
-          style={{
-            transform: hovered ? "scale(1.03)" : "scale(1)",
-            transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
-          }}
-        />
+        <>
+          <video
+            ref={videoRef}
+            src={fetchVideo ? project.coverVideo : undefined}
+            poster={project.coverImage}
+            muted playsInline preload="auto"
+            className={mediaClass}
+            style={liftStyle}
+          />
+          {project.coverImage ? (
+            <img
+              src={project.coverImage}
+              alt=""
+              aria-hidden="true"
+              className={`${mediaClass} pointer-events-none absolute inset-0`}
+              style={{
+                ...liftStyle,
+                opacity: hovered ? 0 : 1,
+              }}
+            />
+          ) : null}
+        </>
       ) : project.coverImage ? (
         <img
           src={project.coverImage}
@@ -204,10 +201,7 @@ const CardMedia = ({
           loading="lazy"
           decoding="async"
           className={mediaClass}
-          style={{
-            transform: hovered ? "scale(1.03)" : "scale(1)",
-            transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
-          }}
+          style={liftStyle}
         />
       ) : (
         <div className="w-full aspect-video flex items-center justify-center">
@@ -235,9 +229,28 @@ const CardMedia = ({
 
 // ─── Chips ────────────────────────────────────────────────────────────────────
 // Rendered in the metadata line after role and year, never above the title.
-// Skill chips are passive and low-contrast; the outbound LinkChip (see
-// LinkChip.tsx) is the one that has to read as clickable.
-const SkillChip = ({ skill }: { skill: Skill }) => <Chip>{skill}</Chip>;
+// Skill chips rest as passive, low-contrast labels; the outbound LinkChip (see
+// Chip.tsx) is the one that has to read as clickable at a glance.
+//
+// Inside a LensProvider (the homepage and Studio) every skill chip is also the
+// lens control: pressing it holds that skill up against the whole page, and the
+// pressed one takes the link material so the active lens is visible on every
+// card that carries it. Outside a provider (the Next up strip, the specimens)
+// the chip is the plain label it always was.
+const SkillChip = ({ skill }: { skill: Skill }) => {
+  const lens = useLens();
+  if (!lens) return <Chip>{skill}</Chip>;
+  const pressed = lens.lens === skill;
+  return (
+    <ChipButton
+      pressed={pressed}
+      onPress={() => lens.toggle(skill)}
+      title={pressed ? "Clear lens" : `See every project with ${skill}`}
+    >
+      {skill}
+    </ChipButton>
+  );
+};
 
 // Metadata line. Case-study sections: role · year, then link chips, then up to
 // three skill chips. Studio tiles: link chips first, then up to two skill
@@ -260,13 +273,8 @@ const CardMeta = ({
     letterSpacing: "0.02em",
     color: "hsl(var(--color-text-secondary))",
   };
-  return (
-    <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
-      {tile ? null : (
-        <span style={textStyle}>
-          {project.role} · {project.year}
-        </span>
-      )}
+  const chips = (
+    <>
       {links.map((link) => (
         <LinkChip key={link.url} link={link} />
       ))}
@@ -276,7 +284,33 @@ const CardMeta = ({
       {skills.map((skill) => (
         <SkillChip key={skill} skill={skill} />
       ))}
-      {tile ? <span style={textStyle}>{project.year}</span> : null}
+    </>
+  );
+
+  // Tiles: one line, links then skills then the year.
+  if (tile) {
+    return (
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
+        {chips}
+        <span style={textStyle}>{project.year}</span>
+      </div>
+    );
+  }
+
+  // Case-study cards: the prose line (role · year) on its own row, the chips
+  // on the row beneath. When the two shared a wrapping line, a long role such
+  // as "Industrial Design Lead · Sole UX Designer · 2024" pushed the chips
+  // around so that one chip landed alone on a third line under a run of text.
+  // As a row of their own the chips wrap as a group, and the ragged edge they
+  // make is a tag row's, not an orphan's.
+  return (
+    <div className="flex flex-col gap-y-2">
+      <span style={textStyle}>
+        {project.role} · {project.year}
+      </span>
+      {links.length + skills.length > 0 || project.destination?.kind === "placeholder" ? (
+        <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1.5">{chips}</div>
+      ) : null}
     </div>
   );
 };
@@ -345,6 +379,7 @@ export const ProjectCard = ({
   horizontal = false,
   imageRight = false,
   tile = false,
+  restOpacity = 1,
   onOpenVideo,
 }: {
   project: ProjectCardData;
@@ -356,14 +391,38 @@ export const ProjectCard = ({
   maxWidth?: string;
   horizontal?: boolean;
   imageRight?: boolean;
-  /** Studio tile: uncropped cover, one step smaller type, tile metadata order. */
+  /** Studio tile: 16/9 cover, one step smaller type, tile metadata order. */
   tile?: boolean;
+  /** The card's brightness at rest, as a CSS opacity value. More Work sits a
+   *  step under Selected Work (the rest-dim token); everything else is 1. */
+  restOpacity?: number | string;
   onOpenVideo?: (video: LightboxVideo) => void;
 }) => {
   const [hovered, setHovered] = useState(false);
   const isMobile = useIsMobile();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
+
+  // ── Skill lens ──
+  // One computed brightness for the card body, so the section's resting dim and
+  // the lens never stack: a match under a lens is lifted to full, anything else
+  // recedes to the lens-dim token, and with no lens the card sits at its rest
+  // level. Hover brings any card back to full while the pointer is on it. This
+  // is an inner wrapper with a CSS transition, separate from the entrance
+  // animation on the outer motion.div, so a lens change answers in one beat
+  // instead of replaying the staggered reveal.
+  const match = lensMatch(project.skills, useLens()?.lens ?? null);
+  const bodyOpacity =
+    hovered || match === true
+      ? 1
+      : match === false
+        ? "var(--component-project-card-lens-dim)"
+        : restOpacity;
+  const bodyProps = {
+    className: "transition-opacity duration-medium ease-settle",
+    style: { opacity: bodyOpacity },
+    "data-lens": match === null ? undefined : match ? "match" : "dim",
+  };
 
   // ── Hero dot arrival ──
   // Clicking a project dot in the hero canvas scrolls here and fires
@@ -531,7 +590,10 @@ export const ProjectCard = ({
         data-clickable={project.destination?.kind === "placeholder" ? "false" : "true"}
         {...arrivalProps}
       >
-        <div className={`flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}>
+        <div
+          {...bodyProps}
+          className={`${bodyProps.className} flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}
+        >
           {imageRight ? textCol : imageCol}
           {imageRight ? imageCol : textCol}
         </div>
@@ -558,13 +620,11 @@ export const ProjectCard = ({
       data-clickable={project.destination?.kind === "placeholder" ? "false" : "true"}
       {...arrivalProps}
     >
-      <div className="flex flex-col">
+      <div {...bodyProps} className={`${bodyProps.className} flex flex-col`}>
         <CardMedia
           project={project}
           hovered={hovered}
-          // A tile shows its cover whole, at the asset's own ratio (coverAspect),
-          // rather than cropping into a uniform box; the covers are all near 16:9.
-          aspectRatio={tile ? undefined : aspectRatio}
+          aspectRatio={tile ? GRID_COVER_ASPECT : aspectRatio}
           cornerGlyph={tile ? cornerGlyphFor(project.destination) : undefined}
           marginClass={tile ? "mb-4" : "mb-6"}
         />
@@ -575,69 +635,30 @@ export const ProjectCard = ({
   );
 };
 
-// ─── Parallax wrapper for each grid card ─────────────────────────────────────
-// Right column travels faster than left — creates the depth rhythm of Clay/Shopify.
-const TwoColCard = ({
-  project,
-  index,
-  dotClass,
-  startGlobalIndex,
-}: {
-  project: ProjectCardData;
-  index: number;
-  dotClass: string;
-  startGlobalIndex: number;
-}) => {
-  const isMobile = useIsMobile();
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: wrapRef,
-    offset: ["start end", "end start"],
-  });
-  const isRight = index % 2 === 1;
-  const parallaxY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    isRight
-      ? (isMobile ? ["10px", "-10px"] : ["48px", "-48px"])
-      : (isMobile ? ["4px", "-4px"] : ["20px", "-20px"])
-  );
-
-  return (
-    <motion.div
-      ref={wrapRef}
-      style={{ marginTop: isMobile ? 0 : getGridMarginTop(index), y: parallaxY }}
-    >
-      <ProjectCard
-        project={project}
-        projectId={project.id}
-        dotClass={dotClass}
-        globalIndex={startGlobalIndex + index}
-        rowDelay={(index % 2) * 0.06}
-      />
-    </motion.div>
-  );
-};
-
-// ─── 2-col dynamic grid ───────────────────────────────────────────────────────
-// Alternating aspect, right-column stagger and parallax: the case-study rhythm.
+// ─── 2-col grid ───────────────────────────────────────────────────────────────
+// Uniform 16/9 covers, no stagger, no parallax — a neat pair of columns.
 const TwoColGrid = ({
   projects,
   dotClass,
   startGlobalIndex = 0,
+  restOpacity,
 }: {
   projects: ProjectCardData[];
   dotClass: string;
   startGlobalIndex?: number;
+  restOpacity?: number | string;
 }) => (
   <div className="project-grid">
     {projects.map((p, i) => (
-      <TwoColCard
+      <ProjectCard
         key={p.id ?? p.title}
         project={p}
-        index={i}
+        projectId={p.id}
         dotClass={dotClass}
-        startGlobalIndex={startGlobalIndex}
+        globalIndex={startGlobalIndex + i}
+        rowDelay={(i % 2) * 0.06}
+        aspectRatio={GRID_COVER_ASPECT}
+        restOpacity={restOpacity}
       />
     ))}
   </div>
@@ -647,14 +668,22 @@ const TwoColGrid = ({
 // Both variants render the same white uppercase label and the same dot size.
 // "primary" (Selected Work) keeps a brighter dot, "secondary" (More Work and
 // Studio) a fainter one; the dot color (red / gold) is passed in via dotClass.
-const SectionLabel = ({
+// `blurb` adds one line under the label; the Studio groups use it to say what
+// each half of the page is. `as="h2"` when the label heads a region of its own.
+export const SectionLabel = ({
   title,
   dotClass,
   variant = "primary",
+  blurb,
+  as: Tag = "span",
+  id,
 }: {
   title: string;
   dotClass: string;
   variant?: "primary" | "secondary";
+  blurb?: string;
+  as?: "span" | "h2";
+  id?: string;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
@@ -665,14 +694,21 @@ const SectionLabel = ({
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 16 }}
       transition={MOTION.enter}
-      className="flex items-center gap-3 mb-10"
+      className="mb-10"
     >
-      <span
-        className={`rounded-full ${dotClass} w-1.5 h-1.5 ${isPrimary ? "opacity-70" : "opacity-35"}`}
-      />
-      <span className="text-sm text-foreground uppercase tracking-eyebrow font-medium">
-        {title}
-      </span>
+      <div className="flex items-center gap-3">
+        <span
+          className={`rounded-full ${dotClass} w-1.5 h-1.5 ${isPrimary ? "opacity-70" : "opacity-35"}`}
+        />
+        <Tag id={id} className="text-sm text-foreground uppercase tracking-eyebrow font-medium">
+          {title}
+        </Tag>
+      </div>
+      {blurb ? (
+        <p className="mt-caption text-sm md:text-base leading-relaxed text-foreground-secondary max-w-reading">
+          {noOrphan(blurb)}
+        </p>
+      ) : null}
     </motion.div>
   );
 };
@@ -685,14 +721,19 @@ const SelectedWorkList = ({
   sectionTitle,
   dotClass,
   projects,
+  intro,
 }: {
   id: string;
   sectionTitle: string;
   dotClass: string;
   projects: ProjectCardData[];
+  intro?: ReactNode;
 }) => (
   <section id={id} className="px-6 md:px-16 lg:px-24 pt-16">
     <SectionLabel title={sectionTitle} dotClass={dotClass} variant="primary" />
+    {/* The eyebrow carries mb-10; the intro pulls up to sit 16px under it and
+        restores the 40px above the first row. */}
+    {intro ? <div className="-mt-6 mb-10">{intro}</div> : null}
     {projects.map((p, i) => (
       <div key={p.id ?? p.title} className="mb-14 md:mb-16">
         <ProjectCard
@@ -710,9 +751,13 @@ const SelectedWorkList = ({
 );
 
 // ─── More Work ────────────────────────────────────────────────────────────────
-// A uniform 2-col grid with the case-study rhythm (alternating aspect, stagger,
-// parallax), wrapped in the 0.88 dimming. No hero rows, no signal line: the
-// hierarchy is carried by density and brightness, not by promoting anything.
+// A uniform 2-col grid of 16/9 covers, each card resting at the rest-dim token
+// (0.88). No hero rows, no signal line: the hierarchy is carried by density and
+// brightness, not by promoting anything. The dim is set per card rather than on
+// a wrapper so the skill lens can lift a match here to full brightness without
+// the two opacities stacking.
+const MORE_WORK_REST_OPACITY = "var(--component-project-card-rest-dim)";
+
 const MoreWorkList = ({
   id,
   sectionTitle,
@@ -727,19 +772,21 @@ const MoreWorkList = ({
   <section id={id} className="px-6 md:px-16 lg:px-24 pt-section pb-8">
     <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" />
     {projects.length > 0 && (
-      <div style={{ opacity: 0.88 }}>
-        <TwoColGrid projects={projects} dotClass={dotClass} />
-      </div>
+      <TwoColGrid projects={projects} dotClass={dotClass} restOpacity={MORE_WORK_REST_OPACITY} />
     )}
   </section>
 );
 
 // ─── Studio ───────────────────────────────────────────────────────────────────
 // A denser tile grid that reads as a different kind of thing without a label:
-// 3 columns on desktop, 2 on mobile, uncropped covers, no stagger, no parallax,
-// no alternating aspect (those rhythms are reserved for the case-study
-// sections). It is dimmed by size and type only — no opacity layer, which
-// would look muddy over the hover video.
+// 3 columns on desktop, 2 on mobile, 16/9 covers, no stagger, no parallax.
+// It is dimmed by size and type only — no opacity layer, which would look
+// muddy over the hover video.
+//
+// The tiles are split into the STUDIO_GROUPS (the software, then the industrial design),
+// each under its own eyebrow and one-line blurb. The entrance stagger restarts
+// per group, so the second grid does not wait on the first one's delays. A tile
+// with no group is not dropped: it lands in an unlabelled grid at the end.
 const StudioList = ({
   id,
   sectionTitle,
@@ -753,30 +800,61 @@ const StudioList = ({
   dotClass: string;
   projects: ProjectCardData[];
   showLabel: boolean;
-  trailing?: ReactNode;
+  trailing?: Partial<Record<StudioGroupKey, ReactNode>>;
 }) => {
   const [video, setVideo] = useState<LightboxVideo | null>(null);
   const closeVideo = useCallback(() => setVideo(null), []);
+
+  const groups = STUDIO_GROUPS.map((group) => ({
+    ...group,
+    projects: projects.filter((p) => p.studioGroup === group.key),
+    trailing: trailing?.[group.key],
+  })).filter((group) => group.projects.length > 0 || group.trailing);
+  const ungrouped = projects.filter((p) => !p.studioGroup);
+
+  const renderGrid = (list: ProjectCardData[]) => (
+    <div className="studio-grid">
+      {list.map((p, i) => (
+        <ProjectCard
+          key={p.id ?? p.title}
+          project={p}
+          projectId={p.id}
+          dotClass={dotClass}
+          globalIndex={i}
+          rowDelay={(i % 3) * 0.04}
+          tile
+          onOpenVideo={setVideo}
+        />
+      ))}
+    </div>
+  );
+
   return (
     <section id={id} className={`px-6 md:px-16 lg:px-24 pb-8 ${showLabel ? "pt-section" : ""}`}>
       {showLabel ? <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" /> : null}
-      {projects.length > 0 && (
-        <div className="studio-grid">
-          {projects.map((p, i) => (
-            <ProjectCard
-              key={p.id ?? p.title}
-              project={p}
-              projectId={p.id}
-              dotClass={dotClass}
-              globalIndex={i}
-              rowDelay={(i % 3) * 0.04}
-              tile
-              onOpenVideo={setVideo}
-            />
-          ))}
-          {trailing}
+      {groups.map((group, i) => (
+        <div
+          key={group.key}
+          className={i > 0 ? "mt-section" : undefined}
+          data-studio-group={group.key}
+          aria-labelledby={`studio-group-${group.key}`}
+          role="region"
+        >
+          <SectionLabel
+            id={`studio-group-${group.key}`}
+            as="h2"
+            title={group.label}
+            blurb={group.blurb}
+            dotClass={dotClass}
+            variant="secondary"
+          />
+          {group.projects.length > 0 ? renderGrid(group.projects) : null}
+          {group.trailing}
         </div>
-      )}
+      ))}
+      {ungrouped.length > 0 ? (
+        <div className={groups.length > 0 ? "mt-section" : undefined}>{renderGrid(ungrouped)}</div>
+      ) : null}
       <VideoLightbox video={video} onClose={closeVideo} />
     </section>
   );
@@ -784,12 +862,14 @@ const StudioList = ({
 
 // ─── Public component ─────────────────────────────────────────────────────────
 // The section's DOM id, eyebrow and layout variant all come from SECTIONS.
-const ProjectList = ({ section, projects, showLabel = true, trailing }: ProjectListProps) => {
+const ProjectList = ({ section, projects, showLabel = true, trailing, intro }: ProjectListProps) => {
   const { id, label } = SECTIONS[section];
   const dotClass = section === "selected" ? "bg-dot-red" : "bg-dot-gold";
 
   if (section === "selected") {
-    return <SelectedWorkList id={id} sectionTitle={label} dotClass={dotClass} projects={projects} />;
+    return (
+      <SelectedWorkList id={id} sectionTitle={label} dotClass={dotClass} projects={projects} intro={intro} />
+    );
   }
   if (section === "more") {
     return <MoreWorkList id={id} sectionTitle={label} dotClass={dotClass} projects={projects} />;

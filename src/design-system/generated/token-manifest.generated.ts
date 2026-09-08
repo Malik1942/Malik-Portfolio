@@ -11,7 +11,7 @@ export const tokenSourceCommit =
     : "development";
 export const tokenBundle: TokenBundle = {
   "schemaVersion": 1,
-  "tokenHash": "9accc7b1",
+  "tokenHash": "fb499669",
   "documents": {
     "primitive.tokens.json": {
       "color": {
@@ -901,6 +901,16 @@ export const tokenBundle: TokenBundle = {
             "$extensions": {
               "com.malikzhang.alpha": 0.04
             }
+          },
+          "restDim": {
+            "$type": "number",
+            "$description": "Opacity of a More Work card at rest. The section's hierarchy is carried by brightness, not by a label.",
+            "$value": 0.88
+          },
+          "lensDim": {
+            "$type": "number",
+            "$description": "Opacity of a project card that does not match the active skill lens. The match holds full brightness; everything else recedes to this.",
+            "$value": 0.3
           }
         },
         "caseStudyModule": {
@@ -2258,6 +2268,28 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "40 6% 90% / 0.04",
       "aliasOf": "color.warm.100",
       "aliasAlpha": 0.04,
+      "dependents": []
+    },
+    {
+      "path": "component.projectCard.lensDim",
+      "sourceFile": "component.tokens.json",
+      "type": "number",
+      "value": 0.3,
+      "resolvedValue": 0.3,
+      "description": "Opacity of a project card that does not match the active skill lens. The match holds full brightness; everything else recedes to this.",
+      "cssVariable": "--component-project-card-lens-dim",
+      "cssValue": "0.3",
+      "dependents": []
+    },
+    {
+      "path": "component.projectCard.restDim",
+      "sourceFile": "component.tokens.json",
+      "type": "number",
+      "value": 0.88,
+      "resolvedValue": 0.88,
+      "description": "Opacity of a More Work card at rest. The section's hierarchy is carried by brightness, not by a label.",
+      "cssVariable": "--component-project-card-rest-dim",
+      "cssValue": "0.88",
       "dependents": []
     },
     {

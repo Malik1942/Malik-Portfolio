@@ -4,10 +4,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ProjectCard } from "./ProjectList";
 
-// A cover video is not ambient wallpaper: it waits for its card to arrive, runs
-// once from the opening frame, and holds on its closing frame until the visitor
-// asks for it again by hovering. Every piece of that is invisible if it breaks —
-// an `autoPlay` attribute slipping back in looks fine on a card you are already
+// A cover video is not ambient wallpaper: it stays on its poster until the
+// visitor asks for it by hovering, runs from the opening frame, and parks again
+// when the pointer leaves. Every piece of that is invisible if it breaks — an
+// `autoPlay` attribute slipping back in looks fine on a card you are already
 // looking at, and only misbehaves for the visitor who scrolls down to it.
 
 // framer-motion's useInView needs IntersectionObserver, which jsdom does not ship.
@@ -48,11 +48,9 @@ beforeEach(() => {
       }
     },
   );
-  vi.useFakeTimers();
 });
 
 afterEach(() => {
-  vi.useRealTimers();
   vi.unstubAllGlobals();
   cleanup();
 });
@@ -62,12 +60,18 @@ afterEach(() => {
 // card asked the element to do — which is the part we actually wrote.
 const stubMedia = () => {
   const play = vi.fn().mockResolvedValue(undefined);
+  const pause = vi.fn();
   Object.defineProperty(HTMLMediaElement.prototype, "play", {
     configurable: true,
     writable: true,
     value: play,
   });
-  return play;
+  Object.defineProperty(HTMLMediaElement.prototype, "pause", {
+    configurable: true,
+    writable: true,
+    value: pause,
+  });
+  return { play, pause };
 };
 
 const project = {
@@ -109,11 +113,6 @@ const approach = () =>
     }
   });
 
-const settle = () =>
-  act(() => {
-    vi.advanceTimersByTime(600);
-  });
-
 describe("cover video playback", () => {
   it("does not autoplay or loop — the reel is driven from the card, not the element", () => {
     stubMedia();
@@ -127,10 +126,8 @@ describe("cover video playback", () => {
   });
 
   it("stays parked while the card is still below the fold", () => {
-    const play = stubMedia();
+    const { play } = stubMedia();
     renderCard();
-
-    settle();
 
     expect(play).not.toHaveBeenCalled();
   });
@@ -155,94 +152,92 @@ describe("cover video playback", () => {
     expect(video.getAttribute("src")).toBe(project.coverVideo);
   });
 
-  it("waits out the settle delay after the card arrives, then plays from the opening frame", () => {
-    const play = stubMedia();
-    const { container } = renderCard();
-    const video = container.querySelector("video") as HTMLVideoElement;
-    video.currentTime = 4;
+  it("does not play when the card arrives — only hover does that", () => {
+    const { play } = stubMedia();
+    renderCard();
 
     arriveOnScreen();
-    // Arrival alone is not the cue — the reel would otherwise race the scroll
-    // that brought it into view.
+
     expect(play).not.toHaveBeenCalled();
+  });
 
-    settle();
+  it("does not play on a second pass through the viewport either", () => {
+    const { play } = stubMedia();
+    renderCard();
 
+    arriveOnScreen();
+    leaveScreen();
+    arriveOnScreen();
+
+    expect(play).not.toHaveBeenCalled();
+  });
+
+  it("keeps the poster covering the reel until the pointer enters", () => {
+    stubMedia();
+    const { container } = renderCard();
+    const card = container.querySelector("#project-moti") as HTMLElement;
+    const poster = [...container.querySelectorAll("img")].find(
+      (img) => img.getAttribute("src") === project.coverImage,
+    ) as HTMLImageElement;
+
+    approach();
+    expect(poster).toBeTruthy();
+    expect(poster.style.opacity).not.toBe("0");
+
+    fireEvent.mouseEnter(card);
+    expect(poster.style.opacity).toBe("0");
+
+    fireEvent.mouseLeave(card);
+    expect(poster.style.opacity).not.toBe("0");
+  });
+
+  it("plays from the start when the pointer enters the card", () => {
+    const { play } = stubMedia();
+    const { container } = renderCard();
+    const video = container.querySelector("video") as HTMLVideoElement;
+    const card = container.querySelector("#project-moti") as HTMLElement;
+
+    video.currentTime = 4;
+    fireEvent.mouseEnter(card);
     expect(play).toHaveBeenCalledTimes(1);
     expect(video.currentTime).toBe(0);
   });
 
-  it("ignores a card that only sweeps through the viewport", () => {
-    const play = stubMedia();
-    renderCard();
+  it("parks on the opening frame when the pointer leaves", () => {
+    const { play, pause } = stubMedia();
+    const { container } = renderCard();
+    const video = container.querySelector("video") as HTMLVideoElement;
+    const card = container.querySelector("#project-moti") as HTMLElement;
 
-    // Restoring the scroll position on reload drags the page past cards the
-    // visitor never sees. A one-shot in-view latch counted those as arrivals and
-    // burned the reel on a card that was never actually on screen.
-    arriveOnScreen();
-    act(() => {
-      vi.advanceTimersByTime(300);
-    });
-    leaveScreen();
-    act(() => {
-      vi.advanceTimersByTime(2000);
-    });
-
-    expect(play).not.toHaveBeenCalled();
-
-    // ...and the reel is still available once the card is genuinely settled on.
-    arriveOnScreen();
-    settle();
+    fireEvent.mouseEnter(card);
+    video.currentTime = 9.8;
+    fireEvent.mouseLeave(card);
 
     expect(play).toHaveBeenCalledTimes(1);
-  });
-
-  it("does not replay on a second pass through the viewport — only hover does that", () => {
-    const play = stubMedia();
-    renderCard();
-
-    arriveOnScreen();
-    settle();
-    expect(play).toHaveBeenCalledTimes(1);
-
-    leaveScreen();
-    arriveOnScreen();
-    settle();
-
-    expect(play).toHaveBeenCalledTimes(1);
+    expect(pause).toHaveBeenCalledTimes(1);
+    expect(video.currentTime).toBe(0);
   });
 
   it("replays from the start when the pointer re-enters the card", () => {
-    const play = stubMedia();
+    const { play } = stubMedia();
     const { container } = renderCard();
-    const video = container.querySelector("video") as HTMLVideoElement;
     const card = container.querySelector("#project-moti") as HTMLElement;
 
-    arriveOnScreen();
-    settle();
-    expect(play).toHaveBeenCalledTimes(1);
-
-    // The reel has run out and is holding on its closing frame.
-    video.currentTime = 9.8;
-
     fireEvent.mouseEnter(card);
-    expect(play).toHaveBeenCalledTimes(2);
-    expect(video.currentTime).toBe(0);
+    expect(play).toHaveBeenCalledTimes(1);
 
     fireEvent.mouseLeave(card);
     fireEvent.mouseEnter(card);
-    expect(play).toHaveBeenCalledTimes(3);
+    expect(play).toHaveBeenCalledTimes(2);
   });
 
   it("does not restart mid-reel while the pointer simply sits on the card", () => {
-    const play = stubMedia();
+    const { play } = stubMedia();
     const { container, rerender } = renderCard();
     const card = container.querySelector("#project-moti") as HTMLElement;
 
-    arriveOnScreen();
-    settle();
     fireEvent.mouseEnter(card);
-    expect(play).toHaveBeenCalledTimes(2);
+    expect(play).toHaveBeenCalledTimes(1);
 
     // Re-renders happen constantly here — parallax, scroll progress, entrance
     // animations. None of them are a new hover.
@@ -252,22 +247,6 @@ describe("cover video playback", () => {
       </MemoryRouter>,
     );
     fireEvent.mouseEnter(card);
-
-    expect(play).toHaveBeenCalledTimes(2);
-  });
-
-  it("lets an early hover win over the pending arrival start, without a double take", () => {
-    const play = stubMedia();
-    const { container } = renderCard();
-    const card = container.querySelector("#project-moti") as HTMLElement;
-
-    arriveOnScreen();
-    fireEvent.mouseEnter(card);
-    expect(play).toHaveBeenCalledTimes(1);
-
-    // The arrival timer must have been cancelled, or it would yank the reel back
-    // to frame 0 a moment after the hover started it.
-    settle();
 
     expect(play).toHaveBeenCalledTimes(1);
   });

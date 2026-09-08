@@ -40,6 +40,13 @@ import neuralyfeDeckViews from "@/assets/neuralyfe-deck-views.webp";
 import neuralyfeDeckScenario from "@/assets/neuralyfe-deck-scenario.webp";
 import neuralyfeAward from "@/assets/neuralyfe-award.webp";
 import flowprintCover from "@/assets/flowprint-cover.webp";
+import flowprintPhoneTeardown from "@/assets/flowprint-phone-teardown.webp";
+import flowprintMachineIdle from "@/assets/flowprint-machine-idle.webp";
+import flowprintWelcomeUi from "@/assets/flowprint-welcome-ui.webp";
+import flowprintNetworkUi from "@/assets/flowprint-network-ui.webp";
+import flowprintFilamentGuide from "@/assets/flowprint-filament-guide.webp";
+import flowprintModelsUi from "@/assets/flowprint-models-ui.webp";
+import flowprintPrepareUi from "@/assets/flowprint-prepare-ui.webp";
 import tubularCover from "@/assets/tubular-cover.webp";
 import moodmuseHero from "@/assets/moodmuse-hero.webp";
 import moodmuseResearchBoard from "@/assets/moodmuse-research-board.webp";
@@ -400,6 +407,11 @@ const moti: ProjectDetailSource = {
 };
 
 
+// FlowPrint: consumer 3D-printing HMI for first-time owners. Figures are
+// exported from the Interfaces Lab Figma (phone teardown, machine dashboard,
+// liquid-glass HMI). The live module is a simulated first print, not shipped
+// hardware; copy keeps that line visible. Research is synthesized from novice
+// interviews, support tickets, and forum pain, without invented sample sizes.
 const flowprint: ProjectDetailSource = {
   slug: "flowprint",
   title: "FlowPrint",
@@ -417,41 +429,80 @@ const flowprint: ProjectDetailSource = {
   ],
   sections: [
     {
-      id: "context",
-      label: "Context",
-      subtitle: "Intro",
+      id: "intro",
+      label: "Intro",
+      headline: "The First Print Has to Succeed, Not Just Start",
       showProjectMeta: true,
-      body: "**FlowPrint's target journey cuts first-print setup from about an hour to roughly fifteen minutes.**\n\nConsumer 3D printing promises creativity but often delivers friction: leveling, slicer settings, failed prints, and opaque errors. FlowPrint targets beginners who want outcomes, not a second hobby, sitting between playful maker culture and credible appliance-grade calm.",
+      body: "**FlowPrint is a consumer 3D-printing HMI whose target journey cuts first-print setup from about an hour to roughly fifteen minutes.**\n\nConsumer printers sell creativity. What first-time owners actually buy is a second hobby: Wi-Fi, leveling, slicer vocabulary, filament chemistry, and error screens that assume they already speak the machine.\n\nI led product design for that first hour. The work sits on a Bambu Lab X1 Carbon chassis, not a rebranded printer: FlowPrint is the onboarding, the material lesson, and the monitoring, written for people who want a part, not a workshop.",
+    },
+    {
+      id: "highlights",
+      label: "Highlights",
+      body: "**A first print should end in a part, not a vocabulary lesson.**\n\n[[module:flowprint-highlights]]",
+    },
+    {
+      id: "situation",
+      label: "Situation",
+      headline: "The Creative Promise Stops at the Box",
+      body: "Rookies do not arrive wanting to learn 3D printing. They arrive wanting the object they saw: a bust, a bracket, a gift. The hour between unboxing and the first layer is where most of them bounce.\n\nThe machine is already capable. The path in is written for people who already know it, sitting between playful maker culture and the calm of an appliance that just works.",
     },
     {
       id: "research",
       label: "Research",
-      body: "I synthesized support tickets, forum pain points, and novice interviews. Failure modes clustered around setup, first print, and 'what do I do now?' moments after errors.\n\nCompetitive products either exposed too much engineering detail or hid so much that users felt blind when something broke.",
+      headline: "Rookies Fail Before They Print",
+      figures: [
+        { type: "image", src: flowprintPhoneTeardown, alt: "Three lo-fi phone wireframes from the first direction: a status home, a slicing screen labeled Quality Speed and Strength, and a model-library grid", full: true, label: "Phone lo-fi", caption: "a companion app that still talks in nozzles and a 24 percent bar" },
+        { type: "image", src: flowprintMachineIdle, alt: "Lo-fi machine-screen layout from the first direction: a rail of home, nozzle, files, and settings beside a render of the X1 Carbon", label: "Machine lo-fi", caption: "the printer on screen, chrome still a shop diagram" },
+      ],
+      body: "I focused the research on first-time and rookie owners, not the forum experts who enjoy the hobby. Support tickets, maker-forum threads, and novice interviews clustered around the same three hours: setup, first print, and the moment after something goes wrong.\n\n[[module:flowprint-findings]]\n\n## First Direction: Phone and Machine\n\nThose findings went into lo-fi. I designed both surfaces: a phone companion and a machine screen, because first-time owners already bounce between the two. The phone still spoke in nozzles, beds, and a 24 percent bar. The machine put the printer on the glass, then a rail of home, nozzle, files, settings.\n\n[[fig:0]]\n\n[[fig:1]]\n\n**Insight: Covering both surfaces did not make either one beginner-friendly. Same shop voice, twice.**",
     },
     {
       id: "problem",
-      label: "Problem",
-      body: "How might we guide someone from box to first successful print without forcing them to master slicer vocabulary on day one?\n\nThe system needed progressive disclosure, proactive checks, and monitoring that feels reassuring rather than alarming.",
+      label: "Design Challenge",
+      headline: "Get Them to a Part Without Teaching the Shop",
+      body: "The question I kept returning to: how might we guide someone from box to first successful print without forcing slicer vocabulary on day one?\n\nThe system needed progressive disclosure, an experience fork, and monitoring that names the next action instead of the sensor.\n\n[[module:flowprint-requirements]]\n\n**Decision: Hide the slicer. Teach the material. Ask experience once.**",
     },
     {
       id: "process",
       label: "Design Process",
-      body: "Journey maps separated 'setup,' 'first print,' and 'steady use.' I prototyped onboarding as a checklist with live device state, and monitoring as a timeline + clear next actions.\n\nMaterial recommendation was where one good suggestion removes the most doubt.",
+      headline: "Two Lanes, Then One Print",
+      figures: [
+        { type: "image", src: flowprintNetworkUi, alt: "FlowPrint network setup on the printer screen: a glass list of Wi-Fi names including Malik Design and University of Washington", label: "Network", caption: "one job, then the next: pick a network before anything else" },
+        { type: "image", src: flowprintFilamentGuide, alt: "Five filament instruction cards for PLA, PETG, ABS, TPU, and PC, each with best for, pros, and watch out", label: "Filament lesson", caption: "a recommendation engine as five slides, not a settings dump" },
+      ],
+      body: "Journey maps split the work into setup, first print, and steady use. First-time owners need the first two. Pro users already live in the third. The fork on welcome is how those maps became a product.\n\n[[module:flowprint-lanes]]\n\n## Setup as a sequence, not a checklist\n\nFirst-time setup is three jobs in order: join a network, learn the filament, load the slot. Each screen has one question. The live device state is there, but it does not compete with the step.\n\n[[fig:0]]\n\n## The material step carries the most doubt\n\nPLA versus PETG versus ABS is where rookies stall. I designed that moment as a short lesson: what it is for, why you would pick it, what to watch. One good suggestion removes more anxiety than a wall of temperatures.\n\n[[fig:1]]\n\n**Decision: Teach the material. Auto-setting takes the first print. The slicer stays offstage.**",
+    },
+    {
+      id: "iterations",
+      label: "Iterations",
+      headline: "Both Surfaces, Then the Machine Only",
+      figures: [
+        { type: "image", src: flowprintMachineIdle, alt: "Early machine-screen dashboard with a four-icon rail beside the X1 Carbon", label: "V1 machine", caption: "on the printer, still a diagram of parts" },
+        { type: "image", src: flowprintWelcomeUi, alt: "FlowPrint welcome asking How experienced are you with 3D printing, with First time user and Pro user", label: "V3 fork", caption: "ask once, then the path splits" },
+      ],
+      body: "The first direction was both: a phone companion and a machine screen. I cloned the density of a shop UI, then tried to rename the slicer so a rookie would not have to say layer height on day one.\n\nKinder language on the phone. A photo of the chassis on the machine. They still had to operate a shop before they had a part.\n\n[[fig:0]]\n\n[[module:flowprint-iterations]]\n\nThe cut that held dropped the phone. The first print happens on the printer's own 16:9 glass, more graphic than the lo-fi dashboard, written so a beginner can finish without a companion app. Welcome asks experience once. First-time walks network and filament. Pro skips to home. Both share the print path.\n\n[[fig:1]]\n\n**Decision: Machine only. Graphic enough for a first hour. The phone is not the onboarding.**",
     },
     {
       id: "final-design",
       label: "Final Design",
-      body: "Led product design for a consumer 3D printing experience, designing a target journey that cuts setup from about an hour to 15 minutes.\n\n[[module:flowprint-hmi]]\n\nDesigned onboarding flows, real-time print monitoring UI, and a material recommendation engine.",
+      headline: "A Machine You Can Finish a First Print On",
+      figures: [
+        { type: "image", src: flowprintModelsUi, alt: "FlowPrint Models grid: each tile shows a bust, print time, PLA, and grams", label: "Models", caption: "time and grams on the tile, not a slicer" },
+        { type: "image", src: flowprintPrepareUi, alt: "FlowPrint prepare view: Extra Fine, Auto Setting, and a bust on the build plate", label: "Prepare", caption: "Extra Fine and Auto Setting. Start Print is the only verb" },
+      ],
+      body: "The panel below is the printer's own screen. First-time walks network, filament, and a model onto the plate. Pro skips to home. Both share the print path. Print time-lapses in a few seconds so you can finish it; the nine-hour label is the designed duration, not the wait.\n\n[[module:flowprint-hmi]]\n\n## Pick a model, not a profile\n\nThe library leads with the object, the time, and the grams. No layer height, no infill, no support tree to configure on day one.\n\n[[fig:0]]\n\n## Auto-setting is the first-print slicer\n\nPrepare shows Extra Fine, PLA, and the bed. Auto Setting holds the rest. Start Print is the only verb that matters.\n\n[[fig:1]]\n\n## Done looks like a part\n\nPrinting is progress, not a temperature stack. Finished Printing is the object, then four facts: duration, filament, errors, layers. Proof, not a log.\n\n**Final outcome: A target journey from box to part in about fifteen minutes, designed as onboarding, material guidance, and monitoring that behave as one system.**",
     },
     {
       id: "impact",
       label: "Impact",
-      body: "The design gives engineering a prioritized surface area: onboarding, monitoring, and recommendations as connected modules rather than three disconnected features.\n\nIt also sets a tone of quiet confidence, which is what matters for retention after the first print.",
+      headline: "Quiet Confidence Is What Survives Print One",
+      body: "The design gives engineering a prioritized surface: onboarding, monitoring, and recommendations as connected modules rather than three disconnected features.\n\nIt also sets a tone. If the first print feels like an appliance, the rookie comes back. If it feels like a workshop they have not earned, they do not.\n\n**The target journey is the claim. The live HMI is how a recruiter can walk it.**",
     },
     {
       id: "reflection",
       label: "Reflection",
-      body: "Hardware-adjacent UX taught me to design for failure as the default path; success is the exception we still have to earn every session.\n\nNext I’d validate with broader printer models and filament ecosystems to stress-test edge cases.",
+      headline: "Design for Failure as the Default Path",
+      body: "Hardware-adjacent UX taught me to treat failure as the default path. Success is the exception every session still has to earn.\n\n## What I would do next\n\nPut the target journey in front of first-time owners on a real machine: different models, different filament, a jam or a leveling miss, and see whether the next-action copy holds when the print is actually at risk.\n\n[[module:flowprint-learnings]]",
     },
   ],
 };
