@@ -8,6 +8,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Chips, PullQuote } from "./MotiModules";
 import { FigureCaption } from "./FigureCaption";
+import { noOrphan } from "@/lib/noOrphan";
 
 // NeuraLyfe's case-study hook — mirrors Moti's / Aura's hook (highlight chips →
 // pull-quote → artifact gallery). NeuraLyfe's artifacts are its interactive
@@ -139,14 +140,113 @@ export function NeuraLyfeHighlights() {
   );
 }
 
-// The one live link on the page: the Devpost submission the judges scored.
-// Filled pill, centered, same treatment as Moti's App Store link.
-const NEURALYFE_DEVPOST_URL = "https://devpost.com/software/neuralyfe";
-export function NeuraLyfeDevpostCta() {
+// ── Two forks ─────────────────────────────────────────────────────────────────
+// The two decisions that fixed the shape of the system before any screen
+// existed: where the sensing lives, and who acts on what it finds. Each card
+// lists the options we weighed; the one we took sits at full ink with a mark,
+// the rest at secondary. Same card grammar as Aura's ideation criteria.
+const forks = [
+  {
+    title: "Where the sensing lives",
+    options: [
+      { name: "Forehead patch", why: "reads like science fiction, and every player would have to be talked into wearing one" },
+      { name: "Wrist or limb band", why: "too far from the injury to say anything about the brain" },
+      { name: "Helmet add-on", why: "on equipment every player already wears, and localised to where the damage happens", chosen: true },
+    ],
+  },
+  {
+    title: "Who acts on it",
+    options: [
+      { name: "The player", why: "self-reporting fails by design when the person with the most reason to stay in controls the diagnosis" },
+      { name: "Medical staff", why: "the one actor with the authority to pull a player and no incentive to keep them on the field", chosen: true },
+    ],
+  },
+];
+
+export function NeuraLyfeForks() {
   return (
-    <div className="flex justify-center">
+    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-case-study-module-border">
+      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-case-study-module-divider">
+        {forks.map((fork) => (
+          <div key={fork.title} className="flex flex-col gap-5 px-6 py-7 md:px-7 md:py-8">
+            <p className="text-caption font-mono uppercase tracking-eyebrow text-foreground-tertiary">
+              {fork.title}
+            </p>
+            <ul className="flex flex-col gap-4">
+              {fork.options.map((o) => (
+                <li key={o.name} className="flex gap-3">
+                  <span
+                    aria-hidden="true"
+                    className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full ${o.chosen ? "bg-foreground" : "bg-foreground-quiet"}`}
+                  />
+                  <p className={`text-sm md:text-base leading-relaxed ${o.chosen ? "text-foreground" : "text-foreground-secondary font-light"}`}>
+                    {o.chosen ? <span className="font-mono text-caption uppercase tracking-eyebrow text-foreground-tertiary">Chosen · </span> : null}
+                    <span className={o.chosen ? "font-medium" : "font-normal"}>{o.name}</span>
+                    <span>: {o.why}</span>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── The protocol ──────────────────────────────────────────────────────────────
+// Five states a player can be in, read left to right, and the two rules that
+// keep the last one honest. The ladder is the part of the system that turns a
+// signal into a call someone has to stand behind.
+const states = ["Baseline", "Spike", "Elevated", "Critical", "Removed"];
+const rules = [
+  { title: "The data is the player's", body: "It travels with them across teams and into retirement, not with the franchise." },
+  { title: "Removal cannot be overridden", body: "A Critical alert is not advisory. Nobody on the sideline can suppress it." },
+];
+
+export function NeuraLyfeProtocol() {
+  return (
+    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-case-study-module-border">
+      {/* Below sm the five states stack as a list: five columns at 390px clip
+          the last word. From sm up they read left to right as a ladder. */}
+      <ol className="grid grid-cols-1 sm:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x divide-case-study-module-divider border-b border-case-study-module-divider">
+        {states.map((state, i) => (
+          <li key={state} className="flex flex-row items-baseline gap-4 px-6 py-3 sm:flex-col sm:gap-2 sm:px-6 sm:py-6">
+            <span className={`text-caption font-mono tabular-nums ${i >= 3 ? "text-accent-violet/[0.6]" : "text-foreground-tertiary"}`}>
+              0{i + 1}
+            </span>
+            <span className={`text-sm md:text-base tracking-tight ${i >= 3 ? "text-foreground font-medium" : "text-foreground-secondary font-normal"}`}>
+              {state}
+            </span>
+          </li>
+        ))}
+      </ol>
+      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-case-study-module-divider">
+        {rules.map((r) => (
+          <div key={r.title} className="flex flex-col gap-2 px-6 py-6 md:px-7 md:py-7">
+            <p className="text-base md:text-xl font-medium text-foreground leading-snug tracking-tight">{noOrphan(r.title)}</p>
+            <p className="text-sm md:text-base font-light text-foreground-secondary leading-relaxed">{noOrphan(r.body)}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Links ─────────────────────────────────────────────────────────────────────
+// The Devpost submission the judges scored gets the filled pill, the one live
+// link on the page; the film Cindy cut for it sits beside it as the bordered
+// control. Same pair of tones as the utility pages.
+const NEURALYFE_DEVPOST_URL = "https://devpost.com/software/neuralyfe";
+const NEURALYFE_FILM_URL = "https://www.youtube.com/watch?v=yO55s9Qtra8";
+export function NeuraLyfeLinks() {
+  return (
+    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
       <Button href={NEURALYFE_DEVPOST_URL} external icon={<ArrowUpRight strokeWidth={1.8} />}>
         View the submission on Devpost
+      </Button>
+      <Button tone="secondary" href={NEURALYFE_FILM_URL} external icon={<ArrowUpRight strokeWidth={1.8} />}>
+        Watch the film
       </Button>
     </div>
   );
