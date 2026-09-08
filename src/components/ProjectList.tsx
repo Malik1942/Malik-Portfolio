@@ -273,43 +273,41 @@ const CardMeta = ({
     letterSpacing: "0.02em",
     color: "hsl(var(--color-text-secondary))",
   };
-  const chips = (
-    <>
-      {links.map((link) => (
-        <LinkChip key={link.url} link={link} />
-      ))}
-      {project.destination?.kind === "placeholder" ? (
-        <Chip>Coming soon</Chip>
-      ) : null}
-      {skills.map((skill) => (
-        <SkillChip key={skill} skill={skill} />
-      ))}
-    </>
-  );
+  const linkChips = links.map((link) => <LinkChip key={link.url} link={link} />);
+  const statusChip = project.destination?.kind === "placeholder" ? <Chip>Coming soon</Chip> : null;
+  const skillChips = skills.map((skill) => <SkillChip key={skill} skill={skill} />);
 
   // Tiles: one line, links then skills then the year.
   if (tile) {
     return (
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
-        {chips}
+        {linkChips}
+        {statusChip}
+        {skillChips}
         <span style={textStyle}>{project.year}</span>
       </div>
     );
   }
 
-  // Case-study cards: the prose line (role · year) on its own row, the chips
-  // on the row beneath. When the two shared a wrapping line, a long role such
-  // as "Industrial Design Lead · Sole UX Designer · 2024" pushed the chips
-  // around so that one chip landed alone on a third line under a run of text.
-  // As a row of their own the chips wrap as a group, and the ragged edge they
-  // make is a tag row's, not an orphan's.
+  // Case-study cards: two rows. The facts on the first — role · year, and the
+  // shipped chip beside them, since "on the App Store" is a fact of the same
+  // kind — and the skills on the second. When everything shared one wrapping
+  // line, a long role such as "Industrial Design Lead · Sole UX Designer · 2024"
+  // pushed the chips around until one landed alone on a third line under a run
+  // of text. As a row of their own the skills wrap as a group, and the ragged
+  // edge they make is a tag row's, not an orphan's. Three chips fit the hero
+  // rows' 380px text column, four did not, which is why the link chip moved up.
   return (
     <div className="flex flex-col gap-y-2">
-      <span style={textStyle}>
-        {project.role} · {project.year}
-      </span>
-      {links.length + skills.length > 0 || project.destination?.kind === "placeholder" ? (
-        <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1.5">{chips}</div>
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
+        <span style={textStyle}>
+          {project.role} · {project.year}
+        </span>
+        {linkChips}
+        {statusChip}
+      </div>
+      {skillChips.length > 0 ? (
+        <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1.5">{skillChips}</div>
       ) : null}
     </div>
   );
