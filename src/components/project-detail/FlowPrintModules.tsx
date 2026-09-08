@@ -169,7 +169,7 @@ export function FlowPrintRequirements() {
     <CardGrid
       items={requirements}
       header="Design Requirements"
-      colsClass="grid-cols-1 sm:grid-cols-2 lg:grid-cols-5"
+      colsClass="grid-cols-1 sm:grid-cols-2 [&>*:last-child]:sm:col-span-2"
     />
   );
 }
