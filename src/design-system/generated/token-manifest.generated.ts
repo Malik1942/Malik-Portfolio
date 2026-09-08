@@ -11,7 +11,7 @@ export const tokenSourceCommit =
     : "development";
 export const tokenBundle: TokenBundle = {
   "schemaVersion": 1,
-  "tokenHash": "06ad1d8c",
+  "tokenHash": "9accc7b1",
   "documents": {
     "primitive.tokens.json": {
       "color": {
@@ -257,6 +257,21 @@ export const tokenBundle: TokenBundle = {
                 5
               ],
               "hex": "#0c0c0d"
+            }
+          },
+          "$type": "color"
+        },
+        "green": {
+          "700": {
+            "$description": "Deep green that sections the resume on white paper; the one accent the document carries.",
+            "$value": {
+              "colorSpace": "hsl",
+              "components": [
+                158,
+                100,
+                23
+              ],
+              "hex": "#00754a"
             }
           },
           "$type": "color"
@@ -963,6 +978,47 @@ export const tokenBundle: TokenBundle = {
               "com.malikzhang.alpha": 0.3
             }
           }
+        },
+        "resume": {
+          "paper": {
+            "$type": "color",
+            "$description": "White paper the resume is set on, on screen and in the printed PDF.",
+            "$value": "{color.neutral.000}"
+          },
+          "ink": {
+            "$type": "color",
+            "$description": "Primary ink on the resume paper: name, entry titles, skill labels.",
+            "$value": "{color.neutral.900}"
+          },
+          "inkSecondary": {
+            "$type": "color",
+            "$description": "Running text on the resume paper: summaries and bullets, at the site's secondary tier.",
+            "$value": "{color.neutral.900}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.72
+            }
+          },
+          "inkTertiary": {
+            "$type": "color",
+            "$description": "Dates, locations, and contact lines on the resume paper.",
+            "$value": "{color.neutral.900}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.55
+            }
+          },
+          "accent": {
+            "$type": "color",
+            "$description": "Section headings and the title line, the resume's one accent.",
+            "$value": "{color.green.700}"
+          },
+          "rule": {
+            "$type": "color",
+            "$description": "Hairline under each resume section heading.",
+            "$value": "{color.neutral.900}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.14
+            }
+          }
         }
       }
     }
@@ -1322,6 +1378,35 @@ export const tokenBundle: TokenBundle = {
       ]
     },
     {
+      "path": "color.green.700",
+      "sourceFile": "primitive.tokens.json",
+      "type": "color",
+      "value": {
+        "colorSpace": "hsl",
+        "components": [
+          158,
+          100,
+          23
+        ],
+        "hex": "#00754a"
+      },
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          158,
+          100,
+          23
+        ],
+        "hex": "#00754a"
+      },
+      "description": "Deep green that sections the resume on white paper; the one accent the document carries.",
+      "cssVariable": "--color-green-700",
+      "cssValue": "158 100% 23%",
+      "dependents": [
+        "component.resume.accent"
+      ]
+    },
+    {
       "path": "color.neutral.000",
       "sourceFile": "primitive.tokens.json",
       "type": "color",
@@ -1348,7 +1433,8 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "0 0% 100%",
       "dependents": [
         "component.caseStudyModule.border",
-        "component.caseStudyModule.divider"
+        "component.caseStudyModule.divider",
+        "component.resume.paper"
       ]
     },
     {
@@ -1469,7 +1555,11 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "0 0% 8%",
       "dependents": [
         "color.surface.secondary",
-        "component.projectCard.surface"
+        "component.projectCard.surface",
+        "component.resume.ink",
+        "component.resume.inkSecondary",
+        "component.resume.inkTertiary",
+        "component.resume.rule"
       ]
     },
     {
@@ -2210,6 +2300,129 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "40 6% 90% / 0.018",
       "aliasOf": "color.warm.100",
       "aliasAlpha": 0.018,
+      "dependents": []
+    },
+    {
+      "path": "component.resume.accent",
+      "sourceFile": "component.tokens.json",
+      "type": "color",
+      "value": "{color.green.700}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          158,
+          100,
+          23
+        ],
+        "hex": "#00754a"
+      },
+      "description": "Section headings and the title line, the resume's one accent.",
+      "cssVariable": "--component-resume-accent",
+      "cssValue": "158 100% 23%",
+      "aliasOf": "color.green.700",
+      "dependents": []
+    },
+    {
+      "path": "component.resume.ink",
+      "sourceFile": "component.tokens.json",
+      "type": "color",
+      "value": "{color.neutral.900}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          8
+        ],
+        "hex": "#141414"
+      },
+      "description": "Primary ink on the resume paper: name, entry titles, skill labels.",
+      "cssVariable": "--component-resume-ink",
+      "cssValue": "0 0% 8%",
+      "aliasOf": "color.neutral.900",
+      "dependents": []
+    },
+    {
+      "path": "component.resume.inkSecondary",
+      "sourceFile": "component.tokens.json",
+      "type": "color",
+      "value": "{color.neutral.900}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          8
+        ],
+        "alpha": 0.72
+      },
+      "description": "Running text on the resume paper: summaries and bullets, at the site's secondary tier.",
+      "cssVariable": "--component-resume-ink-secondary",
+      "cssValue": "0 0% 8% / 0.72",
+      "aliasOf": "color.neutral.900",
+      "aliasAlpha": 0.72,
+      "dependents": []
+    },
+    {
+      "path": "component.resume.inkTertiary",
+      "sourceFile": "component.tokens.json",
+      "type": "color",
+      "value": "{color.neutral.900}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          8
+        ],
+        "alpha": 0.55
+      },
+      "description": "Dates, locations, and contact lines on the resume paper.",
+      "cssVariable": "--component-resume-ink-tertiary",
+      "cssValue": "0 0% 8% / 0.55",
+      "aliasOf": "color.neutral.900",
+      "aliasAlpha": 0.55,
+      "dependents": []
+    },
+    {
+      "path": "component.resume.paper",
+      "sourceFile": "component.tokens.json",
+      "type": "color",
+      "value": "{color.neutral.000}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          100
+        ],
+        "hex": "#ffffff"
+      },
+      "description": "White paper the resume is set on, on screen and in the printed PDF.",
+      "cssVariable": "--component-resume-paper",
+      "cssValue": "0 0% 100%",
+      "aliasOf": "color.neutral.000",
+      "dependents": []
+    },
+    {
+      "path": "component.resume.rule",
+      "sourceFile": "component.tokens.json",
+      "type": "color",
+      "value": "{color.neutral.900}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          8
+        ],
+        "alpha": 0.14
+      },
+      "description": "Hairline under each resume section heading.",
+      "cssVariable": "--component-resume-rule",
+      "cssValue": "0 0% 8% / 0.14",
+      "aliasOf": "color.neutral.900",
+      "aliasAlpha": 0.14,
       "dependents": []
     },
     {

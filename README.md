@@ -10,7 +10,7 @@ Personal portfolio of Malik Zhang, a product designer based in Seattle (UW MHCI+
 - **Framer Motion** — page transitions and interaction animation
 - **React Router** — client-side routing
 - **Vitest** + **Testing Library** — unit/component tests
-- **Playwright** — Open Graph screenshot generation (`npm run generate:og`), not end-to-end tests
+- **Playwright** — Open Graph screenshot generation (`npm run generate:og`) and the resume PDF (`npm run generate:resume`), not end-to-end tests
 
 ## Local development
 
@@ -29,6 +29,7 @@ npm run build:dev   # development-mode build
 npm run lint         # run ESLint
 npm run preview      # preview a production build locally
 npm run test:watch   # run tests in watch mode
+npm run generate:resume  # reprint public/malik-resume-2026.pdf from the /resume page
 ```
 
 ## Project structure

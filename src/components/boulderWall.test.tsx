@@ -198,6 +198,50 @@ describe.each([
     expect(v2).toBeLessThan(v0);
   });
 
+  // Visitors scan left-to-right and take the leftmost cheap hold. That lane
+  // is the bait on V4, not the flash.
+  const greedyLeft = (route: BoulderRoute) => {
+    const byId = new Map(route.holds.map((hold) => [hold.id, hold]));
+    const budget = routeBudget(route);
+    const path = [startHold(route).id];
+    let spent = 0;
+    while (true) {
+      const from = byId.get(path[path.length - 1])!;
+      if (from.top) break;
+      const unused = route.holds.filter(
+        (hold) => !path.includes(hold.id) && hold.y < from.y && chalkCost(from, hold, route) != null,
+      );
+      const cheap = unused.filter((hold) => chalkCost(from, hold, route) === 1);
+      const opts = (cheap.length ? cheap : unused).slice().sort((a, b) => a.x - b.x);
+      if (!opts.length) break;
+      const next = opts[0];
+      const cost = chalkCost(from, next, route)!;
+      path.push(next.id);
+      spent += cost;
+      if (next.top || spent >= budget) break;
+    }
+    return path;
+  };
+
+  it("hides V4's flash off the leftmost cheap lane", () => {
+    const v4 = wall.routes[2];
+    const start = startHold(v4);
+    const send = sendingLines(v4)[0];
+    const firsts = v4.holds.filter(
+      (hold) => !hold.start && hold.y < start.y && chalkCost(start, hold, v4) === 1,
+    );
+    const leftmost = firsts.reduce((a, b) => (a.x <= b.x ? a : b));
+    expect(
+      send.includes(leftmost.id),
+      `left first move ${leftmost.id} is on the flash ${send.join(">")}`,
+    ).toBe(false);
+
+    const left = greedyLeft(v4);
+    const sent =
+      left[left.length - 1] === topHold(v4).id && pathChalk(left, v4) <= routeBudget(v4);
+    expect(sent, `left-greedy sent via ${left.join(">")}`).toBe(false);
+  });
+
   // Line holds that offer an upward 1-chalk grab onto a hold no send uses.
   // Ring-counting cannot tell these from the line; only trying them can.
   const forkedLineHolds = (route: BoulderRoute) => {
@@ -212,11 +256,95 @@ describe.each([
     ).length;
   };
 
-  it("forks V4 at most of its holds so the line takes attempts to find", () => {
+  it("forks V4 enough to hide the line without crowding the column", () => {
     const [, v2, v4] = wall.routes;
-    const lineHolds = sendingLines(v4)[0].length - 1;
-    expect(forkedLineHolds(v4)).toBeGreaterThanOrEqual(lineHolds - 1);
+    expect(v4.holds.length).toBeLessThanOrEqual(12);
+    expect(forkedLineHolds(v4)).toBeGreaterThanOrEqual(3);
     expect(forkedLineHolds(v4)).toBeGreaterThan(forkedLineHolds(v2));
+  });
+
+  // Visual distribution: a pair closer than half the inner ring reads as a
+  // blob, and the rest of the column looks empty. Difficulty is the cost
+  // graph; this only forbids stacking holds on top of each other.
+  it("spreads holds instead of stacking them into a blob", () => {
+    for (const route of wall.routes) {
+      const floor = route.close * 0.52;
+      for (let i = 0; i < route.holds.length; i++) {
+        for (let j = i + 1; j < route.holds.length; j++) {
+          const a = route.holds[i];
+          const b = route.holds[j];
+          const d = holdDistance(a, b);
+          expect(
+            d,
+            `${route.id} ${a.id}-${b.id} bunched at ${d.toFixed(1)} (need ≥ ${floor.toFixed(1)})`,
+          ).toBeGreaterThanOrEqual(floor);
+        }
+      }
+    }
+  });
+
+  // A hang with chalk left and nothing in the rings feels broken: the top
+  // just shakes. Every in-budget hang must still have a grab, and a 1-chalk
+  // leftover with no cheap hop must offer the top as a 2-chalk glory slap.
+  const unusedInReach = (route: BoulderRoute, from: BoulderHold, path: string[]) =>
+    route.holds.filter((hold) => !path.includes(hold.id) && chalkCost(from, hold, route) != null);
+
+  const inBudgetHangs = (route: BoulderRoute) => {
+    const byId = new Map(route.holds.map((hold) => [hold.id, hold]));
+    const budget = routeBudget(route);
+    const hangs: { path: string[]; spent: number }[] = [];
+    const walk = (path: string[], spent: number) => {
+      const from = byId.get(path[path.length - 1])!;
+      if (!from.top) hangs.push({ path, spent });
+      for (const to of unusedInReach(route, from, path)) {
+        const cost = chalkCost(from, to, route)!;
+        if (to.top || spent + cost > budget) continue;
+        walk([...path, to.id], spent + cost);
+      }
+    };
+    walk([startHold(route).id], 0);
+    return hangs;
+  };
+
+  it("never strands a climber high on the wall with chalk left", () => {
+    for (const route of wall.routes) {
+      const byId = new Map(route.holds.map((hold) => [hold.id, hold]));
+      const budget = routeBudget(route);
+      const start = startHold(route);
+      const top = topHold(route);
+      const midline = (start.y + top.y) / 2;
+      for (const hang of inBudgetHangs(route)) {
+        if (hang.spent >= budget) continue;
+        const from = byId.get(hang.path[hang.path.length - 1])!;
+        if (from.y > midline) continue;
+        expect(
+          unusedInReach(route, from, hang.path).length,
+          `${route.id} isolated high at ${hang.path.join(">")}`,
+        ).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("puts the top in the outer ring when one chalk is left and no cheap hop remains", () => {
+    for (const route of wall.routes) {
+      const byId = new Map(route.holds.map((hold) => [hold.id, hold]));
+      const budget = routeBudget(route);
+      const top = topHold(route);
+      const midline = (startHold(route).y + topHold(route).y) / 2;
+      for (const hang of inBudgetHangs(route)) {
+        if (budget - hang.spent !== 1) continue;
+        const from = byId.get(hang.path[hang.path.length - 1])!;
+        if (from.y > midline) continue;
+        const cheap = unusedInReach(route, from, hang.path).some(
+          (hold) => chalkCost(from, hold, route) === 1,
+        );
+        if (cheap) continue;
+        expect(
+          chalkCost(from, top, route),
+          `${route.id} ${hang.path.join(">")}: leftover 1, no cheap hop, top not a dyno`,
+        ).toBe(2);
+      }
+    }
   });
 
   it("forks V2 early so it is not V0 with fewer holds", () => {
@@ -315,15 +443,15 @@ describe("BoulderWall interaction", () => {
 
   it("pumps out and falls when the chalk runs dry short of the top", async () => {
     render(<BoulderWall />);
-    // Mobile V4 is exact-chalk. One early dyno (q1 -> q3) leaves the line a
-    // chalk short: the bag empties on q11 with the top still one move away.
-    for (const label of ["q1", "q3", "q5", "q7", "q9", "q11"]) {
-      fireEvent.click(hold(`V4 hold ${label}`));
+    // Mobile V4 is exact-chalk. Start on the center dyno, then join the
+    // right-hand line: the bag empties on q12, one move under the top.
+    for (const label of ["V4 hold q3", "V4 hold q8", "V4 hold q6", "V4 hold q10", "V4 hold q12"]) {
+      fireEvent.click(hold(label));
     }
     expect(screen.getByRole("status").textContent).toMatch(/pumped out on V4/i);
 
     await waitFor(
-      () => expect(hold("V4 hold q1")).toHaveAttribute("aria-pressed", "false"),
+      () => expect(hold("V4 hold q3")).toHaveAttribute("aria-pressed", "false"),
       { timeout: 2500 },
     );
   });
@@ -338,6 +466,48 @@ describe("BoulderWall interaction", () => {
     expect(screen.getByRole("status").textContent).toMatch(/pumped out on V0/i);
     await waitFor(
       () => expect(hold("V0 hold a2")).toHaveAttribute("aria-pressed", "false"),
+      { timeout: 2500 },
+    );
+  });
+
+  it("falls when a decoy hang slaps the top with the last chalk", async () => {
+    const route = MOBILE_WALL.routes[1];
+    const byId = new Map(route.holds.map((h) => [h.id, h]));
+    const budget = routeBudget(route);
+    const top = topHold(route);
+    let slap: string[] | null = null;
+    const walk = (path: string[], spent: number) => {
+      if (slap) return;
+      const from = byId.get(path[path.length - 1])!;
+      if (
+        !from.top &&
+        budget - spent === 1 &&
+        chalkCost(from, top, route) === 2 &&
+        !route.holds.some(
+          (h) => !path.includes(h.id) && chalkCost(from, h, route) === 1,
+        )
+      ) {
+        slap = [...path, top.id];
+        return;
+      }
+      for (const to of route.holds) {
+        if (path.includes(to.id) || to.top) continue;
+        const cost = chalkCost(from, to, route);
+        if (cost == null || spent + cost > budget) continue;
+        walk([...path, to.id], spent + cost);
+      }
+    };
+    walk([startHold(route).id], 0);
+    expect(slap, "mobile V2 has no glory-slap decoy").not.toBeNull();
+
+    render(<BoulderWall />);
+    for (const id of slap!.slice(1)) {
+      fireEvent.click(hold(id === top.id ? "V2 top hold" : `V2 hold ${id}`));
+    }
+    expect(screen.getByRole("status").textContent).toMatch(/pumped out on V2/i);
+    const firstHold = slap!.find((id) => id !== startHold(route).id && id !== top.id)!;
+    await waitFor(
+      () => expect(hold(`V2 hold ${firstHold}`)).toHaveAttribute("aria-pressed", "false"),
       { timeout: 2500 },
     );
   });
