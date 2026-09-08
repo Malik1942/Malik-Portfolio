@@ -22,6 +22,8 @@ import { AuraDesignRequirements } from "./AuraDesignRequirements";
 import { AuraIdeationCriteria } from "./AuraIdeationCriteria";
 import { AuraTestingFindings } from "./AuraTestingFindings";
 import { AuraReflectionLearnings } from "./AuraReflectionLearnings";
+import { AuraIndustrySignal } from "./AuraIndustrySignal";
+import { AuraSamsungParallel } from "./AuraSamsungParallel";
 import {
   MotiTags,
   MotiHook,
@@ -174,6 +176,8 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "aura-ideation-criteria": <AuraIdeationCriteria />,
   "aura-testing-findings": <AuraTestingFindings />,
   "aura-reflection-learnings": <AuraReflectionLearnings />,
+  "aura-industry-signal": <AuraIndustrySignal />,
+  "aura-samsung-parallel": <AuraSamsungParallel />,
   "moti-tags": <MotiTags />,
   "moti-hook": <MotiHook />,
   "moti-app-store": <MotiAppStoreCta />,
