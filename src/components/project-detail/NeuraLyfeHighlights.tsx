@@ -233,6 +233,40 @@ export function NeuraLyfeProtocol() {
   );
 }
 
+// ── Impact ────────────────────────────────────────────────────────────────────
+// The outcome as four tiles a reader can take in without parsing a sentence:
+// the placing, the field it was placed in, and the prize. The figures are the
+// FigBuild 2026 numbers (rules page on Devpost for the field and prize; the
+// builder count from Cindy Ly's write-up of the event). Under them, what the judges
+// recognised, as chips rather than a paragraph, in a teammate's plain account.
+const impactTiles = [
+  { label: "Result", figure: "1st", detail: "Place, FigBuild 2026" },
+  { label: "Field", figure: "690", detail: "Teams entered" },
+  { label: "Builders", figure: "2,184", detail: "People competing" },
+  { label: "Prize", figure: "$10,000", detail: "Grand prize" },
+];
+const judgesNoted = ["Visuals", "The film", "Storytelling", "The 3D-printed Halo"];
+
+export function NeuraLyfeImpact() {
+  return (
+    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-case-study-module-border">
+      <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-case-study-module-divider [&>*:nth-child(odd)]:border-r md:[&>*:nth-child(odd)]:border-r-0 [&>*:nth-child(-n+2)]:border-t-0">
+        {impactTiles.map((t) => (
+          <div key={t.label} className="flex flex-col gap-3 px-6 py-6 md:px-7 md:py-8 border-case-study-module-divider">
+            <p className="text-caption font-mono uppercase tracking-eyebrow text-foreground-tertiary">{t.label}</p>
+            <p className="text-title md:text-heading font-light leading-none tracking-tight tabular-nums text-foreground">{t.figure}</p>
+            <p className="text-sm md:text-base font-light text-foreground-secondary leading-relaxed">{t.detail}</p>
+          </div>
+        ))}
+      </div>
+      <div className="flex flex-col gap-4 px-6 py-6 md:px-7 md:py-7 border-t border-case-study-module-divider">
+        <p className="text-caption font-mono uppercase tracking-eyebrow text-foreground-tertiary">What the judges recognised</p>
+        <Chips items={judgesNoted} />
+      </div>
+    </div>
+  );
+}
+
 // ── Links ─────────────────────────────────────────────────────────────────────
 // The Devpost submission the judges scored gets the filled pill, the one live
 // link on the page; the film Cindy cut for it sits beside it as the bordered

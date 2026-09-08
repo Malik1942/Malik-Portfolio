@@ -11,7 +11,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { AuraHardwareSystem } from "./AuraHardwareSystem";
 import { AuraHighlights } from "./AuraHighlights";
 import { AuraScenes } from "./AuraScenes";
-import { NeuraLyfeForks, NeuraLyfeHighlights, NeuraLyfeLinks, NeuraLyfeProtocol } from "./NeuraLyfeHighlights";
+import { NeuraLyfeForks, NeuraLyfeHighlights, NeuraLyfeImpact, NeuraLyfeLinks, NeuraLyfeProtocol } from "./NeuraLyfeHighlights";
 import { ZeatHighlights } from "./ZeatHighlights";
 import { RangerHighlights } from "./RangerHighlights";
 import { RangerSequence } from "./RangerSequence";
@@ -167,6 +167,7 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "neuralyfe-highlights": <NeuraLyfeHighlights />,
   "neuralyfe-forks": <NeuraLyfeForks />,
   "neuralyfe-protocol": <NeuraLyfeProtocol />,
+  "neuralyfe-impact": <NeuraLyfeImpact />,
   "neuralyfe-links": <NeuraLyfeLinks />,
   "zeat-highlights": <ZeatHighlights />,
   "ranger-highlights": <RangerHighlights />,
