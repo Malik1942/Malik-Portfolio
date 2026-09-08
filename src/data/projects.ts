@@ -7,6 +7,8 @@ import moodmuseHero from "@/assets/moodmuse-hero.webp";
 import studioWatersCover from "@/assets/studio-waters-cover.webp";
 import motiCard from "@/assets/moti-card-poster.webp";
 import motiCardVideo from "@/assets/moti-card.mp4";
+import neuralyfeCardVideo from "@/assets/neuralyfe-card.mp4";
+import auraCardVideo from "@/assets/aura-card.mp4";
 import calmmouseCardPoster from "@/assets/calmmouse-card-poster.webp";
 import calmmouseCardVideo from "@/assets/calmmouse-card.mp4";
 import inkworkCard from "@/assets/inkwork-card.webp";
@@ -142,6 +144,9 @@ export const PROJECTS: readonly Project[] = [
     role: "Product Designer, Maker",
     coverImage: neuralyfeCover,
     coverAspect: "2400/1350",
+    // Title card, then the four product views (roster, brain, replay, Halo),
+    // then back to the title card. Same shape as Moti's reel.
+    coverVideo: neuralyfeCardVideo,
     year: "2026",
     details: "Won 1st Place at FigBuild 2026 for Impact Replay, an AI-driven brain-impact visualization for athletes and medical teams.\n\nLed ideation and problem scoping, designed the Impact Replay interface, and contributed across both digital and physical product development.",
   },
@@ -162,6 +167,9 @@ export const PROJECTS: readonly Project[] = [
     // second time in a second typeface.
     coverImage: auraCover,
     coverAspect: "2400/1350",
+    // Title card, then three in-flight moments from the scene film (take-off
+    // cue, turbulence heads-up, buds intervening), then back to the title card.
+    coverVideo: auraCardVideo,
     details: "A speculative concept for anticipating motion sickness in flight, designed with a 5-person team over 5 weeks.\n\nUser testing validated the refined form: 15 of 16 testers (93.75%) preferred it over the initial design.",
   },
   {

@@ -27,7 +27,6 @@ import auraRefinement3 from "@/assets/aura-refinement-3.webp";
 import auraSystem1 from "@/assets/aura-system-1.webp";
 import auraApp1 from "@/assets/Aura-app-1.webp";
 import neuralyfeCover from "@/assets/neuralyfe-cover.webp";
-import neuralyfeDetail1 from "@/assets/neuralyfe-detail-1.webp";
 import neuralyfeHalo from "@/assets/neuralyfe-halo.mp4";
 import neuralyfeRoster from "@/assets/neuralyfe-roster.mp4";
 import neuralyfeBrain from "@/assets/neuralyfe-brain.mp4";
@@ -214,13 +213,14 @@ const neuralyfe: ProjectDetailSource = {
   slug: "neuralyfe",
   title: "NeuraLyfe",
   heroSummary: "A helmet add-on and sideline app that show football medical staff\nwhich players’ brains are at risk, and which hit caused it.",
-    heroImage: neuralyfeDetail1,
+    heroImage: neuralyfeCover,
+  heroImageFit: "natural",
   metaCards: [
     { label: "Role", value: "Product Designer · Maker" },
     { label: "Timeline", value: "3 Days · March 2026" },
     { label: "Team", value: "Malik Zhang\nCindy Ly\nNaomi Boruchowicz\nJimmy Huang" },
     { label: "Scope", value: "Problem Framing\nImpact Replay\nProduct Narrative" },
-    { label: "Outcome", value: "1st Place of 690 Teams" },
+    { label: "Outcome", value: "1st Place of 690 Teams\n$10,000 Grand Prize" },
     { label: "Tools", value: "Figma Make · Figma · Prototyping" },
   ],
   sections: [
@@ -250,7 +250,7 @@ const neuralyfe: ProjectDetailSource = {
       id: "research",
       label: "Research",
       headline: "Helmets Measure Force, Not What the Brain Did",
-      body: "Helmet sensors today capture **force**, not how the brain responded. The signal that matters, cumulative neurological stress, goes unmeasured.\n\n[[fig:0]]\n\n**The opportunity: track brain-impact risk as it builds, not just flag individual hits.**",
+      body: "Helmet sensors today capture **force**, not how the brain responded. The signal that matters, cumulative neurological stress, goes unmeasured.\n\n[[fig:0]]\n\nThe biomarkers are real: p-Tau 217, NfL, and GFAP are each linked to neurodegeneration in published research. Combining them into a live CTE Progression Index is the speculative step, and we kept that line visible instead of letting the index pass as settled science.\n\n**The opportunity: track brain-impact risk as it builds, not just flag individual hits.**",
       figures: [
         { type: "image", src: neuralyfeDeckIndex, alt: "The CTE Progression Index combines the biomarkers p-Tau 217, NfL, and GFAP into a cumulative risk signal" },
       ],
@@ -268,7 +268,7 @@ const neuralyfe: ProjectDetailSource = {
       id: "system-direction",
       label: "System Direction",
       headline: "Sensing Is Half the System. Reading It Is the Other Half.",
-      body: "**Halo**, a helmet add-on, senses what force data can't: EEG for brain connectivity, biomarkers for early neurological stress, and an impact camera that reconstructs hits.\n\n[[fig:0]]\n\n**The sideline interface** turns those signals into three questions: who needs attention, what's happening in their brain, and what caused it.",
+      body: "Two decisions fixed the shape of the system before any screen existed: where the sensing lives, and who acts on what it finds.\n\n[[module:neuralyfe-forks]]\n\n**Halo**, a helmet add-on, senses what force data can't: EEG for brain connectivity, biomarkers for early neurological stress, and an impact camera that reconstructs hits.\n\n[[fig:0]]\n\n**The sideline interface** turns those signals into three questions: who needs attention, what's happening in their brain, and what caused it.",
       figures: [
         { type: "image", src: neuralyfeDeckHalo, alt: "NeuraLyfe Halo turns any helmet into a brain-health sensor with EEG, biomarker, and impact-camera sensing" },
       ],
@@ -286,7 +286,7 @@ const neuralyfe: ProjectDetailSource = {
       id: "final-design",
       label: "Final Design",
       headline: "Three Views, and the Hardware That Feeds Them",
-      body: "## Halo\n\nAn add-on, not a new helmet, so teams keep the equipment they already trust. EEG maps brain connectivity, biomarker sensors catch early damage indicators, and the impact camera ties each force event to a moment on the field.\n\n[[fig:3]]\n\n## Roster View\n\nRanks players by medical urgency, weighing cumulative impacts, recent hit severity, and brain health, so a static player list becomes a live risk map.\n\n[[fig:0]]\n\n## Brain View\n\nMaps neurological stress by region in 3D. A risk score says how much. Brain View shows where, which matters most when repeated impacts hit the same region.\n\n[[fig:1]]\n\n## Impact Replay\n\nTraces an alert back to the exact play: when the hit happened, how severe it was, which regions were affected, and whether to pull the player now.\n\n[[fig:2]]\n\n**Together: identify risk, inspect impact, act with context.**",
+      body: "## Halo\n\nAn add-on, not a new helmet, so teams keep the equipment they already trust. EEG maps brain connectivity, biomarker sensors catch early damage indicators, and the impact camera ties each force event to a moment on the field.\n\n[[fig:3]]\n\n## Roster View\n\nRanks players by medical urgency, weighing cumulative impacts, recent hit severity, and brain health, so a static player list becomes a live risk map.\n\n[[fig:0]]\n\n## Brain View\n\nMaps neurological stress by region in 3D. A risk score says how much. Brain View shows where, which matters most when repeated impacts hit the same region.\n\n[[fig:1]]\n\n## Impact Replay\n\nTraces an alert back to the exact play: when the hit happened, how severe it was, which regions were affected, and whether to pull the player now.\n\n[[fig:2]]\n\n## The Protocol\n\nSensing only matters if it ends in a call someone can defend. Every player sits in one of five states, and the last two are not advisory.\n\n[[module:neuralyfe-protocol]]\n\n**Together: identify risk, inspect impact, act with context.**",
       figures: [
         { type: "video", src: neuralyfeRoster },
         { type: "video", src: neuralyfeBrain },
@@ -298,10 +298,10 @@ const neuralyfe: ProjectDetailSource = {
       id: "impact",
       label: "Impact",
       headline: "Risk Should Not Stay Hidden Until Symptoms Appear",
-      body: "NeuraLyfe's claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\n**1st Place at FigBuild 2026, out of 690 teams.**\n\n[[fig:1]]\n\n[[module:neuralyfe-devpost]]",
+      body: "NeuraLyfe's claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\n**1st Place at FigBuild 2026, out of 690 teams and 2,184 builders, with the $10,000 grand prize.**\n\nThe judges singled out the visuals, the film, the storytelling, and above all the Halo prototype, which we 3D-printed so the concept could be held rather than imagined.\n\n[[fig:1]]\n\n[[module:neuralyfe-links]]",
       figures: [
         { type: "image", src: neuralyfeDeckScenario, alt: "In a live scenario, a player's frontal lobe hits critical levels and his card turns red" },
-        { type: "image", src: neuralyfeAward, alt: "The four NeuraLyfe teammates holding MHCI+D letter cushions in front of the projected First place: NeuraLyfe slide at the FigBuild 2026 awards", label: "Awards night", caption: "the team in front of the first‑place slide at FigBuild 2026" },
+        { type: "image", src: neuralyfeAward, alt: "The four NeuraLyfe teammates holding MHCI+D letter cushions in front of the projected First place: NeuraLyfe slide at the FigBuild 2026 awards", caption: "The four of us at the FigBuild 2026 awards" },
       ],
     },
     {
