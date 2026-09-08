@@ -217,7 +217,7 @@ const neuralyfe: ProjectDetailSource = {
   heroImageFit: "natural",
   metaCards: [
     { label: "Role", value: "Product Designer · Maker" },
-    { label: "Timeline", value: "3 Days · March 2026" },
+    { label: "Timeline", value: "4 Days · March 2026" },
     { label: "Team", value: "Malik Zhang\nCindy Ly\nNaomi Boruchowicz\nJimmy Huang" },
     { label: "Scope", value: "Problem Framing\nImpact Replay\nProduct Narrative" },
     { label: "Outcome", value: "1st Place of 690 Teams\n$10,000 Grand Prize" },
@@ -229,7 +229,7 @@ const neuralyfe: ProjectDetailSource = {
       label: "Intro",
       headline: "A Sideline Call That Cannot Wait for Symptoms",
       showProjectMeta: true,
-      body: "**NeuraLyfe is a sideline decision-support system that helps football medical staff catch brain-impact risk before it becomes irreversible. It was designed and built in three days for the FigBuild 2026 hackathon, entirely in Figma Make.**\n\nIt tackles Chronic Traumatic Encephalopathy (CTE): a degenerative condition from repeated head impacts that accumulates invisibly and can't be confirmed until after death.\n\nI ideated the concept and helped the team choose it over a rougher direction around dreams, where the pain point never got sharp. Over the 72 hours, I designed and built **Halo** and the **Impact Replay** interface, and co-designed the **Roster View**.\n\n**It won 1st Place out of 690 teams.**",
+      body: "**NeuraLyfe is a sideline decision-support system that helps football medical staff catch brain-impact risk before it becomes irreversible. It was designed and built in four days for the FigBuild 2026 hackathon, entirely in Figma Make.**\n\nIt tackles Chronic Traumatic Encephalopathy (CTE): a degenerative condition from repeated head impacts that accumulates invisibly and can't be confirmed until after death.\n\nI ideated the concept and helped the team choose it over a rougher direction around dreams, where the pain point never got sharp. Over the four days, I designed and built **Halo** and the **Impact Replay** interface, and co-designed the **Roster View**.\n\n**It won 1st Place out of 690 teams.**",
     },
     {
       id: "highlights",
