@@ -4,6 +4,8 @@ import neuralyfeRoster from "@/assets/neuralyfe-roster.mp4";
 import neuralyfeBrain from "@/assets/neuralyfe-brain.mp4";
 import neuralyfeReplay from "@/assets/neuralyfe-replay.mp4";
 import neuralyfeHalo from "@/assets/neuralyfe-halo.mp4";
+import { ArrowUpRight } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 import { Chips, PullQuote } from "./MotiModules";
 import { FigureCaption } from "./FigureCaption";
 
@@ -133,6 +135,19 @@ export function NeuraLyfeHighlights() {
           <NeuraLyfeArtifact key={a.src} {...a} />
         ))}
       </div>
+    </div>
+  );
+}
+
+// The one live link on the page: the Devpost submission the judges scored.
+// Filled pill, centered, same treatment as Moti's App Store link.
+const NEURALYFE_DEVPOST_URL = "https://devpost.com/software/neuralyfe";
+export function NeuraLyfeDevpostCta() {
+  return (
+    <div className="flex justify-center">
+      <Button href={NEURALYFE_DEVPOST_URL} external icon={<ArrowUpRight strokeWidth={1.8} />}>
+        View the submission on Devpost
+      </Button>
     </div>
   );
 }

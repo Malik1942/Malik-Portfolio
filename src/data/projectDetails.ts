@@ -13,7 +13,7 @@ import studioWatersDemo from "@/assets/studio-waters-demo.mp4";
 import studioWatersCast from "@/assets/studio-waters-cast.webp";
 import studioWatersScreen from "@/assets/studio-waters-screen.webp";
 import auraDetail1 from "@/assets/aura-detail-1.webp";
-import auraDiscovery1 from "@/assets/aura-discovery-1.webp";
+import auraDiscoveryWhiteboard from "@/assets/aura-discovery-whiteboard.webp";
 import auraResearch1 from "@/assets/aura-research-1.webp";
 import auraResearch2 from "@/assets/aura-research-2.webp";
 import auraResearch3 from "@/assets/aura-research-3.webp";
@@ -38,6 +38,7 @@ import neuralyfeDeckHalo from "@/assets/neuralyfe-deck-halo.webp";
 import neuralyfeDeckIndex from "@/assets/neuralyfe-deck-index.webp";
 import neuralyfeDeckViews from "@/assets/neuralyfe-deck-views.webp";
 import neuralyfeDeckScenario from "@/assets/neuralyfe-deck-scenario.webp";
+import neuralyfeAward from "@/assets/neuralyfe-award.webp";
 import flowprintCover from "@/assets/flowprint-cover.webp";
 import tubularCover from "@/assets/tubular-cover.webp";
 import moodmuseHero from "@/assets/moodmuse-hero.webp";
@@ -138,7 +139,7 @@ const aura: ProjectDetailSource = {
       label: "Discovery",
       headline: "We Narrowed the Journey to the Moment With the Least Control",
       figures: [
-        { type: "image", src: auraDiscovery1, alt: "Aura discovery: travel journey mapping" },
+        { type: "image", src: auraDiscoveryWhiteboard, alt: "The team at the whiteboard during discovery: interview notes pinned above handwritten clusters on packing, planning, and in-flight discomfort, with Malik talking the group through them", label: "Discovery session", caption: "sorting interview notes into packing, planning, and in-flight discomfort on the whiteboard" },
       ],
       body: "We broke the journey into three phases, **before**, **during**, and **after travel**, then compared where discomfort was most intense and traveler control was lowest.\n\n[[fig:0]]\n\nIn-flight motion sickness stood out: high discomfort, low control. Travelers can’t change their environment, stop moving, or recover once symptoms begin.\n\n**Decision: Narrow Aura from a general travel concept to an in-flight support system for motion-sensitive travelers.**\n\n[[module:aura-design-requirements]]",
     },
@@ -297,9 +298,10 @@ const neuralyfe: ProjectDetailSource = {
       id: "impact",
       label: "Impact",
       headline: "Risk Should Not Stay Hidden Until Symptoms Appear",
-      body: "NeuraLyfe's claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\n**1st Place at FigBuild 2026, out of 690 teams.**",
+      body: "NeuraLyfe's claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\n**1st Place at FigBuild 2026, out of 690 teams.**\n\n[[fig:1]]\n\n[[module:neuralyfe-devpost]]",
       figures: [
         { type: "image", src: neuralyfeDeckScenario, alt: "In a live scenario, a player's frontal lobe hits critical levels and his card turns red" },
+        { type: "image", src: neuralyfeAward, alt: "The four NeuraLyfe teammates holding MHCI+D letter cushions in front of the projected First place: NeuraLyfe slide at the FigBuild 2026 awards", label: "Awards night", caption: "the team in front of the first‑place slide at FigBuild 2026" },
       ],
     },
     {
