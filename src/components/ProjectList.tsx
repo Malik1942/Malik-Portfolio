@@ -304,9 +304,9 @@ const SkillChip = ({ skill }: { skill: Skill }) => {
   );
 };
 
-// Metadata line. Case-study sections: role · year, then link chips, then up to
-// three skill chips. Studio tiles: link chips first, then up to two skill
-// chips, then the year (the role is the same on most tiles there).
+// Metadata block, the same shape on every card: the facts (role · year and the
+// shipped chip) on one row, the skill chips on the row beneath. Studio tiles
+// show two skills, the case-study cards up to three.
 const CardMeta = ({
   project,
   tile = false,
@@ -334,26 +334,18 @@ const CardMeta = ({
   const statusChip = project.destination?.kind === "placeholder" ? <Chip>Coming soon</Chip> : null;
   const skillChips = skills.map((skill) => <SkillChip key={skill} skill={skill} />);
 
-  // Tiles: one line, links then skills then the year.
-  if (tile) {
-    return (
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
-        {linkChips}
-        {statusChip}
-        {skillChips}
-        <span style={textStyle}>{project.year}</span>
-      </div>
-    );
-  }
-
-  // Case-study cards: two rows. The facts on the first — role · year, and the
-  // shipped chip beside them, since "on the App Store" is a fact of the same
-  // kind — and the skills on the second. When everything shared one wrapping
-  // line, a long role such as "Industrial Design Lead · Sole UX Designer · 2024"
-  // pushed the chips around until one landed alone on a third line under a run
-  // of text. As a row of their own the skills wrap as a group, and the ragged
-  // edge they make is a tag row's, not an orphan's. Three chips fit the hero
-  // rows' 380px text column, four did not, which is why the link chip moved up.
+  // Two rows. The facts on the first — role · year, and the shipped chip beside
+  // them, since "on the App Store" is a fact of the same kind — and the skills
+  // on the second. When everything shared one wrapping line, a long role such
+  // as "Industrial Design Lead · Sole UX Designer · 2024" pushed the chips
+  // around until one landed alone on a third line under a run of text. As a
+  // row of their own the skills wrap as a group, and the ragged edge they make
+  // is a tag row's, not an orphan's. Three chips fit the hero rows' 380px text
+  // column, four did not, which is why the link chip moved up.
+  //
+  // Studio tiles used to run everything on one line with the year last, which
+  // read as a different system from the Work cards and, on a phone where every
+  // card is a full-width tile, left the year orphaned after the chips.
   return (
     <div className="flex flex-col gap-y-2">
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">

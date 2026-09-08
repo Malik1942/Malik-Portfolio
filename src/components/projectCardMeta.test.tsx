@@ -59,18 +59,19 @@ describe("project card metadata", () => {
     expect(container.textContent).toContain("Product Designer & Builder · 2026");
   });
 
-  it("orders a Workshop tile's metadata as links, skills, year", () => {
+  it("gives a Studio tile the same metadata shape as a Work card: role · year and the link, then skills", () => {
     const { container } = render(
       <MemoryRouter>
         <ProjectCard project={{ ...project, skills: [...project.skills] }} projectId="moti" dotClass="" globalIndex={0} tile />
       </MemoryRouter>,
     );
+    const facts = screen.getByText("Product Designer & Builder · 2026");
     const link = screen.getByRole("link", { name: /App Store/ });
     const skill = screen.getByText("AI-Native");
-    const year = screen.getByText("2026");
+    expect(facts.compareDocumentPosition(link) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(link.compareDocumentPosition(skill) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(skill.compareDocumentPosition(year) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(container.textContent).not.toContain("Product Designer");
+    // The year lives on the facts row, never as a trailing token after the chips.
+    expect(container.textContent).not.toMatch(/AI-Native\s*2026/);
   });
 
   it("gives an external tile an outbound card link and an arrow glyph", () => {
