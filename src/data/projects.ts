@@ -1,5 +1,7 @@
 import { SECTIONS, type SectionKey, type SectionLabel } from "@/lib/sections";
 import auraCover from "@/assets/aura-cover.webp";
+import auraCoverPlate from "@/assets/aura-cover-plate.webp";
+import auraCoverMark from "@/assets/aura-cover-mark.webp";
 import neuralyfeCover from "@/assets/neuralyfe-cover.webp";
 import flowprintCover from "@/assets/flowprint-cover.webp";
 import tubularCover from "@/assets/tubular-cover.webp";
@@ -8,7 +10,6 @@ import studioWatersCover from "@/assets/studio-waters-cover.webp";
 import motiCard from "@/assets/moti-card-poster.webp";
 import motiCardVideo from "@/assets/moti-card.mp4";
 import neuralyfeCardVideo from "@/assets/neuralyfe-card.mp4";
-import auraCardVideo from "@/assets/aura-card.mp4";
 import calmmouseCardPoster from "@/assets/calmmouse-card-poster.webp";
 import calmmouseCardVideo from "@/assets/calmmouse-card.mp4";
 import inkworkCard from "@/assets/inkwork-card.webp";
@@ -134,6 +135,14 @@ export interface Project {
   year: string;
   coverImage?: string;
   coverVideo?: string;
+  /** Hover motion without a reel. `coverPlate` is `coverImage` with one element
+   *  matted out of it, and `coverMark` is that element alone on transparency;
+   *  the card stacks them and animates the mark in on hover. Compositing the
+   *  two at rest reproduces `coverImage` exactly, so the hero, the reduced-motion
+   *  still and the OG image keep using the flat cover and are unaffected.
+   *  Both must be declared together, or neither. */
+  coverPlate?: string;
+  coverMark?: string;
   coverFit?: "cover" | "contain";
   /** The cover media's own intrinsic ratio, as "W/H" (e.g. "1600/1000").
    *  Reserves the card's media box before the image or video has loaded, so the
@@ -214,9 +223,13 @@ export const PROJECTS: readonly Project[] = [
     // second time in a second typeface.
     coverImage: auraCover,
     coverAspect: "2400/1350",
-    // Title card, then three in-flight moments from the scene film (take-off
-    // cue, turbulence heads-up, buds intervening), then back to the title card.
-    coverVideo: auraCardVideo,
+    // No reel. The one that was here cut between two different actors, carried
+    // paragraphs of unreadable copy, and was 1280x720 at 507kbps against a
+    // 2400x1350 still — softer than the picture it replaced. Instead the card
+    // animates the cover's own wordmark: `coverPlate` is this image with AURA
+    // and its rule matted out, `coverMark` is that mark alone.
+    coverPlate: auraCoverPlate,
+    coverMark: auraCoverMark,
     details: "A speculative concept for anticipating motion sickness in flight, designed with a 5-person team over 5 weeks.\n\nUser testing validated the refined form: 15 of 16 testers (93.75%) preferred it over the initial design.",
   },
   {

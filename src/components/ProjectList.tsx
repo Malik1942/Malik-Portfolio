@@ -30,6 +30,11 @@ export interface ProjectCardData {
   year: string;
   coverImage?: string;
   coverVideo?: string;
+  /** `coverImage` split in two so one element of it can animate on hover: the
+   *  photograph without that element, and that element alone on transparency.
+   *  See the field docs in src/data/projects.ts. Declare both or neither. */
+  coverPlate?: string;
+  coverMark?: string;
   coverFit?: "cover" | "contain";
   /** The cover media's own intrinsic ratio, as "W/H" (e.g. "1600/1000").
    *  Reserves the card's media box before the image or video has loaded, so the
@@ -116,6 +121,10 @@ const CardMedia = ({
   // the still; leaving it brings it back.
   const shouldReduceMotion = useReducedMotion();
   const hasVideo = !!project.coverVideo && !shouldReduceMotion;
+  // Layered hover motion, for a cover that animates one of its own elements
+  // instead of playing a reel. Reduced motion drops back to the flat cover.
+  const hasMark =
+    !hasVideo && !shouldReduceMotion && !!project.coverPlate && !!project.coverMark;
 
   // ── Cover video playback ──
   // Hover-only, and it does not loop. Arrival is not a request to watch the
@@ -193,6 +202,49 @@ const CardMedia = ({
               }}
             />
           ) : null}
+        </>
+      ) : hasMark ? (
+        // Hover motion without a reel: the cover, split into the photograph and
+        // the wordmark that sits on it. The mark rises and fades in on hover and
+        // its rule wipes out from the left, so the brand states itself when the
+        // pointer arrives instead of a video having to load and play.
+        //
+        // Both layers are the cover's own pixels — the mark was matted out of it
+        // and recomposites onto the plate exactly — so nothing is redrawn or
+        // approximated, and reduced motion falls back to the flat cover below.
+        <>
+          <img
+            src={project.coverPlate}
+            alt={project.title}
+            loading="lazy"
+            decoding="async"
+            className={mediaClass}
+            style={liftStyle}
+          />
+          <motion.img
+            src={project.coverMark}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            className={`${mediaClass} pointer-events-none absolute inset-0`}
+            initial={false}
+            // Only opacity and the wipe are animated here. The lift is left to
+            // `liftStyle`, the same CSS transition the plate uses, so the mark
+            // and the photograph it was matted out of scale on one clock and
+            // stay in register — running the mark's scale through Framer put it
+            // on a 750ms curve against the plate's 900ms one, and the wordmark
+            // drifted off its own position mid-hover.
+            animate={{
+              opacity: hovered ? 1 : 0,
+              clipPath: hovered ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",
+            }}
+            transition={{
+              opacity: MOTION.fade,
+              clipPath: { duration: DURATION.slow, ease: EASE.enter },
+            }}
+            style={liftStyle}
+          />
         </>
       ) : project.coverImage ? (
         <img
