@@ -258,13 +258,18 @@ const SkillChip = ({ skill }: { skill: Skill }) => {
 const CardMeta = ({
   project,
   tile = false,
+  narrow = false,
   isMobile,
 }: {
   project: ProjectCardData;
   tile?: boolean;
+  /** A hero row's 380px desktop text column: two skill chips fit it on one
+   *  line, a third never does (measured 421–507px for three). The first two in
+   *  the project's list are shown; the data orders them most-telling first. */
+  narrow?: boolean;
   isMobile: boolean;
 }) => {
-  const skills = (project.skills ?? []).slice(0, tile ? 2 : MAX_SKILLS);
+  const skills = (project.skills ?? []).slice(0, tile || narrow ? 2 : MAX_SKILLS);
   const links = project.links ?? [];
   const textStyle = {
     // Tiles use the body-small token (14px); the case-study cards keep their
@@ -409,7 +414,7 @@ export const ProjectCard = ({
   // is an inner wrapper with a CSS transition, separate from the entrance
   // animation on the outer motion.div, so a lens change answers in one beat
   // instead of replaying the staggered reveal.
-  const match = lensMatch(project.skills, useLens()?.lens ?? null);
+  const match = lensMatch(project, useLens()?.lens ?? null);
   const bodyOpacity =
     hovered || match === true
       ? 1
@@ -566,7 +571,7 @@ export const ProjectCard = ({
           </div>
 
           {/* Level 4 — Metadata */}
-          <CardMeta project={project} isMobile={isMobile} />
+          <CardMeta project={project} narrow={!isMobile} isMobile={isMobile} />
         </div>
       </div>
     );

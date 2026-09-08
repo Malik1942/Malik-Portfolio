@@ -26,7 +26,7 @@ const project = {
   description: "An AI-native planner",
   role: "Product Designer & Builder",
   year: "2026",
-  skills: ["AI-Native", "iOS / SwiftUI"] as const,
+  skills: ["AI-Native", "Design Engineering"] as const,
   links: [{ label: "App Store" as const, url: "https://apps.apple.com/us/app/moti-plan/id6770705491" }],
   destination: { kind: "case-study" as const },
 };

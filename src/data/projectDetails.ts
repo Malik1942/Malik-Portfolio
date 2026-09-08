@@ -336,7 +336,7 @@ const moti: ProjectDetailSource = {
   heroImage: motiHero,
   heroImageFit: "cover",
   metaCards: [
-    { label: "Role", value: "Product Designer & Builder" },
+    { label: "Role", value: "0→1 Product Designer & Builder" },
     { label: "Timeline", value: "2 Weeks · May–June 2026" },
     { label: "Tools", value: "SwiftUI · Foundation Models · Gemini · Claude · Codex" },
     { label: "Output", value: "Shipped on the App Store · SLM + LLM Integrated" },
@@ -1108,7 +1108,7 @@ const oryne: ProjectDetailSource = {
   heroImage: oryneHero,
   heroImageFit: "cover",
   metaCards: [
-    { label: "Role", value: "Product Designer & Builder" },
+    { label: "Role", value: "0→1 Product Designer & Builder" },
     { label: "Timeline", value: "June 2026–Present" },
     { label: "Tools", value: "SwiftUI · SwiftData + CloudKit · Foundation Models · Claude Code" },
     { label: "Output", value: "Live on the App Store · v1.5 · English & Chinese" },

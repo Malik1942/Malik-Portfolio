@@ -2,8 +2,17 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, typ
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { ArrowRight, X } from "lucide-react";
-import type { Skill } from "@/data/projects";
-import { LENS_PARAM, LENS_ROW, lensCounts, lensHref, skillFromSlug, skillSlug } from "@/lib/lens";
+import {
+  LENS_PARAM,
+  LENS_ROW,
+  lensAside,
+  lensCounts,
+  lensFromSlug,
+  lensHref,
+  lensSlug,
+  lensTitle,
+  type Lens,
+} from "@/lib/lens";
 import { scrollToTarget } from "@/lib/scrollToTarget";
 import { DURATION, EASE, MOTION } from "@/design-system/system/motion";
 import { Chip, ChipButton } from "./ui/Chip";
@@ -21,10 +30,10 @@ import { TextLink } from "./ui/TextLink";
 // round trip into a case study still returns to the lens they had.
 
 export interface LensState {
-  lens: Skill | null;
-  setLens: (skill: Skill | null) => void;
-  /** Press a chip: the same skill clears, a different one swaps. */
-  toggle: (skill: Skill) => void;
+  lens: Lens | null;
+  setLens: (lens: Lens | null) => void;
+  /** Press a chip: the same lens clears, a different one swaps. */
+  toggle: (lens: Lens) => void;
 }
 
 const LensContext = createContext<LensState | null>(null);
@@ -33,16 +42,16 @@ export const useLens = (): LensState | null => useContext(LensContext);
 
 export function LensProvider({ children }: { children: ReactNode }) {
   const [params, setParams] = useSearchParams();
-  const lens = skillFromSlug(params.get(LENS_PARAM));
+  const lens = lensFromSlug(params.get(LENS_PARAM));
 
   const setLens = useCallback(
-    (skill: Skill | null) => {
+    (next: Lens | null) => {
       setParams(
         (prev) => {
-          const next = new URLSearchParams(prev);
-          if (skill) next.set(LENS_PARAM, skillSlug(skill));
-          else next.delete(LENS_PARAM);
-          return next;
+          const params = new URLSearchParams(prev);
+          if (next) params.set(LENS_PARAM, lensSlug(next));
+          else params.delete(LENS_PARAM);
+          return params;
         },
         { replace: true, preventScrollReset: true },
       );
@@ -50,7 +59,7 @@ export function LensProvider({ children }: { children: ReactNode }) {
     [setParams],
   );
 
-  const toggle = useCallback((skill: Skill) => setLens(lens === skill ? null : skill), [lens, setLens]);
+  const toggle = useCallback((next: Lens) => setLens(lens === next ? null : next), [lens, setLens]);
 
   // Escape clears the lens, unless something modal (the video lightbox) owns
   // the key right now.
@@ -70,14 +79,17 @@ export function LensProvider({ children }: { children: ReactNode }) {
 }
 
 // ─── Lens row ─────────────────────────────────────────────────────────────────
-// The invitation: one quiet line of the most-asked-for skills, under the
-// Selected Work eyebrow and the Studio header. The same ChipButton the cards
-// use, so pressing a skill here and pressing it on a card are the same act,
-// and the pressed state is shared. Nothing here is a filter bar: the row does
-// not sort, hide, or count; it only offers the lens.
+// The invitation: one quiet line of the most-asked-for lenses, under the
+// Selected Work eyebrow and the Studio header. Shipped first, then skills. The
+// same ChipButton the cards use, so pressing a skill here and pressing it on a
+// card are the same act, and the pressed state is shared. Nothing here is a
+// filter bar: the row does not sort, hide, or count; it only offers the lens.
+// It carries no visible label either: the eyebrow above it names the section,
+// and the chips are the same chips the cards wear, so they explain themselves.
+// The name is for assistive tech only.
 
 export const LENS_ROW_ID = "lens-row";
-export const LENS_ROW_LABEL = "Look by skill";
+export const LENS_ROW_LABEL = "Lenses";
 
 export function LensRow({ className = "" }: { className?: string }) {
   const state = useLens();
@@ -95,15 +107,14 @@ export function LensRow({ className = "" }: { className?: string }) {
       transition={{ ...MOTION.enter, delay: 0.1 }}
       className={`flex flex-wrap items-center gap-x-1.5 gap-y-1.5 ${className}`}
     >
-      <span className="mr-1.5 text-caption text-foreground-tertiary">{LENS_ROW_LABEL}</span>
-      {LENS_ROW.map((skill) => (
+      {LENS_ROW.map((lens) => (
         <ChipButton
-          key={skill}
-          pressed={state.lens === skill}
-          onPress={() => state.toggle(skill)}
-          title={state.lens === skill ? "Clear lens" : `See every project with ${skill}`}
+          key={lens}
+          pressed={state.lens === lens}
+          onPress={() => state.toggle(lens)}
+          title={lensTitle(lens, state.lens === lens)}
         >
-          {skill}
+          {lens}
         </ChipButton>
       ))}
     </motion.div>
@@ -112,7 +123,7 @@ export function LensRow({ className = "" }: { className?: string }) {
 
 // ─── Lens bar ─────────────────────────────────────────────────────────────────
 // The only chrome the lens adds, and only while one is active: a pill at the
-// foot of the viewport naming the skill, how many of this page's projects
+// foot of the viewport naming the lens, how many of this page's projects
 // carry it, where the rest are, and how to put it down. The resting page has
 // no filter bar, so nothing changes until a chip is pressed.
 //
@@ -145,6 +156,7 @@ export function LensBar({ hidden = false }: { hidden?: boolean }) {
   const { pathname } = useLocation();
   const lens = state?.lens ?? null;
   const counts = lens ? lensCounts(lens, pathname) : null;
+  const aside = lens ? lensAside(lens) : null;
 
   return (
     <AnimatePresence>
@@ -152,7 +164,7 @@ export function LensBar({ hidden = false }: { hidden?: boolean }) {
         <motion.div
           key="lens-bar"
           id={LENS_BAR_ID}
-          aria-label="Skill lens"
+          aria-label="Lens"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 12 }}
@@ -189,6 +201,19 @@ export function LensBar({ hidden = false }: { hidden?: boolean }) {
               className="inline-flex items-center gap-1 whitespace-nowrap"
             >
               {counts.elsewhere.count} in {counts.elsewhere.label}
+              <ArrowRight aria-hidden="true" className="h-3 w-3" strokeWidth={2} />
+            </TextLink>
+          ) : null}
+
+          {aside ? (
+            <TextLink
+              as={Link}
+              to={aside.path}
+              tone="secondary"
+              size="caption"
+              className="inline-flex items-center gap-1 whitespace-nowrap"
+            >
+              {aside.label}
               <ArrowRight aria-hidden="true" className="h-3 w-3" strokeWidth={2} />
             </TextLink>
           ) : null}

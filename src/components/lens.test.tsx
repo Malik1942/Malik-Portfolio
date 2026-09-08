@@ -6,7 +6,7 @@ import Index from "@/pages/Index";
 import Studio from "@/pages/Studio";
 import { ProjectCard } from "./ProjectList";
 import { LENS_BAR_ID, LENS_ROW_ID, LENS_ROW_LABEL } from "./Lens";
-import { LENS_ROW } from "@/lib/lens";
+import { LENS_ROW, SHIPPED } from "@/lib/lens";
 import { SECTIONS } from "@/lib/sections";
 
 // jsdom ships none of the observers the hero and the cards lean on.
@@ -108,17 +108,17 @@ describe("skill lens on the homepage", () => {
   it("is single select: another skill swaps, the same skill clears, Escape clears", () => {
     const { container } = renderAt("/?lens=ai-native");
     const aura = container.querySelector("#project-aura") as HTMLElement;
-    fireEvent.click(within(aura).getByRole("button", { name: "User Research" }));
-    expect(location()).toBe("/?lens=user-research");
+    fireEvent.click(within(aura).getByRole("button", { name: "UX Research" }));
+    expect(location()).toBe("/?lens=ux-research");
     expect(lensOf(container, "aura")).toBe("match");
     expect(lensOf(container, "moti")).toBe("dim");
 
-    fireEvent.click(within(aura).getByRole("button", { name: "User Research" }));
+    fireEvent.click(within(aura).getByRole("button", { name: "UX Research" }));
     expect(location()).toBe("/");
     expect(container.querySelector("[data-lens]")).toBeNull();
 
-    fireEvent.click(within(aura).getByRole("button", { name: "User Research" }));
-    expect(location()).toBe("/?lens=user-research");
+    fireEvent.click(within(aura).getByRole("button", { name: "UX Research" }));
+    expect(location()).toBe("/?lens=ux-research");
     fireEvent.keyDown(window, { key: "Escape" });
     expect(location()).toBe("/");
   });
@@ -156,6 +156,38 @@ describe("skill lens on the homepage", () => {
     fireEvent.click(within(moodmuse).getByRole("button", { name: "Industrial Design" }));
     expect(location()).toBe("/");
     expect(within(row).getByRole("button", { name: "Industrial Design" })).toHaveAttribute("aria-pressed", "false");
+  });
+
+  it("holds up the shipped projects from the row, with no Shipped chip on any card", () => {
+    const { container } = renderAt("/");
+    const row = container.querySelector(`#${LENS_ROW_ID}`) as HTMLElement;
+    fireEvent.click(within(row).getByRole("button", { name: SHIPPED }));
+    expect(location()).toBe("/?lens=shipped");
+    expect(lensOf(container, "moti")).toBe("match");
+    expect(lensOf(container, "oryne")).toBe("match");
+    expect(lensOf(container, "aura")).toBe("dim");
+    expect(lensOf(container, "neuralyfe")).toBe("dim");
+    // The row's chip is the only pressed control; the cards say "shipped" with
+    // their App Store link, not with a chip.
+    const pressed = container.querySelectorAll('button[aria-pressed="true"]');
+    expect(pressed.length).toBe(1);
+    expect(pressed[0].closest(`#${LENS_ROW_ID}`)).not.toBeNull();
+    const bar = container.querySelector(`#${LENS_BAR_ID}`) as HTMLElement;
+    expect(bar.textContent).toContain(SHIPPED);
+    expect(bar.textContent).toContain("2 of 8 projects here");
+    expect(within(bar).getByRole("link", { name: /2 in Studio/ })).toHaveAttribute("href", "/studio?lens=shipped");
+  });
+
+  it("offers the site's own design system from the Design Systems lens", () => {
+    const { container } = renderAt("/?lens=design-systems");
+    const bar = container.querySelector(`#${LENS_BAR_ID}`) as HTMLElement;
+    expect(bar.textContent).toContain("0 of 8 projects here");
+    expect(within(bar).getByRole("link", { name: /1 in Studio/ })).toHaveAttribute("href", "/studio?lens=design-systems");
+    expect(within(bar).getByRole("link", { name: /This site's design system/ })).toHaveAttribute("href", "/design-system");
+    // No such link under any other lens.
+    cleanup();
+    const other = renderAt("/?lens=shipped").container;
+    expect(within(other.querySelector(`#${LENS_BAR_ID}`) as HTMLElement).queryByRole("link", { name: /design system/i })).toBeNull();
   });
 
   it("ignores a lens it does not know", () => {

@@ -20,33 +20,46 @@ import oryneCardVideo from "@/assets/oryne-card.mp4";
 import spatialEditorCard from "@/assets/spatial-editor-card.webp";
 
 // ── Skill vocabulary ─────────────────────────────────────────────────────────
-// A controlled list, as a union so a typo fails typecheck. The words match the
-// Sep 2026 resume so the site and the resume use the same terms. Cap is 12;
-// every entry must appear on the resume or be added to it.
+// A controlled list, as a union so a typo fails typecheck. Cap is 12.
+//
+// The names are the disciplines the large design orgs hire for, so a recruiter
+// reads a chip as a role they have a headcount for: Apple's Human Interface
+// group (Design Prototyper / Design Engineer, Motion, Industrial Design,
+// Human Factors), Google's Pixel UX team (UX Research, UX Engineer, Hardware
+// UX, Motion Design), Amazon Design (UX Research, Design Technologist,
+// Industrial Design). A discipline that would land on nearly every card
+// ("Interaction Design", "Product Design", "UX Design") is not in the list: a
+// chip everyone carries sorts nothing. Platforms ("iOS") are not skills; the
+// description says "App Store" where it matters. "AI-Native" is the one word
+// that is ours rather than theirs: it is the thesis of the portfolio.
 export type Skill =
-  | "Data-Dense UI"
-  | "Interaction Design"
-  | "User Research"
-  | "Prototyping in Code"
   | "AI-Native"
+  | "Design Engineering"
+  | "Hardware UX"
   | "Industrial Design"
   | "Physical Prototyping"
+  | "UX Research"
+  | "Data Visualization"
+  | "Spatial Computing"
+  | "Motion Design"
   | "Visual Design"
   | "Design Systems"
-  | "iOS / SwiftUI";
+  | "Inclusive Design";
 
 /** Runtime copy of the `Skill` union, for the data tests. */
 export const SKILLS: readonly Skill[] = [
-  "Data-Dense UI",
-  "Interaction Design",
-  "User Research",
-  "Prototyping in Code",
   "AI-Native",
+  "Design Engineering",
+  "Hardware UX",
   "Industrial Design",
   "Physical Prototyping",
+  "UX Research",
+  "Data Visualization",
+  "Spatial Computing",
+  "Motion Design",
   "Visual Design",
   "Design Systems",
-  "iOS / SwiftUI",
+  "Inclusive Design",
 ];
 
 /** A card shows at most this many skill chips. */
@@ -151,12 +164,12 @@ export const PROJECTS: readonly Project[] = [
     id: "moti",
     title: "Moti",
     section: "selected",
-    skills: ["AI-Native", "iOS / SwiftUI", "Prototyping in Code"],
+    skills: ["AI-Native", "Design Engineering"],
     links: [{ label: "App Store", url: "https://apps.apple.com/us/app/moti-plan/id6770705491" }],
     destination: CASE_STUDY,
     signal: "An AI-Native Timeline for Real Projects",
     description: "Designed, built, and shipped on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.",
-    role: "Product Designer & Builder",
+    role: "0→1 Product Designer & Builder",
     coverImage: motiCard,
     coverAspect: "1280/800",
     // The Moti: Plan reel — the title card, then dictating a messy sentence and
@@ -171,7 +184,7 @@ export const PROJECTS: readonly Project[] = [
     id: "neuralyfe",
     title: "NeuraLyfe",
     section: "selected",
-    skills: ["Data-Dense UI", "AI-Native", "Physical Prototyping"],
+    skills: ["Data Visualization", "AI-Native", "Physical Prototyping"],
     destination: CASE_STUDY,
     signal: "Brain Impact Visualization for Athletes and Medical Teams",
     description: "1st Place, FigBuild 2026. Making invisible brain trauma visible before it becomes irreversible.",
@@ -188,7 +201,7 @@ export const PROJECTS: readonly Project[] = [
     id: "aura",
     title: "Aura",
     section: "selected",
-    skills: ["Interaction Design", "User Research", "Physical Prototyping"],
+    skills: ["Hardware UX", "UX Research", "Physical Prototyping"],
     destination: CASE_STUDY,
     signal: "AI-Powered Anticipatory Motion Sickness Relief",
     description: "A speculative in-flight motion-sickness concept. Its refined form was preferred by 93.75% of testers.",
@@ -210,12 +223,12 @@ export const PROJECTS: readonly Project[] = [
     id: "oryne",
     title: "Oryne",
     section: "selected",
-    skills: ["AI-Native", "iOS / SwiftUI", "Visual Design"],
+    skills: ["AI-Native", "Motion Design", "Design Engineering"],
     links: [{ label: "App Store", url: "https://apps.apple.com/us/app/oryne/id6778995892" }],
     destination: CASE_STUDY,
     signal: "An Ocean for Unfinished Thoughts",
     description: "Live on the App Store: an inspiration-capture app where thoughts drift, gather into currents, and come back on their own.",
-    role: "Product Designer & Builder",
+    role: "0→1 Product Designer & Builder",
     coverImage: oryneCard,
     // 1920x1200 rather than the 1280x800 the other reels use: the phone screen
     // is a quarter of the frame, so at 1280 wide it was ~300px and read soft on
@@ -234,7 +247,7 @@ export const PROJECTS: readonly Project[] = [
     id: "spatial",
     title: "Spatial Editor",
     section: "more",
-    skills: ["Interaction Design", "User Research"],
+    skills: ["Spatial Computing", "UX Research"],
     destination: { kind: "placeholder" },
     description: "MHCI+D capstone: multimodal text input and editing in spatial interfaces. Case study coming.",
     role: "Product Designer",
@@ -247,7 +260,7 @@ export const PROJECTS: readonly Project[] = [
     id: "moodmuse",
     title: "Mood Muse",
     section: "more",
-    skills: ["Industrial Design", "Physical Prototyping", "Interaction Design"],
+    skills: ["Industrial Design", "Hardware UX", "Inclusive Design"],
     destination: CASE_STUDY,
     description: "An emotion-sensing paintbrush for autistic children. The brush reads the hand, answers with color and scent, and the app turns the session into a record parent and therapist can share.",
     role: "Industrial Design Lead · Sole UX Designer",
@@ -260,7 +273,7 @@ export const PROJECTS: readonly Project[] = [
     id: "tubular",
     title: "Tubular",
     section: "more",
-    skills: ["Industrial Design", "Physical Prototyping", "Prototyping in Code"],
+    skills: ["Industrial Design", "Physical Prototyping", "Design Engineering"],
     destination: { kind: "placeholder" },
     description: "Defy gravity. Shape the path. Case study coming.",
     role: "Product Designer, Maker",
@@ -273,7 +286,7 @@ export const PROJECTS: readonly Project[] = [
     id: "flowprint",
     title: "FlowPrint",
     section: "more",
-    skills: ["User Research", "Interaction Design"],
+    skills: ["UX Research", "Hardware UX"],
     destination: CASE_STUDY,
     description: "A 3D-printing onboarding system for first-time owners, targeting a setup-time cut from about an hour to 15 minutes.",
     role: "Lead Product Designer",
@@ -293,11 +306,11 @@ export const PROJECTS: readonly Project[] = [
     title: "CalmMouse",
     section: "studio",
     studioGroup: "software",
-    skills: ["Prototyping in Code", "AI-Native"],
+    skills: ["Design Engineering", "AI-Native"],
     links: [{ label: "Live", url: "https://calmmouse.malikzhang.com/" }],
     destination: CASE_STUDY,
     description: "A macOS menu-bar app that stops the Magic Mouse from scrolling every time you click: the fix Apple never shipped.",
-    role: "Designer + Builder",
+    role: "0→1 Designer + Builder",
     year: "2026",
     coverImage: calmmouseCardPoster,
     coverAspect: "1280/720",
@@ -313,11 +326,11 @@ export const PROJECTS: readonly Project[] = [
     title: "Inkwork",
     section: "studio",
     studioGroup: "software",
-    skills: ["Design Systems", "Visual Design", "Prototyping in Code"],
+    skills: ["Design Systems", "Visual Design", "Design Engineering"],
     links: [{ label: "Live", url: "https://www.malikzhang.com/inkwork" }],
     destination: CASE_STUDY,
     description: "A styled-QR studio with a point of view: pick a style, check the proof, export",
-    role: "Designer + Builder",
+    role: "0→1 Designer + Builder",
     year: "2026",
     coverImage: inkworkCard,
     coverAspect: "1280/720",
@@ -331,7 +344,7 @@ export const PROJECTS: readonly Project[] = [
     title: "Studio Waters",
     section: "studio",
     studioGroup: "software",
-    skills: ["Prototyping in Code", "Interaction Design", "AI-Native"],
+    skills: ["Hardware UX", "Design Engineering", "AI-Native"],
     destination: CASE_STUDY,
     description: "A CPX-powered interactive game built through vibe coding",
     role: "Designer + Builder",
@@ -359,7 +372,7 @@ export const PROJECTS: readonly Project[] = [
     title: "RANGER",
     section: "studio",
     studioGroup: "machines",
-    skills: ["Industrial Design", "Interaction Design"],
+    skills: ["Industrial Design", "Hardware UX"],
     destination: CASE_STUDY,
     description: "An underwater drone that finds abandoned fishing nets, fires an airbag through the mesh, and lets the net float itself up to the boat.",
     role: "Industrial Designer",
