@@ -50,7 +50,7 @@ describe("skill lens", () => {
     expect(lensMatch({ skills: ["AI-Native"] }, SHIPPED)).toBe(false);
     expect(lensMatch({ links: [{ label: "Live", url: "https://example.com/" }] }, SHIPPED)).toBe(true);
     // Two on each page, so both pages point at the other.
-    expect(lensCounts(SHIPPED, "/")).toMatchObject({ here: 2, first: "moti", elsewhere: { count: 2 } });
+    expect(lensCounts(SHIPPED, "/")).toMatchObject({ here: 2, first: "oryne", elsewhere: { count: 2 } });
     expect(lensCounts(SHIPPED, SECTIONS.studio.path)).toMatchObject({ here: 2, first: "calmmouse", elsewhere: { count: 2 } });
     expect(lensTitle(SHIPPED, false)).toBe("See every project that shipped");
     expect(lensTitle("AI-Native", false)).toBe("See every project with AI-Native");
