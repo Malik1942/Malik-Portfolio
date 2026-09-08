@@ -1113,10 +1113,17 @@ const oryne: ProjectDetailSource = {
     { label: "Tools", value: "SwiftUI · SwiftData + CloudKit · Foundation Models · Claude Code" },
     { label: "Output", value: "Live on the App Store · v1.5 · English & Chinese" },
   ],
+  // The arc: the problem (lists bury), the idea (an ocean), the principles the
+  // idea was written into on day three, the shipped flow, then the research
+  // that measured whether the device could keep the flow's promises, and the
+  // privacy position that made on-device the only place to measure. Research
+  // sits after Final Design on purpose: it happened between releases, against
+  // the phone, and every section close hands off to the next.
   sections: [
     {
       id: "overview",
       label: "Overview",
+      headline: "An App Where Thoughts Come Back on Their Own",
       showProjectMeta: true,
       body: "**Oryne is an inspiration-capture app for iOS. Thoughts don't sit in rows; they float.** Speak or type one, release it, and the device names it, drifts it next to its relatives, and brings it back when it matters again.\n\n[[module:oryne-tags]]",
       afterMetaModule: "oryne-app-store",
@@ -1124,38 +1131,63 @@ const oryne: ProjectDetailSource = {
     {
       id: "highlights",
       label: "Highlights",
+      headline: "Let a Thought Go, and It Finds Its Way Back",
       figures: [{ type: "video", src: oryneFilm, poster: oryneFilmPoster }],
       body: "[[fig:0]]\n\n[[module:oryne-hook]]",
     },
     {
       id: "problem",
       label: "The Problem",
-      body: "Every notes app promises to keep your thoughts organized, and every one breaks the promise the same way: not by losing them, but by burying them.\n\n[[module:oryne-problem]]\n\n**The list is honest about storage and dishonest about memory.**",
+      headline: "Every Notes App Buries What It Promised to Keep",
+      body: "Every notes app promises to keep your thoughts organized, and every one breaks the promise the same way: not by losing them, but by burying them. Neatly, chronologically, in a list you never scroll back through.\n\nLists optimize for putting things in. Minds optimize for things coming back. A thought from three months ago surfaces because something today rhymes with it, not because you scrolled to March.\n\n[[module:oryne-problem]]\n\n**The list is honest about storage and dishonest about memory. The problem was never the list, it was the monopoly. So the design started from how a thought comes back, and worked backwards to how it goes in.**",
     },
     {
       id: "idea",
       label: "The Idea",
-      body: "Your mind as an ocean. Thoughts drift, related ones gather into currents, and forgotten ones resurface. Every interaction had to be explainable as “that's how water works,” never as “that's just how apps work.”\n\n[[module:oryne-idea]]\n\n**A field that feels alive is illegible by default. So the Ocean is for encountering, the Library is for finding, and neither pretends to be the other.**",
+      headline: "Your Mind as an Ocean, and Every Decision Derived From It",
+      body: "Your mind as an ocean. Thoughts drift, related ones gather into currents, and forgotten ones resurface. Every interaction had to be explainable as “that's how water works,” never as “that's just how apps work.”\n\nA metaphor is cheap if it is only a skin. Capture became a thought falling into the ocean. Categorization became a thought flowing into a current, which is the literal copy in the app, because “assign to category” would have been the list sneaking back in through the language.\n\n[[module:oryne-idea]]\n\n**A field that feels alive is illegible by default. So the Ocean is for encountering, the Library is for finding, and neither pretends to be the other. It took three versions to learn that.**",
+    },
+    {
+      id: "iterations",
+      label: "Iterations",
+      headline: "Three Versions Before the Ocean Moved",
+      body: "The metaphor arrived before the product did. It went through a web prototype, a set of wireframes, and a first native build before the Ocean looked like water, and each version kept something the next one still has.\n\n[[module:oryne-iterations]]\n\n**What survived all three was the skeleton: four verbs, four tabs, and a long press. What changed was everything the metaphor could decide once it was taken seriously. Two days into the native build, those decisions were written down as rules.**",
+    },
+    {
+      id: "principles",
+      label: "Principles",
+      headline: "Eight Principles, Each With a Test It Has to Pass",
+      body: "The philosophy lives in the repository next to the code, so a review can cite a principle instead of taste: “violates Trust, confirmation before verification” beats “feels wrong.” Each principle ends in a question. If the answer is yes, the change does not ship. The principles change only by a deliberate edit to that file, never by drift.\n\n[[module:oryne-principles]]\n\n**A principle without a test is a mood. These eight questions are what every screen in the next section had to answer no to.**",
     },
     {
       id: "final-design",
       label: "Final Design",
-      body: "One thought, start to finish, and the decisions underneath. Every screen is the shipped app.\n\n[[module:oryne-flow]]\n\n**Capture in under two seconds from anywhere. If a change would make someone hesitate before capturing, the answer is no.**",
+      headline: "One Thought, From Caught to Returned",
+      body: "One thought, start to finish, and the decisions underneath. Every screen is the shipped app.\n\n[[module:oryne-flow]]\n\n**Capture in under two seconds from anywhere. If a change would make someone hesitate before capturing, the answer is no. Three of these screens make promises that design alone cannot keep, and the next section is how I found out whether the device could.**",
+    },
+    {
+      id: "research",
+      label: "Research",
+      headline: "What the Device Could Honestly Promise, Measured",
+      body: "Oryne makes three promises that depend on models Apple ships inside the phone: that words appear while you speak, in whichever language you are speaking; that a thought finds its relatives; and that Ask answers only from what you captured. No interview could tell me where those models stop. Testing in the languages I actually think in showed the model weaker in Chinese on the same tasks, which no English-only plan would have found.\n\nSo the research on this project ran against the device itself, between releases, with a script or a throwaway harness for each question. Each measurement below changed a shipped decision.\n\n[[module:oryne-research]]\n\n**Every number here moved something in the product: the empty state Ask shows, the scope of kinship, and how live recognition is built on each iOS. The scripts stay in the repository so the numbers can be measured again when Apple changes the model.**",
     },
     {
       id: "privacy",
       label: "Privacy",
-      body: "What you are willing to capture depends on where you believe it goes. An inspiration tool only works if you will feed it your half-formed, 2 a.m. thoughts, so nothing you capture transits a server I can read.\n\n[[module:oryne-privacy]]",
+      headline: "Nothing You Capture Leaves the Phone",
+      body: "What you are willing to capture depends on where you believe it goes. An inspiration tool only works if you will feed it your half-formed, 2 a.m. thoughts, so nothing you capture transits a server I can read.\n\nThat position is also why the research above had to be run on the device. On-device models are smaller than the cloud's, and classification, kinship, and resurfacing were designed around what local intelligence can actually do. I would make the same trade again.\n\n[[module:oryne-privacy]]\n\n**On-device is not a spec-sheet line. It is the precondition for the honesty the whole product depends on, and the reason the numbers above were measured rather than assumed.**",
     },
     {
       id: "shipping",
       label: "Shipping It",
-      body: "I had never shipped production Swift. Twenty-three days after the first commit, Oryne was on the App Store. The AI wrote the code; I designed the review that made it trustworthy, and I tried to make the AI lie before users could.\n\n[[module:oryne-shipping]]",
+      headline: "Twenty-Three Days From First Commit to the App Store",
+      body: "I had never shipped production Swift. Twenty-three days after the first commit, Oryne was on the App Store. The AI wrote the code; I designed the review that made it trustworthy.\n\nWhen the author of the code and its reviewer share the same blind spots, you do not have a review. You have a rubber stamp with extra steps. So I stopped trying to become the reviewer and designed the review instead.\n\n[[module:oryne-shipping]]\n\n**Speed was the agent's job. Judgment stayed mine, and the gates exist so that nothing irreversible ever happens at machine speed.**",
     },
     {
       id: "learned",
       label: "What the Ocean Taught Me",
-      body: "Nearly every choice trades control for encounter: browsing over managing, drift over sorting, restraint over reach.\n\n[[module:oryne-takeaways]]",
+      headline: "Nearly Every Choice Trades Control for Encounter",
+      body: "Nearly every choice trades control for encounter: browsing over managing, drift over sorting, restraint over reach. That is the trade I keep wanting to make, and probably the most honest description of the kind of designer I am.\n\n[[module:oryne-takeaways]]",
     },
   ],
 };
@@ -1163,8 +1195,8 @@ const oryne: ProjectDetailSource = {
 // Authored without `listSection`: the eyebrow is filled in below from the
 // project's homepage section so the two can never disagree.
 const SOURCES: ProjectDetailSource[] = [
-  moti,
   oryne,
+  moti,
   calmmouse,
   inkwork,
   zeat,

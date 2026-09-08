@@ -156,12 +156,12 @@ export interface Project {
 const CASE_STUDY: ProjectDestination = { kind: "case-study" };
 
 // ── The project list ─────────────────────────────────────────────────────────
-// Order within a section is display order. Selected Work leads with Moti (the
-// shipped planner — the most immediately legible product), then NeuraLyfe,
-// Aura, and Oryne. Oryne is the more authored second app and closes the
-// section rather than opening it. Spatial Editor has no case study yet, so it
-// sits in More Work as a placeholder card. Selected Work + More Work are the
-// homepage ("Work"); Studio is its own page.
+// Order within a section is display order. Selected Work leads with Oryne (the
+// most authored of the shipped apps, and the case study with the deepest
+// research), then Moti, NeuraLyfe, and Aura. Spatial Editor has no case study
+// yet, so it sits in More Work as a placeholder card. Selected Work + More Work
+// are the homepage ("Work"); Studio is its own page. NextUp's LEAD_ORDER and
+// the hero orb positions follow this order; change them together.
 //
 // Skill chips are the second facet on a card: sections answer "how deep", the
 // chips answer "which skills". They are also the lens controls (src/lib/lens.ts):
@@ -169,6 +169,28 @@ const CASE_STUDY: ProjectDestination = { kind: "case-study" };
 // sections. Order matters — a Studio tile shows only its first two.
 export const PROJECTS: readonly Project[] = [
   // ── Selected Work: full case studies ──
+  {
+    id: "oryne",
+    title: "Oryne",
+    section: "selected",
+    skills: ["AI-Native", "Motion Design", "Design Engineering"],
+    links: [{ label: "App Store", url: "https://apps.apple.com/us/app/oryne/id6778995892" }],
+    destination: CASE_STUDY,
+    signal: "An Ocean for Unfinished Thoughts",
+    description: "Live on the App Store: an inspiration-capture app where thoughts drift, gather into currents, and come back on their own.",
+    role: "0→1 Product Designer & Builder",
+    coverImage: oryneCard,
+    // 1920x1200 rather than the 1280x800 the other reels use: the phone screen
+    // is a quarter of the frame, so at 1280 wide it was ~300px and read soft on
+    // a retina card. Composited from the raw 1206x2622 recording, not the film.
+    coverAspect: "1920/1200",
+    // The Oryne reel: the icon blooms into the wordmark and the tagline, then the
+    // Ocean gathers a current. coverImage is the wordmark frame, so it serves as the
+    // poster, the reduced-motion still, and the resting state once the reel has played.
+    coverVideo: oryneCardVideo,
+    year: "2026",
+    details: "First commit to the App Store in 23 days, built around one metaphor: your mind as an ocean.\n\nAll of its intelligence runs on the device, in English and Simplified Chinese.",
+  },
   {
     id: "moti",
     title: "Moti",
@@ -231,28 +253,6 @@ export const PROJECTS: readonly Project[] = [
     coverPlate: auraCoverPlate,
     coverMark: auraCoverMark,
     details: "A speculative concept for anticipating motion sickness in flight, designed with a 5-person team over 5 weeks.\n\nUser testing validated the refined form: 15 of 16 testers (93.75%) preferred it over the initial design.",
-  },
-  {
-    id: "oryne",
-    title: "Oryne",
-    section: "selected",
-    skills: ["AI-Native", "Motion Design", "Design Engineering"],
-    links: [{ label: "App Store", url: "https://apps.apple.com/us/app/oryne/id6778995892" }],
-    destination: CASE_STUDY,
-    signal: "An Ocean for Unfinished Thoughts",
-    description: "Live on the App Store: an inspiration-capture app where thoughts drift, gather into currents, and come back on their own.",
-    role: "0→1 Product Designer & Builder",
-    coverImage: oryneCard,
-    // 1920x1200 rather than the 1280x800 the other reels use: the phone screen
-    // is a quarter of the frame, so at 1280 wide it was ~300px and read soft on
-    // a retina card. Composited from the raw 1206x2622 recording, not the film.
-    coverAspect: "1920/1200",
-    // The Oryne reel: the icon blooms into the wordmark and the tagline, then the
-    // Ocean gathers a current. coverImage is the wordmark frame, so it serves as the
-    // poster, the reduced-motion still, and the resting state once the reel has played.
-    coverVideo: oryneCardVideo,
-    year: "2026",
-    details: "First commit to the App Store in 23 days, built around one metaphor: your mind as an ocean.\n\nAll of its intelligence runs on the device, in English and Simplified Chinese.",
   },
 
   // ── More Work: the rest of the case studies, told as process ──

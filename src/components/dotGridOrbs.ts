@@ -14,11 +14,14 @@ import { SECTIONS } from "@/lib/sections";
 // rows evenly inside each band. Dim orbs draw as unlabeled background stars on
 // mobile, so their mobile coordinates are literal, scattered off to the right.
 //
-// Desktop layout notes, bright tier: Moti sits in the band between the nav and
-// the title cluster; Aura at the far left of that band; NeuraLyfe in the lower
-  // band; Oryne in the lower-center. Dim tier fills the gaps around them: Mood
-  // Muse and FlowPrint down the right edge, Tubular in the lower-left, Spatial
-  // Editor in the mid-right.
+// Desktop layout notes, bright tier: Oryne, the first case study, sits in the
+// band between the nav and the title cluster; Aura at the far left of that
+// band; NeuraLyfe in the lower band; Moti in the lower-center. Dim tier fills
+// the gaps around them: Mood Muse and FlowPrint down the right edge, Tubular
+// in the lower-left, Spatial Editor in the mid-right.
+//
+// On mobile the column order follows the homepage: Oryne leads the upper band
+// and Moti closes the lower one.
 export interface OrbPosition {
   rx: number;
   ry: number;
@@ -31,10 +34,10 @@ export interface OrbPosition {
 
 export const ORB_POSITIONS: Record<string, OrbPosition> = {
   // Selected Work — bright
+  oryne: { rx: 0.42, ry: 0.2, mrx: 0.09, mry: 0.19 },
+  moti: { label: "Moti: Plan", rx: 0.58, ry: 0.78, mrx: 0.09, mry: 0.85 },
   neuralyfe: { rx: 0.28, ry: 0.72, mrx: 0.09, mry: 0.73 },
-  moti: { label: "Moti: Plan", rx: 0.42, ry: 0.2, mrx: 0.09, mry: 0.19 },
   aura: { rx: 0.1, ry: 0.25, mrx: 0.09, mry: 0.3 },
-  oryne: { rx: 0.58, ry: 0.78, mrx: 0.09, mry: 0.85 },
   // More Work — dim
   spatial: { rx: 0.82, ry: 0.62, mrx: 0.55, mry: 0.55 },
   moodmuse: { rx: 0.88, ry: 0.3, mrx: 0.62, mry: 0.72 },

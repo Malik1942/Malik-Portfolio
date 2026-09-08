@@ -44,7 +44,7 @@ describe("homepage project list", () => {
   });
 
   it("holds the locked section assignments", () => {
-    expect(projectsInSection("selected").map((p) => p.id)).toEqual(["moti", "neuralyfe", "aura", "oryne"]);
+    expect(projectsInSection("selected").map((p) => p.id)).toEqual(["oryne", "moti", "neuralyfe", "aura"]);
     expect(projectsInSection("more").map((p) => p.id)).toEqual(["spatial", "moodmuse", "tubular", "flowprint"]);
     expect(projectsInSection("studio").map((p) => p.id)).toEqual([
       "calmmouse",
