@@ -252,7 +252,7 @@ export const PROJECTS: readonly Project[] = [
     description: "MHCI+D capstone: multimodal text input and editing in spatial interfaces. Case study coming.",
     role: "Product Designer",
     coverImage: spatialEditorCard,
-    coverAspect: "1024/684",
+    coverAspect: "2400/1604",
     year: "2026",
     details: "Team XR. A spatial text editor for writing in the air, on the surfaces around you.",
   },
