@@ -72,13 +72,16 @@ Authoring contract (enforced by tests, not by a coordinate spreadsheet):
 8. V2 decoys are fatal, not forgiving. With slack 1 a detour only kills if
    it costs +2: a dyno onto a hold between rows, or a 1-chalk dead end whose
    every onward grab is a dyno. V2 forks that way at two or more line holds.
-9. V4's line is hidden, not just exact. All but at most one line hold offer
-   an inner-ring dead end: a 1-chalk upward grab onto a hold no send uses.
-   V4 has more such forks than V2. The read is exploring and downclimbing,
-   not ring-counting. The straight-looking center holds are dynos that die
-   one move under the top.
-10. An unaffordable top-out is a fall. A 2-chalk grab onto the top with 1
-    chalk left takes the hold, then pumps out; it is not a send.
+9. V4's line is hidden, not crowded. At least three inner-ring dead ends
+   off the line (more than V2), and at most 12 holds so the column reads as
+   a puzzle instead of a blob. The leftmost cheap first hold is bait — a
+   climber who always takes the left cheap grab does not send. The flash
+   lives on the right of the column. The straight-looking center holds are
+   dynos that leave one chalk under the top.
+10. A hang high on the wall with chalk left always has a grab in the rings.
+    If one chalk remains and no cheap hop is left, the top sits in the outer
+    ring: the glory slap lights, then peels off. Silent isolation (top just
+    shakes) is a bug. Bottom holds can still be downclimbed.
 
 Hold ids may keep today's vocabulary (`s`, `a1`…`t`, `p*`, `q*`) when the
 graph shape still fits. Add or drop holds if the contract needs it.
@@ -147,8 +150,12 @@ Change:
 - Every route has a legal 2-chalk edge from a hold on a min-chalk all-1s path.
 - Every sending line has at least `minChalk` moves (no dyno skips a hold).
 - Sending-line counts: V4 exactly 1; V2 between 2 and 3 and fewer than V0.
-- V4 forks (inner-ring dead end off a line hold) at all but at most one
-  line hold, and at more holds than V2. V2 forks at two or more.
+- V4 has at most 12 holds, at least three inner-ring dead-end forks, and
+  more forks than V2. V2 forks at two or more.
+- V4's leftmost cheap first move is off the flash. A left-greedy climber
+  does not send.
+- High hangs with chalk left always have a grab in the rings. A leftover-1
+  hang with no cheap hop offers the top as a 2-chalk glory slap.
 - A dyno onto the top that the bag cannot cover pumps out instead of sending.
 - A 2-chalk grab drops remaining bag dots by 2.
 - Mobile V0's close line still flashes.

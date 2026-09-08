@@ -155,6 +155,11 @@ export const PROJECTS: readonly Project[] = [
     description: "A speculative in-flight motion-sickness concept. Its refined form was preferred by 93.75% of testers.",
     role: "Product Designer",
     year: "2025",
+    // A title card, like Moti's and NeuraLyfe's: its own full-bleed ground, the
+    // wordmark, and the product. The headline and the two-line subhead that used
+    // to sit under the wordmark are gone — the card prints the signal and the
+    // description right beside the image, so the picture was setting the pitch a
+    // second time in a second typeface.
     coverImage: auraCover,
     coverAspect: "2400/1350",
     details: "A speculative concept for anticipating motion sickness in flight, designed with a 5-person team over 5 weeks.\n\nUser testing validated the refined form: 15 of 16 testers (93.75%) preferred it over the initial design.",

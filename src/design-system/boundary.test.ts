@@ -45,6 +45,15 @@ const CHOREOGRAPHED_FILES = new Set([
 // art-directed lettering kept off the label and eyebrow scale on purpose.
 const CASE_STUDY_GUIDE = "src/components/project-detail/ProjectDetailTemplate.tsx";
 
+// A simulated device interface, not this site's. FlowPrintHmi draws a 3D
+// printer's own touchscreen inside the case study: its black ground, white
+// type, and tighter tracking belong to that machine, and putting them on the
+// portfolio's ink ladder would make the case study show a screen the product
+// does not have. Treated the same way the CalmMouse demo loop is treated
+// below, and scoped to the colour and tracking rules only: the file still
+// answers to the type scale, radius, spacing, and motion tokens.
+const SIMULATED_DEVICE_UI = "src/components/project-detail/FlowPrintHmi.tsx";
+
 // Measures deliberately kept off the measure scale.
 const MEASURE_EXEMPTIONS: Record<string, string[]> = {
   // 36ch is the About editorial description, tuned with authored line breaks.
@@ -91,6 +100,7 @@ const RULES: Rule[] = [
     name: "default palette color",
     pattern: /\b(?:bg|text|border|ring|fill|stroke|from|to|via|divide|outline|shadow)-(?:white|black|zinc|neutral|gray|slate|stone|red|amber|emerald|violet|blue|green|yellow|orange|rose|pink|purple|indigo|sky|cyan|teal|lime)(?:-\d{2,3})?(?:\/[\d.[\]]+)?\b/g,
     hint: "Use a token color: foreground tiers, background, surfaces, hairline, focus, accents.",
+    exempt: (file) => file === SIMULATED_DEVICE_UI,
   },
   {
     name: "color opacity modifier off Tailwind's scale",
@@ -120,7 +130,7 @@ const RULES: Rule[] = [
     name: "arbitrary tracking",
     pattern: /\btracking-\[[^\]]+\]/g,
     hint: "Use tracking-tight, tracking-normal, or tracking-eyebrow.",
-    exempt: (file) => file === CASE_STUDY_GUIDE,
+    exempt: (file) => file === CASE_STUDY_GUIDE || file === SIMULATED_DEVICE_UI,
   },
   {
     name: "arbitrary measure",
@@ -139,7 +149,10 @@ const RULES: Rule[] = [
     pattern: /#[0-9a-fA-F]{6}\b|\brgba?\(\s*\d|\bhsla?\(\s*\d/g,
     hint: "Reference a token variable: hsl(var(--color-…)).",
     // ContrastChecks names the #0a0a0a boot canvas from index.html in prose.
-    exempt: (file) => EXPRESSIVE_FILES.has(file) || file === "src/design-system/workbench/ContrastChecks.tsx",
+    exempt: (file) =>
+      EXPRESSIVE_FILES.has(file) ||
+      file === SIMULATED_DEVICE_UI ||
+      file === "src/design-system/workbench/ContrastChecks.tsx",
   },
   {
     name: "arbitrary stacking order",

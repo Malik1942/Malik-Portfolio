@@ -433,7 +433,7 @@ const flowprint: ProjectDetailSource = {
     {
       id: "final-design",
       label: "Final Design",
-      body: "Led product design for a consumer 3D printing experience, designing a target journey that cuts setup from about an hour to 15 minutes.\n\nDesigned onboarding flows, real-time print monitoring UI, and a material recommendation engine.",
+      body: "Led product design for a consumer 3D printing experience, designing a target journey that cuts setup from about an hour to 15 minutes.\n\n[[module:flowprint-hmi]]\n\nDesigned onboarding flows, real-time print monitoring UI, and a material recommendation engine.",
     },
     {
       id: "impact",
