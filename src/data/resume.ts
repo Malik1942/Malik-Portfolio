@@ -35,8 +35,8 @@ export interface ResumeEntry {
   role: string;
   /** Award line or one-line frame under the role. */
   subtitle?: string;
-  /** `Mon YYYY`, `YYYY`, or a range of either joined by an en dash. */
-  dates: string;
+  /** `Mon YYYY`, `YYYY`, or a range of either joined by an en dash. Education carries none by choice. */
+  dates?: string;
   location: string;
   summary?: string;
   bullets: string[];
@@ -58,12 +58,16 @@ export interface ResumeSkillGroup {
 export const RESUME_NAME = "Malik Zhang";
 export const RESUME_TITLE = "Product Designer";
 export const RESUME_PDF_PATH = "/malik-resume-2026.pdf";
+/** Shown in the page's top bar so a recruiter knows the document is current. Update with the content. */
+export const RESUME_UPDATED = "Sep 2026";
+export const RESUME_DESCRIPTION =
+  "Resume of Malik Zhang, Product Designer in Seattle: experience, work, education, and skills, with a one-page PDF to download.";
 
 export const RESUME_CONTACT: ResumeContact = {
   email: "Malikzhang19@gmail.com",
   site: "malikzhang.com",
   linkedin: "linkedin.com/in/malik-zhang",
-  phone: "253.408.9312",
+  phone: "(253) 408-9312",
 };
 
 export const RESUME_SUMMARY =
@@ -185,7 +189,6 @@ export const RESUME_SECTIONS: ResumeSection[] = [
         id: "uw",
         title: "University of Washington",
         role: "Master of Human Computer Interaction + Design",
-        dates: "2025 – 2026",
         location: "Seattle, WA",
         bullets: [],
       },
@@ -193,7 +196,6 @@ export const RESUME_SECTIONS: ResumeSection[] = [
         id: "zjut",
         title: "Zhejiang University of Technology",
         role: "B.E., Industrial Design",
-        dates: "2021 – 2025",
         location: "Hangzhou, China",
         bullets: [],
       },
