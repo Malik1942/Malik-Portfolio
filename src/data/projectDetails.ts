@@ -27,6 +27,7 @@ import auraRefinement3 from "@/assets/aura-refinement-3.webp";
 import auraSystem1 from "@/assets/aura-system-1.webp";
 import auraApp1 from "@/assets/Aura-app-1.webp";
 import neuralyfeCover from "@/assets/neuralyfe-cover.webp";
+import neuralyfeDetail1 from "@/assets/neuralyfe-detail-1.webp";
 import neuralyfeHalo from "@/assets/neuralyfe-halo.mp4";
 import neuralyfeRoster from "@/assets/neuralyfe-roster.mp4";
 import neuralyfeBrain from "@/assets/neuralyfe-brain.mp4";
@@ -213,15 +214,14 @@ const neuralyfe: ProjectDetailSource = {
   slug: "neuralyfe",
   title: "NeuraLyfe",
   heroSummary: "A helmet add-on and sideline app that show football medical staff\nwhich players’ brains are at risk, and which hit caused it.",
-    heroImage: neuralyfeCover,
-  heroImageFit: "natural",
+    heroImage: neuralyfeDetail1,
   metaCards: [
     { label: "Role", value: "Product Designer · Maker" },
-    { label: "Timeline", value: "4 Days · March 2026" },
+    { label: "Timeline", value: "4 Days · March 6 to 9, 2026" },
     { label: "Team", value: "Malik Zhang\nCindy Ly\nNaomi Boruchowicz\nJimmy Huang" },
-    { label: "Scope", value: "Problem Framing\nImpact Replay\nProduct Narrative" },
+    { label: "Scope", value: "Problem Framing\nHalo, Modeled and 3D-Printed\nImpact Replay\nProduct Narrative" },
     { label: "Outcome", value: "1st Place of 690 Teams\n$10,000 Grand Prize" },
-    { label: "Tools", value: "Figma Make · Figma · Prototyping" },
+    { label: "Tools", value: "Figma Make · Figma\nRhino 3D · KeyShot · Bambu Lab X1C" },
   ],
   sections: [
     {
@@ -229,7 +229,7 @@ const neuralyfe: ProjectDetailSource = {
       label: "Intro",
       headline: "A Sideline Call That Cannot Wait for Symptoms",
       showProjectMeta: true,
-      body: "**NeuraLyfe is a sideline decision-support system that helps football medical staff catch brain-impact risk before it becomes irreversible. It was designed and built in four days for the FigBuild 2026 hackathon, entirely in Figma Make.**\n\nIt tackles Chronic Traumatic Encephalopathy (CTE): a degenerative condition from repeated head impacts that accumulates invisibly and can't be confirmed until after death.\n\nI ideated the concept and helped the team choose it over a rougher direction around dreams, where the pain point never got sharp. Over the four days, I designed and built **Halo** and the **Impact Replay** interface, and co-designed the **Roster View**.\n\n**It won 1st Place out of 690 teams.**",
+      body: "**NeuraLyfe is a sideline decision-support system that helps football medical staff catch brain-impact risk before it becomes irreversible. It was designed and built in four days, March 6 to 9, 2026, for the FigBuild 2026 hackathon, entirely in Figma Make.**\n\nIt tackles Chronic Traumatic Encephalopathy (CTE): a degenerative condition from repeated head impacts that accumulates invisibly and can't be confirmed until after death.\n\nI ideated the concept and helped the team choose it over a rougher direction around dreams, where the pain point never got sharp. Across those four days, I modeled and 3D-printed **Halo**, the helmet add-on, designed and built the **Impact Replay** interface, and co-designed the **Roster View**.\n\n**It won 1st Place out of 690 teams.**",
     },
     {
       id: "highlights",
@@ -286,7 +286,7 @@ const neuralyfe: ProjectDetailSource = {
       id: "final-design",
       label: "Final Design",
       headline: "Three Views, and the Hardware That Feeds Them",
-      body: "## Halo\n\nAn add-on, not a new helmet, so teams keep the equipment they already trust. EEG maps brain connectivity, biomarker sensors catch early damage indicators, and the impact camera ties each force event to a moment on the field.\n\n[[fig:3]]\n\n## Roster View\n\nRanks players by medical urgency, weighing cumulative impacts, recent hit severity, and brain health, so a static player list becomes a live risk map.\n\n[[fig:0]]\n\n## Brain View\n\nMaps neurological stress by region in 3D. A risk score says how much. Brain View shows where, which matters most when repeated impacts hit the same region.\n\n[[fig:1]]\n\n## Impact Replay\n\nTraces an alert back to the exact play: when the hit happened, how severe it was, which regions were affected, and whether to pull the player now.\n\n[[fig:2]]\n\n## The Protocol\n\nSensing only matters if it ends in a call someone can defend. Every player sits in one of five states, and the last two are not advisory.\n\n[[module:neuralyfe-protocol]]\n\n**Together: identify risk, inspect impact, act with context.**",
+      body: "## Halo\n\nAn add-on, not a new helmet, so teams keep the equipment they already trust. EEG maps brain connectivity, biomarker sensors catch early damage indicators, and the impact camera ties each force event to a moment on the field.\n\nI modeled the Halo in Rhino, rendered it in KeyShot, and printed it on a Bambu Lab X1C within the four days, so the sensing layer existed as an object on the table and not only as a render on a slide.\n\n[[fig:3]]\n\n## Roster View\n\nRanks players by medical urgency, weighing cumulative impacts, recent hit severity, and brain health, so a static player list becomes a live risk map.\n\n[[fig:0]]\n\n## Brain View\n\nMaps neurological stress by region in 3D. A risk score says how much. Brain View shows where, which matters most when repeated impacts hit the same region.\n\n[[fig:1]]\n\n## Impact Replay\n\nTraces an alert back to the exact play: when the hit happened, how severe it was, which regions were affected, and whether to pull the player now.\n\n[[fig:2]]\n\n## The Protocol\n\nSensing only matters if it ends in a call someone can defend. Every player sits in one of five states, and the last two are not advisory.\n\n[[module:neuralyfe-protocol]]\n\n**Together: identify risk, inspect impact, act with context.**",
       figures: [
         { type: "video", src: neuralyfeRoster },
         { type: "video", src: neuralyfeBrain },
@@ -298,10 +298,10 @@ const neuralyfe: ProjectDetailSource = {
       id: "impact",
       label: "Impact",
       headline: "Risk Should Not Stay Hidden Until Symptoms Appear",
-      body: "NeuraLyfe's claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\n**1st Place at FigBuild 2026, out of 690 teams and 2,184 builders, with the $10,000 grand prize.**\n\nThe judges singled out the visuals, the film, the storytelling, and above all the Halo prototype, which we 3D-printed so the concept could be held rather than imagined.\n\n[[fig:1]]\n\n[[module:neuralyfe-links]]",
+      body: "NeuraLyfe's claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\n[[module:neuralyfe-impact]]\n\nThe judges recognised the visuals, the film, the storytelling, and especially the Halo prototype, the part I modeled and 3D-printed so it could be picked up rather than imagined.\n\n[[fig:1]]\n\n[[module:neuralyfe-links]]",
       figures: [
         { type: "image", src: neuralyfeDeckScenario, alt: "In a live scenario, a player's frontal lobe hits critical levels and his card turns red" },
-        { type: "image", src: neuralyfeAward, alt: "The four NeuraLyfe teammates holding MHCI+D letter cushions in front of the projected First place: NeuraLyfe slide at the FigBuild 2026 awards", caption: "The four of us at the FigBuild 2026 awards" },
+        { type: "image", src: neuralyfeAward, alt: "The four NeuraLyfe teammates holding MHCI+D letter cushions in front of the projected First place: NeuraLyfe slide at the FigBuild 2026 awards" },
       ],
     },
     {
