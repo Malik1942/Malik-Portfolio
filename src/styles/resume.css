@@ -83,6 +83,43 @@
     column-gap: 0;
   }
 }
+.resume-contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  white-space: nowrap;
+}
+@media (min-width: 640px) {
+  .resume-contact-item {
+    justify-content: flex-end;
+  }
+}
+
+/* Copy: a quiet pill beside the email and phone, screen only. */
+.resume-copy {
+  font: inherit;
+  font-size: 0.8em;
+  line-height: 1;
+  color: hsl(var(--component-resume-ink-tertiary));
+  background: none;
+  border: 1px solid hsl(var(--component-resume-rule));
+  border-radius: var(--radius-round);
+  padding: 0.3em 0.7em;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-settle), border-color var(--duration-fast) var(--ease-settle);
+}
+.resume-copy:hover {
+  color: hsl(var(--component-resume-ink));
+  border-color: hsl(var(--component-resume-ink-tertiary));
+}
+.resume-copy:focus-visible {
+  outline: 2px solid hsl(var(--component-resume-accent));
+  outline-offset: 2px;
+}
+.resume-copy[data-copied] {
+  color: hsl(var(--component-resume-accent));
+  border-color: hsl(var(--component-resume-accent));
+}
 
 .resume-summary {
   margin: 1em 0 0;
@@ -210,7 +247,8 @@
   body {
     background: hsl(var(--component-resume-paper)) !important;
   }
-  .resume-page-chrome {
+  .resume-page-chrome,
+  .resume-copy {
     display: none !important;
   }
   .resume-sheet {

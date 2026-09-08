@@ -1,6 +1,6 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import Resume, { RESUME_PAGE_TITLE } from "./Resume";
 import {
@@ -28,10 +28,17 @@ const DATE = /^(?:[A-Z][a-z]{2} )?\d{4}(?: – (?:Present|(?:[A-Z][a-z]{2} )?\d{
 describe("resume data", () => {
   const entries = RESUME_SECTIONS.flatMap((section) => section.entries);
 
-  it("writes every date in a parseable shape", () => {
-    for (const entry of entries) {
-      expect(entry.dates, entry.id).toMatch(DATE);
+  it("writes every date in a parseable shape, and none on Education", () => {
+    for (const section of RESUME_SECTIONS) {
+      for (const entry of section.entries) {
+        if (section.id === "education") expect(entry.dates, entry.id).toBeUndefined();
+        else expect(entry.dates, entry.id).toMatch(DATE);
+      }
     }
+  });
+
+  it("formats the phone number the way a form expects it", () => {
+    expect(RESUME_CONTACT.phone).toMatch(/^\(\d{3}\) \d{3}-\d{4}$/);
   });
 
   it("keeps bullets as plain sentences the renderer can mark", () => {
@@ -104,8 +111,44 @@ describe("Resume page", () => {
       "href",
       `https://${RESUME_CONTACT.linkedin}`,
     );
+    expect(screen.getByRole("link", { name: RESUME_CONTACT.phone })).toHaveAttribute("href", "tel:+12534089312");
     const download = screen.getByRole("link", { name: /download pdf/i });
     expect(download).toHaveAttribute("href", RESUME_PDF_PATH);
     expect(download).toHaveAttribute("download");
+    expect(screen.getByRole("button", { name: "Print" })).toBeInTheDocument();
+  });
+
+  it("copies the email and phone to the clipboard on request", async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.assign(navigator, { clipboard: { writeText } });
+    renderResume();
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Copy email" }));
+    });
+    expect(writeText).toHaveBeenCalledWith(RESUME_CONTACT.email);
+    expect(screen.getByRole("button", { name: "email copied" })).toHaveTextContent("Copied");
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Copy phone number" }));
+    });
+    expect(writeText).toHaveBeenCalledWith(RESUME_CONTACT.phone);
+  });
+
+  it("falls back to the copy command when the clipboard is denied, and to selecting the text after that", async () => {
+    Object.assign(navigator, { clipboard: { writeText: vi.fn().mockRejectedValue(new Error("denied")) } });
+    const execCommand = vi.fn().mockReturnValue(true);
+    Object.assign(document, { execCommand });
+    renderResume();
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Copy email" }));
+    });
+    expect(execCommand).toHaveBeenCalledWith("copy");
+    expect(screen.getByRole("button", { name: "email copied" })).toBeInTheDocument();
+
+    execCommand.mockReturnValue(false);
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Copy phone number" }));
+    });
+    expect(screen.getByRole("button", { name: /phone number selected/ })).toHaveTextContent("Selected");
+    expect(window.getSelection()?.toString()).toBe(RESUME_CONTACT.phone);
   });
 });
