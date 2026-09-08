@@ -298,7 +298,7 @@ const neuralyfe: ProjectDetailSource = {
       id: "impact",
       label: "Impact",
       headline: "Risk Should Not Stay Hidden Until Symptoms Appear",
-      body: "NeuraLyfe's claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\n[[module:neuralyfe-impact]]\n\nThe judges recognised the visuals, the film, the storytelling, and especially the Halo prototype, which could be picked up rather than imagined.\n\n[[fig:1]]\n\n[[module:neuralyfe-links]]",
+      body: "NeuraLyfe's claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\n[[module:neuralyfe-impact]]\n\n**The judges recognised the visuals, the film, the storytelling, and especially the Halo prototype, which could be picked up rather than imagined.**\n\n[[fig:1]]\n\n[[module:neuralyfe-links]]",
       figures: [
         { type: "image", src: neuralyfeDeckScenario, alt: "In a live scenario, a player's frontal lobe hits critical levels and his card turns red" },
         { type: "image", src: neuralyfeAward, alt: "The four NeuraLyfe teammates holding MHCI+D letter cushions in front of the projected First place: NeuraLyfe slide at the FigBuild 2026 awards" },
