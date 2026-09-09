@@ -15,8 +15,7 @@ import type { LucideIcon } from "lucide-react";
 import flowprintWelcomeUi from "@/assets/flowprint-welcome-ui.webp";
 import flowprintHomeUi from "@/assets/flowprint-home-ui.webp";
 import flowprintFinishedUi from "@/assets/flowprint-finished-ui.webp";
-import flowprintPhoneSlice from "@/assets/flowprint-phone-slice.webp";
-import { CardGrid, Chips, ModuleCard, MotiFigure, PullQuote, type GridItem } from "./MotiModules";
+import { CardGrid, Chips, ModuleCard, PullQuote, type GridItem } from "./MotiModules";
 import { noOrphan } from "@/lib/noOrphan";
 
 const highlights = [
@@ -271,27 +270,6 @@ function VersionBlock({
 export function FlowPrintIterations() {
   return (
     <div className="flex flex-col gap-8 md:gap-10">
-      <VersionBlock
-        tag="V1"
-        title="Phone and Machine, Same Shop Voice"
-        points={[
-          {
-            label: "What I Tried",
-            text: "Design both surfaces from the start: a phone companion and a machine screen. On the phone, rename the slicer Quality, Speed, Strength instead of layer height and infill.",
-          },
-          {
-            label: "What Broke",
-            text: "Two control panels. Kinder words on the phone, a photo of the chassis on the machine. Rookies still had to operate a shop before they had a part.",
-          },
-        ]}
-      />
-      <MotiFigure
-        src={flowprintPhoneSlice}
-        alt="Early slicing wireframe with Standard Quality, Tree Support, Normal Speed, and a Strength panel over a model on the plate"
-        label="V1 phone"
-        caption="kinder words, same shop: Quality, Speed, and Strength on a phone"
-        screen
-      />
       <VersionBlock
         tag="V2"
         title="The Machine Screen as a Dashboard"
