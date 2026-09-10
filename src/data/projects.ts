@@ -158,7 +158,7 @@ const CASE_STUDY: ProjectDestination = { kind: "case-study" };
 // ── The project list ─────────────────────────────────────────────────────────
 // Order within a section is display order. Selected Work leads with Oryne (the
 // most authored of the shipped apps, and the case study with the deepest
-// research), then Moti, NeuraLyfe, and Aura. Spatial Editor has no case study
+// research), then NeuraLyfe, Aura, and Moti. Spatial Editor has no case study
 // yet, so it sits in More Work as a placeholder card. Selected Work + More Work
 // are the homepage ("Work"); Studio is its own page. NextUp's LEAD_ORDER and
 // the hero orb positions follow this order; change them together.
@@ -190,26 +190,6 @@ export const PROJECTS: readonly Project[] = [
     coverVideo: oryneCardVideo,
     year: "2026",
     details: "First commit to the App Store in 23 days, built around one metaphor: your mind as an ocean.\n\nAll of its intelligence runs on the device, in English and Simplified Chinese.",
-  },
-  {
-    id: "moti",
-    title: "Moti",
-    section: "selected",
-    skills: ["AI-Native", "Design Engineering"],
-    links: [{ label: "App Store", url: "https://apps.apple.com/us/app/moti-plan/id6770705491" }],
-    destination: CASE_STUDY,
-    signal: "An AI-Native Timeline for Real Projects",
-    description: "Designed, built, and shipped on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.",
-    role: "0→1 Product Designer & Builder",
-    coverImage: motiCard,
-    coverAspect: "1280/800",
-    // The Moti: Plan reel — the title card, then dictating a messy sentence and
-    // watching it land on the timeline, then back to the title card. coverImage is
-    // that opening frame, so it serves as the poster, the reduced-motion still, and
-    // the resting state the reel holds on once it has played.
-    coverVideo: motiCardVideo,
-    year: "2026",
-    details: "Designed, built, and shipped on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.\n\nBuilt on a hybrid SLM + LLM system, specified spec-first with a full PRD before writing any code.",
   },
   {
     id: "neuralyfe",
@@ -253,6 +233,26 @@ export const PROJECTS: readonly Project[] = [
     coverPlate: auraCoverPlate,
     coverMark: auraCoverMark,
     details: "A speculative concept for anticipating motion sickness in flight, designed with a 5-person team over 5 weeks.\n\nUser testing validated the refined form: 15 of 16 testers (93.75%) preferred it over the initial design.",
+  },
+  {
+    id: "moti",
+    title: "Moti",
+    section: "selected",
+    skills: ["AI-Native", "Design Engineering"],
+    links: [{ label: "App Store", url: "https://apps.apple.com/us/app/moti-plan/id6770705491" }],
+    destination: CASE_STUDY,
+    signal: "An AI-Native Timeline for Real Projects",
+    description: "Designed, built, and shipped on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.",
+    role: "0→1 Product Designer & Builder",
+    coverImage: motiCard,
+    coverAspect: "1280/800",
+    // The Moti: Plan reel — the title card, then dictating a messy sentence and
+    // watching it land on the timeline, then back to the title card. coverImage is
+    // that opening frame, so it serves as the poster, the reduced-motion still, and
+    // the resting state the reel holds on once it has played.
+    coverVideo: motiCardVideo,
+    year: "2026",
+    details: "Designed, built, and shipped on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.\n\nBuilt on a hybrid SLM + LLM system, specified spec-first with a full PRD before writing any code.",
   },
 
   // ── More Work: the rest of the case studies, told as process ──
