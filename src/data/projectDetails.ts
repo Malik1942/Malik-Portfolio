@@ -105,6 +105,7 @@ import rangerDetailPod from "@/assets/ranger-detail-pod.webp";
 import rangerDetailThruster from "@/assets/ranger-detail-thruster.webp";
 import rangerDetailCharge from "@/assets/ranger-detail-charge.webp";
 import oryneHero from "@/assets/oryne-hero.webp";
+import oryneHeroLoop from "@/assets/oryne-hero-loop.mp4";
 import oryneFilm from "@/assets/oryne-film.mp4";
 import oryneFilmPoster from "@/assets/oryne-film-poster.webp";
 
@@ -1106,6 +1107,13 @@ const oryne: ProjectDetailSource = {
   title: "Oryne",
   heroSummary: "An ocean for unfinished thoughts. Live on the App Store,\nwith all of its intelligence on the device",
   heroImage: oryneHero,
+  // The loop opens on that same journey still and dissolves out of it, so the
+  // poster is literally its first frame and nothing swaps when playback starts.
+  // What follows is the product's whole loop on a real phone, in four acts:
+  // catch a thought with the Action Button, watch a current gather, meet one
+  // that drifted back, and ask the Ocean a question. Camera pushes in on each
+  // act and cuts back out, which is why the source is composited at 4K.
+  heroVideo: oryneHeroLoop,
   heroImageFit: "cover",
   metaCards: [
     { label: "Role", value: "0→1 Product Designer & Builder" },
