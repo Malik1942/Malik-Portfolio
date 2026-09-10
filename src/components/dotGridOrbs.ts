@@ -20,8 +20,11 @@ import { SECTIONS } from "@/lib/sections";
 // the gaps around them: Mood Muse and FlowPrint down the right edge, Tubular
 // in the lower-left, Spatial Editor in the mid-right.
 //
-// On mobile the column order follows the homepage: Oryne leads the upper band
-// and Moti closes the lower one.
+// On mobile the column order follows the homepage — Oryne, NeuraLyfe, Aura,
+// Moti, read down the column — so the upper band takes the first two and the
+// lower band the last two. That deliberately splits them differently from the
+// desktop scatter, where Aura sits high and NeuraLyfe low: the desktop
+// positions are art direction, the mobile ones are only order and band.
 export interface OrbPosition {
   rx: number;
   ry: number;
@@ -35,9 +38,9 @@ export interface OrbPosition {
 export const ORB_POSITIONS: Record<string, OrbPosition> = {
   // Selected Work — bright
   oryne: { rx: 0.42, ry: 0.2, mrx: 0.09, mry: 0.19 },
+  neuralyfe: { rx: 0.28, ry: 0.72, mrx: 0.09, mry: 0.3 },
+  aura: { rx: 0.1, ry: 0.25, mrx: 0.09, mry: 0.73 },
   moti: { label: "Moti: Plan", rx: 0.58, ry: 0.78, mrx: 0.09, mry: 0.85 },
-  neuralyfe: { rx: 0.28, ry: 0.72, mrx: 0.09, mry: 0.73 },
-  aura: { rx: 0.1, ry: 0.25, mrx: 0.09, mry: 0.3 },
   // More Work — dim
   spatial: { rx: 0.82, ry: 0.62, mrx: 0.55, mry: 0.55 },
   moodmuse: { rx: 0.88, ry: 0.3, mrx: 0.62, mry: 0.72 },
