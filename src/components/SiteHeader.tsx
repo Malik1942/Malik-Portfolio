@@ -9,21 +9,11 @@ import { TextLink } from "@/components/ui/TextLink";
 const EMAIL_HREF = "mailto:malikzhang19@gmail.com";
 const LINKEDIN_HREF = "https://www.linkedin.com/in/malik-zhang";
 
-function HeaderConnect({
-  interactive,
-  className = "",
-  testId,
-}: {
-  interactive: string;
-  className?: string;
-  testId?: string;
-}) {
+/** The email + LinkedIn pair. Rendered beside the "Connect" word on desktop
+ *  and bare, inside the link row, on mobile. */
+function ConnectIcons() {
   return (
-    <div
-      data-testid={testId}
-      className={`${interactive} flex items-center gap-x-3 text-foreground-secondary ${className}`}
-    >
-      <TextLink href={EMAIL_HREF}>Connect</TextLink>
+    <>
       <a
         href={EMAIL_HREF}
         aria-label="Email"
@@ -40,6 +30,26 @@ function HeaderConnect({
       >
         <Linkedin className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
       </a>
+    </>
+  );
+}
+
+function HeaderConnect({
+  interactive,
+  className = "",
+  testId,
+}: {
+  interactive: string;
+  className?: string;
+  testId?: string;
+}) {
+  return (
+    <div
+      data-testid={testId}
+      className={`${interactive} flex items-center gap-x-3 text-foreground-secondary ${className}`}
+    >
+      <TextLink href={EMAIL_HREF}>Connect</TextLink>
+      <ConnectIcons />
     </div>
   );
 }
@@ -83,7 +93,8 @@ interface SiteHeaderProps {
  * The site's primary navigation — logo + NAV_ITEMS (Work / Studio) / About /
  * Resume, with a right-aligned Connect cluster (email + LinkedIn). A fixed,
  * direction-aware unit shared by the homepage hero and the case-study pages
- * so the two never drift.
+ * so the two never drift. Mobile drops the logo and the "Connect" word and
+ * folds the two icons into the single link row.
  *
  * The outer layer owns the fixed positioning, the scroll-direction slide, and
  * the background gradient. The inner layer owns the entrance / About fade so
@@ -194,17 +205,17 @@ export function SiteHeader({
           />
         </div>
 
-        {/* Mobile — single-row nav, no logo. A fixed 20px gap (not justify-between)
-            keeps the spacing between links identical at every screen width; the
-            centered group + 14px type still fits one line down to ~320px. */}
-        <nav className={`${interactive} flex flex-nowrap justify-center gap-x-5 whitespace-nowrap text-sm text-foreground-secondary animate-fade-up delay-4 md:hidden`}>
+        {/* Mobile — single-row nav, no logo, with the two Connect icons riding
+            in the same row (the word "Connect" is desktop-only; the icons say
+            it on their own). A fixed gap (not justify-between) keeps the
+            spacing identical at every screen width. Six items instead of four
+            is what drops that gap from 20px to 12px: 12 is the widest gap that
+            still keeps the centered group inside the page margins, and so no
+            wider than the divider beneath it, at 320px. */}
+        <nav className={`${interactive} flex flex-nowrap items-center justify-center gap-x-3 whitespace-nowrap text-sm text-foreground-secondary animate-fade-up delay-4 md:hidden`}>
           {links}
+          <ConnectIcons />
         </nav>
-
-        <HeaderConnect
-          interactive={interactive}
-          className="mt-4 justify-end text-sm animate-fade-up delay-4 md:hidden"
-        />
 
         <div className={`${hideMobileDivider ? "hidden md:block" : ""} h-px bg-border/40 mt-5 animate-line-reveal delay-3`} />
       </motion.div>
