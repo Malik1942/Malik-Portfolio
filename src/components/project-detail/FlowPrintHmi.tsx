@@ -101,10 +101,15 @@ const MODELS = [
   { name: "Helmet", time: "11h 16min", grams: "188.0g" },
 ];
 
+// Six white/NN modifiers here (12, 18, 88, 92) were off Tailwind's opacity
+// scale and generated no CSS: the text inherited the root's white and the
+// borders fell back to the default border color. They were removed rather
+// than snapped to the nearest five so the mock renders exactly as it shipped.
+// Restoring them at 10/20/90 is a visual decision, not a cleanup.
 const glass =
   "bg-white/[0.08] backdrop-blur-2xl border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_12px_40px_rgba(0,0,0,0.45)]";
 const glassQuiet =
-  "bg-black/35 backdrop-blur-xl border border-white/18 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]";
+  "bg-black/35 backdrop-blur-xl border shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]";
 
 function Scene({ src, blur, dim }: { src: string; blur?: boolean; dim?: boolean }) {
   return (
@@ -233,7 +238,7 @@ export function FlowPrintHmi() {
           <div className="absolute inset-0 bg-black/45" />
           <div className="absolute inset-0 flex items-center justify-center p-[6cqw]">
             <div className={`${glass} w-[58cqw] rounded-[2.2cqw] px-[4.2cqw] py-[4.6cqw] text-center`}>
-              <p className="text-[2.15cqw] font-normal text-white/88">Welcome! Before we get started...</p>
+              <p className="text-[2.15cqw] font-normal">Welcome! Before we get started...</p>
               <h2 className="mt-[2.4cqw] text-[3.15cqw] font-medium leading-snug tracking-tight text-white">
                 How experienced are you with 3D printing?
               </h2>
@@ -278,7 +283,7 @@ export function FlowPrintHmi() {
                   type="button"
                   disabled={screen === "connected"}
                   onClick={() => pickNetwork(name)}
-                  className="flex w-full items-center justify-between border-b border-white/12 py-[1.35cqw] text-left last:border-b-0 disabled:cursor-default"
+                  className="flex w-full items-center justify-between border-b py-[1.35cqw] text-left last:border-b-0 disabled:cursor-default"
                 >
                   <span className="flex items-center gap-[1.2cqw] text-[2.05cqw] font-normal">
                     {screen === "connected" && name === ssid ? (
@@ -293,7 +298,7 @@ export function FlowPrintHmi() {
                   </span>
                 </button>
               ))}
-              <div className="border-t border-white/18 py-[1.35cqw] text-[2.05cqw] text-white/80">Other...</div>
+              <div className="border-t py-[1.35cqw] text-[2.05cqw] text-white/80">Other...</div>
             </div>
           </div>
           <div className="absolute bottom-[3.2cqw] right-[3.2cqw] flex gap-[1.1cqw]">
@@ -383,7 +388,7 @@ export function FlowPrintHmi() {
               alt=""
               className="mt-[1.4cqw] h-[28cqh] w-auto object-contain"
             />
-            <ul className="mt-[1.6cqw] space-y-[0.55cqw] text-left text-[1.85cqw] font-normal leading-snug text-white/92">
+            <ul className="mt-[1.6cqw] space-y-[0.55cqw] text-left text-[1.85cqw] font-normal leading-snug">
               <li>
                 <span className="font-medium">Best for –</span> {filament.best}
               </li>
@@ -452,7 +457,7 @@ export function FlowPrintHmi() {
             alt=""
             className="pointer-events-none absolute left-[11cqw] top-1/2 h-[90cqh] w-[56cqw] -translate-y-1/2 object-contain"
           />
-          <div className="absolute left-[2.2cqw] top-[6cqw] bottom-[6cqw] flex w-[7.6cqw] flex-col items-center justify-between rounded-full bg-black/55 py-[2.4cqw] text-white/85 backdrop-blur-xl border border-white/12">
+          <div className="absolute left-[2.2cqw] top-[6cqw] bottom-[6cqw] flex w-[7.6cqw] flex-col items-center justify-between rounded-full bg-black/55 py-[2.4cqw] text-white/85 backdrop-blur-xl border">
             <Wifi aria-hidden="true" strokeWidth={1.5} className="h-[2.4cqw] w-[2.4cqw]" />
             <Plus aria-hidden="true" strokeWidth={1.5} className="h-[2.4cqw] w-[2.4cqw]" />
             <span className="flex h-[4.4cqw] w-[4.4cqw] items-center justify-center rounded-full bg-white/15 shadow-[0_0_18px_rgba(255,255,255,0.28)]">

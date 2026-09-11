@@ -109,7 +109,8 @@ const RULES: Rule[] = [
     // Tailwind only generates modifiers on theme.opacity, which ships in fives.
     // bg-background/92 produced no CSS at all: the photography lightbox had
     // no backdrop until it was noticed.
-    pattern: /\b(?:bg|text|border|ring|from|to|via|divide|outline|fill|stroke)-[a-z-]+\/(?:[0-9]|[1-9][0-9])(?![0-9.\]])\b/g,
+    // A one- or two-digit value whose last digit is not 0 or 5.
+    pattern: /\b(?:bg|text|border|ring|from|to|via|divide|outline|fill|stroke)-[a-z-]+\/(?:[1-9]?[1-46-9])(?![0-9.\]])\b/g,
     hint: "Use a multiple of 5, an arbitrary value in brackets, or a token role.",
     exempt: () => false,
   },
