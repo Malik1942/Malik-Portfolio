@@ -3,6 +3,7 @@ import { useInView, useReducedMotion } from "framer-motion";
 import { noOrphan } from "@/lib/noOrphan";
 import {
   ArrowUpRight,
+  ArrowRight,
   Waves,
   Layers,
   Zap,
@@ -348,8 +349,8 @@ function FeatureClip({ clip }: { clip: Clip }) {
     <div className="flex flex-col bg-surface-inset px-6 py-7 md:px-8 md:py-8">
       {/* The caption sits inside the media column, not the cell: a centred
           caption wider than the phone above it reads as a stray paragraph.
-          Same structure as PairFigure. All three clips are the same height, so
-          the three captions start on the same line without an mt-auto push. */}
+          All three clips are the same height, so the three captions start on
+          the same line without an mt-auto push. */}
       <figure className={`${SCREEN_FIGURE_WIDTH} flex flex-col`}>
       <div
         ref={frameRef}
@@ -469,7 +470,7 @@ const stages: Stage[] = [
   },
   {
     num: "03",
-    title: "Iteration 1: The First Build",
+    title: "Version 1: The First Build",
     when: "SwiftUI, from June 9",
     lead: "By the end of day one the four tabs existed. The Ocean was a handful of gray orbs on a dark field, the Library a list, Whisper a mic and a timer, and Ask a chat with four lenses. Fast Capture and the widgets followed on day two.",
     kept: "The skeleton shipped as it was: the four tabs, Thought and Whisper capture, Grow a Branch, Ask answering only from the water.",
@@ -477,7 +478,7 @@ const stages: Stage[] = [
   },
 ];
 type Pair = { title: string; before: ArtifactItem; after: ArtifactItem };
-// Only the screens that visibly changed. The Iteration 1 screens come from the
+// Only the screens that visibly changed. The Version 1 screens come from the
 // initial commit of ~/Documents/inspire-ocean (2026-06-09), built for the
 // simulator on 2026-09-08 (see the memory note). Ask, Capture, Thought, Branch,
 // and Whisper were compared too and shipped nearly as built, so they are not
@@ -485,12 +486,12 @@ type Pair = { title: string; before: ArtifactItem; after: ArtifactItem };
 const pairs: Pair[] = [
   {
     title: "Ocean",
-    before: { src: oryneFirstOcean, alt: "Iteration 1’s Ocean: ten gray orbs with icons scattered on a dark field", label: "Iteration 1", caption: "gray orbs scattered on a dark field, and no currents yet" },
+    before: { src: oryneFirstOcean, alt: "Version 1’s Ocean: ten gray orbs with icons scattered on a dark field", label: "Version 1", caption: "gray orbs scattered on a dark field, and no currents yet" },
     after: { src: oryneOcean, alt: "The shipped Ocean: glass orbs drifting in currents, one lit by a long press", label: "Shipped", caption: "glass bodies in currents, relatives lit on a long press" },
   },
   {
     title: "Library",
-    before: { src: oryneFirstLibrary, alt: "Iteration 1’s Library: a single-column list grouped by week", label: "Iteration 1", caption: "a list, newest first, one thought per row" },
+    before: { src: oryneFirstLibrary, alt: "Version 1’s Library: a single-column list grouped by week", label: "Version 1", caption: "a list, newest first, one thought per row" },
     after: { src: oryneLibrary, alt: "The shipped Library: a masonry waterfall of cards", label: "Shipped", caption: "a waterfall of cards, by time or by meaning" },
   },
 ];
@@ -504,26 +505,38 @@ const wireRows: WireRow[] = [
   { src: oryneWireCaptureFlow, alt: "Wireframe storyboard: idle Ocean, a radial mode picker, a two-second capture, and a ripple confirming release", label: "Drift Capture", caption: "thought to Ocean in under two seconds, and release as the verb; both shipped, the radial picker became a Thought and Whisper toggle" },
   { src: oryneWireBranching, alt: "Wireframe row: four branching gestures, long-press radial, directional swipe, an inline button, and a bottom sheet", label: "Branching", caption: "four gestures for the same four kinds; the recommended radial lost to the bottom sheet, and the long press went to kinship instead" },
 ];
+// The two notes under a stage. The icon carries the verdict so the eye can
+// sort survived from changed before reading: a check for what shipped as it
+// was, and the same arrow that stands between Version 1 and Shipped below.
+function StageNote({ icon: Icon, tone, label, children }: { icon: LucideIcon; tone: string; label: string; children: string }) {
+  return (
+    <div className="bg-surface-inset px-6 py-6 md:px-8 md:py-7">
+      <div className="flex items-center gap-2">
+        <Icon aria-hidden="true" className={`h-3.5 w-3.5 shrink-0 ${tone}`} strokeWidth={1.6} />
+        <p className="text-label uppercase tracking-eyebrow text-foreground-secondary font-mono">{label}</p>
+      </div>
+      <p className="mt-3 text-sm md:text-base font-light leading-relaxed text-foreground-secondary">{noOrphan(children)}</p>
+    </div>
+  );
+}
+// A stage card reads like a CardGrid cell scaled up: a rail with the numeral
+// on the left and the tool-and-date on the right, then a sans title, then the
+// lead. The mono uppercase header style stays reserved for ModuleCard headers,
+// so a stage title and a module title no longer compete in the same voice.
 function StageCard({ stage }: { stage: Stage }) {
   return (
     <ModuleCard>
       <div className="px-6 pt-7 pb-6 md:px-8 md:pt-8 md:pb-7 border-b border-case-study-module-divider">
-        <div className="flex items-baseline gap-3">
+        <div className="flex items-center justify-between gap-4">
           <span className="text-caption font-mono tabular-nums text-accent-violet/70">{stage.num}</span>
-          <p className="text-caption md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">{stage.title}</p>
+          <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono text-right">{stage.when}</p>
         </div>
-        <p className="mt-1 text-caption md:text-sm font-mono text-foreground-tertiary">{stage.when}</p>
+        <p className="mt-4 text-xl md:text-title font-medium text-foreground">{noOrphan(stage.title)}</p>
         <p className="mt-3 text-sm md:text-base font-light leading-relaxed text-foreground-secondary max-w-measure">{noOrphan(stage.lead)}</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-case-study-module-divider">
-        <div className="bg-surface-inset px-6 py-6 md:px-8 md:py-7">
-          <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">What survived</p>
-          <p className="mt-3 text-sm md:text-base font-light leading-relaxed text-foreground-secondary">{noOrphan(stage.kept)}</p>
-        </div>
-        <div className="bg-surface-inset px-6 py-6 md:px-8 md:py-7">
-          <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">What changed</p>
-          <p className="mt-3 text-sm md:text-base font-light leading-relaxed text-foreground-secondary">{noOrphan(stage.changed)}</p>
-        </div>
+        <StageNote icon={Check} tone="text-success" label="What survived">{stage.kept}</StageNote>
+        <StageNote icon={ArrowRight} tone="text-accent-violet/70" label="What changed">{stage.changed}</StageNote>
       </div>
     </ModuleCard>
   );
@@ -538,13 +551,18 @@ function WideFigure({ item }: { item: ArtifactItem }) {
     </figure>
   );
 }
-function PairFigure({ item }: { item: ArtifactItem }) {
+// One side of a Version 1 / Shipped pair. The figure is display: contents so
+// the phone and the caption become items of the pair's own grid: phones on
+// row one, captions on row two, and the arrow between them centred on the
+// phones alone rather than on phone-plus-caption. Both screens are the same
+// 900x1839 frame, so the captions start on the same line without a push.
+function PairScreen({ item, col }: { item: ArtifactItem; col: string }) {
   return (
-    <figure className={`${SCREEN_FIGURE_WIDTH} flex h-full flex-col`}>
-      <div className="overflow-hidden rounded-2xl bg-secondary/10">
+    <figure className="contents">
+      <div className={`${SCREEN_FIGURE_WIDTH} ${col} sm:row-start-1 overflow-hidden rounded-2xl bg-secondary/10`}>
         <img src={item.src} alt={item.alt} loading="lazy" decoding="async" className="w-full h-auto block" />
       </div>
-      <div className="mt-auto">
+      <div className={`${SCREEN_FIGURE_WIDTH} ${col} sm:row-start-2`}>
         <FigureCaption label={item.label}>{item.caption}</FigureCaption>
       </div>
     </figure>
@@ -569,21 +587,20 @@ export function OryneIterations() {
         </div>
       </ModuleCard>
       <StageCard stage={stages[2]} />
-      <ModuleCard header="Iteration 1 Against Shipped">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-case-study-module-divider">
+      <ModuleCard header="Version 1 Against Shipped">
+        <div className="divide-y divide-case-study-module-divider">
           {pairs.map((pair) => (
-            <div key={pair.title} className="contents">
-              <div className="flex flex-col bg-surface-inset px-6 py-7 md:px-8 md:py-8">
-                <p className="text-base md:text-xl font-medium text-foreground">{pair.title}</p>
-                <div className="mt-5 flex flex-1 flex-col">
-                  <PairFigure item={pair.before} />
+            <div key={pair.title} className="bg-surface-inset px-6 py-7 md:px-8 md:py-8">
+              <p className="text-base md:text-xl font-medium text-foreground">{pair.title}</p>
+              {/* Version 1, an arrow, Shipped. Across on two columns; down the
+                  page on one, where the arrow turns to point at the next phone,
+                  the same move Moti's principle rows make. */}
+              <div className="mt-5 grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] sm:gap-x-4">
+                <PairScreen item={pair.before} col="sm:col-start-1" />
+                <div className="flex items-center justify-center py-5 sm:py-0 sm:col-start-2 sm:row-start-1 sm:px-2">
+                  <ArrowRight aria-hidden="true" className="h-5 w-5 rotate-90 sm:rotate-0 text-accent-violet/70" strokeWidth={1.5} />
                 </div>
-              </div>
-              <div className="flex flex-col bg-surface-inset px-6 py-7 md:px-8 md:py-8">
-                <p className="text-base md:text-xl font-medium text-foreground-tertiary" aria-hidden="true">&nbsp;</p>
-                <div className="mt-5 flex flex-1 flex-col">
-                  <PairFigure item={pair.after} />
-                </div>
+                <PairScreen item={pair.after} col="sm:col-start-3" />
               </div>
             </div>
           ))}
