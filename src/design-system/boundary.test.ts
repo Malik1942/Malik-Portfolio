@@ -67,6 +67,8 @@ const MEASURE_EXEMPTIONS: Record<string, string[]> = {
   "src/pages/OrynePrivacy.tsx": ["max-w-[62ch]"],
 };
 
+const OPACITY_RULE = "color opacity modifier off Tailwind's scale";
+
 interface Rule {
   name: string;
   pattern: RegExp;
@@ -103,11 +105,18 @@ const RULES: Rule[] = [
     exempt: (file) => file === SIMULATED_DEVICE_UI,
   },
   {
-    name: "color opacity modifier off Tailwind's scale",
+    name: OPACITY_RULE,
     // Tailwind only generates modifiers on theme.opacity, which ships in fives.
     // bg-background/92 produced no CSS at all: the photography lightbox had
     // no backdrop until it was noticed.
-    pattern: /\b(?:bg|text|border|ring|from|to|via|divide|outline|fill|stroke)-[a-z-]+\/(?:[0-9]|[1-9][0-9])(?![0-9.\]])\b/g,
+    //
+    // So the rule flags a bare modifier only when it is off that scale.
+    // tailwind.config.ts does not touch theme.opacity, so the scale is the v3
+    // default: 0, every multiple of five, and 100. The negative lookahead
+    // spells that set out; anything else — /7, /13, /72, /92, /101, /92.5 —
+    // emits nothing and is an offender. A bracketed value never matches,
+    // because Tailwind resolves those itself.
+    pattern: /\b(?:bg|text|border|ring|from|to|via|divide|outline|fill|stroke)-[a-z-]+\/(?!(?:100|[1-9][05]|[05])(?![\d.]))\d+(?:\.\d+)?(?![\d.\]])/g,
     hint: "Use a multiple of 5, an arbitrary value in brackets, or a token role.",
     exempt: () => false,
   },
@@ -232,6 +241,24 @@ describe("design-system boundary", () => {
       expect(offenders, `${rule.hint}\n${offenders.join("\n")}`).toEqual([]);
     });
   }
+
+  // A guardrail that flags working classes is a guardrail nobody can keep
+  // green, so the opacity rule is pinned to the scale Tailwind actually
+  // generates. Verified against this repo's Tailwind (3.4.19, theme.opacity
+  // not overridden, so the v3 default: 0 and every multiple of five to 100) by
+  // building these very classes: /7, /13, /72 and /92 emit no CSS at all,
+  // while /0, /15, /40, /95, /100 and bracketed values emit it.
+  it("flags only the opacity modifiers that generate no CSS", () => {
+    const rule = RULES.find((candidate) => candidate.name === OPACITY_RULE)!;
+    const flagged = (className: string) => (className.match(rule.pattern) ?? []).length > 0;
+
+    for (const dead of ["bg-background/92", "text-accent-violet/72", "bg-card/7", "border-foreground/13", "bg-secondary/101"]) {
+      expect(flagged(dead), `${dead} generates no CSS and has to be flagged`).toBe(true);
+    }
+    for (const live of ["bg-secondary/10", "text-accent-violet/70", "bg-card/40", "bg-background/0", "bg-secondary/100", "bg-foreground/[0.06]", "bg-card/[13%]"]) {
+      expect(flagged(live), `${live} generates CSS and must not be flagged`).toBe(false);
+    }
+  });
 
   it("keeps the measure exemptions honest", () => {
     for (const [file, allowed] of Object.entries(MEASURE_EXEMPTIONS)) {
