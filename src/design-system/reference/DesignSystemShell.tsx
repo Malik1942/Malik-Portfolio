@@ -191,7 +191,7 @@ export function DesignSystemShell({
                             className={`block min-h-11 border-l py-3 pl-3 text-caption leading-snug transition-[color,border-color] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus lg:min-h-0 lg:py-2.5 lg:text-label lg:uppercase lg:tracking-eyebrow ${
                               isActive
                                 ? "border-foreground-lead text-foreground"
-                                : "border-transparent text-foreground-tertiary hover:border-foreground/30 hover:text-foreground-secondary"
+                                : "border-transparent text-foreground-tertiary hover:border-control hover:text-foreground-secondary"
                             }`}
                           >
                             {section.label}

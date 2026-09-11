@@ -67,6 +67,20 @@
       "accent": {
         "$description": "Visible accent surface used for selected and highlighted states.",
         "$value": "{color.neutral.820}"
+      },
+      "wash": {
+        "$description": "A faint wash of ink over whatever is behind it: the well a case-study module sinks its media into, and the fill of a chip. A wash rather than an opaque step, because it has to read the same on the page canvas and on surface-inset. Replaces a bg-secondary wash that resolved to a 1/255 difference and so drew nothing at all.",
+        "$value": "{color.text.primary}",
+        "$extensions": {
+          "com.malikzhang.alpha": 0.06
+        }
+      },
+      "washStrong": {
+        "$description": "The wash one step up, for a chip that is selected or a panel that has to separate from the well it sits in.",
+        "$value": "{color.text.primary}",
+        "$extensions": {
+          "com.malikzhang.alpha": 0.14
+        }
       }
     },
     "action": {
@@ -98,6 +112,34 @@
         "$value": "{color.border.default}",
         "$extensions": {
           "com.malikzhang.alpha": 0.25
+        }
+      },
+      "controlQuiet": {
+        "$description": "The quietest control edge: a tag at rest, a supporting border on an item the fill already marks as selected.",
+        "$value": "{color.text.primary}",
+        "$extensions": {
+          "com.malikzhang.alpha": 0.22
+        }
+      },
+      "control": {
+        "$description": "The everyday control edge, and the border that arrives on hover over an edge that is transparent at rest.",
+        "$value": "{color.text.primary}",
+        "$extensions": {
+          "com.malikzhang.alpha": 0.3
+        }
+      },
+      "controlStrong": {
+        "$description": "A control that has to hold its own outline: a swatch frame, a segmented button.",
+        "$value": "{color.text.primary}",
+        "$extensions": {
+          "com.malikzhang.alpha": 0.5
+        }
+      },
+      "controlSelected": {
+        "$description": "The selected item in a control set. The strongest border in the system, and the only one that should read as a state rather than a rule.",
+        "$value": "{color.text.primary}",
+        "$extensions": {
+          "com.malikzhang.alpha": 0.75
         }
       }
     },
@@ -134,6 +176,30 @@
       "positive": {
         "$description": "Positive status role for success, strengths, and confirmations.",
         "$value": "{color.emerald.400}"
+      }
+    },
+    "scrim": {
+      "$type": "color",
+      "faint": {
+        "$description": "A veil that dims what is behind it without hiding it: a resting media overlay.",
+        "$value": "{color.background.canvas}",
+        "$extensions": {
+          "com.malikzhang.alpha": 0.4
+        }
+      },
+      "DEFAULT": {
+        "$description": "The everyday scrim: enough to carry type over an image or a page behind a sheet.",
+        "$value": "{color.background.canvas}",
+        "$extensions": {
+          "com.malikzhang.alpha": 0.75
+        }
+      },
+      "strong": {
+        "$description": "A scrim that all but closes the page behind it, for a bar or overlay that owns the view.",
+        "$value": "{color.background.canvas}",
+        "$extensions": {
+          "com.malikzhang.alpha": 0.92
+        }
       }
     }
   },

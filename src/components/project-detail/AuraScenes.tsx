@@ -64,7 +64,7 @@ export function AuraScenes() {
 
       {/* Hero video — full content width */}
       <div
-        className="w-full overflow-hidden rounded-2xl bg-secondary/[0.06] cursor-pointer"
+        className="w-full overflow-hidden rounded-2xl bg-surface-wash cursor-pointer"
         onMouseEnter={handleMouseEnter}
       >
         <video
@@ -89,7 +89,7 @@ export function AuraScenes() {
             onClick={() => handleSelect(i)}
             className={`group text-left px-4 py-3 rounded-sm border transition-colors duration-fast ${
               i === current
-                ? "border-foreground/20 bg-foreground/[0.06]"
+                ? "border-control-quiet bg-surface-wash"
                 : "border-hairline-faint hover:border-hairline-faint bg-transparent"
             }`}
           >

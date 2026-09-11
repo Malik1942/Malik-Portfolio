@@ -270,7 +270,7 @@ const CardMedia = ({
       {cornerGlyph ? (
         <span
           aria-hidden="true"
-          className="absolute left-3 top-3 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-hairline bg-background/75 leading-none text-foreground-secondary backdrop-blur-sm"
+          className="absolute left-3 top-3 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-hairline bg-scrim leading-none text-foreground-secondary backdrop-blur-sm"
         >
           {cornerGlyph}
         </span>

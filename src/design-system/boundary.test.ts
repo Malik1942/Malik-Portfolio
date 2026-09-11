@@ -139,6 +139,33 @@ const RULES: Rule[] = [
     hint: "Use border-hairline or border-hairline-faint.",
   },
   {
+    name: "surface wash as a raw opacity",
+    // bg-secondary/10 resolved to rgb(11,11,11) on an rgb(10,10,10) canvas: a
+    // 1/255 difference, which is to say nothing. Thirty call sites drew a
+    // media well that was never there, in six spellings that all rendered the
+    // same. The wash is a token now, so it has one value and it is visible.
+    pattern: /\bbg-secondary\/(?:\d+|\[[^\]]+\])/g,
+    hint: "Use bg-surface-wash, or bg-surface-wash-strong one step up.",
+  },
+  {
+    name: "control edge or rule as a raw opacity",
+    // border-foreground carried two different jobs at ten different values:
+    // structural rules, and the state of a control. They are separate ladders
+    // now, because a selected state flattened into a hairline stops reading.
+    pattern: /\bborder-foreground\/(?:\d+|\[[^\]]+\])/g,
+    hint: "Rules: border-hairline, -hairline-faint, or border-border. States: border-control-quiet, -control, -control-strong, -control-selected.",
+  },
+  {
+    name: "alpha written as an arbitrary value",
+    // The bracket is the escape hatch that let the surface and border families
+    // drift to thirteen values. It stays open for the one file that draws a
+    // machine's own interface, and is closed everywhere else: a portfolio
+    // surface that needs a new alpha needs a role, not a number at a call site.
+    pattern: /\b(?:bg|text|border|ring|from|to|via|divide|outline|fill|stroke)-[a-z-]+\/\[[^\]]+\]/g,
+    hint: "Use a token role. FlowPrintHmi is the one art-directed exception.",
+    exempt: (file) => file === SIMULATED_DEVICE_UI,
+  },
+  {
     name: "arbitrary tracking",
     pattern: /\btracking-\[[^\]]+\]/g,
     hint: "Use tracking-tight, tracking-normal, or tracking-eyebrow.",

@@ -47,7 +47,7 @@ const artifacts = [
 function FlowPrintArtifact({ src, alt, caption }: { src: string; alt: string; caption: string }) {
   return (
     <figure>
-      <div className="overflow-hidden rounded-2xl bg-secondary/10">
+      <div className="overflow-hidden rounded-2xl bg-surface-wash">
         <img
           src={src}
           alt={alt}

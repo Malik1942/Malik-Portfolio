@@ -257,7 +257,7 @@ function StageCard({ stage }: { stage: Stage }) {
 function WideFigure({ item }: { item: ArtifactItem }) {
   return (
     <figure className="bg-surface-inset px-6 py-7 md:px-8 md:py-8">
-      <div className="overflow-hidden rounded-2xl bg-secondary/10">
+      <div className="overflow-hidden rounded-2xl bg-surface-wash">
         <img src={item.src} alt={item.alt} loading="lazy" decoding="async" className="w-full h-auto block" />
       </div>
       <FigureCaption label={item.label}>{item.caption}</FigureCaption>
@@ -267,7 +267,7 @@ function WideFigure({ item }: { item: ArtifactItem }) {
 function PairFigure({ item }: { item: ArtifactItem }) {
   return (
     <figure className={`${SCREEN_FIGURE_WIDTH} flex h-full flex-col`}>
-      <div className="overflow-hidden rounded-2xl bg-secondary/10">
+      <div className="overflow-hidden rounded-2xl bg-surface-wash">
         <img src={item.src} alt={item.alt} loading="lazy" decoding="async" className="w-full h-auto block" />
       </div>
       <div className="mt-auto">
@@ -393,7 +393,7 @@ function FlowStepFigure({ step }: { step: FlowStep }) {
         <p className="text-base md:text-xl font-medium text-foreground">{step.title}</p>
       </div>
       <figure className={`${SCREEN_FIGURE_WIDTH} mt-5 flex flex-1 flex-col`}>
-        <div className="overflow-hidden rounded-2xl bg-secondary/10">
+        <div className="overflow-hidden rounded-2xl bg-surface-wash">
           <img src={step.src} alt={step.alt} loading="lazy" decoding="async" className="w-full h-auto block" />
         </div>
         <div className="mt-auto">

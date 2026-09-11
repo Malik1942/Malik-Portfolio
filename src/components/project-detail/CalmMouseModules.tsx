@@ -127,7 +127,7 @@ function DemoPane({ fixed }: { fixed: boolean }) {
           {fixed ? "With CalmMouse" : "Without"}
         </p>
       </div>
-      <div className="relative overflow-hidden rounded-lg border border-case-study-module-divider bg-background/40 px-5 pt-5 h-36">
+      <div className="relative overflow-hidden rounded-lg border border-case-study-module-divider bg-scrim-faint px-5 pt-5 h-36">
         <motion.div
           aria-hidden="true"
           className="flex flex-col gap-2.5"

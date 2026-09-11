@@ -179,6 +179,17 @@ export default {
           DEFAULT: completeColor("color-border-hairline"),
           faint: completeColor("color-border-faint"),
         },
+        // Control edges are a state, not a rule. `border-control` is the
+        // outline a control carries at rest, `-hover` the one that arrives on
+        // an edge that is transparent until pointed at, `-selected` the active
+        // item. Kept apart from the hairline family on purpose: a selected
+        // state flattened into a rule stops reading as a state.
+        control: {
+          quiet: completeColor("color-border-control-quiet"),
+          DEFAULT: completeColor("color-border-control"),
+          strong: completeColor("color-border-control-strong"),
+          selected: completeColor("color-border-control-selected"),
+        },
         // Focus rings: `ring-focus` on the canvas, `ring-focus-strong` over
         // media and filled surfaces.
         focus: {
@@ -186,6 +197,17 @@ export default {
           strong: completeColor("color-focus-ring-strong"),
         },
         "surface-inset": color("component-case-study-module-surface"),
+        // A faint wash of ink: media wells and chip fills. Named for the
+        // material, not the component, because both roles use it.
+        "surface-wash": completeColor("color-surface-wash"),
+        "surface-wash-strong": completeColor("color-surface-wash-strong"),
+        // Veils over the page, in three weights. A scrim is the canvas at an
+        // alpha, so it dims whatever it covers without tinting it.
+        scrim: {
+          faint: completeColor("color-scrim-faint"),
+          DEFAULT: completeColor("color-scrim-default"),
+          strong: completeColor("color-scrim-strong"),
+        },
         "project-card-surface": completeColor("component-project-card-surface"),
         "project-card-hover-overlay": completeColor("component-project-card-hover-overlay"),
         "case-study-module-border": completeColor("component-case-study-module-border"),

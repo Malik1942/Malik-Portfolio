@@ -105,7 +105,7 @@ function NeuraLyfeArtifact({
     <figure>
       <div
         ref={boxRef}
-        className="overflow-hidden rounded-2xl bg-secondary/10"
+        className="overflow-hidden rounded-2xl bg-surface-wash"
         style={{ aspectRatio: `${width} / ${height}` }}
       >
         <video
@@ -212,7 +212,7 @@ export function NeuraLyfeProtocol() {
       <ol className="grid grid-cols-1 sm:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x divide-case-study-module-divider border-b border-case-study-module-divider">
         {states.map((state, i) => (
           <li key={state} className="flex flex-row items-baseline gap-4 px-6 py-3 sm:flex-col sm:gap-2 sm:px-6 sm:py-6">
-            <span className={`text-caption font-mono tabular-nums ${i >= 3 ? "text-accent-violet/[0.6]" : "text-foreground-tertiary"}`}>
+            <span className={`text-caption font-mono tabular-nums ${i >= 3 ? "text-accent-violet/60" : "text-foreground-tertiary"}`}>
               0{i + 1}
             </span>
             <span className={`text-sm md:text-base tracking-tight ${i >= 3 ? "text-foreground font-medium" : "text-foreground-secondary font-normal"}`}>

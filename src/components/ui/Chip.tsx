@@ -22,19 +22,19 @@ export const chipRecipe = defineRecipe({
   variants: {
     kind: {
       label: { form: "px-2 py-1 text-label uppercase tracking-eyebrow leading-none" },
-      text: { form: "px-4 py-2 text-sm", material: "bg-secondary/[0.08]" },
+      text: { form: "px-4 py-2 text-sm", material: "bg-surface-wash" },
     },
     tone: {
       passive: { material: "text-foreground-tertiary" },
       lead: { material: "text-foreground-lead" },
       link: {
         material:
-          "bg-foreground/[0.08] text-foreground-lead hover:border-border hover:bg-foreground/[0.14] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          "bg-surface-wash text-foreground-lead hover:border-border hover:bg-surface-wash-strong hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         motion: "transition-[background-color,border-color,color] duration-medium ease-settle",
       },
       toggle: {
         material:
-          "cursor-pointer text-foreground-tertiary hover:border-border hover:text-foreground-lead aria-pressed:border-border aria-pressed:bg-foreground/[0.14] aria-pressed:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          "cursor-pointer text-foreground-tertiary hover:border-border hover:text-foreground-lead aria-pressed:border-border aria-pressed:bg-surface-wash-strong aria-pressed:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         motion: "transition-[background-color,border-color,color] duration-medium ease-settle",
       },
     },

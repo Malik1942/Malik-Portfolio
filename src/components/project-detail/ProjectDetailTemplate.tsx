@@ -99,7 +99,7 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
           {block.contextCards.map((card) => (
             <div
               key={card.title}
-              className="border border-hairline bg-secondary/[0.08] rounded-sm px-5 py-5"
+              className="border border-hairline bg-surface-wash rounded-sm px-5 py-5"
             >
               <p className="text-label uppercase tracking-eyebrow text-foreground-secondary mb-2.5">
                 {card.title}
@@ -394,7 +394,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
       {/* 2 — Hero media: a looping clip when the project has one, else the still */}
       {project.heroImage ? (
         <div className={`${PAGE_OUTER} mt-10 md:mt-14`}>
-          <div className="overflow-hidden rounded-2xl bg-secondary/10">
+          <div className="overflow-hidden rounded-2xl bg-surface-wash">
             {project.heroVideo && !shouldReduceMotion ? (
               // A hero clip carries the poster as its first frame, so the LCP is
               // the same picture either way and nothing reflows when it starts.
@@ -470,7 +470,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
             section chip fires a menu link and navigates away. (The lightbox at
             z-modal still covers it.) */}
         <nav
-          className="lg:hidden sticky z-guide -mx-6 px-6 py-3 mb-14 bg-background/70 backdrop-blur-md border-b border-hairline transition-[top] duration-medium ease-settle [--guide-docked-top:48px] md:[--guide-docked-top:72px]"
+          className="lg:hidden sticky z-guide -mx-6 px-6 py-3 mb-14 bg-scrim backdrop-blur-md border-b border-hairline transition-[top] duration-medium ease-settle [--guide-docked-top:48px] md:[--guide-docked-top:72px]"
           style={{
             top: headerHidden
               ? "env(safe-area-inset-top, 0px)"
@@ -486,7 +486,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                 onClick={() => scrollToProjectSection(s.id)}
                 className={`flex-shrink-0 whitespace-nowrap px-3 py-2 rounded-sm text-[10px] uppercase tracking-eyebrow transition-colors duration-medium ${
                   activeSectionId === s.id
-                    ? "bg-foreground/[0.08] text-foreground-lead border border-hairline"
+                    ? "bg-surface-wash text-foreground-lead border border-hairline"
                     : "text-foreground-tertiary border border-transparent hover:text-foreground-lead"
                 }`}
               >
@@ -517,8 +517,8 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                     onClick={() => scrollToProjectSection(s.id)}
                     className={`w-full text-left pl-3 py-2.5 border-l transition-[color,border-color] duration-medium text-[11px] uppercase tracking-[0.16em] leading-tight ${
                       activeSectionId === s.id
-                        ? "border-foreground/75 text-foreground-lead"
-                        : "border-transparent text-foreground-tertiary hover:text-foreground-lead hover:border-foreground/30"
+                        ? "border-control-selected text-foreground-lead"
+                        : "border-transparent text-foreground-tertiary hover:text-foreground-lead hover:border-control"
                     }`}
                   >
                     {s.label}
@@ -546,7 +546,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                 ) : (
                   <>
                     {s.introBlock?.coverImage ? (
-                      <div className="mb-12 overflow-hidden rounded-2xl bg-secondary/10">
+                      <div className="mb-12 overflow-hidden rounded-2xl bg-surface-wash">
                         <img
                           src={s.introBlock.coverImage}
                           alt=""

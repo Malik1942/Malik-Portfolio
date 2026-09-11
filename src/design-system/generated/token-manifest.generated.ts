@@ -11,7 +11,7 @@ export const tokenSourceCommit =
     : "development";
 export const tokenBundle: TokenBundle = {
   "schemaVersion": 1,
-  "tokenHash": "fb499669",
+  "tokenHash": "2c8a67a6",
   "documents": {
     "primitive.tokens.json": {
       "color": {
@@ -749,6 +749,20 @@ export const tokenBundle: TokenBundle = {
           "accent": {
             "$description": "Visible accent surface used for selected and highlighted states.",
             "$value": "{color.neutral.820}"
+          },
+          "wash": {
+            "$description": "A faint wash of ink over whatever is behind it: the well a case-study module sinks its media into, and the fill of a chip. A wash rather than an opaque step, because it has to read the same on the page canvas and on surface-inset. Replaces a bg-secondary wash that resolved to a 1/255 difference and so drew nothing at all.",
+            "$value": "{color.text.primary}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.06
+            }
+          },
+          "washStrong": {
+            "$description": "The wash one step up, for a chip that is selected or a panel that has to separate from the well it sits in.",
+            "$value": "{color.text.primary}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.14
+            }
           }
         },
         "action": {
@@ -780,6 +794,34 @@ export const tokenBundle: TokenBundle = {
             "$value": "{color.border.default}",
             "$extensions": {
               "com.malikzhang.alpha": 0.25
+            }
+          },
+          "controlQuiet": {
+            "$description": "The quietest control edge: a tag at rest, a supporting border on an item the fill already marks as selected.",
+            "$value": "{color.text.primary}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.22
+            }
+          },
+          "control": {
+            "$description": "The everyday control edge, and the border that arrives on hover over an edge that is transparent at rest.",
+            "$value": "{color.text.primary}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.3
+            }
+          },
+          "controlStrong": {
+            "$description": "A control that has to hold its own outline: a swatch frame, a segmented button.",
+            "$value": "{color.text.primary}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.5
+            }
+          },
+          "controlSelected": {
+            "$description": "The selected item in a control set. The strongest border in the system, and the only one that should read as a state rather than a rule.",
+            "$value": "{color.text.primary}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.75
             }
           }
         },
@@ -816,6 +858,30 @@ export const tokenBundle: TokenBundle = {
           "positive": {
             "$description": "Positive status role for success, strengths, and confirmations.",
             "$value": "{color.emerald.400}"
+          }
+        },
+        "scrim": {
+          "$type": "color",
+          "faint": {
+            "$description": "A veil that dims what is behind it without hiding it: a resting media overlay.",
+            "$value": "{color.background.canvas}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.4
+            }
+          },
+          "DEFAULT": {
+            "$description": "The everyday scrim: enough to carry type over an image or a page behind a sheet.",
+            "$value": "{color.background.canvas}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.75
+            }
+          },
+          "strong": {
+            "$description": "A scrim that all but closes the page behind it, for a bar or overlay that owns the view.",
+            "$value": "{color.background.canvas}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.92
+            }
           }
         }
       },
@@ -1161,7 +1227,11 @@ export const tokenBundle: TokenBundle = {
       "cssVariable": "--color-background-canvas",
       "cssValue": "0 0% 4%",
       "aliasOf": "color.neutral.950",
-      "dependents": []
+      "dependents": [
+        "color.scrim.DEFAULT",
+        "color.scrim.faint",
+        "color.scrim.strong"
+      ]
     },
     {
       "path": "color.blue.300",
@@ -1191,6 +1261,90 @@ export const tokenBundle: TokenBundle = {
       "dependents": [
         "component.aboutTimeline.educationDot"
       ]
+    },
+    {
+      "path": "color.border.control",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.text.primary}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          40,
+          6,
+          90
+        ],
+        "alpha": 0.3
+      },
+      "description": "The everyday control edge, and the border that arrives on hover over an edge that is transparent at rest.",
+      "cssVariable": "--color-border-control",
+      "cssValue": "40 6% 90% / 0.3",
+      "aliasOf": "color.text.primary",
+      "aliasAlpha": 0.3,
+      "dependents": []
+    },
+    {
+      "path": "color.border.controlQuiet",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.text.primary}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          40,
+          6,
+          90
+        ],
+        "alpha": 0.22
+      },
+      "description": "The quietest control edge: a tag at rest, a supporting border on an item the fill already marks as selected.",
+      "cssVariable": "--color-border-control-quiet",
+      "cssValue": "40 6% 90% / 0.22",
+      "aliasOf": "color.text.primary",
+      "aliasAlpha": 0.22,
+      "dependents": []
+    },
+    {
+      "path": "color.border.controlSelected",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.text.primary}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          40,
+          6,
+          90
+        ],
+        "alpha": 0.75
+      },
+      "description": "The selected item in a control set. The strongest border in the system, and the only one that should read as a state rather than a rule.",
+      "cssVariable": "--color-border-control-selected",
+      "cssValue": "40 6% 90% / 0.75",
+      "aliasOf": "color.text.primary",
+      "aliasAlpha": 0.75,
+      "dependents": []
+    },
+    {
+      "path": "color.border.controlStrong",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.text.primary}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          40,
+          6,
+          90
+        ],
+        "alpha": 0.5
+      },
+      "description": "A control that has to hold its own outline: a swatch frame, a segmented button.",
+      "cssVariable": "--color-border-control-strong",
+      "cssValue": "40 6% 90% / 0.5",
+      "aliasOf": "color.text.primary",
+      "aliasAlpha": 0.5,
+      "dependents": []
     },
     {
       "path": "color.border.default",
@@ -1629,6 +1783,9 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "0 0% 4%",
       "dependents": [
         "color.background.canvas",
+        "color.scrim.DEFAULT",
+        "color.scrim.faint",
+        "color.scrim.strong",
         "color.text.onPrimary"
       ]
     },
@@ -1689,6 +1846,69 @@ export const tokenBundle: TokenBundle = {
       "dependents": [
         "color.accent.selectedWork"
       ]
+    },
+    {
+      "path": "color.scrim.DEFAULT",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.background.canvas}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          4
+        ],
+        "alpha": 0.75
+      },
+      "description": "The everyday scrim: enough to carry type over an image or a page behind a sheet.",
+      "cssVariable": "--color-scrim-default",
+      "cssValue": "0 0% 4% / 0.75",
+      "aliasOf": "color.background.canvas",
+      "aliasAlpha": 0.75,
+      "dependents": []
+    },
+    {
+      "path": "color.scrim.faint",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.background.canvas}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          4
+        ],
+        "alpha": 0.4
+      },
+      "description": "A veil that dims what is behind it without hiding it: a resting media overlay.",
+      "cssVariable": "--color-scrim-faint",
+      "cssValue": "0 0% 4% / 0.4",
+      "aliasOf": "color.background.canvas",
+      "aliasAlpha": 0.4,
+      "dependents": []
+    },
+    {
+      "path": "color.scrim.strong",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.background.canvas}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          0,
+          0,
+          4
+        ],
+        "alpha": 0.92
+      },
+      "description": "A scrim that all but closes the page behind it, for a bar or overlay that owns the view.",
+      "cssVariable": "--color-scrim-strong",
+      "cssValue": "0 0% 4% / 0.92",
+      "aliasOf": "color.background.canvas",
+      "aliasAlpha": 0.92,
+      "dependents": []
     },
     {
       "path": "color.slate.400",
@@ -1840,6 +2060,48 @@ export const tokenBundle: TokenBundle = {
       "dependents": []
     },
     {
+      "path": "color.surface.wash",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.text.primary}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          40,
+          6,
+          90
+        ],
+        "alpha": 0.06
+      },
+      "description": "A faint wash of ink over whatever is behind it: the well a case-study module sinks its media into, and the fill of a chip. A wash rather than an opaque step, because it has to read the same on the page canvas and on surface-inset. Replaces a bg-secondary wash that resolved to a 1/255 difference and so drew nothing at all.",
+      "cssVariable": "--color-surface-wash",
+      "cssValue": "40 6% 90% / 0.06",
+      "aliasOf": "color.text.primary",
+      "aliasAlpha": 0.06,
+      "dependents": []
+    },
+    {
+      "path": "color.surface.washStrong",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.text.primary}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          40,
+          6,
+          90
+        ],
+        "alpha": 0.14
+      },
+      "description": "The wash one step up, for a chip that is selected or a panel that has to separate from the well it sits in.",
+      "cssVariable": "--color-surface-wash-strong",
+      "cssValue": "40 6% 90% / 0.14",
+      "aliasOf": "color.text.primary",
+      "aliasAlpha": 0.14,
+      "dependents": []
+    },
+    {
       "path": "color.text.lead",
       "sourceFile": "semantic.tokens.json",
       "type": "color",
@@ -1899,8 +2161,14 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "40 6% 90%",
       "aliasOf": "color.warm.100",
       "dependents": [
+        "color.border.control",
+        "color.border.controlQuiet",
+        "color.border.controlSelected",
+        "color.border.controlStrong",
         "color.focus.ring",
         "color.focus.ringStrong",
+        "color.surface.wash",
+        "color.surface.washStrong",
         "color.text.lead",
         "color.text.quiet",
         "color.text.secondary",
@@ -2053,8 +2321,14 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "40 6% 90%",
       "dependents": [
         "color.action.primary",
+        "color.border.control",
+        "color.border.controlQuiet",
+        "color.border.controlSelected",
+        "color.border.controlStrong",
         "color.focus.ring",
         "color.focus.ringStrong",
+        "color.surface.wash",
+        "color.surface.washStrong",
         "color.text.lead",
         "color.text.primary",
         "color.text.quiet",

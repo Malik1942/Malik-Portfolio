@@ -65,10 +65,24 @@ Foundations, component docs, and code all use that vocabulary.
 - Ink is a role, never a raw opacity: `text-foreground`, `-lead`, `-secondary`,
   `-tertiary`, `-quiet` (quiet is decorative-only). Rules are `border-hairline`
   or `border-hairline-faint`; focus is `ring-focus` or `ring-focus-strong`.
+  Alpha on a surface or an edge is a role too, for the same reason: faint fills
+  are `bg-surface-wash` / `-wash-strong`, veils are `bg-scrim` / `-scrim-faint`
+  / `-scrim-strong`, and a control's edge answers to its own ladder,
+  `border-control-quiet` / `-control` / `-control-strong` / `-control-selected`.
+  A control edge is a state and a rule is a structure, so they stay apart: a
+  selected item flattened into a hairline stops reading as selected. The
+  bracket escape hatch (`bg-foo/[0.07]`) is closed everywhere except the file
+  drawing a machine's own interface, because that hatch is how the surface and
+  border families drifted to thirteen values in the first place.
   Never write `text-foreground/72`: Tailwind's opacity scale is multiples of 5
   and anything else generates no CSS at all. That is how the secondary tier
   shipped at 100% for months before it was adopted at 72% in Sep 2026; its
-  alpha lives in `tokens/semantic.tokens.json`.
+  alpha lives in `tokens/semantic.tokens.json`. The mirror-image trap is a
+  modifier that is on the scale and still draws nothing: `bg-secondary/10` was
+  `rgba(20,20,20,0.1)` over an `rgb(10,10,10)` canvas, a 1/255 difference, and
+  thirty call sites drew a media well that was never there. Check what a wash
+  resolves to against the ground it actually lands on, not just that Tailwind
+  emitted a rule.
 - Vertical rhythm: `mt-section`, `mt-module`, `gap-stack`, `mt-caption` (each
   steps up at md). Stacking: `z-header`, `z-guide`, `z-overlay`, `z-modal`.
   Framer durations come from `DURATION` or a `MOTION` recipe except in the
