@@ -1157,8 +1157,8 @@ const oryne: ProjectDetailSource = {
     {
       id: "competitive",
       label: "Competitive",
-      headline: "Everyone has two of the three",
-      body: "The tools a creative person already uses to keep inspiration each answer the same question differently: what happens to a thing after you save it, and what, if anything, brings it back.\n\nThree capabilities decide it. Capture has to be fast enough that you do it at all. The saved thing has to live somewhere you can look around in, not just scroll. And something has to return it to you without being asked.\n\n[[module:oryne-competitive]]\n\n**Two of the three, never all three. mymind comes closest, and it collects what you find rather than what you think.**",
+      headline: "No tool catches a thought, gives it a place, and brings it back",
+      body: "The tools a creative person already uses to keep inspiration each answer the same question differently: what happens to a thing after you save it, and whether it ever finds you again. I wrote this read in February, three and a half months before there was a first commit to make.\n\nThree capabilities decide it. Capture has to be fast enough that you do it at all. The saved thing has to live somewhere you can look around in, not just scroll. And something has to return it to you without being asked.\n\n[[module:oryne-competitive]]\n\n**Each one breaks the chain somewhere. mymind comes closest, and it collects what you find rather than what you think.**",
     },
     {
       id: "idea",

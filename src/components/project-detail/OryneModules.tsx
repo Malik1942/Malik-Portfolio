@@ -198,7 +198,12 @@ export function OryneProblem() {
 
 /* ── 3b) Competitive — the three capabilities, and who has which ─────────── */
 // This is MALIK'S analysis, not one assembled for the case study. It comes from
-// section 10 of the original Oryne vision document, which predates the build:
+// section 10 of the original Oryne vision document, created 2026-02-24 and last
+// edited 2026-05-22 (dates from Malik; the file's location is still unrecorded,
+// ask him for the path). Those dates are why this section can sit before The
+// Idea honestly: the doc was written three and a half months before the first
+// commit (2026-06-09) and finished two days before the Claude Design wireframes
+// (2026-05-24). It predates the build:
 // its five entries are his (Pinterest / Shuffles, Milanote, mymind, Apple
 // Freeform, Evernote / Notion / Keep) and so is the conclusion, written there as
 // "few tools combine fast capture + spatial visualization + unexpected discovery
