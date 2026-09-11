@@ -406,6 +406,17 @@ html {
   scroll-behavior: smooth;
 }
 
+/* The rule above claims every scroll that does not explicitly ask for "instant",
+   including the ones no JS of ours gets to branch on: an anchor landing from a
+   pasted /#projects link, a cmd-clicked section href. Hand those back to the
+   reader's preference. (In CSS, unlike the CSSOM `behavior` option, `auto` does
+   mean "do not animate".) */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 /* Responsive 2-col project grid */
 .project-grid {
   display: grid;

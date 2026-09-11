@@ -17,10 +17,12 @@ const OryneSupport = lazy(() => import("./pages/OryneSupport.tsx"));
 const OrynePrivacy = lazy(() => import("./pages/OrynePrivacy.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
-function ScrollToTop() {
+/** A new route opens at the top, for everyone — never an animated climb from
+ *  the old page's offset. "instant" is load-bearing; see scrollCallSites.test.ts. */
+export function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "instant" });
   }, [pathname]);
   return null;
 }

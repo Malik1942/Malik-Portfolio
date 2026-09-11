@@ -3,7 +3,7 @@ import { useReducedMotion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useSectionScrollSpy } from "@/hooks/useSectionScrollSpy";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
-import { scrollToProjectSection } from "@/lib/projectDetailScroll";
+import { scrollToProjectSection, sectionDomId } from "@/lib/projectDetailScroll";
 import { noOrphan } from "@/lib/noOrphan";
 import type { ProjectDetailDocument, ProjectSectionFigure, IntroBlock } from "@/types/projectDetail";
 import Footer from "@/components/Footer";
@@ -86,7 +86,6 @@ const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-page mx-auto";
 // taller logo header ≈ 73px, which keeps its divider). It drops to the
 // safe-area top once the header tucks away on scroll-down.
 
-const sectionDomId = (id: string) => `project-section-${id}`;
 
 function SectionIntroBlock({ block }: { block: IntroBlock }) {
   return (

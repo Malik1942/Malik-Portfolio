@@ -13,7 +13,14 @@ const storage: Storage = {
 
 Object.defineProperty(window, "localStorage", { configurable: true, value: storage });
 Object.defineProperty(globalThis, "localStorage", { configurable: true, value: storage });
-Object.defineProperty(window, "scrollTo", { configurable: true, value: () => {} });
+// jsdom implements neither, and code under test calls both. Stubbed here so a
+// test can vi.spyOn them and have the spy restore itself.
+Object.defineProperty(window, "scrollTo", { configurable: true, writable: true, value: () => {} });
+Object.defineProperty(Element.prototype, "scrollIntoView", {
+  configurable: true,
+  writable: true,
+  value: () => {},
+});
 
 let reducedMotionPreference = false;
 const reducedMotionListeners = new Set<(event: { matches: boolean; media: string }) => void>();

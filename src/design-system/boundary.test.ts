@@ -1,6 +1,8 @@
-import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+
+import { sourceFiles } from "@/test/sourceFiles";
 
 /**
  * The system boundary, enforced.
@@ -194,24 +196,8 @@ const RULES: Rule[] = [
   },
 ];
 
-function walk(path: string, files: string[] = []): string[] {
-  const stats = statSync(path);
-  if (stats.isFile()) {
-    if (/\.(ts|tsx)$/.test(path) && !/\.test\.tsx?$/.test(path) && !path.includes("/generated/")) {
-      files.push(path);
-    }
-    return files;
-  }
-  for (const entry of readdirSync(path)) walk(join(path, entry), files);
-  return files;
-}
-
-function sourceFiles(): string[] {
-  return SOURCE_DIRS.flatMap((dir) => walk(join(ROOT, dir))).map((file) => relative(ROOT, file));
-}
-
 describe("design-system boundary", () => {
-  const files = sourceFiles();
+  const files = sourceFiles(SOURCE_DIRS, ROOT);
 
   it("scans the production source", () => {
     expect(files.length).toBeGreaterThan(40);
