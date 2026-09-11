@@ -11,7 +11,7 @@ export const tokenSourceCommit =
     : "development";
 export const tokenBundle: TokenBundle = {
   "schemaVersion": 1,
-  "tokenHash": "355d4da8",
+  "tokenHash": "cf35cd9e",
   "documents": {
     "primitive.tokens.json": {
       "color": {
@@ -115,19 +115,7 @@ export const tokenBundle: TokenBundle = {
               "hex": "#e7e6e4"
             }
           },
-          "$type": "color",
-          "050": {
-            "$description": "Light warm off-white used where stronger contrast is required.",
-            "$value": {
-              "colorSpace": "hsl",
-              "components": [
-                40,
-                6,
-                95
-              ],
-              "hex": "#f3f3f1"
-            }
-          }
+          "$type": "color"
         },
         "red": {
           "$type": "color",
@@ -886,10 +874,7 @@ export const tokenBundle: TokenBundle = {
           "scrimColor": {
             "$type": "color",
             "$description": "Black scrim behind the site header; gradient stops remain component-owned.",
-            "$value": "{color.neutral.1000}",
-            "$extensions": {
-              "com.malikzhang.alpha": 1
-            }
+            "$value": "{color.neutral.1000}"
           }
         },
         "projectCard": {
@@ -2019,33 +2004,6 @@ export const tokenBundle: TokenBundle = {
       ]
     },
     {
-      "path": "color.warm.050",
-      "sourceFile": "primitive.tokens.json",
-      "type": "color",
-      "value": {
-        "colorSpace": "hsl",
-        "components": [
-          40,
-          6,
-          95
-        ],
-        "hex": "#f3f3f1"
-      },
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          40,
-          6,
-          95
-        ],
-        "hex": "#f3f3f1"
-      },
-      "description": "Light warm off-white used where stronger contrast is required.",
-      "cssVariable": "--color-warm-050",
-      "cssValue": "40 6% 95%",
-      "dependents": []
-    },
-    {
       "path": "color.warm.100",
       "sourceFile": "primitive.tokens.json",
       "type": "color",
@@ -2467,13 +2425,12 @@ export const tokenBundle: TokenBundle = {
           0,
           0
         ],
-        "alpha": 1
+        "hex": "#000000"
       },
       "description": "Black scrim behind the site header; gradient stops remain component-owned.",
       "cssVariable": "--component-site-header-scrim-color",
       "cssValue": "0 0% 0%",
       "aliasOf": "color.neutral.1000",
-      "aliasAlpha": 1,
       "dependents": []
     },
     {
