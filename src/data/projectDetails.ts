@@ -104,8 +104,8 @@ import rangerPlatform from "@/assets/ranger-platform.webp";
 import rangerDetailPod from "@/assets/ranger-detail-pod.webp";
 import rangerDetailThruster from "@/assets/ranger-detail-thruster.webp";
 import rangerDetailCharge from "@/assets/ranger-detail-charge.webp";
-import oryneHero from "@/assets/oryne-hero.webp";
 import oryneHeroLoop from "@/assets/oryne-hero-loop.mp4";
+import oryneHeroPoster from "@/assets/oryne-hero-poster.webp";
 import oryneFilm from "@/assets/oryne-film.mp4";
 import oryneFilmPoster from "@/assets/oryne-film-poster.webp";
 
@@ -1106,13 +1106,16 @@ const oryne: ProjectDetailSource = {
   slug: "oryne",
   title: "Oryne",
   heroSummary: "An ocean for unfinished thoughts. Live on the App Store,\nwith all of its intelligence on the device",
-  heroImage: oryneHero,
-  // The loop opens on that same journey still and dissolves out of it, so the
-  // poster is literally its first frame and nothing swaps when playback starts.
-  // What follows is the product's whole loop on a real phone, in four acts:
-  // catch a thought with the Action Button, watch a current gather, meet one
-  // that drifted back, and ask the Ocean a question. Camera pushes in on each
-  // act and cuts back out, which is why the source is composited at 4K.
+  // The poster is the loop's own first frame, so nothing swaps when playback
+  // starts and the reduced-motion still is the title card it opens on: the icon
+  // and wordmark at rest beside the phone, the way Moti's reel opens.
+  heroImage: oryneHeroPoster,
+  // The product's whole loop on a real phone, in four acts: catch a thought
+  // with the Action Button, watch a current gather, meet one that drifted
+  // back, and ask the Ocean a question. The camera holds wide on the title,
+  // pushes into the screen until it fills the frame, pans to follow the action
+  // through each act, and pulls back out at the end. Composited at 4800x2700
+  // so that push never has to upscale.
   heroVideo: oryneHeroLoop,
   heroImageFit: "cover",
   metaCards: [
