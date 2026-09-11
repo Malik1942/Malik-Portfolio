@@ -200,11 +200,6 @@
   }
 }
 
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
 @keyframes line-reveal {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
@@ -222,12 +217,6 @@
 }
 body.loaded .animate-fade-up { animation-play-state: running; }
 
-.animate-fade-in {
-  animation: fade-in 0.6s var(--ease-settle) both;
-  animation-play-state: paused;
-}
-body.loaded .animate-fade-in { animation-play-state: running; }
-
 .animate-line-reveal {
   animation: line-reveal 0.8s var(--ease-enter) both;
   transform-origin: left;
@@ -235,12 +224,8 @@ body.loaded .animate-fade-in { animation-play-state: running; }
 }
 body.loaded .animate-line-reveal { animation-play-state: running; }
 
-.delay-1 { animation-delay: 0.1s; }
-.delay-2 { animation-delay: 0.2s; }
 .delay-3 { animation-delay: 0.35s; }
 .delay-4 { animation-delay: 0.5s; }
-.delay-5 { animation-delay: 0.65s; }
-.delay-6 { animation-delay: 0.8s; }
 
 /* Scroll reveal: the generic "content enters the viewport" recipe, so it runs
    on the reveal pace and the enter curve like the card and editorial entrances. */
@@ -253,86 +238,6 @@ body.loaded .animate-line-reveal { animation-play-state: running; }
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-.project-section {
-  position: relative;
-}
-
-.project-section-arriving {
-  animation: project-section-arrival 0.32s var(--ease-move);
-}
-
-@keyframes project-section-arrival {
-  0% {
-    background: linear-gradient(90deg, transparent 0%, hsl(var(--color-text-primary) / 0) 50%, transparent 100%);
-  }
-  45% {
-    background: linear-gradient(90deg, transparent 0%, hsl(var(--component-project-section-flash)) 50%, transparent 100%);
-  }
-  100% {
-    background: linear-gradient(90deg, transparent 0%, hsl(var(--color-text-primary) / 0) 50%, transparent 100%);
-  }
-}
-
-.project-row {
-  position: relative;
-  isolation: isolate;
-  overflow: visible;
-  transition:
-    background-color 0.24s var(--ease-move),
-    border-color 0.24s var(--ease-move),
-    box-shadow 0.24s var(--ease-move);
-}
-
-.project-row::before,
-.project-row::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition:
-    opacity 0.32s var(--ease-move),
-    transform 0.32s var(--ease-move);
-}
-
-.project-row::before {
-  z-index: 0;
-  inset: -6px -24px;
-  background: radial-gradient(
-    82% 120% at 50% 50%,
-    hsl(var(--color-text-primary) / 0.028) 0%,
-    hsl(var(--color-text-primary) / 0.018) 28%,
-    hsl(var(--color-text-primary) / 0.008) 48%,
-    transparent 68%
-  );
-  filter: blur(12px);
-  transform: scale(0.985);
-}
-
-.project-row::after {
-  display: none;
-}
-
-.project-row > * {
-  position: relative;
-  z-index: 1;
-}
-
-.project-row:hover {
-  border-color: hsl(var(--color-text-primary) / 0.08);
-  box-shadow: none;
-}
-
-.project-row:hover::before,
-.project-row:hover::after {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.project-row-target {
-  border-color: hsl(var(--color-text-primary) / 0.1);
 }
 
 /* Landing pulse for a card reached by clicking its hero dot. Applied to the card
@@ -384,11 +289,6 @@ body.loaded .animate-line-reveal { animation-play-state: running; }
 .nav-link:hover::after {
   transform: scaleX(1);
   transform-origin: left;
-}
-
-/* Custom dot cursor for project cards */
-.card-dot-cursor {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Ccircle cx='4' cy='4' r='3.5' fill='white' fill-opacity='.85'/%3E%3C/svg%3E") 4 4, pointer;
 }
 
 /* Project-detail images expand in a lightbox on click (see ImageLightbox).

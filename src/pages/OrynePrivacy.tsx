@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePageMeta } from "@/hooks/usePageMeta";
 import Footer from "@/components/Footer";
 import { BackLink } from "@/components/ui/BackLink";
 import { Button } from "@/components/ui/Button";
@@ -15,40 +15,7 @@ const PAGE_DESCRIPTION =
 const OrynePrivacy = () => {
   const navigate = useNavigate();
 
-  // The site has no Helmet; index.html ships static meta. Set the document
-  // title and description here so this route reads well in tabs, search, and
-  // shared previews. Restore the defaults on unmount.
-  useEffect(() => {
-    const prevTitle = document.title;
-
-    const setMeta = (selector: string, attr: string, name: string, content: string) => {
-      let el = document.head.querySelector<HTMLMetaElement>(selector);
-      if (!el) {
-        el = document.createElement("meta");
-        el.setAttribute(attr, name);
-        document.head.appendChild(el);
-      }
-      const prev = el.getAttribute("content");
-      el.setAttribute("content", content);
-      return { el, prev };
-    };
-
-    document.title = PAGE_TITLE;
-    const restorers = [
-      setMeta('meta[name="description"]', "name", "description", PAGE_DESCRIPTION),
-      setMeta('meta[property="og:title"]', "property", "og:title", PAGE_TITLE),
-      setMeta('meta[property="og:description"]', "property", "og:description", PAGE_DESCRIPTION),
-      setMeta('meta[name="twitter:title"]', "name", "twitter:title", PAGE_TITLE),
-      setMeta('meta[name="twitter:description"]', "name", "twitter:description", PAGE_DESCRIPTION),
-    ];
-
-    return () => {
-      document.title = prevTitle;
-      restorers.forEach(({ el, prev }) => {
-        if (prev !== null) el.setAttribute("content", prev);
-      });
-    };
-  }, []);
+  usePageMeta(PAGE_TITLE, PAGE_DESCRIPTION);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

@@ -29,8 +29,8 @@ export const STUDIO_TEASER_PROJECT_ID = "ranger";
 // Says what Studio is, without ranking it against Work: the case studies are
 // the flagship, and a line like "Work is the process, Studio is the thing" read
 // as if the process were the lesser half.
-export const STUDIO_TEASER_HEADLINE = "Apps I shipped. Machines I built.";
-export const STUDIO_TEASER_BLURB = "Designed, built with AI, and shipped for real.";
+const STUDIO_TEASER_HEADLINE = "Apps I shipped. Machines I built.";
+const STUDIO_TEASER_BLURB = "Designed, built with AI, and shipped for real.";
 export const STUDIO_TEASER_CTA = "Go to Studio";
 
 // The frame is a cinema ratio at every width, never a card: 21:9 from lg, 2:1
@@ -142,5 +142,3 @@ export function StudioTeaser() {
     </section>
   );
 }
-
-export default StudioTeaser;

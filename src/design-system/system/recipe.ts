@@ -30,7 +30,7 @@ function facetClasses(facet: Facet): string[] {
 }
 
 /** Compose recipes and loose class strings into one className, in order. */
-export function composeRecipe(...facets: Facet[]): string {
+function composeRecipe(...facets: Facet[]): string {
   return facets.flatMap(facetClasses).join(" ");
 }
 

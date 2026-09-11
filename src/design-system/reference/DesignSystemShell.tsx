@@ -6,7 +6,7 @@ import {
   resolveSectionHash,
   type DesignSystemSection,
 } from "./sectionModel";
-import { renderBaselineSection } from "./sections";
+import { renderReferenceSection } from "./sections";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
 interface DesignSystemShellProps {
@@ -72,7 +72,7 @@ function AdjacentSectionLinks({
 }
 
 export function DesignSystemShell({
-  renderSection = renderBaselineSection,
+  renderSection = renderReferenceSection,
 }: DesignSystemShellProps) {
   const [activeSection, setActiveSection] = useState(() =>
     resolveSectionHash(window.location.hash),

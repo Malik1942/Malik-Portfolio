@@ -106,5 +106,3 @@ export const LinkChip = ({ link, className = "" }: { link: ProjectLink; classNam
     />
   </a>
 );
-
-export default LinkChip;

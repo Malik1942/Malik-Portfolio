@@ -14,10 +14,9 @@ import {
   Zap,
   Box,
   ArrowUpRight,
-  type LucideIcon,
 } from "lucide-react";
-import { noOrphan } from "@/lib/noOrphan";
 import { Button } from "@/components/ui/Button";
+import { CardGrid, type GridItem } from "./MotiModules";
 
 /* ---------------------------------------------------------------------------
  * Inkwork case-study inline modules.
@@ -25,63 +24,6 @@ import { Button } from "@/components/ui/Button";
  * mono 01/02 numbers, lucide icons, violet/emerald/slate module-accent tokens) —
  * no unmanaged colors or fonts are introduced.
  * ------------------------------------------------------------------------- */
-
-type Accent = "violet" | "emerald" | "slate";
-const accentColor: Record<Accent, { icon: string; num: string }> = {
-  violet: { icon: "text-accent-violet", num: "text-accent-violet/60" },
-  emerald: { icon: "text-accent-emerald", num: "text-accent-emerald/60" },
-  slate: { icon: "text-accent-slate", num: "text-accent-slate/50" },
-};
-
-type GridItem = { num: string; title: string; desc?: string; icon: LucideIcon; accent: Accent };
-
-// Shared dark card shell — mirrors the Aura/Moti module shells.
-function ModuleCard({ children, header }: { children: ReactNode; header?: string }) {
-  return (
-    <div className="rounded-2xl overflow-hidden bg-surface-inset border border-case-study-module-border">
-      {header ? (
-        <div className="px-8 pt-8 pb-7 md:px-10 border-b border-case-study-module-divider">
-          <p className="text-caption md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
-            {header}
-          </p>
-        </div>
-      ) : null}
-      {children}
-    </div>
-  );
-}
-
-// number + icon + title + optional desc cell grid (the core module card pattern).
-function CardGrid({ items, header, colsClass }: { items: GridItem[]; header?: string; colsClass: string }) {
-  return (
-    <ModuleCard header={header}>
-      <div className={`grid ${colsClass} gap-px bg-case-study-module-divider`}>
-        {items.map((it) => {
-          const a = accentColor[it.accent];
-          const Icon = it.icon;
-          return (
-            <div key={it.num} className="flex flex-col gap-5 bg-surface-inset px-6 py-7 md:px-7 md:py-8">
-              <div className="flex items-center justify-between">
-                <span className={`text-caption font-mono tabular-nums ${a.num}`}>{it.num}</span>
-                <Icon aria-hidden="true" className={`w-4 h-4 ${a.icon}`} strokeWidth={1.4} />
-              </div>
-              <div className="flex flex-col gap-2.5">
-                <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">
-                  {noOrphan(it.title)}
-                </p>
-                {it.desc ? (
-                  <p className="text-sm md:text-base font-light text-foreground-secondary leading-relaxed">
-                    {noOrphan(it.desc)}
-                  </p>
-                ) : null}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </ModuleCard>
-  );
-}
 
 /* ── 1) Diagnosis — six costumes of one missing decision ─────────────────── */
 const symptoms: GridItem[] = [
