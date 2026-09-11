@@ -1,4 +1,4 @@
-import { useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { useReducedMotion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useSectionScrollSpy } from "@/hooks/useSectionScrollSpy";
@@ -73,6 +73,7 @@ import {
 import { NextUp } from "./NextUp";
 import { ProjectMediaFrame } from "./ProjectMediaFrame";
 import { ProjectMetadataSummary } from "./ProjectMetadataSummary";
+import { centeredScrollLeft } from "./sectionGuideScroll";
 import { BackLink } from "@/components/ui/BackLink";
 
 // Shared page container — all major sections align to this grid
@@ -332,6 +333,36 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
   const scrollHidden = useHideOnScroll();
   const headerHidden = !shouldReduceMotion && scrollHidden;
 
+  // The mobile guide follows the reading position sideways: the row of chips is
+  // wider than a phone, so the highlight has to be carried into view or it is
+  // lost off the right edge a few sections in. The scroll runs on the row
+  // itself, never on the window — the page scroll is what triggered this, and
+  // the two must not fight. Smooth is native here (a short, compositor-driven
+  // scroll of one small element, not the page), and `instant` is spelled out
+  // for the reduced-motion branch: `auto` would defer to the `scroll-behavior:
+  // smooth` this project sets in CSS.
+  const guideTrackRef = useRef<HTMLDivElement>(null);
+  const activeChipRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    const track = guideTrackRef.current;
+    const chip = activeChipRef.current;
+    if (!track || !chip) return;
+
+    const trackBox = track.getBoundingClientRect();
+    if (trackBox.width === 0) return; // lg+: the guide is display:none
+
+    const chipBox = chip.getBoundingClientRect();
+    const left = centeredScrollLeft({
+      chipStart: chipBox.left - trackBox.left + track.scrollLeft,
+      chipWidth: chipBox.width,
+      trackWidth: track.clientWidth,
+      maxScrollLeft: track.scrollWidth - track.clientWidth,
+    });
+    if (Math.abs(left - track.scrollLeft) < 1) return;
+
+    track.scrollTo({ left, behavior: shouldReduceMotion ? "instant" : "smooth" });
+  }, [activeSectionId, shouldReduceMotion]);
+
   // Delegated: any case-study image opens the lightbox, except navigational
   // thumbnails (the "Next up" cards / any linked image).
   const handleImageClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -478,21 +509,35 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
           }}
           aria-label="Section navigation"
         >
-          <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-            {project.sections.map((s) => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => scrollToProjectSection(s.id)}
-                className={`flex-shrink-0 whitespace-nowrap px-3 py-2 rounded-sm text-[10px] uppercase tracking-eyebrow transition-colors duration-medium ${
-                  activeSectionId === s.id
-                    ? "bg-foreground/[0.08] text-foreground-lead border border-hairline"
-                    : "text-foreground-tertiary border border-transparent hover:text-foreground-lead"
-                }`}
-              >
-                {s.label}
-              </button>
-            ))}
+          <div
+            ref={guideTrackRef}
+            className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {project.sections.map((s) => {
+              const active = activeSectionId === s.id;
+              return (
+                <button
+                  key={s.id}
+                  ref={active ? activeChipRef : undefined}
+                  type="button"
+                  aria-current={active ? "true" : undefined}
+                  onClick={() => scrollToProjectSection(s.id)}
+                  /* Active chips wear the system's pressed material (the one
+                     the skill-lens chips take while held): the filled surface
+                     a tier up, a real border instead of a hairline, and ink at
+                     full strength. At the old /[0.08] and -lead the highlight
+                     read as a slightly lighter chip rather than as the answer
+                     to "where am I". */
+                  className={`flex-shrink-0 whitespace-nowrap px-3 py-2 rounded-sm text-[10px] uppercase tracking-eyebrow transition-[background-color,border-color,color] duration-medium ${
+                    active
+                      ? "bg-foreground/[0.14] text-foreground border border-border"
+                      : "text-foreground-tertiary border border-transparent hover:text-foreground-lead"
+                  }`}
+                >
+                  {s.label}
+                </button>
+              );
+            })}
           </div>
         </nav>
 
