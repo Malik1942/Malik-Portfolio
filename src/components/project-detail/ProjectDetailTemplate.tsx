@@ -1,9 +1,9 @@
-import { useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { useReducedMotion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useSectionScrollSpy } from "@/hooks/useSectionScrollSpy";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
-import { scrollToProjectSection } from "@/lib/projectDetailScroll";
+import { scrollToProjectSection, sectionDomId } from "@/lib/projectDetailScroll";
 import { noOrphan } from "@/lib/noOrphan";
 import type { ProjectDetailDocument, ProjectSectionFigure, IntroBlock } from "@/types/projectDetail";
 import Footer from "@/components/Footer";
@@ -46,7 +46,7 @@ import {
   OryneIterations,
   OrynePrinciples,
   OryneFlow,
-  OryneResearch,
+  OryneCompetitive,
   OrynePrivacy,
   OryneShipping,
   OryneTakeaways,
@@ -73,6 +73,7 @@ import {
 import { NextUp } from "./NextUp";
 import { ProjectMediaFrame } from "./ProjectMediaFrame";
 import { ProjectMetadataSummary } from "./ProjectMetadataSummary";
+import { centeredScrollLeft } from "./sectionGuideScroll";
 import { BackLink } from "@/components/ui/BackLink";
 
 // Shared page container — all major sections align to this grid
@@ -85,7 +86,6 @@ const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-page mx-auto";
 // taller logo header ≈ 73px, which keeps its divider). It drops to the
 // safe-area top once the header tucks away on scroll-down.
 
-const sectionDomId = (id: string) => `project-section-${id}`;
 
 function SectionIntroBlock({ block }: { block: IntroBlock }) {
   return (
@@ -99,7 +99,7 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
           {block.contextCards.map((card) => (
             <div
               key={card.title}
-              className="border border-hairline rounded-sm px-5 py-5"
+              className="border border-hairline bg-secondary/[0.08] rounded-sm px-5 py-5"
             >
               <p className="text-label uppercase tracking-eyebrow text-foreground-secondary mb-2.5">
                 {card.title}
@@ -212,7 +212,7 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "oryne-iterations": <OryneIterations />,
   "oryne-principles": <OrynePrinciples />,
   "oryne-flow": <OryneFlow />,
-  "oryne-research": <OryneResearch />,
+  "oryne-competitive": <OryneCompetitive />,
   "oryne-privacy": <OrynePrivacy />,
   "oryne-shipping": <OryneShipping />,
   "oryne-takeaways": <OryneTakeaways />,
@@ -332,6 +332,36 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
   const scrollHidden = useHideOnScroll();
   const headerHidden = !shouldReduceMotion && scrollHidden;
 
+  // The mobile guide follows the reading position sideways: the row of chips is
+  // wider than a phone, so the highlight has to be carried into view or it is
+  // lost off the right edge a few sections in. The scroll runs on the row
+  // itself, never on the window — the page scroll is what triggered this, and
+  // the two must not fight. Smooth is native here (a short, compositor-driven
+  // scroll of one small element, not the page), and `instant` is spelled out
+  // for the reduced-motion branch: `auto` would defer to the `scroll-behavior:
+  // smooth` this project sets in CSS.
+  const guideTrackRef = useRef<HTMLDivElement>(null);
+  const activeChipRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    const track = guideTrackRef.current;
+    const chip = activeChipRef.current;
+    if (!track || !chip) return;
+
+    const trackBox = track.getBoundingClientRect();
+    if (trackBox.width === 0) return; // lg+: the guide is display:none
+
+    const chipBox = chip.getBoundingClientRect();
+    const left = centeredScrollLeft({
+      chipStart: chipBox.left - trackBox.left + track.scrollLeft,
+      chipWidth: chipBox.width,
+      trackWidth: track.clientWidth,
+      maxScrollLeft: track.scrollWidth - track.clientWidth,
+    });
+    if (Math.abs(left - track.scrollLeft) < 1) return;
+
+    track.scrollTo({ left, behavior: shouldReduceMotion ? "instant" : "smooth" });
+  }, [activeSectionId, shouldReduceMotion]);
+
   // Delegated: any case-study image opens the lightbox, except navigational
   // thumbnails (the "Next up" cards / any linked image).
   const handleImageClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -394,7 +424,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
       {/* 2 — Hero media: a looping clip when the project has one, else the still */}
       {project.heroImage ? (
         <div className={`${PAGE_OUTER} mt-10 md:mt-14`}>
-          <div className="overflow-hidden rounded-2xl">
+          <div className="overflow-hidden rounded-2xl bg-secondary/10">
             {project.heroVideo && !shouldReduceMotion ? (
               // A hero clip carries the poster as its first frame, so the LCP is
               // the same picture either way and nothing reflows when it starts.
@@ -470,7 +500,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
             section chip fires a menu link and navigates away. (The lightbox at
             z-modal still covers it.) */}
         <nav
-          className="lg:hidden sticky z-guide -mx-6 px-6 py-3 mb-14 bg-scrim backdrop-blur-md border-b border-hairline transition-[top] duration-medium ease-settle [--guide-docked-top:48px] md:[--guide-docked-top:72px]"
+          className="lg:hidden sticky z-guide -mx-6 px-6 py-3 mb-14 bg-background/70 backdrop-blur-md border-b border-hairline transition-[top] duration-medium ease-settle [--guide-docked-top:48px] md:[--guide-docked-top:72px]"
           style={{
             top: headerHidden
               ? "env(safe-area-inset-top, 0px)"
@@ -478,21 +508,37 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
           }}
           aria-label="Section navigation"
         >
-          <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-            {project.sections.map((s) => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => scrollToProjectSection(s.id)}
-                className={`flex-shrink-0 whitespace-nowrap px-3 py-2 rounded-sm text-[10px] uppercase tracking-eyebrow transition-colors duration-medium ${
-                  activeSectionId === s.id
-                    ? "bg-surface-wash text-foreground-lead border border-hairline"
-                    : "text-foreground-tertiary border border-transparent hover:text-foreground-lead"
-                }`}
-              >
-                {s.label}
-              </button>
-            ))}
+          <div
+            ref={guideTrackRef}
+            className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {project.sections.map((s) => {
+              const active = activeSectionId === s.id;
+              return (
+                <button
+                  key={s.id}
+                  ref={active ? activeChipRef : undefined}
+                  type="button"
+                  aria-current={active ? "true" : undefined}
+                  onClick={() => scrollToProjectSection(s.id)}
+                  /* Active chips wear the system's pressed material (the one
+                     the skill-lens chips take while held): the filled surface
+                     a tier up, a real border instead of a hairline, and ink at
+                     full strength. At the old /[0.08] and -lead the highlight
+                     read as a slightly lighter chip rather than as the answer
+                     to "where am I". The fill is the wash-strong token, the
+                     same 0.14 of ink, so the chip and the lens chips retune
+                     together. */
+                  className={`flex-shrink-0 whitespace-nowrap px-3 py-2 rounded-sm text-[10px] uppercase tracking-eyebrow transition-[background-color,border-color,color] duration-medium ${
+                    active
+                      ? "bg-surface-wash-strong text-foreground border border-border"
+                      : "text-foreground-tertiary border border-transparent hover:text-foreground-lead"
+                  }`}
+                >
+                  {s.label}
+                </button>
+              );
+            })}
           </div>
         </nav>
 
@@ -517,8 +563,8 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                     onClick={() => scrollToProjectSection(s.id)}
                     className={`w-full text-left pl-3 py-2.5 border-l transition-[color,border-color] duration-medium text-[11px] uppercase tracking-[0.16em] leading-tight ${
                       activeSectionId === s.id
-                        ? "border-control-selected text-foreground-lead"
-                        : "border-transparent text-foreground-tertiary hover:text-foreground-lead hover:border-control"
+                        ? "border-foreground/75 text-foreground-lead"
+                        : "border-transparent text-foreground-tertiary hover:text-foreground-lead hover:border-foreground/30"
                     }`}
                   >
                     {s.label}
@@ -546,7 +592,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                 ) : (
                   <>
                     {s.introBlock?.coverImage ? (
-                      <div className="mb-12 overflow-hidden rounded-2xl">
+                      <div className="mb-12 overflow-hidden rounded-2xl bg-secondary/10">
                         <img
                           src={s.introBlock.coverImage}
                           alt=""

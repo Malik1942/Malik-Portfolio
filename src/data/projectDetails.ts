@@ -127,7 +127,7 @@ const aura: ProjectDetailSource = {
     {
       id: "intro",
       label: "Intro",
-      headline: "An Invisible Problem That Starts Before Symptoms",
+      headline: "An invisible problem that starts before symptoms",
       showProjectMeta: true,
       body: "**Aura is a wearable system that intervenes before motion sickness starts. The refined earbud form tested at 93.75% preference among 16 users.**\n\nFor motion-sensitive travelers, discomfort often begins before they consciously recognize it. Aura senses early physiological and motion signals, predicts risk, and delivers subtle audio guidance before symptoms escalate.\n\nAs a product and industrial designer on a 5-person team, I shaped the product logic, physical prototype, app experience, and interaction flow across a 5-week sprint.",
     },
@@ -139,13 +139,13 @@ const aura: ProjectDetailSource = {
     {
       id: "situation",
       label: "Situation",
-      headline: "Travel Was Rich, but Too Broad to Solve as One Problem",
+      headline: "Travel was rich, but too broad to solve as one problem",
       body: "An open brief led us to travel: emotionally rich, physically demanding, and full of unresolved friction. But travel is too broad to solve as one problem. Planning, airports, flying, and recovery each carry different needs and constraints.\n\nOur first job was narrowing: finding the one moment in the journey where a product could matter most.",
     },
     {
       id: "discovery",
       label: "Discovery",
-      headline: "We Narrowed the Journey to the Moment With the Least Control",
+      headline: "We narrowed the journey to the moment with the least control",
       figures: [
         { type: "image", src: auraDiscoveryWhiteboard, alt: "The team at the whiteboard during discovery: interview notes pinned above handwritten clusters on packing, planning, and in-flight discomfort, with Malik talking the group through them", label: "Discovery session", caption: "sorting interview notes into packing, planning, and in-flight discomfort on the whiteboard" },
       ],
@@ -154,7 +154,7 @@ const aura: ProjectDetailSource = {
     {
       id: "research",
       label: "Research",
-      headline: "Existing Support Often Arrives After Travelers Already Feel Sick",
+      headline: "Existing support often arrives after travelers already feel sick",
       figures: [
         { type: "image", src: auraResearch1, alt: "Motion sickness mechanism showing visual and inner-ear mismatch, brain conflict, and symptoms" },
         { type: "image", src: auraResearch2, alt: "Aura audio intervention research: 100 Hz sound" },
@@ -165,7 +165,7 @@ const aura: ProjectDetailSource = {
     {
       id: "ideation",
       label: "Ideation",
-      headline: "Aura Needed to Combine Sensing, Intervention, and Familiar Travel Behavior",
+      headline: "Aura needed to combine sensing, intervention, and familiar travel behavior",
       figures: [
         { type: "image", src: auraIdeation1, alt: "Aura ideation overview showing early concepts across digital, physical, and sensory interventions" },
         { type: "image", src: auraIdeation2, alt: "Aura 2 by 2 concept evaluation matrix showing the selected ear-worn wearable direction" },
@@ -175,7 +175,7 @@ const aura: ProjectDetailSource = {
     {
       id: "testing",
       label: "Testing",
-      headline: "The Product Had to Earn Trust on the Body",
+      headline: "The product had to earn trust on the body",
       figures: [
         { type: "image", src: auraTesting1, alt: "Aura physical prototyping process and early earbud form exploration" },
         { type: "image", src: auraTesting2, alt: "Aura hardware and app experience testing with users" },
@@ -185,7 +185,7 @@ const aura: ProjectDetailSource = {
     {
       id: "refinement",
       label: "Refinement",
-      headline: "Wearability and Readability Became Part of the System",
+      headline: "Wearability and readability became part of the system",
       figures: [
         { type: "image", src: auraRefinement1, alt: "Progressive Aura Bud form iterations informed by ergonomic testing" },
         { type: "image", src: auraRefinement2, alt: "Aura Bud ergonomic testing across different users and wearing contexts" },
@@ -196,7 +196,7 @@ const aura: ProjectDetailSource = {
     {
       id: "final-design",
       label: "Final Design",
-      headline: "Aura Senses, Predicts, and Supports Before Discomfort Takes Over",
+      headline: "Aura senses, predicts, and supports before discomfort takes over",
       figures: [
         { type: "image", src: auraSystem1, alt: "Aura system architecture", full: true },
         { type: "image", src: auraApp1, alt: "Aura app interface showing setup, trip context, support preferences, and at-a-glance status" },
@@ -206,13 +206,13 @@ const aura: ProjectDetailSource = {
     {
       id: "afterward",
       label: "Afterward",
-      headline: "Months Later, Samsung Shipped the Same Intervention",
+      headline: "Months later, Samsung shipped the same intervention",
       body: "In March 2026, Samsung launched Hearapy, a free app that plays a 100 Hz tone through the Galaxy Buds4 Pro to relieve motion sickness before a trip. It is built on the same 2025 Nagoya University study that Aura’s research cited, delivered through the same form factor, ear-worn buds tuned for low-frequency output, and it reaches one of the largest earbud audiences in the world.\n\n[[module:aura-samsung-parallel]]\n\n[[module:aura-industry-signal]]\n\nWe did not know Samsung was working on this. Five students, in five weeks, with no lab and no hardware budget, read the same evidence, weighed the same form factors, and arrived at the same answer as a company with the resources to ship it to millions. That is what I take from it: the research and the systems thinking were sound enough to converge with the industry rather than follow it.\n\nSamsung’s launch also shows how far the problem space reaches. Hearapy is a one-minute tone the user starts before travel. Aura goes one step further: it senses risk and times the intervention itself, so the traveler never has to decide when to press play. **The demand is now proven at scale. The question Aura was built to answer, when to intervene, is still open.**",
     },
     {
       id: "reflection",
       label: "Reflection",
-      headline: "Proactive Systems Need to Earn Trust, Not Just Act Early",
+      headline: "Proactive systems need to earn trust, not just act early",
       body: "## Next Step: From Concept to Evidence\n\nContinuing Aura would mean longitudinal testing across repeated flights and different motion-sickness patterns, shifting the question from whether the concept feels compelling to whether the system senses risk reliably and stays trusted over time.\n\n**The conceptual case is made. The next case is evidence.**\n\n## What I Learned\n\n[[module:aura-reflection-learnings]]",
     },
   ],
@@ -235,20 +235,20 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "context",
       label: "Intro",
-      headline: "A Sideline Call That Cannot Wait for Symptoms",
+      headline: "A sideline call that cannot wait for symptoms",
       showProjectMeta: true,
       body: "**NeuraLyfe is a sideline decision-support system that helps football medical staff catch brain-impact risk before it becomes irreversible. It was designed and built in four days, March 6 to 9, 2026, for the FigBuild 2026 hackathon, entirely in Figma Make.**\n\nIt tackles Chronic Traumatic Encephalopathy (CTE): a degenerative condition from repeated head impacts that accumulates invisibly and can't be confirmed until after death.\n\nI ideated the concept and helped the team choose it over a rougher direction around dreams, where the pain point never got sharp. Across those four days, I modeled and 3D-printed **Halo**, the helmet add-on, designed and built the **Impact Replay** interface, and co-designed the **Roster View**.\n\n**It won 1st Place out of 690 teams.**",
     },
     {
       id: "highlights",
       label: "Highlights",
-      headline: "From Helmet Signal to a Decision in Seconds",
+      headline: "From helmet signal to a decision in seconds",
       body: "**Turning raw helmet-sensor signals into fast, confident sideline decisions that catch cumulative brain risk before symptoms appear.**\n\n[[module:neuralyfe-highlights]]",
     },
     {
       id: "situation",
       label: "Situation",
-      headline: "Thousands of Hits, and Only the Visible Ones Get Checked",
+      headline: "Thousands of hits, and only the visible ones get checked",
       body: "Football players take thousands of hits across a career, and repeated sub-concussive impacts are strongly linked to long-term brain damage. Sideline checks only catch visible symptoms, and by then the damage is done.\n\n[[fig:0]]\n\n**Staff need to see cumulative impact as it builds, not react once symptoms show.**",
       figures: [
         { type: "image", src: neuralyfeDeckHits, alt: "Repeated sub-concussive hits accumulate into long-term brain damage" },
@@ -257,7 +257,7 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "research",
       label: "Research",
-      headline: "Helmets Measure Force, Not What the Brain Did",
+      headline: "Helmets measure force, not what the brain did",
       body: "Helmet sensors today capture **force**, not how the brain responded. The signal that matters, cumulative neurological stress, goes unmeasured.\n\n[[fig:0]]\n\nThe biomarkers are real: p-Tau 217, NfL, and GFAP are each linked to neurodegeneration in published research. Combining them into a live CTE Progression Index is the speculative step, and we kept that line visible instead of letting the index pass as settled science.\n\n**The opportunity: track brain-impact risk as it builds, not just flag individual hits.**",
       figures: [
         { type: "image", src: neuralyfeDeckIndex, alt: "The CTE Progression Index combines the biomarkers p-Tau 217, NfL, and GFAP into a cumulative risk signal" },
@@ -266,7 +266,7 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "problem",
       label: "Design Challenge",
-      headline: "Too Much Data Overwhelms. Too Little Loses Trust.",
+      headline: "Too much data overwhelms. Too little loses trust.",
       body: "The core problem was interpretive, not technical: show too much data and it overwhelms; simplify too much and it loses credibility.\n\n[[fig:0]]\n\n**The question I kept returning to: what does a sideline medic need to know in the next five seconds?**",
       figures: [
         { type: "image", src: neuralyfeDeckProof, alt: "Sideline doctors need proof, not suspicion" },
@@ -275,7 +275,7 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "system-direction",
       label: "System Direction",
-      headline: "Sensing Is Half the System. Reading It Is the Other Half.",
+      headline: "Sensing is half the system. Reading it is the other half.",
       body: "Two decisions fixed the shape of the system before any screen existed: where the sensing lives, and who acts on what it finds.\n\n[[module:neuralyfe-forks]]\n\n**Halo**, a helmet add-on, senses what force data can't: EEG for brain connectivity, biomarkers for early neurological stress, and an impact camera that reconstructs hits.\n\n[[fig:0]]\n\n**The sideline interface** turns those signals into three questions: who needs attention, what's happening in their brain, and what caused it.",
       figures: [
         { type: "image", src: neuralyfeDeckHalo, alt: "NeuraLyfe Halo turns any helmet into a brain-health sensor with EEG, biomarker, and impact-camera sensing" },
@@ -284,7 +284,7 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "process",
       label: "Design Process",
-      headline: "Triage First, Depth Only When Asked",
+      headline: "Triage first, depth only when asked",
       body: "Staff can't explore data mid-game, so the interface leads with triage and reveals depth only on demand:\n\n· **Roster View**: who needs attention, at a glance\n\n· **Brain View**: where stress is building\n\n· **Impact Replay**: which play caused it\n\n[[fig:0]]\n\nI pressure-tested one question throughout the Figma Make build: can staff go from alert to decision in seconds?",
       figures: [
         { type: "image", src: neuralyfeDeckViews, alt: "From impact data to medical decisions in three views: Roster, Brain, and Impact Replay" },
@@ -293,7 +293,7 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "final-design",
       label: "Final Design",
-      headline: "Three Views, and the Hardware That Feeds Them",
+      headline: "Three views, and the hardware that feeds them",
       body: "## Halo\n\nAn add-on, not a new helmet, so teams keep the equipment they already trust. EEG maps brain connectivity, biomarker sensors catch early damage indicators, and the impact camera ties each force event to a moment on the field.\n\n**I modeled the Halo in Rhino, rendered it in KeyShot, and printed it on a Bambu Lab X1C within the four days, so the sensing layer existed as an object on the table and not only as a render on a slide.**\n\n[[fig:3]]\n\n## Roster View\n\nRanks players by medical urgency, weighing cumulative impacts, recent hit severity, and brain health, so a static player list becomes a live risk map.\n\n[[fig:0]]\n\n## Brain View\n\nMaps neurological stress by region in 3D. A risk score says how much. Brain View shows where, which matters most when repeated impacts hit the same region.\n\n[[fig:1]]\n\n## Impact Replay\n\nTraces an alert back to the exact play: when the hit happened, how severe it was, which regions were affected, and whether to pull the player now.\n\n[[fig:2]]\n\n## The Protocol\n\nSensing only matters if it ends in a call someone can defend. Every player sits in one of five states, and the last two are not advisory.\n\n[[module:neuralyfe-protocol]]\n\n**Together: identify risk, inspect impact, act with context.**",
       figures: [
         { type: "video", src: neuralyfeRoster },
@@ -305,7 +305,7 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "impact",
       label: "Impact",
-      headline: "Risk Should Not Stay Hidden Until Symptoms Appear",
+      headline: "Risk should not stay hidden until symptoms appear",
       body: "NeuraLyfe's claim: brain-injury risk shouldn't stay hidden until symptoms appear.\n\n[[fig:0]]\n\n[[module:neuralyfe-impact]]\n\n**The judges recognised the visuals, the film, the storytelling, and especially the Halo prototype, which could be picked up rather than imagined.**\n\n[[fig:1]]\n\n[[module:neuralyfe-links]]",
       figures: [
         { type: "image", src: neuralyfeDeckScenario, alt: "In a live scenario, a player's frontal lobe hits critical levels and his card turns red" },
@@ -315,7 +315,7 @@ const neuralyfe: ProjectDetailSource = {
     {
       id: "reflection",
       label: "Reflection",
-      headline: "Designing for Interpretation, Not Just Accuracy",
+      headline: "Designing for interpretation, not just accuracy",
       body: "Designing for health means designing for interpretation, not data display. A system can collect perfectly accurate signals, but if staff can't read them under pressure, those signals never become care.\n\n## High-Pressure Interfaces Need Different Logic\n\nThe first question is never \"what does all the data say?\" It's \"who needs help right now?\" That pushed me to cut competing information and make the most urgent cases immediately visible.\n\n## What I Would Do Next\n\nClinical validation with sports-medicine professionals, testing whether the decision flow holds up in real sideline calls.\n\nNeuraLyfe showed me that making hidden risk visible is a design problem. The harder part is making that visibility useful when it matters most.",
     },
   ],
@@ -346,7 +346,7 @@ const moti: ProjectDetailSource = {
     {
       id: "overview",
       label: "Overview",
-      headline: "A Planner That Understands Before It Plans",
+      headline: "A planner that understands before it plans",
       showProjectMeta: true,
       body: "**Moti is an AI-native iOS planner, designed, built, and shipped end to end.** Say it or type it, and it comes back as work already sorted by project, waiting for your yes.\n\n[[module:moti-tags]]",
       afterMetaModule: "moti-app-store",
@@ -354,19 +354,19 @@ const moti: ProjectDetailSource = {
     {
       id: "highlights",
       label: "Highlights",
-      headline: "Type It Messy. Moti Works Out What You Meant.",
+      headline: "Type it messy. Moti works out what you meant.",
       body: "Type the sentence the way you would say it, lowercase and unpunctuated. What comes back is not a task in a list. It is the work pulled out of that sentence, each piece carrying the project Moti thinks it belongs to, and not one of them filed.\n\nDrawing bars on a timeline is the easy part. The hard part is deciding that a review is an appointment, a case study is work with a duration, and a launch is a deadline. That understanding layer is the thing I got wrong twice before it behaved like this.\n\n[[module:moti-hook]]",
     },
     {
       id: "problem",
       label: "The Problem",
-      headline: "The Failure Is Between Capture and Action",
+      headline: "The failure is between capture and action",
       body: "This is not built for people who lack a system. It is built for the moment a system is already full, when what fails is not capture, and not the list that shows the result.\n\nIt is the step between the two. Something has to read what arrived, work out what it is for and when it is due, and set it against everything already owed. That step has no owner, so the input stays exactly as it landed, and the cost only shows up at the far end.\n\n[[module:moti-problem]]\n\n**Three stages, one failure, and only the middle one is worth fixing. Make capture easier and the pile arrives faster. Act on the list and you are sorting work that nothing has understood.**",
     },
     {
       id: "competitive",
       label: "Competitive Analysis",
-      headline: "Five Tools, Five Strengths, Five Different Gaps",
+      headline: "Five tools, five strengths, five different gaps",
       body: "Five tools answer that middle step five different ways. I looked at each one for a single thing: what happens to a sentence after you type it.\n\nTodoist takes the sentence down. Motion schedules it for you. Sunsama asks for the discipline to plan the day deliberately. Notion holds it in any structure, after you have built one. ChatGPT reasons about it and never sees your timeline.\n\nFive different destinations, and five different things still left for you to do once the sentence arrives.\n\n[[module:moti-competitive]]\n\n**The gap is not capture. It is the step after: understanding what arrived, and keeping it moving.**",
     },
     {
@@ -377,31 +377,31 @@ const moti: ProjectDetailSource = {
       // of this lead. Until then the lead claims a design position only.
       id: "principles",
       label: "Principles",
-      headline: "Six Frustrations Became Six Refusals",
+      headline: "Six frustrations became six refusals",
       body: "Each of these frustrations names something one of those five tools does to you. I turned every one into a rule Moti had to obey.\n\nA rule that only names a virtue can be satisfied by anything, so each of them also names the thing it rules out.\n\n[[module:moti-principles]]\n\n**Every principle is a refusal. That is what kept Moti from becoming another place to put things.**",
     },
     {
       id: "final-design",
       label: "Final Design",
-      headline: "Seven Steps From Spoken to Scheduled",
+      headline: "Seven steps from spoken to scheduled",
       body: "The principles above are refusals, and refusals are cheap until a product has to keep them. So here is the loop itself, one sentence in and a plan out. Each step is there because the one before it left something undecided.\n\n[[module:moti-workflow]]\n\n**Nothing in this loop asks you to file anything. When Moti is unsure it asks instead of guessing, and when it proposes, one of the three answers is no. Everything else is its job.**",
     },
     {
       id: "intelligence",
       label: "Intelligence",
-      headline: "Three Jobs That No Single Model Does Well",
+      headline: "Three jobs that no single model does well",
       body: "The loop above contains three jobs with nothing in common. A due date has to be exactly right. Parsing has to be instant. Planning has to reason. One model doing all three is one model doing two of them badly.\n\n[[module:moti-intelligence]]\n\n**The tiers are not a hedge. Understanding is the step nobody owned, and it is the one job that needed a model of its own.**",
     },
     {
       id: "build-journey",
       label: "Build Journey",
-      headline: "Specified First, Then Rebuilt Twice",
+      headline: "Specified first, then rebuilt twice",
       body: "All three tiers were in the spec before any code existed, with how Moti should behave, how you talk to it, and what it looks like. What no spec could settle was how far to trust the model. The three versions below are that question, answered with real builds.\n\n[[module:moti-build-journey]]\n\n**What kept changing was never the interface. It was how much of the thinking belonged to the machine.**",
     },
     {
       id: "proved",
       label: "What It Proved",
-      headline: "Understanding First Was the Whole Bet",
+      headline: "Understanding first was the whole bet",
       body: "Three versions later, the bet held: the failure sits in understanding, not in scheduling.\n\n[[module:moti-takeaways]]\n\n**V0 asked the machine to plan, and trust broke. What shipped asks it to understand, and leaves the planning as a proposal you answer.**\n\n[[module:moti-app-store-close]]",
     },
   ],
@@ -432,7 +432,7 @@ const flowprint: ProjectDetailSource = {
     {
       id: "intro",
       label: "Intro",
-      headline: "The First Print Has to Succeed, Not Just Start",
+      headline: "The first print has to succeed, not just start",
       showProjectMeta: true,
       body: "**FlowPrint is a consumer 3D-printing HMI whose target journey cuts first-print setup from about an hour to roughly fifteen minutes.**\n\nConsumer printers sell creativity. What first-time owners actually buy is a second hobby: Wi-Fi, leveling, slicer vocabulary, filament chemistry, and error screens that assume they already speak the machine.\n\nI led product design for that first hour. The work sits on a Bambu Lab X1 Carbon chassis, not a rebranded printer: FlowPrint is the onboarding, the material lesson, and the monitoring, written for people who want a part, not a workshop.",
     },
@@ -444,13 +444,13 @@ const flowprint: ProjectDetailSource = {
     {
       id: "situation",
       label: "Situation",
-      headline: "The Creative Promise Stops at the Box",
+      headline: "The creative promise stops at the box",
       body: "Rookies do not arrive wanting to learn 3D printing. They arrive wanting the object they saw: a bust, a bracket, a gift. The hour between unboxing and the first layer is where most of them bounce.\n\nThe machine is already capable. The path in is written for people who already know it, sitting between playful maker culture and the calm of an appliance that just works.",
     },
     {
       id: "research",
       label: "Research",
-      headline: "Rookies Fail Before They Print",
+      headline: "Rookies fail before they print",
       figures: [
         { type: "image", src: flowprintPhoneTeardown, alt: "Three lo-fi phone wireframes from the first direction: a status home, a slicing screen labeled Quality Speed and Strength, and a model-library grid", full: true, label: "Phone lo-fi", caption: "a companion app that still talks in nozzles and a 24 percent bar" },
         { type: "image", src: flowprintMachineIdle, alt: "Lo-fi machine-screen layout from the first direction: a rail of home, nozzle, files, and settings beside a render of the X1 Carbon", label: "Machine lo-fi", caption: "the printer on screen, chrome still a shop diagram" },
@@ -460,13 +460,13 @@ const flowprint: ProjectDetailSource = {
     {
       id: "problem",
       label: "Design Challenge",
-      headline: "Get Them to a Part Without Teaching the Shop",
+      headline: "Get them to a part without teaching the shop",
       body: "The question I kept returning to: how might we guide someone from box to first successful print without forcing slicer vocabulary on day one?\n\nThe system needed progressive disclosure, an experience fork, and monitoring that names the next action instead of the sensor.\n\n[[module:flowprint-requirements]]\n\n**Decision: Hide the slicer. Teach the material. Ask experience once.**",
     },
     {
       id: "process",
       label: "Design Process",
-      headline: "Two Lanes, Then One Print",
+      headline: "Two lanes, then one print",
       figures: [
         { type: "image", src: flowprintNetworkUi, alt: "FlowPrint network setup on the printer screen: a glass list of Wi-Fi names including Malik Design and University of Washington", label: "Network", caption: "one job, then the next: pick a network before anything else" },
         { type: "image", src: flowprintFilamentGuide, alt: "Five filament instruction cards for PLA, PETG, ABS, TPU, and PC, each with best for, pros, and watch out", label: "Filament lesson", caption: "a recommendation engine as five slides, not a settings dump" },
@@ -476,7 +476,7 @@ const flowprint: ProjectDetailSource = {
     {
       id: "iterations",
       label: "Iterations",
-      headline: "Both Surfaces, Then the Machine Only",
+      headline: "Both surfaces, then the machine only",
       figures: [
         { type: "image", src: flowprintMachineIdle, alt: "Early machine-screen dashboard with a four-icon rail beside the X1 Carbon", label: "V1 machine", caption: "on the printer, still a diagram of parts" },
         { type: "image", src: flowprintWelcomeUi, alt: "FlowPrint welcome asking How experienced are you with 3D printing, with First time user and Pro user", label: "V3 fork", caption: "ask once, then the path splits" },
@@ -486,7 +486,7 @@ const flowprint: ProjectDetailSource = {
     {
       id: "final-design",
       label: "Final Design",
-      headline: "A Machine You Can Finish a First Print On",
+      headline: "A machine you can finish a first print on",
       figures: [
         { type: "image", src: flowprintModelsUi, alt: "FlowPrint Models grid: each tile shows a bust, print time, PLA, and grams", label: "Models", caption: "time and grams on the tile, not a slicer" },
         { type: "image", src: flowprintPrepareUi, alt: "FlowPrint prepare view: Extra Fine, Auto Setting, and a bust on the build plate", label: "Prepare", caption: "Extra Fine and Auto Setting. Start Print is the only verb" },
@@ -496,13 +496,13 @@ const flowprint: ProjectDetailSource = {
     {
       id: "impact",
       label: "Impact",
-      headline: "Quiet Confidence Is What Survives Print One",
+      headline: "Quiet confidence is what survives print one",
       body: "The design gives engineering a prioritized surface: onboarding, monitoring, and recommendations as connected modules rather than three disconnected features.\n\nIt also sets a tone. If the first print feels like an appliance, the rookie comes back. If it feels like a workshop they have not earned, they do not.\n\n**The target journey is the claim. The live HMI is how a recruiter can walk it.**",
     },
     {
       id: "reflection",
       label: "Reflection",
-      headline: "Design for Failure as the Default Path",
+      headline: "Design for failure as the default path",
       body: "Hardware-adjacent UX taught me to treat failure as the default path. Success is the exception every session still has to earn.\n\n## What I would do next\n\nPut the target journey in front of first-time owners on a real machine: different models, different filament, a jam or a leveling miss, and see whether the next-action copy holds when the print is actually at risk.\n\n[[module:flowprint-learnings]]",
     },
   ],
@@ -542,12 +542,12 @@ const tubular: ProjectDetailSource = {
     },
     {
       id: "process",
-      label: "Design Process",
+      label: "Design process",
       body: "Sketches moved quickly into volumetric studies and simple digital prototypes to test affordances. I iterated joint geometry, path visibility, and how 'success' should feel in the hand.\n\nNarrative and key visuals aligned around gravity, control, and delight.",
     },
     {
       id: "final-design",
-      label: "Final Design",
+      label: "Final design",
       body: "Conceptualized and built an experimental physics-based toy that teaches fluid dynamics through play.\n\nCombined industrial design with digital prototyping to create an intuitive, tactile learning experience.",
     },
     {
@@ -587,7 +587,7 @@ const moodmuse: ProjectDetailSource = {
     {
       id: "intro",
       label: "Intro",
-      headline: "A Paintbrush That Reads the Hand Holding It",
+      headline: "A paintbrush that reads the hand holding it",
       showProjectMeta: true,
       body: "**Mood Muse is a smart paintbrush for children on the autism spectrum. Sensors in the grip read arousal while the child paints, the brush answers with ink color and scent, and a companion app turns the session into something a parent and therapist can read together.**\n\nMany autistic children feel a lot and can name very little of it in the moment. Art therapy already gives them a wordless channel. Mood Muse puts the sensing inside the tool they are already holding, so expression and detection happen in the same stroke.\n\nI led the team, owned the industrial design and the working prototype, and was the only designer on the Mood Connect app.",
     },
@@ -599,7 +599,7 @@ const moodmuse: ProjectDetailSource = {
     {
       id: "context",
       label: "The Problem",
-      headline: "The Feeling Arrives Before the Words Do",
+      headline: "The feeling arrives before the words do",
       figures: [
         { type: "image", src: moodmuseResearchBoard, alt: "Research board: autism prevalence and care statistics over a black-and-white child photo, three purple bar charts on prevalence, emotional challenges, and art-therapy effectiveness, and a comparison of four emotion-detection technologies", full: true },
       ],
@@ -608,7 +608,7 @@ const moodmuse: ProjectDetailSource = {
     {
       id: "research",
       label: "Research",
-      headline: "Who Holds the Brush, and Who Needs to Know",
+      headline: "Who holds the brush, and who needs to know",
       figures: [
         { type: "image", src: moodmusePersona, alt: "Three persona cards on purple: MOMO, an eight-year-old autistic boy; Yang Lan, a 34-year-old mother; Zhou Weihua, a 37-year-old therapist. Each with a radar chart and pain points" },
         { type: "image", src: moodmuseJourney, alt: "Therapy journey chart: painting and music art therapy move through the same four stages, assessment, expression, reflection, integration. An engagement curve for each, painting higher throughout, and the friction at every stage, from reading sensory preferences to carrying gains into daily life", full: true },
@@ -618,7 +618,7 @@ const moodmuse: ProjectDetailSource = {
     {
       id: "concept",
       label: "How It Works",
-      headline: "Six Steps From Pairing to a Mood Spectrum",
+      headline: "Six steps from pairing to a mood spectrum",
       figures: [
         { type: "image", src: moodmuseUsageProcess, alt: "Six-step usage process with device renders: pairing, choosing a treatment, painting and emotion detection, data processing, fragrance diffused, paintbrush changes color", full: true },
       ],
@@ -627,7 +627,7 @@ const moodmuse: ProjectDetailSource = {
     {
       id: "final-design",
       label: "The Brush",
-      headline: "Sensors in the Grip, Ink in the Body",
+      headline: "Sensors in the grip, ink in the body",
       figures: [
         { type: "image", src: moodmuseBrushViews, alt: "Side view of the white brush, a translucent view of its motor, board, battery and ink tubes, and the four ink cartridges in red, black, green, and purple", full: true },
         { type: "image", src: moodmuseBrushDetail, alt: "A child's hand gripping the white brush, with the Mood Muse logo and one magnetic charging contact visible near the tail" },
@@ -643,7 +643,7 @@ const moodmuse: ProjectDetailSource = {
     {
       id: "app",
       label: "Mood Connect",
-      headline: "The Session Becomes Something Two Adults Can Read",
+      headline: "The session becomes something two adults can read",
       figures: [
         { type: "image", src: moodmuseUiOnboarding, alt: "Three Mood Connect screens: welcome with a child painting photo, parent login, and Mood Muse pairing with the brush on a radar of nearby devices", full: true },
         { type: "image", src: moodmuseUiInsights, alt: "Three screens: a General Emotion State ring scoring 86 with recent paintings, the All Paintings memory slider over a child's tree drawing, and an Emotion Analysis breakdown with assessment charts", full: true },
@@ -657,7 +657,7 @@ const moodmuse: ProjectDetailSource = {
     {
       id: "built",
       label: "Built",
-      headline: "A Brush That Works, Not a Brush That Renders",
+      headline: "A brush that works, not a brush that renders",
       figures: [
         { type: "image", src: moodmusePrototyping, alt: "Black-and-white prototyping grid: checking electronic components, wiring, soldering, 3D printer setup, slicing and printing, shell assembly, the mechanical core of the color switcher, sensor testing, and the assembled first prototype", full: true },
         { type: "image", src: moodmusePrototypeHands, alt: "A hand holding the white 3D-printed prototype at a workbench, and a hand gripping the dark prototype on a desk", full: true },
@@ -667,7 +667,7 @@ const moodmuse: ProjectDetailSource = {
     {
       id: "reflection",
       label: "Reflection",
-      headline: "What the Sensors Can and Cannot Promise",
+      headline: "What the sensors can and cannot promise",
       body: "## The Claim I Kept Small\n\nGSR and heart rate measure arousal well and valence poorly. The brush can tell that something is happening in the child; the labels JOY, CALM, UPSET, ANXIOUS are the classifier's best reading against a baseline, not a diagnosis. I kept the language honest in the app, and I'd keep it honest with families.\n\n## The Question I'd Ask First\n\nA device that senses a child continuously has to earn that. The parent controls what the therapist sees, but the child doesn't control what the brush hears. Co-design with families and occupational therapists is the next step, not a nice-to-have.\n\n## What I'd Do Next\n\nValidate the classifier against real therapy sessions rather than a bench rig, test the color and scent feedback for sensory tolerance with the children it's for, and put the prototype in a classroom.",
     },
   ],
@@ -692,7 +692,7 @@ const studiowaters: ProjectDetailSource = {
     {
       id: "context",
       label: "Context",
-      headline: "No Buttons. The Rod Is the Controller.",
+      headline: "No buttons. The rod is the controller.",
       showProjectMeta: true,
       figures: [{ type: "video", src: studioWatersDemo, poster: studioWatersCover }],
       body: "**Studio Waters is a playable, motion-controlled fishing prototype built with Claude and p5.js. No buttons, just real-world gestures.**\n\nPlayers cast and reel through physical motion, read by a Circuit Playground Express. The project chases one design question: how can motion, timing, and feedback shape a calm, engaging interaction?",
@@ -700,13 +700,13 @@ const studiowaters: ProjectDetailSource = {
     {
       id: "inspiration",
       label: "Inspiration",
-      headline: "Fishing Runs on Waiting, Not Action",
+      headline: "Fishing runs on waiting, not action",
       body: "Fishing runs on pacing and anticipation, not constant action. I wanted to borrow that rhythm, not simulate the sport: the arc of a cast, the tension of a reel, the quiet between attempts.\n\nThe body becomes the interface, with repetitive physical motion as the source of immersion, something most games actively work against.",
     },
     {
       id: "interaction",
       label: "How It Works",
-      headline: "Swing to Cast, Tilt and Pull to Reel",
+      headline: "Swing to cast, tilt and pull to reel",
       body: "Simple physical gestures map directly to game states:\n\n· Swing to cast the line into the water\n\n· Tilt and pull to reel the fish back in\n\n· On-screen feedback tracks tension, timing, and outcome\n\nThe target: obvious on first try, no tutorial required.",
       figures: [
         {
@@ -721,7 +721,7 @@ const studiowaters: ProjectDetailSource = {
     {
       id: "experience",
       label: "Experience Design",
-      headline: "The Fish Set the Difficulty, Not the Buttons",
+      headline: "The fish set the difficulty, not the buttons",
       body: "A nostalgic pixel world and restrained UI keep the focus on the gesture. The screen supports the motion, not the other way around.\n\nDifficulty comes from fish behavior: different species require different timing and tension, rewarding rhythm over fast reaction. The loop is tight and forgiving, with tension visible on screen and success felt in the motion.",
       figures: [
         {
@@ -736,13 +736,13 @@ const studiowaters: ProjectDetailSource = {
     {
       id: "ai",
       label: "How I Used AI",
-      headline: "AI Wrote the Scaffold. The Feel Was Tuned by Hand.",
+      headline: "AI wrote the scaffold. The feel was tuned by hand.",
       body: "AI was my rapid prototyping tool:\n\n· Claude generated the initial p5.js game structure\n\n· Prompting rounds refined the visuals toward a cohesive pixel style\n\n· AI-drafted interaction logic gave me a base to tune by hand\n\nThe real refinement was physical: tuning sensor thresholds, adjusting difficulty, and restructuring the code around how the CPX actually behaves under motion, which is what testing reveals and generation cannot.",
     },
     {
       id: "reflection",
       label: "Reflection",
-      headline: "Restraint Is the Unexplored Space in Physical Computing",
+      headline: "Restraint is the unexplored space in physical computing",
       body: "The AI wrote the scaffold; I designed the feel. Vibe coding lowers the barrier to building, but the interaction only got good through intentional mapping and hands-on refinement.\n\nIt also surfaced an underexplored space: most physical computing projects chase spectacle. There is real design value in restraint, in play that is slow, rhythmic, and embodied.",
     },
   ],
@@ -767,7 +767,7 @@ const calmmouse: ProjectDetailSource = {
     {
       id: "intro",
       label: "Intro",
-      headline: "The Problem Ships With the Mouse",
+      headline: "The problem ships with the mouse",
       showProjectMeta: true,
       afterMetaModule: "calmmouse-visit",
       figures: [
@@ -778,7 +778,7 @@ const calmmouse: ProjectDetailSource = {
     {
       id: "fixes",
       label: "The Fixes",
-      headline: "One Checkbox, Then the Rest of the Rough Edges",
+      headline: "One checkbox, then the rest of the rough edges",
       figures: [
         { type: "image", src: calmmouseSettings, alt: "CalmMouse settings window, General tab" },
       ],
@@ -787,7 +787,7 @@ const calmmouse: ProjectDetailSource = {
     {
       id: "absence",
       label: "Designing for Absence",
-      headline: "Making an Invisible Fix Visible",
+      headline: "Making an invisible fix visible",
       figures: [
         { type: "image", src: calmmouseWelcome, alt: "The welcome tour's preset step: Just fix clicking, Extra steady, Trackpad feel" },
         { type: "image", src: calmmousePresets, alt: "The Presets tab: three built-in starting points and a field to save your own" },
@@ -797,19 +797,19 @@ const calmmouse: ProjectDetailSource = {
     {
       id: "milliseconds",
       label: "Milliseconds",
-      headline: "Interaction Design at 200 Milliseconds",
+      headline: "Interaction design at 200 milliseconds",
       body: "The other half of the design work lives below the UI, in the timing of events.\n\n[[module:calmmouse-milliseconds]]\n\n**Same craft as easing curves and touch targets, just lower in the stack, where the unit is the millisecond instead of the pixel.**",
     },
     {
       id: "shipping",
       label: "Shipping",
-      headline: "Shipping Like It's a Real Product",
+      headline: "Shipping like it's a real product",
       body: "A utility that runs with Accessibility access has to earn trust the way real software does.\n\n[[module:calmmouse-shipping]]\n\n**Open source on GitHub, with 99 tests that run without a device or a permission grant.**",
     },
     {
       id: "reflection",
       label: "Reflection",
-      headline: "What Absence Taught Me",
+      headline: "What absence taught me",
       body: "## Features Compound Inside One Process\n\nTap-to-click exists in other apps. But because CalmMouse already runs the scroll state machine, taps can be vetoed by real scrolling and physical clicks, which standalone tap apps literally cannot see. The second feature was better because the first one was there.\n\n## The Metric Measures Nothing Happening\n\nThe app counts every event it swallows. After a few weeks of daily use, that counter is the honest success metric: thousands of page jumps that didn't happen, one at a time and unnoticed. That was the whole point.\n\n[[module:calmmouse-cta]]",
     },
   ],
@@ -834,7 +834,7 @@ const inkwork: ProjectDetailSource = {
     {
       id: "intro",
       label: "Intro",
-      headline: "From Working to Good",
+      headline: "From working to good",
       showProjectMeta: true,
       figures: [{ type: "video", src: inkworkFilm, poster: inkworkFilmPoster }],
       body: "**Inkwork is a small studio for styled QR codes: type your link, pick a style, check the proof, export. This case study is about the harder half of building it, the part that takes a product that works and gives it a point of view.**\n\n[[fig:0]]\n\nI wanted to generate a QR code in seconds and have real control over how it looked. Most generators give you one or the other: instant but ugly, or styleable but buried in settings.\n\nWorking with Claude Code, I had a functional version fast: sixteen style presets, logo embedding, preset import and export, shareable links, print-quality export, and a scannability check that actually decodes the code you just made. Everything worked.\n\nIt just hadn’t decided what it was.",
@@ -843,14 +843,14 @@ const inkwork: ProjectDetailSource = {
     {
       id: "diagnosis",
       label: "Diagnosis",
-      headline: "One Unmade Decision, Showing Up in Six Places",
+      headline: "One unmade decision, showing up in six places",
       figures: [{ type: "video", src: inkworkBefore }],
       body: "Version one looked fine at a glance: warm off-white ground, monospace helper text, crop marks around the preview. But the closer I looked, the more the same problem kept surfacing in different costumes.\n\n## Version One, as Shipped\n\n[[fig:0]]\n\n[[module:inkwork-symptoms]]\n\nNone of these is a visual problem. You can’t fix any of them with better spacing or a nicer shadow. They’re all the same missing decision: **what is the primary thing a person does here, and in what voice does this product speak?**\n\nOnce that’s undecided, the symptoms follow automatically. No primary action decided means both download buttons get primary styling. No priority decided means every panel gets the same card. No voice decided means library internals sit next to my own writing.",
     },
     {
       id: "decision",
       label: "The Decision",
-      headline: "A Style Picker, Not a Control Panel",
+      headline: "A style picker, not a control panel",
       body: "**Inkwork is a style picker, not a control panel. Everything in the redesign follows from that one sentence.**\n\n[[fig:0]]\n\n## The Page Became a Sequence, Not a Dashboard\n\nOne primary action per stage: a single “Update QR code” button after the input, a single primary “Download PNG” at export, with “Copy PNG” as the quiet secondary.\n\n[[module:inkwork-sequence]]\n\n## The Styles Moved to the Front\n\n“Choose a style” now sits immediately after the content field, with named presets as first-class tiles. This is what the old subtitle always promised and the old layout never delivered, and it is the actual reason to use Inkwork over any other generator.\n\n## Everything Else Waits Behind a Click\n\nColor, Logo, and Fine-tune sit behind buttons. Print formats collapsed into “More export formats.” Share and Presets moved to the header, where features for returning users belong. Textbook progressive disclosure, but the point isn’t the pattern. The pattern only became applicable once the decision existed: you can’t defer “secondary” controls until you’ve decided what’s primary.\n\n## One Voice\n\n“What goes in your QR code?” instead of “Content.” The library internals moved inside Fine-tune, where the people who want them will look for them.",
       figures: [
         {
@@ -865,7 +865,7 @@ const inkwork: ProjectDetailSource = {
     {
       id: "themes",
       label: "Two Themes",
-      headline: "Then I Gave It a Personality. Two, Actually.",
+      headline: "Then I gave it a personality. Two, actually.",
       body: "Once the product knew what it was, it could afford to have moods.\n\n[[module:inkwork-themes]]\n\n[[fig:0]]\n\nOne token system drives both. That constraint was the real design exercise: the themes had to differ in every surface quality, in color, shadow, corner treatment, and energy, while sharing every structural decision. If the hierarchy was right, it would survive the costume change. It did.",
       figures: [
         {
@@ -880,13 +880,13 @@ const inkwork: ProjectDetailSource = {
     {
       id: "film",
       label: "The Film",
-      headline: "Automation That Carries Judgment",
+      headline: "Automation that carries judgment",
       body: "The product film above was made by an agent skill I wrote in Claude Code. It produces product films across five surfaces: title and end cards, the edit, camera energy, animation, and soundtrack. Brand identity flows in through configuration. It has engineering gates it won’t cross: measure before trimming, splice whole animations, verify frames, audit gaps, no watermarked audio. Along the way I built my own ScreenCaptureKit-based recorder after the macOS default stalled on writes mid-capture.\n\n[[module:inkwork-skill-link]]\n\nThe skill didn’t make any of the design decisions above. That’s the point. It encodes my direction so the decisions I make survive into everything I ship, applied the same way every time.\n\n**Automation that replaces judgment produces the sameness this whole project was a reaction against. Automation that carries judgment is just leverage.**",
     },
     {
       id: "reflection",
       label: "Reflection",
-      headline: "What I Took From This",
+      headline: "What I took from this",
       body: "AI got me from idea to working product fast. Getting from working to good took taste, judgment, and a lot of rebuilding. I think that gap is now the most interesting place to work in product design. The generation cost of “functional” is approaching zero. What that raises, rather than lowers, is the value of being able to look at a functional thing and articulate precisely why it isn’t good yet.\n\n**The transferable habit: when a design has many small problems, resist fixing them one by one. Ask what single unmade decision is producing all of them. Fix that, and most of the symptoms resolve themselves.**\n\n[[module:inkwork-cta]]",
     },
   ],
@@ -911,7 +911,7 @@ const zeat: ProjectDetailSource = {
     {
       id: "intro",
       label: "Intro",
-      headline: "Eight Hours to Make Three Tons Disappear",
+      headline: "Eight hours to make three tons disappear",
       showProjectMeta: true,
       body: "**ZEAT is a ground-based cleaning robot for stadium grandstands: industrial design across the robot, its mechanisms, and the system that dispatches it.**\n\nEvery event leaves three to four tons of trash, and the building has eight to twelve hours to be clean before the next crowd. Today dozens of people close that gap overnight.\n\nZEAT works that window: sweeping the aisles, reaching onto seats with a folding arm, crossing steps on deformable wheels.",
     },
@@ -923,7 +923,7 @@ const zeat: ProjectDetailSource = {
     {
       id: "context",
       label: "The Problem",
-      headline: "What the Crowd Leaves Behind",
+      headline: "What the crowd leaves behind",
       figures: [
         { type: "image", src: zeatAftermath, alt: "Stadium seats after an event: cups, food containers, and wrappers left between the rows", full: true },
       ],
@@ -932,7 +932,7 @@ const zeat: ProjectDetailSource = {
     {
       id: "research",
       label: "Research",
-      headline: "Everyone Cleans the Floor. Nobody Cleans the Seats.",
+      headline: "Everyone cleans the floor. Nobody cleans the seats.",
       figures: [
         { type: "image", src: zeatTrashTypes, alt: "Typical grandstand trash: paper cups, snack packaging, bottles, cans, and crumpled napkins" },
       ],
@@ -941,7 +941,7 @@ const zeat: ProjectDetailSource = {
     {
       id: "ideation",
       label: "Ideation",
-      headline: "Three Ways to Move Through a Grandstand",
+      headline: "Three ways to move through a grandstand",
       figures: [
         { type: "image", src: zeatIdeationSheet, alt: "ZEAT ideation sheet: concept sketches, form development, and usage-flow storyboard with handwritten annotations" },
       ],
@@ -950,7 +950,7 @@ const zeat: ProjectDetailSource = {
     {
       id: "final-design",
       label: "Final Design",
-      headline: "A Machine Sized by Its Terrain",
+      headline: "A machine sized by its terrain",
       figures: [
         { type: "image", src: zeatInContext, alt: "ZEAT working a littered grandstand, arm raised and collection lid open", full: true },
         { type: "image", src: zeatDimensions, alt: "Three-view dimensioned drawing: 816mm long, 496mm wide, 388mm tall" },
@@ -968,7 +968,7 @@ const zeat: ProjectDetailSource = {
     {
       id: "system",
       label: "The System",
-      headline: "One Robot Is a Gadget. A Fleet Is Infrastructure.",
+      headline: "One robot is a gadget. A fleet is infrastructure.",
       figures: [
         { type: "image", src: zeatServiceTopdown, alt: "Top-down service view: dust bag, battery compartment, and garbage inlet, with the rear status screen reading Sector 01, 92%" },
       ],
@@ -977,7 +977,7 @@ const zeat: ProjectDetailSource = {
     {
       id: "reflection",
       label: "Reflection",
-      headline: "The Concept Evaluation Refused to Flatter the Concept",
+      headline: "The concept evaluation refused to flatter the concept",
       figures: [
         { type: "image", src: zeatIntake, alt: "Detail of the top deck: open hopper, clear intake cover, and indicator light" },
       ],
@@ -1012,26 +1012,26 @@ const ranger: ProjectDetailSource = {
     {
       id: "intro",
       label: "Intro",
-      headline: "A Net Keeps Fishing After the Boat Lets Go",
+      headline: "A net keeps fishing after the boat lets go",
       showProjectMeta: true,
       body: "**RANGER is an underwater drone for ghost gear recovery. It finds an abandoned fishing net, fires an airbag through the mesh, and lets the net float itself up to a waiting boat.**\n\nGhost gear is fishing equipment that was lost or dumped and never stopped working. It drifts, it snags, and it keeps catching. Recovery today is diver work, carried out largely by volunteers from conservation groups.\n\nDesigned end to end in 2024: the vehicle, the capture mechanism, the control system, and the platform that decides where to send it.",
     },
     {
       id: "highlights",
       label: "Highlights",
-      headline: "Search, Mark, and Let the Net Float Itself Up",
+      headline: "Search, mark, and let the net float itself up",
       body: "**One machine that searches, marks, and hands the lifting job to physics.**\n\n[[module:ranger-highlights]]",
     },
     {
       id: "problem",
       label: "The Problem",
-      headline: "Diving Is the Bottleneck",
+      headline: "Diving is the bottleneck",
       body: "## Five Steps, One of Them Underwater\n\nThe sequence a recovery crew runs today is search, locate, dive, dismantle, collect. Four of those five steps happen on a boat. The fifth puts a person in the water next to a tangled, fouled, moving net.\n\nThat step sets every ceiling on the operation: how deep a recovery can go, how long anyone can work, how many nets a boat clears in a day, and who is qualified to try at all. Manual collection scales with trained volunteers, and there are only so many of those.\n\n**The design question was never how to cut a net faster. It was how to get the net to the surface without sending anyone down to it.**",
     },
     {
       id: "ideation",
       label: "Ideation",
-      headline: "Two Ways to Steer, and Only One That Can Hover",
+      headline: "Two ways to steer, and only one that can hover",
       figures: [
         { type: "image", src: rangerSketches, alt: "Ideation board of RANGER concept sketches in two families: differential turning drone, ray fish, and streamline bodies on top; four-axis catfish, tortoiseshell, slimmer, and X-line bodies below, with the final draft called out", full: true },
       ],
@@ -1040,7 +1040,7 @@ const ranger: ProjectDetailSource = {
     {
       id: "capture",
       label: "The Catch",
-      headline: "Stop Trying to Hold the Net. Change What It Weighs.",
+      headline: "Stop trying to hold the net. Change what it weighs.",
       figures: [
         { type: "image", src: rangerAirbagResearch, alt: "Research board covering how ghost gear is collected today, four lifting-bag geometries, pump versus chemical inflation, and the airbag chamber launching through a net mesh", full: true },
       ],
@@ -1049,7 +1049,7 @@ const ranger: ProjectDetailSource = {
     {
       id: "final-design",
       label: "Final Design",
-      headline: "Every Module Earns Its Place on the Hull",
+      headline: "Every module earns its place on the hull",
       figures: [
         { type: "image", src: rangerFront, alt: "Front elevation of RANGER showing the wide hull, twin side thruster pods, sensor bay, and camera gimbals", full: true },
         { type: "image", src: rangerConstruct, alt: "Construction diagram labelling the thruster state light, airbag chamber, camera module, environmental detect module, searchlight, multi-directional thruster, side thruster port, obstacle avoidance light, and the three modular collocation components", full: true },
@@ -1062,7 +1062,7 @@ const ranger: ProjectDetailSource = {
     {
       id: "movement",
       label: "Movement",
-      headline: "Searching and Catching Want Different Thrust",
+      headline: "Searching and catching want different thrust",
       figures: [
         { type: "image", src: rangerMovement, alt: "Three movement modes drawn in line art: High Mobility with multi-directional arrows, Fast Float and Sink with the thruster pods rotated vertically, and Horizontal Movement for steady-depth scanning", full: true },
       ],
@@ -1071,7 +1071,7 @@ const ranger: ProjectDetailSource = {
     {
       id: "control",
       label: "Control",
-      headline: "It Should Feel Like Flying a Drone, Not Operating a Submarine",
+      headline: "It should feel like flying a drone, not operating a submarine",
       figures: [
         { type: "image", src: rangerControl, alt: "RANGER control interface board: a full-screen underwater camera feed with depth and heading scales, screen control, gyroscope, and auto collect modes, and an operator using a VR headset and controller", full: true },
       ],
@@ -1080,7 +1080,7 @@ const ranger: ProjectDetailSource = {
     {
       id: "platform",
       label: "Neptune Net",
-      headline: "Knowing Where to Send It",
+      headline: "Knowing where to send it",
       figures: [
         { type: "image", src: rangerPlatform, alt: "Neptune Net app screens: sign in, ocean-by-ocean coverage, a map of nearby ghost nets with distance and count, a device list showing each RANGER's charge, and the mark-and-report flow", full: true },
       ],
@@ -1089,7 +1089,7 @@ const ranger: ProjectDetailSource = {
     {
       id: "reflection",
       label: "Reflection",
-      headline: "What a Render Cannot Prove",
+      headline: "What a render cannot prove",
       figures: [
         { type: "image", src: rangerDetailPod, alt: "Close-up of the underside sensor bay between two camera pods" },
       ],
@@ -1121,17 +1121,22 @@ const oryne: ProjectDetailSource = {
     { label: "Tools", value: "SwiftUI · SwiftData + CloudKit · Foundation Models · Claude Code" },
     { label: "Output", value: "Live on the App Store · v1.5 · English & Chinese" },
   ],
-  // The arc: the problem (lists bury), the idea (an ocean), the principles the
-  // idea was written into on day three, the shipped flow, then the research
-  // that measured whether the device could keep the flow's promises, and the
-  // privacy position that made on-device the only place to measure. Research
-  // sits after Final Design on purpose: it happened between releases, against
-  // the phone, and every section close hands off to the next.
+  // The arc: the problem (lists bury), the competitive landscape (everyone
+  // holds two of the three), the idea that gap made room for, the principles the
+  // idea was written into, the versions and releases it took to get there, the
+  // shipped flow, and the privacy position underneath it all.
+  // There is no research section, by decision: this project has no generative
+  // research, and the feasibility work that used to sit here (embedding floor,
+  // the bilingual sweep, the two speech questions) was cut because it read as
+  // engineering evidence rather than design. Do not reintroduce it as "Research";
+  // if it comes back it needs its own honest label and a reason to be read.
+  // Every section close hands off to the next, so reordering means rewriting
+  // the closes.
   sections: [
     {
       id: "overview",
       label: "Overview",
-      headline: "An App Where Thoughts Come Back on Their Own",
+      headline: "An app where thoughts come back on their own",
       showProjectMeta: true,
       body: "**Oryne is an inspiration-capture app for iOS. Thoughts don't sit in rows; they float.** Speak or type one, release it, and the device names it, drifts it next to its relatives, and brings it back when it matters again.\n\n[[module:oryne-tags]]",
       afterMetaModule: "oryne-app-store",
@@ -1139,62 +1144,56 @@ const oryne: ProjectDetailSource = {
     {
       id: "highlights",
       label: "Highlights",
-      headline: "Let a Thought Go, and It Finds Its Way Back",
+      headline: "Let a thought go, and it finds its way back",
       figures: [{ type: "video", src: oryneFilm, poster: oryneFilmPoster }],
       body: "[[fig:0]]\n\n[[module:oryne-hook]]",
     },
     {
       id: "problem",
       label: "The Problem",
-      headline: "Every Notes App Buries What It Promised to Keep",
-      body: "Every notes app promises to keep your thoughts organized, and every one breaks the promise the same way: not by losing them, but by burying them. Neatly, chronologically, in a list you never scroll back through.\n\nLists optimize for putting things in. Minds optimize for things coming back. A thought from three months ago surfaces because something today rhymes with it, not because you scrolled to March.\n\n[[module:oryne-problem]]\n\n**The list is honest about storage and dishonest about memory. The problem was never the list, it was the monopoly. So the design started from how a thought comes back, and worked backwards to how it goes in.**",
+      headline: "Every notes app buries what it promised to keep",
+      body: "Every notes app promises to keep your thoughts organized, and every one breaks the promise the same way: not by losing them, but by burying them. Neatly, chronologically, in a list you never scroll back through.\n\nLists optimize for putting things in. Minds optimize for things coming back. A thought from three months ago surfaces because something today rhymes with it, not because you scrolled to March.\n\n[[module:oryne-problem]]\n\n**The list is honest about storage and dishonest about memory. The problem was never the list, it was the monopoly. So the design had to start from how a thought comes back. Every tool a creative person already keeps inspiration in has an answer to that, and they are not the same answer.**",
+    },
+    {
+      id: "competitive",
+      label: "Competitive",
+      headline: "No tool catches a thought, gives it a place, and brings it back",
+      body: "One question, put to each tool a creative person already keeps inspiration in: what happens to a thing after you save it, and whether it ever finds you again. I asked it in February, three and a half months before the first commit.\n\nThree capabilities settle the answer. Capture has to be fast enough that you do it at all. The saved thing has to live somewhere you can look around in, not just scroll. And something has to return it to you without being asked.\n\n[[module:oryne-competitive]]\n\n**Each one breaks the chain somewhere. mymind comes closest, and it collects what you find rather than what you think. Nothing was doing all three for a thought of your own, and that is the gap the idea was built in.**",
     },
     {
       id: "idea",
       label: "The Idea",
-      headline: "Your Mind as an Ocean, and Every Decision Derived From It",
-      body: "Your mind as an ocean. Thoughts drift, related ones gather into currents, and forgotten ones resurface. Every interaction had to be explainable as “that's how water works,” never as “that's just how apps work.”\n\nA metaphor is cheap if it is only a skin. Capture became a thought falling into the ocean. Categorization became a thought flowing into a current, which is the literal copy in the app, because “assign to category” would have been the list sneaking back in through the language.\n\n[[module:oryne-idea]]\n\n**A field that feels alive is illegible by default. So the Ocean is for encountering, the Library is for finding, and neither pretends to be the other. It took three versions to learn that.**",
-    },
-    {
-      id: "iterations",
-      label: "Iterations",
-      headline: "Three Versions Before the Ocean Moved",
-      body: "The metaphor arrived before the product did. It went through a web prototype, a set of wireframes, and a first native build before the Ocean looked like water, and each version kept something the next one still has.\n\n[[module:oryne-iterations]]\n\n**What survived all three was the skeleton: four verbs, four tabs, and a long press. What changed was everything the metaphor could decide once it was taken seriously. Two days into the native build, those decisions were written down as rules.**",
+      headline: "Your mind as an ocean, and every decision derived from it",
+      body: "Your mind as an ocean. Thoughts drift, related ones gather into currents, and forgotten ones resurface. Every interaction had to be explainable as \u201cthat's how water works,\u201d never as \u201cthat's just how apps work.\u201d\n\nA metaphor is cheap if it is only a skin. Capture became a thought falling into the ocean. Categorization became a thought flowing into a current, which is the literal copy in the app, because \u201cassign to category\u201d would have been the list sneaking back in through the language.\n\n[[module:oryne-idea]]\n\n**A field that feels alive is illegible by default. So the Ocean is for encountering, the Library is for finding, and neither pretends to be the other. A metaphor that settles questions this large should not live in one person's head, so it was written down as rules.**",
     },
     {
       id: "principles",
       label: "Principles",
-      headline: "Eight Principles, Each With a Test It Has to Pass",
-      body: "The philosophy lives in the repository next to the code, so a review can cite a principle instead of taste: “violates Trust, confirmation before verification” beats “feels wrong.” Each principle ends in a question. If the answer is yes, the change does not ship. The principles change only by a deliberate edit to that file, never by drift.\n\n[[module:oryne-principles]]\n\n**A principle without a test is a mood. These eight questions are what every screen in the next section had to answer no to.**",
+      headline: "Eight principles, each with a test it has to pass",
+      body: "The philosophy lives in the repository next to the code, so a review can cite a principle instead of taste: \u201cviolates Trust, confirmation before verification\u201d beats \u201cfeels wrong.\u201d Each principle ends in a question. If the answer is yes, the change does not ship. The principles change only by a deliberate edit to that file, never by drift. They are grouped here by the same four moments the idea is built from, which is how it became visible that three of the eight belong to no single one of them and hold everywhere.\n\n[[module:oryne-principles]]\n\n**A principle without a test is a mood. These eight were written down two days into the native build, which was already the third version of this idea. The two versions before it are why there was anything to write.**",
+    },
+    {
+      id: "iterations",
+      label: "Iterations",
+      headline: "Three versions before the ocean moved, six releases after",
+      body: "The metaphor arrived before the product did. It went through a web prototype, a set of wireframes, and a first native build before the Ocean looked like water, and each version kept something the next one still has.\n\n[[module:oryne-iterations]]\n\nWhat survived all three was the skeleton: four verbs, four tabs, and a long press.\n\nShipping did not end the iteration, it changed the clock. I had never written production Swift. Twenty-three days after the first commit Oryne was on the App Store, and five more releases followed within two weeks, each closing something the last had left open.\n\nThe agent wrote the code. I designed the review, because when the author and the reviewer share the same blind spots you do not have a review. You have a rubber stamp with extra steps.\n\n[[module:oryne-shipping]]\n\n**Speed was the agent's job. Judgment stayed mine, and the gates exist so that nothing irreversible ever happens at machine speed.**",
     },
     {
       id: "final-design",
       label: "Final Design",
-      headline: "One Thought, From Caught to Returned",
-      body: "One thought, start to finish, and the decisions underneath. Every screen is the shipped app.\n\n[[module:oryne-flow]]\n\n**Capture in under two seconds from anywhere. If a change would make someone hesitate before capturing, the answer is no. Three of these screens make promises that design alone cannot keep, and the next section is how I found out whether the device could.**",
-    },
-    {
-      id: "research",
-      label: "Research",
-      headline: "What the Device Could Honestly Promise, Measured",
-      body: "Oryne makes three promises that depend on models Apple ships inside the phone: that words appear while you speak, in whichever language you are speaking; that a thought finds its relatives; and that Ask answers only from what you captured. No interview could tell me where those models stop. Testing in the languages I actually think in showed the model weaker in Chinese on the same tasks, which no English-only plan would have found.\n\nSo the research on this project ran against the device itself, between releases, with a script or a throwaway harness for each question. Each measurement below changed a shipped decision.\n\n[[module:oryne-research]]\n\n**Every number here moved something in the product: the empty state Ask shows, the scope of kinship, and how live recognition is built on each iOS. The scripts stay in the repository so the numbers can be measured again when Apple changes the model.**",
+      headline: "One thought, from caught to returned",
+      body: "One thought, start to finish, and the decisions underneath. Every screen is the shipped app.\n\n[[module:oryne-flow]]\n\n**Capture in under two seconds from anywhere. If a change would make someone hesitate before capturing, the answer is no. And what you are willing to capture in the first place depends entirely on where you believe it goes.**",
     },
     {
       id: "privacy",
       label: "Privacy",
-      headline: "Nothing You Capture Leaves the Phone",
-      body: "What you are willing to capture depends on where you believe it goes. An inspiration tool only works if you will feed it your half-formed, 2 a.m. thoughts, so nothing you capture transits a server I can read.\n\nThat position is also why the research above had to be run on the device. On-device models are smaller than the cloud's, and classification, kinship, and resurfacing were designed around what local intelligence can actually do. I would make the same trade again.\n\n[[module:oryne-privacy]]\n\n**On-device is not a spec-sheet line. It is the precondition for the honesty the whole product depends on, and the reason the numbers above were measured rather than assumed.**",
-    },
-    {
-      id: "shipping",
-      label: "Shipping It",
-      headline: "Twenty-Three Days From First Commit to the App Store",
-      body: "I had never shipped production Swift. Twenty-three days after the first commit, Oryne was on the App Store. The AI wrote the code; I designed the review that made it trustworthy.\n\nWhen the author of the code and its reviewer share the same blind spots, you do not have a review. You have a rubber stamp with extra steps. So I stopped trying to become the reviewer and designed the review instead.\n\n[[module:oryne-shipping]]\n\n**Speed was the agent's job. Judgment stayed mine, and the gates exist so that nothing irreversible ever happens at machine speed.**",
+      headline: "Nothing you capture leaves the phone",
+      body: "An inspiration tool only works if you will feed it your half-formed, 2 a.m. thoughts, so nothing you capture transits a server I can read.\n\nOn-device models are smaller than the cloud's, and classification, kinship, and resurfacing were all designed around what local intelligence can actually do rather than what a server could have done. I would make the same trade again.\n\n[[module:oryne-privacy]]\n\n**On-device is not a spec-sheet line. It is the precondition for the honesty the whole product depends on.**",
     },
     {
       id: "learned",
       label: "What the Ocean Taught Me",
-      headline: "Nearly Every Choice Trades Control for Encounter",
+      headline: "Nearly every choice trades control for encounter",
       body: "Nearly every choice trades control for encounter: browsing over managing, drift over sorting, restraint over reach. That is the trade I keep wanting to make, and probably the most honest description of the kind of designer I am.\n\n[[module:oryne-takeaways]]",
     },
   ],

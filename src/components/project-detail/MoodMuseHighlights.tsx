@@ -2,7 +2,7 @@ import moodmuseBrushViews from "@/assets/moodmuse-brush-views.webp";
 import moodmuseSensingErgonomics from "@/assets/moodmuse-sensing-ergonomics.webp";
 import moodmuseUiInsights from "@/assets/moodmuse-ui-insights.webp";
 import { Chips, PullQuote } from "./MotiModules";
-import { noOrphan } from "@/lib/noOrphan";
+import { ArtifactFigure } from "./ArtifactFigure";
 
 // Mood Muse's case-study hook — same shape as ZEAT's and Aura's (highlight
 // chips → pull-quote → artifact gallery). The gallery images reappear in
@@ -41,24 +41,6 @@ const artifacts = [
   },
 ];
 
-function MoodMuseArtifact({ src, alt, caption }: { src: string; alt: string; caption: string }) {
-  return (
-    <figure>
-      <div className="overflow-hidden rounded-2xl">
-        <img
-          src={src}
-          alt={alt}
-          loading="lazy"
-          decoding="async"
-          className="w-full h-auto block"
-        />
-      </div>
-      <figcaption className="mt-caption text-base md:text-xl text-foreground text-center leading-relaxed">
-        {noOrphan(caption)}
-      </figcaption>
-    </figure>
-  );
-}
 
 export function MoodMuseHighlights() {
   return (
@@ -67,11 +49,9 @@ export function MoodMuseHighlights() {
       <PullQuote>A child who can&rsquo;t say the feeling can still paint it. The brush listens to the hand.</PullQuote>
       <div className="flex flex-col gap-12 md:gap-16">
         {artifacts.map((a) => (
-          <MoodMuseArtifact key={a.src} {...a} />
+          <ArtifactFigure key={a.src} {...a} />
         ))}
       </div>
     </div>
   );
 }
-
-export default MoodMuseHighlights;

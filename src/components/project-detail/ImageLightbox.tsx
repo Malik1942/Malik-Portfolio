@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import { useLightboxDismiss } from "@/hooks/useLightboxDismiss";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
@@ -20,24 +21,7 @@ export function ImageLightbox({ image, onClose }: ImageLightboxProps) {
   const reduce = useReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    if (!image) return;
-    const prevOverflow = document.body.style.overflow;
-    const prevFocus = document.activeElement as HTMLElement | null;
-    document.body.style.overflow = "hidden";
-    closeRef.current?.focus();
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-
-    return () => {
-      document.body.style.overflow = prevOverflow;
-      window.removeEventListener("keydown", onKey);
-      prevFocus?.focus?.();
-    };
-  }, [image, onClose]);
+  useLightboxDismiss(image, onClose, closeRef);
 
   return createPortal(
     <AnimatePresence>
@@ -79,5 +63,3 @@ export function ImageLightbox({ image, onClose }: ImageLightboxProps) {
     document.body,
   );
 }
-
-export default ImageLightbox;

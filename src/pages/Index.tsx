@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { scrollToSectionNavTarget } from "@/lib/scrollToTarget";
+import { scrollToPageTop, scrollToSectionNavTarget } from "@/lib/scrollToTarget";
 import { HOME_SECTION_ORDER } from "@/lib/sections";
 import { projectsInSection } from "@/data/projects";
 import HeroSection from "@/components/HeroSection";
@@ -81,7 +81,7 @@ const Index = ({
       navigate("/");
       return;
     }
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToPageTop();
     setIsAboutOpen(false);
   }, [aboutOpen, navigate]);
 
@@ -95,7 +95,7 @@ const Index = ({
       <HeroSection
         isAboutOpen={isAboutOpen}
         onAboutClick={() => {
-          window.scrollTo({ top: 0, behavior: "smooth" });
+          scrollToPageTop();
           setIsAboutOpen(true);
         }}
         onAboutBack={closeAbout}
