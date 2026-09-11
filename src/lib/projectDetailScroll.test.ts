@@ -3,7 +3,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { scrollToProjectSection, sectionDomId } from "./projectDetailScroll";
 import { setReducedMotionPreference } from "@/test/setup";
 
-let scrollIntoViewSpy: ReturnType<typeof vi.spyOn<Element, "scrollIntoView">>;
+// Typed from the call rather than `vi.spyOn<Element, "scrollIntoView">`: an
+// explicit instantiation of spyOn resolves against its property-accessor
+// overload, whose constraint rejects a method name.
+const spyOnScrollIntoView = () => vi.spyOn(Element.prototype, "scrollIntoView").mockImplementation(() => {});
+let scrollIntoViewSpy: ReturnType<typeof spyOnScrollIntoView>;
 
 // Built the way ProjectDetailTemplate builds it, so a change to the id shape
 // fails here instead of quietly leaving the guide unable to find its sections.
@@ -14,7 +18,7 @@ const makeSection = (id: string) => {
 };
 
 beforeEach(() => {
-  scrollIntoViewSpy = vi.spyOn(Element.prototype, "scrollIntoView").mockImplementation(() => {});
+  scrollIntoViewSpy = spyOnScrollIntoView();
 });
 
 afterEach(() => {
