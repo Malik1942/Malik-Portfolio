@@ -274,7 +274,7 @@ function VocabularyGrid() {
           <div key={t.term} className="bg-surface-inset px-4 py-5 md:px-8 md:py-6">
             <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">{t.term}</p>
             <p className="mt-2 text-sm md:text-base font-medium text-foreground">{noOrphan(t.inApp)}</p>
-            <p className="mt-2 text-sm font-light leading-relaxed text-foreground-secondary">{noOrphan(t.meaning)}</p>
+            <p className="mt-2 text-sm md:text-base font-light leading-relaxed text-foreground-secondary">{noOrphan(t.meaning)}</p>
           </div>
         ))}
       </div>
@@ -431,7 +431,7 @@ export function OrynePrinciples() {
               </div>
               <div className="flex flex-col gap-2.5">
                 <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">{p.name}</p>
-                <p className="text-sm font-light leading-relaxed text-foreground-secondary [overflow-wrap:anywhere]">{noOrphan(p.test)}</p>
+                <p className="text-sm md:text-base font-light leading-relaxed text-foreground-secondary [overflow-wrap:anywhere]">{noOrphan(p.test)}</p>
               </div>
             </div>
           );
