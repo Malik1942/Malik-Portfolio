@@ -598,7 +598,11 @@ export function OryneIterations() {
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] sm:gap-x-4">
                 <PairScreen item={pair.before} col="sm:col-start-1" />
                 <div className="flex items-center justify-center py-5 sm:py-0 sm:col-start-2 sm:row-start-1 sm:px-2">
-                  <ArrowRight aria-hidden="true" className="h-5 w-5 rotate-90 sm:rotate-0 text-accent-violet/70" strokeWidth={1.5} />
+                  {/* A hairline disc keeps the arrow legible against two bright
+                      phone frames; a bare 16px glyph at 70% vanished between them. */}
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-hairline bg-secondary/10">
+                    <ArrowRight aria-hidden="true" className="h-5 w-5 rotate-90 sm:rotate-0 text-accent-violet" strokeWidth={1.75} />
+                  </span>
                 </div>
                 <PairScreen item={pair.after} col="sm:col-start-3" />
               </div>
