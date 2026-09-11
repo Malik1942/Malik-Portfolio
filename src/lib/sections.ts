@@ -12,7 +12,7 @@
 // `id` is the DOM id of the section. `selected` keeps `projects` so existing
 // `#projects` links, `scrollTo: "projects"` router state and the hero scroll
 // indicator keep working. `path` is the page the section renders on.
-export const STUDIO_PATH = "/studio";
+const STUDIO_PATH = "/studio";
 
 export const SECTIONS = {
   selected: { id: "projects", label: "Selected Work", dots: "bright", path: "/" },
@@ -22,7 +22,6 @@ export const SECTIONS = {
 
 export type SectionKey = keyof typeof SECTIONS;
 export type SectionLabel = (typeof SECTIONS)[SectionKey]["label"];
-export type SectionDots = (typeof SECTIONS)[SectionKey]["dots"];
 
 /** Site order, top to bottom. */
 export const SECTION_ORDER: readonly SectionKey[] = ["selected", "more", "studio"];

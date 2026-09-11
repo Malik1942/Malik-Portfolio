@@ -35,7 +35,7 @@ const HEX_COLOR_PATTERN = /^#[0-9a-f]{6}$/i;
  * at 0.72) stays a *reference* to the primary foreground instead of a copied
  * literal, so editing the primary retunes every tier.
  */
-export const ALPHA_EXTENSION = "com.malikzhang.alpha";
+const ALPHA_EXTENSION = "com.malikzhang.alpha";
 const FONT_WEIGHT_CSS_VALUES = new Map<string, string>([
   ["thin", "100"],
   ["hairline", "100"],
@@ -90,7 +90,7 @@ export class TokenCompilationError extends Error {
   }
 }
 
-export function tokenPathToCssVariable(path: string): `--${string}` {
+function tokenPathToCssVariable(path: string): `--${string}` {
   return `--${path
     .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
     .replace(/[^a-zA-Z0-9]+/g, "-")

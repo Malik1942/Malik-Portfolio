@@ -1,3 +1,4 @@
+import { isPlainRecord } from "./isPlainRecord";
 import { applyOverrides, TokenCompilationError } from "../tokens/compiler";
 import type {
   DtcgValue,
@@ -107,15 +108,6 @@ export function exportDraftDocuments(
   draft: LocalTokenDraft,
 ): TokenBundle["documents"] {
   return applyOverrides(bundle, draft.overrides).documents;
-}
-
-function isPlainRecord(value: unknown): value is Record<string, unknown> {
-  if (value === null || typeof value !== "object" || Array.isArray(value)) {
-    return false;
-  }
-
-  const prototype = Object.getPrototypeOf(value);
-  return prototype === Object.prototype || prototype === null;
 }
 
 function compareStrings(left: string, right: string): number {

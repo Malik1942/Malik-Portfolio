@@ -7,6 +7,8 @@
 // The cost of handing it off is that we no longer know when it finishes, so we
 // watch for the end instead of assuming it. Assuming was the original bug.
 
+import { prefersReducedMotion } from "./prefersReducedMotion";
+
 /** Give up waiting and announce anyway; the browser picks the real duration. */
 const SETTLE_TIMEOUT_MS = 2000;
 /** Consecutive still frames accepted as "stopped" when `scrollend` is missing. */
@@ -155,7 +157,7 @@ export const scrollToTarget = ({
   const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
   const targetY = Math.max(0, Math.min(box.top - viewportOffset, maxScroll));
 
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (prefersReducedMotion()) {
     cancelActiveWatch?.();
     // Explicit "instant": a bare scrollTo would inherit
     // `html { scroll-behavior: smooth }` and animate anyway.
@@ -172,6 +174,21 @@ export const scrollToTarget = ({
 
   window.scrollTo({ top: targetY, behavior: "smooth" });
   announceOnScrollEnd(targetY, announce);
+};
+
+/**
+ * Send the page back to the top — About opening, About closing, the footer's
+ * About link. The ride stays smooth by design; only a reduced-motion reader
+ * gets the jump.
+ *
+ * Cancels any arrival watch still in flight. If this interrupts a section or
+ * dot scroll, that scroll never lands, so announcing its arrival would be a
+ * lie — and the raf poll behind it would keep running to its two-second
+ * timeout for a landing that is no longer coming.
+ */
+export const scrollToPageTop = () => {
+  cancelActiveWatch?.();
+  window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? "instant" : "smooth" });
 };
 
 /** Scroll to a `<section id="…">` using the same header target + offset as hero nav. */

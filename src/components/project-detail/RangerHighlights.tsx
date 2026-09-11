@@ -2,7 +2,7 @@ import rangerFront from "@/assets/ranger-front.webp";
 import rangerDetailPod from "@/assets/ranger-detail-pod.webp";
 import rangerDetailGimbal from "@/assets/ranger-detail-gimbal.webp";
 import { Chips, PullQuote } from "./MotiModules";
-import { noOrphan } from "@/lib/noOrphan";
+import { ArtifactFigure } from "./ArtifactFigure";
 
 // RANGER's case-study hook — same shape as ZEAT's and Aura's (highlight chips →
 // pull-quote → artifact gallery). The gallery is the skim layer; the sections
@@ -33,24 +33,6 @@ const artifacts = [
   },
 ];
 
-function RangerArtifact({ src, alt, caption }: { src: string; alt: string; caption: string }) {
-  return (
-    <figure>
-      <div className="overflow-hidden rounded-2xl bg-secondary/10">
-        <img
-          src={src}
-          alt={alt}
-          loading="lazy"
-          decoding="async"
-          className="w-full h-auto block"
-        />
-      </div>
-      <figcaption className="mt-caption text-base md:text-xl text-foreground text-center leading-relaxed">
-        {noOrphan(caption)}
-      </figcaption>
-    </figure>
-  );
-}
 
 export function RangerHighlights() {
   return (
@@ -61,11 +43,9 @@ export function RangerHighlights() {
       </PullQuote>
       <div className="flex flex-col gap-12 md:gap-16">
         {artifacts.map((a) => (
-          <RangerArtifact key={a.src} {...a} />
+          <ArtifactFigure key={a.src} {...a} />
         ))}
       </div>
     </div>
   );
 }
-
-export default RangerHighlights;

@@ -53,5 +53,3 @@ export function GitHubStrip() {
     </motion.a>
   );
 }
-
-export default GitHubStrip;

@@ -38,3 +38,6 @@ dist-ssr
 
 # Isolated implementation worktrees
 .worktrees/
+
+# Playwright scratch scripts
+.pw-scratch/

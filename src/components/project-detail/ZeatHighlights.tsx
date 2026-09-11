@@ -2,7 +2,7 @@ import zeatInContext from "@/assets/zeat-in-context.webp";
 import zeatArm from "@/assets/zeat-arm.webp";
 import zeatStructure from "@/assets/zeat-structure.webp";
 import { Chips, PullQuote } from "./MotiModules";
-import { noOrphan } from "@/lib/noOrphan";
+import { ArtifactFigure } from "./ArtifactFigure";
 
 // ZEAT's case-study hook — mirrors Aura's (highlight chips → pull-quote →
 // artifact gallery). The gallery images reappear in their own sections below,
@@ -33,24 +33,6 @@ const artifacts = [
   },
 ];
 
-function ZeatArtifact({ src, alt, caption }: { src: string; alt: string; caption: string }) {
-  return (
-    <figure>
-      <div className="overflow-hidden rounded-2xl bg-secondary/10">
-        <img
-          src={src}
-          alt={alt}
-          loading="lazy"
-          decoding="async"
-          className="w-full h-auto block"
-        />
-      </div>
-      <figcaption className="mt-caption text-base md:text-xl text-foreground text-center leading-relaxed">
-        {noOrphan(caption)}
-      </figcaption>
-    </figure>
-  );
-}
 
 export function ZeatHighlights() {
   return (
@@ -59,11 +41,9 @@ export function ZeatHighlights() {
       <PullQuote>The hard part isn&rsquo;t the trash. It&rsquo;s the terrain.</PullQuote>
       <div className="flex flex-col gap-12 md:gap-16">
         {artifacts.map((a) => (
-          <ZeatArtifact key={a.src} {...a} />
+          <ArtifactFigure key={a.src} {...a} />
         ))}
       </div>
     </div>
   );
 }
-
-export default ZeatHighlights;

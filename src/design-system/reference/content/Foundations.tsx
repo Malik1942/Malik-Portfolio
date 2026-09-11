@@ -25,7 +25,6 @@ const FOUNDATION_PREFIXES: Record<string, string[]> = {
     "component.projectCard.",
     "component.caseStudyModule.",
     "component.lightbox.backdrop",
-    "component.projectSection.flash",
   ],
   "foundation-motion": ["duration.", "ease."],
 };

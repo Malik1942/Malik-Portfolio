@@ -76,16 +76,6 @@
         "$value": "{color.slate.400}"
       }
     },
-    "projectSection": {
-      "flash": {
-        "$type": "color",
-        "$description": "Warm peak color used during a project-section arrival flash.",
-        "$value": "{color.warm.100}",
-        "$extensions": {
-          "com.malikzhang.alpha": 0.018
-        }
-      }
-    },
     "lightbox": {
       "backdrop": {
         "$type": "color",
