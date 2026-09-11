@@ -228,6 +228,28 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
   // about the click-to-scroll path reads this — a faded orb is still a target.
   const lens = useLens()?.lens ?? null;
   const lensIdsRef = useRef<Set<string> | null>(null);
+  // ── Off-screen pause ──
+  // The hero is the first screen of a page several screens tall, and the loop
+  // below redraws every star, name particle and orb on every frame: a few
+  // thousand canvas fills into a retina-sized bitmap, then a full-canvas
+  // commit to the compositor. That is fine while the hero is in view and pure
+  // waste once it is scrolled past, where it was eating half of every frame
+  // the project cards had for their own scroll-in animations. So the loop
+  // stops when the canvas leaves the viewport and picks up again when it
+  // returns (`visibleRef`, set by an IntersectionObserver; `resume` schedules
+  // a frame if none is pending — a pending id is never 0).
+  //
+  // It only stops when nothing it animates is still in flight, so what a
+  // visitor sees on scrolling back up is exactly what they would have seen
+  // with the loop running the whole time: never while About is open or its
+  // transition is mid-way (About can be opened from the footer, with the hero
+  // off-screen, and the name must be dissolving by the time the page is back
+  // at the top), and never while an orb is still easing toward a skill lens
+  // that was toggled from the cards below. Nothing else the loop moves is
+  // time-based rather than per-frame (twinkle and breath read the clock), or
+  // needs the pointer, which is not over an off-screen canvas.
+  const visibleRef = useRef(true);
+  const lensSettlingRef = useRef(false);
 
   useEffect(() => {
     lensIdsRef.current = lens ? lensProjectIds(lens) : null;
@@ -630,6 +652,10 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         if (orbDist < 30 && (isDesktop || orb.tier === "bright")) newHoveredOrb = orb.id;
       });
 
+      // Set below while any orb is still easing toward the lens; read by the
+      // off-screen pause at the end of the frame.
+      lensSettlingRef.current = false;
+
       if (newHoveredOrb) {
         const hovOrb = orbs.find((o) => o.id === newHoveredOrb);
         if (hovOrb) {
@@ -713,8 +739,17 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
         // at full strength with its label up, so the hero names every match.
         const lensIds = lensIdsRef.current;
         const lensEase = reduced ? 1 : 0.06;
-        orb.lensT += ((lensIds && !lensIds.has(orb.id) ? 1 : 0) - orb.lensT) * lensEase;
-        orb.promoteT += ((lensIds && lensIds.has(orb.id) ? 1 : 0) - orb.promoteT) * lensEase;
+        const lensTarget = lensIds && !lensIds.has(orb.id) ? 1 : 0;
+        const promoteTarget = lensIds && lensIds.has(orb.id) ? 1 : 0;
+        orb.lensT += (lensTarget - orb.lensT) * lensEase;
+        orb.promoteT += (promoteTarget - orb.promoteT) * lensEase;
+        // The ease never lands exactly; past this it is a pixel from the target.
+        if (
+          Math.abs(orb.lensT - lensTarget) > 0.002 ||
+          Math.abs(orb.promoteT - promoteTarget) > 0.002
+        ) {
+          lensSettlingRef.current = true;
+        }
         const lensAlpha = 1 - LENS_FADE * orb.lensT;
 
         // Mobile: a dim orb is a slightly brighter background star — no ring,
@@ -802,12 +837,49 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       canvas.style.cursor = (hoveredOrbRef.current || isOverName) ? "pointer" : "default";
     }
 
+    // Off-screen pause (see visibleRef): stop here, and only here, once
+    // nothing is mid-flight. `resume` restarts the loop.
+    const idle =
+      !visibleRef.current &&
+      !aboutModeRef.current &&
+      transitionRef.current === 0 &&
+      !lensSettlingRef.current;
+    if (idle) {
+      animRef.current = 0;
+      return;
+    }
     animRef.current = requestAnimationFrame(draw);
   }, []);
+
+  // Schedule a frame unless one is already pending. Safe to call from any
+  // event; the loop itself decides at the end of that frame whether to go on.
+  const resume = useCallback(() => {
+    if (animRef.current) return;
+    animRef.current = requestAnimationFrame(draw);
+  }, [draw]);
+
+  // Anything that gives a paused loop new work to show wakes it: About
+  // opening or closing, and a lens change.
+  useEffect(() => {
+    resume();
+  }, [aboutMode, lens, resume]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // Pause while scrolled out of view. Older engines without the observer
+    // simply keep the loop running, as before.
+    let io: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== "undefined") {
+      io = new IntersectionObserver((entries) => {
+        const entry = entries[entries.length - 1];
+        if (!entry) return;
+        visibleRef.current = entry.isIntersecting;
+        if (entry.isIntersecting) resume();
+      });
+      io.observe(canvas);
+    }
 
     const dpr = window.devicePixelRatio || 1;
     dprRef.current = dpr;
@@ -928,10 +1000,12 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
     };
     canvas.addEventListener("click", onClick);
 
-    animRef.current = requestAnimationFrame(draw);
+    resume();
 
     return () => {
       cancelAnimationFrame(animRef.current);
+      animRef.current = 0;
+      io?.disconnect();
       ro.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
@@ -939,7 +1013,7 @@ const DotGrid = ({ aboutMode, onNameClick }: DotGridProps) => {
       canvas.removeEventListener("touchend", onTouchEnd);
       canvas.removeEventListener("click", onClick);
     };
-  }, [draw, initScene]);
+  }, [draw, initScene, resume]);
 
   return (
     <canvas
