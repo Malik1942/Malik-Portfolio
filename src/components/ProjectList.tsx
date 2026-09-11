@@ -16,6 +16,7 @@ import {
 } from "@/data/projects";
 import { ArrowUpRight, Play } from "lucide-react";
 import { Chip, ChipButton, LinkChip } from "./ui/Chip";
+import { Eyebrow } from "./ui/Eyebrow";
 import { VideoLightbox, type LightboxVideo } from "./VideoLightbox";
 import { useLens } from "./Lens";
 import { lensMatch } from "@/lib/lens";
@@ -976,9 +977,9 @@ const SectionLabel = ({
         <span
           className={`rounded-full ${dotClass} w-1.5 h-1.5 ${isPrimary ? "opacity-70" : "opacity-35"}`}
         />
-        <Tag id={id} className="text-sm text-foreground uppercase tracking-eyebrow font-medium">
+        <Eyebrow as={Tag} id={id} scale="section" tone="primary">
           {title}
-        </Tag>
+        </Eyebrow>
       </div>
       {blurb ? (
         <p className="mt-caption text-sm md:text-base leading-relaxed text-foreground-secondary max-w-reading">
