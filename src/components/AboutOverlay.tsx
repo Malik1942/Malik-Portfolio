@@ -155,7 +155,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
         <motion.button
           onClick={onBack}
           aria-label="Back to home"
-          className="group absolute top-24 md:top-28 left-8 md:left-16 lg:left-24 flex items-center gap-2 min-h-11 px-1 text-sm text-foreground-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus rounded-sm transition-colors duration-fast z-40"
+          className="group absolute top-24 md:top-28 left-6 md:left-16 lg:left-24 flex items-center gap-2 min-h-11 px-1 text-sm text-foreground-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus rounded-sm transition-colors duration-fast z-40"
           initial={{ opacity: 0 }}
           animate={{ opacity: isVisible ? 1 : 0 }}
           transition={{ duration: DURATION.slow, delay: isVisible ? 0.7 : 0 }}

@@ -165,6 +165,10 @@ function EyebrowStage() {
         <Eyebrow family="mono">malik@portfolio:~$</Eyebrow>
         <p className="mt-2 text-sm text-foreground-secondary">tertiary, mono</p>
       </div>
+      <div>
+        <Eyebrow scale="section" tone="primary">More work</Eyebrow>
+        <p className="mt-2 text-sm text-foreground-secondary">section, primary</p>
+      </div>
     </div>
   );
 }

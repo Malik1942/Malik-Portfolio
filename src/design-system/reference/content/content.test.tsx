@@ -216,7 +216,7 @@ describe("design-system reference content", () => {
 
   it("lists only canonical tokens that the documented production artifacts consume", () => {
     const expectedTokens: Record<string, string[]> = {
-      "component-eyebrow": ["font.size.label", "color.text.tertiary", "color.text.secondary", "font.family.body", "font.family.mono"],
+      "component-eyebrow": ["font.size.label", "font.size.bodySmall", "color.text.tertiary", "color.text.secondary", "color.text.primary", "font.family.body", "font.family.mono"],
       "component-chip": ["font.size.label", "font.size.bodySmall", "color.border.hairline", "color.text.tertiary", "color.text.lead", "color.text.primary", "color.focus.ringStrong", "radius.round", "duration.medium", "ease.settle"],
       "component-button": ["color.text.primary", "color.text.lead", "color.background.canvas", "color.border.hairline", "color.border.default", "color.focus.ring", "radius.round", "radius.small", "font.size.body", "font.size.bodySmall", "font.family.mono", "duration.fast", "ease.settle"],
       "component-back-link": ["color.text.secondary", "color.text.primary", "color.focus.ring", "layout.touchTarget", "font.size.bodySmall", "font.family.mono", "radius.small", "duration.fast", "ease.settle"],
