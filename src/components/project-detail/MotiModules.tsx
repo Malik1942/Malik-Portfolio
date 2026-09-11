@@ -145,7 +145,7 @@ export function PullQuote({ children }: { children: ReactNode }) {
   // splits into two half-width lines and leaves the right half of the reading
   // column empty. Pretty fills the first line and only guards the last one.
   return (
-    <blockquote className="border-l-2 border-foreground/20 pl-6 md:pl-8">
+    <blockquote className="border-l-2 border-border pl-6 md:pl-8">
       <p className="text-xl md:text-title font-light leading-snug tracking-tight text-foreground [text-wrap:pretty]">
         {typeof children === "string" ? noOrphan(children) : children}
       </p>
@@ -165,7 +165,7 @@ export type ArtifactItem = { src: string; alt: string; caption: string; label?: 
 function MotiFigure({ src, alt, caption, label, screen }: ArtifactItem & { screen?: boolean }) {
   return (
     <figure className={screen ? SCREEN_FIGURE_WIDTH : undefined}>
-      <div className="overflow-hidden rounded-2xl bg-secondary/10">
+      <div className="overflow-hidden rounded-2xl">
         <img src={src} alt={alt} loading="lazy" decoding="async" className="w-full h-auto block" />
       </div>
       <FigureCaption label={label}>{caption}</FigureCaption>
@@ -245,7 +245,7 @@ export function MotiHook() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-9 md:gap-x-8 md:gap-y-12">
         {surfaces.map((f) => (
           <figure key={f.src} className={`${SCREEN_FIGURE_WIDTH} flex flex-col`}>
-            <div className="overflow-hidden rounded-2xl bg-secondary/10">
+            <div className="overflow-hidden rounded-2xl">
               <img src={f.src} alt={f.alt} loading="lazy" decoding="async" className="w-full h-auto block" />
             </div>
             {/* mt-auto: captions of unequal length still sit on one baseline per row. */}
@@ -596,7 +596,7 @@ const workflowBeats: WorkflowBeat[] = [
 // beats sharing a row.
 function PendingScreen({ note }: { note: string }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-case-study-module-border bg-secondary/10 px-6 py-16 text-center">
+    <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-case-study-module-border px-6 py-16 text-center">
       <Camera aria-hidden="true" className="w-5 h-5 text-foreground-quiet" strokeWidth={1.4} />
       <p className="text-label uppercase tracking-eyebrow text-foreground-secondary font-mono">Capture pending</p>
       <p className="text-sm font-light leading-relaxed text-foreground-lead">{noOrphan(note)}</p>
@@ -615,7 +615,7 @@ function WorkflowBeatCell({ beat }: { beat: WorkflowBeat }) {
       <figure className={`${SCREEN_FIGURE_WIDTH} mt-5`}>
         {screen ? (
           <>
-            <div className="overflow-hidden rounded-2xl bg-secondary/10">
+            <div className="overflow-hidden rounded-2xl">
               <img src={screen.src} alt={screen.alt} loading="lazy" decoding="async" className="w-full h-auto block" />
             </div>
             <FigureCaption label={screen.label}>{screen.caption}</FigureCaption>

@@ -79,7 +79,7 @@ export function RangerSequence() {
               <p className="text-base md:text-xl font-medium text-foreground">{noOrphan(step.title)}</p>
             </div>
             <figure className="mt-5 flex flex-1 flex-col">
-              <div className="overflow-hidden rounded-2xl bg-secondary/10">
+              <div className="overflow-hidden rounded-2xl">
                 <img src={step.src} alt={step.alt} loading="lazy" decoding="async" className="w-full h-auto block" />
               </div>
               {/* mt-auto: captions sit on one baseline across a row, as in MotiWorkflow. */}

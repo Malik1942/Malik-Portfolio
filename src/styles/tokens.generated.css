@@ -7,6 +7,10 @@
   --color-amber-400: 43.26 96.41% 56.27%;
   --color-background-canvas: 0 0% 4%;
   --color-blue-300: 211.7 96.36% 78.43%;
+  --color-border-control: 40 6% 90% / 0.3;
+  --color-border-control-quiet: 40 6% 90% / 0.22;
+  --color-border-control-selected: 40 6% 90% / 0.75;
+  --color-border-control-strong: 40 6% 90% / 0.5;
   --color-border-default: 0 0% 14%;
   --color-border-faint: 0 0% 14% / 0.25;
   --color-border-hairline: 0 0% 14% / 0.5;
@@ -25,6 +29,9 @@
   --color-neutral-950: 0 0% 4%;
   --color-red-danger: 3 82% 53%;
   --color-red-selected-work: 358 68% 56%;
+  --color-scrim-default: 0 0% 4% / 0.75;
+  --color-scrim-faint: 0 0% 4% / 0.4;
+  --color-scrim-strong: 0 0% 4% / 0.92;
   --color-slate-400: 215 20.22% 65.1%;
   --color-status-positive: 158.11 64.37% 51.57%;
   --color-surface-accent: 0 0% 14%;
@@ -32,6 +39,8 @@
   --color-surface-muted: 0 0% 12%;
   --color-surface-popover: 0 0% 6%;
   --color-surface-secondary: 0 0% 8%;
+  --color-surface-wash: 40 6% 90% / 0.06;
+  --color-surface-wash-strong: 40 6% 90% / 0.14;
   --color-text-lead: 40 6% 90% / 0.85;
   --color-text-on-primary: 0 0% 4%;
   --color-text-primary: 40 6% 90%;

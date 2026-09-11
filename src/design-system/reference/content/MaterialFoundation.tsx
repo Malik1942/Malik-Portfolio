@@ -42,6 +42,11 @@ const COLOR_GROUPS: readonly ColorGroup[] = [
       { label: "Muted", path: "color.surface.muted" },
       { label: "Accent", path: "color.surface.accent" },
       { label: "Popover", path: "color.surface.popover" },
+      { label: "Wash", path: "color.surface.wash", note: "A faint wash of ink for a chip or a selected scene. Cards, wells, and panels stay outline-only." },
+      { label: "Wash strong", path: "color.surface.washStrong", note: "The wash one step up, for a pressed or selected chip." },
+      { label: "Scrim", path: "color.scrim.DEFAULT", note: "The canvas at an alpha, veiling whatever it covers." },
+      { label: "Faint scrim", path: "color.scrim.faint" },
+      { label: "Strong scrim", path: "color.scrim.strong" },
     ],
   },
   {
@@ -54,6 +59,18 @@ const COLOR_GROUPS: readonly ColorGroup[] = [
       { label: "Faint rule", path: "color.border.faint" },
       { label: "Focus ring", path: "color.focus.ring" },
       { label: "Strong focus ring", path: "color.focus.ringStrong" },
+    ],
+  },
+  {
+    id: "control-edges",
+    label: "Control edges",
+    description:
+      "A control's edge is a state, not a rule, so it answers to its own ladder. Keeping it apart from the hairline family is what lets a selected item still read as selected.",
+    roles: [
+      { label: "Quiet", path: "color.border.controlQuiet", note: "A tag at rest; a supporting edge where the fill already marks the selection." },
+      { label: "Control", path: "color.border.control", note: "The everyday edge, and the border that arrives on hover over a transparent one." },
+      { label: "Strong", path: "color.border.controlStrong", note: "A control that has to hold its own outline: a swatch frame, a segmented button." },
+      { label: "Selected", path: "color.border.controlSelected", note: "The selected item in a control set. The strongest border in the system." },
     ],
   },
   {

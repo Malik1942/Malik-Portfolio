@@ -23,7 +23,7 @@ export function AuraHardwareSystem() {
 
         {/* Left: product visuals */}
         <div className="flex flex-col gap-5">
-          <div className="overflow-hidden rounded-2xl bg-secondary/[0.07]">
+          <div className="overflow-hidden rounded-2xl">
             <img
               src={auraBud1}
               alt="Aura Buds product render"
@@ -33,10 +33,10 @@ export function AuraHardwareSystem() {
             />
           </div>
           <div className="grid grid-cols-2 gap-5">
-            <div className="overflow-hidden rounded-lg bg-secondary/[0.07]">
+            <div className="overflow-hidden rounded-lg">
               <img src={auraBud2} alt="Aura Buds detail" loading="lazy" decoding="async" className="w-full h-auto block" />
             </div>
-            <div className="overflow-hidden rounded-lg bg-secondary/[0.07]">
+            <div className="overflow-hidden rounded-lg">
               <img src={auraBud3} alt="Aura Buds interaction" loading="lazy" decoding="async" className="w-full h-auto block" />
             </div>
           </div>

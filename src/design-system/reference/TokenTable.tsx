@@ -59,7 +59,7 @@ function TokenVisual({ token }: { token: TokenRecord }) {
     return (
       <span {...common} className="flex min-h-14 items-center">
         <span
-          className={`${isRadius ? "border border-foreground/45" : "bg-foreground/55"} block`}
+          className={`${isRadius ? "border border-control-strong" : "bg-foreground/55"} block`}
           style={dimensionStyle}
         />
       </span>

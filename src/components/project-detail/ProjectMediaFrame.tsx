@@ -36,7 +36,7 @@ function AutoplayVideo({ src, poster }: { src: string; poster?: string }) {
 // it becomes an inner element, so the caption sits outside the clip and on the
 // page ground, the way a module's figure does. Without one the markup is
 // unchanged, which is what keeps every uncaptioned case study rendering as it did.
-const FRAME = "overflow-hidden rounded-2xl bg-secondary/10";
+const FRAME = "overflow-hidden rounded-2xl";
 
 export function ProjectMediaFrame({ fig }: { fig: ProjectSectionFigure }) {
   const media =
@@ -48,7 +48,11 @@ export function ProjectMediaFrame({ fig }: { fig: ProjectSectionFigure }) {
       <img src={fig.src} alt={fig.alt} loading="lazy" decoding="async" className="mx-auto w-full h-auto block" />
     );
   const frameClass = fig.type === "embed" ? `${FRAME} aspect-video` : FRAME;
-  const caption = fig.type === "embed" ? undefined : fig.caption;
+  // Only images and video carry caption fields; an embed's player is its own
+  // caption. Narrowing once here lets `label` and `caption` be read below
+  // without the embed variant in the way.
+  const captioned = fig.type === "embed" ? undefined : fig;
+  const caption = captioned?.caption;
 
   if (!caption) {
     return <figure data-testid="project-media-frame" className={frameClass}>{media}</figure>;
@@ -56,7 +60,7 @@ export function ProjectMediaFrame({ fig }: { fig: ProjectSectionFigure }) {
   return (
     <figure data-testid="project-media-frame">
       <div className={frameClass}>{media}</div>
-      <FigureCaption label={fig.label}>{caption}</FigureCaption>
+      <FigureCaption label={captioned?.label}>{caption}</FigureCaption>
     </figure>
   );
 }

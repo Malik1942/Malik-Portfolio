@@ -65,10 +65,27 @@ Foundations, component docs, and code all use that vocabulary.
 - Ink is a role, never a raw opacity: `text-foreground`, `-lead`, `-secondary`,
   `-tertiary`, `-quiet` (quiet is decorative-only). Rules are `border-hairline`
   or `border-hairline-faint`; focus is `ring-focus` or `ring-focus-strong`.
+  Alpha on a surface or an edge is a role too, for the same reason. Cards,
+  media wells, and panels are **outline-only**: a hairline on the canvas with
+  no fill, by intent. The rare fill that should show (a chip, a selected
+  scene) is `bg-surface-wash` / `-wash-strong`; veils are `bg-scrim` / `-scrim-faint`
+  / `-scrim-strong`, and a control's edge answers to its own ladder,
+  `border-control-quiet` / `-control` / `-control-strong` / `-control-selected`.
+  A control edge is a state and a rule is a structure, so they stay apart: a
+  selected item flattened into a hairline stops reading as selected. The
+  bracket escape hatch (`bg-foo/[0.07]`) is closed everywhere except the file
+  drawing a machine's own interface, because that hatch is how the surface and
+  border families drifted to thirteen values in the first place.
   Never write `text-foreground/72`: Tailwind's opacity scale is multiples of 5
   and anything else generates no CSS at all. That is how the secondary tier
   shipped at 100% for months before it was adopted at 72% in Sep 2026; its
-  alpha lives in `tokens/semantic.tokens.json`.
+  alpha lives in `tokens/semantic.tokens.json`. The mirror-image trap is a
+  modifier that is on the scale and still draws nothing: `bg-secondary/10` was
+  `rgba(20,20,20,0.1)` over an `rgb(10,10,10)` canvas, a 1/255 difference, on
+  thirty-seven call sites. Making it visible was tried and rejected (Sep 2026):
+  the grey read as dirty, and outline-only was the look all along. Check what
+  a wash resolves to against the ground it actually lands on, and if the
+  answer is "nothing" ask whether nothing was the point before you fix it.
 - Vertical rhythm: `mt-section`, `mt-module`, `gap-stack`, `mt-caption` (each
   steps up at md). Stacking: `z-header`, `z-guide`, `z-overlay`, `z-modal`.
   Framer durations come from `DURATION` or a `MOTION` recipe except in the
@@ -77,8 +94,10 @@ Foundations, component docs, and code all use that vocabulary.
   `ease-enter|move|standard|settle|exit|ambient`. In Framer Motion import
   `DURATION`, `EASE`, or a `MOTION` recipe from `src/design-system/system/motion`.
 - Reusable primitives live in `src/components/ui/` (Button, BackLink, Chip,
-  Eyebrow). They declare their classes with `defineRecipe` split into the three
-  facets; add a variant by adding to one facet.
+  Eyebrow, TextLink). Each declares its classes with `defineRecipe` split into
+  the three facets, in a sibling `Name.recipe.ts`; add a variant by adding to
+  one facet. The component file exports only components, so editing one keeps
+  fast refresh; import the recipe from `Name.recipe`, not from `Name`.
 - `src/design-system/boundary.test.ts` fails on off-system classes and color
   literals. Tailwind drops an unknown class silently, so the test is the only
   thing that catches `text-lg` or `duration-150`. Art-directed exemptions are

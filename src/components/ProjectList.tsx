@@ -15,7 +15,7 @@ import {
 import { ArrowUpRight, Play } from "lucide-react";
 import { Chip, ChipButton, LinkChip } from "./ui/Chip";
 import { VideoLightbox, type LightboxVideo } from "./VideoLightbox";
-import { useLens } from "./Lens";
+import { useLens } from "./lensContext";
 import { lensMatch } from "@/lib/lens";
 import { DURATION, EASE, MOTION } from "@/design-system/system/motion";
 
@@ -270,7 +270,7 @@ const CardMedia = ({
       {cornerGlyph ? (
         <span
           aria-hidden="true"
-          className="absolute left-3 top-3 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-hairline bg-background/75 leading-none text-foreground-secondary backdrop-blur-sm"
+          className="absolute left-3 top-3 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-hairline bg-scrim leading-none text-foreground-secondary backdrop-blur-sm"
         >
           {cornerGlyph}
         </span>

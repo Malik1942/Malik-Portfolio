@@ -3,12 +3,8 @@ import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-mot
 import { ArrowLeft, ChevronLeft, ChevronRight, Linkedin, Mail, X, type LucideIcon } from "lucide-react";
 import Footer from "@/components/Footer";
 import BoulderWall from "@/components/BoulderWall";
-import {
-  AboutEditorialSection,
-  aboutEditorialItemVariants,
-  aboutEditorialStaggerVariants,
-  aboutEditorialTextVariants,
-} from "@/components/AboutEditorialSection";
+import { AboutEditorialSection } from "@/components/AboutEditorialSection";
+import { aboutEditorialItemVariants, aboutEditorialStaggerVariants, aboutEditorialTextVariants } from "@/components/aboutEditorialVariants";
 import { EASE } from "@/design-system/system/motion";
 import { BackLink } from "@/components/ui/BackLink";
 
@@ -35,7 +31,7 @@ const AmbientDots = ({ count = 40 }: { count?: number }) => {
       {dotsRef.current.map((dot, i) => (
         <motion.div
           key={i}
-          className="absolute rounded-full bg-foreground/[0.06]"
+          className="absolute rounded-full bg-surface-wash"
           style={{
             left: `${dot.x}%`,
             top: `${dot.y}%`,
@@ -148,7 +144,7 @@ const PhotographyLightbox = ({
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-modal bg-background/90 backdrop-blur-md"
+        className="fixed inset-0 z-modal bg-scrim-strong backdrop-blur-md"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -239,7 +235,7 @@ const EditorialPhotoFrame = ({
     aria-label={`Open ${photo.alt}`}
   >
     <div
-      className={`relative w-full overflow-hidden rounded-lg bg-secondary/[0.08] ${
+      className={`relative w-full overflow-hidden rounded-lg ${
         layout === "pair" ? "aspect-[16/10]" : "aspect-[2.35/1] max-h-[min(30vh,340px)]"
       }`}
     >
@@ -664,7 +660,7 @@ const DAILY_ITEMS = [
 ];
 
 const DailyTag = ({ label }: { label: string }) => (
-  <span className="text-caption text-foreground-secondary font-normal px-4 py-2.5 rounded-sm border border-foreground/[0.22] hover:text-foreground hover:border-foreground/[0.35] transition-colors duration-medium cursor-default">
+  <span className="text-caption text-foreground-secondary font-normal px-4 py-2.5 rounded-sm border border-control-quiet hover:text-foreground hover:border-control transition-colors duration-medium cursor-default">
     {label}
   </span>
 );
@@ -991,7 +987,7 @@ const AboutDeepContent = ({
             description="A loose chronology of study, craft, and shipped work: awards, roles, and the experiments that led here."
           >
             <motion.div
-              className="min-w-0 flex-1 space-y-6 md:space-y-7 border-l border-foreground/[0.08] pl-6 md:pl-7"
+              className="min-w-0 flex-1 space-y-6 md:space-y-7 border-l border-hairline pl-6 md:pl-7"
               variants={aboutEditorialStaggerVariants}
               initial="hidden"
               animate={lifeInView ? "show" : "hidden"}

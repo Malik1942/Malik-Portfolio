@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, type ReactNode } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { ArrowRight, X } from "lucide-react";
@@ -14,6 +14,7 @@ import {
   type Lens,
 } from "@/lib/lens";
 import { scrollToTarget } from "@/lib/scrollToTarget";
+import { LensContext, useLens } from "./lensContext";
 import { DURATION, EASE, MOTION } from "@/design-system/system/motion";
 import { Chip, ChipButton } from "./ui/Chip";
 import { TextLink } from "./ui/TextLink";
@@ -28,17 +29,6 @@ import { TextLink } from "./ui/TextLink";
 // Writes replace the history entry rather than pushing one: a recruiter trying
 // three lenses should not need three presses of Back to leave the page, and a
 // round trip into a case study still returns to the lens they had.
-
-export interface LensState {
-  lens: Lens | null;
-  setLens: (lens: Lens | null) => void;
-  /** Press a chip: the same lens clears, a different one swaps. */
-  toggle: (lens: Lens) => void;
-}
-
-const LensContext = createContext<LensState | null>(null);
-
-export const useLens = (): LensState | null => useContext(LensContext);
 
 export function LensProvider({ children }: { children: ReactNode }) {
   const [params, setParams] = useSearchParams();
@@ -169,9 +159,9 @@ export function LensBar({ hidden = false }: { hidden?: boolean }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 12 }}
           transition={{ duration: DURATION.medium, ease: EASE.move }}
-          className="fixed bottom-5 left-1/2 z-guide flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-3 rounded-full border border-hairline bg-background/[0.8] py-2 pl-2 pr-2 text-caption text-foreground-secondary backdrop-blur-md md:bottom-8 md:left-auto md:right-8 md:translate-x-0 md:gap-4 md:pl-2.5 md:pr-3"
+          className="fixed bottom-5 left-1/2 z-guide flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-3 rounded-full border border-hairline bg-scrim py-2 pl-2 pr-2 text-caption text-foreground-secondary backdrop-blur-md md:bottom-8 md:left-auto md:right-8 md:translate-x-0 md:gap-4 md:pl-2.5 md:pr-3"
         >
-          <Chip tone="lead" className="border-border bg-foreground/[0.14] text-foreground">
+          <Chip tone="lead" className="border-border bg-surface-wash-strong text-foreground">
             {lens}
           </Chip>
 
@@ -223,7 +213,7 @@ export function LensBar({ hidden = false }: { hidden?: boolean }) {
             onClick={() => state.setLens(null)}
             aria-label="Clear lens"
             title="Clear lens (Esc)"
-            className={`${CONTROL} inline-flex h-6 w-6 shrink-0 items-center justify-center text-foreground-tertiary hover:bg-foreground/[0.08]`}
+            className={`${CONTROL} inline-flex h-6 w-6 shrink-0 items-center justify-center text-foreground-tertiary hover:bg-surface-wash`}
           >
             <X aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={2} />
           </button>

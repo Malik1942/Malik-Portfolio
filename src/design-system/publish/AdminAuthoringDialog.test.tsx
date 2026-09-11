@@ -1,4 +1,5 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { WHOLE_APP_RENDER_TIMEOUT_MS } from "@/test/setup";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useState } from "react";
 import { MemoryRouter } from "react-router-dom";
@@ -65,7 +66,7 @@ describe("AdminAuthoringDialog", () => {
     expect(review).toBeEnabled();
     fireEvent.click(review);
     expect(onReviewPublish).toHaveBeenCalledOnce();
-  });
+  }, WHOLE_APP_RENDER_TIMEOUT_MS);
 
   it("locks body scroll, closes on Escape, and restores focus", () => {
     renderHarness();

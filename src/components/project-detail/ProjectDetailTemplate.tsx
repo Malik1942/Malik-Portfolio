@@ -99,7 +99,7 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
           {block.contextCards.map((card) => (
             <div
               key={card.title}
-              className="border border-hairline bg-secondary/[0.08] rounded-sm px-5 py-5"
+              className="border border-hairline rounded-sm px-5 py-5"
             >
               <p className="text-label uppercase tracking-eyebrow text-foreground-secondary mb-2.5">
                 {card.title}
@@ -424,7 +424,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
       {/* 2 — Hero media: a looping clip when the project has one, else the still */}
       {project.heroImage ? (
         <div className={`${PAGE_OUTER} mt-10 md:mt-14`}>
-          <div className="overflow-hidden rounded-2xl bg-secondary/10">
+          <div className="overflow-hidden rounded-2xl">
             {project.heroVideo && !shouldReduceMotion ? (
               // A hero clip carries the poster as its first frame, so the LCP is
               // the same picture either way and nothing reflows when it starts.
@@ -526,10 +526,12 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                      a tier up, a real border instead of a hairline, and ink at
                      full strength. At the old /[0.08] and -lead the highlight
                      read as a slightly lighter chip rather than as the answer
-                     to "where am I". */
+                     to "where am I". The fill is the wash-strong token, the
+                     same 0.14 of ink, so the chip and the lens chips retune
+                     together. */
                   className={`flex-shrink-0 whitespace-nowrap px-3 py-2 rounded-sm text-[10px] uppercase tracking-eyebrow transition-[background-color,border-color,color] duration-medium ${
                     active
-                      ? "bg-foreground/[0.14] text-foreground border border-border"
+                      ? "bg-surface-wash-strong text-foreground border border-border"
                       : "text-foreground-tertiary border border-transparent hover:text-foreground-lead"
                   }`}
                 >
@@ -561,8 +563,8 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                     onClick={() => scrollToProjectSection(s.id)}
                     className={`w-full text-left pl-3 py-2.5 border-l transition-[color,border-color] duration-medium text-[11px] uppercase tracking-[0.16em] leading-tight ${
                       activeSectionId === s.id
-                        ? "border-foreground/75 text-foreground-lead"
-                        : "border-transparent text-foreground-tertiary hover:text-foreground-lead hover:border-foreground/30"
+                        ? "border-control-selected text-foreground-lead"
+                        : "border-transparent text-foreground-tertiary hover:text-foreground-lead hover:border-control"
                     }`}
                   >
                     {s.label}
@@ -590,7 +592,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                 ) : (
                   <>
                     {s.introBlock?.coverImage ? (
-                      <div className="mb-12 overflow-hidden rounded-2xl bg-secondary/10">
+                      <div className="mb-12 overflow-hidden rounded-2xl">
                         <img
                           src={s.introBlock.coverImage}
                           alt=""

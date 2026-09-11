@@ -86,7 +86,7 @@ export function OverviewContent() {
         <ul className="flex flex-wrap gap-3">
           {REPORTS.map(([label, href]) => (
             <li key={href}>
-              <a href={href} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded-sm border border-hairline px-4 text-sm text-foreground-secondary transition-colors hover:border-foreground/35 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">{label} ↗</a>
+              <a href={href} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded-sm border border-hairline px-4 text-sm text-foreground-secondary transition-colors hover:border-control hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">{label} ↗</a>
             </li>
           ))}
         </ul>

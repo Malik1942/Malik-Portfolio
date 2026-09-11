@@ -1,9 +1,9 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from "vitest";
 
 import { scrollToProjectSection, sectionDomId } from "./projectDetailScroll";
 import { setReducedMotionPreference } from "@/test/setup";
 
-let scrollIntoViewSpy: ReturnType<typeof vi.spyOn<Element, "scrollIntoView">>;
+let scrollIntoViewSpy: MockInstance<Element["scrollIntoView"]>;
 
 // Built the way ProjectDetailTemplate builds it, so a change to the id shape
 // fails here instead of quietly leaving the guide unable to find its sections.

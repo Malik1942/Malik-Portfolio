@@ -37,6 +37,7 @@ const CHOREOGRAPHED_FILES = new Set([
   "src/components/SiteHeader.tsx",
   "src/components/AboutDeepContent.tsx",
   "src/components/AboutEditorialSection.tsx",
+  "src/components/aboutEditorialVariants.ts",
   "src/components/AboutOverlay.tsx",
   "src/components/BoulderWall.tsx",
   // The CalmMouse demo loop is a four-second product demonstration.
@@ -68,6 +69,8 @@ const MEASURE_EXEMPTIONS: Record<string, string[]> = {
   "src/pages/OryneSupport.tsx": ["max-w-[60ch]"],
   "src/pages/OrynePrivacy.tsx": ["max-w-[62ch]"],
 };
+
+const OPACITY_RULE = "color opacity modifier off Tailwind's scale";
 
 interface Rule {
   name: string;
@@ -105,28 +108,67 @@ const RULES: Rule[] = [
     exempt: (file) => file === SIMULATED_DEVICE_UI,
   },
   {
-    name: "color opacity modifier off Tailwind's scale",
+    name: OPACITY_RULE,
     // Tailwind only generates modifiers on theme.opacity, which ships in fives.
     // bg-background/92 produced no CSS at all: the photography lightbox had
     // no backdrop until it was noticed.
-    pattern: /\b(?:bg|text|border|ring|from|to|via|divide|outline|fill|stroke)-[a-z-]+\/(?:[0-9]|[1-9][0-9])(?![0-9.\]])\b/g,
+    //
+    // So the rule flags a bare modifier only when it is off that scale.
+    // tailwind.config.ts does not touch theme.opacity, so the scale is the v3
+    // default: 0, every multiple of five, and 100. The negative lookahead
+    // spells that set out; anything else — /7, /13, /72, /92, /101, /92.5 —
+    // emits nothing and is an offender. A bracketed value never matches,
+    // because Tailwind resolves those itself.
+    pattern: /\b(?:bg|text|border|ring|from|to|via|divide|outline|fill|stroke)-[a-z-]+\/(?!(?:100|[1-9][05]|[05])(?![\d.]))\d+(?:\.\d+)?(?![\d.\]])/g,
     hint: "Use a multiple of 5, an arbitrary value in brackets, or a token role.",
     exempt: () => false,
   },
   {
     name: "ink as a raw opacity",
-    pattern: /\btext-foreground\/\d+\b/g,
+    // Both notations, because a bracketed alpha bypasses the ladder just as
+    // completely as a bare one: text-foreground/[0.72] is the secondary tier
+    // written by hand, out of reach of the token that owns it.
+    pattern: /\btext-foreground\/(?:\d+|\[[^\]]+\])/g,
     hint: "Use the ink ladder: text-foreground, -lead, -secondary, -tertiary, or -quiet.",
   },
   {
     name: "focus ring as a raw opacity",
-    pattern: /\bring-foreground\/\d+\b|\bring-ring\b/g,
+    pattern: /\bring-foreground\/(?:\d+|\[[^\]]+\])|\bring-ring\b/g,
     hint: "Use ring-focus, or ring-focus-strong over media and filled surfaces.",
   },
   {
     name: "hairline as a raw opacity",
-    pattern: /\bborder-border\/\d+\b/g,
+    pattern: /\bborder-border\/(?:\d+|\[[^\]]+\])/g,
     hint: "Use border-hairline or border-hairline-faint.",
+  },
+  {
+    name: "surface wash as a raw opacity",
+    // bg-secondary/10 resolved to rgb(11,11,11) on an rgb(10,10,10) canvas: a
+    // 1/255 difference, which is to say nothing. Thirty-seven call sites
+    // carried it in six spellings that all rendered the same, and that was
+    // the look: cards, media wells, and panels are outline-only here, a
+    // hairline on the canvas with nothing inside. So the class is not
+    // replaced, it is removed. A fill that is meant to show is a role.
+    pattern: /\bbg-secondary\/(?:\d+|\[[^\]]+\])/g,
+    hint: "Surfaces are outline-only: drop the fill. A fill that should show is bg-surface-wash or -wash-strong.",
+  },
+  {
+    name: "control edge or rule as a raw opacity",
+    // border-foreground carried two different jobs at ten different values:
+    // structural rules, and the state of a control. They are separate ladders
+    // now, because a selected state flattened into a hairline stops reading.
+    pattern: /\bborder-foreground\/(?:\d+|\[[^\]]+\])/g,
+    hint: "Rules: border-hairline, -hairline-faint, or border-border. States: border-control-quiet, -control, -control-strong, -control-selected.",
+  },
+  {
+    name: "alpha written as an arbitrary value",
+    // The bracket is the escape hatch that let the surface and border families
+    // drift to thirteen values. It stays open for the one file that draws a
+    // machine's own interface, and is closed everywhere else: a portfolio
+    // surface that needs a new alpha needs a role, not a number at a call site.
+    pattern: /\b(?:bg|text|border|ring|from|to|via|divide|outline|fill|stroke)-[a-z-]+\/\[[^\]]+\]/g,
+    hint: "Use a token role. FlowPrintHmi is the one art-directed exception.",
+    exempt: (file) => file === SIMULATED_DEVICE_UI,
   },
   {
     name: "arbitrary tracking",
@@ -218,6 +260,39 @@ describe("design-system boundary", () => {
       expect(offenders, `${rule.hint}\n${offenders.join("\n")}`).toEqual([]);
     });
   }
+
+  // A guardrail that flags working classes is a guardrail nobody can keep
+  // green, so the opacity rule is pinned to the scale Tailwind actually
+  // generates. Verified against this repo's Tailwind (3.4.19, theme.opacity
+  // not overridden, so the v3 default: 0 and every multiple of five to 100) by
+  // building these very classes: /7, /13, /72 and /92 emit no CSS at all,
+  // while /0, /15, /40, /95, /100 and bracketed values emit it.
+  it("flags only the opacity modifiers that generate no CSS", () => {
+    const rule = RULES.find((candidate) => candidate.name === OPACITY_RULE)!;
+    const flagged = (className: string) => (className.match(rule.pattern) ?? []).length > 0;
+
+    for (const dead of ["bg-background/92", "text-accent-violet/72", "bg-card/7", "border-foreground/13", "bg-secondary/101"]) {
+      expect(flagged(dead), `${dead} generates no CSS and has to be flagged`).toBe(true);
+    }
+    for (const live of ["bg-secondary/10", "text-accent-violet/70", "bg-card/40", "bg-background/0", "bg-secondary/100", "bg-foreground/[0.06]", "bg-card/[13%]"]) {
+      expect(flagged(live), `${live} generates CSS and must not be flagged`).toBe(false);
+    }
+  });
+
+  // The ladder rules own a role outright, so they have to read both notations.
+  // A bare /72 and a bracketed /[0.72] are the same hand-written tier, and the
+  // bracketed one used to walk straight past them.
+  it("catches a ladder role written as a bracketed alpha", () => {
+    const cases: Array<[string, string]> = [
+      ["ink as a raw opacity", "text-foreground/[0.72]"],
+      ["focus ring as a raw opacity", "ring-foreground/[0.4]"],
+      ["hairline as a raw opacity", "border-border/[0.5]"],
+    ];
+    for (const [name, className] of cases) {
+      const rule = RULES.find((candidate) => candidate.name === name)!;
+      expect((className.match(rule.pattern) ?? []).length, `${name} missed ${className}`).toBeGreaterThan(0);
+    }
+  });
 
   it("keeps the measure exemptions honest", () => {
     for (const [file, allowed] of Object.entries(MEASURE_EXEMPTIONS)) {

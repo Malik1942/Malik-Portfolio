@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback } from "react";
 import { heroOrbs, type OrbTier } from "./dotGridOrbs";
 import { scrollToTarget } from "@/lib/scrollToTarget";
 import { nextDotGridCanvasSize } from "./dotGridSize";
-import { useLens } from "./Lens";
+import { useLens } from "./lensContext";
 import { lensProjectIds } from "@/lib/lens";
 
 // ── Cluster positions: balanced quadrant layout ──
