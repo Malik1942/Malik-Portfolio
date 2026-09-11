@@ -14,7 +14,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "pretest": "npm run tokens:build",
+    "pretest": "npm run tokens:build && npm run typecheck",
     "test": "vitest run",
     "pretest:watch": "npm run tokens:build",
     "test:watch": "vitest",

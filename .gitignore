@@ -41,3 +41,6 @@ dist-ssr
 
 # Playwright scratch scripts
 .pw-scratch/
+
+# TypeScript build-mode output (tsc -b); the typecheck script uses -p and writes none
+*.tsbuildinfo
