@@ -25,7 +25,10 @@ const tracking = (name: string) => `calc(var(--font-tracking-${name}) * 1em)`;
 
 export default {
   darkMode: ["class"],
-  content: ["./index.html", "./src/**/*.{ts,tsx}"],
+  // Test files are excluded: boundary.test.ts names off-system classes in its
+  // own prose and assertions, and Tailwind's extractor is a plain text regex,
+  // so scanning them ships rules no page ever uses.
+  content: ["./index.html", "./src/**/*.{ts,tsx}", "!./src/**/*.test.{ts,tsx}"],
   prefix: "",
   theme: {
     // ── Form: type ──────────────────────────────────────────────────────────
@@ -72,8 +75,7 @@ export default {
 
     // ── Form: shape ─────────────────────────────────────────────────────────
     borderRadius: {
-      none: "0",
-      DEFAULT: "var(--radius-small)",
+      none: "var(--radius-none)",
       sm: "var(--radius-small)",
       lg: "var(--radius-base)",
       "2xl": "var(--radius-large)",
@@ -84,7 +86,6 @@ export default {
     // Named layers are the site's global stacking order. Bare numbers are for
     // ordering inside a component's own stacking context (a card, an overlay).
     zIndex: {
-      0: "0",
       1: "1",
       2: "2",
       10: "10",
@@ -147,31 +148,15 @@ export default {
           tertiary: completeColor("color-text-tertiary"),
           quiet: completeColor("color-text-quiet"),
         },
-        primary: {
-          DEFAULT: color("color-action-primary"),
-          foreground: color("color-text-on-primary"),
-        },
+        primary: color("color-action-primary"),
         destructive: color("color-action-destructive"),
-        secondary: {
-          DEFAULT: color("color-surface-secondary"),
-          foreground: color("color-text-primary"),
-        },
+        secondary: color("color-surface-secondary"),
         muted: {
           DEFAULT: color("color-surface-muted"),
           foreground: color("color-text-tertiary"),
         },
-        accent: {
-          DEFAULT: color("color-surface-accent"),
-          foreground: color("color-text-primary"),
-        },
-        popover: {
-          DEFAULT: color("color-surface-popover"),
-          foreground: color("color-text-primary"),
-        },
-        card: {
-          DEFAULT: color("color-surface-card"),
-          foreground: color("color-text-primary"),
-        },
+        popover: color("color-surface-popover"),
+        card: color("color-surface-card"),
         // Boundaries: `border` is the full-strength rule, `hairline` the
         // everyday one, `hairline-faint` for rows inside a bounded surface.
         border: color("color-border-default"),
