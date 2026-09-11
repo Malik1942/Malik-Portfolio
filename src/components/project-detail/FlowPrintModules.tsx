@@ -16,6 +16,7 @@ import flowprintWelcomeUi from "@/assets/flowprint-welcome-ui.webp";
 import flowprintHomeUi from "@/assets/flowprint-home-ui.webp";
 import flowprintFinishedUi from "@/assets/flowprint-finished-ui.webp";
 import { CardGrid, Chips, ModuleCard, PullQuote, type GridItem } from "./MotiModules";
+import { ArtifactFigure } from "./ArtifactFigure";
 import { noOrphan } from "@/lib/noOrphan";
 
 const highlights = [
@@ -44,24 +45,6 @@ const artifacts = [
   },
 ];
 
-function FlowPrintArtifact({ src, alt, caption }: { src: string; alt: string; caption: string }) {
-  return (
-    <figure>
-      <div className="overflow-hidden rounded-2xl bg-secondary/10">
-        <img
-          src={src}
-          alt={alt}
-          loading="lazy"
-          decoding="async"
-          className="w-full h-auto block"
-        />
-      </div>
-      <figcaption className="mt-caption text-base md:text-xl text-foreground text-center leading-relaxed">
-        {noOrphan(caption)}
-      </figcaption>
-    </figure>
-  );
-}
 
 export function FlowPrintHighlights() {
   return (
@@ -70,7 +53,7 @@ export function FlowPrintHighlights() {
       <PullQuote>The first print has to succeed, not just start.</PullQuote>
       <div className="flex flex-col gap-12 md:gap-16">
         {artifacts.map((a) => (
-          <FlowPrintArtifact key={a.src} {...a} />
+          <ArtifactFigure key={a.src} {...a} />
         ))}
       </div>
     </div>

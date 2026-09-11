@@ -47,8 +47,9 @@ import { Chip } from "@/components/ui/Chip";
  * Images are imported from src/assets (moti-*.webp).
  *
  * The shells below (ModuleCard, CardGrid, Chips, PullQuote, SCREEN_FIGURE_WIDTH,
- * GridItem, ArtifactItem) are the shared base for OryneModules and
- * RangerHighlights as well. Changing their signatures breaks those pages.
+ * GridItem, ArtifactItem) are the shared base for the other case-study module
+ * files as well: Oryne, FlowPrint, CalmMouse, Inkwork, the Ranger sequence, and
+ * every Highlights file. Changing their signatures breaks those pages.
  * ------------------------------------------------------------------------- */
 
 // Ink is set with the ladder (text-foreground, -lead, -secondary, -tertiary,
@@ -161,7 +162,7 @@ export function PullQuote({ children }: { children: ReactNode }) {
 // and take the full reading width instead.
 export const SCREEN_FIGURE_WIDTH = "mx-auto w-full max-w-[400px]";
 export type ArtifactItem = { src: string; alt: string; caption: string; label?: string };
-export function MotiFigure({ src, alt, caption, label, screen }: ArtifactItem & { screen?: boolean }) {
+function MotiFigure({ src, alt, caption, label, screen }: ArtifactItem & { screen?: boolean }) {
   return (
     <figure className={screen ? SCREEN_FIGURE_WIDTH : undefined}>
       <div className="overflow-hidden rounded-2xl bg-secondary/10">

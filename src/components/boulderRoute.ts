@@ -286,8 +286,5 @@ export function movesFromStart(route: BoulderRoute): Map<string, number> {
   return dist;
 }
 
-export const minMoves = (route: BoulderRoute) =>
-  movesFromStart(route).get(topHold(route).id) ?? Number.POSITIVE_INFINITY;
-
 /** Total chalk: chalk the climber may spend before pumping out and falling. */
 export const routeBudget = (route: BoulderRoute) => minChalk(route) + route.slack;

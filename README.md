@@ -6,7 +6,7 @@ Personal portfolio of Malik Zhang, a product designer based in Seattle (UW MHCI+
 
 - **React 18** + **TypeScript**
 - **Vite** — build tooling and dev server
-- **Tailwind CSS** — styling, with `tailwindcss-animate` for motion utilities
+- **Tailwind CSS** — styling, on the design-system tokens in `tokens/`
 - **Framer Motion** — page transitions and interaction animation
 - **React Router** — client-side routing
 - **Vitest** + **Testing Library** — unit/component tests
@@ -30,6 +30,8 @@ npm run lint         # run ESLint
 npm run preview      # preview a production build locally
 npm run test:watch   # run tests in watch mode
 npm run generate:resume  # reprint public/malik-resume-2026.pdf from the /resume page
+node scripts/optimize-assets.mjs   # shrink newly added media in place; one-off, see its header for the temporary tool install
+node scripts/ranger-convert.mjs    # rebuild the RANGER webps from the Behance masters; same one-off pattern
 ```
 
 ## Project structure

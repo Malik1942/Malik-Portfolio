@@ -1,8 +1,11 @@
-const SECTION_PREFIX = "project-section-";
+import { prefersReducedMotion } from "./prefersReducedMotion";
+
+/** The DOM id a case-study section carries. Written by ProjectDetailTemplate,
+ *  read by the section guide and the scroll spy — so it is spelled once here. */
+export const sectionDomId = (sectionId: string) => `project-section-${sectionId}`;
 
 export function scrollToProjectSection(sectionId: string) {
-  const el = document.getElementById(`${SECTION_PREFIX}${sectionId}`);
+  const el = document.getElementById(sectionDomId(sectionId));
   if (!el) return;
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  el.scrollIntoView({ behavior: prefersReducedMotion() ? "instant" : "smooth", block: "start" });
 }

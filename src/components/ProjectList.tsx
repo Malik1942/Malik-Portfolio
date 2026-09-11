@@ -903,7 +903,7 @@ const TwoColGrid = ({
 // Studio) a fainter one; the dot color (red / gold) is passed in via dotClass.
 // `blurb` adds one line under the label; the Studio groups use it to say what
 // each half of the page is. `as="h2"` when the label heads a region of its own.
-export const SectionLabel = ({
+const SectionLabel = ({
   title,
   dotClass,
   variant = "primary",

@@ -69,7 +69,7 @@ export const MAX_SKILLS = 3;
 // ── Card links and destinations ──────────────────────────────────────────────
 // "Shipped" is an attribute, never a section: a shipped project carries an
 // outbound link chip on its card, in whichever section it lives.
-export type ProjectLinkLabel = "App Store" | "GitHub" | "Live";
+type ProjectLinkLabel = "App Store" | "GitHub" | "Live";
 export interface ProjectLink {
   label: ProjectLinkLabel;
   url: string;

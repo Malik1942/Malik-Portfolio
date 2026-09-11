@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { NAV_ITEMS, SECTIONS, navItemHref } from "@/lib/sections";
+import { scrollToPageTop } from "@/lib/scrollToTarget";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { TextLink } from "@/components/ui/TextLink";
 
@@ -68,7 +69,7 @@ const Footer = ({
                   className="text-left"
                   onClick={() => {
                     if (onAboutClick) {
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                      scrollToPageTop();
                       onAboutClick();
                     }
                   }}

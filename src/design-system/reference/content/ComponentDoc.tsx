@@ -15,7 +15,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
  * unknown hash), so these sub-sections deliberately expose no `#` links.
  */
 
-export interface DocProp {
+interface DocProp {
   name: string;
   type: string;
   default?: string;
@@ -23,22 +23,22 @@ export interface DocProp {
   description: string;
 }
 
-export interface DocPairing {
+interface DocPairing {
   partner: string;
   relationship: string;
 }
 
-export interface DocNote {
+interface DocNote {
   title: string;
   body: string;
 }
 
-export interface DocTestFile {
+interface DocTestFile {
   path: string;
   covers: string[];
 }
 
-export interface DocRecipe {
+interface DocRecipe {
   form: string;
   material: string;
   motion: string;

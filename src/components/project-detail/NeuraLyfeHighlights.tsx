@@ -285,5 +285,3 @@ export function NeuraLyfeLinks() {
     </div>
   );
 }
-
-export default NeuraLyfeHighlights;

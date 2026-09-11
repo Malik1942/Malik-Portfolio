@@ -11,7 +11,7 @@ export const tokenSourceCommit =
     : "development";
 export const tokenBundle: TokenBundle = {
   "schemaVersion": 1,
-  "tokenHash": "aec7392b",
+  "tokenHash": "355d4da8",
   "documents": {
     "primitive.tokens.json": {
       "color": {
@@ -956,16 +956,6 @@ export const tokenBundle: TokenBundle = {
             "$type": "color",
             "$description": "Slate step of the module accent rotation used to differentiate grid categories.",
             "$value": "{color.slate.400}"
-          }
-        },
-        "projectSection": {
-          "flash": {
-            "$type": "color",
-            "$description": "Warm peak color used during a project-section arrival flash.",
-            "$value": "{color.warm.100}",
-            "$extensions": {
-              "com.malikzhang.alpha": 0.018
-            }
           }
         },
         "lightbox": {
@@ -2090,8 +2080,7 @@ export const tokenBundle: TokenBundle = {
         "color.text.quiet",
         "color.text.secondary",
         "color.text.tertiary",
-        "component.projectCard.hoverOverlay",
-        "component.projectSection.flash"
+        "component.projectCard.hoverOverlay"
       ]
     },
     {
@@ -2341,27 +2330,6 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "0 0% 8% / 0.15",
       "aliasOf": "color.neutral.900",
       "aliasAlpha": 0.15,
-      "dependents": []
-    },
-    {
-      "path": "component.projectSection.flash",
-      "sourceFile": "component.tokens.json",
-      "type": "color",
-      "value": "{color.warm.100}",
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          40,
-          6,
-          90
-        ],
-        "alpha": 0.018
-      },
-      "description": "Warm peak color used during a project-section arrival flash.",
-      "cssVariable": "--component-project-section-flash",
-      "cssValue": "40 6% 90% / 0.018",
-      "aliasOf": "color.warm.100",
-      "aliasAlpha": 0.018,
       "dependents": []
     },
     {

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { scrollToTarget } from "./scrollToTarget";
+import { scrollToPageTop, scrollToTarget } from "./scrollToTarget";
 import { setReducedMotionPreference } from "@/test/setup";
 
 const frame = () => new Promise((res) => requestAnimationFrame(() => res(null)));
@@ -130,6 +130,42 @@ describe("scrollToTarget", () => {
 
     expect(scrollToSpy).not.toHaveBeenCalled();
     expect(onArrive).toHaveBeenCalledTimes(1);
+    window.removeEventListener("test-arrive", onArrive);
+  });
+});
+
+describe("scrollToPageTop", () => {
+  it("keeps the smooth ride back to the top when motion is allowed", () => {
+    scrollToPageTop();
+
+    expect(scrollToSpy).toHaveBeenCalledTimes(1);
+    expect(scrollToSpy.mock.calls[0][0]).toMatchObject({ top: 0, behavior: "smooth" });
+  });
+
+  it("jumps without animating under reduced motion", () => {
+    setReducedMotionPreference(true);
+
+    scrollToPageTop();
+
+    // Not a bare scrollTo: `html { scroll-behavior: smooth }` would animate it.
+    expect(scrollToSpy.mock.calls[0][0]).toMatchObject({ top: 0, behavior: "instant" });
+  });
+
+  it("drops a pending arrival watch instead of letting it announce a landing it never made", () => {
+    const onArrive = vi.fn();
+    window.addEventListener("test-arrive", onArrive);
+
+    scrollToTarget({
+      element: makeTarget(2000),
+      arrivalEventName: "test-arrive",
+      arrivalDetail: { id: "x" },
+    });
+    // About opens mid-flight and takes the page somewhere else. The old watch
+    // must not fire, and must not keep polling for the two-second timeout.
+    scrollToPageTop();
+    window.dispatchEvent(new Event("scrollend"));
+
+    expect(onArrive).not.toHaveBeenCalled();
     window.removeEventListener("test-arrive", onArrive);
   });
 });

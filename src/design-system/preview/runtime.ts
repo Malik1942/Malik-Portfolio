@@ -1,3 +1,4 @@
+import { isPlainRecord } from "./isPlainRecord";
 import { applyOverrides } from "../tokens/compiler";
 import type { TokenBundle, TokenOverrides } from "../tokens/types";
 
@@ -50,13 +51,4 @@ export function isDesignPreviewMessage(
   return isPlainRecord(value) &&
     value.type === DESIGN_PREVIEW_MESSAGE_TYPE &&
     isPlainRecord(value.overrides);
-}
-
-function isPlainRecord(value: unknown): value is Record<string, unknown> {
-  if (value === null || typeof value !== "object" || Array.isArray(value)) {
-    return false;
-  }
-
-  const prototype = Object.getPrototypeOf(value);
-  return prototype === Object.prototype || prototype === null;
 }

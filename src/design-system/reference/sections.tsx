@@ -17,5 +17,3 @@ export function renderReferenceSection(section: DesignSystemSection) {
     </p>
   );
 }
-
-export const renderBaselineSection = renderReferenceSection;

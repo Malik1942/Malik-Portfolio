@@ -1,4 +1,5 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { Link, MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@vercel/analytics/react", () => ({ Analytics: () => <div data-testid="analytics" /> }));
@@ -8,7 +9,7 @@ vi.mock("./pages/Index.tsx", async () => {
 });
 vi.mock("./pages/ProjectDetail.tsx", () => ({ default: () => <main>Case study</main> }));
 
-import App from "./App";
+import App, { ScrollToTop } from "./App";
 
 describe("App preview integration", () => {
   afterEach(() => {
@@ -29,6 +30,21 @@ describe("App preview integration", () => {
     expect(await screen.findByRole("main")).toHaveTextContent("Case study");
     expect(screen.queryByTestId("analytics")).not.toBeInTheDocument();
     expect(screen.queryByRole("region", { name: "Local design preview" })).not.toBeInTheDocument();
+  });
+
+  it("resets the scroll on route change without animating it", () => {
+    const scrollToSpy = vi.spyOn(window, "scrollTo").mockImplementation(() => {});
+    render(
+      <MemoryRouter>
+        <ScrollToTop />
+        <Link to="/project/moti">Open case study</Link>
+      </MemoryRouter>,
+    );
+
+    fireEvent.click(screen.getByRole("link", { name: "Open case study" }));
+
+    expect(scrollToSpy.mock.lastCall?.[0]).toMatchObject({ top: 0, behavior: "instant" });
+    scrollToSpy.mockRestore();
   });
 
   it("shows analytics and the PreviewBar in a normal full-site local preview", () => {
