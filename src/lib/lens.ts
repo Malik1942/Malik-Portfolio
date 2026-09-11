@@ -46,6 +46,12 @@ export const LENS_ROW: readonly Lens[] = [
   "Physical Prototyping",
 ];
 
+/** The row on a phone: the full eight ran to five rows of chips under the
+ *  eyebrow, which read as a filter bar rather than an invitation. These four
+ *  wrap to two rows at 360px and cover the flagship case studies' lenses;
+ *  every other lens is still reachable from the chip on any card. */
+export const LENS_ROW_COMPACT: readonly Lens[] = [SHIPPED, "AI-Native", "Design Engineering", "UX Research"];
+
 /** A place outside the project list where a lens has evidence. Design Systems
  *  is the one case: the strongest design-systems work on the site is the site's
  *  own system (tokens, recipes, the workbench, the boundary test), which is a
@@ -107,6 +113,8 @@ export interface LensCounts {
   /** The first match on this page in display order, so the bar can take the
    *  visitor straight to it. */
   first: string | null;
+  /** Every match on this page, in page order, for stepping through them. */
+  matches: string[];
   /** Matches on the other page, with where that page is. */
   elsewhere: { count: number; label: string; path: string } | null;
 }
@@ -135,6 +143,7 @@ export const lensCounts = (lens: Lens, page: string): LensCounts => {
     here: hereMatches.length,
     total: here.length,
     first: hereMatches[0]?.id ?? null,
+    matches: hereMatches.map((p) => p.id),
     elsewhere: elsewhere ?? null,
   };
 };

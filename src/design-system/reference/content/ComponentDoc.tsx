@@ -404,6 +404,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
       { name: "maxWidth", type: "string", description: "Caps the card's measure in a wide row." },
       { name: "horizontal", type: "boolean", default: "false", description: "Editorial row layout: media beside text rather than above it." },
       { name: "imageRight", type: "boolean", default: "false", description: "Flips media and text order. Only meaningful with horizontal." },
+      { name: "featured", type: "boolean", default: "false", description: "Selected Work frame: the cover whole at its own shape, the largest caption tier, with the signal line as the subline. Every cover-above card shows its caption over the frame on hover from md (lg for tiles) and under it below that." },
     ],
     dataShape: {
       name: "Project",

@@ -101,15 +101,12 @@ export function StudioTeaser() {
 
           {/* Type, bottom-left. */}
           <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 2xl:p-16">
-            <div className="flex items-center gap-3">
-              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-dot-gold opacity-70" />
-              <h2
-                id={`${STUDIO_TEASER_ID}-title`}
-                className="text-label lg:text-sm font-medium uppercase tracking-eyebrow text-foreground"
-              >
-                {SECTIONS.studio.label}
-              </h2>
-            </div>
+            <h2
+              id={`${STUDIO_TEASER_ID}-title`}
+              className="text-label lg:text-sm font-medium uppercase tracking-eyebrow text-foreground"
+            >
+              {SECTIONS.studio.label}
+            </h2>
             <p className="mt-3 lg:mt-4 2xl:mt-6 max-w-reading font-display text-title lg:text-heading 2xl:text-display font-light leading-tight text-foreground text-balance">
               {noOrphan(STUDIO_TEASER_HEADLINE)}
             </p>

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { useIsMobile } from "@/hooks/useIsMobile";
+import { useIsBelow, useIsMobile } from "@/hooks/useIsMobile";
 import { noOrphan } from "@/lib/noOrphan";
 import { SECTIONS, type SectionKey } from "@/lib/sections";
 import {
@@ -18,6 +18,7 @@ import { VideoLightbox, type LightboxVideo } from "./VideoLightbox";
 import { useLens } from "./Lens";
 import { lensMatch } from "@/lib/lens";
 import { DURATION, EASE, MOTION } from "@/design-system/system/motion";
+import type { Transition } from "framer-motion";
 
 /** What a card needs to render. `Project` in src/data/projects.ts is the strict
  *  homepage record and is assignable to this; tests pass minimal literals. */
@@ -84,6 +85,7 @@ const CardMedia = ({
   hovered,
   aspectRatio,
   cornerGlyph,
+  overlay,
   marginClass = "mb-6",
 }: {
   project: ProjectCardData;
@@ -91,6 +93,9 @@ const CardMedia = ({
   aspectRatio?: string;
   /** Top-left slot: a small mark for tiles that do not open a case study. */
   cornerGlyph?: ReactNode;
+  /** Something laid over the whole frame, inside its rounded clip (the
+   *  hover caption). Rendered above the hover tint. */
+  overlay?: ReactNode;
   marginClass?: string;
 }) => {
   const forced = !!aspectRatio;
@@ -169,10 +174,10 @@ const CardMedia = ({
     }
   }, [hovered, hasVideo, playFromStart]);
 
-  const liftStyle = {
-    transform: hovered ? "scale(1.03)" : "scale(1)",
-    transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
-  };
+  // No lift on hover. The cover used to scale up 3% while the pointer was
+  // on it; with the caption now living inside the frame the picture is the
+  // whole card, and a picture that swells and re-crops on hover reads as
+  // the frame changing rather than as a reel starting.
 
   return (
     <div
@@ -188,7 +193,6 @@ const CardMedia = ({
             poster={project.coverImage}
             muted playsInline preload="auto"
             className={mediaClass}
-            style={liftStyle}
           />
           {project.coverImage ? (
             <img
@@ -196,10 +200,7 @@ const CardMedia = ({
               alt=""
               aria-hidden="true"
               className={`${mediaClass} pointer-events-none absolute inset-0`}
-              style={{
-                ...liftStyle,
-                opacity: hovered ? 0 : 1,
-              }}
+              style={{ opacity: hovered ? 0 : 1 }}
             />
           ) : null}
         </>
@@ -219,7 +220,6 @@ const CardMedia = ({
             loading="lazy"
             decoding="async"
             className={mediaClass}
-            style={liftStyle}
           />
           <motion.img
             src={project.coverMark}
@@ -229,12 +229,9 @@ const CardMedia = ({
             decoding="async"
             className={`${mediaClass} pointer-events-none absolute inset-0`}
             initial={false}
-            // Only opacity and the wipe are animated here. The lift is left to
-            // `liftStyle`, the same CSS transition the plate uses, so the mark
-            // and the photograph it was matted out of scale on one clock and
-            // stay in register — running the mark's scale through Framer put it
-            // on a 750ms curve against the plate's 900ms one, and the wordmark
-            // drifted off its own position mid-hover.
+            // Only opacity and the wipe are animated: neither layer moves, so
+            // the mark stays in register with the photograph it was matted
+            // out of.
             animate={{
               opacity: hovered ? 1 : 0,
               clipPath: hovered ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",
@@ -243,7 +240,6 @@ const CardMedia = ({
               opacity: MOTION.fade,
               clipPath: { duration: DURATION.slow, ease: EASE.enter },
             }}
-            style={liftStyle}
           />
         </>
       ) : project.coverImage ? (
@@ -253,7 +249,6 @@ const CardMedia = ({
           loading="lazy"
           decoding="async"
           className={mediaClass}
-          style={liftStyle}
         />
       ) : (
         <div className="w-full aspect-video flex items-center justify-center">
@@ -262,11 +257,16 @@ const CardMedia = ({
           </span>
         </div>
       )}
-      <motion.div
-        className="absolute inset-0 bg-project-card-hover-overlay pointer-events-none"
-        animate={{ opacity: hovered ? 1 : 0 }}
-        transition={MOTION.fade}
-      />
+      {/* The hover tint belongs to cards whose text sits under the cover.
+          A captioned card brings its own ground with the caption, and the
+          tint on top of it shifted the whole reel's tone on hover. */}
+      {overlay ? null : (
+        <motion.div
+          className="absolute inset-0 bg-project-card-hover-overlay pointer-events-none"
+          animate={{ opacity: hovered ? 1 : 0 }}
+          transition={MOTION.fade}
+        />
+      )}
       {cornerGlyph ? (
         <span
           aria-hidden="true"
@@ -275,9 +275,66 @@ const CardMedia = ({
           {cornerGlyph}
         </span>
       ) : null}
+      {overlay}
     </div>
   );
 };
+
+// The hover caption sits on the page canvas rising from the bottom of the
+// frame, and under the type the cover is pulled out of focus. Both ramps are
+// eased, not linear: a straight gradient has a visible edge where it starts
+// and a kink wherever its slope changes, and the eye reads that line on a
+// photograph. A sine-eased ramp reaches zero slope at both ends, so the
+// fade has no top edge and the blur has no seam where it begins. The layers
+// keep a fixed height and only their strength animates; an earlier version
+// grew the fade's height between stages, which stretched the ramp and sent
+// its edge sliding up the picture. (The reference here is the way a
+// foldable's unfold keeps the content locked in space while a gradient and
+// a depth-of-field pull bring the new surface in: the picture never moves,
+// the ground arrives around it.) Written inline because the alphas are
+// tuned to photographs, not steps on a scale; the mask's stops use the
+// canvas token only for its alpha.
+const CANVAS = "var(--color-background-canvas)";
+const sineInOut = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2;
+/** A bottom-to-top gradient of the canvas at `peak` alpha, easing to clear. */
+const easedRamp = (peak: number, steps = 12) =>
+  `linear-gradient(to top, ${Array.from({ length: steps + 1 }, (_, i) => {
+    const t = i / steps;
+    const alpha = peak * (1 - sineInOut(t));
+    return `hsl(${CANVAS} / ${alpha.toFixed(3)}) ${(t * 100).toFixed(1)}%`;
+  }).join(", ")})`;
+const FADE_UP = easedRamp(0.92);
+const BLUR_MASK = easedRamp(1);
+const captionGround = (near: boolean, transition: Transition) => (
+  <>
+    {/* Focus pull: the bottom half of the cover goes soft under the caption,
+        radius on the spring so it arrives with the lines rather than
+        switching on. */}
+    <motion.div
+      aria-hidden="true"
+      className="absolute inset-x-0 bottom-0 h-1/2"
+      style={{ maskImage: BLUR_MASK, WebkitMaskImage: BLUR_MASK }}
+      initial={false}
+      animate={{ backdropFilter: near ? "blur(14px)" : "blur(0px)" }}
+      transition={transition}
+    />
+    {/* The fade: fixed height, strength only. Stage one is just enough to
+        hold the title; stage two carries the whole caption. */}
+    <motion.div
+      aria-hidden="true"
+      className="absolute inset-x-0 bottom-0 h-3/4"
+      style={{ background: FADE_UP }}
+      initial={false}
+      animate={{ opacity: near ? 1 : 0.3 }}
+      transition={transition}
+    />
+  </>
+);
+
+// The lower part of a frame that counts as "at the caption": the pointer
+// below this fraction of the card's height (the bottom 30%) unfolds the
+// full caption.
+const CAPTION_ZONE_FROM = 0.7;
 
 // ─── Chips ────────────────────────────────────────────────────────────────────
 // Rendered in the metadata line after role and year, never above the title.
@@ -311,10 +368,14 @@ const CardMeta = ({
   project,
   tile = false,
   narrow = false,
+  skillsOnly = false,
   isMobile,
 }: {
   project: ProjectCardData;
   tile?: boolean;
+  /** Only the skill row: a Studio tile's hover caption has room for one
+   *  line under the title, and the skills are the line the lens reads. */
+  skillsOnly?: boolean;
   /** A hero row's 380px desktop text column: two skill chips fit it on one
    *  line, a third never does (measured 421–507px for three). The first two in
    *  the project's list are shown; the data orders them most-telling first. */
@@ -348,13 +409,15 @@ const CardMeta = ({
   // card is a full-width tile, left the year orphaned after the chips.
   return (
     <div className="flex flex-col gap-y-2">
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
-        <span style={textStyle}>
-          {project.role} · {project.year}
-        </span>
-        {linkChips}
-        {statusChip}
-      </div>
+      {skillsOnly ? null : (
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
+          <span style={textStyle}>
+            {project.role} · {project.year}
+          </span>
+          {linkChips}
+          {statusChip}
+        </div>
+      )}
       {skillChips.length > 0 ? (
         <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1.5">{skillChips}</div>
       ) : null}
@@ -426,6 +489,7 @@ export const ProjectCard = ({
   horizontal = false,
   imageRight = false,
   tile = false,
+  featured = false,
   restOpacity = 1,
   onOpenVideo,
 }: {
@@ -438,8 +502,11 @@ export const ProjectCard = ({
   maxWidth?: string;
   horizontal?: boolean;
   imageRight?: boolean;
-  /** Studio tile: 16/9 cover, one step smaller type, tile metadata order. */
+  /** Studio tile: 16/9 cover, the smallest caption tier, two skill chips. */
   tile?: boolean;
+  /** Selected Work: the cover as a frame at its own shape, the largest
+   *  caption tier, and the signal line as the subline. */
+  featured?: boolean;
   /** The card's brightness at rest, as a CSS opacity value. More Work sits a
    *  step under Selected Work (the rest-dim token); everything else is 1. */
   restOpacity?: number | string;
@@ -447,6 +514,11 @@ export const ProjectCard = ({
 }) => {
   const [hovered, setHovered] = useState(false);
   const isMobile = useIsMobile();
+  const shouldReduceMotion = useReducedMotion();
+  // Where the caption goes: under the cover below md (lg for the More Work
+  // cards and Studio tiles, which are two and three across), over it on
+  // hover from there. See the caption block below.
+  const captionUnder = useIsBelow(featured ? 768 : 1024);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
 
@@ -454,19 +526,25 @@ export const ProjectCard = ({
   // One computed brightness for the card body, so the section's resting dim and
   // the lens never stack: a match under a lens is lifted to full, anything else
   // recedes to the lens-dim token, and with no lens the card sits at its rest
-  // level. Hover brings any card back to full while the pointer is on it. This
+  // level. Hover does not change it: a card that brightened under the pointer
+  // read as the picture's tone shifting. This
   // is an inner wrapper with a CSS transition, separate from the entrance
   // animation on the outer motion.div, so a lens change answers in one beat
   // instead of replaying the staggered reveal.
   const match = lensMatch(project, useLens()?.lens ?? null);
   const bodyOpacity =
-    hovered || match === true
+    match === true
       ? 1
       : match === false
         ? "var(--component-project-card-lens-dim)"
         : restOpacity;
+  // The body stacks above the card's stretched link (z-2 over its z-1) and
+  // lets pointer events fall through to it everywhere except the metadata
+  // chips, which switch them back on. The body's opacity makes it a stacking
+  // context, so without this a chip inside the frame's caption could never
+  // rise above the link: it was drawn but neither hoverable nor clickable.
   const bodyProps = {
-    className: "transition-opacity duration-medium ease-settle",
+    className: "relative z-2 pointer-events-none transition-opacity duration-medium ease-settle",
     style: { opacity: bodyOpacity },
     "data-lens": match === null ? undefined : match ? "match" : "dim",
   };
@@ -496,8 +574,23 @@ export const ProjectCard = ({
     onAnimationEnd: () => setArriving(false),
   };
 
+  // `near`: the pointer is in the lower part of the card, at the caption.
+  // Keyboard focus counts as near, so the chips are reachable.
+  const [near, setNear] = useState(false);
   const handleEnter = () => setHovered(true);
-  const handleLeave = () => setHovered(false);
+  const handleLeave = () => {
+    setHovered(false);
+    setNear(false);
+  };
+  const handleFocus = () => {
+    setHovered(true);
+    setNear(true);
+  };
+  const handleMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const next = (event.clientY - rect.top) / rect.height > CAPTION_ZONE_FROM;
+    if (next !== near) setNear(next);
+  };
 
   const openVideo = () => {
     if (project.destination?.kind !== "video" || !onOpenVideo) return;
@@ -519,62 +612,149 @@ export const ProjectCard = ({
     />
   );
 
-  // ── Vertical card text (grid cards and tiles) ──
-  const textBlock = () => (
+  // ── Caption (every card whose cover sits above its text) ──
+  // One caption recipe across the three tiers, so Selected Work, More Work,
+  // and the Studio tiles read as one family: a display-face title, a subline
+  // (the signal line on Selected Work, the description elsewhere), then the
+  // metadata (role, year, shipped link, skill chips). Where the frame is big
+  // enough the caption lives inside it and appears on hover or keyboard
+  // focus, at the bottom; at rest the card is the picture. Below that width
+  // the same caption sits under the cover, since there is no hover on a
+  // phone anyway. One caption is rendered, not both: the chips in it are
+  // real links and buttons, and two copies would be two tab stops.
+  //
+  // The caption comes in two stages, because the reel is the point of the
+  // hover and a full caption over it pulled the eye off the picture. With
+  // the pointer anywhere on the card the reel plays and only the first
+  // stage shows, sitting on the frame's bottom padding on a light fade: the
+  // title and subline on a Selected Work frame, the title alone on the
+  // smaller cards. When the pointer comes down into the caption zone
+  // (CAPTION_ZONE_FROM) the metadata unfolds beneath: its block grows from
+  // zero height, lifting the first stage, while the lines rise and fade in
+  // from a few pixels below; the fade deepens and the cover blurs under the
+  // text (captionGround). All of it rides one spring (MOTION.unfold), so
+  // the lift, the rise, the fade, and the blur settle together as one
+  // gesture. Moving toward the words to get more of them is the whole
+  // affordance, and the unfold is a height animation, so there is no
+  // reserved gap under the title in the first stage. What changes
+  // with frame size is how much the caption carries and how big it is set:
+  // a Selected Work frame is most of the viewport and takes the whole
+  // caption; a More Work card or a Studio tile is a few hundred pixels
+  // tall, so More Work keeps title and metadata, a tile keeps title and
+  // skills, and both step down a size. The overlay lets pointer events
+  // through to the stretched card link except over the metadata, whose
+  // chips are real controls.
+  const tier = featured ? "featured" : tile ? "tile" : "grid";
+  // Selected Work sets its title light at heading size, where the weight
+  // reads as poise; the smaller More Work and Studio titles take the regular
+  // weight, since light at 20px reads thin against a photograph.
+  const display = "font-display leading-tight text-foreground";
+  const titleClass = {
+    featured: { over: `text-title lg:text-heading font-light ${display}`, under: `text-title font-light ${display}` },
+    grid: { over: `text-xl font-normal ${display}`, under: `text-title font-normal ${display}` },
+    tile: { over: `text-base font-normal ${display}`, under: `text-xl font-normal ${display}` },
+  }[tier];
+  const subline = featured ? project.signal : noOrphan(project.description);
+  const sublineClass = {
+    featured: "mt-2 lg:mt-3 max-w-reading text-sm lg:text-base leading-relaxed text-foreground-lead",
+    grid: "mt-2 max-w-reading text-sm leading-relaxed text-foreground-lead line-clamp-2",
+    tile: "mt-1.5 text-sm leading-snug text-foreground-lead line-clamp-2",
+  }[tier];
+  const metaGap = { featured: "mt-4 lg:mt-5", grid: "mt-3", tile: "mt-2" }[tier];
+
+  const meta = (inOverlay: boolean) => (
+    <div className={`${metaGap} ${!inOverlay || near ? "pointer-events-auto" : ""}`}>
+      <CardMeta
+        project={project}
+        tile={tile}
+        skillsOnly={inOverlay && tier === "tile"}
+        isMobile={inOverlay ? false : isMobile}
+      />
+    </div>
+  );
+  const unfold: Transition = shouldReduceMotion ? { duration: 0 } : MOTION.unfold;
+  // The lines arrive a beat after the ground on the way in, and leave with
+  // it on the way out.
+  const unfoldLines: Transition = shouldReduceMotion || !near ? unfold : { ...unfold, delay: 0.05 };
+  const caption = (inOverlay: boolean) => (
     <>
-      {/* Title */}
-      <h3
-        className="tracking-tight font-semibold leading-snug transition-colors duration-medium"
-        style={{
-          // Tile: body on mobile, body-large on desktop (one token step under
-          // the grid cards' title).
-          fontSize: tile
-            ? isMobile ? "var(--font-size-body)" : "var(--font-size-body-large)"
-            : isMobile ? "clamp(1.1rem, 4vw, 1.25rem)" : "clamp(1.2rem, 1.6vw, 1.4rem)",
-          letterSpacing: "-0.025em",
-          marginBottom: tile ? "0.25rem" : isMobile ? "0.5rem" : "0.3rem",
-          color: hovered ? "hsl(var(--color-text-primary))" : "hsl(var(--color-text-primary) / 0.88)",
-        }}
-      >
-        {project.title}
-      </h3>
-
-      {/* Description */}
-      <p
-        className={isMobile ? "leading-relaxed line-clamp-2" : "leading-snug line-clamp-2"}
-        style={{
-          fontSize: tile ? "var(--font-size-body-small)" : isMobile ? "0.9375rem" : "0.875rem",
-          marginBottom: tile ? "0.625rem" : isMobile ? "0.75rem" : "1rem",
-          color: "hsl(var(--color-text-secondary))",
-        }}
-      >
-        {noOrphan(project.description)}
-      </p>
-
-      {/* Metadata */}
-      <CardMeta project={project} tile={tile} isMobile={isMobile} />
+      <h3 className={inOverlay ? titleClass.over : titleClass.under}>{project.title}</h3>
+      {subline && (featured || !inOverlay) ? <p className={sublineClass}>{subline}</p> : null}
+      {inOverlay ? (
+        <motion.div
+          initial={false}
+          animate={{ height: near ? "auto" : 0, opacity: near ? 1 : 0 }}
+          transition={unfoldLines}
+          className="overflow-hidden"
+        >
+          <motion.div initial={false} animate={{ y: near ? 0 : 12 }} transition={unfoldLines}>
+            {meta(true)}
+          </motion.div>
+        </motion.div>
+      ) : (
+        meta(false)
+      )}
     </>
+  );
+  const overlayCaption = (
+    <div
+      className={`pointer-events-none absolute inset-0 flex flex-col justify-end transition-opacity duration-medium ease-settle ${
+        hovered ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      {captionGround(near, unfold)}
+      <div className={`relative z-2 ${{ featured: "p-6 md:p-10", grid: "p-5", tile: "p-4" }[tier]}`}>{caption(true)}</div>
+    </div>
+  );
+  const underCaption = (
+    <div className={`flex flex-col ${tier === "tile" ? "mt-4" : "mt-5"}`}>{caption(false)}</div>
   );
 
   if (horizontal || imageRight) {
+    // ── Hero row columns ──
+    // Desktop: the cover takes 65% and the text column is exactly as wide as
+    // its copy (380px), so the block sits flush against the page margin on
+    // whichever side it lands and the gutter beside the cover is the same in
+    // both row directions. When the two columns don't fill the row, the
+    // spare width goes into that gutter (justify-between); when they don't
+    // fit, both shrink in proportion. An earlier version gave the text a
+    // flexible column with a 380px block inside it, which left the slack on
+    // the outer edge of image-left rows only, so the two directions never
+    // quite matched.
     const imageCol = (
       <div
-        className={isMobile ? "w-full order-first" : ""}
-        style={isMobile ? undefined : { width: "65%", flexShrink: 0 }}
+        className={isMobile ? "w-full order-first" : "min-w-0"}
+        style={isMobile ? undefined : { flex: "0 1 65%" }}
       >
-        <CardMedia project={project} hovered={hovered} aspectRatio={aspectRatio} />
+        {/* No bottom margin on desktop: the text column centers on this
+            box, and a margin here would put the center 12px low. Mobile
+            keeps it as the gap above the title. */}
+        <CardMedia
+          project={project}
+          hovered={hovered}
+          aspectRatio={aspectRatio}
+          marginClass={isMobile ? "mb-6" : ""}
+        />
       </div>
     );
 
     // ── Editorial text column for hero rows ──
-    // On desktop: bottom-anchored with text at image baseline.
-    // On mobile: natural block flow, no anchor padding.
+    // On desktop the text is one block, centered on the cover's height. It
+    // used to be bottom-anchored, which left the top corner of every row
+    // empty, and on a wide display, where the cover is tall, that hole was
+    // the first thing the eye met; pinning the title to the top edge and the
+    // metadata to the bottom edge moved the hole to the middle instead.
+    // Centered, the air above and below the block is equal, so it reads as
+    // margin rather than as something missing. The text is left-aligned in
+    // both row directions: a right-aligned block was tried for the
+    // image-left rows and read as a mirror rather than as copy.
+    // On mobile: natural block flow under the cover.
     const textCol = (
       <div
-        className={`flex flex-col flex-1 min-w-0 ${isMobile ? "" : "justify-end"}`}
-        style={isMobile ? undefined : { paddingBottom: "48px" }}
+        className={`flex flex-col min-w-0 ${isMobile ? "" : "justify-center"}`}
+        style={isMobile ? undefined : { flex: "0 1 380px" }}
       >
-        <div style={isMobile ? undefined : { maxWidth: "380px" }}>
+        <div>
           {/* Level 1 — Title */}
           <h3
             className="tracking-tight font-semibold leading-none transition-colors duration-medium"
@@ -615,7 +795,9 @@ export const ProjectCard = ({
           </div>
 
           {/* Level 4 — Metadata */}
-          <CardMeta project={project} narrow={!isMobile} isMobile={isMobile} />
+          <div className="pointer-events-auto">
+            <CardMeta project={project} narrow={!isMobile} isMobile={isMobile} />
+          </div>
         </div>
       </div>
     );
@@ -639,7 +821,7 @@ export const ProjectCard = ({
       >
         <div
           {...bodyProps}
-          className={`${bodyProps.className} flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row gap-10"}`}
+          className={`${bodyProps.className} flex items-stretch ${isMobile ? "flex-col gap-6" : "flex-row justify-between gap-10"}`}
         >
           {imageRight ? textCol : imageCol}
           {imageRight ? imageCol : textCol}
@@ -663,7 +845,10 @@ export const ProjectCard = ({
       }}
       style={maxWidth ? { maxWidth } : undefined}
       onMouseEnter={handleEnter}
+      onMouseMove={handleMove}
       onMouseLeave={handleLeave}
+      onFocusCapture={handleFocus}
+      onBlurCapture={handleLeave}
       data-clickable={project.destination?.kind === "placeholder" ? "false" : "true"}
       {...arrivalProps}
     >
@@ -673,9 +858,10 @@ export const ProjectCard = ({
           hovered={hovered}
           aspectRatio={tile ? GRID_COVER_ASPECT : aspectRatio}
           cornerGlyph={tile ? cornerGlyphFor(project.destination) : undefined}
-          marginClass={tile ? "mb-4" : "mb-6"}
+          overlay={captionUnder ? undefined : overlayCaption}
+          marginClass=""
         />
-        <div className="flex flex-col">{textBlock()}</div>
+        {captionUnder ? underCaption : null}
       </div>
       {cardLink}
     </motion.div>
@@ -760,9 +946,23 @@ export const SectionLabel = ({
   );
 };
 
+// ─── Work sections' container ─────────────────────────────────────────────────
+// Both homepage Work sections sit in one centered column capped at the page
+// token (1400px), the same cap the footer uses, so a Selected Work frame and
+// a More Work row are the same width. Under the cap nothing changes: a 1440
+// display already fits inside. Above it the column stops growing with the
+// viewport, so on a 2560 display a frame is 1400px wide rather than 2368.
+const WORK_CONTAINER = "mx-auto max-w-page";
+
 // ─── Selected Work ────────────────────────────────────────────────────────────
-// Every project is a full-width editorial row (image side alternating, signal
-// line, description, metadata). No grid tail; the section stays bright.
+// A sequence of frames, each the full width of the page column (the same
+// column More Work sits in) at its own shape. The caption lives inside the
+// frame and appears on hover (under the cover on a phone), so at rest the
+// section is pictures only. Every project gets the same treatment, so the
+// section carries no hierarchy among the four. (Frames sized to the
+// viewport height were tried first; covers of different ratios then came
+// out at different widths, which read as a mistake rather than a wall of
+// stills.)
 const SelectedWorkList = ({
   id,
   sectionTitle,
@@ -777,23 +977,17 @@ const SelectedWorkList = ({
   intro?: ReactNode;
 }) => (
   <section id={id} className="px-6 md:px-16 lg:px-24 pt-16">
-    <SectionLabel title={sectionTitle} dotClass={dotClass} variant="primary" />
-    {/* The eyebrow carries mb-10; the intro pulls up to sit 16px under it and
-        restores the 40px above the first row. */}
-    {intro ? <div className="-mt-6 mb-10">{intro}</div> : null}
-    {projects.map((p, i) => (
-      <div key={p.id ?? p.title} className="mb-14 md:mb-16">
-        <ProjectCard
-          project={p}
-          projectId={p.id}
-          dotClass={dotClass}
-          globalIndex={i}
-          rowDelay={i % 2 === 0 ? 0.06 : 0}
-          imageRight={i % 2 === 0}
-          horizontal={i % 2 === 1}
-        />
+    <div className={WORK_CONTAINER}>
+      <SectionLabel title={sectionTitle} dotClass={dotClass} variant="primary" />
+      {/* The eyebrow carries mb-10; the intro pulls up to sit 16px under it and
+          restores the 40px above the first frame. */}
+      {intro ? <div className="-mt-6 mb-10">{intro}</div> : null}
+      <div className="flex flex-col gap-y-section">
+        {projects.map((p, i) => (
+          <ProjectCard key={p.id ?? p.title} project={p} projectId={p.id} dotClass={dotClass} globalIndex={i} featured />
+        ))}
       </div>
-    ))}
+    </div>
   </section>
 );
 
@@ -817,10 +1011,12 @@ const MoreWorkList = ({
   projects: ProjectCardData[];
 }) => (
   <section id={id} className="px-6 md:px-16 lg:px-24 pt-section pb-8">
-    <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" />
-    {projects.length > 0 && (
-      <TwoColGrid projects={projects} dotClass={dotClass} restOpacity={MORE_WORK_REST_OPACITY} />
-    )}
+    <div className={WORK_CONTAINER}>
+      <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" />
+      {projects.length > 0 && (
+        <TwoColGrid projects={projects} dotClass={dotClass} restOpacity={MORE_WORK_REST_OPACITY} />
+      )}
+    </div>
   </section>
 );
 

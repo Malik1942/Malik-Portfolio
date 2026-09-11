@@ -68,4 +68,10 @@ export const MOTION = {
   respond: { duration: DURATION.fast, ease: EASE.settle },
   /** Decorative motion that repeats. */
   ambient: { duration: DURATION.ambient, ease: EASE.ambient, repeat: Infinity },
+  /** Something unfolds in place and settles without a bounce. A fluid spring
+   *  rather than a curve: about half a second to settle, damped just short
+   *  of critical, the response iOS uses for a sheet or a fold, so a lift,
+   *  a rise, a fade, and a blur driven by the same spring read as one
+   *  gesture that slows into place instead of three timers ending. */
+  unfold: { type: "spring", stiffness: 160, damping: 24, mass: 1 },
 } as const;

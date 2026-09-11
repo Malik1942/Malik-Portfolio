@@ -1,10 +1,11 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, type ReactNode } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion, useInView } from "framer-motion";
-import { ArrowRight, X } from "lucide-react";
+import { ArrowDown, ArrowRight, X } from "lucide-react";
 import {
   LENS_PARAM,
   LENS_ROW,
+  LENS_ROW_COMPACT,
   lensAside,
   lensCounts,
   lensFromSlug,
@@ -14,6 +15,7 @@ import {
   type Lens,
 } from "@/lib/lens";
 import { scrollToTarget } from "@/lib/scrollToTarget";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { DURATION, EASE, MOTION } from "@/design-system/system/motion";
 import { Chip, ChipButton } from "./ui/Chip";
 import { TextLink } from "./ui/TextLink";
@@ -95,6 +97,9 @@ export function LensRow({ className = "" }: { className?: string }) {
   const state = useLens();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
+  // Four lenses on a phone (two rows), the full eight from md.
+  const isMobile = useIsMobile();
+  const row = isMobile ? LENS_ROW_COMPACT : LENS_ROW;
   if (!state) return null;
   return (
     <motion.div
@@ -107,7 +112,7 @@ export function LensRow({ className = "" }: { className?: string }) {
       transition={{ ...MOTION.enter, delay: 0.1 }}
       className={`flex flex-wrap items-center gap-x-1.5 gap-y-1.5 ${className}`}
     >
-      {LENS_ROW.map((lens) => (
+      {row.map((lens) => (
         <ChipButton
           key={lens}
           pressed={state.lens === lens}
@@ -134,11 +139,12 @@ export const LENS_BAR_ID = "lens-bar";
 
 const projectsNoun = (n: number) => (n === 1 ? "project" : "projects");
 
-// The count is also the way in: it eases the page to the first match and lets
-// the card answer with the same landing pulse a hero dot click gets. This only
-// *calls* scrollToTarget with the card's arrival event; the scroll-and-arrive
-// chain itself is untouched (see CLAUDE.md).
-const scrollToFirstMatch = (projectId: string) => {
+// The count is also the way through: each press eases the page to the next
+// match on this page, wrapping at the end, and lets the card answer with the
+// same landing pulse a hero dot click gets. This only *calls* scrollToTarget
+// with the card's arrival event; the scroll-and-arrive chain itself is
+// untouched (see CLAUDE.md).
+const scrollToMatch = (projectId: string) => {
   const element = document.getElementById(`project-${projectId}`);
   if (!element) return;
   scrollToTarget({
@@ -157,6 +163,17 @@ export function LensBar({ hidden = false }: { hidden?: boolean }) {
   const lens = state?.lens ?? null;
   const counts = lens ? lensCounts(lens, pathname) : null;
   const aside = lens ? lensAside(lens) : null;
+  // Which match the count button visited last; a new lens starts over.
+  const cursor = useRef(-1);
+  useEffect(() => {
+    cursor.current = -1;
+  }, [lens, pathname]);
+  const stepToNextMatch = () => {
+    const ids = counts?.matches ?? [];
+    if (ids.length === 0) return;
+    cursor.current = (cursor.current + 1) % ids.length;
+    scrollToMatch(ids[cursor.current]);
+  };
 
   return (
     <AnimatePresence>
@@ -171,20 +188,29 @@ export function LensBar({ hidden = false }: { hidden?: boolean }) {
           transition={{ duration: DURATION.medium, ease: EASE.move }}
           className="fixed bottom-5 left-1/2 z-guide flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-3 rounded-full border border-hairline bg-background/[0.8] py-2 pl-2 pr-2 text-caption text-foreground-secondary backdrop-blur-md md:bottom-8 md:left-auto md:right-8 md:translate-x-0 md:gap-4 md:pl-2.5 md:pr-3"
         >
-          <Chip tone="lead" className="border-border bg-foreground/[0.14] text-foreground">
+          {/* The active lens and the count share one pill geometry and one
+              ring, so the bar reads as a single row of controls. */}
+          <Chip tone="lead" className="text-foreground">
             {lens}
           </Chip>
 
           {counts.first ? (
+            // Drawn as a pill with an arrow so it reads as a control, not a
+            // caption: press it to step through the matches one by one.
             <button
               type="button"
-              onClick={() => scrollToFirstMatch(counts.first!)}
-              title="Go to the first match"
-              className={`${CONTROL} whitespace-nowrap`}
+              onClick={stepToNextMatch}
+              title={`Go to the next match (${counts.here} on this page)`}
+              className={`${CONTROL} group/step inline-flex items-center gap-1.5 whitespace-nowrap border border-hairline-ink py-1 pl-2.5 pr-2 leading-none text-foreground-lead hover:border-foreground-secondary hover:bg-foreground/[0.06]`}
             >
               <span role="status" aria-live="polite">
                 {counts.here} of {counts.total} {projectsNoun(counts.total)} here
               </span>
+              <ArrowDown
+                aria-hidden="true"
+                className="h-3 w-3 shrink-0 transition-transform duration-fast ease-settle group-hover/step:translate-y-px"
+                strokeWidth={2}
+              />
             </button>
           ) : (
             <span role="status" aria-live="polite" className="whitespace-nowrap">

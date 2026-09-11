@@ -1105,7 +1105,7 @@ const ranger: ProjectDetailSource = {
 const oryne: ProjectDetailSource = {
   slug: "oryne",
   title: "Oryne",
-  heroSummary: "An ocean for unfinished thoughts. Live on the App Store,\nwith all of its intelligence on the device",
+  heroSummary: "An iPhone app that catches ideas the moment they strike\nand brings old sparks back.",
   heroImage: oryneHero,
   // The loop opens on that same journey still and dissolves out of it, so the
   // poster is literally its first frame and nothing swaps when playback starts.
