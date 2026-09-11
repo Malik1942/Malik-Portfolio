@@ -686,10 +686,10 @@ const acts: FlowAct[] = [
     title: "Act Four: Around the Loop",
     lead: "Four more features, each built to keep the Ocean simple.",
     steps: [
-      { num: "09", title: "Fast Capture", src: oryneFastCaptureOverlay, alt: "The Fast Capture overlay floating over the Ocean tab", label: "Fast Capture", caption: "from the Action Button, Control Center, or a widget, over whatever you were doing" },
+      { num: "09", title: "Fast Capture", src: oryneFastCaptureOverlay, alt: "The Fast Capture overlay floating over the Ocean tab", label: "Fast Capture", caption: "from the Action Button, Control Center, or a widget, over anything" },
       { num: "10", title: "Widgets", src: oryneWidgetsHome, alt: "Home screen with the Oryne Fast Capture widget and a resurfacing widget", label: "Widgets", caption: "a Thought or Whisper button one tap from the home screen" },
-      { num: "11", title: "Grow a Branch", src: oryneBranch, alt: "The Grow a branch sheet with Question, Concept, Research, and Project types", label: "Branch", caption: "a new thought grows out of this one, as a question, a concept, research, or a project" },
-      { num: "12", title: "Show Related", src: oryneShowRelated, alt: "The Library after a long press: the chosen thought’s closest companions rise to the top", label: "Show related", caption: "long press a thought in the Library and its closest companions rise to the top" },
+      { num: "11", title: "Grow a Branch", src: oryneBranch, alt: "The Grow a branch sheet with Question, Concept, Research, and Project types", label: "Branch", caption: "a new thought grows out of this one, in one of four kinds" },
+      { num: "12", title: "Show Related", src: oryneShowRelated, alt: "The Library after a long press: the chosen thought’s closest companions rise to the top", label: "Show related", caption: "long press, and its closest companions rise to the top" },
     ],
     quote: "No new gestures on the Ocean, ever.",
   },
@@ -701,13 +701,17 @@ function FlowStepFigure({ step }: { step: FlowStep }) {
         <span className="text-caption font-mono tabular-nums text-accent-violet/70">{step.num}</span>
         <p className="text-base md:text-xl font-medium text-foreground">{step.title}</p>
       </div>
-      <figure className={`${SCREEN_FIGURE_WIDTH} mt-5 flex flex-1 flex-col`}>
+      {/* Every step is the same 900x1839 frame, so the phones already share a
+          bottom edge. Do not pin the caption to the cell bottom with mt-auto:
+          a two-line caption would drop one line below its three-line
+          neighbour and the gap above it would go uneven. Left to start right
+          under the phone, the captions begin on the same line and the spare
+          height falls into the cell's bottom padding, where nobody sees it. */}
+      <figure className={`${SCREEN_FIGURE_WIDTH} mt-5 flex flex-col`}>
         <div className="overflow-hidden rounded-2xl bg-secondary/10">
           <img src={step.src} alt={step.alt} loading="lazy" decoding="async" className="w-full h-auto block" />
         </div>
-        <div className="mt-auto">
-          <FigureCaption label={step.label}>{step.caption}</FigureCaption>
-        </div>
+        <FigureCaption label={step.label}>{step.caption}</FigureCaption>
       </figure>
     </div>
   );
