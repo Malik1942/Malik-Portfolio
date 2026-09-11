@@ -6,8 +6,10 @@ Personal portfolio of Malik Zhang, a product designer based in Seattle (UW MHCI+
 
 - **React 18** + **TypeScript**
 - **Vite** — build tooling and dev server
-- **Tailwind CSS** — styling, with `tailwindcss-animate` for motion utilities
-- **Framer Motion** — page transitions and interaction animation
+- **Tailwind CSS** — styling; the `duration-*` and `ease-*` utilities resolve to the
+  motion tokens, and the entrance animations are hand-written keyframes in `src/index.css`
+- **Framer Motion** — page transitions and interaction animation, timed by `DURATION`,
+  `EASE`, and the `MOTION` recipes in `src/design-system/system/motion`
 - **React Router** — client-side routing
 - **Vitest** + **Testing Library** — unit/component tests
 - **Playwright** — Open Graph screenshot generation (`npm run generate:og`) and the resume PDF (`npm run generate:resume`), not end-to-end tests
