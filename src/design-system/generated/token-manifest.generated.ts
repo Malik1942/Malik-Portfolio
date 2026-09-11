@@ -11,7 +11,7 @@ export const tokenSourceCommit =
     : "development";
 export const tokenBundle: TokenBundle = {
   "schemaVersion": 1,
-  "tokenHash": "18a6811e",
+  "tokenHash": "355d4da8",
   "documents": {
     "primitive.tokens.json": {
       "color": {
@@ -781,6 +781,13 @@ export const tokenBundle: TokenBundle = {
             "$extensions": {
               "com.malikzhang.alpha": 0.25
             }
+          },
+          "ink": {
+            "$description": "A quiet ring drawn in the ink rather than the grey rule: a chip at rest, where the grey hairline vanishes on a dark cover but a bare label does not read as a tag. Light enough to be felt rather than seen.",
+            "$value": "{color.text.primary}",
+            "$extensions": {
+              "com.malikzhang.alpha": 0.12
+            }
           }
         },
         "focus": {
@@ -1245,6 +1252,27 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "0 0% 14% / 0.5",
       "aliasOf": "color.border.default",
       "aliasAlpha": 0.5,
+      "dependents": []
+    },
+    {
+      "path": "color.border.ink",
+      "sourceFile": "semantic.tokens.json",
+      "type": "color",
+      "value": "{color.text.primary}",
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          40,
+          6,
+          90
+        ],
+        "alpha": 0.12
+      },
+      "description": "A quiet ring drawn in the ink rather than the grey rule: a chip at rest, where the grey hairline vanishes on a dark cover but a bare label does not read as a tag. Light enough to be felt rather than seen.",
+      "cssVariable": "--color-border-ink",
+      "cssValue": "40 6% 90% / 0.12",
+      "aliasOf": "color.text.primary",
+      "aliasAlpha": 0.12,
       "dependents": []
     },
     {
@@ -1889,6 +1917,7 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "40 6% 90%",
       "aliasOf": "color.warm.100",
       "dependents": [
+        "color.border.ink",
         "color.focus.ring",
         "color.focus.ringStrong",
         "color.text.lead",
@@ -2043,6 +2072,7 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "40 6% 90%",
       "dependents": [
         "color.action.primary",
+        "color.border.ink",
         "color.focus.ring",
         "color.focus.ringStrong",
         "color.text.lead",

@@ -178,6 +178,7 @@ export default {
         hairline: {
           DEFAULT: completeColor("color-border-hairline"),
           faint: completeColor("color-border-faint"),
+          ink: completeColor("color-border-ink"),
         },
         // Focus rings: `ring-focus` on the canvas, `ring-focus-strong` over
         // media and filled surfaces.

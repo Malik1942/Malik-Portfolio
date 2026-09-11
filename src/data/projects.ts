@@ -176,7 +176,7 @@ export const PROJECTS: readonly Project[] = [
     skills: ["AI-Native", "Motion Design", "Design Engineering"],
     links: [{ label: "App Store", url: "https://apps.apple.com/us/app/oryne/id6778995892" }],
     destination: CASE_STUDY,
-    signal: "An Ocean for Unfinished Thoughts",
+    signal: "Where unfinished thoughts drift back",
     description: "Live on the App Store: an inspiration-capture app where thoughts drift, gather into currents, and come back on their own.",
     role: "0→1 Product Designer & Builder",
     coverImage: oryneCard,
@@ -197,7 +197,7 @@ export const PROJECTS: readonly Project[] = [
     section: "selected",
     skills: ["Data Visualization", "AI-Native", "Physical Prototyping"],
     destination: CASE_STUDY,
-    signal: "Brain Impact Visualization for Athletes and Medical Teams",
+    signal: "Brain impact visualization for athletes and medical teams",
     description: "1st Place, FigBuild 2026. Making invisible brain trauma visible before it becomes irreversible.",
     role: "Product Designer, Maker",
     coverImage: neuralyfeCover,
@@ -214,7 +214,7 @@ export const PROJECTS: readonly Project[] = [
     section: "selected",
     skills: ["Hardware UX", "UX Research", "Physical Prototyping"],
     destination: CASE_STUDY,
-    signal: "AI-Powered Anticipatory Motion Sickness Relief",
+    signal: "AI-powered anticipatory motion sickness relief",
     description: "A speculative in-flight motion-sickness concept. Its refined form was preferred by 93.75% of testers.",
     role: "Product Designer",
     year: "2025",
@@ -241,11 +241,14 @@ export const PROJECTS: readonly Project[] = [
     skills: ["AI-Native", "Design Engineering"],
     links: [{ label: "App Store", url: "https://apps.apple.com/us/app/moti-plan/id6770705491" }],
     destination: CASE_STUDY,
-    signal: "An AI-Native Timeline for Real Projects",
+    signal: "An AI-native timeline for real projects",
     description: "Designed, built, and shipped on the App Store: an AI-native iOS planner that turns messy, natural language into a living, timeline-aware plan.",
     role: "0→1 Product Designer & Builder",
     coverImage: motiCard,
-    coverAspect: "1280/800",
+    // 2560x1600: the reel and its poster are cut from the Moti master at that
+    // size, since the card frame is now the full page column and the old
+    // 1280 render read soft on a retina display.
+    coverAspect: "2560/1600",
     // The Moti: Plan reel — the title card, then dictating a messy sentence and
     // watching it land on the timeline, then back to the title card. coverImage is
     // that opening frame, so it serves as the poster, the reduced-motion still, and

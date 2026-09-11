@@ -2,18 +2,24 @@ import { useEffect, useState } from "react";
 
 const MOBILE_BREAKPOINT = 768;
 
-export function useIsMobile() {
-  const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined);
+/** True while the viewport is narrower than `breakpoint` pixels (false until
+ *  the first client measurement, so the first paint is the desktop layout). */
+export function useIsBelow(breakpoint: number) {
+  const [below, setBelow] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
+    const mql = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
     const onChange = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+      setBelow(window.innerWidth < breakpoint);
     };
     mql.addEventListener("change", onChange);
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    setBelow(window.innerWidth < breakpoint);
     return () => mql.removeEventListener("change", onChange);
-  }, []);
+  }, [breakpoint]);
 
-  return !!isMobile;
+  return !!below;
+}
+
+export function useIsMobile() {
+  return useIsBelow(MOBILE_BREAKPOINT);
 }

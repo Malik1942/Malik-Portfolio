@@ -1105,7 +1105,7 @@ const ranger: ProjectDetailSource = {
 const oryne: ProjectDetailSource = {
   slug: "oryne",
   title: "Oryne",
-  heroSummary: "An ocean for unfinished thoughts. Live on the App Store,\nwith all of its intelligence on the device",
+  heroSummary: "An iPhone app that catches ideas the moment they strike\nand brings old sparks back.",
   // The poster is the loop's own first frame, so nothing swaps when playback
   // starts and the reduced-motion still is the title card it opens on: the icon
   // and wordmark at rest beside the phone, the way Moti's reel opens.

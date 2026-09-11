@@ -99,6 +99,13 @@
         "$extensions": {
           "com.malikzhang.alpha": 0.25
         }
+      },
+      "ink": {
+        "$description": "A quiet ring drawn in the ink rather than the grey rule: a chip at rest, where the grey hairline vanishes on a dark cover but a bare label does not read as a tag. Light enough to be felt rather than seen.",
+        "$value": "{color.text.primary}",
+        "$extensions": {
+          "com.malikzhang.alpha": 0.12
+        }
       }
     },
     "focus": {

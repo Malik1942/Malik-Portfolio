@@ -17,7 +17,14 @@ import { defineRecipe } from "@/design-system/system/recipe";
 export const chipRecipe = defineRecipe({
   base: {
     form: "inline-flex items-center rounded-full whitespace-nowrap",
-    material: "border border-hairline",
+    // At rest a chip is a quiet pill: a ring in the ink, light enough to be
+    // felt rather than seen, and nothing inside it, so it says "tag" on a
+    // dark cover without a grey fill. The ring lifts with the text on hover and
+    // press, one tier behind it, so the word leads and the pill follows.
+    // It used to be the grey hairline (invisible on a cover) lifting to the
+    // full grey rule, which read as a grey ring that did not answer the
+    // pointer.
+    material: "border border-hairline-ink",
   },
   variants: {
     kind: {
@@ -27,15 +34,21 @@ export const chipRecipe = defineRecipe({
     tone: {
       passive: { material: "text-foreground-tertiary" },
       lead: { material: "text-foreground-lead" },
+      // The two live tones answer the pointer the way a system control does:
+      // the highlight arrives fast (hover:duration-fast) and lets go on the
+      // slower medium beat, a soft fill rises behind the label, and a press
+      // sinks the pill a hair. Word and ring move one tier together, so the
+      // ring is never a different voice from the text: tertiary/faint at
+      // rest, lead/secondary on hover, full/lead pressed.
       link: {
         material:
-          "bg-foreground/[0.08] text-foreground-lead hover:border-border hover:bg-foreground/[0.14] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        motion: "transition-[background-color,border-color,color] duration-medium ease-settle",
+          "border-hairline bg-foreground/[0.08] text-foreground-lead hover:border-foreground-secondary hover:bg-foreground/[0.14] hover:text-foreground active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        motion: "transition-[background-color,border-color,color,transform] duration-medium ease-settle hover:duration-fast",
       },
       toggle: {
         material:
-          "cursor-pointer text-foreground-tertiary hover:border-border hover:text-foreground-lead aria-pressed:border-border aria-pressed:bg-foreground/[0.14] aria-pressed:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        motion: "transition-[background-color,border-color,color] duration-medium ease-settle",
+          "cursor-pointer text-foreground-tertiary hover:border-foreground-secondary hover:bg-foreground/[0.06] hover:text-foreground-lead active:scale-[0.97] aria-pressed:border-foreground-lead aria-pressed:bg-foreground/[0.14] aria-pressed:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        motion: "transition-[background-color,border-color,color,transform] duration-medium ease-settle hover:duration-fast",
       },
     },
   },
