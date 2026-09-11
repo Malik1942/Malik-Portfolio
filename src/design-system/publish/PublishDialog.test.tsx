@@ -1,4 +1,5 @@
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { WHOLE_APP_RENDER_TIMEOUT_MS } from "@/test/setup";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useState } from "react";
 import { MemoryRouter, useLocation } from "react-router-dom";
@@ -371,5 +372,5 @@ describe("Admin entry integration", () => {
     expect(screen.queryByRole("heading", { name: "Token controls" })).not.toBeInTheDocument();
     expect(screen.queryByRole("spinbutton")).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Export JSON" })).not.toBeInTheDocument();
-  });
+  }, WHOLE_APP_RENDER_TIMEOUT_MS);
 });

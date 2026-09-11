@@ -50,3 +50,13 @@ Object.defineProperty(window, "matchMedia", {
 afterEach(() => {
   setReducedMotionPreference(false);
 });
+
+/**
+ * Budget for the two tests that mount the whole design-system app: the token
+ * workbench with a control per token, and the reference shell with routing.
+ * They take 1.5 to 2.5s alone and are pure render, not waiting, so the 5s
+ * default is a 2x margin that a second suite running beside this one (Cursor
+ * and a worktree, measured Sep 2026) eats. Fifteen seconds still catches a
+ * hang; it stops catching a busy machine. Everything else keeps the default.
+ */
+export const WHOLE_APP_RENDER_TIMEOUT_MS = 15_000;

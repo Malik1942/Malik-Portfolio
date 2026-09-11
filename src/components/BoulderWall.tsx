@@ -28,6 +28,9 @@ const pct = (value: number, total: number) => `${(value / total) * 100}%`;
 const easeSpringy: [number, number, number, number] = [0.34, 1.56, 0.64, 1];
 
 /** The fall should be worth doing on purpose — rotate the punchline. */
+/** How long a pumped-out climber hangs before the route resets under them. */
+export const FALL_RESET_MS = 1100;
+
 const FALL_QUIPS = [
   (grade: string) => `Pumped out on ${grade}! Gravity accepts your donation.`,
   (grade: string) => `${grade} shook you off. The wall keeps score.`,
@@ -270,7 +273,7 @@ const WallGame = ({
         fallTimerRef.current = window.setTimeout(() => {
           setProgress((current) => ({ ...current, [route.id]: [startHold(route).id] }));
           setFallingRoute(null);
-        }, 1100);
+        }, FALL_RESET_MS);
       }
       return;
     }

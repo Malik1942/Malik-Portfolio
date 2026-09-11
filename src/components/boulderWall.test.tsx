@@ -1,7 +1,7 @@
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
-import BoulderWall from "./BoulderWall";
+import BoulderWall, { FALL_RESET_MS } from "./BoulderWall";
 import {
   DESKTOP_WALL,
   MOBILE_WALL,
@@ -377,6 +377,12 @@ describe.each([
 
 // Interaction runs against the mobile wall (matchMedia stub reports < 1024px).
 describe("BoulderWall interaction", () => {
+  // The fall tests fake the clock so the wall's reset timer is run, not waited
+  // for: 1.1s of real time per test was the margin that evaporated under load.
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   const hold = (label: string) => screen.getByRole("button", { name: label });
   const v0Line = ["V0 hold a1", "V0 hold a3", "V0 hold a4", "V0 top hold"];
 
@@ -441,7 +447,8 @@ describe("BoulderWall interaction", () => {
     ).toBeInTheDocument();
   });
 
-  it("pumps out and falls when the chalk runs dry short of the top", async () => {
+  it("pumps out and falls when the chalk runs dry short of the top", () => {
+    vi.useFakeTimers();
     render(<BoulderWall />);
     // Mobile V4 is exact-chalk. Start on the center dyno, then join the
     // right-hand line: the bag empties on q12, one move under the top.
@@ -450,13 +457,14 @@ describe("BoulderWall interaction", () => {
     }
     expect(screen.getByRole("status").textContent).toMatch(/pumped out on V4/i);
 
-    await waitFor(
-      () => expect(hold("V4 hold q3")).toHaveAttribute("aria-pressed", "false"),
-      { timeout: 2500 },
-    );
+    act(() => {
+      vi.advanceTimersByTime(FALL_RESET_MS);
+    });
+    expect(hold("V4 hold q3")).toHaveAttribute("aria-pressed", "false");
   });
 
-  it("pumps out on a dyno to the top that the bag cannot cover", async () => {
+  it("pumps out on a dyno to the top that the bag cannot cover", () => {
+    vi.useFakeTimers();
     render(<BoulderWall />);
     // Mobile V0 budget is 6. An opening dyno plus a wander leave 1 chalk on
     // a5, and the top sits in a5's outer band: the grab happens, then falls.
@@ -464,13 +472,13 @@ describe("BoulderWall interaction", () => {
       fireEvent.click(hold(label));
     }
     expect(screen.getByRole("status").textContent).toMatch(/pumped out on V0/i);
-    await waitFor(
-      () => expect(hold("V0 hold a2")).toHaveAttribute("aria-pressed", "false"),
-      { timeout: 2500 },
-    );
+    act(() => {
+      vi.advanceTimersByTime(FALL_RESET_MS);
+    });
+    expect(hold("V0 hold a2")).toHaveAttribute("aria-pressed", "false");
   });
 
-  it("falls when a decoy hang slaps the top with the last chalk", async () => {
+  it("falls when a decoy hang slaps the top with the last chalk", () => {
     const route = MOBILE_WALL.routes[1];
     const byId = new Map(route.holds.map((h) => [h.id, h]));
     const budget = routeBudget(route);
@@ -500,16 +508,17 @@ describe("BoulderWall interaction", () => {
     walk([startHold(route).id], 0);
     expect(slap, "mobile V2 has no glory-slap decoy").not.toBeNull();
 
+    vi.useFakeTimers();
     render(<BoulderWall />);
     for (const id of slap!.slice(1)) {
       fireEvent.click(hold(id === top.id ? "V2 top hold" : `V2 hold ${id}`));
     }
     expect(screen.getByRole("status").textContent).toMatch(/pumped out on V2/i);
     const firstHold = slap!.find((id) => id !== startHold(route).id && id !== top.id)!;
-    await waitFor(
-      () => expect(hold(`V2 hold ${firstHold}`)).toHaveAttribute("aria-pressed", "false"),
-      { timeout: 2500 },
-    );
+    act(() => {
+      vi.advanceTimersByTime(FALL_RESET_MS);
+    });
+    expect(hold(`V2 hold ${firstHold}`)).toHaveAttribute("aria-pressed", "false");
   });
 
   it("reports the cleaner line after a wandering send, and resets", () => {
