@@ -24,8 +24,23 @@ type Observer = {
 
 const observers: Observer[] = [];
 
+// Whether the device can hover. The shared setup stub answers false to every
+// query except reduced motion, which would read as "touch device" and start the
+// scroll-driven playback in every test. Each block picks its own answer.
+let canHover = true;
+
 beforeEach(() => {
   observers.length = 0;
+  vi.stubGlobal("matchMedia", (query: string) => ({
+    matches: query === "(hover: hover)" ? canHover : false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  }));
   vi.stubGlobal(
     "IntersectionObserver",
     class {
@@ -53,6 +68,7 @@ beforeEach(() => {
 afterEach(() => {
   vi.unstubAllGlobals();
   cleanup();
+  canHover = true;
 });
 
 // jsdom has no media pipeline: play() is unimplemented and currentTime never
@@ -248,6 +264,143 @@ describe("cover video playback", () => {
     );
     fireEvent.mouseEnter(card);
 
+    expect(play).toHaveBeenCalledTimes(1);
+  });
+});
+
+// A phone has no pointer to enter the card, so there the reel has to answer to
+// the scroll instead. Three rules keep that from being a literal port of hover:
+// only the card nearest the middle of the screen plays, a finished reel fades
+// back to the title card, and the still lifts only once a frame is really
+// playing. Nothing about the desktop rules above changes.
+describe("cover video playback on a device that cannot hover", () => {
+  beforeEach(() => {
+    canHover = false;
+  });
+
+  const findStill = (container: HTMLElement) =>
+    [...container.querySelectorAll("img")].find(
+      (img) => img.getAttribute("src") === project.coverImage,
+    ) as HTMLImageElement;
+
+  it("plays from the start when the cover scrolls onto the screen", () => {
+    const { play } = stubMedia();
+    const { container } = renderCard();
+    const video = container.querySelector("video") as HTMLVideoElement;
+
+    expect(play).not.toHaveBeenCalled();
+
+    video.currentTime = 4;
+    arriveOnScreen();
+
+    expect(play).toHaveBeenCalledTimes(1);
+    expect(video.currentTime).toBe(0);
+    expect(video.getAttribute("src")).toBe(project.coverVideo);
+  });
+
+  it("lifts the still only once a frame is playing, so a refused play leaves a plain still", () => {
+    stubMedia();
+    const { container } = renderCard();
+    const video = container.querySelector("video") as HTMLVideoElement;
+    const still = findStill(container);
+
+    arriveOnScreen();
+    // play() was asked for, but nothing has painted yet (or Low Power Mode said no).
+    expect(still.style.opacity).not.toBe("0");
+
+    fireEvent.playing(video);
+    expect(still.style.opacity).toBe("0");
+  });
+
+  it("parks on the opening frame when the cover scrolls off, and replays on the way back", () => {
+    const { play, pause } = stubMedia();
+    const { container } = renderCard();
+    const video = container.querySelector("video") as HTMLVideoElement;
+    const still = findStill(container);
+
+    arriveOnScreen();
+    fireEvent.playing(video);
+    video.currentTime = 9.8;
+    leaveScreen();
+
+    expect(pause).toHaveBeenCalledTimes(1);
+    expect(video.currentTime).toBe(0);
+    fireEvent.pause(video);
+    expect(still.style.opacity).not.toBe("0");
+
+    arriveOnScreen();
+    expect(play).toHaveBeenCalledTimes(2);
+  });
+
+  it("fades back to the title card when the reel ends, and does not replay until the card returns", () => {
+    const { play } = stubMedia();
+    const { container, rerender } = renderCard();
+    const video = container.querySelector("video") as HTMLVideoElement;
+    const still = findStill(container);
+
+    arriveOnScreen();
+    fireEvent.playing(video);
+    expect(still.style.opacity).toBe("0");
+
+    fireEvent.ended(video);
+    expect(still.style.opacity).not.toBe("0");
+    expect(play).toHaveBeenCalledTimes(1);
+
+    // Still on screen, re-rendering: no restart.
+    rerender(
+      <MemoryRouter>
+        <ProjectCard project={project} projectId="moti" dotClass="bg-dot-red" globalIndex={0} imageRight />
+      </MemoryRouter>,
+    );
+    expect(play).toHaveBeenCalledTimes(1);
+
+    leaveScreen();
+    arriveOnScreen();
+    expect(play).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not start on the approach — only once the cover itself is on screen", () => {
+    const { play } = stubMedia();
+    renderCard();
+
+    approach();
+
+    expect(play).not.toHaveBeenCalled();
+  });
+
+  it("plays only the reel nearest the middle of the screen when two cards are on it", () => {
+    const { play, pause } = stubMedia();
+    const second = { ...project, title: "Oryne", coverVideo: "/oryne-card.mp4", coverImage: "/oryne.webp" };
+    const { container } = render(
+      <MemoryRouter>
+        <ProjectCard project={project} projectId="moti" dotClass="bg-dot-red" globalIndex={0} imageRight />
+        <ProjectCard project={second} projectId="oryne" dotClass="bg-dot-red" globalIndex={1} imageRight />
+      </MemoryRouter>,
+    );
+    const [motiVideo, oryneVideo] = [...container.querySelectorAll("video")];
+    // jsdom lays nothing out: give each cover a place on an 800px-tall screen.
+    // Moti sits at the top edge, Oryne straddles the middle.
+    Object.defineProperty(window, "innerHeight", { configurable: true, value: 800 });
+    const place = (video: Element, top: number, bottom: number) => {
+      video.parentElement!.getBoundingClientRect = () =>
+        ({ top, bottom, height: bottom - top, left: 0, right: 375, width: 375, x: 0, y: top, toJSON() {} }) as DOMRect;
+    };
+    place(motiVideo, -100, 200);
+    place(oryneVideo, 250, 550);
+
+    arriveOnScreen();
+
+    expect(play).toHaveBeenCalledTimes(1);
+    expect(play.mock.instances[0]).toBe(oryneVideo);
+
+    // Scroll on: Moti leaves, Oryne stays the only candidate and keeps playing.
+    act(() => {
+      for (const { callback, elements } of [...observers]) {
+        if (!elements.has(motiVideo.parentElement!)) continue;
+        callback([{ isIntersecting: false, target: motiVideo.parentElement! }]);
+      }
+    });
+    expect(pause).not.toHaveBeenCalled();
     expect(play).toHaveBeenCalledTimes(1);
   });
 });
