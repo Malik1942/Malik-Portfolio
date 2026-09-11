@@ -64,7 +64,7 @@ function RecipeStage() {
 
   return (
     <div data-testid="motion-recipe-stage" data-playing={playing ?? "none"} data-reduced-motion={reduce ? "true" : "false"} className="space-y-5">
-      <div className="flex min-h-[144px] items-center overflow-hidden rounded-sm border border-hairline bg-surface-wash p-6">
+      <div className="flex min-h-[144px] items-center overflow-hidden rounded-sm border border-hairline p-6">
         <motion.div
           key={tick}
           animate={animate}

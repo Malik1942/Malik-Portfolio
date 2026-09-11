@@ -38,7 +38,7 @@ const screens = [
   { src: hearapySettings, alt: "Hearapy settings: playback duration, a headphone check, and a note on why the 100 Hz tone works", hideOnMobile: true },
 ];
 
-const FRAME = "overflow-hidden rounded-2xl bg-surface-wash";
+const FRAME = "overflow-hidden rounded-2xl";
 
 export function AuraSamsungParallel() {
   return (

@@ -22,7 +22,7 @@ export const chipRecipe = defineRecipe({
   variants: {
     kind: {
       label: { form: "px-2 py-1 text-label uppercase tracking-eyebrow leading-none" },
-      text: { form: "px-4 py-2 text-sm", material: "bg-surface-wash" },
+      text: { form: "px-4 py-2 text-sm", material: "" },
     },
     tone: {
       passive: { material: "text-foreground-tertiary" },

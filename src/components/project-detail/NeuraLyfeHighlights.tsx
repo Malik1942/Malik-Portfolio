@@ -105,7 +105,7 @@ function NeuraLyfeArtifact({
     <figure>
       <div
         ref={boxRef}
-        className="overflow-hidden rounded-2xl bg-surface-wash"
+        className="overflow-hidden rounded-2xl"
         style={{ aspectRatio: `${width} / ${height}` }}
       >
         <video

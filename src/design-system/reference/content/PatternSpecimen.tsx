@@ -35,7 +35,7 @@ function SectionNavigationStage() {
           </button>
         ))}
       </div>
-      <div className="min-h-[150px] rounded-sm border border-hairline bg-surface-wash p-5 sm:p-6">
+      <div className="min-h-[150px] rounded-sm border border-hairline p-5 sm:p-6">
         <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">{active}</p>
         <p className="mt-5 max-w-measure-narrow text-xl leading-snug tracking-tight text-foreground">
           {active === "Research" ? "Evidence turns uncertainty into a shared point of view." : active === "Direction" ? "A clear design direction keeps decisions connected." : "Final artifacts make the outcome and its reasoning visible."}
@@ -59,7 +59,7 @@ function TransitionStage() {
 
   return (
     <div data-testid="transition-stage" data-phase={phase} data-reduced-motion={reduce ? "true" : "false"} className="space-y-5">
-      <div className="min-h-[144px] overflow-hidden rounded-sm border border-hairline bg-surface-wash p-5 sm:p-6">
+      <div className="min-h-[144px] overflow-hidden rounded-sm border border-hairline p-5 sm:p-6">
         <motion.div
           initial={false}
           animate={phase === "settled" || reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
@@ -79,7 +79,7 @@ function TransitionStage() {
 function HomepageHeroStage() {
   const reduce = useReducedMotion();
   return (
-    <div className="relative overflow-hidden rounded-sm border border-hairline bg-surface-wash p-6 sm:p-8">
+    <div className="relative overflow-hidden rounded-sm border border-hairline p-6 sm:p-8">
       <motion.div aria-hidden="true" animate={reduce ? { opacity: 0.45 } : { opacity: [0.28, 0.55, 0.28] }} transition={{ duration: DURATION.ambient, repeat: Infinity, ease: EASE.ambient }} className="absolute inset-0 opacity-45 [background-image:radial-gradient(circle_at_1px_1px,hsl(var(--foreground)/0.4)_1px,transparent_0)] [background-size:18px_18px]" />
       <div className="relative max-w-measure-narrow"><p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">malik@portfolio:~$</p><p className="mt-5 font-display text-title text-foreground">I design useful systems for people and the work around them.</p></div>
     </div>
@@ -90,7 +90,7 @@ function CaseStudyStage() {
   return (
     <div className="space-y-3">
       {["Premise", "Context", "Decisions", "Outcome"].map((label, index) => (
-        <article key={label} className={`rounded-sm border border-hairline p-4 ${index === 2 ? "bg-surface-wash" : "bg-surface-wash"}`}><p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">0{index + 1} · {label}</p><p className="mt-3 max-w-measure text-sm leading-relaxed text-foreground-secondary">{index === 2 ? "A decisive artifact pairs a short explanation with the evidence that supports it." : "A paced narrative layer keeps the reader oriented without flattening project detail."}</p></article>
+        <article key={label} className={`rounded-sm border border-hairline p-4 ${index === 2 ? "" : ""}`}><p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">0{index + 1} · {label}</p><p className="mt-3 max-w-measure text-sm leading-relaxed text-foreground-secondary">{index === 2 ? "A decisive artifact pairs a short explanation with the evidence that supports it." : "A paced narrative layer keeps the reader oriented without flattening project detail."}</p></article>
       ))}
     </div>
   );
@@ -101,7 +101,7 @@ function ResponsiveStage() {
   return (
     <div data-testid="responsive-stage" data-layout={layout} className="space-y-5">
       <div className="flex gap-2"><button type="button" onClick={() => setLayout("wide")} className={`min-h-[40px] rounded-sm border px-3 text-caption focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus ${layout === "wide" ? "border-control-strong text-foreground" : "border-hairline text-foreground-tertiary"}`}>Wide layout</button><button type="button" onClick={() => setLayout("compact")} className={`min-h-[40px] rounded-sm border px-3 text-caption focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus ${layout === "compact" ? "border-control-strong text-foreground" : "border-hairline text-foreground-tertiary"}`}>Compact layout</button></div>
-      <div className={layout === "wide" ? "grid gap-3 sm:grid-cols-2" : "space-y-3"}>{["Evidence", "Reflection"].map((title) => <article key={title} className="min-h-[110px] rounded-sm border border-hairline bg-surface-wash p-4"><p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">{title}</p><p className="mt-4 text-sm text-foreground-secondary">The same content keeps its order while the relationship changes.</p></article>)}</div>
+      <div className={layout === "wide" ? "grid gap-3 sm:grid-cols-2" : "space-y-3"}>{["Evidence", "Reflection"].map((title) => <article key={title} className="min-h-[110px] rounded-sm border border-hairline p-4"><p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">{title}</p><p className="mt-4 text-sm text-foreground-secondary">The same content keeps its order while the relationship changes.</p></article>)}</div>
     </div>
   );
 }
@@ -111,7 +111,7 @@ function ExpressiveStage() {
   const [paused, setPaused] = useState(reduce);
   return (
     <div data-testid="expressive-stage" data-paused={paused ? "true" : "false"} data-reduced-motion={reduce ? "true" : "false"} className="space-y-5">
-      <div className="relative h-40 overflow-hidden rounded-sm border border-hairline bg-surface-wash">
+      <div className="relative h-40 overflow-hidden rounded-sm border border-hairline">
         {[0, 1, 2].map((index) => <motion.span key={index} aria-hidden="true" animate={paused ? { x: 0, y: 0, opacity: 0.5 } : { x: [0, 22 - index * 8, 0], y: [0, -10 + index * 7, 0], opacity: [0.35, 0.85, 0.35] }} transition={{ duration: DURATION.ambient + index * 0.4, repeat: Infinity, ease: EASE.ambient }} className="absolute h-24 w-24 rounded-full bg-foreground/15 blur-xl" style={{ left: `${18 + index * 28}%`, top: `${30 + (index % 2) * 20}%` }} />)}
         <p className="relative z-10 p-5 text-sm text-foreground-secondary">Expression remains art-directed rather than promoted to a generic primitive.</p>
       </div>

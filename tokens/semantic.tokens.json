@@ -69,7 +69,7 @@
         "$value": "{color.neutral.820}"
       },
       "wash": {
-        "$description": "A faint wash of ink over whatever is behind it: the well a case-study module sinks its media into, and the fill of a chip. A wash rather than an opaque step, because it has to read the same on the page canvas and on surface-inset. Replaces a bg-secondary wash that resolved to a 1/255 difference and so drew nothing at all.",
+        "$description": "A faint wash of ink over whatever is behind it: the fill of a chip, a selected scene, a small badge. Used sparingly, because the portfolio's surfaces are outline-only by intent: a card, a media well, or a panel is a hairline on the canvas with nothing inside it.",
         "$value": "{color.text.primary}",
         "$extensions": {
           "com.malikzhang.alpha": 0.06

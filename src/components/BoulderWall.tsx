@@ -323,7 +323,7 @@ const WallGame = ({
   return (
     <div className="w-full">
       <div
-        className="relative w-full overflow-hidden rounded-lg border border-border bg-surface-wash"
+        className="relative w-full overflow-hidden rounded-lg border border-border"
         style={{ aspectRatio: `${layout.width} / ${layout.height}` }}
       >
         {/* Wall texture + finish line + chalk lines, under the holds */}

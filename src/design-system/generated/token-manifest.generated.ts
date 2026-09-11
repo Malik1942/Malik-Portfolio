@@ -11,7 +11,7 @@ export const tokenSourceCommit =
     : "development";
 export const tokenBundle: TokenBundle = {
   "schemaVersion": 1,
-  "tokenHash": "2c8a67a6",
+  "tokenHash": "e8eb0f61",
   "documents": {
     "primitive.tokens.json": {
       "color": {
@@ -751,7 +751,7 @@ export const tokenBundle: TokenBundle = {
             "$value": "{color.neutral.820}"
           },
           "wash": {
-            "$description": "A faint wash of ink over whatever is behind it: the well a case-study module sinks its media into, and the fill of a chip. A wash rather than an opaque step, because it has to read the same on the page canvas and on surface-inset. Replaces a bg-secondary wash that resolved to a 1/255 difference and so drew nothing at all.",
+            "$description": "A faint wash of ink over whatever is behind it: the fill of a chip, a selected scene, a small badge. Used sparingly, because the portfolio's surfaces are outline-only by intent: a card, a media well, or a panel is a hairline on the canvas with nothing inside it.",
             "$value": "{color.text.primary}",
             "$extensions": {
               "com.malikzhang.alpha": 0.06
@@ -2073,7 +2073,7 @@ export const tokenBundle: TokenBundle = {
         ],
         "alpha": 0.06
       },
-      "description": "A faint wash of ink over whatever is behind it: the well a case-study module sinks its media into, and the fill of a chip. A wash rather than an opaque step, because it has to read the same on the page canvas and on surface-inset. Replaces a bg-secondary wash that resolved to a 1/255 difference and so drew nothing at all.",
+      "description": "A faint wash of ink over whatever is behind it: the fill of a chip, a selected scene, a small badge. Used sparingly, because the portfolio's surfaces are outline-only by intent: a card, a media well, or a panel is a hairline on the canvas with nothing inside it.",
       "cssVariable": "--color-surface-wash",
       "cssValue": "40 6% 90% / 0.06",
       "aliasOf": "color.text.primary",

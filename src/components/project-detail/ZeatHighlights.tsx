@@ -36,7 +36,7 @@ const artifacts = [
 function ZeatArtifact({ src, alt, caption }: { src: string; alt: string; caption: string }) {
   return (
     <figure>
-      <div className="overflow-hidden rounded-2xl bg-surface-wash">
+      <div className="overflow-hidden rounded-2xl">
         <img
           src={src}
           alt={alt}

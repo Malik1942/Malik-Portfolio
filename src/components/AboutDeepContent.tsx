@@ -239,7 +239,7 @@ const EditorialPhotoFrame = ({
     aria-label={`Open ${photo.alt}`}
   >
     <div
-      className={`relative w-full overflow-hidden rounded-lg bg-surface-wash ${
+      className={`relative w-full overflow-hidden rounded-lg ${
         layout === "pair" ? "aspect-[16/10]" : "aspect-[2.35/1] max-h-[min(30vh,340px)]"
       }`}
     >

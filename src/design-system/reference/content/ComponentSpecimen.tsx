@@ -40,7 +40,7 @@ function ProjectCardStage() {
       onMouseEnter={() => setActive(true)}
       onMouseLeave={() => setActive(false)}
       data-active={active}
-      className="group relative block overflow-hidden rounded-lg border border-hairline bg-surface-wash focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+      className="group relative block overflow-hidden rounded-lg border border-hairline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
     >
       <img src={motiCard} alt="Moti mobile product interface" className="aspect-[16/9] w-full object-cover transition-transform duration-medium group-hover:scale-[1.025] group-focus-visible:scale-[1.025]" />
       <div className={`absolute inset-0 flex items-end bg-gradient-to-t from-background via-background/15 to-transparent p-5 transition-opacity duration-fast ${active ? "opacity-100" : "opacity-75"}`}>
@@ -61,7 +61,7 @@ function LightboxStage() {
       <button
         type="button"
         onClick={() => setImage({ src: auraCover, alt: "Specimen product interface" })}
-        className="group relative block w-full overflow-hidden rounded-lg border border-hairline bg-surface-wash text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+        className="group relative block w-full overflow-hidden rounded-lg border border-hairline text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
         aria-label="Open image lightbox"
       >
         <img src={auraCover} alt="" className="aspect-[16/8] w-full object-cover transition-transform duration-medium group-hover:scale-[1.02] group-focus-visible:scale-[1.02]" />
@@ -119,7 +119,7 @@ function ProjectListStage() {
         [motiCard, "Moti", "Product design"],
         [auraCover, "Aura", "End-to-end experience"],
       ].map(([image, title, role]) => (
-        <a key={title} href="#project-list-specimen" onClick={(event) => event.preventDefault()} className="group overflow-hidden rounded-sm border border-hairline bg-surface-wash focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+        <a key={title} href="#project-list-specimen" onClick={(event) => event.preventDefault()} className="group overflow-hidden rounded-sm border border-hairline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
           <img src={image} alt="" className="aspect-[16/10] w-full object-cover transition-transform duration-medium group-hover:scale-[1.02] group-focus-visible:scale-[1.02]" />
           <div className="p-4"><p className="text-xl tracking-tight text-foreground">{title}</p><p className="mt-1 text-sm text-foreground-tertiary">{role}</p></div>
         </a>

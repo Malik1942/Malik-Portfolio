@@ -99,7 +99,7 @@ function SectionIntroBlock({ block }: { block: IntroBlock }) {
           {block.contextCards.map((card) => (
             <div
               key={card.title}
-              className="border border-hairline bg-surface-wash rounded-sm px-5 py-5"
+              className="border border-hairline rounded-sm px-5 py-5"
             >
               <p className="text-label uppercase tracking-eyebrow text-foreground-secondary mb-2.5">
                 {card.title}
@@ -394,7 +394,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
       {/* 2 — Hero media: a looping clip when the project has one, else the still */}
       {project.heroImage ? (
         <div className={`${PAGE_OUTER} mt-10 md:mt-14`}>
-          <div className="overflow-hidden rounded-2xl bg-surface-wash">
+          <div className="overflow-hidden rounded-2xl">
             {project.heroVideo && !shouldReduceMotion ? (
               // A hero clip carries the poster as its first frame, so the LCP is
               // the same picture either way and nothing reflows when it starts.
@@ -546,7 +546,7 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                 ) : (
                   <>
                     {s.introBlock?.coverImage ? (
-                      <div className="mb-12 overflow-hidden rounded-2xl bg-surface-wash">
+                      <div className="mb-12 overflow-hidden rounded-2xl">
                         <img
                           src={s.introBlock.coverImage}
                           alt=""

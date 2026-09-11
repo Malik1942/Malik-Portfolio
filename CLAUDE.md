@@ -65,8 +65,10 @@ Foundations, component docs, and code all use that vocabulary.
 - Ink is a role, never a raw opacity: `text-foreground`, `-lead`, `-secondary`,
   `-tertiary`, `-quiet` (quiet is decorative-only). Rules are `border-hairline`
   or `border-hairline-faint`; focus is `ring-focus` or `ring-focus-strong`.
-  Alpha on a surface or an edge is a role too, for the same reason: faint fills
-  are `bg-surface-wash` / `-wash-strong`, veils are `bg-scrim` / `-scrim-faint`
+  Alpha on a surface or an edge is a role too, for the same reason. Cards,
+  media wells, and panels are **outline-only**: a hairline on the canvas with
+  no fill, by intent. The rare fill that should show (a chip, a selected
+  scene) is `bg-surface-wash` / `-wash-strong`; veils are `bg-scrim` / `-scrim-faint`
   / `-scrim-strong`, and a control's edge answers to its own ladder,
   `border-control-quiet` / `-control` / `-control-strong` / `-control-selected`.
   A control edge is a state and a rule is a structure, so they stay apart: a
@@ -79,10 +81,11 @@ Foundations, component docs, and code all use that vocabulary.
   shipped at 100% for months before it was adopted at 72% in Sep 2026; its
   alpha lives in `tokens/semantic.tokens.json`. The mirror-image trap is a
   modifier that is on the scale and still draws nothing: `bg-secondary/10` was
-  `rgba(20,20,20,0.1)` over an `rgb(10,10,10)` canvas, a 1/255 difference, and
-  thirty call sites drew a media well that was never there. Check what a wash
-  resolves to against the ground it actually lands on, not just that Tailwind
-  emitted a rule.
+  `rgba(20,20,20,0.1)` over an `rgb(10,10,10)` canvas, a 1/255 difference, on
+  thirty-seven call sites. Making it visible was tried and rejected (Sep 2026):
+  the grey read as dirty, and outline-only was the look all along. Check what
+  a wash resolves to against the ground it actually lands on, and if the
+  answer is "nothing" ask whether nothing was the point before you fix it.
 - Vertical rhythm: `mt-section`, `mt-module`, `gap-stack`, `mt-caption` (each
   steps up at md). Stacking: `z-header`, `z-guide`, `z-overlay`, `z-modal`.
   Framer durations come from `DURATION` or a `MOTION` recipe except in the

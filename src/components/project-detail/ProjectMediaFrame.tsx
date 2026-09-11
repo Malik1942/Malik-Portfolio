@@ -36,7 +36,7 @@ function AutoplayVideo({ src, poster }: { src: string; poster?: string }) {
 // it becomes an inner element, so the caption sits outside the clip and on the
 // page ground, the way a module's figure does. Without one the markup is
 // unchanged, which is what keeps every uncaptioned case study rendering as it did.
-const FRAME = "overflow-hidden rounded-2xl bg-surface-wash";
+const FRAME = "overflow-hidden rounded-2xl";
 
 export function ProjectMediaFrame({ fig }: { fig: ProjectSectionFigure }) {
   const media =

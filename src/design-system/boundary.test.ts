@@ -141,11 +141,13 @@ const RULES: Rule[] = [
   {
     name: "surface wash as a raw opacity",
     // bg-secondary/10 resolved to rgb(11,11,11) on an rgb(10,10,10) canvas: a
-    // 1/255 difference, which is to say nothing. Thirty call sites drew a
-    // media well that was never there, in six spellings that all rendered the
-    // same. The wash is a token now, so it has one value and it is visible.
+    // 1/255 difference, which is to say nothing. Thirty-seven call sites
+    // carried it in six spellings that all rendered the same, and that was
+    // the look: cards, media wells, and panels are outline-only here, a
+    // hairline on the canvas with nothing inside. So the class is not
+    // replaced, it is removed. A fill that is meant to show is a role.
     pattern: /\bbg-secondary\/(?:\d+|\[[^\]]+\])/g,
-    hint: "Use bg-surface-wash, or bg-surface-wash-strong one step up.",
+    hint: "Surfaces are outline-only: drop the fill. A fill that should show is bg-surface-wash or -wash-strong.",
   },
   {
     name: "control edge or rule as a raw opacity",
