@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useIsBelow, useIsMobile } from "@/hooks/useIsMobile";
 import { useCanHover } from "@/hooks/useCanHover";
+import { usePageLoaded } from "@/hooks/usePageLoaded";
 import { useReelFocus } from "@/hooks/useReelFocus";
 import { noOrphan } from "@/lib/noOrphan";
 import { SECTIONS, type SectionKey } from "@/lib/sections";
@@ -141,13 +142,33 @@ const CardMedia = ({
   // on the download. Latched: once fetching, it stays fetched — leaving the
   // neighbourhood must never yank the src back out of a video that may already
   // have played.
+  //
+  // Order on the wire: a reel is megabytes and the still under it is tens of
+  // kilobytes. On a cold load the first Selected Work frame is already within
+  // a viewport of the screen, so fetching on approach alone put a 2.7 MB clip
+  // on the wire the moment React mounted, ahead of the covers and fonts the
+  // first paint was waiting on (on a 4 Mbps line it held the connection for
+  // six seconds while the covers were still arriving). The approach still
+  // decides which reels are fetched; the loading screen having lifted and this
+  // card's own still having landed decide when. Hover skips the queue: then
+  // the reel is wanted now.
   const videoRef = useRef<HTMLVideoElement>(null);
+  const stillRef = useRef<HTMLImageElement>(null);
   const mediaRef = useRef<HTMLDivElement>(null);
   const mediaNear = useInView(mediaRef, { margin: "100% 0px 100% 0px" });
+  const pageLoaded = usePageLoaded();
+  const [stillLoaded, setStillLoaded] = useState(!project.coverImage);
+  useEffect(() => {
+    // A cached still can be complete before its load event is wired up.
+    const still = stillRef.current;
+    if (still && still.complete && still.naturalWidth > 0) setStillLoaded(true);
+  }, []);
   const [fetchVideo, setFetchVideo] = useState(false);
   useEffect(() => {
-    if (hasVideo && (mediaNear || hovered)) setFetchVideo(true);
-  }, [hasVideo, mediaNear, hovered]);
+    if (hasVideo && (hovered || (mediaNear && pageLoaded && stillLoaded))) {
+      setFetchVideo(true);
+    }
+  }, [hasVideo, mediaNear, hovered, pageLoaded, stillLoaded]);
 
   // ── Touch substitute for hover ──
   // A phone has no pointer to enter the card, so on a device that cannot hover
@@ -209,6 +230,17 @@ const CardMedia = ({
     }
   }, [active, hasVideo, playFromStart]);
 
+  // The play request above can come before the fetch gate has opened (a hover
+  // in the first second of a visit, or a phone reaching a card whose still is
+  // still loading), and then it found a video with no src. Start the reel the
+  // moment the src is attached, if the card is still asking for it.
+  const wasFetching = useRef(false);
+  useEffect(() => {
+    const attached = fetchVideo && !wasFetching.current;
+    wasFetching.current = fetchVideo;
+    if (attached && active) playFromStart();
+  }, [fetchVideo, active, playFromStart]);
+
   // No lift on hover. The cover used to scale up 3% while the pointer was
   // on it; with the caption now living inside the frame the picture is the
   // whole card, and a picture that swells and re-crops on hover reads as
@@ -237,9 +269,13 @@ const CardMedia = ({
           />
           {project.coverImage ? (
             <img
+              ref={stillRef}
               src={project.coverImage}
               alt=""
               aria-hidden="true"
+              onLoad={() => setStillLoaded(true)}
+              // A still that fails must not hold the reel back forever.
+              onError={() => setStillLoaded(true)}
               className={`${mediaClass} pointer-events-none absolute inset-0 ${
                 canHover ? "" : "transition-opacity duration-medium ease-settle"
               }`}

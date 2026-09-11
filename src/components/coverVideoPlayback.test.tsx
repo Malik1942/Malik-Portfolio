@@ -99,12 +99,38 @@ const project = {
   coverVideo: "/moti-card.mp4",
 };
 
-const renderCard = () =>
+// The reel is queued behind the page load and the card's own still (see the
+// fetch-order tests below). The playback tests are about what happens after
+// that, so they start with both conditions met and the card already within a
+// viewport of the screen, the way any card a pointer can reach has been: the
+// page marked loaded before the card mounts, the still's load event fired
+// straight after, and the approach observer reporting the card near.
+const markPageLoaded = () =>
+  act(() => {
+    document.body.classList.add("loaded");
+    window.dispatchEvent(new Event("page-loaded"));
+  });
+
+const loadStill = (container: HTMLElement) =>
+  act(() => {
+    const still = container.querySelector("img[aria-hidden]");
+    if (still) fireEvent.load(still);
+  });
+
+const mountCard = () =>
   render(
     <MemoryRouter>
       <ProjectCard project={project} projectId="moti" dotClass="bg-dot-red" globalIndex={0} imageRight />
     </MemoryRouter>,
   );
+
+const renderCard = () => {
+  document.body.classList.add("loaded");
+  const view = mountCard();
+  loadStill(view.container);
+  approach();
+  return view;
+};
 
 // Scroll the whole card onto the screen: every observer in the tree reports its
 // own element as intersecting, which is what a real scroll does.
@@ -150,7 +176,9 @@ describe("cover video playback", () => {
 
   it("does not fetch the reel until the card is within a viewport of the screen", () => {
     stubMedia();
-    const { container } = renderCard();
+    document.body.classList.add("loaded");
+    const { container } = mountCard();
+    loadStill(container);
     const video = container.querySelector("video") as HTMLVideoElement;
 
     // Far below the fold: the poster paints the card and the ½ MB clip stays on
@@ -166,6 +194,40 @@ describe("cover video playback", () => {
     // out of a clip that may already have played.
     leaveScreen();
     expect(video.getAttribute("src")).toBe(project.coverVideo);
+  });
+
+  it("queues the reel behind the page load and the card's own still, even within a viewport", () => {
+    stubMedia();
+    document.body.classList.remove("loaded");
+    const { container } = mountCard();
+    const video = container.querySelector("video") as HTMLVideoElement;
+
+    // Within a viewport, but the first paint is still waiting on fonts and
+    // covers: a megabyte reel must not get on the wire ahead of them.
+    approach();
+    expect(video.getAttribute("src")).toBeNull();
+
+    // The page has painted, but this card's still has not landed yet.
+    markPageLoaded();
+    expect(video.getAttribute("src")).toBeNull();
+
+    loadStill(container);
+    expect(video.getAttribute("src")).toBe(project.coverVideo);
+  });
+
+  it("fetches at once on hover, ahead of the queue, and plays as soon as the src is attached", () => {
+    const { play } = stubMedia();
+    document.body.classList.remove("loaded");
+    const { container } = mountCard();
+    const card = container.querySelector("#project-moti") as HTMLElement;
+    const video = container.querySelector("video") as HTMLVideoElement;
+    expect(video.getAttribute("src")).toBeNull();
+
+    // The pointer is the request; nothing is allowed to queue in front of it.
+    fireEvent.mouseEnter(card);
+    expect(video.getAttribute("src")).toBe(project.coverVideo);
+    expect(play).toHaveBeenCalled();
+    expect(video.currentTime).toBe(0);
   });
 
   it("does not play when the card arrives — only hover does that", () => {
