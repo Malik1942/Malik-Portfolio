@@ -1,3 +1,5 @@
+import { useEffect, useRef, type ReactNode } from "react";
+import { useInView, useReducedMotion } from "framer-motion";
 import { noOrphan } from "@/lib/noOrphan";
 import {
   ArrowUpRight,
@@ -20,9 +22,15 @@ import {
   BookOpen,
   FileSearch,
   CheckCircle2,
+  Check,
+  Minus,
+  CircleDashed,
   type LucideIcon,
 } from "lucide-react";
 import { FigureCaption } from "./FigureCaption";
+import { NotionMark } from "./motiBrandMarks";
+import { PinterestMark, MilanoteMark, AppleMark, MymindMark } from "./oryneBrandMarks";
+import oryneMark from "@/assets/mark-oryne.png";
 import { CardGrid, Chips, ModuleCard, PullQuote, SCREEN_FIGURE_WIDTH, type ArtifactItem, type GridItem } from "./MotiModules";
 import oryneOcean from "@/assets/oryne-ocean.webp";
 import oryneCurrent from "@/assets/oryne-current.webp";
@@ -43,6 +51,12 @@ import oryneFirstLibrary from "@/assets/oryne-first-library.webp";
 import oryneWireOceanLayouts from "@/assets/oryne-wire-ocean-layouts.webp";
 import oryneWireCaptureFlow from "@/assets/oryne-wire-capture-flow.webp";
 import oryneWireBranching from "@/assets/oryne-wire-branching.webp";
+import oryneClipLibrary from "@/assets/oryne-clip-library.mp4";
+import oryneClipLibraryPoster from "@/assets/oryne-clip-library-poster.webp";
+import oryneClipResurfacing from "@/assets/oryne-clip-resurfacing.mp4";
+import oryneClipResurfacingPoster from "@/assets/oryne-clip-resurfacing-poster.webp";
+import oryneClipBranch from "@/assets/oryne-clip-branch.mp4";
+import oryneClipBranchPoster from "@/assets/oryne-clip-branch-poster.webp";
 import { Button } from "@/components/ui/Button";
 
 /* ---------------------------------------------------------------------------
@@ -99,6 +113,47 @@ function TermList({ items, columns = VOCABULARY_COLUMNS }: { items: Term[]; colu
   );
 }
 
+// Same table, split into named groups. The four moments are the spine of the
+// case study from here on: the vocabulary is grouped by them and so are the
+// principles, so a reader who learns the four once can scan both by it.
+type TermGroup = { title: string; blurb: string; items: Term[] };
+function GroupedTermList({ groups, columns = VOCABULARY_COLUMNS }: { groups: TermGroup[]; columns?: TermColumns }) {
+  return (
+    <ModuleCard>
+      <div className={`hidden md:grid ${TERM_COLS} px-8 py-4 border-b border-case-study-module-divider`}>
+        <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">{columns[0]}</p>
+        <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-6 ${TERM_COL_RULE}`}>{columns[1]}</p>
+        <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-6 ${TERM_COL_RULE}`}>{columns[2]}</p>
+      </div>
+      <div className="divide-y divide-case-study-module-divider">
+        {groups.map((group) => (
+          <div key={group.title}>
+            <div className="flex flex-col gap-1 bg-surface-inset px-6 py-4 md:flex-row md:items-baseline md:gap-4 md:px-8">
+              <p className="text-caption uppercase tracking-eyebrow font-mono text-foreground">{group.title}</p>
+              <p className="text-caption font-light leading-relaxed text-foreground-tertiary">{group.blurb}</p>
+            </div>
+            <div className="divide-y divide-case-study-module-divider border-t border-case-study-module-divider">
+              {group.items.map((t) => {
+                const Icon = t.icon;
+                return (
+                  <div key={t.term} className={`grid ${TERM_COLS} px-6 py-5 md:px-8 md:py-6`}>
+                    <div className="flex items-center gap-2.5">
+                      <Icon aria-hidden="true" className="w-4 h-4 shrink-0 text-accent-violet" strokeWidth={1.4} />
+                      <p className="text-sm md:text-base font-medium text-foreground">{t.term}</p>
+                    </div>
+                    <p className={`mt-2 md:mt-0 md:pl-6 text-sm font-light leading-relaxed text-foreground-secondary ${TERM_COL_RULE}`}>{noOrphan(t.meaning)}</p>
+                    <p className={`mt-2 md:mt-0 md:pl-6 text-caption md:text-sm font-mono leading-relaxed text-foreground-tertiary ${TERM_COL_RULE}`}>{noOrphan(t.inApp)}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+    </ModuleCard>
+  );
+}
+
 /* ── 1) Overview — tags + App Store CTA ─────────────────────────────────── */
 const tags = ["Selected Work", "AI-Native UX", "iOS", "On-Device AI", "Built & Shipped"];
 export function OryneTags() {
@@ -113,7 +168,7 @@ export function OryneAppStoreCta() {
   );
 }
 
-/* ── 2) Highlights — chips + pull-quote (the film sits above, as a figure) ── */
+/* ── 2) Highlights — chips + pull-quote (the film sits above, as a figure) ─── */
 const hookHighlights = [
   "Live on the App Store",
   "First commit to 1.0 in 23 days",
@@ -141,33 +196,336 @@ export function OryneProblem() {
   return <CardGrid items={problemPillars} colsClass="grid-cols-1 sm:grid-cols-3" />;
 }
 
-/* ── 4) The Idea — vocabulary that does work, and three spaces ──────────── */
-const vocabulary: Term[] = [
-  { term: "Whisper", meaning: "A thought caught by voice. Words appear while you speak.", inApp: "“Catch a whisper”", icon: Mic },
-  { term: "Thought", meaning: "One captured fragment, named and themed on the device.", inApp: "“Release into the Ocean”", icon: Sparkles },
-  { term: "Current", meaning: "Related thoughts drift together. Nothing is filed.", inApp: "“8 thoughts drift here”", icon: Waves },
-  { term: "Resurfacing", meaning: "One forgotten thought rises per day.", inApp: "“Catching a thought that drifted away”", icon: Sun },
-  { term: "Ask the Ocean", meaning: "A question answered only from your own thoughts.", inApp: "“Responses come from what you’ve captured.”", icon: Compass },
+/* ── 3b) Competitive — the three capabilities, and who has which ─────────── */
+// This is MALIK'S analysis, not one assembled for the case study. It comes from
+// section 10 of the original Oryne vision document, which predates the build:
+// its five entries are his (Pinterest / Shuffles, Milanote, mymind, Apple
+// Freeform, Evernote / Notion / Keep) and so is the conclusion, written there as
+// "few tools combine fast capture + spatial visualization + unexpected discovery
+// in a mobile-first experience". Those three become the three columns, so the
+// matrix argues his point rather than a new one. Do not swap the set for a
+// tidier one.
+//
+// Cells are short Title Case labels, not sentences: the matrix is for scanning,
+// and the argument lives in the close. Every word is capitalised by request.
+// The per-cell detail was checked against each product's own current material on
+// 2026-09-10: mymind.com (Serendipity "resurfaces forgotten things in your mind
+// so you can keep or forget them"), milanote.com (boards per project), Apple's
+// Freeform announcement (infinite canvas, iCloud, built for collaboration).
+// Pinterest's row is deliberately a claim about Pinterest's model only: the
+// Shuffles domain would not load, so nothing here asserts its current state.
+//
+// The finding that makes the module worth its space: every one of them holds at
+// most two of the three. mymind is the nearest, and it genuinely resurfaces.
+// Never quietly drop it to widen the gap.
+type Held = "yes" | "part" | "no";
+type Cell = { held: Held; note: string };
+type Rival = { name: string; mark: ReactNode; mine?: boolean; capture: Cell; field: Cell; discovery: Cell };
+const RIVAL_COLS = "grid-cols-1 md:grid-cols-[minmax(0,1fr)_repeat(3,minmax(0,1.05fr))]";
+const MARK = "h-4 w-4 shrink-0";
+// One product per row. The vision document grouped three of them
+// ("Pinterest / Shuffles", "Evernote / Notion / Keep"); each group is reduced to
+// its most representative member, because a slash-joined row cannot be answered
+// yes or no in three columns, and "Keep" on its own is ambiguous enough to read
+// as the fitness app rather than Google's note app.
+const rivals: Rival[] = [
+  {
+    name: "Pinterest",
+    mark: <PinterestMark className={MARK} />,
+    capture: { held: "yes", note: "One Tap" },
+    field: { held: "no", note: "An Endless Grid" },
+    discovery: { held: "part", note: "Other People\u2019s Ideas" },
+  },
+  {
+    name: "Milanote",
+    mark: <MilanoteMark className={MARK} />,
+    capture: { held: "yes", note: "Mobile Quick Note" },
+    field: { held: "yes", note: "Boards You Arrange" },
+    discovery: { held: "no", note: "Only What You Open" },
+  },
+  {
+    name: "mymind",
+    mark: <MymindMark className={MARK} />,
+    capture: { held: "yes", note: "One Click" },
+    field: { held: "no", note: "A Visual Grid" },
+    discovery: { held: "yes", note: "Serendipity" },
+  },
+  {
+    name: "Apple Freeform",
+    mark: <AppleMark className={MARK} />,
+    capture: { held: "no", note: "Place It Yourself" },
+    field: { held: "yes", note: "An Infinite Canvas" },
+    discovery: { held: "no", note: "Only What You Placed" },
+  },
+  {
+    name: "Notion",
+    mark: <NotionMark className={MARK} />,
+    capture: { held: "part", note: "Quick Add, Then File" },
+    field: { held: "no", note: "Pages And Databases" },
+    discovery: { held: "no", note: "A Search Box" },
+  },
+  {
+    name: "Oryne",
+    mine: true,
+    mark: <img src={oryneMark} alt="" aria-hidden="true" className={`${MARK} rounded-sm`} />,
+    capture: { held: "yes", note: "Two Seconds, By Voice" },
+    field: { held: "yes", note: "Currents That Drift" },
+    discovery: { held: "yes", note: "A Thought A Day" },
+  },
 ];
-const spaces: GridItem[] = [
-  { num: "01", title: "The Ocean, for Encountering", desc: "Enter without a goal. Drift is the point.", icon: Waves, accent: "violet" },
-  { num: "02", title: "The Library, for Finding", desc: "A scannable waterfall of cards. Finding is a job.", icon: LayoutGrid, accent: "emerald" },
-  { num: "03", title: "The Thought, for Working", desc: "One fragment, full attention. Edit it or grow a branch.", icon: BookOpen, accent: "slate" },
+function HeldCell({ cell, first }: { cell: Cell; first?: boolean }) {
+  const Icon = cell.held === "yes" ? Check : cell.held === "part" ? CircleDashed : Minus;
+  const tone = cell.held === "yes" ? "text-success" : "text-foreground-tertiary";
+  return (
+    <div className={`mt-3 flex items-start gap-2.5 md:mt-0 md:pl-6 ${first ? "" : TERM_COL_RULE}`}>
+      <Icon aria-hidden="true" className={`mt-0.5 h-4 w-4 shrink-0 ${tone}`} strokeWidth={1.6} />
+      <p className={`text-caption md:text-sm font-normal leading-relaxed ${cell.held === "no" ? "text-foreground-tertiary" : "text-foreground-lead"}`}>
+        {cell.note}
+      </p>
+    </div>
+  );
+}
+export function OryneCompetitive() {
+  return (
+    <ModuleCard>
+      <div className={`hidden md:grid ${RIVAL_COLS} px-8 py-4 border-b border-case-study-module-divider`}>
+        <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">Tool</p>
+        {["Fast capture", "A spatial field", "Unexpected discovery"].map((c) => (
+          <p key={c} className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-6 ${TERM_COL_RULE}`}>{c}</p>
+        ))}
+      </div>
+      <div className="divide-y divide-case-study-module-divider">
+        {rivals.map((r) => (
+          <div key={r.name} className={`grid ${RIVAL_COLS} px-6 py-5 md:px-8 md:py-6 ${r.mine ? "bg-case-study-module-divider" : ""}`}>
+            <div className={`flex items-center gap-2.5 md:pr-6 ${r.mine ? "text-foreground" : "text-foreground-lead"}`}>
+              {r.mark}
+              <p className={`text-sm md:text-base ${r.mine ? "font-medium" : "font-normal"}`}>{r.name}</p>
+            </div>
+            <HeldCell cell={r.capture} first />
+            <HeldCell cell={r.field} />
+            <HeldCell cell={r.discovery} />
+          </div>
+        ))}
+      </div>
+    </ModuleCard>
+  );
+}
+
+/* ── 5) The Idea — the four moments first, then the words for them ──────── */
+// The four moments are the section's spine, so they lead and everything else
+// hangs off them. Capture is one of them because "under two seconds, from
+// anywhere" is the promise the rest of the product is built to protect; it is
+// the door rather than a room, and its card says so. The vocabulary is grouped
+// by the same four, and so are the principles two sections later.
+const moments: GridItem[] = [
+  { num: "01", title: "Capture, for Catching", desc: "Under two seconds from anywhere, before you have judged it. Not a room, the door.", icon: Zap, accent: "violet" },
+  { num: "02", title: "The Ocean, for Encountering", desc: "Enter without a goal. Drift is the point.", icon: Waves, accent: "emerald" },
+  { num: "03", title: "The Library, for Finding", desc: "A scannable waterfall of cards. Finding is a job.", icon: LayoutGrid, accent: "slate" },
+  { num: "04", title: "The Thought, for Working", desc: "One fragment, full attention. Edit it or grow a branch.", icon: BookOpen, accent: "violet" },
 ];
+const vocabularyGroups: TermGroup[] = [
+  {
+    title: "Capture",
+    blurb: "two kinds, one gesture apart",
+    items: [
+      { term: "Thought", meaning: "One captured fragment, named and themed on the device.", inApp: "“Release into the Ocean”", icon: Sparkles },
+      { term: "Whisper", meaning: "A thought caught by voice. Words appear while you speak.", inApp: "“Catch a whisper”", icon: Mic },
+    ],
+  },
+  {
+    title: "The Ocean",
+    blurb: "what happens after you let go",
+    items: [
+      { term: "Current", meaning: "Related thoughts drift together. Nothing is filed.", inApp: "“8 thoughts drift here”", icon: Waves },
+      { term: "Resurfacing", meaning: "One forgotten thought rises per day.", inApp: "“Catching a thought that drifted away”", icon: Sun },
+    ],
+  },
+  {
+    title: "The Library",
+    blurb: "when you do go looking",
+    items: [
+      { term: "Ask the Ocean", meaning: "A question answered only from your own thoughts.", inApp: "“Responses come from what you’ve captured.”", icon: Compass },
+    ],
+  },
+  {
+    title: "The Thought",
+    blurb: "one fragment, full attention",
+    items: [
+      { term: "Grow a Branch", meaning: "A new thought grows out of this one, as a question, a concept, research, or a project.", inApp: "“Grow a branch”", icon: Layers },
+    ],
+  },
+];
+// Three moments a still cannot carry: each one is a gesture and its answer, so
+// a screenshot can only ever show you one end of it. Recorded off the shipped
+// build on a simulator, 4 seconds each, silent.
+//
+// Composited into the same iPhone 17 Pro silver mockup every screenshot in this
+// case study wears (product-film's assets/iphone-17-pro-silver.png). The
+// geometry is derived from the existing stills so the clips sit at exactly the
+// same size: still canvas 900x1839 with the device silhouette at (48,93)
+// to (852,1745), which is the 1120x2289 frame PNG at 0.7336. The frame's screen
+// cutout measured 60,57,1000x2174 with a ~165px corner radius, and the video is
+// laid in behind the frame so the bezel provides the rounded corners rather than
+// a second guess at the radius. MP4 carries no alpha, so the plate is baked to
+// the rendered value of surface-inset, sampled off the page at 12,12,13 in RGB:
+// the figure it sits on is that colour, so the clip reads as cut out. Change the
+// figure's background and the clips have to be re-rendered. (Written in words
+// rather than as a hex literal on purpose; the boundary test rejects colour
+// literals anywhere in these files, comments included.)
+//
+// They play once when they reach the viewport and replay on hover. Under
+// prefers-reduced-motion neither happens: the poster stands until the reader
+// asks for it, which is the same bargain the rest of the site makes.
+type Clip = { src: string; poster: string; moment: string; caption: string };
+const clips: Clip[] = [
+  {
+    src: oryneClipResurfacing,
+    poster: oryneClipResurfacingPoster,
+    moment: "The Ocean",
+    caption: "a forgotten thought rises on its own",
+  },
+  {
+    src: oryneClipLibrary,
+    poster: oryneClipLibraryPoster,
+    moment: "The Library",
+    caption: "long press, and the waterfall reorders by kinship",
+  },
+  {
+    src: oryneClipBranch,
+    poster: oryneClipBranchPoster,
+    moment: "The Thought",
+    caption: "a new thought grows out of this one",
+  },
+];
+function FeatureClip({ clip }: { clip: Clip }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const frameRef = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+  const inView = useInView(frameRef, { once: true, amount: 0.5 });
+  // Buffer a viewport early so the clip plays on arrival instead of stalling
+  // on its poster while the first bytes land.
+  const near = useInView(frameRef, { once: true, margin: "100% 0px 100% 0px" });
+
+  useEffect(() => {
+    if (!inView || reduced) return;
+    videoRef.current?.play().catch(() => {});
+  }, [inView, reduced]);
+
+  const replay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.currentTime = 0;
+    video.play().catch(() => {});
+  };
+
+  return (
+    <div className="flex flex-col bg-surface-inset px-6 py-7 md:px-8 md:py-8">
+      {/* The caption sits inside the media column, not the cell: a centred
+          caption wider than the phone above it reads as a stray paragraph.
+          Same structure as PairFigure. All three clips are the same height, so
+          the three captions start on the same line without an mt-auto push. */}
+      <figure className={`${SCREEN_FIGURE_WIDTH} flex flex-col`}>
+      <div
+        ref={frameRef}
+        onMouseEnter={replay}
+        onFocus={replay}
+        tabIndex={0}
+        className="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+      >
+        <video
+          ref={videoRef}
+          src={clip.src}
+          poster={clip.poster}
+          preload={near ? "auto" : "none"}
+          muted
+          playsInline
+          controls={reduced ?? false}
+          className="w-full h-auto block"
+        />
+      </div>
+        <FigureCaption label={clip.moment}>{clip.caption}</FigureCaption>
+      </figure>
+    </div>
+  );
+}
+function OryneClips() {
+  return (
+    <ModuleCard header="A Thought Comes Back, Gathers, and Grows">
+      <div className="grid grid-cols-1 gap-px bg-case-study-module-divider lg:grid-cols-3">
+        {clips.map((clip) => (
+          <FeatureClip key={clip.moment} clip={clip} />
+        ))}
+      </div>
+    </ModuleCard>
+  );
+}
 export function OryneIdea() {
   return (
     <div className="flex flex-col gap-8 md:gap-10">
-      <TermList items={vocabulary} />
       <CardGrid
-        items={spaces}
-        header="Felt vs Legible: Three Spaces, Not One Compromise"
-        colsClass="grid-cols-1 sm:grid-cols-3"
+        items={moments}
+        header="Felt vs Legible: Four Places, Not One Compromise"
+        colsClass="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
       />
+      <OryneClips />
+      <GroupedTermList groups={vocabularyGroups} />
     </div>
   );
 }
 
-/* ── 4b) Iterations — the versions before the shipped one ────────────────── */
+/* ── 6) Principles — the philosophy file, one test per principle ────────── */
+// PHILOSOPHY.md landed in the app repository on 2026-06-11, two days after the
+// first commit, and every principle in it ends with a test. The rule column
+// condenses each principle's opening line; the test column quotes its test
+// nearly verbatim, because the test is the part reviews cite, so trim the rule
+// if it needs trimming and leave the test alone. Grouped by the four moments
+// from The Idea: five of the eight belong to one moment each, and the last
+// three hold everywhere, which is itself worth seeing at a glance.
+const principleGroups: TermGroup[] = [
+  {
+    title: "Capture",
+    blurb: "the promise everything else protects",
+    items: [
+      { term: "Capture", meaning: "Capture before consciousness. Nothing gates whether a thought was caught.", inApp: "Would this make someone hesitate before capturing?", icon: Zap },
+    ],
+  },
+  {
+    title: "The Ocean",
+    blurb: "atmosphere, and the rhythm of return",
+    items: [
+      { term: "Motion", meaning: "Motion is atmosphere, never information. A stilled Ocean is the same Ocean.", inApp: "If every animation froze, would the app lose any meaning?", icon: Waves },
+      { term: "Memory", meaning: "Rediscovery is a rhythm, not a queue. One fragment resurfaces per day.", inApp: "Does this make old thoughts return, or make the user go get them?", icon: Sun },
+    ],
+  },
+  {
+    title: "The Library",
+    blurb: "the part that has to be a contract",
+    items: [
+      { term: "Retrieval", meaning: "The Ocean is atmosphere; the Library is the contract. Position is never the only path in.", inApp: "Can someone who never learned the field's layout reach every thought?", icon: LayoutGrid },
+    ],
+  },
+  {
+    title: "The Thought",
+    blurb: "whose words these are",
+    items: [
+      { term: "Ownership", meaning: "The user owns meaning. AI fills untouched fields; what you edit is yours forever.", inApp: "Can the system ever silently replace something the user wrote?", icon: PenLine },
+    ],
+  },
+  {
+    title: "Everywhere",
+    blurb: "the three that hold in all four",
+    items: [
+      { term: "AI Behavior", meaning: "Grounded, modest, and honest about where words come from.", inApp: "If the network died mid-session, would the user be told anything untrue, by words or by omission?", icon: Compass },
+      { term: "Trust", meaning: "Never claim more certainty than the system has.", inApp: "Does the UI ever say done before the system knows it is done?", icon: ShieldCheck },
+      { term: "Calm", meaning: "Oryne competes with nothing for attention. No badges, streaks, folders, or dashboards.", inApp: "Would this make Oryne feel like a tool that needs tending?", icon: Anchor },
+    ],
+  },
+];
+export function OrynePrinciples() {
+  return <GroupedTermList groups={principleGroups} columns={["Principle", "Rule", "The test"]} />;
+}
+
+/* ── 7a) Iterations — the versions before the shipped one ───────────────── */
 // Three verified stages before the App Store build. The web prototype is the
 // Lovable app at inspired-sea-drift.lovable.app, captured live on 2026-09-08.
 // The wireframe stage is described from the Claude Design project's own
@@ -319,26 +677,61 @@ export function OryneIterations() {
   );
 }
 
-/* ── 5) Principles — the philosophy file, one test per principle ─────────── */
-// PHILOSOPHY.md landed in the app repository on 2026-06-11, two days after the
-// first commit, and every principle in it ends with a test. The rule column
-// condenses each principle's opening line; the test column quotes its test
-// nearly verbatim, because the test is the part reviews cite.
-const principles: Term[] = [
-  { term: "Capture", meaning: "Capture before consciousness. Under two seconds from any entry point, and nothing gates whether a thought was caught.", inApp: "Would this make someone hesitate before capturing?", icon: Zap },
-  { term: "Ownership", meaning: "The user owns meaning. AI fills untouched fields only; anything you edit is yours forever.", inApp: "Can the system ever silently replace something the user wrote?", icon: PenLine },
-  { term: "AI Behavior", meaning: "Grounded, modest, and honest about where words come from.", inApp: "If the network died mid-session, would the user be told anything untrue, by words or by omission?", icon: Compass },
-  { term: "Motion", meaning: "Motion is atmosphere, never information. A stilled Ocean is the same Ocean.", inApp: "If every animation froze, would the app lose any meaning?", icon: Waves },
-  { term: "Trust", meaning: "Never claim more certainty than the system has. Success is stated only after it is verified.", inApp: "Does the UI ever say done before the system knows it is done?", icon: ShieldCheck },
-  { term: "Memory", meaning: "Rediscovery is a rhythm, not a queue. One fragment resurfaces per day.", inApp: "Does this make old thoughts return, or make the user go get them?", icon: Sun },
-  { term: "Retrieval", meaning: "The Ocean is atmosphere; the Library is the contract. Position is never the only path to a thought.", inApp: "Can someone who never learned the field's layout reach every thought?", icon: LayoutGrid },
-  { term: "Calm", meaning: "Oryne competes with nothing for attention. No badges, streaks, folders, or dashboards.", inApp: "Would this make Oryne feel like a tool that needs tending?", icon: Anchor },
+/* ── 7b) Iterations, continued — the releases and the review ────────────── */
+// This used to be its own "Shipping It" section. It renders inside Iterations
+// now, because the releases are the iteration continuing past 1.0: each row is
+// what that version changed, not a feature list. The "try to make the AI lie"
+// tests used to sit here as a third grid; they are the Research section now,
+// with the measurements behind them. Every date and version is the App Store
+// version history; do not add a "why" to a row that the history does not say.
+const releases = [
+  { date: "Jun 9", tag: "First commit", text: "Fast Capture, widgets, and the Ocean field by day two." },
+  { date: "Jul 2", tag: "1.0", text: "On the App Store, 23 days in." },
+  { date: "Jul 4", tag: "1.1", text: "Currents that breathe. Kinship on long press." },
+  { date: "Jul 6", tag: "1.2", text: "Export the Ocean as a readable archive." },
+  { date: "Jul 8", tag: "1.3", text: "Masonry Library. Add a thought into an open current." },
+  { date: "Jul 16", tag: "1.4", text: "Chinese and English, transcribed live on the device." },
+  { date: "Jul 17", tag: "1.5", text: "Waterfall Library, Recent and Related." },
 ];
-export function OrynePrinciples() {
-  return <TermList items={principles} columns={["Principle", "Rule", "The test"]} />;
+const workflow: GridItem[] = [
+  { num: "01", title: "Author", desc: "Writes the code with the full design intent.", icon: PenLine, accent: "violet" },
+  { num: "02", title: "Auditor", desc: "Reviews cold, from an isolated context. No persuasion channel.", icon: FileSearch, accent: "emerald" },
+  { num: "03", title: "The Ship Gate", desc: "Nothing irreversible without a human command.", icon: ShieldCheck, accent: "slate" },
+  { num: "04", title: "Rules as Contracts", desc: "“Zero commits until the human replies.” No adverbs.", icon: Scale, accent: "violet" },
+];
+export function OryneShipping() {
+  return (
+    <div className="flex flex-col gap-8 md:gap-10">
+      <ModuleCard header="Six Releases in Fifteen Days">
+        <div className="hidden md:grid md:grid-cols-[6rem_6rem_minmax(0,1fr)] px-8 py-4 border-b border-case-study-module-divider">
+          <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">Date</p>
+          <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-4 ${TERM_COL_RULE}`}>Release</p>
+          <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-4 ${TERM_COL_RULE}`}>What changed</p>
+        </div>
+        <div className="divide-y divide-case-study-module-divider">
+          {releases.map((r) => (
+            <div key={r.date + r.tag} className="grid grid-cols-[4.5rem_minmax(0,1fr)] md:grid-cols-[6rem_6rem_minmax(0,1fr)] px-6 py-4 md:px-8 md:py-5">
+              <p className="text-caption md:text-sm font-mono tabular-nums text-foreground-tertiary">{r.date}</p>
+              <p className={`text-sm md:text-base font-medium text-foreground md:pl-4 ${TERM_COL_RULE}`}>{r.tag}</p>
+              <p className={`col-span-2 md:col-span-1 mt-1 md:mt-0 text-sm font-light leading-relaxed text-foreground-secondary md:pl-4 ${TERM_COL_RULE}`}>{noOrphan(r.text)}</p>
+            </div>
+          ))}
+          <div className="flex items-start gap-3 px-6 py-4 md:px-8 md:py-5">
+            <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-success" strokeWidth={1.6} />
+            <p className="text-sm md:text-base font-medium leading-relaxed text-foreground">Live on the App Store. Free, 5 MB.</p>
+          </div>
+        </div>
+      </ModuleCard>
+      <CardGrid
+        items={workflow}
+        header="Don’t Review the Work. Design the Review."
+        colsClass="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+      />
+    </div>
+  );
 }
 
-/* ── 6) Final Design — one thought, start to finish, in four acts ───────── */
+/* ── 8) Final Design — one thought, start to finish, in four acts ───────── */
 // The whole product as one journey. Each step is a real screen from the shipped
 // app and the caption says what happens on it. The acts are the product's
 // promise in order: you catch it, the Ocean works on it, you go looking, and
@@ -432,100 +825,7 @@ export function OryneFlow() {
   );
 }
 
-/* ── 7) Research — three measurements against the device ────────────────── */
-// Every number here is copied from the app repository, not remembered:
-// Scripts/embedding-floor-sweep/README.md (the Ask floor corridor, measured
-// 2026-07-03 against the 60-fragment audit store, and the bilingual candidate
-// sweep of 2026-07-09), and the merged bilingual-voice pull request, which
-// records the Gate 1 device answers. Nothing is rounded beyond the source.
-type MeasureRow = { label: string; detail?: string; value: string; meaning: string };
-type Measure = { header: string; lead: string; columns: [string, string, string]; rows: MeasureRow[]; note: string };
-// The middle column is fixed at 11rem so a paired value ("0.0006 · 0.0000") and
-// its two-word header stay on one line at the reading width.
-const MEASURE_COLS = "grid-cols-1 md:grid-cols-[minmax(0,1.2fr)_11rem_minmax(0,1.5fr)]";
-const measures: Measure[] = [
-  {
-    header: "Where the Honesty Floor Sits",
-    lead: "Ask retrieves fragments by cosine similarity from Apple’s on-device word embeddings. Against a 60-fragment audit store, 48 synthetic drifts and 12 known targets, three anchor queries show where a floor can sit.",
-    columns: ["Anchor query", "Score", "What it means"],
-    rows: [
-      { label: "Nonsense", detail: "“quantum accounting standards”", value: "0.6725", meaning: "The highest pure noise reaches. The floor has to sit above it, so the query lands the empty state." },
-      { label: "Keyword-free paraphrase", detail: "“why do I put off beginning work”, target: Blank page judgment", value: "0.7404", meaning: "Shares no words with its target. The floor has to sit below it, so the paraphrase still recalls it." },
-      { label: "Terse phrasing", detail: "“notifications interrupt attention”, target: Attention Drain", value: "0.685", meaning: "The one accepted loss. Natural phrasings of the same thought clear the floor; only this wording falls short." },
-    ],
-    note: "The floor is 0.70: about 0.03 above the noise and 0.04 below the paraphrase. Averaged word vectors compress every score into 0.5 to 0.84, so the corridor is narrow by nature. Below it, Ask says you have not captured anything about that, and anything from beyond your notes is marked apart, never in the same voice.",
-  },
-  {
-    header: "Do Chinese and English Share a Space?",
-    lead: "The bilingual plan assumed Apple’s contextual embedding puts both languages in one vector space, so a Chinese thought could find an English relative. A hand-built set of Chinese, English, and mixed pairs, scored under both candidate backends, said otherwise.",
-    columns: ["Pair", "Contextual · dual", "What it means"],
-    rows: [
-      { label: "English with English", detail: "related pairs against unrelated ones", value: "0.886 · 0.847", meaning: "A clean corridor under either backend. Same-language kinship works." },
-      { label: "Chinese with Chinese", detail: "related pairs against unrelated ones", value: "0.678 · 0.414", meaning: "A clean corridor too, at a different level from English. Kinship works within Chinese, where it had been fully broken before." },
-      { label: "Chinese with English", detail: "“我对职业选择感到很焦虑” with “I feel anxious about my career”", value: "0.0006 · 0.0000", meaning: "A translated pair scores the same as an unrelated one. There is no shared space." },
-    ],
-    note: "Apple groups languages by script family: English resolves to a Latin-script model and Chinese to a CJK model. Cross-language kinship was cut from scope in writing, in the design brief itself, and same-language kinship shipped in both languages.",
-  },
-  {
-    header: "Two Questions Only a Phone Could Answer",
-    lead: "Before any capture code changed, a throwaway harness recorded three takes on a physical iPhone, pure Mandarin, pure English, and one sentence that switches midway, and ran them through both speech APIs.",
-    columns: ["Question", "On device", "What it changed"],
-    rows: [
-      { label: "Does the iOS 26 transcriber follow a sentence that switches language midway?", value: "Yes", meaning: "One transcriber per capture on iOS 26. The planned bake-off between two recognizers was never built there." },
-      { label: "Can two on-device recognizers, Chinese and English, run from one tap on iOS 18?", value: "No", meaning: "They throttle each other. The live bake-off was dropped; the alternate language runs as a second pass after capture, only when the first transcript shows failure signals." },
-    ],
-    note: "The tie-break goes to Chinese, because the Chinese model survives embedded English while the English model produces confident nonsense on Chinese. Every capture records audio first, so a transcript that lands in the wrong language can be redone in either one from the thought itself.",
-  },
-];
-function MeasureTable({ measure }: { measure: Measure }) {
-  return (
-    <ModuleCard>
-      <div className="px-6 pt-7 pb-6 md:px-8 md:pt-8 md:pb-7 border-b border-case-study-module-divider">
-        <p className="text-caption md:text-xl uppercase tracking-eyebrow font-light leading-relaxed text-foreground font-mono">
-          {measure.header}
-        </p>
-        <p className="mt-3 text-sm md:text-base font-light leading-relaxed text-foreground-secondary max-w-measure">
-          {noOrphan(measure.lead)}
-        </p>
-      </div>
-      <div className={`hidden md:grid ${MEASURE_COLS} px-8 py-4 border-b border-case-study-module-divider`}>
-        <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">{measure.columns[0]}</p>
-        <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-6 ${TERM_COL_RULE}`}>{measure.columns[1]}</p>
-        <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-6 ${TERM_COL_RULE}`}>{measure.columns[2]}</p>
-      </div>
-      <div className="divide-y divide-case-study-module-divider">
-        {measure.rows.map((row) => (
-          <div key={row.label} className={`grid ${MEASURE_COLS} px-6 py-5 md:px-8 md:py-6`}>
-            <div>
-              <p className="text-sm md:text-base font-medium text-foreground">{noOrphan(row.label)}</p>
-              {row.detail ? (
-                <p className="mt-1.5 text-caption md:text-sm font-mono leading-relaxed text-foreground-tertiary">{noOrphan(row.detail)}</p>
-              ) : null}
-            </div>
-            <p className={`mt-2 md:mt-0 md:pl-6 text-base font-mono tabular-nums whitespace-nowrap text-foreground ${TERM_COL_RULE}`}>{row.value}</p>
-            <p className={`mt-2 md:mt-0 md:pl-6 text-sm font-light leading-relaxed text-foreground-secondary ${TERM_COL_RULE}`}>{noOrphan(row.meaning)}</p>
-          </div>
-        ))}
-        <div className="flex items-start gap-3 px-6 py-5 md:px-8 md:py-6">
-          <CheckCircle2 aria-hidden="true" className="mt-1 h-4 w-4 shrink-0 text-success" strokeWidth={1.6} />
-          <p className="text-sm md:text-base font-normal leading-relaxed text-foreground-lead max-w-measure">{noOrphan(measure.note)}</p>
-        </div>
-      </div>
-    </ModuleCard>
-  );
-}
-export function OryneResearch() {
-  return (
-    <div className="flex flex-col gap-8 md:gap-10">
-      {measures.map((measure) => (
-        <MeasureTable key={measure.header} measure={measure} />
-      ))}
-      <PullQuote>You cannot validate an AI feature by using it the way you hope users will. You validate it by trying to make it lie.</PullQuote>
-    </div>
-  );
-}
-
-/* ── 8) Privacy — on the device, as a design position ───────────────────── */
+/* ── 9) Privacy — on the device, as a design position ───────────────────── */
 const privacyItems: GridItem[] = [
   { num: "01", title: "On-Device Intelligence", desc: "Apple’s Foundation Models name, theme, relate, and answer.", icon: Cpu, accent: "violet" },
   { num: "02", title: "Local Speech", desc: "Live transcription on the phone, in both languages.", icon: AudioLines, accent: "emerald" },
@@ -533,56 +833,6 @@ const privacyItems: GridItem[] = [
 ];
 export function OrynePrivacy() {
   return <CardGrid items={privacyItems} colsClass="grid-cols-1 sm:grid-cols-3" />;
-}
-
-/* ── 9) Shipping It — releases and the review workflow ───────────────────── */
-// The "try to make the AI lie" tests used to sit here as a third grid; they
-// are the Research section now, with the measurements behind them.
-const releases = [
-  { date: "Jun 9", tag: "First commit", text: "Fast Capture, widgets, and the Ocean field by day two." },
-  { date: "Jul 2", tag: "1.0", text: "On the App Store, 23 days in." },
-  { date: "Jul 4", tag: "1.1", text: "Currents that breathe. Kinship on long press." },
-  { date: "Jul 6", tag: "1.2", text: "Export the Ocean as a readable archive." },
-  { date: "Jul 8", tag: "1.3", text: "Masonry Library. Add a thought into an open current." },
-  { date: "Jul 16", tag: "1.4", text: "Chinese and English, transcribed live on the device." },
-  { date: "Jul 17", tag: "1.5", text: "Waterfall Library, Recent and Related." },
-];
-const workflow: GridItem[] = [
-  { num: "01", title: "Author", desc: "Writes the code with the full design intent.", icon: PenLine, accent: "violet" },
-  { num: "02", title: "Auditor", desc: "Reviews cold, from an isolated context. No persuasion channel.", icon: FileSearch, accent: "emerald" },
-  { num: "03", title: "The Ship Gate", desc: "Nothing irreversible without a human command.", icon: ShieldCheck, accent: "slate" },
-  { num: "04", title: "Rules as Contracts", desc: "“Zero commits until the human replies.” No adverbs.", icon: Scale, accent: "violet" },
-];
-export function OryneShipping() {
-  return (
-    <div className="flex flex-col gap-8 md:gap-10">
-      <ModuleCard header="Six Releases in Fifteen Days">
-        <div className="hidden md:grid md:grid-cols-[6rem_6rem_minmax(0,1fr)] px-8 py-4 border-b border-case-study-module-divider">
-          <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">Date</p>
-          <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-4 ${TERM_COL_RULE}`}>Release</p>
-          <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-4 ${TERM_COL_RULE}`}>What shipped</p>
-        </div>
-        <div className="divide-y divide-case-study-module-divider">
-          {releases.map((r) => (
-            <div key={r.date + r.tag} className="grid grid-cols-[4.5rem_minmax(0,1fr)] md:grid-cols-[6rem_6rem_minmax(0,1fr)] px-6 py-4 md:px-8 md:py-5">
-              <p className="text-caption md:text-sm font-mono tabular-nums text-foreground-tertiary">{r.date}</p>
-              <p className={`text-sm md:text-base font-medium text-foreground md:pl-4 ${TERM_COL_RULE}`}>{r.tag}</p>
-              <p className={`col-span-2 md:col-span-1 mt-1 md:mt-0 text-sm font-light leading-relaxed text-foreground-secondary md:pl-4 ${TERM_COL_RULE}`}>{noOrphan(r.text)}</p>
-            </div>
-          ))}
-          <div className="flex items-start gap-3 px-6 py-4 md:px-8 md:py-5">
-            <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-success" strokeWidth={1.6} />
-            <p className="text-sm md:text-base font-medium leading-relaxed text-foreground">Live on the App Store. Free, 5 MB.</p>
-          </div>
-        </div>
-      </ModuleCard>
-      <CardGrid
-        items={workflow}
-        header="Don’t Review the Work. Design the Review."
-        colsClass="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-      />
-    </div>
-  );
 }
 
 /* ── 10) What the Ocean Taught Me — takeaways + closing CTA ─────────────── */
