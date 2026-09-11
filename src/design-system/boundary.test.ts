@@ -109,8 +109,11 @@ const RULES: Rule[] = [
     // Tailwind only generates modifiers on theme.opacity, which ships in fives.
     // bg-background/92 produced no CSS at all: the photography lightbox had
     // no backdrop until it was noticed.
-    // A one- or two-digit value whose last digit is not 0 or 5.
-    pattern: /\b(?:bg|text|border|ring|from|to|via|divide|outline|fill|stroke)-[a-z-]+\/(?:[1-9]?[1-46-9])(?![0-9.\]])\b/g,
+    // The legal scale is Tailwind v3's default theme.opacity, which this config
+    // never touches: 0, every multiple of five, and 100. The negative lookahead
+    // spells that set out, so a value of any length and with a decimal is judged.
+    // A bracketed value never matches: Tailwind resolves those itself.
+    pattern: /\b(?:bg|text|border|ring|from|to|via|divide|outline|fill|stroke)-[a-z-]+\/(?!(?:100|[1-9][05]|[05])(?![\d.]))\d+(?:\.\d+)?(?![\d.\]])/g,
     hint: "Use a multiple of 5, an arbitrary value in brackets, or a token role.",
     exempt: () => false,
   },
