@@ -6,7 +6,6 @@ import {
   Waves,
   Layers,
   Zap,
-  Mic,
   Sun,
   Anchor,
   Ban,
@@ -18,7 +17,6 @@ import {
   ShieldCheck,
   Scale,
   Compass,
-  Sparkles,
   BookOpen,
   FileSearch,
   CheckCircle2,
@@ -74,83 +72,6 @@ function AppStoreLink({ label }: { label: string }) {
     <Button href={ORYNE_APP_STORE_URL} external icon={<ArrowUpRight strokeWidth={1.8} />}>
       {label}
     </Button>
-  );
-}
-
-// Term rows: the product's own vocabulary, each pinned to the copy that
-// actually appears in the app, so the metaphor is shown doing work, not claimed.
-// The same three-column shell carries the principles table, where the mono
-// third column holds the test each principle has to pass instead of app copy.
-type Term = { term: string; meaning: string; inApp: string; icon: LucideIcon };
-type TermColumns = [string, string, string];
-const VOCABULARY_COLUMNS: TermColumns = ["Term", "Meaning", "In the app"];
-const TERM_COLS = "grid-cols-1 md:grid-cols-[minmax(0,1fr)_2fr_minmax(0,1.4fr)]";
-const TERM_COL_RULE = "md:border-l md:border-case-study-module-divider";
-function TermList({ items, columns = VOCABULARY_COLUMNS }: { items: Term[]; columns?: TermColumns }) {
-  return (
-    <ModuleCard>
-      <div className={`hidden md:grid ${TERM_COLS} px-8 py-4 border-b border-case-study-module-divider`}>
-        <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">{columns[0]}</p>
-        <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-6 ${TERM_COL_RULE}`}>{columns[1]}</p>
-        <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-6 ${TERM_COL_RULE}`}>{columns[2]}</p>
-      </div>
-      <div className="divide-y divide-case-study-module-divider">
-        {items.map((t) => {
-          const Icon = t.icon;
-          return (
-            <div key={t.term} className={`grid ${TERM_COLS} px-6 py-5 md:px-8 md:py-6`}>
-              <div className="flex items-center gap-2.5">
-                <Icon aria-hidden="true" className="w-4 h-4 shrink-0 text-accent-violet" strokeWidth={1.4} />
-                <p className="text-sm md:text-base font-medium text-foreground">{t.term}</p>
-              </div>
-              <p className={`mt-2 md:mt-0 md:pl-6 text-sm font-light leading-relaxed text-foreground-secondary ${TERM_COL_RULE}`}>{noOrphan(t.meaning)}</p>
-              <p className={`mt-2 md:mt-0 md:pl-6 text-caption md:text-sm font-mono leading-relaxed text-foreground-tertiary ${TERM_COL_RULE}`}>{noOrphan(t.inApp)}</p>
-            </div>
-          );
-        })}
-      </div>
-    </ModuleCard>
-  );
-}
-
-// Same table, split into named groups. The four moments are the spine of the
-// case study from here on: the vocabulary is grouped by them and so are the
-// principles, so a reader who learns the four once can scan both by it.
-type TermGroup = { title: string; blurb?: string; items: Term[] };
-function GroupedTermList({ groups, columns = VOCABULARY_COLUMNS }: { groups: TermGroup[]; columns?: TermColumns }) {
-  return (
-    <ModuleCard>
-      <div className={`hidden md:grid ${TERM_COLS} px-8 py-4 border-b border-case-study-module-divider`}>
-        <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">{columns[0]}</p>
-        <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-6 ${TERM_COL_RULE}`}>{columns[1]}</p>
-        <p className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-6 ${TERM_COL_RULE}`}>{columns[2]}</p>
-      </div>
-      <div className="divide-y divide-case-study-module-divider">
-        {groups.map((group) => (
-          <div key={group.title}>
-            <div className="flex flex-col gap-1 bg-surface-inset px-6 py-4 md:flex-row md:items-baseline md:gap-4 md:px-8">
-              <p className="text-caption uppercase tracking-eyebrow font-mono text-foreground">{group.title}</p>
-              {group.blurb && <p className="text-caption font-light leading-relaxed text-foreground-tertiary">{group.blurb}</p>}
-            </div>
-            <div className="divide-y divide-case-study-module-divider border-t border-case-study-module-divider">
-              {group.items.map((t) => {
-                const Icon = t.icon;
-                return (
-                  <div key={t.term} className={`grid ${TERM_COLS} px-6 py-5 md:px-8 md:py-6`}>
-                    <div className="flex items-center gap-2.5">
-                      <Icon aria-hidden="true" className="w-4 h-4 shrink-0 text-accent-violet" strokeWidth={1.4} />
-                      <p className="text-sm md:text-base font-medium text-foreground">{t.term}</p>
-                    </div>
-                    <p className={`mt-2 md:mt-0 md:pl-6 text-sm font-light leading-relaxed text-foreground-secondary ${TERM_COL_RULE}`}>{noOrphan(t.meaning)}</p>
-                    <p className={`mt-2 md:mt-0 md:pl-6 text-caption md:text-sm font-mono leading-relaxed text-foreground-tertiary ${TERM_COL_RULE}`}>{noOrphan(t.inApp)}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
-    </ModuleCard>
   );
 }
 
@@ -316,46 +237,50 @@ export function OryneCompetitive() {
   );
 }
 
+// Column rule shared by the two-column tables further down the file.
+const TERM_COL_RULE = "md:border-l md:border-case-study-module-divider";
+
 /* ── 5) The Idea — the four moments first, then the words for them ──────── */
 // The four moments are the section's spine, so they lead and everything else
 // hangs off them. Capture is one of them because "under two seconds, from
 // anywhere" is the promise the rest of the product is built to protect; it is
-// the door rather than a room, and its card says so. The vocabulary is grouped
-// by the same four, and so are the principles two sections later.
+// the door rather than a room, and its card says so. The principles two
+// sections later are tagged by the same four.
 const moments: GridItem[] = [
-  { num: "01", title: "Capture, for Catching", desc: "Under two seconds from anywhere, before you have judged it. Not a room, the door.", icon: Zap, accent: "violet" },
-  { num: "02", title: "The Ocean, for Encountering", desc: "Enter without a goal. Drift is the point.", icon: Waves, accent: "emerald" },
-  { num: "03", title: "The Library, for Finding", desc: "A scannable waterfall of cards. Finding is a job.", icon: LayoutGrid, accent: "slate" },
-  { num: "04", title: "The Thought, for Working", desc: "One fragment, full attention. Edit it or grow a branch.", icon: BookOpen, accent: "violet" },
+  { num: "01", title: "Capture, for Catching", desc: "Two seconds, before you judge it. Not a room, the door.", icon: Zap, accent: "violet" },
+  { num: "02", title: "The Ocean, for Encountering", desc: "Enter with no goal. Drifting past things is the point.", icon: Waves, accent: "emerald" },
+  { num: "03", title: "The Library, for Finding", desc: "A waterfall of cards you can scan. Finding is a job.", icon: LayoutGrid, accent: "slate" },
+  { num: "04", title: "The Thought, for Working", desc: "One fragment, your full attention. Edit it or grow a branch.", icon: BookOpen, accent: "violet" },
 ];
-const vocabularyGroups: TermGroup[] = [
-  {
-    title: "Capture",
-    items: [
-      { term: "Thought", meaning: "One captured fragment, named and themed on the device.", inApp: "“Release into the Ocean”", icon: Sparkles },
-      { term: "Whisper", meaning: "A thought caught by voice. Words appear while you speak.", inApp: "“Catch a whisper”", icon: Mic },
-    ],
-  },
-  {
-    title: "The Ocean",
-    items: [
-      { term: "Current", meaning: "Related thoughts drift together. Nothing is filed.", inApp: "“8 thoughts drift here”", icon: Waves },
-      { term: "Resurfacing", meaning: "One forgotten thought rises per day.", inApp: "“Catching a thought that drifted away”", icon: Sun },
-    ],
-  },
-  {
-    title: "The Library",
-    items: [
-      { term: "Ask the Ocean", meaning: "A question answered only from your own thoughts.", inApp: "“Responses come from what you’ve captured.”", icon: Compass },
-    ],
-  },
-  {
-    title: "The Thought",
-    items: [
-      { term: "Grow a Branch", meaning: "A new thought grows out of this one, as a question, a concept, research, or a project.", inApp: "“Grow a branch”", icon: Layers },
-    ],
-  },
+// The vocabulary as a specimen board: each cell leads with the string the app
+// itself shows, so the metaphor is seen doing work rather than claimed, and the
+// term and its meaning sit around it as the label. Six words, one cell each.
+type VocabularyTerm = { term: string; meaning: string; inApp: string };
+const vocabulary: VocabularyTerm[] = [
+  { term: "Thought", meaning: "One captured fragment, named and themed on the device.", inApp: "“Release into the Ocean”" },
+  { term: "Whisper", meaning: "A thought caught by voice. Words appear while you speak.", inApp: "“Catch a whisper”" },
+  { term: "Current", meaning: "Related thoughts drift together. Nothing is filed.", inApp: "“8 thoughts drift here”" },
+  { term: "Resurfacing", meaning: "One forgotten thought rises per day.", inApp: "“Catching a thought that drifted away”" },
+  { term: "Ask the Ocean", meaning: "A question answered only from your own thoughts.", inApp: "“Responses come from what you’ve captured.”" },
+  { term: "Grow a Branch", meaning: "A new thought grows out of this one, as a question, a concept, research, or a project.", inApp: "“Grow a branch”" },
 ];
+// Same hairline grid as OryneClips: the divider colour shows through the 1px
+// gaps, and each cell paints the card surface back over it.
+function VocabularyGrid() {
+  return (
+    <ModuleCard>
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-px bg-case-study-module-divider">
+        {vocabulary.map((t) => (
+          <div key={t.term} className="bg-surface-inset px-4 py-5 md:px-8 md:py-6">
+            <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">{t.term}</p>
+            <p className="mt-2 text-sm md:text-base font-medium text-foreground">{noOrphan(t.inApp)}</p>
+            <p className="mt-2 text-sm font-light leading-relaxed text-foreground-secondary">{noOrphan(t.meaning)}</p>
+          </div>
+        ))}
+      </div>
+    </ModuleCard>
+  );
+}
 // Three moments a still cannot carry: each one is a gesture and its answer, so
 // a screenshot can only ever show you one end of it. Recorded off the shipped
 // build on a simulator, 4 seconds each, silent.
@@ -469,61 +394,51 @@ export function OryneIdea() {
         colsClass="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
       />
       <OryneClips />
-      <GroupedTermList groups={vocabularyGroups} />
+      <VocabularyGrid />
     </div>
   );
 }
 
 /* ── 6) Principles — the philosophy file, one test per principle ────────── */
 // PHILOSOPHY.md landed in the app repository on 2026-06-11, two days after the
-// first commit, and every principle in it ends with a test. The rule column
-// condenses each principle's opening line; the test column quotes its test
-// nearly verbatim, because the test is the part reviews cite, so trim the rule
-// if it needs trimming and leave the test alone. Grouped by the four moments
-// from The Idea: five of the eight belong to one moment each, and the last
-// three hold everywhere, which is itself worth seeing at a glance.
-const principleGroups: TermGroup[] = [
-  {
-    title: "Capture",
-    blurb: "the promise everything else protects",
-    items: [
-      { term: "Capture", meaning: "Capture before consciousness. Nothing gates whether a thought was caught.", inApp: "Would this make someone hesitate before capturing?", icon: Zap },
-    ],
-  },
-  {
-    title: "The Ocean",
-    blurb: "atmosphere, and the rhythm of return",
-    items: [
-      { term: "Motion", meaning: "Motion is atmosphere, never information. A stilled Ocean is the same Ocean.", inApp: "If every animation froze, would the app lose any meaning?", icon: Waves },
-      { term: "Memory", meaning: "Rediscovery is a rhythm, not a queue. One fragment resurfaces per day.", inApp: "Does this make old thoughts return, or make the user go get them?", icon: Sun },
-    ],
-  },
-  {
-    title: "The Library",
-    blurb: "the part that has to be a contract",
-    items: [
-      { term: "Retrieval", meaning: "The Ocean is atmosphere; the Library is the contract. Position is never the only path in.", inApp: "Can someone who never learned the field's layout reach every thought?", icon: LayoutGrid },
-    ],
-  },
-  {
-    title: "The Thought",
-    blurb: "whose words these are",
-    items: [
-      { term: "Ownership", meaning: "The user owns meaning. AI fills untouched fields; what you edit is yours forever.", inApp: "Can the system ever silently replace something the user wrote?", icon: PenLine },
-    ],
-  },
-  {
-    title: "Everywhere",
-    blurb: "the three that hold in all four",
-    items: [
-      { term: "AI Behavior", meaning: "Grounded, modest, and honest about where words come from.", inApp: "If the network died mid-session, would the user be told anything untrue, by words or by omission?", icon: Compass },
-      { term: "Trust", meaning: "Never claim more certainty than the system has.", inApp: "Does the UI ever say done before the system knows it is done?", icon: ShieldCheck },
-      { term: "Calm", meaning: "Oryne competes with nothing for attention. No badges, streaks, folders, or dashboards.", inApp: "Would this make Oryne feel like a tool that needs tending?", icon: Anchor },
-    ],
-  },
+// first commit, and every principle in it ends with a test. Only the test is
+// shown, quoted nearly verbatim, because the test is the part reviews cite and
+// the part a reader can judge at a glance. Eight cards, four across, each
+// tagged with the moment it protects; the last three are tagged Everywhere,
+// because three of eight belonging to no single moment is itself worth seeing.
+type Principle = { name: string; moment: string; test: string; icon: LucideIcon };
+const principles: Principle[] = [
+  { name: "Capture", moment: "Capture", test: "Would this make someone hesitate before capturing?", icon: Zap },
+  { name: "Motion", moment: "The Ocean", test: "If every animation froze, would the app lose any meaning?", icon: Waves },
+  { name: "Memory", moment: "The Ocean", test: "Does this make old thoughts return, or make the user go get them?", icon: Sun },
+  { name: "Retrieval", moment: "The Library", test: "Can someone who never learned the field's layout reach every thought?", icon: LayoutGrid },
+  { name: "Ownership", moment: "The Thought", test: "Can the system ever silently replace something the user wrote?", icon: PenLine },
+  { name: "AI Behavior", moment: "Everywhere", test: "If the network died mid-session, would the user be told anything untrue, by words or by omission?", icon: Compass },
+  { name: "Trust", moment: "Everywhere", test: "Does the UI ever say done before the system knows it is done?", icon: ShieldCheck },
+  { name: "Calm", moment: "Everywhere", test: "Would this make Oryne feel like a tool that needs tending?", icon: Anchor },
 ];
 export function OrynePrinciples() {
-  return <GroupedTermList groups={principleGroups} columns={["Principle", "Rule", "The test"]} />;
+  return (
+    <ModuleCard>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-case-study-module-divider">
+        {principles.map((p) => {
+          const Icon = p.icon;
+          return (
+            <div key={p.name} className="flex flex-col gap-4 md:gap-5 bg-surface-inset px-4 py-5 md:px-7 md:py-8">
+              <div className="flex items-center justify-between">
+                <span className="text-label uppercase tracking-eyebrow font-mono text-foreground-tertiary">{p.moment}</span>
+                <Icon aria-hidden="true" className="w-4 h-4 text-accent-violet" strokeWidth={1.4} />
+              </div>
+              <div className="flex flex-col gap-2.5">
+                <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">{p.name}</p>
+                <p className="text-caption font-mono leading-relaxed text-foreground-secondary [overflow-wrap:anywhere]">{noOrphan(p.test)}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </ModuleCard>
+  );
 }
 
 /* ── 7a) Iterations — the versions before the shipped one ───────────────── */
