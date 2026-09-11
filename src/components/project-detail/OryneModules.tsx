@@ -634,7 +634,7 @@ export function OryneShipping() {
           ))}
           <div className="flex items-start gap-3 px-6 py-4 md:px-8 md:py-5">
             <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-success" strokeWidth={1.6} />
-            <p className="text-sm md:text-base font-medium leading-relaxed text-foreground">Live on the App Store. Free, 5 MB.</p>
+            <p className="text-sm md:text-base font-medium leading-relaxed text-foreground">Live on the App Store.</p>
           </div>
         </div>
       </ModuleCard>
