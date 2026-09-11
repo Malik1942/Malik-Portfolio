@@ -19,13 +19,6 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 const FOUNDATION_PREFIXES: Record<string, string[]> = {
   "foundation-typography": ["font."],
   "foundation-form": ["rhythm.", "layout.", "measure.", "radius.", "layer."],
-  "foundation-material": [
-    "color.",
-    "component.siteHeader.scrimColor",
-    "component.projectCard.",
-    "component.caseStudyModule.",
-    "component.lightbox.backdrop",
-  ],
   "foundation-motion": ["duration.", "ease."],
 };
 
@@ -131,7 +124,7 @@ function IconsFoundation() {
           <li
             key={name}
             data-testid={`icon-${name}`}
-            className="flex flex-col items-start gap-3 rounded-lg border border-hairline bg-surface-card/40 p-4"
+            className="flex flex-col items-start gap-3 rounded-lg border border-hairline p-4"
           >
             <Icon className="h-5 w-5 text-foreground" strokeWidth={1.75} aria-hidden="true" />
             <div className="min-w-0">

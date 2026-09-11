@@ -476,7 +476,7 @@ export function FlowPrintHmi() {
 
           <div className="absolute right-[3cqw] top-[8cqh] flex w-[24cqw] flex-col gap-[1.6cqw]">
             <div className={`${glassQuiet} overflow-hidden rounded-[1.4cqw] p-[1.3cqw]`}>
-              <div className="mb-[0.8cqw] text-[1.35cqw] tracking-wide text-white/55">AMS</div>
+              <div className="mb-[0.8cqw] text-[1.35cqw] text-white/55">AMS</div>
               <div className="grid grid-cols-4 gap-[0.55cqw]">
                 {["#f4f0ea", "#3b82f6", "#22c55e", "#f97316"].map((color) => (
                   <div key={color} className="flex aspect-square items-center justify-center rounded-[0.7cqw] bg-white/10">
