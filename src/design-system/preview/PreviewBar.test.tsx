@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Link, MemoryRouter, useLocation } from "react-router-dom";
 import { PreviewProvider, usePreviewDraft } from "./PreviewProvider";
@@ -14,20 +14,29 @@ function LocationProbe() {
   return <output aria-label="location">{`${location.pathname}${location.search}${location.hash}`}</output>;
 }
 
-function renderBar(entry: string, extra?: React.ReactNode) {
-  return render(<MemoryRouter initialEntries={[entry]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PreviewProvider><PreviewBar />{extra}</PreviewProvider></MemoryRouter>);
+function ReadyProbe() {
+  const { ready } = usePreviewDraft();
+  return <output data-testid="ready">{ready ? "1" : "0"}</output>;
 }
+
+function renderBar(entry: string, extra?: React.ReactNode) {
+  return render(<MemoryRouter initialEntries={[entry]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PreviewProvider><PreviewBar /><ReadyProbe />{extra}</PreviewProvider></MemoryRouter>);
+}
+
+// The manifest is loaded on demand; the bar only shows once it has arrived.
+const ready = () => waitFor(() => expect(screen.getByTestId("ready")).toHaveTextContent("1"));
 
 describe("PreviewBar", () => {
   beforeEach(() => { localStorage.clear(); document.documentElement.removeAttribute("style"); });
   afterEach(() => { cleanup(); vi.restoreAllMocks(); document.documentElement.removeAttribute("style"); });
 
-  it("appears only in explicit non-embedded preview mode and shows the changed count", () => {
+  it("appears only in explicit non-embedded preview mode and shows the changed count", async () => {
     const ordinary = renderBar("/", <SetOverride />);
     expect(screen.queryByRole("region", { name: "Local design preview" })).not.toBeInTheDocument();
     ordinary.unmount();
 
     renderBar("/?design-preview=local", <SetOverride />);
+    await ready();
     expect(screen.getByRole("region", { name: "Local design preview" })).toHaveTextContent("0 changed");
     fireEvent.click(screen.getByRole("button", { name: "Change token" }));
     expect(screen.getByRole("region", { name: "Local design preview" })).toHaveTextContent("1 changed");
@@ -38,16 +47,18 @@ describe("PreviewBar", () => {
     expect(screen.queryByRole("region", { name: "Local design preview" })).not.toBeInTheDocument();
   });
 
-  it("keeps preview and embedded state across internal navigation without clearing styles", () => {
+  it("keeps preview and embedded state across internal navigation without clearing styles", async () => {
     renderBar("/?design-preview=local&embedded=1", <><SetOverride /><Link to="/project/moti#outcome">Case study</Link><LocationProbe /></>);
+    await ready();
     fireEvent.click(screen.getByRole("button", { name: "Change token" }));
     fireEvent.click(screen.getByRole("link", { name: "Case study" }));
     expect(screen.getByLabelText("location")).toHaveTextContent("/project/moti?design-preview=local&embedded=1#outcome");
     expect(document.documentElement.style.getPropertyValue("--duration-fast")).toBe("120ms");
   });
 
-  it("exit removes only preview parameters, clears runtime, preserves path/hash and the saved draft", () => {
+  it("exit removes only preview parameters, clears runtime, preserves path/hash and the saved draft", async () => {
     renderBar("/project/moti?foo=bar&design-preview=local#outcome", <><SetOverride /><LocationProbe /></>);
+    await ready();
     fireEvent.click(screen.getByRole("button", { name: "Change token" }));
     fireEvent.click(screen.getByRole("button", { name: "Exit preview" }));
 

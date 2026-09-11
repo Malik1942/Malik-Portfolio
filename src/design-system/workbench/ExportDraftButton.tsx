@@ -1,8 +1,9 @@
 import { exportDraftDocuments } from "../preview/draft";
-import { usePreviewDraft } from "../preview/PreviewProvider";
+import { usePreviewBundle, usePreviewDraft } from "../preview/PreviewProvider";
 
 export function ExportDraftButton({ compact = false }: { compact?: boolean }) {
-  const { bundle, draft } = usePreviewDraft();
+  const { draft } = usePreviewDraft();
+  const bundle = usePreviewBundle();
   const exportDraft = () => {
     const documents = exportDraftDocuments(bundle, draft);
     const blob = new Blob([JSON.stringify(documents, null, 2)], { type: "application/json" });

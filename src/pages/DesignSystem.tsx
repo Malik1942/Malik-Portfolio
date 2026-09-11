@@ -9,6 +9,7 @@ import { PublishDialog } from "@/design-system/publish/PublishDialog";
 import { DesignSystemShell } from "@/design-system/reference/DesignSystemShell";
 import { useDesignSystemMetadata } from "@/design-system/reference/useDesignSystemMetadata";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
+import { usePreviewDraft } from "@/design-system/preview/PreviewProvider";
 
 const PAGE_OUTER = "px-6 md:px-10 lg:px-16 max-w-page mx-auto";
 
@@ -23,6 +24,9 @@ const DesignSystem = () => {
   const shouldReduceMotion = useReducedMotion();
   const scrollHidden = useHideOnScroll();
   const headerHidden = !shouldReduceMotion && scrollHidden;
+  // The workbench and the dialogs read the token manifest, which the provider
+  // loads on demand for this route; the page chrome renders while it arrives.
+  const { ready } = usePreviewDraft();
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -59,7 +63,7 @@ const DesignSystem = () => {
         />
 
         <div className={`${PAGE_OUTER} pt-24 md:pt-28 pb-24 md:pb-36`}>
-          <DesignSystemShell />
+          {ready ? <DesignSystemShell /> : null}
         </div>
 
         <Footer
@@ -68,15 +72,17 @@ const DesignSystem = () => {
           onAboutClick={navigateToAbout}
           wide
         />
-        <AdminAuthoringDialog
-          open={authoringOpen}
-          onClose={() => setAuthoringOpen(false)}
-          onReviewPublish={() => {
-            setAuthoringOpen(false);
-            setPublishOpen(true);
-          }}
-        />
-        <PublishDialog open={publishOpen} onClose={() => setPublishOpen(false)} />
+        {ready ? (
+          <AdminAuthoringDialog
+            open={authoringOpen}
+            onClose={() => setAuthoringOpen(false)}
+            onReviewPublish={() => {
+              setAuthoringOpen(false);
+              setPublishOpen(true);
+            }}
+          />
+        ) : null}
+        {ready ? <PublishDialog open={publishOpen} onClose={() => setPublishOpen(false)} /> : null}
       </div>
     </PageTransition>
   );

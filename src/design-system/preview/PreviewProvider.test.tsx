@@ -12,6 +12,7 @@ function Probe() {
     <div>
       <span data-testid="count">{Object.keys(preview.draft.overrides).length}</span>
       <span data-testid="discarded">{preview.discarded.join(",")}</span>
+      <span data-testid="ready">{preview.ready ? "1" : "0"}</span>
       <button type="button" onClick={() => preview.setOverride("duration.fast", { value: 120, unit: "ms" })}>Set fast duration</button>
       <button type="button" onClick={() => preview.setOverride("radius.small", { value: 6, unit: "px" })}>Set space</button>
       <button type="button" onClick={() => preview.setOverride("duration.fast", { value: 2, unit: "px" } as never)}>Set invalid</button>
@@ -30,6 +31,10 @@ function renderProvider(entry: string) {
   );
 }
 
+// The manifest is loaded on demand, so a route that edits or applies tokens
+// is only usable once the provider reports it has arrived.
+const ready = () => waitFor(() => expect(screen.getByTestId("ready")).toHaveTextContent("1"));
+
 describe("PreviewProvider", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -42,8 +47,9 @@ describe("PreviewProvider", () => {
     document.documentElement.removeAttribute("style");
   });
 
-  it("updates and persists a valid local override without authentication", () => {
+  it("updates and persists a valid local override without authentication", async () => {
     renderProvider("/design-system#playground");
+    await ready();
     fireEvent.click(screen.getByRole("button", { name: "Set fast duration" }));
 
     expect(JSON.parse(localStorage.getItem(DRAFT_STORAGE_KEY)!)).toMatchObject({
@@ -53,7 +59,7 @@ describe("PreviewProvider", () => {
     expect(document.documentElement.style.getPropertyValue("--duration-fast")).toBe("120ms");
   });
 
-  it("rebases stored drafts, persists the current hash, and exposes sorted discarded paths", () => {
+  it("rebases stored drafts, persists the current hash, and exposes sorted discarded paths", async () => {
     localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(createDraft("old", {
       "removed.z": 1,
       "duration.fast": { value: 110, unit: "ms" },
@@ -61,6 +67,9 @@ describe("PreviewProvider", () => {
     }, "2026-07-14T00:00:00.000Z")));
 
     renderProvider("/design-system");
+    // Until the manifest is in, the stored draft is neither rebased nor re-saved.
+    expect(localStorage.getItem(DRAFT_STORAGE_KEY)).toContain('"old"');
+    await ready();
 
     expect(screen.getByTestId("discarded")).toHaveTextContent("removed.a,removed.z");
     expect(JSON.parse(localStorage.getItem(DRAFT_STORAGE_KEY)!)).toMatchObject({
@@ -70,8 +79,9 @@ describe("PreviewProvider", () => {
     });
   });
 
-  it("rejects invalid updates atomically without changing storage or runtime", () => {
+  it("rejects invalid updates atomically without changing storage or runtime", async () => {
     renderProvider("/design-system");
+    await ready();
     fireEvent.click(screen.getByRole("button", { name: "Set fast duration" }));
     const stored = localStorage.getItem(DRAFT_STORAGE_KEY);
 
@@ -81,8 +91,9 @@ describe("PreviewProvider", () => {
     expect(document.documentElement.style.getPropertyValue("--duration-fast")).toBe("120ms");
   });
 
-  it("resets one token, a canonical top-level category, and all overrides immediately", () => {
+  it("resets one token, a canonical top-level category, and all overrides immediately", async () => {
     renderProvider("/design-system");
+    await ready();
     fireEvent.click(screen.getByRole("button", { name: "Set fast duration" }));
     fireEvent.click(screen.getByRole("button", { name: "Set space" }));
     fireEvent.click(screen.getByRole("button", { name: "Reset fast" }));
@@ -98,23 +109,39 @@ describe("PreviewProvider", () => {
     expect(JSON.parse(localStorage.getItem(DRAFT_STORAGE_KEY)!)).toMatchObject({ overrides: {} });
   });
 
-  it("ignores stored drafts on ordinary portfolio routes but applies them in exact local preview mode", () => {
+  it("ignores stored drafts on ordinary portfolio routes but applies them in exact local preview mode", async () => {
     localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(createDraft(tokenBundle.tokenHash, {
       "duration.fast": { value: 105, unit: "ms" },
     })));
 
     const ordinary = renderProvider("/");
+    await ready();
     expect(document.documentElement.style.getPropertyValue("--duration-fast")).toBe("");
     ordinary.unmount();
 
     renderProvider("/?design-preview=local");
+    await ready();
     expect(document.documentElement.style.getPropertyValue("--duration-fast")).toBe("105ms");
+  });
+
+  it("does not load the token manifest for an ordinary visit", async () => {
+    renderProvider("/");
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 20));
+    });
+    expect(screen.getByTestId("ready")).toHaveTextContent("0");
+    // A fresh draft is still stamped with the current hash and saved.
+    expect(JSON.parse(localStorage.getItem(DRAFT_STORAGE_KEY)!)).toMatchObject({
+      baseTokenHash: tokenBundle.tokenHash,
+      overrides: {},
+    });
   });
 
   it("accepts embedded messages only from the same-origin parent and cleans up its one listener", async () => {
     const addSpy = vi.spyOn(window, "addEventListener");
     const removeSpy = vi.spyOn(window, "removeEventListener");
     const view = renderProvider("/?design-preview=local&embedded=1");
+    await ready();
     const validData = { type: DESIGN_PREVIEW_MESSAGE_TYPE, overrides: { "duration.fast": { value: 90, unit: "ms" } } };
 
     window.dispatchEvent(new MessageEvent("message", { data: validData, origin: "https://evil.test", source: window.parent }));

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { PreviewProvider } from "../preview/PreviewProvider";
 import { AdminAuthoringDialog } from "./AdminAuthoringDialog";
+import { tokenBundle } from "../generated/token-manifest.generated";
 
 function Harness({ onReviewPublish = vi.fn() }: { onReviewPublish?: () => void }) {
   const [open, setOpen] = useState(false);
@@ -22,7 +23,7 @@ function Harness({ onReviewPublish = vi.fn() }: { onReviewPublish?: () => void }
 function renderHarness(onReviewPublish = vi.fn()) {
   return render(
     <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <PreviewProvider>
+      <PreviewProvider bundle={tokenBundle}>
         <Harness onReviewPublish={onReviewPublish} />
       </PreviewProvider>
     </MemoryRouter>,

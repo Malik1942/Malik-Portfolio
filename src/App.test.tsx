@@ -47,10 +47,11 @@ describe("App preview integration", () => {
     scrollToSpy.mockRestore();
   });
 
-  it("shows analytics and the PreviewBar in a normal full-site local preview", () => {
+  it("shows analytics and the PreviewBar in a normal full-site local preview", async () => {
     window.history.replaceState({}, "", "/?design-preview=local");
     render(<App />);
     expect(screen.getByTestId("analytics")).toBeInTheDocument();
-    expect(screen.getByRole("region", { name: "Local design preview" })).toBeInTheDocument();
+    // The bar waits for the token manifest, which the provider loads on demand.
+    expect(await screen.findByRole("region", { name: "Local design preview" })).toBeInTheDocument();
   });
 });

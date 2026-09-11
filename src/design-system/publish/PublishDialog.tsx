@@ -8,7 +8,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { tokenBundle, tokenSourceCommit } from "../generated/token-manifest.generated";
-import { usePreviewDraft } from "../preview/PreviewProvider";
+import { usePreviewBundle, usePreviewDraft } from "../preview/PreviewProvider";
 import { applyOverrides, TokenCompilationError } from "../tokens/compiler";
 import {
   PublishError,
@@ -40,7 +40,8 @@ export function PublishDialog({
   baseCommitSha = tokenSourceCommit,
   baseTokenHash = tokenBundle.tokenHash,
 }: PublishDialogProps) {
-  const { bundle, draft } = usePreviewDraft();
+  const { draft } = usePreviewDraft();
+  const bundle = usePreviewBundle();
   const [password, setPassword] = useState("");
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");

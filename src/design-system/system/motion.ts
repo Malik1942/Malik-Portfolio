@@ -1,4 +1,4 @@
-import { tokenBundle } from "../generated/token-manifest.generated";
+import { MOTION_TOKENS } from "../generated/motion-tokens.generated";
 import type { DtcgCubicBezier, DtcgDuration } from "../tokens/types";
 
 /**
@@ -7,15 +7,17 @@ import type { DtcgCubicBezier, DtcgDuration } from "../tokens/types";
  * CSS transitions read the same tokens through `var(--duration-*)` and
  * `var(--ease-*)`, and Tailwind exposes them as `duration-fast` and
  * `ease-enter`. Framer cannot read a CSS variable for a transition, so the
- * values are lifted from the generated manifest here: one source, two outputs.
+ * values are lifted from a generated module here: one source, two outputs.
+ * That module carries only the twelve motion values, not the whole token
+ * manifest, because everything that animates imports this file.
  *
  * Durations are in seconds because that is Framer's unit.
  */
 
 function read<T>(path: string): T {
-  const token = tokenBundle.tokens.find((candidate) => candidate.path === path);
-  if (!token) throw new Error(`Missing motion token: ${path}`);
-  return token.resolvedValue as T;
+  const value = MOTION_TOKENS[path];
+  if (!value) throw new Error(`Missing motion token: ${path}`);
+  return value as T;
 }
 
 function seconds(path: string): number {

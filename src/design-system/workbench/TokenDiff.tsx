@@ -1,8 +1,9 @@
 import { applyOverrides } from "../tokens/compiler";
-import { usePreviewDraft } from "../preview/PreviewProvider";
+import { usePreviewBundle, usePreviewDraft } from "../preview/PreviewProvider";
 
 export function TokenDiff() {
-  const { bundle, draft } = usePreviewDraft();
+  const { draft } = usePreviewDraft();
+  const bundle = usePreviewBundle();
   const compiled = applyOverrides(bundle, draft.overrides);
   const production = new Map(bundle.tokens.map((token) => [token.path, token]));
   const preview = new Map(compiled.tokens.map((token) => [token.path, token]));

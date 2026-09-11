@@ -2,8 +2,9 @@ import { ExportDraftButton } from "../workbench/ExportDraftButton";
 import { usePreviewDraft } from "./PreviewProvider";
 
 export function PreviewBar() {
-  const { draft, previewActive, embedded, resetAll, exitPreview } = usePreviewDraft();
-  if (!previewActive || embedded) return null;
+  const { draft, previewActive, embedded, ready, resetAll, exitPreview } = usePreviewDraft();
+  // `ready`: the export button and the count read the manifest-backed draft.
+  if (!previewActive || embedded || !ready) return null;
   const count = Object.keys(draft.overrides).length;
   return (
     <aside role="region" aria-label="Local design preview" className="fixed inset-x-3 bottom-3 z-overlay mx-auto flex max-w-reading flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-background/95 px-3 py-2 shadow-2xl backdrop-blur md:inset-x-6">

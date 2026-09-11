@@ -14,7 +14,7 @@ function OverrideButton({ path, value }: { path: string; value: never }) {
 }
 
 function renderWorkbench(children: React.ReactNode, entry = "/design-system#playground") {
-  return render(<MemoryRouter initialEntries={[entry]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PreviewProvider>{children}</PreviewProvider></MemoryRouter>);
+  return render(<MemoryRouter initialEntries={[entry]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PreviewProvider bundle={tokenBundle}>{children}</PreviewProvider></MemoryRouter>);
 }
 
 describe("public workbench utilities", () => {

@@ -65,7 +65,7 @@ function renderDialog(
   seedDraft(options.withOverride ?? true);
   return render(
     <MemoryRouter initialEntries={["/design-system#playground"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <PreviewProvider>
+      <PreviewProvider bundle={tokenBundle}>
         <DialogHarness
           publish={publish}
           baseCommitSha={options.baseCommitSha}
@@ -349,7 +349,7 @@ describe("Admin entry integration", () => {
     window.history.replaceState(null, "", "/design-system?keep=1&admin=1#overview");
     render(
       <MemoryRouter initialEntries={["/design-system?keep=1&admin=1#overview"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <PreviewProvider>
+        <PreviewProvider bundle={tokenBundle}>
           <DesignSystem />
           <LocationProbe />
         </PreviewProvider>

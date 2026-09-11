@@ -1,6 +1,6 @@
 import { applyOverrides } from "../tokens/compiler";
 import type { DtcgColor } from "../tokens/types";
-import { usePreviewDraft } from "../preview/PreviewProvider";
+import { usePreviewBundle, usePreviewDraft } from "../preview/PreviewProvider";
 
 type Rgb = [number, number, number];
 const SITE_BOOT_CANVAS: Rgb = [10 / 255, 10 / 255, 10 / 255];
@@ -73,7 +73,8 @@ export function contrastRatio(foreground: DtcgColor, background: DtcgColor): num
 }
 
 export function ContrastChecks() {
-  const { bundle, draft } = usePreviewDraft();
+  const { draft } = usePreviewDraft();
+  const bundle = usePreviewBundle();
   const tokens = new Map(applyOverrides(bundle, draft.overrides).tokens.map((token) => [token.path, token]));
   return (
     <section aria-labelledby="contrast-heading">
