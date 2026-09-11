@@ -256,7 +256,7 @@ const rivals: Rival[] = [
     discovery: { held: "yes", note: "Serendipity" },
   },
   {
-    name: "Apple Freeform",
+    name: "Freeform",
     mark: <AppleMark className={MARK} />,
     capture: { held: "no", note: "Place It Yourself" },
     field: { held: "yes", note: "An Infinite Canvas" },
