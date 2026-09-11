@@ -122,17 +122,20 @@ const RULES: Rule[] = [
   },
   {
     name: "ink as a raw opacity",
-    pattern: /\btext-foreground\/\d+\b/g,
+    // Both notations, because a bracketed alpha bypasses the ladder just as
+    // completely as a bare one: text-foreground/[0.72] is the secondary tier
+    // written by hand, out of reach of the token that owns it.
+    pattern: /\btext-foreground\/(?:\d+|\[[^\]]+\])/g,
     hint: "Use the ink ladder: text-foreground, -lead, -secondary, -tertiary, or -quiet.",
   },
   {
     name: "focus ring as a raw opacity",
-    pattern: /\bring-foreground\/\d+\b|\bring-ring\b/g,
+    pattern: /\bring-foreground\/(?:\d+|\[[^\]]+\])|\bring-ring\b/g,
     hint: "Use ring-focus, or ring-focus-strong over media and filled surfaces.",
   },
   {
     name: "hairline as a raw opacity",
-    pattern: /\bborder-border\/\d+\b/g,
+    pattern: /\bborder-border\/(?:\d+|\[[^\]]+\])/g,
     hint: "Use border-hairline or border-hairline-faint.",
   },
   {
@@ -257,6 +260,21 @@ describe("design-system boundary", () => {
     }
     for (const live of ["bg-secondary/10", "text-accent-violet/70", "bg-card/40", "bg-background/0", "bg-secondary/100", "bg-foreground/[0.06]", "bg-card/[13%]"]) {
       expect(flagged(live), `${live} generates CSS and must not be flagged`).toBe(false);
+    }
+  });
+
+  // The ladder rules own a role outright, so they have to read both notations.
+  // A bare /72 and a bracketed /[0.72] are the same hand-written tier, and the
+  // bracketed one used to walk straight past them.
+  it("catches a ladder role written as a bracketed alpha", () => {
+    const cases: Array<[string, string]> = [
+      ["ink as a raw opacity", "text-foreground/[0.72]"],
+      ["focus ring as a raw opacity", "ring-foreground/[0.4]"],
+      ["hairline as a raw opacity", "border-border/[0.5]"],
+    ];
+    for (const [name, className] of cases) {
+      const rule = RULES.find((candidate) => candidate.name === name)!;
+      expect((className.match(rule.pattern) ?? []).length, `${name} missed ${className}`).toBeGreaterThan(0);
     }
   });
 
