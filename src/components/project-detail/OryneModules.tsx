@@ -116,7 +116,7 @@ function TermList({ items, columns = VOCABULARY_COLUMNS }: { items: Term[]; colu
 // Same table, split into named groups. The four moments are the spine of the
 // case study from here on: the vocabulary is grouped by them and so are the
 // principles, so a reader who learns the four once can scan both by it.
-type TermGroup = { title: string; blurb: string; items: Term[] };
+type TermGroup = { title: string; blurb?: string; items: Term[] };
 function GroupedTermList({ groups, columns = VOCABULARY_COLUMNS }: { groups: TermGroup[]; columns?: TermColumns }) {
   return (
     <ModuleCard>
@@ -130,7 +130,7 @@ function GroupedTermList({ groups, columns = VOCABULARY_COLUMNS }: { groups: Ter
           <div key={group.title}>
             <div className="flex flex-col gap-1 bg-surface-inset px-6 py-4 md:flex-row md:items-baseline md:gap-4 md:px-8">
               <p className="text-caption uppercase tracking-eyebrow font-mono text-foreground">{group.title}</p>
-              <p className="text-caption font-light leading-relaxed text-foreground-tertiary">{group.blurb}</p>
+              {group.blurb && <p className="text-caption font-light leading-relaxed text-foreground-tertiary">{group.blurb}</p>}
             </div>
             <div className="divide-y divide-case-study-module-divider border-t border-case-study-module-divider">
               {group.items.map((t) => {
@@ -331,7 +331,6 @@ const moments: GridItem[] = [
 const vocabularyGroups: TermGroup[] = [
   {
     title: "Capture",
-    blurb: "two kinds, one gesture apart",
     items: [
       { term: "Thought", meaning: "One captured fragment, named and themed on the device.", inApp: "“Release into the Ocean”", icon: Sparkles },
       { term: "Whisper", meaning: "A thought caught by voice. Words appear while you speak.", inApp: "“Catch a whisper”", icon: Mic },
@@ -339,7 +338,6 @@ const vocabularyGroups: TermGroup[] = [
   },
   {
     title: "The Ocean",
-    blurb: "what happens after you let go",
     items: [
       { term: "Current", meaning: "Related thoughts drift together. Nothing is filed.", inApp: "“8 thoughts drift here”", icon: Waves },
       { term: "Resurfacing", meaning: "One forgotten thought rises per day.", inApp: "“Catching a thought that drifted away”", icon: Sun },
@@ -347,14 +345,12 @@ const vocabularyGroups: TermGroup[] = [
   },
   {
     title: "The Library",
-    blurb: "when you do go looking",
     items: [
       { term: "Ask the Ocean", meaning: "A question answered only from your own thoughts.", inApp: "“Responses come from what you’ve captured.”", icon: Compass },
     ],
   },
   {
     title: "The Thought",
-    blurb: "one fragment, full attention",
     items: [
       { term: "Grow a Branch", meaning: "A new thought grows out of this one, as a question, a concept, research, or a project.", inApp: "“Grow a branch”", icon: Layers },
     ],
