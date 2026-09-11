@@ -295,7 +295,7 @@ export function OryneCompetitive() {
     <ModuleCard>
       <div className={`hidden md:grid ${RIVAL_COLS} px-8 py-4 border-b border-case-study-module-divider`}>
         <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">Tool</p>
-        {["Fast capture", "A place", "Resurfacing"].map((c) => (
+        {["Fast capture", "A canvas", "Resurfacing"].map((c) => (
           <p key={c} className={`text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono pl-6 ${TERM_COL_RULE}`}>{c}</p>
         ))}
       </div>
