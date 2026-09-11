@@ -577,6 +577,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
         { name: "poster", type: "string", description: "Video only. The still shown until playback starts." },
         { name: "url", type: "string", description: "Embed only. YouTube and Vimeo watch URLs are rewritten to their player URLs." },
         { name: "title", type: "string", description: "Embed only. The iframe's accessible name." },
+        { name: "caption", type: "string", description: "Image and video only. One clause under the frame; absent, the frame renders alone." },
+        { name: "label", type: "string", description: "Image and video only. Two or three words naming the artifact, joined to the caption with a colon." },
       ],
     },
     tokens: ["color.surface.secondary", "color.background.canvas", "radius.large"],

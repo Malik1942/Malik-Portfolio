@@ -100,18 +100,6 @@
           ],
           "hex": "#e7e6e4"
         }
-      },
-      "050": {
-        "$description": "Light warm off-white used where stronger contrast is required.",
-        "$value": {
-          "colorSpace": "hsl",
-          "components": [
-            40,
-            6,
-            95
-          ],
-          "hex": "#f3f3f1"
-        }
       }
     },
     "red": {

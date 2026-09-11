@@ -4,10 +4,7 @@
       "scrimColor": {
         "$type": "color",
         "$description": "Black scrim behind the site header; gradient stops remain component-owned.",
-        "$value": "{color.neutral.1000}",
-        "$extensions": {
-          "com.malikzhang.alpha": 1
-        }
+        "$value": "{color.neutral.1000}"
       }
     },
     "projectCard": {

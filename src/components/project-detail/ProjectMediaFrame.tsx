@@ -48,15 +48,18 @@ export function ProjectMediaFrame({ fig }: { fig: ProjectSectionFigure }) {
       <img src={fig.src} alt={fig.alt} loading="lazy" decoding="async" className="mx-auto w-full h-auto block" />
     );
   const frameClass = fig.type === "embed" ? `${FRAME} aspect-video` : FRAME;
-  const caption = fig.type === "embed" ? undefined : fig.caption;
+  // Only images and video carry caption fields; an embed's player is its own
+  // caption. Narrowing on the type once here is what lets `label` and
+  // `caption` be read below without the embed variant in the way.
+  const captioned = fig.type === "embed" ? undefined : fig;
 
-  if (!caption) {
+  if (!captioned?.caption) {
     return <figure data-testid="project-media-frame" className={frameClass}>{media}</figure>;
   }
   return (
     <figure data-testid="project-media-frame">
       <div className={frameClass}>{media}</div>
-      <FigureCaption label={fig.label}>{caption}</FigureCaption>
+      <FigureCaption label={captioned.label}>{captioned.caption}</FigureCaption>
     </figure>
   );
 }
