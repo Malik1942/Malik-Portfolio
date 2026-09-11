@@ -1121,7 +1121,10 @@ const oryne: ProjectDetailSource = {
   metaCards: [
     { label: "Role", value: "0→1 Product Designer & Builder" },
     { label: "Timeline", value: "June 2026–Present" },
-    { label: "Tools", value: "SwiftUI · SwiftData + CloudKit · Foundation Models · Claude Code" },
+    // Two authored lines: the platform, then the intelligence and the agent. One
+    // line is 62 characters and wraps mid-list at desktop width, leaving a lone
+    // separator at the start of line two.
+    { label: "Tools", value: "SwiftUI · SwiftData + CloudKit\nFoundation Models · Claude Code" },
     { label: "Output", value: "Live on the App Store · v1.5 · English & Chinese" },
   ],
   // The arc: the problem (lists bury), the competitive landscape (everyone
