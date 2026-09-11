@@ -551,6 +551,27 @@ function WideFigure({ item }: { item: ArtifactItem }) {
     </figure>
   );
 }
+// The connector between Version 1 and Shipped. A long hairline with a thin
+// chevron, in secondary ink: the same material as the rules and the 1.5
+// stroke icons, so it reads as a diagram arrow rather than a control. A
+// lucide glyph was too small to hold its own between two phone frames, and
+// a filled disc read as a carousel button. Two drawings rather than one
+// rotated, so the layout box is the arrow's true size at either orientation.
+function PairArrow() {
+  const stroke = { fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" } as const;
+  return (
+    <>
+      <svg aria-hidden="true" viewBox="0 0 64 12" className="hidden h-3 w-16 shrink-0 text-foreground-secondary sm:block" {...stroke}>
+        <path d="M1 6h61" />
+        <path d="M57 1.5 62 6l-5 4.5" />
+      </svg>
+      <svg aria-hidden="true" viewBox="0 0 12 64" className="h-16 w-3 shrink-0 text-foreground-secondary sm:hidden" {...stroke}>
+        <path d="M6 1v61" />
+        <path d="M1.5 57 6 62l4.5-5" />
+      </svg>
+    </>
+  );
+}
 // One side of a Version 1 / Shipped pair. The figure is display: contents so
 // the phone and the caption become items of the pair's own grid: phones on
 // row one, captions on row two, and the arrow between them centred on the
@@ -597,12 +618,8 @@ export function OryneIterations() {
                   the same move Moti's principle rows make. */}
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] sm:gap-x-4">
                 <PairScreen item={pair.before} col="sm:col-start-1" />
-                <div className="flex items-center justify-center py-5 sm:py-0 sm:col-start-2 sm:row-start-1 sm:px-2">
-                  {/* A hairline disc keeps the arrow legible against two bright
-                      phone frames; a bare 16px glyph at 70% vanished between them. */}
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-hairline bg-secondary/10">
-                    <ArrowRight aria-hidden="true" className="h-5 w-5 rotate-90 sm:rotate-0 text-accent-violet" strokeWidth={1.75} />
-                  </span>
+                <div className="flex items-center justify-center py-6 sm:py-0 sm:col-start-2 sm:row-start-1 sm:px-2">
+                  <PairArrow />
                 </div>
                 <PairScreen item={pair.after} col="sm:col-start-3" />
               </div>
