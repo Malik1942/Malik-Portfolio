@@ -1158,7 +1158,7 @@ const oryne: ProjectDetailSource = {
       id: "competitive",
       label: "Competitive",
       headline: "No tool catches a thought, gives it a place, and brings it back",
-      body: "The tools a creative person already uses to keep inspiration each answer the same question differently: what happens to a thing after you save it, and whether it ever finds you again. I wrote this read in February, three and a half months before there was a first commit to make.\n\nThree capabilities decide it. Capture has to be fast enough that you do it at all. The saved thing has to live somewhere you can look around in, not just scroll. And something has to return it to you without being asked.\n\n[[module:oryne-competitive]]\n\n**Each one breaks the chain somewhere. mymind comes closest, and it collects what you find rather than what you think.**",
+      body: "One question, put to each tool a creative person already keeps inspiration in: what happens to a thing after you save it, and whether it ever finds you again. I asked it in February, three and a half months before the first commit.\n\nThree capabilities settle the answer. Capture has to be fast enough that you do it at all. The saved thing has to live somewhere you can look around in, not just scroll. And something has to return it to you without being asked.\n\n[[module:oryne-competitive]]\n\n**Each one breaks the chain somewhere. mymind comes closest, and it collects what you find rather than what you think. Nothing was doing all three for a thought of your own, and that is the gap the idea was built in.**",
     },
     {
       id: "idea",
