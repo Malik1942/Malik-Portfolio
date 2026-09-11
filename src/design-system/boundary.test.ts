@@ -49,9 +49,17 @@ const CASE_STUDY_GUIDE = "src/components/project-detail/ProjectDetailTemplate.ts
 // printer's own touchscreen inside the case study: its black ground, white
 // type, and tighter tracking belong to that machine, and putting them on the
 // portfolio's ink ladder would make the case study show a screen the product
-// does not have. Treated the same way the CalmMouse demo loop is treated
-// below, and scoped to the colour and tracking rules only: the file still
-// answers to the type scale, radius, spacing, and motion tokens.
+// does not have. It is a prototype of another product's screen, not a page of
+// this site, so it is scoped out of the colour, tracking, and opacity rules:
+// the file still answers to the type scale, radius, spacing, and motion tokens.
+//
+// The opacity exemption costs something worth naming. That rule is not a taste
+// rule, it catches modifiers Tailwind never generates, so the off-scale steps
+// in this file (border-white/12 and /18, text-white/88 and /92) emit no CSS at
+// all and those elements inherit their colour instead. That is the prototype's
+// shipped look and it stays by decision, but a new off-scale step here will
+// vanish just as quietly. Bracket the value (border-white/[0.18]) if you ever
+// need one to actually render.
 const SIMULATED_DEVICE_UI = "src/components/project-detail/FlowPrintHmi.tsx";
 
 // Measures deliberately kept off the measure scale.
@@ -107,9 +115,12 @@ const RULES: Rule[] = [
     // Tailwind only generates modifiers on theme.opacity, which ships in fives.
     // bg-background/92 produced no CSS at all: the photography lightbox had
     // no backdrop until it was noticed.
-    pattern: /\b(?:bg|text|border|ring|from|to|via|divide|outline|fill|stroke)-[a-z-]+\/(?:[0-9]|[1-9][0-9])(?![0-9.\]])\b/g,
+    // The last digit must miss 0 and 5: [1-46-9] is what makes this rule
+    // catch /18 and /92 while leaving /20 and /90 alone. Written as \d{1,2}
+    // it flags every opacity in the codebase and means nothing.
+    pattern: /\b(?:bg|text|border|ring|from|to|via|divide|outline|fill|stroke)-[a-z-]+\/(?:[1-9]?[1-46-9])(?![0-9.\]])\b/g,
     hint: "Use a multiple of 5, an arbitrary value in brackets, or a token role.",
-    exempt: () => false,
+    exempt: (file) => file === SIMULATED_DEVICE_UI,
   },
   {
     name: "ink as a raw opacity",
