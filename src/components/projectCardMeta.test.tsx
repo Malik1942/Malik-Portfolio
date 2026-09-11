@@ -59,7 +59,7 @@ describe("project card metadata", () => {
     expect(container.textContent).toContain("Product Designer & Builder · 2026");
   });
 
-  it("keeps a Studio tile's hover caption to the title and the skills: the frame is too short for the facts row", () => {
+  it("drops the facts row from a Studio tile's hover caption but keeps the outbound chip, leading the skills", () => {
     const { container } = render(
       <MemoryRouter>
         <ProjectCard project={{ ...project, skills: [...project.skills] }} projectId="moti" dotClass="" globalIndex={0} tile />
@@ -69,7 +69,12 @@ describe("project card metadata", () => {
     const skill = screen.getByText("AI-Native");
     expect(title.compareDocumentPosition(skill) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(screen.queryByText("Product Designer & Builder · 2026")).toBeNull();
-    expect(screen.queryByRole("link", { name: /App Store/ })).toBeNull();
+    // The frame is too short for the facts row, but a tile whose point is that
+    // the thing is live still has to offer the way out to it.
+    const link = screen.getByRole("link", { name: /App Store/ });
+    expect(link).toHaveAttribute("href", project.links[0].url);
+    expect(title.compareDocumentPosition(link) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(link.compareDocumentPosition(skill) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(container.textContent).not.toMatch(/AI-Native\s*2026/);
   });
 

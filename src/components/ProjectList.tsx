@@ -471,8 +471,19 @@ const CardMeta = ({
     color: "hsl(var(--color-text-secondary))",
   };
   const linkChips = links.map((link) => <LinkChip key={link.url} link={link} />);
-  const statusChip = project.destination?.kind === "placeholder" ? <Chip>Coming soon</Chip> : null;
+  const statusChip = project.destination?.kind === "placeholder" ? <Chip key="status">Coming soon</Chip> : null;
   const skillChips = skills.map((skill) => <SkillChip key={skill} skill={skill} />);
+  // A Studio tile has no facts row (skillsOnly), so its link and status chips
+  // move down and lead the chip row instead of leaving with it. The facts row
+  // went because a run of text is too much for a short frame; a chip is not,
+  // and the link chip is the one piece of that row a tile cannot do without.
+  // The Shipped lens is answered by carrying an outbound link, and the chip is
+  // the evidence for it (see lens.ts), so a tile in that lens with no chip is
+  // a claim with nothing behind it. CalmMouse and Inkwork went that way for a
+  // while: live products whose tiles offered no way to go and use them. Only
+  // the link chip takes the filled link material, so it still reads as the one
+  // control in a row of labels.
+  const rowChips = skillsOnly ? [...linkChips, statusChip, ...skillChips].filter(Boolean) : skillChips;
 
   // Two rows. The facts on the first — role · year, and the shipped chip beside
   // them, since "on the App Store" is a fact of the same kind — and the skills
@@ -497,8 +508,8 @@ const CardMeta = ({
           {statusChip}
         </div>
       )}
-      {skillChips.length > 0 ? (
-        <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1.5">{skillChips}</div>
+      {rowChips.length > 0 ? (
+        <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1.5">{rowChips}</div>
       ) : null}
     </div>
   );
