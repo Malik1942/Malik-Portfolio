@@ -1137,7 +1137,7 @@ const AboutDeepContent = ({
             "Back to all work". Padding matches the Footer below so their left
             edges align. */}
         {onBack ? (
-          <div className="relative z-20 px-6 md:px-16 lg:px-20 pt-4 pb-2">
+          <div className="relative z-20 px-6 md:px-16 lg:px-24 pt-4 pb-2">
             <div className="max-w-content mx-auto">
               <BackLink onClick={onBack} aria-label="Back to home" className="-ml-1">
                 Back to home

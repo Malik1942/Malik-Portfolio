@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { buttonRecipe } from "@/components/ui/Button";
 import { getProject } from "@/data/projects";
 import { DURATION, EASE } from "@/design-system/system/motion";
+import { PAGE_COLUMN, PAGE_GUTTERS } from "@/design-system/system/layout";
 import { noOrphan } from "@/lib/noOrphan";
 import { SECTIONS } from "@/lib/sections";
 import rangerHero from "@/assets/ranger-hero.webp";
@@ -65,77 +66,79 @@ export function StudioTeaser() {
     <section
       id={STUDIO_TEASER_ID}
       aria-labelledby={`${STUDIO_TEASER_ID}-title`}
-      className="px-6 md:px-16 lg:px-24 pt-section pb-8"
+      className={`${PAGE_GUTTERS} pt-section pb-8`}
     >
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.96, y: 40 }}
-        animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.96, y: inView ? 0 : 40 }}
-        transition={{
-          duration: DURATION.reveal,
-          ease: EASE.enter,
-          opacity: { duration: DURATION.slow, ease: EASE.settle },
-        }}
-      >
-        <Link
-          to={SECTIONS.studio.path}
-          className={`group relative block overflow-hidden bg-project-card-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-4 focus-visible:ring-offset-background ${BANNER_FRAME}`}
+      <div className={PAGE_COLUMN}>
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, scale: 0.96, y: 40 }}
+          animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.96, y: inView ? 0 : 40 }}
+          transition={{
+            duration: DURATION.reveal,
+            ease: EASE.enter,
+            opacity: { duration: DURATION.slow, ease: EASE.settle },
+          }}
         >
-          {/* Ground: the photograph, lifting on hover like a card cover. */}
-          <img
-            src={rangerHero}
-            alt={BANNER_ALT}
-            loading="lazy"
-            decoding="async"
-            className={`absolute inset-0 h-full w-full object-cover transition-transform duration-reveal ease-move group-hover:scale-[1.03] ${BANNER_CROP}`}
-          />
+          <Link
+            to={SECTIONS.studio.path}
+            className={`group relative block overflow-hidden bg-project-card-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-4 focus-visible:ring-offset-background ${BANNER_FRAME}`}
+          >
+            {/* Ground: the photograph, lifting on hover like a card cover. */}
+            <img
+              src={rangerHero}
+              alt={BANNER_ALT}
+              loading="lazy"
+              decoding="async"
+              className={`absolute inset-0 h-full w-full object-cover transition-transform duration-reveal ease-move group-hover:scale-[1.03] ${BANNER_CROP}`}
+            />
 
-          {/* Fade: the page background rising from the bottom so the type sits
-              on black, a gentler one from the left under the type, and a light
-              wash so the photo reads as a ground rather than a cover. All three
-              are the canvas token at an alpha, written inline because the
-              alphas are tuned to this photograph, not steps on a scale. */}
-          <div aria-hidden="true" className="absolute inset-0" style={{ background: WASH }} />
-          <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-3/4" style={{ background: FADE_UP }} />
-          <div aria-hidden="true" className="absolute inset-y-0 left-0 w-3/5" style={{ background: FADE_RIGHT }} />
+            {/* Fade: the page background rising from the bottom so the type sits
+                on black, a gentler one from the left under the type, and a light
+                wash so the photo reads as a ground rather than a cover. All three
+                are the canvas token at an alpha, written inline because the
+                alphas are tuned to this photograph, not steps on a scale. */}
+            <div aria-hidden="true" className="absolute inset-0" style={{ background: WASH }} />
+            <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-3/4" style={{ background: FADE_UP }} />
+            <div aria-hidden="true" className="absolute inset-y-0 left-0 w-3/5" style={{ background: FADE_RIGHT }} />
 
-          {/* Type, bottom-left. */}
-          <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 2xl:p-16">
-            <h2
-              id={`${STUDIO_TEASER_ID}-title`}
-              className="text-label lg:text-sm font-medium uppercase tracking-eyebrow text-foreground"
-            >
-              {SECTIONS.studio.label}
-            </h2>
-            <p className="mt-3 lg:mt-4 2xl:mt-6 max-w-reading font-display text-title lg:text-heading 2xl:text-display font-light leading-tight text-foreground text-balance">
-              {noOrphan(STUDIO_TEASER_HEADLINE)}
-            </p>
-            <p className="mt-2 lg:mt-3 2xl:mt-4 hidden md:block max-w-reading text-sm lg:text-base 2xl:text-xl leading-relaxed text-foreground-lead">
-              {noOrphan(STUDIO_TEASER_BLURB)}
-            </p>
-            {/* The pill is drawn with the button recipe but is a span: the whole
-                banner is already the link, and a link inside a link is not allowed. */}
-            <div className="mt-5 lg:mt-6 2xl:mt-8">
-              <span className={buttonRecipe({ tone: "primary" })}>
-                {STUDIO_TEASER_CTA}
-                <span
-                  aria-hidden="true"
-                  className="inline-flex shrink-0 transition-transform duration-fast ease-settle group-hover:translate-x-0.5 [&>svg]:h-5 [&>svg]:w-5"
-                >
-                  <ArrowRight />
+            {/* Type, bottom-left. */}
+            <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 2xl:p-16">
+              <h2
+                id={`${STUDIO_TEASER_ID}-title`}
+                className="text-label lg:text-sm font-medium uppercase tracking-eyebrow text-foreground"
+              >
+                {SECTIONS.studio.label}
+              </h2>
+              <p className="mt-3 lg:mt-4 2xl:mt-6 max-w-reading font-display text-title lg:text-heading 2xl:text-display font-light leading-tight text-foreground text-balance">
+                {noOrphan(STUDIO_TEASER_HEADLINE)}
+              </p>
+              <p className="mt-2 lg:mt-3 2xl:mt-4 hidden md:block max-w-reading text-sm lg:text-base 2xl:text-xl leading-relaxed text-foreground-lead">
+                {noOrphan(STUDIO_TEASER_BLURB)}
+              </p>
+              {/* The pill is drawn with the button recipe but is a span: the whole
+                  banner is already the link, and a link inside a link is not allowed. */}
+              <div className="mt-5 lg:mt-6 2xl:mt-8">
+                <span className={buttonRecipe({ tone: "primary" })}>
+                  {STUDIO_TEASER_CTA}
+                  <span
+                    aria-hidden="true"
+                    className="inline-flex shrink-0 transition-transform duration-fast ease-settle group-hover:translate-x-0.5 [&>svg]:h-5 [&>svg]:w-5"
+                  >
+                    <ArrowRight />
+                  </span>
                 </span>
-              </span>
+              </div>
             </div>
-          </div>
 
-          {/* Credit for the picture, out of the way. */}
-          {project ? (
-            <span className="absolute hidden text-caption text-foreground-tertiary md:bottom-10 md:right-10 md:block 2xl:bottom-16 2xl:right-16">
-              {project.title}, {project.year}
-            </span>
-          ) : null}
-        </Link>
-      </motion.div>
+            {/* Credit for the picture, out of the way. */}
+            {project ? (
+              <span className="absolute hidden text-caption text-foreground-tertiary md:bottom-10 md:right-10 md:block 2xl:bottom-16 2xl:right-16">
+                {project.title}, {project.year}
+              </span>
+            ) : null}
+          </Link>
+        </motion.div>
+      </div>
     </section>
   );
 }

@@ -5,6 +5,7 @@ import { Linkedin, Mail } from "lucide-react";
 import { NAV_ITEMS, SECTIONS, navItemHref } from "@/lib/sections";
 import logo from "@/assets/logo.webp";
 import { TextLink } from "@/components/ui/TextLink";
+import { PAGE_COLUMN, PAGE_GUTTERS } from "@/design-system/system/layout";
 
 const EMAIL_HREF = "mailto:malikzhang19@gmail.com";
 const LINKEDIN_HREF = "https://www.linkedin.com/in/malik-zhang";
@@ -169,7 +170,7 @@ export function SiteHeader({
     >
       <motion.div
         data-hero-header
-        className="relative px-8 md:px-16 lg:px-24 pt-7 pb-12 pointer-events-none"
+        className={`relative ${PAGE_GUTTERS} pt-7 pb-12 pointer-events-none`}
         style={{
           // Subtle vertical shader for legibility — solid at the top, fading to
           // fully transparent below the nav. The divider renders on top of it.
@@ -183,41 +184,45 @@ export function SiteHeader({
         }}
         transition={{ duration: 0.6, delay: entranceDelay }}
       >
-        <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
+        {/* The page column: logo, nav and divider line up with the Work frames
+            and the footer below at every width. */}
+        <div className={PAGE_COLUMN}>
+          <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
 
-          {/* Left — personal logo (top-left); links home via the router */}
-          <div className="animate-fade-up delay-3">
-            <Link to="/" aria-label="Malik Zhang, home" onClick={onLogoClick} className={`${interactive} inline-block w-fit`}>
-              <img src={logo} alt="Malik Zhang" className="h-6 w-auto select-none" />
-            </Link>
+            {/* Left — personal logo (top-left); links home via the router */}
+            <div className="animate-fade-up delay-3">
+              <Link to="/" aria-label="Malik Zhang, home" onClick={onLogoClick} className={`${interactive} inline-block w-fit`}>
+                <img src={logo} alt="Malik Zhang" className="h-6 w-auto select-none" />
+              </Link>
+            </div>
+
+            {/* Center — nav */}
+            <nav className={`${interactive} flex items-center gap-x-8 gap-y-2 text-base text-foreground-secondary animate-fade-up delay-4 justify-self-center`}>
+              {links}
+            </nav>
+
+            {/* Right — Connect; 1fr column keeps the center nav optically centered */}
+            <HeaderConnect
+              testId="header-connect-desktop"
+              interactive={interactive}
+              className="justify-self-end text-base animate-fade-up delay-4"
+            />
           </div>
 
-          {/* Center — nav */}
-          <nav className={`${interactive} flex items-center gap-x-8 gap-y-2 text-base text-foreground-secondary animate-fade-up delay-4 justify-self-center`}>
+          {/* Mobile — single-row nav, no logo, with the two Connect icons riding
+              in the same row (the word "Connect" is desktop-only; the icons say
+              it on their own). A fixed gap (not justify-between) keeps the
+              spacing identical at every screen width. Six items instead of four
+              is what drops that gap from 20px to 12px: 12 is the widest gap that
+              still keeps the centered group inside the page margins, and so no
+              wider than the divider beneath it, at 320px. */}
+          <nav className={`${interactive} flex flex-nowrap items-center justify-center gap-x-3 whitespace-nowrap text-sm text-foreground-secondary animate-fade-up delay-4 md:hidden`}>
             {links}
+            <ConnectIcons />
           </nav>
 
-          {/* Right — Connect; 1fr column keeps the center nav optically centered */}
-          <HeaderConnect
-            testId="header-connect-desktop"
-            interactive={interactive}
-            className="justify-self-end text-base animate-fade-up delay-4"
-          />
+          <div className={`${hideMobileDivider ? "hidden md:block" : ""} h-px bg-border/40 mt-5 animate-line-reveal delay-3`} />
         </div>
-
-        {/* Mobile — single-row nav, no logo, with the two Connect icons riding
-            in the same row (the word "Connect" is desktop-only; the icons say
-            it on their own). A fixed gap (not justify-between) keeps the
-            spacing identical at every screen width. Six items instead of four
-            is what drops that gap from 20px to 12px: 12 is the widest gap that
-            still keeps the centered group inside the page margins, and so no
-            wider than the divider beneath it, at 320px. */}
-        <nav className={`${interactive} flex flex-nowrap items-center justify-center gap-x-3 whitespace-nowrap text-sm text-foreground-secondary animate-fade-up delay-4 md:hidden`}>
-          {links}
-          <ConnectIcons />
-        </nav>
-
-        <div className={`${hideMobileDivider ? "hidden md:block" : ""} h-px bg-border/40 mt-5 animate-line-reveal delay-3`} />
       </motion.div>
     </div>
   );

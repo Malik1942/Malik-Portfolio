@@ -115,7 +115,7 @@ const OryneSupport = () => {
         <span className="text-caption font-mono text-foreground-tertiary">Oryne Support</span>
       </div>
 
-      <main className="flex-1 px-6 md:px-16 lg:px-20 pt-16 md:pt-24 pb-8">
+      <main className="flex-1 px-6 md:px-16 lg:px-24 pt-16 md:pt-24 pb-8">
         <div className="max-w-reading mx-auto">
           {/* Intro */}
           <header>

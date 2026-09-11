@@ -3,6 +3,7 @@ import { NAV_ITEMS, SECTIONS, navItemHref } from "@/lib/sections";
 import { scrollToPageTop } from "@/lib/scrollToTarget";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { TextLink } from "@/components/ui/TextLink";
+import { PAGE_COLUMN, PAGE_GUTTERS } from "@/design-system/system/layout";
 
 interface FooterProps {
   /** A homepage section link was clicked; receives the section's DOM id. */
@@ -10,7 +11,8 @@ interface FooterProps {
   onAboutClick?: () => void;
   /** Prefix for section anchors: "" on the homepage, "/" elsewhere. */
   hrefBase?: string;
-  /** false = no max-width wrapper, aligns with full-bleed page padding. Default true. */
+  /** false = the page column (page gutters, 1400px cap): the homepage and Studio
+   *  footers share it with the header and the Work sections. Default true. */
   constrained?: boolean;
   /** true = matches project detail page grid (1400px, tighter padding). Default false. */
   wide?: boolean;
@@ -26,8 +28,8 @@ const Footer = ({
   // wide: max-w + px- on the same element — mirrors PAGE_OUTER pattern so edges align exactly
   const outerClass = wide
     ? "px-6 md:px-10 lg:px-16 max-w-page mx-auto pt-10 md:pt-16 pb-12"
-    : "px-6 md:px-16 lg:px-20 pt-10 md:pt-16 pb-12";
-  const innerClass = wide ? "" : constrained ? "max-w-content mx-auto" : "";
+    : `${PAGE_GUTTERS} pt-10 md:pt-16 pb-12`;
+  const innerClass = wide ? "" : constrained ? "max-w-content mx-auto" : PAGE_COLUMN;
   return (
     <footer className={outerClass}>
       <div className={innerClass}>

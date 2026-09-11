@@ -11,10 +11,10 @@ import { projectsInSection } from "@/data/projects";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
 import { noOrphan } from "@/lib/noOrphan";
 import { SECTIONS } from "@/lib/sections";
+import { PAGE_COLUMN, PAGE_GUTTERS } from "@/design-system/system/layout";
 
-// Matches the homepage section gutters so the tile grid below lines up with
-// this header.
-const PAGE_OUTER = "px-6 md:px-16 lg:px-24";
+// The header sits in the same page column as the tile grid below, the site
+// header and the footer, so all four share their edges at every width.
 
 const PAGE_TITLE = `${SECTIONS.studio.label} | Malik Zhang`;
 
@@ -67,23 +67,25 @@ const Studio = () => {
         />
 
         {/* Title + the one line that draws the Work / Studio distinction. */}
-        <header className={`${PAGE_OUTER} pt-32 md:pt-40`}>
-          <h1 className="font-display text-hero font-light text-foreground">
-            {SECTIONS.studio.label}
-          </h1>
-          <p className="mt-5 md:mt-8 text-xl font-semibold text-foreground max-w-reading leading-relaxed text-balance">
-            {noOrphan(STUDIO_HEADLINE)}
-          </p>
-          {/* Body-paragraph role, as in a case-study SectionBody: 16 / 20px,
-              regular, 85% strength. The <strong> run inside is the body highlight. */}
-          <p className="mt-caption text-base md:text-xl font-normal leading-relaxed text-foreground-lead max-w-reading">
-            {blurbBefore}
-            <strong className="font-semibold text-foreground">{STUDIO_BLURB_HIGHLIGHT}</strong>
-            {noOrphan(blurbAfter)}
-          </p>
-          {/* The skill lens, offered the same way the homepage offers it under
-              the Selected Work eyebrow. */}
-          <LensRow className="mt-8 md:mt-10" />
+        <header className={`${PAGE_GUTTERS} pt-32 md:pt-40`}>
+          <div className={PAGE_COLUMN}>
+            <h1 className="font-display text-hero font-light text-foreground">
+              {SECTIONS.studio.label}
+            </h1>
+            <p className="mt-5 md:mt-8 text-xl font-semibold text-foreground max-w-reading leading-relaxed text-balance">
+              {noOrphan(STUDIO_HEADLINE)}
+            </p>
+            {/* Body-paragraph role, as in a case-study SectionBody: 16 / 20px,
+                regular, 85% strength. The <strong> run inside is the body highlight. */}
+            <p className="mt-caption text-base md:text-xl font-normal leading-relaxed text-foreground-lead max-w-reading">
+              {blurbBefore}
+              <strong className="font-semibold text-foreground">{STUDIO_BLURB_HIGHLIGHT}</strong>
+              {noOrphan(blurbAfter)}
+            </p>
+            {/* The skill lens, offered the same way the homepage offers it under
+                the Selected Work eyebrow. */}
+            <LensRow className="mt-8 md:mt-10" />
+          </div>
         </header>
 
         {/* Two grids under two eyebrows (STUDIO_GROUPS): the software, closed by

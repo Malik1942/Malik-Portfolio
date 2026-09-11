@@ -20,6 +20,7 @@ import { VideoLightbox, type LightboxVideo } from "./VideoLightbox";
 import { useLens } from "./Lens";
 import { lensMatch } from "@/lib/lens";
 import { DURATION, EASE, MOTION } from "@/design-system/system/motion";
+import { PAGE_COLUMN, PAGE_GUTTERS } from "@/design-system/system/layout";
 import type { Transition } from "framer-motion";
 
 /** What a card needs to render. `Project` in src/data/projects.ts is the strict
@@ -994,7 +995,7 @@ const SectionLabel = ({
 // a More Work row are the same width. Under the cap nothing changes: a 1440
 // display already fits inside. Above it the column stops growing with the
 // viewport, so on a 2560 display a frame is 1400px wide rather than 2368.
-const WORK_CONTAINER = "mx-auto max-w-page";
+const WORK_CONTAINER = PAGE_COLUMN;
 
 // ─── Selected Work ────────────────────────────────────────────────────────────
 // A sequence of frames, each the full width of the page column (the same
@@ -1018,7 +1019,7 @@ const SelectedWorkList = ({
   projects: ProjectCardData[];
   intro?: ReactNode;
 }) => (
-  <section id={id} className="px-6 md:px-16 lg:px-24 pt-16">
+  <section id={id} className={`${PAGE_GUTTERS} pt-16`}>
     <div className={WORK_CONTAINER}>
       <SectionLabel title={sectionTitle} dotClass={dotClass} variant="primary" />
       {/* The eyebrow carries mb-10; the intro pulls up to sit 16px under it and
@@ -1052,7 +1053,7 @@ const MoreWorkList = ({
   dotClass: string;
   projects: ProjectCardData[];
 }) => (
-  <section id={id} className="px-6 md:px-16 lg:px-24 pt-section pb-8">
+  <section id={id} className={`${PAGE_GUTTERS} pt-section pb-8`}>
     <div className={WORK_CONTAINER}>
       <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" />
       {projects.length > 0 && (
@@ -1115,32 +1116,34 @@ const StudioList = ({
   );
 
   return (
-    <section id={id} className={`px-6 md:px-16 lg:px-24 pb-8 ${showLabel ? "pt-section" : ""}`}>
-      {showLabel ? <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" /> : null}
-      {groups.map((group, i) => (
-        <div
-          key={group.key}
-          className={i > 0 ? "mt-section" : undefined}
-          data-studio-group={group.key}
-          aria-labelledby={`studio-group-${group.key}`}
-          role="region"
-        >
-          <SectionLabel
-            id={`studio-group-${group.key}`}
-            as="h2"
-            title={group.label}
-            blurb={group.blurb}
-            dotClass={dotClass}
-            variant="secondary"
-          />
-          {group.projects.length > 0 ? renderGrid(group.projects) : null}
-          {group.trailing}
-        </div>
-      ))}
-      {ungrouped.length > 0 ? (
-        <div className={groups.length > 0 ? "mt-section" : undefined}>{renderGrid(ungrouped)}</div>
-      ) : null}
-      <VideoLightbox video={video} onClose={closeVideo} />
+    <section id={id} className={`${PAGE_GUTTERS} pb-8 ${showLabel ? "pt-section" : ""}`}>
+      <div className={WORK_CONTAINER}>
+        {showLabel ? <SectionLabel title={sectionTitle} dotClass={dotClass} variant="secondary" /> : null}
+        {groups.map((group, i) => (
+          <div
+            key={group.key}
+            className={i > 0 ? "mt-section" : undefined}
+            data-studio-group={group.key}
+            aria-labelledby={`studio-group-${group.key}`}
+            role="region"
+          >
+            <SectionLabel
+              id={`studio-group-${group.key}`}
+              as="h2"
+              title={group.label}
+              blurb={group.blurb}
+              dotClass={dotClass}
+              variant="secondary"
+            />
+            {group.projects.length > 0 ? renderGrid(group.projects) : null}
+            {group.trailing}
+          </div>
+        ))}
+        {ungrouped.length > 0 ? (
+          <div className={groups.length > 0 ? "mt-section" : undefined}>{renderGrid(ungrouped)}</div>
+        ) : null}
+        <VideoLightbox video={video} onClose={closeVideo} />
+      </div>
     </section>
   );
 };
