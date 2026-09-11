@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 import { Link } from "react-router-dom";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useIsBelow, useIsMobile } from "@/hooks/useIsMobile";
+import { useCanHover } from "@/hooks/useCanHover";
+import { useReelFocus } from "@/hooks/useReelFocus";
 import { noOrphan } from "@/lib/noOrphan";
 import { SECTIONS, type SectionKey } from "@/lib/sections";
 import {
@@ -146,6 +148,36 @@ const CardMedia = ({
     if (hasVideo && (mediaNear || hovered)) setFetchVideo(true);
   }, [hasVideo, mediaNear, hovered]);
 
+  // ── Touch substitute for hover ──
+  // A phone has no pointer to enter the card, so on a device that cannot hover
+  // the reel answers to the scroll: scrolling a card into the middle of the
+  // screen is the nearest thing to hovering it. Desktop is untouched: there
+  // arrival is still not a request to watch, and only the pointer starts the
+  // reel. Three rules keep it feeling native rather than transplanted:
+  //
+  // 1. One reel at a time. Of the reel cards on screen, only the one nearest
+  //    the middle of the viewport plays (lib/reelFocus). The Studio grid is two
+  //    across on a phone, so without this two reels run side by side.
+  // 2. A reel that ends fades back to the title card. Hover is momentary, so
+  //    ending on the last frame never shows; on a phone the card sits in view
+  //    for a long time. It replays only after leaving the screen and returning.
+  // 3. The still lifts on the video's own `playing` event, not on the trigger.
+  //    Low Power Mode refuses programmatic play, and then the card must stay a
+  //    plain still rather than expose whatever frame the element holds.
+  const canHover = useCanHover();
+  const touchPlayback = hasVideo && !canHover;
+  const mediaShown = useInView(mediaRef, { amount: 0.6 });
+  const focused = useReelFocus(mediaRef, touchPlayback && mediaShown);
+  const [ended, setEnded] = useState(false);
+  useEffect(() => {
+    if (!mediaShown) setEnded(false);
+  }, [mediaShown]);
+  const [playing, setPlaying] = useState(false);
+  const active = hovered || (touchPlayback && mediaShown && focused && !ended);
+  // Desktop hides the still the instant the pointer arrives; touch waits for a
+  // frame to actually be playing, and eases the still both ways.
+  const stillHidden = canHover ? hovered : playing;
+
   const playFromStart = useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -156,11 +188,11 @@ const CardMedia = ({
   // Play on the pointer *entering* the card, not on every render where it
   // happens to already be inside — otherwise a re-render mid-reel restarts it.
   // Leaving pauses and rewinds; the still on top is what the visitor sees.
-  const wasHovered = useRef(false);
+  const wasActive = useRef(false);
   useEffect(() => {
-    const entered = hovered && !wasHovered.current;
-    const left = !hovered && wasHovered.current;
-    wasHovered.current = hovered;
+    const entered = active && !wasActive.current;
+    const left = !active && wasActive.current;
+    wasActive.current = active;
     if (!hasVideo) return;
     if (entered) {
       playFromStart();
@@ -170,9 +202,11 @@ const CardMedia = ({
       const video = videoRef.current;
       if (!video) return;
       video.pause();
-      video.currentTime = 0;
+      // A finished reel keeps its last frame under the returning still: a jump
+      // to frame zero mid-fade would show through. The next play rewinds.
+      if (!video.ended) video.currentTime = 0;
     }
-  }, [hovered, hasVideo, playFromStart]);
+  }, [active, hasVideo, playFromStart]);
 
   // No lift on hover. The cover used to scale up 3% while the pointer was
   // on it; with the caption now living inside the frame the picture is the
@@ -193,14 +227,22 @@ const CardMedia = ({
             poster={project.coverImage}
             muted playsInline preload="auto"
             className={mediaClass}
+            onPlaying={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
+            onEnded={() => {
+              setPlaying(false);
+              if (touchPlayback) setEnded(true);
+            }}
           />
           {project.coverImage ? (
             <img
               src={project.coverImage}
               alt=""
               aria-hidden="true"
-              className={`${mediaClass} pointer-events-none absolute inset-0`}
-              style={{ opacity: hovered ? 0 : 1 }}
+              className={`${mediaClass} pointer-events-none absolute inset-0 ${
+                canHover ? "" : "transition-opacity duration-medium ease-settle"
+              }`}
+              style={{ opacity: stillHidden ? 0 : 1 }}
             />
           ) : null}
         </>
