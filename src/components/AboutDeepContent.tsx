@@ -3,12 +3,8 @@ import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-mot
 import { ArrowLeft, ChevronLeft, ChevronRight, Linkedin, Mail, X, type LucideIcon } from "lucide-react";
 import Footer from "@/components/Footer";
 import BoulderWall from "@/components/BoulderWall";
-import {
-  AboutEditorialSection,
-  aboutEditorialItemVariants,
-  aboutEditorialStaggerVariants,
-  aboutEditorialTextVariants,
-} from "@/components/AboutEditorialSection";
+import { AboutEditorialSection } from "@/components/AboutEditorialSection";
+import { aboutEditorialItemVariants, aboutEditorialStaggerVariants, aboutEditorialTextVariants } from "@/components/aboutEditorialVariants";
 import { EASE } from "@/design-system/system/motion";
 import { BackLink } from "@/components/ui/BackLink";
 

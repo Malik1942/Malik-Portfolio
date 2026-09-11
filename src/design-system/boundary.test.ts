@@ -37,6 +37,7 @@ const CHOREOGRAPHED_FILES = new Set([
   "src/components/SiteHeader.tsx",
   "src/components/AboutDeepContent.tsx",
   "src/components/AboutEditorialSection.tsx",
+  "src/components/aboutEditorialVariants.ts",
   "src/components/AboutOverlay.tsx",
   "src/components/BoulderWall.tsx",
   // The CalmMouse demo loop is a four-second product demonstration.

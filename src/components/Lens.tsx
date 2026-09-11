@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, type ReactNode } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { ArrowRight, X } from "lucide-react";
@@ -14,6 +14,7 @@ import {
   type Lens,
 } from "@/lib/lens";
 import { scrollToTarget } from "@/lib/scrollToTarget";
+import { LensContext, useLens } from "./lensContext";
 import { DURATION, EASE, MOTION } from "@/design-system/system/motion";
 import { Chip, ChipButton } from "./ui/Chip";
 import { TextLink } from "./ui/TextLink";
@@ -28,17 +29,6 @@ import { TextLink } from "./ui/TextLink";
 // Writes replace the history entry rather than pushing one: a recruiter trying
 // three lenses should not need three presses of Back to leave the page, and a
 // round trip into a case study still returns to the lens they had.
-
-export interface LensState {
-  lens: Lens | null;
-  setLens: (lens: Lens | null) => void;
-  /** Press a chip: the same lens clears, a different one swaps. */
-  toggle: (lens: Lens) => void;
-}
-
-const LensContext = createContext<LensState | null>(null);
-
-export const useLens = (): LensState | null => useContext(LensContext);
 
 export function LensProvider({ children }: { children: ReactNode }) {
   const [params, setParams] = useSearchParams();

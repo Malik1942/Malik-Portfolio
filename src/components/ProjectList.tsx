@@ -15,7 +15,7 @@ import {
 import { ArrowUpRight, Play } from "lucide-react";
 import { Chip, ChipButton, LinkChip } from "./ui/Chip";
 import { VideoLightbox, type LightboxVideo } from "./VideoLightbox";
-import { useLens } from "./Lens";
+import { useLens } from "./lensContext";
 import { lensMatch } from "@/lib/lens";
 import { DURATION, EASE, MOTION } from "@/design-system/system/motion";
 

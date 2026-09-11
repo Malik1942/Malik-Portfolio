@@ -1,4 +1,5 @@
-import { COMPONENT_DOCS, ComponentDoc } from "./ComponentDoc";
+import { ComponentDoc } from "./ComponentDoc";
+import { COMPONENT_DOCS } from "./componentDocs";
 
 /**
  * Every component page follows the same six-part structure in ComponentDoc:

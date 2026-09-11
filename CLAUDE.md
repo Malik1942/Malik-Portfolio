@@ -94,8 +94,10 @@ Foundations, component docs, and code all use that vocabulary.
   `ease-enter|move|standard|settle|exit|ambient`. In Framer Motion import
   `DURATION`, `EASE`, or a `MOTION` recipe from `src/design-system/system/motion`.
 - Reusable primitives live in `src/components/ui/` (Button, BackLink, Chip,
-  Eyebrow). They declare their classes with `defineRecipe` split into the three
-  facets; add a variant by adding to one facet.
+  Eyebrow, TextLink). Each declares its classes with `defineRecipe` split into
+  the three facets, in a sibling `Name.recipe.ts`; add a variant by adding to
+  one facet. The component file exports only components, so editing one keeps
+  fast refresh; import the recipe from `Name.recipe`, not from `Name`.
 - `src/design-system/boundary.test.ts` fails on off-system classes and color
   literals. Tailwind drops an unknown class silently, so the test is the only
   thing that catches `text-lg` or `duration-150`. Art-directed exemptions are

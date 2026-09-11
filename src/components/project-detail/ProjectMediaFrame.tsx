@@ -56,7 +56,7 @@ export function ProjectMediaFrame({ fig }: { fig: ProjectSectionFigure }) {
   return (
     <figure data-testid="project-media-frame">
       <div className={frameClass}>{media}</div>
-      <FigureCaption label={fig.label}>{caption}</FigureCaption>
+      <FigureCaption label={fig.type === "embed" ? undefined : fig.label}>{caption}</FigureCaption>
     </figure>
   );
 }

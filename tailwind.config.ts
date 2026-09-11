@@ -24,7 +24,6 @@ const measure = (name: string) => `calc(var(--measure-${name}) * 1ch)`;
 const tracking = (name: string) => `calc(var(--font-tracking-${name}) * 1em)`;
 
 export default {
-  darkMode: ["class"],
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {

@@ -1,38 +1,7 @@
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import type { ReactNode, RefObject } from "react";
-import { DURATION, EASE } from "@/design-system/system/motion";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-
-/** Left column — matches Photography rhythm */
-export const aboutEditorialTextVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: DURATION.reveal, ease: EASE.move },
-  },
-};
-
-/** Stagger container for right-column children */
-export const aboutEditorialStaggerVariants: Variants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.055,
-      delayChildren: 0.04,
-    },
-  },
-};
-
-/** Single row / item inside a staggered editorial column */
-export const aboutEditorialItemVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.65, ease: EASE.move },
-  },
-};
+import { aboutEditorialTextVariants } from "./aboutEditorialVariants";
 
 const outerSectionBase =
   "w-screen max-w-[100vw] relative left-1/2 -translate-x-1/2 overflow-x-clip px-6 md:px-16 lg:px-24";

@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { buttonRecipe } from "@/components/ui/Button";
+import { buttonRecipe } from "@/components/ui/Button.recipe";
 import { getProject } from "@/data/projects";
 import { DURATION, EASE } from "@/design-system/system/motion";
 import { noOrphan } from "@/lib/noOrphan";

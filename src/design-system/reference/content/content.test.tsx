@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { DESIGN_SYSTEM_GROUPS, OVERVIEW_SECTION } from "../sectionModel";
 import { getFoundationTokens } from "./Foundations";
 import { renderReferenceSection } from "../sections";
-import { COMPONENT_DOCS } from "./ComponentDoc";
+import { COMPONENT_DOCS } from "./componentDocs";
 
 const findSection = (id: string) => {
   const section = DESIGN_SYSTEM_GROUPS.flatMap((group) => group.sections).find(

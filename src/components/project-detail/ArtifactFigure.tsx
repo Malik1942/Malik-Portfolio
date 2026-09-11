@@ -8,7 +8,7 @@ import { noOrphan } from "@/lib/noOrphan";
 export function ArtifactFigure({ src, alt, caption }: { src: string; alt: string; caption: string }) {
   return (
     <figure>
-      <div className="overflow-hidden rounded-2xl bg-secondary/10">
+      <div className="overflow-hidden rounded-2xl">
         <img
           src={src}
           alt={alt}
