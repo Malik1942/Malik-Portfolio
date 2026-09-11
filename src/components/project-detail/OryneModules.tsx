@@ -431,7 +431,7 @@ export function OrynePrinciples() {
               </div>
               <div className="flex flex-col gap-2.5">
                 <p className="text-base md:text-xl font-medium text-foreground leading-normal md:leading-snug tracking-tight">{p.name}</p>
-                <p className="text-caption font-mono leading-relaxed text-foreground-secondary [overflow-wrap:anywhere]">{noOrphan(p.test)}</p>
+                <p className="text-sm font-light leading-relaxed text-foreground-secondary [overflow-wrap:anywhere]">{noOrphan(p.test)}</p>
               </div>
             </div>
           );
