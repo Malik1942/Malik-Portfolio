@@ -80,28 +80,29 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
   "component-eyebrow": {
     source: "src/components/ui/Eyebrow.tsx → Eyebrow",
     summary:
-      "The uppercase, letter-spaced label that sits above a block and names it: homepage section headings, metadata card labels, reference group titles, the guide's On this page. One form, two ink tiers, two families.",
+      "The uppercase, letter-spaced label that sits above a block and names it: page section headings, metadata card labels, reference group titles, the guide's On this page. Two forms, three ink tiers, two families.",
     contextHref: "/project/moti",
     contextLabel: "View eyebrows in context",
     recipe: {
-      form: "Label size at eyebrow tracking, uppercase. No padding or margin of its own; the host places it.",
-      material: "Tertiary ink by default. Secondary ink when the label has to hold against a busy neighbour, as in the About sections.",
+      form: "Eyebrow tracking, uppercase, at one of two sizes: label for a 12px annotation, section for the 14px Medium label that names a whole section of a page. No padding or margin of its own; the host places it.",
+      material: "Tertiary ink by default. Secondary ink when the label has to hold against a busy neighbour. Primary for a section eyebrow, which heads its block rather than annotating one.",
       motion: "None. An eyebrow never transitions; the block beneath it does.",
-      variants: "tone changes material only; family changes form only (body or mono).",
+      variants: "tone changes material only; scale and family change form only (label or section, body or mono).",
     },
-    signature: '<Eyebrow as="h2" tone="secondary" family="mono" className="mb-6">Selected work</Eyebrow>',
+    signature: '<Eyebrow as="h2" scale="section" tone="primary" className="mb-6">Selected work</Eyebrow>',
     props: [
       { name: "as", type: "ElementType", default: '"p"', description: "Rendered element. Pass h2 or h3 when the eyebrow heads a region so the outline stays honest." },
-      { name: "tone", type: '"tertiary" | "secondary"', default: '"tertiary"', description: "Ink tier." },
+      { name: "scale", type: '"label" | "section"', default: '"label"', description: "Size role. Label annotates a value; section names a whole section of a page and steps up to body-small at Medium." },
+      { name: "tone", type: '"tertiary" | "secondary" | "primary"', default: '"tertiary"', description: "Ink tier. Primary pairs with the section scale." },
       { name: "family", type: '"body" | "mono"', default: '"body"', description: "Type family. Mono is the technical voice: terminal prompts, reference labels." },
       CLASS_NAME_PROP,
       { name: "children", type: "ReactNode", required: true, description: "The label text. Two or three words; it is not a sentence." },
     ],
-    tokens: ["font.size.label", "color.text.tertiary", "color.text.secondary", "font.family.body", "font.family.mono"],
+    tokens: ["font.size.label", "font.size.bodySmall", "color.text.tertiary", "color.text.secondary", "color.text.primary", "font.family.body", "font.family.mono"],
     pairings: [
       { partner: "Metadata card", relationship: "The label above each value. The card supplies the spacing below it." },
       { partner: "Footer", relationship: "Heads the Explore and Social lists as a span, since the footer's lists are not page sections." },
-      { partner: "Project list", relationship: "The section heading beside the collection dot is a sibling recipe at body-small size, not this component; the eyebrow is for labels, not for section titles that carry the dot." },
+      { partner: "Project list", relationship: "The section heading beside the collection dot is this component at the section scale in primary ink; the dot and its spacing belong to the list. The About chapter headings are the same setting." },
       { partner: "Design system reference", relationship: "Every group title on the foundation pages, and the sub-section headings on these component pages." },
     ],
     antipairings: [
@@ -110,7 +111,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
     ],
     accessibility: [
       { title: "Semantics", body: "A paragraph unless told otherwise. When it labels a landmark, pass as=\"h2\" and an id so the section can reference it with aria-labelledby." },
-      { title: "Contrast", body: "Tertiary ink at 12px uppercase measures about 5:1 on the canvas, above the AA floor. Secondary is higher. There is no tone below tertiary on purpose." },
+      { title: "Contrast", body: "Tertiary ink at 12px uppercase measures about 5:1 on the canvas, above the AA floor. Secondary and primary are higher. There is no tone below tertiary on purpose." },
       { title: "Letter spacing", body: "Screen readers read the text, not the tracking; uppercase is applied in CSS so the source casing stays natural." },
     ],
     tests: [

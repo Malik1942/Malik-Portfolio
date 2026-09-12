@@ -10,6 +10,7 @@ import {
   aboutEditorialTextVariants,
 } from "@/components/AboutEditorialSection";
 import { EASE } from "@/design-system/system/motion";
+import { PAGE_COLUMN, PAGE_GUTTERS } from "@/design-system/system/layout";
 import { BackLink } from "@/components/ui/BackLink";
 
 const easeOutExpo: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -295,7 +296,7 @@ const LifeEventRow = ({ event }: { event: LifeEvent }) => {
       onMouseLeave={() => setHovered(false)}
     >
       {/* Year */}
-      <span className="text-caption text-foreground-secondary font-normal w-12 pt-0.5 flex-shrink-0">
+      <span className="text-sm text-foreground-secondary font-normal w-12 pt-0.5 flex-shrink-0">
         {event.year}
       </span>
 
@@ -312,14 +313,14 @@ const LifeEventRow = ({ event }: { event: LifeEvent }) => {
       {/* Content */}
       <div className="flex flex-col gap-0.5">
         <motion.span
-          className="text-sm text-foreground-secondary font-normal"
+          className="text-base text-foreground-secondary font-normal"
           animate={{ opacity: hovered ? 0.95 : 0.8 }}
           transition={{ duration: 0.4 }}
         >
           {event.title}
         </motion.span>
         <motion.span
-          className="text-caption text-foreground font-normal"
+          className="text-sm text-foreground font-normal"
           animate={{ opacity: hovered ? 1 : 0.8 }}
           transition={{ duration: 0.4 }}
         >
@@ -646,7 +647,7 @@ const SportNode = ({ sport, inView }: { sport: (typeof SPORTS_DATA)[0]; inView: 
     >
       <ResilienceCanvas type={sport.type} isHovered={hovered} inView={inView} />
       <motion.span
-        className="text-caption uppercase tracking-eyebrow text-foreground"
+        className="text-sm uppercase tracking-eyebrow text-foreground"
         animate={{ opacity: hovered ? 1.0 : 0.72 }}
         transition={{ duration: 0.4 }}
       >
@@ -664,7 +665,7 @@ const DAILY_ITEMS = [
 ];
 
 const DailyTag = ({ label }: { label: string }) => (
-  <span className="text-caption text-foreground-secondary font-normal px-4 py-2.5 rounded-sm border border-foreground/[0.22] hover:text-foreground hover:border-foreground/[0.35] transition-colors duration-medium cursor-default">
+  <span className="text-sm text-foreground-secondary font-normal px-4 py-2.5 rounded-sm border border-foreground/[0.22] hover:text-foreground hover:border-foreground/[0.35] transition-colors duration-medium cursor-default">
     {label}
   </span>
 );
@@ -981,7 +982,11 @@ const AboutDeepContent = ({
 
         <AmbientDots count={50} />
 
-        <div className="relative z-20 max-w-3xl mx-auto px-8 pt-32 pb-8">
+        {/* No column of its own: each chapter below sets itself in the shared
+            page column (AboutEditorialSection). This wrapper used to cap at
+            768px with its own 32px gutters, which every chapter then had to
+            escape with a 100vw breakout to be readable at all. */}
+        <div className="relative z-20 pt-32 pb-8">
           {/* ── Life & Events ── */}
           <AboutEditorialSection
             sectionRef={lifeSectionRef}
@@ -1134,11 +1139,11 @@ const AboutDeepContent = ({
         </div>
 
         {/* Back to home — same bottom-exit pattern as the case studies'
-            "Back to all work". Padding matches the Footer below so their left
-            edges align. */}
+            "Back to all work". Sits in the page column, like the chapters
+            above and the footer below, so all three share a left edge. */}
         {onBack ? (
-          <div className="relative z-20 px-6 md:px-16 lg:px-24 pt-4 pb-2">
-            <div className="max-w-content mx-auto">
+          <div className={`relative z-20 ${PAGE_GUTTERS} pt-4 pb-2`}>
+            <div className={PAGE_COLUMN}>
               <BackLink onClick={onBack} aria-label="Back to home" className="-ml-1">
                 Back to home
               </BackLink>
@@ -1147,7 +1152,10 @@ const AboutDeepContent = ({
         ) : null}
 
         <div className="relative z-20">
-          <Footer onSectionClick={onSectionClick} />
+          {/* Unconstrained: the page column, the same footer the homepage and
+              Studio render. Constrained (1200px) left it 200px narrower than
+              the nav above it. */}
+          <Footer onSectionClick={onSectionClick} constrained={false} />
         </div>
 
         {activePhotoIndex !== null && (

@@ -1,6 +1,7 @@
 import { motion, type Variants } from "framer-motion";
 import type { ReactNode, RefObject } from "react";
 import { DURATION, EASE } from "@/design-system/system/motion";
+import { PAGE_COLUMN, PAGE_GUTTERS } from "@/design-system/system/layout";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
 /** Left column — matches Photography rhythm */
@@ -34,13 +35,17 @@ export const aboutEditorialItemVariants: Variants = {
   },
 };
 
-const outerSectionBase =
-  "w-screen max-w-[100vw] relative left-1/2 -translate-x-1/2 overflow-x-clip px-6 md:px-16 lg:px-24";
+// The About chapters sit in the page column, the same one the site header, the
+// Work sections and the footer are set in, so their edges line up down the
+// whole page. They used to break out of a 768px wrapper with a 100vw escape
+// and cap themselves at 1180px: on a 1728 display that put the chapter 110px
+// inside the nav above it and 10px inside the footer below.
+const outerSectionBase = `relative overflow-x-clip ${PAGE_GUTTERS}`;
 const outerSectionMarginDefault = "mb-40";
 /** Tighter bottom margin before footer / closing elements */
 const outerSectionMarginCompact = "mb-stack";
 
-const innerMaxClass = "mx-auto max-w-[1180px]";
+const innerMaxClass = PAGE_COLUMN;
 
 const rowClassStart =
   "flex flex-col gap-12 lg:flex-row lg:gap-14 xl:gap-20 lg:items-start";
@@ -50,11 +55,16 @@ const rowClassCenter =
 const leftColClass =
   "lg:w-[min(100%,248px)] xl:w-[260px] flex-shrink-0 lg:sticky lg:top-28";
 
+// The display face at Light, as every other heading on the site is set; it was
+// the body sans here alone.
 const titleClass =
-  "text-xl sm:text-title font-light text-foreground leading-tight mb-5";
+  "font-display text-xl md:text-title font-light text-foreground leading-tight mb-5";
 
+// The supporting line under a section label: the same role, size and ink the
+// Studio group blurbs use. It was a step down from that on both ends, and at
+// Light, which is why the About copy read smaller than the rest of the site.
 const descriptionClass =
-  "text-caption sm:text-sm font-light leading-relaxed text-foreground-secondary max-w-[36ch]";
+  "text-sm md:text-base font-normal leading-relaxed text-foreground-secondary max-w-[36ch]";
 
 export type AboutEditorialSectionProps = {
   sectionRef?: RefObject<HTMLElement | null>;
@@ -90,7 +100,12 @@ export function AboutEditorialSection({
   const marginClass = compactBottom ? outerSectionMarginCompact : outerSectionMarginDefault;
 
   return (
-    <section id={id} ref={sectionRef} className={`${outerSectionBase} ${marginClass}`}>
+    <section
+      id={id}
+      ref={sectionRef}
+      data-about-chapter=""
+      className={`${outerSectionBase} ${marginClass}`}
+    >
       <div className={innerMaxClass}>
         <div className={rowClass}>
           <motion.div
@@ -100,7 +115,7 @@ export function AboutEditorialSection({
             initial="hidden"
             animate={inView ? "show" : "hidden"}
           >
-            <Eyebrow tone="secondary" className="mb-5">{eyebrow}</Eyebrow>
+            <Eyebrow scale="section" tone="primary" className="mb-5">{eyebrow}</Eyebrow>
             <h2 className={titleClass}>{title}</h2>
             <p className={descriptionClass}>{description}</p>
           </motion.div>
