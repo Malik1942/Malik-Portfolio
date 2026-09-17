@@ -391,12 +391,12 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
       form: "A cover in a reserved aspect box (coverAspect on every project, so the page never grows mid-scroll), large radius, then title, signal, description, and the metadata line of role, year, chips. Selected Work heroes keep each cover's own ratio. Studio tiles and the More Work grid crop into a shared 16/9 box.",
       material: "The card wash (projectCard.surface) behind the media and the warm hover overlay (projectCard.hoverOverlay) on top. Title in primary ink, description in lead, metadata in secondary. Strong focus ring with a 4px offset, since the ring sits over media.",
       motion: "Enters on MOTION.enter, staggered by its global index. Media lifts on ease.move over duration.medium on hover. A cover reel plays only while hovered, never on load or on arrival. The hero-dot arrival pulse is its own 0.28s keyframe, tuned separately and left alone.",
-      variants: "horizontal and imageRight change form only. dotClass changes material only. Placeholder destination removes the link and the motion.",
+      variants: "horizontal and imageRight change form only. dotClass changes material only. Placeholder destination removes the link and the motion; external swaps the route for an outbound anchor and marks the cover with a corner arrow.",
     },
     signature: "<ProjectCard project={project} projectId=\"moti\" dotClass=\"bg-dot-red\" globalIndex={0} />",
     props: [
       { name: "project", type: "Project", required: true, description: "The project record. Everything the card renders comes from here." },
-      { name: "projectId", type: "string", description: "Destination under /project/:id. Omit it and the card renders as a plain div instead of a Link, so nothing focusable promises a page that does not exist. Also the identity the hero dot arrival event matches on." },
+      { name: "projectId", type: "string", description: "Destination under /project/:id, and the identity the hero dot arrival event matches on. Omit it and a case-study card renders as a plain div instead of a Link, so nothing focusable promises a page that does not exist. A card with an external or video destination keeps its projectId for the dot arrival alone; the destination, not this prop, decides where it goes." },
       { name: "dotClass", type: "string", required: true, description: "Accent dot class that ties the card back to its section: red for Selected Work, gold for Workshop." },
       { name: "globalIndex", type: "number", required: true, description: "Position across every section, not within one. Drives the entrance stagger so the page reads as a single sequence." },
       { name: "rowDelay", type: "number", default: "0", description: "Extra entrance delay, in seconds, for cards sharing a row." },
@@ -434,7 +434,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
       { partner: "Project list", relationship: "The only supported container. It supplies dotClass, globalIndex, and the layout flags, and it owns the grid rhythm. A card mounted outside it loses its stagger and its section accent." },
       { partner: "Homepage hero dot grid", relationship: "Clicking a project dot eases the page to the matching card and fires project-dot-arrive on landing. The card answers with a brief pulse and force-reveals itself, since the scroll outruns the entrance animation." },
       { partner: "Chip", relationship: "The metadata line's link chips and skill chips. The link chip sits above the card's stretched anchor, not inside it." },
-      { partner: "Case-study structure", relationship: "The card's destination. projectId must resolve to a route under /project/:id, or the card should ship without it and stay inert." },
+      { partner: "Case-study structure", relationship: "The card's usual destination: a case-study card's projectId must resolve to a route under /project/:id, or the card should ship without it and stay inert. A card whose destination is external is the exception, and says so with the corner arrow and in its accessible name." },
       { partner: "Media frame", relationship: "Siblings, not nested. The card renders its own cover treatment through CardMedia; media frame is for evidence inside a case study, after the card has done its job." },
     ],
     antipairings: [

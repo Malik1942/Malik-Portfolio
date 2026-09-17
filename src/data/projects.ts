@@ -18,6 +18,8 @@ import zeatCard from "@/assets/zeat-hero.webp";
 import rangerCard from "@/assets/ranger-hero.webp";
 import oryneCard from "@/assets/oryne-card-poster.webp";
 import oryneCardVideo from "@/assets/oryne-card.mp4";
+import locantCard from "@/assets/locant-card-poster.webp";
+import locantCardVideo from "@/assets/locant-card.mp4";
 import spatialEditorCard from "@/assets/spatial-editor-card.webp";
 
 // ── Skill vocabulary ─────────────────────────────────────────────────────────
@@ -158,8 +160,8 @@ const CASE_STUDY: ProjectDestination = { kind: "case-study" };
 // ── The project list ─────────────────────────────────────────────────────────
 // Order within a section is display order. Selected Work leads with Oryne (the
 // most authored of the shipped apps, and the case study with the deepest
-// research), then NeuraLyfe, Aura, and Moti. Spatial Editor has no case study
-// yet, so it sits in More Work as a placeholder card. Selected Work + More Work
+// research), then Locant, NeuraLyfe, Aura, and Moti. Spatial Editor has no case
+// study yet, so it sits in More Work as a placeholder card. Selected Work + More Work
 // are the homepage ("Work"); Studio is its own page. NextUp's LEAD_ORDER and
 // the hero orb positions follow this order; change them together.
 //
@@ -168,7 +170,9 @@ const CASE_STUDY: ProjectDestination = { kind: "case-study" };
 // clicking one highlights every project that carries it, across all three
 // sections. Order matters — a Studio tile shows only its first two.
 export const PROJECTS: readonly Project[] = [
-  // ── Selected Work: full case studies ──
+  // ── Selected Work: the work to read first. Four are full case studies; Locant
+  //    is the one card that leaves the site, because the product's own page is
+  //    already the better account of it (see its `destination`). ──
   {
     id: "oryne",
     title: "Oryne",
@@ -190,6 +194,55 @@ export const PROJECTS: readonly Project[] = [
     coverVideo: oryneCardVideo,
     year: "2026",
     details: "First commit to the App Store in 23 days, built around one metaphor: your mind as an ocean.\n\nAll of its intelligence runs on the device, in English and Simplified Chinese.",
+  },
+  {
+    id: "locant",
+    title: "Locant",
+    section: "selected",
+    skills: ["AI-Native", "Design Engineering"],
+    // The card opens locant.malikzhang.com, so the chip is the other real
+    // destination rather than a second copy of the same one. It is also what
+    // puts Locant inside the Shipped lens, which reads outbound links and not
+    // chips (see lib/lens.ts): shipping is a fact, never a skill.
+    links: [{ label: "GitHub", url: "https://github.com/Malik1942/locant" }],
+    // The one Selected Work card with no case study. Its own page already tells
+    // the story better than a retelling would, down to the measured comparison,
+    // so the card goes there instead of to /project/locant.
+    destination: { kind: "external", url: "https://locant.malikzhang.com" },
+    signal: "A pointing device for coding agents",
+    // The cover already prints "Point, don't describe." and the line under it,
+    // so neither of these repeats the pitch: the signal names the category and
+    // the description carries the evidence. Both numbers are Locant's own
+    // published measurement (30 runs, order alternated, repo reset between).
+    description: "Free and open source for macOS. Given a screenshot, the agent stopped to ask which element in 17 of 18 runs; given a Locant capture, 0 of 12.",
+    role: "0→1 Product Designer & Builder",
+    coverImage: locantCard,
+    // 2560x1440, the size the product site serves its own hero at.
+    coverAspect: "2560/1440",
+    // The loop, recorded: the ball wakes, the overlay dims the screen, an
+    // element in the Simulator is hovered and clicked, the note is typed, and
+    // the Markdown payload lands in the agent's chat. It closes on the Locant
+    // title card, which is coverImage, so that frame is the poster, the
+    // reduced-motion still, and the state the card rests in.
+    //
+    // Re-timed from the product site's 20s hero, which was twice the length of
+    // any other card reel here on a cover that plays on hover and never loops.
+    // 12.88s, and the cut is by beat rather than by a single rate: the pointing
+    // itself plays at 1:1 — the drawn frame answering "no element info", the
+    // identifier arriving under the cursor, the click, the note field — because
+    // that stretch is the product, and a version that compressed it 2.4x read as
+    // fast rather than as smooth. What was taken is the dead time around it: the
+    // idle open and the zoom at 2x, the typing at 1.5x, the paste at 2x.
+    //
+    // Speeds are 2x wherever it can be, since the source is 60fps and 2x keeps
+    // exactly every other frame: an even decimation cannot judder, where 2.4x
+    // lands between frames and does. The 1.5x and 1.25x stretches are typing
+    // and a near-static payload, where an uneven cadence has no motion to show
+    // on. Changes of rate sit inside the zoom and the transition, never on a
+    // still frame — this reel has no hard cuts, only dissolves.
+    coverVideo: locantCardVideo,
+    year: "2026",
+    details: "Point at one element in any app and Locant reads its accessibility identifier, its frame, and its place in the tree, crops the pixels around it, and writes a Markdown payload with the image path first.\n\nA menu-bar app with no Dock icon, signed and notarized, and an MCP server as well, so the agent can fetch the capture itself instead of waiting for a paste.",
   },
   {
     id: "neuralyfe",

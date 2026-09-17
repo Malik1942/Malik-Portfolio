@@ -2,7 +2,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
-import { ProjectCard } from "./ProjectList";
+import { ProjectCard, type ProjectCardData } from "./ProjectList";
 
 beforeAll(() => {
   vi.stubGlobal(
@@ -113,11 +113,48 @@ describe("project card metadata", () => {
         />
       </MemoryRouter>,
     );
-    const link = screen.getByRole("link", { name: "Oryne" });
+    // The glyph below is aria-hidden, so the accessible name is the only place
+    // a screen reader learns that this card leaves the site, and for where.
+    const link = screen.getByRole("link", { name: "Oryne, opens example.com in a new tab" });
     expect(link).toHaveAttribute("href", "https://example.com/");
     expect(link).toHaveAttribute("target", "_blank");
     // corner glyph on the cover, drawn as an icon
     expect(container.querySelector("[aria-hidden='true'] svg")).not.toBeNull();
+  });
+
+  it("gives an external hero row the same glyph and outbound name as a tile, and a case study neither", () => {
+    const external: ProjectCardData = {
+      ...project,
+      id: "locant",
+      title: "Locant",
+      skills: [],
+      links: undefined,
+      destination: { kind: "external", url: "https://locant.malikzhang.com" },
+    };
+    const { container, unmount } = render(
+      <MemoryRouter>
+        <ProjectCard project={external} projectId="locant" dotClass="" globalIndex={0} featured />
+      </MemoryRouter>,
+    );
+    // The glyph used to be passed only for Studio tiles, which left the one
+    // Selected Work row that leaves the site looking exactly like the four
+    // case studies around it.
+    expect(container.querySelector("span[aria-hidden='true'].absolute.left-3.top-3 svg")).not.toBeNull();
+    expect(
+      screen.getByRole("link", { name: "Locant, opens locant.malikzhang.com in a new tab" }),
+    ).toHaveAttribute("href", "https://locant.malikzhang.com");
+    unmount();
+
+    // A case-study row is unchanged: no glyph, an in-app route, no new tab.
+    const study = render(
+      <MemoryRouter>
+        <ProjectCard project={{ ...project, id: "oryne", title: "Oryne", skills: [], links: undefined, destination: { kind: "case-study" } }} projectId="oryne" dotClass="" globalIndex={0} featured />
+      </MemoryRouter>,
+    );
+    expect(study.container.querySelector("span[aria-hidden='true'].absolute.left-3.top-3")).toBeNull();
+    const route = screen.getByRole("link", { name: "Oryne" });
+    expect(route).toHaveAttribute("href", "/project/oryne");
+    expect(route).not.toHaveAttribute("target");
   });
 
   it("renders a placeholder card with no click target", () => {
