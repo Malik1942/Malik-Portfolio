@@ -16,15 +16,30 @@ import { SECTIONS } from "@/lib/sections";
 //
 // Desktop layout notes, bright tier: Oryne, the first case study, sits in the
 // band between the nav and the title cluster; Aura at the far left of that
-// band; NeuraLyfe in the lower band; Moti in the lower-center. Dim tier fills
-// the gaps around them: Mood Muse and FlowPrint down the right edge, Tubular
-// in the lower-left, Spatial Editor in the mid-right.
+// band and Locant at the right of it, so the three read as one wide row above
+// the name; NeuraLyfe in the lower band; Moti in the lower-center. Dim tier
+// fills the gaps around them: Mood Muse and FlowPrint down the right edge,
+// Tubular in the lower-left, Spatial Editor in the mid-right.
 //
-// On mobile the column order follows the homepage — Oryne, NeuraLyfe, Aura,
-// Moti, read down the column — so the upper band takes the first two and the
-// lower band the last two. That deliberately splits them differently from the
-// desktop scatter, where Aura sits high and NeuraLyfe low: the desktop
+// On mobile the column order follows the homepage — Oryne, Locant, NeuraLyfe,
+// Aura, Moti, read down the column — so the upper band takes the first two and
+// the lower band the last three. That deliberately splits them differently
+// from the desktop scatter, where Aura sits high and NeuraLyfe low: the desktop
 // positions are art direction, the mobile ones are only order and band.
+//
+// The upper band takes two, never three: DotGrid's own band geometry (see the
+// note above layoutMobileColumns) works out to ~62px there against ~101px
+// below, so it holds 2 labeled rows and the lower band 3. Locant went in at
+// mry 0.25 first, which put three rows in the upper band on a 375x667 phone:
+// the pitch collapsed to ~21px against a ~23px label block and the three names
+// printed over each other, and since the dot hit-test takes the nearest orb
+// within 60px, each row owned a ±10px strip and tapping Locant landed on its
+// neighbour. So the third name moved down instead — NeuraLyfe rather than
+// Locant, which is what keeps the column in homepage order.
+//
+// An mry meant for the lower band has to clear ~0.54, not 0.5: the split is
+// the middle of the title area in pixels, which lands at 0.531 of the height
+// at 375x667 (0.508 at 430x932), so 0.51-0.53 still classifies as upper.
 export interface OrbPosition {
   rx: number;
   ry: number;
@@ -38,7 +53,8 @@ export interface OrbPosition {
 export const ORB_POSITIONS: Record<string, OrbPosition> = {
   // Selected Work — bright
   oryne: { rx: 0.42, ry: 0.2, mrx: 0.09, mry: 0.19 },
-  neuralyfe: { rx: 0.28, ry: 0.72, mrx: 0.09, mry: 0.3 },
+  locant: { rx: 0.7, ry: 0.24, mrx: 0.09, mry: 0.3 },
+  neuralyfe: { rx: 0.28, ry: 0.72, mrx: 0.09, mry: 0.62 },
   aura: { rx: 0.1, ry: 0.25, mrx: 0.09, mry: 0.73 },
   moti: { label: "Moti: Plan", rx: 0.58, ry: 0.78, mrx: 0.09, mry: 0.85 },
   // More Work — dim

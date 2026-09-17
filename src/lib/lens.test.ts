@@ -43,15 +43,15 @@ describe("skill lens", () => {
   });
 
   it("gathers the shipped projects as the ones with an outbound link", () => {
-    expect([...lensProjectIds(SHIPPED)].sort()).toEqual(["calmmouse", "inkwork", "moti", "oryne"]);
+    expect([...lensProjectIds(SHIPPED)].sort()).toEqual(["calmmouse", "inkwork", "locant", "moti", "oryne"]);
     for (const project of PROJECTS) {
       expect(lensMatch(project, SHIPPED), project.id).toBe(isShipped(project));
     }
     expect(lensMatch({ skills: ["AI-Native"] }, SHIPPED)).toBe(false);
     expect(lensMatch({ links: [{ label: "Live", url: "https://example.com/" }] }, SHIPPED)).toBe(true);
-    // Two on each page, so both pages point at the other.
-    expect(lensCounts(SHIPPED, "/")).toMatchObject({ here: 2, first: "oryne", elsewhere: { count: 2 } });
-    expect(lensCounts(SHIPPED, SECTIONS.studio.path)).toMatchObject({ here: 2, first: "calmmouse", elsewhere: { count: 2 } });
+    // Three on Work, two in Studio, so both pages point at the other.
+    expect(lensCounts(SHIPPED, "/")).toMatchObject({ here: 3, first: "oryne", elsewhere: { count: 2 } });
+    expect(lensCounts(SHIPPED, SECTIONS.studio.path)).toMatchObject({ here: 2, first: "calmmouse", elsewhere: { count: 3 } });
     expect(lensTitle(SHIPPED, false)).toBe("See every project that shipped");
     expect(lensTitle("AI-Native", false)).toBe("See every project with AI-Native");
     expect(lensTitle(SHIPPED, true)).toBe("Clear lens");

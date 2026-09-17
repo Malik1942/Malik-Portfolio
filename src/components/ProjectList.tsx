@@ -96,7 +96,7 @@ const CardMedia = ({
   project: ProjectCardData;
   hovered: boolean;
   aspectRatio?: string;
-  /** Top-left slot: a small mark for tiles that do not open a case study. */
+  /** Top-left slot: a small mark for a card that does not open a case study. */
   cornerGlyph?: ReactNode;
   /** Something laid over the whole frame, inside its rounded clip (the
    *  hover caption). Rendered above the hover tint. */
@@ -531,6 +531,17 @@ const CardMeta = ({
 // their end state, images flashed on scroll-in, and the hover overlay fade never
 // played (the element was destroyed and recreated already faded). Hoisting fixes
 // this without touching any animation values.
+/** The bare host of an outbound url ("locant.malikzhang.com"), for the link's
+ *  accessible name. Falls back to the url itself if it will not parse, so a
+ *  malformed entry degrades to something readable rather than throwing. */
+const hostOf = (url: string): string => {
+  try {
+    return new URL(url).host.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+};
+
 const CardLink = ({
   destination,
   projectId,
@@ -546,8 +557,19 @@ const CardLink = ({
     "absolute inset-0 z-1 cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-strong focus-visible:ring-offset-4 focus-visible:ring-offset-background";
   if (destination?.kind === "placeholder") return null;
   if (destination?.kind === "external") {
+    // The corner glyph says "this one leaves the site" to anyone who can see the
+    // card, and it is aria-hidden, so the accessible name has to say it too —
+    // otherwise this link is announced exactly like the case-study card beside
+    // it and opens a new tab on another domain with no warning. The host is
+    // named rather than just "external": where you are going is the useful part.
     return (
-      <a href={destination.url} target="_blank" rel="noopener noreferrer" aria-label={title} className={cls} />
+      <a
+        href={destination.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${title}, opens ${hostOf(destination.url)} in a new tab`}
+        className={cls}
+      />
     );
   }
   if (destination?.kind === "video") {
@@ -561,8 +583,15 @@ const CardLink = ({
   return null;
 };
 
-// Corner glyph for a tile, from its destination: nothing for a case study, a
+// Corner glyph for a card, from its destination: nothing for a case study, a
 // small play mark for a video, an outbound arrow for an external link.
+//
+// Every card gets it, not only the Studio tiles it was written for. The mark is
+// the one thing on a card that says clicking it leaves the site, and Locant is
+// a Selected Work hero row that does: without this it is a full-width picture
+// titled like the four case studies around it that silently opens another
+// domain in a new tab. Nothing else changes, because a case study returns null
+// here and no card outside Studio has a video destination.
 const cornerGlyphFor = (destination?: ProjectDestination): ReactNode => {
   if (destination?.kind === "video") return <Play className="h-3 w-3" strokeWidth={2} fill="currentColor" />;
   if (destination?.kind === "external") return <ArrowUpRight className="h-3 w-3" strokeWidth={2} />;
@@ -948,7 +977,7 @@ export const ProjectCard = ({
           project={project}
           hovered={hovered}
           aspectRatio={tile ? GRID_COVER_ASPECT : aspectRatio}
-          cornerGlyph={tile ? cornerGlyphFor(project.destination) : undefined}
+          cornerGlyph={cornerGlyphFor(project.destination)}
           overlay={captionUnder ? undefined : overlayCaption}
           marginClass=""
         />

@@ -87,7 +87,7 @@ describe("skill lens on the homepage", () => {
     const bar = container.querySelector(`#${LENS_BAR_ID}`) as HTMLElement;
     expect(bar).not.toBeNull();
     expect(bar.textContent).toContain("Industrial Design");
-    expect(bar.textContent).toContain("2 of 8 projects here");
+    expect(bar.textContent).toContain("2 of 9 projects here");
     const link = within(bar).getByRole("link", { name: /2 in Studio/ });
     expect(link).toHaveAttribute("href", `${SECTIONS.studio.path}?lens=industrial-design`);
     expect(within(bar).getByRole("button", { name: "Clear lens" })).toBeInTheDocument();
@@ -165,23 +165,26 @@ describe("skill lens on the homepage", () => {
     expect(location()).toBe("/?lens=shipped");
     expect(lensOf(container, "moti")).toBe("match");
     expect(lensOf(container, "oryne")).toBe("match");
+    // Locant ships from GitHub rather than the App Store, and the link chip is
+    // still the whole of its evidence.
+    expect(lensOf(container, "locant")).toBe("match");
     expect(lensOf(container, "aura")).toBe("dim");
     expect(lensOf(container, "neuralyfe")).toBe("dim");
     // The row's chip is the only pressed control; the cards say "shipped" with
-    // their App Store link, not with a chip.
+    // their outbound link, not with a chip.
     const pressed = container.querySelectorAll('button[aria-pressed="true"]');
     expect(pressed.length).toBe(1);
     expect(pressed[0].closest(`#${LENS_ROW_ID}`)).not.toBeNull();
     const bar = container.querySelector(`#${LENS_BAR_ID}`) as HTMLElement;
     expect(bar.textContent).toContain(SHIPPED);
-    expect(bar.textContent).toContain("2 of 8 projects here");
+    expect(bar.textContent).toContain("3 of 9 projects here");
     expect(within(bar).getByRole("link", { name: /2 in Studio/ })).toHaveAttribute("href", "/studio?lens=shipped");
   });
 
   it("offers the site's own design system from the Design Systems lens", () => {
     const { container } = renderAt("/?lens=design-systems");
     const bar = container.querySelector(`#${LENS_BAR_ID}`) as HTMLElement;
-    expect(bar.textContent).toContain("0 of 8 projects here");
+    expect(bar.textContent).toContain("0 of 9 projects here");
     expect(within(bar).getByRole("link", { name: /1 in Studio/ })).toHaveAttribute("href", "/studio?lens=design-systems");
     expect(within(bar).getByRole("link", { name: /This site's design system/ })).toHaveAttribute("href", "/design-system");
     // No such link under any other lens.
