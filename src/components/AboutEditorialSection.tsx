@@ -74,7 +74,9 @@ export type AboutEditorialSectionProps = {
   /** Small caps label (e.g. Photography, Movement) */
   eyebrow: string;
   title: string;
-  description: string;
+  /** The supporting line under the title. Omitted when the chapter's own prose
+   *  is its content and is set in the wide column instead. */
+  description?: string;
   /** Right column — include your own motion wrappers if needed */
   children: ReactNode;
   footer?: ReactNode;
@@ -117,7 +119,7 @@ export function AboutEditorialSection({
           >
             <Eyebrow scale="section" tone="primary" className="mb-5">{eyebrow}</Eyebrow>
             <h2 className={titleClass}>{title}</h2>
-            <p className={descriptionClass}>{description}</p>
+            {description ? <p className={descriptionClass}>{description}</p> : null}
           </motion.div>
           {children}
         </div>
