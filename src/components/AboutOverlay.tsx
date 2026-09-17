@@ -21,7 +21,7 @@ const CLUSTER_TEXTS: ClusterTextData[] = [
   },
   {
     label: "Outside of Design",
-    lines: ["Photography", "Travel", "Basketball", "Cycling", "Swimming", "Food"],
+    lines: ["Photography", "Travel", "Basketball", "Cycling", "Climbing", "Food"],
     index: 1,
   },
   {
