@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef, type ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
 import DotGrid from "./DotGrid";
 import AboutOverlay from "./AboutOverlay";
 import { SiteHeader } from "./SiteHeader";
@@ -19,23 +18,13 @@ interface HeroSectionProps {
 }
 
 // ── Terminal one-liner ──────────────────────────────────────────────────────
-const TERMINAL_TEXT =
-  "AI-native product designer. I find the real problem, decide where AI belongs, and build it end to end.";
-
-// The leading word "AI-native" is a subtle Easter-egg link to the Moti project.
-// It inherits the subtitle's exact styling and only reveals itself on hover/focus,
-// navigating via the same router a project card uses (→ /project/moti).
-const ACCENT_WORD = "AI-native";
-
-const MotiLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    to="/project/moti"
-    aria-label="Go to Moti, my AI-native iOS app"
-    className="pointer-events-auto cursor-pointer rounded-sm text-inherit no-underline transition-colors duration-medium hover:text-dot-red focus-visible:text-dot-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dot-red/60"
-  >
-    {children}
-  </Link>
-);
+// Three imperatives. The breaks are authored so no width ever splits "AI" from
+// "belongs": one line from lg, two on tablets (the break before the last
+// sentence), one sentence per line on phones. whitespace-pre-line honours the
+// newline; lg:whitespace-normal folds it back into a space.
+const SENTENCES = ["Find the real problem.", "Decide where AI belongs.", "Build it end to end."];
+const TERMINAL_TEXT = `${SENTENCES[0]} ${SENTENCES[1]}\n${SENTENCES[2]}`;
+const MOBILE_TEXT = SENTENCES.join("\n");
 
 const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
   const [len, setLen] = useState(0);
@@ -57,7 +46,7 @@ const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
       const ch = TERMINAL_TEXT[pos];
       // Organic pacing: pause longer at punctuation, vary base speed slightly
       const delay =
-        ch === "," || ch === "." ? 130
+        ch === "," || ch === "." || ch === "\n" ? 130
         : ch === " " ? 18
         : 24 + Math.random() * 22;
       timerRef.current = setTimeout(() => {
@@ -87,10 +76,8 @@ const TerminalOneLiner = ({ isVisible }: { isVisible: boolean }) => {
     <div className="flex items-baseline gap-2 md:gap-3 text-label md:text-xl font-mono leading-relaxed px-6">
       {/* Prompt glyph — items-baseline keeps it on the first text line */}
       <span className="text-foreground-tertiary shrink-0 select-none">{'>'}</span>
-      {/* 43ch is just wide enough for "…and build" and just short of "…and build it". */}
-      <span className="text-foreground-secondary text-left max-w-[43ch]">
-        <MotiLink>{TERMINAL_TEXT.slice(0, Math.min(len, ACCENT_WORD.length))}</MotiLink>
-        {TERMINAL_TEXT.slice(ACCENT_WORD.length, len)}
+      <span className="text-foreground-secondary text-left whitespace-pre-line lg:whitespace-normal">
+        {TERMINAL_TEXT.slice(0, len)}
         <span
           className="inline-block align-middle ml-0.5"
           style={{
@@ -165,8 +152,8 @@ const HeroSection = ({ isAboutOpen, onAboutClick, onAboutBack, onSectionClick }:
         }}
         transition={{ duration: 0.7, delay: isAboutOpen ? 0 : isLoaded ? 1.2 : 0 }}
       >
-        <p className="text-sm text-foreground-secondary font-mono leading-snug max-w-[340px] text-left px-6">
-          <MotiLink>{ACCENT_WORD}</MotiLink>{TERMINAL_TEXT.slice(ACCENT_WORD.length)}
+        <p className="text-sm text-foreground-secondary font-mono leading-snug whitespace-pre-line text-left px-6">
+          {MOBILE_TEXT}
         </p>
       </motion.div>
 

@@ -60,9 +60,6 @@ const SIMULATED_DEVICE_UI = "src/components/project-detail/FlowPrintHmi.tsx";
 const MEASURE_EXEMPTIONS: Record<string, string[]> = {
   // 36ch is the About editorial description, tuned with authored line breaks.
   "src/components/AboutEditorialSection.tsx": ["max-w-[36ch]"],
-  // 43ch is the hero terminal statement: wide enough for "…and build", one
-  // character short of "…and build it", so the line breaks where it was written.
-  "src/components/HeroSection.tsx": ["max-w-[43ch]"],
   // The Oryne pages' lead and contact paragraphs were wrapped by hand at 60
   // and 62ch; the body measure (64ch) breaks "On-device" at the hyphen.
   "src/pages/OryneSupport.tsx": ["max-w-[60ch]"],
