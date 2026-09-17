@@ -8,8 +8,8 @@ import { TextLink } from "@/components/ui/TextLink";
 const SUPPORT_EMAIL = "malikdes9gn@gmail.com";
 const EFFECTIVE_DATE = "June 28, 2026";
 
-const PAGE_TITLE = "Oryne Privacy Policy";
-const PAGE_DESCRIPTION =
+export const PAGE_TITLE = "Oryne Privacy Policy";
+export const PAGE_DESCRIPTION =
   "Oryne keeps your data with you. Your thoughts, notes, voice transcripts, and images stay on your device and sync only through your own private iCloud. Nothing is sold, and every AI feature runs on-device.";
 
 const OrynePrivacy = () => {

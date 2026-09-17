@@ -44,3 +44,4 @@ dist-ssr
 
 # TypeScript build-mode output (tsc -b); the typecheck script uses -p and writes none
 *.tsbuildinfo
+dist-ssr-og

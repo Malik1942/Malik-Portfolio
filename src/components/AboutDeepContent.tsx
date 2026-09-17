@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, useId } from "react";
+import { useState, useRef, useEffect, useCallback, useId, type ReactNode } from "react";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ChevronLeft, ChevronRight, Linkedin, Mail, X, type LucideIcon } from "lucide-react";
 import Footer from "@/components/Footer";
@@ -12,6 +12,7 @@ import {
 import { EASE } from "@/design-system/system/motion";
 import { PAGE_COLUMN, PAGE_GUTTERS } from "@/design-system/system/layout";
 import { BackLink } from "@/components/ui/BackLink";
+import aboutPortrait from "@/assets/about-portrait.webp";
 
 const easeOutExpo: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -254,6 +255,80 @@ const EditorialPhotoFrame = ({
       />
     </div>
   </button>
+);
+
+// ── Who I Am ──
+// The page in one paragraph. Every claim is a thing that exists: Moti and Oryne
+// on the App Store, Locant with its benchmark, the MHCI+D inventory. Only the
+// three artifacts are set in the bold run — the qualifiers around them stay in
+// the lead ink, so the eye lands on what was made rather than on most of the
+// sentence. "end to end" rather than "solo": the claim is that the work went
+// from problem to shipped product in one pair of hands, not that it was done
+// alone, and the site took "solo" out of its case studies for the same reason.
+const INTRO_COPY: Array<string | { strong: string }> = [
+  "Product designer trained in industrial design and HCI. ",
+  { strong: "Two apps" },
+  " on the App Store, ",
+  { strong: "a developer tool" },
+  " with a published benchmark, and ",
+  { strong: "the system" },
+  " a graduate program runs its equipment on, all designed and built end to end.",
+];
+
+const IntroCopy = () => (
+  <>
+    {INTRO_COPY.map((part, i) =>
+      typeof part === "string" ? (
+        part
+      ) : (
+        <strong key={i} className="font-semibold text-foreground">
+          {part.strong}
+        </strong>
+      ),
+    )}
+  </>
+);
+
+// ── The Who I Am panel ──
+// One photograph fills the panel; a second copy of the very same frame, at the
+// same object-position, sits under it blurred. The sharp copy is masked away
+// where the copy goes, so the two never show different crops of the picture at
+// the seam — what happens across the middle is focus falling off, not one
+// image ending and another starting. Get the framings out of step and the seam
+// reads as a join; keep them identical and it reads as a lens.
+const INTRO_FRAMING = "object-[42%_46%]";
+// Canvas colour at an alpha. Heaviest under the copy, nearly clear over the
+// sharp half. Tuned against this photograph, not steps on a scale: measured at
+// 5:1 or better for the body ink at every breakpoint.
+const INTRO_CANVAS = "var(--color-background-canvas)";
+const INTRO_DIM = `linear-gradient(to left, hsl(${INTRO_CANVAS} / 0.72) 0%, hsl(${INTRO_CANVAS} / 0.66) 34%, hsl(${INTRO_CANVAS} / 0.08) 58%, hsl(${INTRO_CANVAS} / 0) 100%)`;
+// Phones stack, so the copy sits at the foot of the panel instead of its left.
+const INTRO_DIM_STACKED = `linear-gradient(to bottom, hsl(${INTRO_CANVAS} / 0) 0%, hsl(${INTRO_CANVAS} / 0.04) 46%, hsl(${INTRO_CANVAS} / 0.48) 57%, hsl(${INTRO_CANVAS} / 0.74) 66%, hsl(${INTRO_CANVAS} / 0.82) 100%)`;
+// The floor. The picture's own surface — the cabinet the subject leans on —
+// goes to the page colour at the bottom of the card, so his forearms come to
+// rest on the dark instead of on a cropped edge, and the card has no bottom
+// border to speak of. The fade clears before it reaches the arms.
+const INTRO_FLOOR = `linear-gradient(to top, hsl(${INTRO_CANVAS} / 1) 0%, hsl(${INTRO_CANVAS} / 0.95) 7%, hsl(${INTRO_CANVAS} / 0.62) 17%, hsl(${INTRO_CANVAS} / 0.2) 26%, hsl(${INTRO_CANVAS} / 0) 36%)`;
+
+// Two edges dissolve, two are dimmed. The bottom, because that is where the
+// surface he leans on runs out, and the right, because that is where the
+// picture has already gone out of focus and the copy takes over — both can end
+// in the page with nothing to show for it. Feathering all four was tried and
+// read as a soft blob: a photograph with a lit room in it cannot vanish into
+// black on every side. Left and top keep the rounded frame the rest of the
+// site uses, darkened towards the page rather than cut away. The right fade is
+// applied from md up only; on a phone the copy sits below the picture, not
+// beside it, so fading one side alone would just look lopsided.
+const INTRO_EDGES = `linear-gradient(to right, hsl(${INTRO_CANVAS} / 0.82) 0%, hsl(${INTRO_CANVAS} / 0) 13%), linear-gradient(to bottom, hsl(${INTRO_CANVAS} / 0.6) 0%, hsl(${INTRO_CANVAS} / 0) 11%)`;
+
+// The card does not move. A tilt was tried here and taken out: the picture has
+// no visible bottom edge and is dissolved into the page, so there is nothing
+// whose parallax reads as a card turning — the whole thing just wobbles. It
+// also promises an interaction the block does not have, since nothing here is
+// a link. The rest of the site keeps its hover motion to what a control or a
+// card destination actually does.
+const IntroPanel = ({ children }: { children: ReactNode }) => (
+  <div className="relative">{children}</div>
 );
 
 // ── Life Event Node ──
@@ -940,6 +1015,7 @@ const AboutDeepContent = ({
 }) => {
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
   const [toppedOut, setToppedOut] = useState(false);
+  const introSectionRef = useRef<HTMLElement>(null);
   const photoSectionRef = useRef<HTMLElement>(null);
   const lifeSectionRef = useRef<HTMLElement>(null);
   const movementSectionRef = useRef<HTMLElement>(null);
@@ -947,6 +1023,7 @@ const AboutDeepContent = ({
   const connectSectionRef = useRef<HTMLElement>(null);
 
   const inViewOpts = { once: true, margin: "0px 0px -6% 0px" as const, amount: 0.15 as const };
+  const introInView = useInView(introSectionRef, inViewOpts);
   const photoInView = useInView(photoSectionRef, inViewOpts);
   const lifeInView = useInView(lifeSectionRef, inViewOpts);
   const movementInView = useInView(movementSectionRef, inViewOpts);
@@ -987,6 +1064,101 @@ const AboutDeepContent = ({
             768px with its own 32px gutters, which every chapter then had to
             escape with a 100vw breakout to be readable at all. */}
         <div className="relative z-20 pt-32 pb-8">
+          {/* ── Who I Am ──
+              In the page's own chapter shell, so the eyebrow and title sit on
+              the same rail every chapter below is set on. The statement and the
+              portrait are one card: the photograph fills it, sharp where the
+              subject and the machines are and out of focus under the copy, its
+              edges dissolved into the page, tilting to the pointer. */}
+          <AboutEditorialSection
+            sectionRef={introSectionRef}
+            inView={introInView}
+            eyebrow="Who I Am"
+            title="Designer who builds"
+            rowCrossAlign="center"
+          >
+            <motion.div
+              className="min-w-0 flex-1"
+              variants={aboutEditorialStaggerVariants}
+              initial="hidden"
+              animate={introInView ? "show" : "hidden"}
+            >
+              <motion.div variants={aboutEditorialItemVariants}>
+                <IntroPanel>
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 overflow-hidden rounded-2xl [-webkit-mask-image:linear-gradient(to_bottom,rgb(0,0,0)_0%,rgb(0,0,0)_76%,transparent_100%)] [mask-image:linear-gradient(to_bottom,rgb(0,0,0)_0%,rgb(0,0,0)_76%,transparent_100%)] md:[-webkit-mask-composite:source-in] md:[-webkit-mask-image:linear-gradient(to_bottom,rgb(0,0,0)_0%,rgb(0,0,0)_76%,transparent_100%),linear-gradient(to_right,rgb(0,0,0)_0%,rgb(0,0,0)_72%,transparent_100%)] md:[mask-composite:intersect] md:[mask-image:linear-gradient(to_bottom,rgb(0,0,0)_0%,rgb(0,0,0)_76%,transparent_100%),linear-gradient(to_right,rgb(0,0,0)_0%,rgb(0,0,0)_72%,transparent_100%)]"
+                  >
+                    {/* Out of focus. Two copies of the frame laid end to end, the
+                        second mirrored, so the picture continues past its own
+                        right edge with no seam to align — a stretched or
+                        re-cropped blur puts different content under the sharp
+                        layer's fade and shows a ghost band exactly there. Both
+                        are sized by the card's height, which is what the sharp
+                        layer is sized by, so they agree pixel for pixel. */}
+                    <div className="absolute inset-0 hidden blur-2xl md:flex">
+                      <img
+                        src={aboutPortrait}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-auto max-w-none shrink-0"
+                      />
+                      <img
+                        src={aboutPortrait}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-auto max-w-none shrink-0 -scale-x-100"
+                      />
+                    </div>
+                    {/* Phones stack, so the ground there is the plain frame. */}
+                    <img
+                      src={aboutPortrait}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className={`absolute inset-0 h-full w-full scale-110 object-cover blur-2xl md:hidden ${INTRO_FRAMING}`}
+                    />
+                    {/* In focus. Sized by the card's height so the square shows
+                        whole and sits against the left edge; sized by width it
+                        would always park the subject where the copy goes. */}
+                    <img
+                      src={aboutPortrait}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      sizes="(min-width: 768px) 46vw, 100vw"
+                      className={`absolute inset-x-0 top-0 aspect-square w-full object-cover ${INTRO_FRAMING} [-webkit-mask-image:linear-gradient(to_bottom,rgb(0,0,0)_0%,rgb(0,0,0)_72%,rgba(0,0,0,0.4)_88%,transparent_100%)] [mask-image:linear-gradient(to_bottom,rgb(0,0,0)_0%,rgb(0,0,0)_72%,rgba(0,0,0,0.4)_88%,transparent_100%)] md:inset-y-0 md:left-0 md:right-auto md:aspect-auto md:h-full md:w-auto md:max-w-none md:[-webkit-mask-image:linear-gradient(to_right,rgb(0,0,0)_0%,rgb(0,0,0)_58%,rgba(0,0,0,0.4)_80%,transparent_100%)] md:[mask-image:linear-gradient(to_right,rgb(0,0,0)_0%,rgb(0,0,0)_58%,rgba(0,0,0,0.4)_80%,transparent_100%)]`}
+                    />
+                    <div className="absolute inset-0 md:hidden" style={{ background: INTRO_DIM_STACKED }} />
+                    <div className="absolute inset-0 hidden md:block" style={{ background: INTRO_DIM }} />
+                    <div className="absolute inset-0" style={{ background: INTRO_FLOOR }} />
+                    <div className="absolute inset-0" style={{ background: INTRO_EDGES }} />
+                  </div>
+
+                  {/* Every layer of the picture is decorative markup — it is
+                      drawn four times over — so the photograph is described once,
+                      here, for anyone who cannot see it. */}
+                  <p className="sr-only">
+                    Malik Zhang in the workshop, arms folded on a red cabinet, with the 3D
+                    printers behind him.
+                  </p>
+
+                  {/* Phones: the picture is out of flow now, so a spacer gives
+                      the card the height the picture occupies. */}
+                  <div aria-hidden="true" className="aspect-square w-full md:hidden" />
+
+                  <div className="relative flex p-8 pt-4 md:ml-auto md:min-h-[560px] md:w-[42%] md:items-center md:p-12 2xl:p-14">
+                    <p className="text-base leading-relaxed text-foreground-lead md:text-xl">
+                      <IntroCopy />
+                    </p>
+                  </div>
+                </IntroPanel>
+              </motion.div>
+            </motion.div>
+          </AboutEditorialSection>
+
           {/* ── Life & Events ── */}
           <AboutEditorialSection
             sectionRef={lifeSectionRef}

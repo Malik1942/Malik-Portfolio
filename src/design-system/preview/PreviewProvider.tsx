@@ -70,14 +70,20 @@ export function PreviewProvider({
 }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const [stored] = useState(() => loadDraft(window.localStorage));
+  const [stored] = useState(() =>
+    typeof window === "undefined" ? null : loadDraft(window.localStorage),
+  );
   const [draft, setDraft] = useState<LocalTokenDraft>(() => stored ?? createDraft(TOKEN_HASH, {}));
   const [discarded, setDiscarded] = useState<string[]>([]);
   const [rebased, setRebased] = useState(!stored);
   const [bundle, setBundle] = useState<TokenBundle | null>(preloadedBundle);
   const [receivedOverrides, setReceivedOverrides] = useState<LocalTokenDraft["overrides"] | null>(null);
   const currentUrl = useMemo(
-    () => new URL(`${location.pathname}${location.search}${location.hash}`, window.location.origin),
+    () =>
+      new URL(
+        `${location.pathname}${location.search}${location.hash}`,
+        typeof window === "undefined" ? "https://www.malikzhang.com" : window.location.origin,
+      ),
     [location.hash, location.pathname, location.search],
   );
   const urlPreviewActive = isLocalPreviewUrl(currentUrl);

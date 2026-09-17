@@ -8,8 +8,8 @@ import { TextLink } from "@/components/ui/TextLink";
 
 const SUPPORT_EMAIL = "malikdes9gn@gmail.com";
 
-const PAGE_TITLE = "Oryne Support | Help, FAQ & Contact";
-const PAGE_DESCRIPTION =
+export const PAGE_TITLE = "Oryne Support | Help, FAQ & Contact";
+export const PAGE_DESCRIPTION =
   "Support for Oryne, the frictionless place to catch a Whisper by voice or text before it's gone. FAQ, privacy, and how to reach us.";
 
 type Faq = {

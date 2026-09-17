@@ -78,7 +78,9 @@ const holdLabel = (route: BoulderRoute, hold: BoulderHold) =>
 /** lg breakpoint — the About section switches to its two-column row there. */
 const useIsDesktop = () => {
   const [isDesktop, setIsDesktop] = useState(
-    () => window.matchMedia("(min-width: 1024px)").matches,
+    // The build-time render (scripts/prerender.mjs) has no viewport; the
+    // client always re-measures, so the desktop wall is a neutral default.
+    () => typeof window === "undefined" || window.matchMedia("(min-width: 1024px)").matches,
   );
   useEffect(() => {
     const query = window.matchMedia("(min-width: 1024px)");

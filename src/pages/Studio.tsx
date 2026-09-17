@@ -16,7 +16,7 @@ import { PAGE_COLUMN, PAGE_GUTTERS } from "@/design-system/system/layout";
 // The header sits in the same page column as the tile grid below, the site
 // header and the footer, so all four share their edges at every width.
 
-const PAGE_TITLE = `${SECTIONS.studio.label} | Malik Zhang`;
+export const STUDIO_PAGE_TITLE = `${SECTIONS.studio.label} | Malik Zhang`;
 
 // The line that says what this page is. Work is the process; Studio is the
 // thing: AI explorations next to the industrial design that came before them.
@@ -39,7 +39,7 @@ const Studio = () => {
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = PAGE_TITLE;
+    document.title = STUDIO_PAGE_TITLE;
     return () => {
       document.title = prevTitle;
     };

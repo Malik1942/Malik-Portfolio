@@ -23,6 +23,9 @@ export function ImageLightbox({ image, onClose }: ImageLightboxProps) {
 
   useLightboxDismiss(image, onClose, closeRef);
 
+  // Nothing to portal into during the build-time render (scripts/prerender.mjs).
+  if (typeof document === "undefined") return null;
+
   return createPortal(
     <AnimatePresence>
       {image && (

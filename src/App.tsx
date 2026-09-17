@@ -59,7 +59,7 @@ const App = () => (
   </BrowserRouter>
 );
 
-function AppFrame() {
+export function AppFrame() {
   return (
     <PreviewProvider>
       <AppContents />

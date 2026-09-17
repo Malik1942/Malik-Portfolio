@@ -32,6 +32,9 @@ export function VideoLightbox({ video, onClose }: VideoLightboxProps) {
 
   useLightboxDismiss(video, onClose, closeRef);
 
+  // Nothing to portal into during the build-time render (scripts/prerender.mjs).
+  if (typeof document === "undefined") return null;
+
   return createPortal(
     <AnimatePresence>
       {video && (

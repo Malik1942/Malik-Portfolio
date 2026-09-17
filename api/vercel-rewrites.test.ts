@@ -10,7 +10,9 @@ describe("Vercel rewrites", () => {
       { source: "/inkwork", destination: "https://inkwork-eight.vercel.app" },
       { source: "/inkwork/", destination: "https://inkwork-eight.vercel.app" },
       { source: "/inkwork/:path*", destination: "https://inkwork-eight.vercel.app/:path*" },
-      { source: "/(.*)", destination: "/index.html" },
+      // Unknown paths get the plain shell (scripts/prerender.mjs writes it),
+      // not the prerendered homepage with its metadata.
+      { source: "/(.*)", destination: "/spa.html" },
     ]);
   });
 });
