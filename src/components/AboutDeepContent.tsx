@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, useId, type ReactNode } from "react";
+import { useState, useRef, useEffect, useCallback, useId, type CSSProperties, type ReactNode } from "react";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ChevronLeft, ChevronRight, Linkedin, Mail, X, type LucideIcon } from "lucide-react";
 import Footer from "@/components/Footer";
@@ -297,6 +297,44 @@ const IntroCopy = () => (
 // image ending and another starting. Get the framings out of step and the seam
 // reads as a join; keep them identical and it reads as a lens.
 const INTRO_FRAMING = "object-[42%_46%]";
+// Where the sharp copy hands over to the blurred one. A three-stop linear mask
+// lived here and was the seam: alpha sat flat at 1 and then turned a corner
+// into its falloff, and the eye reads that corner as a line ruled down the
+// photograph — the picture did not go soft, it *started* going soft, visibly,
+// at one x. The same fault a straight fade has in ProjectList's caption ground,
+// and the same fix: sine-eased, so the ramp leaves 1 and reaches 0 with zero
+// slope and there is no stop anywhere in between for the eye to find. Enough
+// stops that the steps fall below a quantisation step of ink.
+//
+// The hold also moved in from 58% to 48%, which is what gives the copy its
+// wider column: the type now begins over a picture that has already started
+// to go soft rather than over one still fully sharp. The subject sits at 21 to
+// 32% of the card, so he is a long way inside the hold and stays sharp.
+const sineInOut = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2;
+const easedMask = (direction: string, hold: number, steps = 16) =>
+  `linear-gradient(${direction}, rgb(0, 0, 0) 0%, ${Array.from({ length: steps + 1 }, (_, i) => {
+    const t = i / steps;
+    return `rgba(0, 0, 0, ${(1 - sineInOut(t)).toFixed(3)}) ${((hold + (1 - hold) * t) * 100).toFixed(1)}%`;
+  }).join(", ")})`;
+const INTRO_SHARP_MASK = easedMask("to right", 0.48);
+// Phones stack, so the handover runs down the picture instead of across it.
+const INTRO_SHARP_MASK_STACKED = easedMask("to bottom", 0.66);
+
+// Progressive defocus was built here and taken out again, so it does not get
+// rebuilt. The theory was sound: a mask can only cross-fade, so halfway through
+// it you are looking at a sharp frame at half strength over a 40px blur of the
+// same frame, which is a double exposure rather than a lens. The fix for that
+// is staged blur — backdrop layers at 3, 9 and 24px fading in one after
+// another, so any column sits at one blur instead of a blend of two.
+//
+// Rendered side by side against the eased mask alone, on the forearm and the
+// cabinet where the doubling showed worst, it was very nearly indistinguishable.
+// The easing is what does the work; the stages only soften what is already
+// smooth. Three backdrop-filter layers over a 908x560 card is a real cost on
+// every paint of this page, and it did not buy a visible frame. If the handover
+// ever needs more than the mask can give, this is the approach that works —
+// but measure it against the mask alone before keeping it.
+
 // Canvas colour at an alpha. Heaviest under the copy, nearly clear over the
 // sharp half. Tuned against this photograph, not steps on a scale: measured at
 // 5:1 or better for the body ink at every breakpoint.
@@ -319,7 +357,7 @@ const INTRO_FLOOR = `linear-gradient(to top, hsl(${INTRO_CANVAS} / 1) 0%, hsl(${
 // site uses, darkened towards the page rather than cut away. The right fade is
 // applied from md up only; on a phone the copy sits below the picture, not
 // beside it, so fading one side alone would just look lopsided.
-const INTRO_EDGES = `linear-gradient(to right, hsl(${INTRO_CANVAS} / 0.82) 0%, hsl(${INTRO_CANVAS} / 0) 13%), linear-gradient(to bottom, hsl(${INTRO_CANVAS} / 0.6) 0%, hsl(${INTRO_CANVAS} / 0) 11%)`;
+const INTRO_EDGES = `linear-gradient(to right, hsl(${INTRO_CANVAS} / 0.38) 0%, hsl(${INTRO_CANVAS} / 0) 9%), linear-gradient(to bottom, hsl(${INTRO_CANVAS} / 0.28) 0%, hsl(${INTRO_CANVAS} / 0) 7%)`;
 
 // The card does not move. A tilt was tried here and taken out: the picture has
 // no visible bottom edge and is dissolved into the page, so there is nothing
@@ -1129,7 +1167,13 @@ const AboutDeepContent = ({
                       loading="lazy"
                       decoding="async"
                       sizes="(min-width: 768px) 46vw, 100vw"
-                      className={`absolute inset-x-0 top-0 aspect-square w-full object-cover ${INTRO_FRAMING} [-webkit-mask-image:linear-gradient(to_bottom,rgb(0,0,0)_0%,rgb(0,0,0)_72%,rgba(0,0,0,0.4)_88%,transparent_100%)] [mask-image:linear-gradient(to_bottom,rgb(0,0,0)_0%,rgb(0,0,0)_72%,rgba(0,0,0,0.4)_88%,transparent_100%)] md:inset-y-0 md:left-0 md:right-auto md:aspect-auto md:h-full md:w-auto md:max-w-none md:[-webkit-mask-image:linear-gradient(to_right,rgb(0,0,0)_0%,rgb(0,0,0)_58%,rgba(0,0,0,0.4)_80%,transparent_100%)] md:[mask-image:linear-gradient(to_right,rgb(0,0,0)_0%,rgb(0,0,0)_58%,rgba(0,0,0,0.4)_80%,transparent_100%)]`}
+                      style={
+                        {
+                          "--intro-mask-stacked": INTRO_SHARP_MASK_STACKED,
+                          "--intro-mask": INTRO_SHARP_MASK,
+                        } as CSSProperties
+                      }
+                      className={`absolute inset-x-0 top-0 aspect-square w-full object-cover ${INTRO_FRAMING} [-webkit-mask-image:var(--intro-mask-stacked)] [mask-image:var(--intro-mask-stacked)] md:inset-y-0 md:left-0 md:right-auto md:aspect-auto md:h-full md:w-auto md:max-w-none md:[-webkit-mask-image:var(--intro-mask)] md:[mask-image:var(--intro-mask)]`}
                     />
                     <div className="absolute inset-0 md:hidden" style={{ background: INTRO_DIM_STACKED }} />
                     <div className="absolute inset-0 hidden md:block" style={{ background: INTRO_DIM }} />
@@ -1149,8 +1193,25 @@ const AboutDeepContent = ({
                       the card the height the picture occupies. */}
                   <div aria-hidden="true" className="aspect-square w-full md:hidden" />
 
-                  <div className="relative flex p-8 pt-4 md:ml-auto md:min-h-[560px] md:w-[42%] md:items-center md:p-12 2xl:p-14">
-                    <p className="text-base leading-relaxed text-foreground-lead md:text-xl">
+                  <div className="relative flex p-8 pt-4 md:ml-auto md:min-h-[560px] md:w-[50%] md:items-center md:p-12 2xl:p-14">
+                    {/* text-balance, and the 50% column is what makes it work.
+                        Chrome only balances a paragraph of six lines or fewer,
+                        so at the old 42% this ran to eight and the property was
+                        silently ignored: the rag was 28% of the measure, with
+                        "developer tool with a" sitting 80px short of its
+                        neighbours. Widening alone is worse before it is better
+                        — 46% lands on seven lines and a 68% rag — so the width
+                        is chosen to reach six, and balance then evens them to
+                        15%. Anything that lengthens this copy past six lines
+                        turns balance back off without a word of warning.
+
+                        balance is md-only, and text-pretty carries the phone.
+                        A phone runs this to seven lines whatever the measure,
+                        so balance is ignored there — and since it REPLACES
+                        pretty rather than adding to it, setting it unqualified
+                        silently dropped the phone back to plain wrapping and
+                        took its rag from 28% to 69%. */}
+                    <p className="text-base leading-relaxed text-pretty text-foreground-lead md:text-balance md:text-xl">
                       <IntroCopy />
                     </p>
                   </div>
