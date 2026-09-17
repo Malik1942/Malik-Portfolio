@@ -10,6 +10,8 @@ import { StudioTeaser } from "@/components/StudioTeaser";
 import AboutDeepContent from "@/components/AboutDeepContent";
 import { PageTransition } from "@/components/PageTransition";
 import { LensBar, LensProvider, LensRow } from "@/components/Lens";
+import { usePageMeta } from "@/hooks/usePageMeta";
+import { ABOUT_DESCRIPTION, ABOUT_TITLE, HOME_DESCRIPTION, HOME_TITLE } from "@/lib/siteMeta";
 
 // aboutOpen: the /about route renders the same page with the About view open on arrival.
 // aboutSection: /about/<section> additionally lands on that section, e.g. "connect".
@@ -21,6 +23,14 @@ const Index = ({
   aboutSection?: string;
 }) => {
   const [isAboutOpen, setIsAboutOpen] = useState(aboutOpen);
+
+  // The tab, a search result and a pasted link follow the view that is open.
+  // A visit can start on any prerendered page, so the homepage sets its own
+  // metadata rather than trusting the document's initial values.
+  usePageMeta(
+    isAboutOpen ? ABOUT_TITLE : HOME_TITLE,
+    isAboutOpen ? ABOUT_DESCRIPTION : HOME_DESCRIPTION,
+  );
   const location = useLocation();
   const navigate = useNavigate();
 

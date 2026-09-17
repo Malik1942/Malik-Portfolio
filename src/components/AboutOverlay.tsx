@@ -151,7 +151,7 @@ const AboutOverlay = ({ isVisible, onBack }: AboutOverlayProps) => {
           (not fixed) so it scrolls away with the hero; z-40 keeps it beneath
           the z-50 header, so it slides under the bar as you scroll. A matching
           "Back to home" exit lives at the end of AboutDeepContent. */}
-      {createPortal(
+      {typeof document !== "undefined" && createPortal(
         <motion.button
           onClick={onBack}
           aria-label="Back to home"

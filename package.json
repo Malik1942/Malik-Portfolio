@@ -8,7 +8,8 @@
     "predev": "npm run tokens:build",
     "dev": "vite",
     "prebuild": "npm run tokens:build && npm run typecheck",
-    "build": "vite build",
+    "build": "vite build && npm run prerender",
+    "prerender": "vite build --ssr src/prerender/entry.tsx --outDir dist-ssr && node scripts/prerender.mjs",
     "prebuild:dev": "npm run tokens:build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
@@ -19,6 +20,7 @@
     "pretest:watch": "npm run tokens:build",
     "test:watch": "vitest",
     "generate:og": "node scripts/generate-og.mjs",
+    "generate:og:projects": "npm run build && vite build --ssr src/prerender/ogSources.ts --outDir dist-ssr-og && node scripts/generate-project-og.mjs && rm -rf dist-ssr-og",
     "generate:resume": "node scripts/generate-resume-pdf.mjs"
   },
   "dependencies": {

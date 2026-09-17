@@ -4,11 +4,21 @@ import { getProjectDetail } from "@/data/projectDetails";
 import { PageTransition } from "@/components/PageTransition";
 import { projectReturn } from "@/data/projects";
 import { BackLink } from "@/components/ui/BackLink";
+import { usePageMeta } from "@/hooks/usePageMeta";
+import { projectPageDescription, projectPageTitle } from "@/lib/projectMeta";
+import { SITE_NAME } from "@/lib/siteMeta";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const project = getProjectDetail(id);
+
+  // The prerendered page already carries these; setting them here keeps a
+  // client-side navigation between case studies honest too.
+  usePageMeta(
+    project ? projectPageTitle(project.title) : `Project not found | ${SITE_NAME}`,
+    project ? projectPageDescription(project.slug) : "This case study is not here. The homepage lists every project.",
+  );
 
   if (!project) {
     return (
