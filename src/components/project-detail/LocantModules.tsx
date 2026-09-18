@@ -51,7 +51,7 @@ export function LocantQuestion() {
     <ModuleCard>
       <figure className="flex flex-col gap-5 px-6 py-7 md:px-8 md:py-8">
         <p className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono">
-          Claude Code, given a screenshot
+          {noOrphan("Claude Code, given a screenshot")}
         </p>
         <blockquote className="flex flex-col gap-3 text-xl md:text-title font-light leading-snug tracking-tight [text-wrap:pretty]">
           <p className="text-foreground-lead">{noOrphan(`“${AGENT_REPLY.opening} …`)}</p>
@@ -79,6 +79,10 @@ const COLUMNS = ["You point", "One element", "Any agent", "Native apps"] as cons
 const HELD_WORD: Record<Held, string> = { yes: "yes", part: "partly", no: "no" };
 const TOOL_COLS = "grid-cols-1 md:grid-cols-[minmax(0,1.15fr)_repeat(4,minmax(0,1fr))]";
 const COL_RULE = "md:border-l md:border-case-study-module-divider";
+// A table cell is too narrow for noOrphan's five-word floor: a three-word note
+// still left its last word alone at 1440px ("Clipboard and / MCP"). The last
+// pair is glued whatever the length, and overflow-wrap is the floor under it.
+const glueLastPair = (text: string) => text.replace(/\s+(\S+)$/, " $1");
 
 const tools: Tool[] = [
   {
@@ -105,7 +109,7 @@ const tools: Tool[] = [
       { held: "no", note: "The agent looks for itself" },
       { held: "yes", note: "The accessibility tree" },
       { held: "part", note: "Over MCP, or in Xcode" },
-      { held: "yes", note: "Mac apps, the Simulator" },
+      { held: "yes", note: "Mac apps, the Simulator" },
     ],
   },
   {
@@ -135,13 +139,13 @@ function HeldCell({ cell, column, first }: { cell: Cell; column: string; first?:
   return (
     <div className={`mt-3 flex items-start gap-2.5 md:mt-0 md:pl-5 ${first ? "" : COL_RULE}`}>
       <Icon aria-hidden="true" className={`mt-0.5 h-4 w-4 shrink-0 ${tone}`} strokeWidth={1.6} />
-      <p className={`text-caption md:text-sm font-normal leading-relaxed ${cell.held === "no" ? "text-foreground-tertiary" : "text-foreground-lead"}`}>
+      <p className={`text-caption md:text-sm font-normal leading-relaxed [overflow-wrap:anywhere] ${cell.held === "no" ? "text-foreground-tertiary" : "text-foreground-lead"}`}>
         <span className="sr-only">{`${column}: ${HELD_WORD[cell.held]}. `}</span>
         {/* Below md there is no header row, so each cell names its column. */}
         <span aria-hidden="true" className="md:hidden font-mono uppercase tracking-eyebrow text-foreground-tertiary">
           {column} ·{" "}
         </span>
-        {cell.note}
+        {glueLastPair(cell.note)}
       </p>
     </div>
   );
@@ -170,7 +174,7 @@ export function LocantLandscape() {
               {t.mine ? (
                 <img src={locantIcon} alt="" aria-hidden="true" width={16} height={16} className="h-4 w-4 shrink-0 rounded-sm" />
               ) : null}
-              <p className={`text-sm md:text-base ${t.mine ? "font-medium" : "font-normal"}`}>{t.name}</p>
+              <p className={`text-sm md:text-base ${t.mine ? "font-medium" : "font-normal"}`}>{glueLastPair(t.name)}</p>
             </div>
             {t.cells.map((cell, i) => (
               <HeldCell key={COLUMNS[i]} cell={cell} column={COLUMNS[i]} first={i === 0} />
@@ -382,11 +386,13 @@ export function LocantReleases() {
 // medium effort. Time and tokens are the no-build medians, the condition where
 // every run did the same thing; the question count sums both conditions.
 const REPORT_URL = "https://github.com/Malik1942/locant/blob/main/docs/video/10-measurement-v3.md";
+// A count or a value with its unit never splits across lines ("17 / of 18" and
+// "39 / s." both happened in a quarter-width tile), so those spaces are no-break.
 const measuredTiles = [
-  { label: "Asked which orb", figure: "0 of 12", detail: "With a screenshot, 17 of 18" },
-  { label: "Time to the edit", figure: "22 s", detail: "With a screenshot, 39 s. Medians, no build" },
+  { label: "Asked which orb", figure: "0 of 12", detail: "With a screenshot, 17 of 18" },
+  { label: "Time to the edit", figure: "22 s", detail: "With a screenshot, 39 s. Medians, no build" },
   { label: "Session tokens", figure: "253k", detail: "With a screenshot, 312k. Medians, no build" },
-  { label: "Correct edit", figure: "30 of 30", detail: "Every run on both sides, once the question was answered" },
+  { label: "Correct edit", figure: "30 of 30", detail: "Every run on both sides, once the question was answered" },
 ];
 
 export function LocantMeasured() {
@@ -397,7 +403,7 @@ export function LocantMeasured() {
           <div key={t.label} className="flex flex-col gap-3 px-6 py-6 md:px-7 md:py-8 border-case-study-module-divider">
             <p className="text-caption font-mono uppercase tracking-eyebrow text-foreground-tertiary">{t.label}</p>
             <p className="text-title md:text-heading font-light leading-none tracking-tight tabular-nums text-foreground">{t.figure}</p>
-            <p className="text-sm md:text-base font-light text-foreground-secondary leading-relaxed">{t.detail}</p>
+            <p className="text-sm md:text-base font-light text-foreground-secondary leading-relaxed">{noOrphan(t.detail)}</p>
           </div>
         ))}
       </div>
