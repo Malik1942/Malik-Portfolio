@@ -51,7 +51,7 @@ Copy below is the draft direction. Leads and closes are written in Malik's voice
 - Meta cards: **Role** 0→1 Product Designer & Builder · **Timeline** 3 Hours to v0.4 / 4 Days to v0.8, Sep 13 to 16, 2026 · **Made For** Palantir Product Design Show & Tell · **Tools** Swift 6 · AppKit + SwiftUI / Claude Design · Claude Code · **Output** Free and Open Source · v0.8 / Signed, Notarized · MCP Server.
 
 ### 2. Highlights
-- id `highlights` · Headline: **Three seconds, from pointing to the paste**
+- id `highlights` · Headline: **One capture, and the agent goes straight to the right file** (changed while planning: the loop takes about 20 s from ball to paste because it tours the hover labels, so "three seconds" would contradict its own clip)
 - Figure 0: the loop clip (ball wakes, overlay dims, hover on the orb shows `button · oceanCurrent.product ideas`, note, toast, paste into Cursor, the agent edits).
 - `locant-highlights`: four chips. Identifier, not pixels · Any Mac app, any agent · Asked which element: 0 of 12 · v0.1 to v0.4 in three hours.
 
@@ -181,3 +181,11 @@ No clause-breaking dashes. No "solo", "alone", "by myself" (the pitch's "I build
 2. What comes next (Reflection's last subsection stays on documented facts until then).
 3. The hero pick from the side-by-side.
 4. A read of the copy, especially Reflection, which is the least directly sourced section.
+
+## Changes made while planning
+
+- Problem gains its own clip: scene G, the orb described by hand in Cursor's chat, cut at 9.95 s before the change is typed.
+- Build gains two figures: the self-exclusion clip (scene F) and the build-recording frame of the "product first, MCP later" call at 1:12:55 left. The dogfood frame is dropped: its capture is too small to read at column width.
+- The payload module shows capture `20260915-021609-zwec`, the one pasted in the loop, taken from Locant's own `get_capture`.
+- Six meta cards instead of five (a two-column grid leaves an odd card alone): Scope is added.
+- The Final Design close no longer says Settings is the only window: Before & After and Help are windows too.

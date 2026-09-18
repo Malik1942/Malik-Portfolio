@@ -51,6 +51,18 @@ import {
   OryneShipping,
   OryneTakeaways,
 } from "./OryneModules";
+import {
+  LocantBall,
+  LocantHighlights,
+  LocantLadder,
+  LocantLandscape,
+  LocantLinks,
+  LocantMeasured,
+  LocantOverlay,
+  LocantPayload,
+  LocantQuestion,
+  LocantReleases,
+} from "./LocantModules";
 import { InkworkSymptoms, InkworkSequence, InkworkThemes, InkworkTryCta, InkworkSkillLink, InkworkCta } from "./InkworkModules";
 import {
   CalmMouseDemo,
@@ -216,6 +228,16 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "oryne-privacy": <OrynePrivacy />,
   "oryne-shipping": <OryneShipping />,
   "oryne-takeaways": <OryneTakeaways />,
+  "locant-highlights": <LocantHighlights />,
+  "locant-question": <LocantQuestion />,
+  "locant-landscape": <LocantLandscape />,
+  "locant-overlay": <LocantOverlay />,
+  "locant-payload": <LocantPayload />,
+  "locant-ladder": <LocantLadder />,
+  "locant-ball": <LocantBall />,
+  "locant-releases": <LocantReleases />,
+  "locant-measured": <LocantMeasured />,
+  "locant-links": <LocantLinks />,
   "inkwork-symptoms": <InkworkSymptoms />,
   "inkwork-sequence": <InkworkSequence />,
   "inkwork-themes": <InkworkThemes />,
