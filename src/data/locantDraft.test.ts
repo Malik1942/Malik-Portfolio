@@ -24,6 +24,11 @@ describe("Locant case study draft", () => {
     for (const s of doc!.sections) expect(s.headline, s.id).toBeTruthy();
   });
 
+  it("opens on a reel of the pointing, with a still as its poster and reduced-motion fallback", () => {
+    expect(doc!.heroVideo).toBeTruthy();
+    expect(doc!.heroImage).toBeTruthy();
+  });
+
   it("is not connected to the card yet: the card still opens the product site", () => {
     expect(getProject("locant")?.destination).toEqual({ kind: "external", url: "https://locant.malikzhang.com" });
   });

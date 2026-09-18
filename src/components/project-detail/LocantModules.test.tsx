@@ -16,11 +16,18 @@ import {
 } from "./LocantModules";
 
 describe("Locant case-study modules", () => {
-  it("shows the four highlight chips", () => {
+  it("shows the four highlight chips and a captioned still of each other moment", () => {
     render(<LocantHighlights />);
     for (const chip of ["The element, not a screenshot", "Any Mac app, any agent", "Asked which orb: 0 of 12 runs", "v0.1 to v0.4 in three hours"]) {
       expect(screen.getByText(chip)).toBeInTheDocument();
     }
+    const stills = screen.getAllByRole("img");
+    expect(stills).toHaveLength(4);
+    for (const still of stills) {
+      expect(still).toHaveAttribute("width", "1200");
+      expect(still).toHaveAttribute("height", "900");
+    }
+    expect(screen.getByText("Before & After: the orb found again, with the diff beneath")).toBeInTheDocument();
   });
 
   it("quotes the agent's reply to a screenshot word for word", () => {

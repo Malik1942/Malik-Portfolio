@@ -189,3 +189,11 @@ No clause-breaking dashes. No "solo", "alone", "by myself" (the pitch's "I build
 - The payload module shows capture `20260915-021609-zwec`, the one pasted in the loop, taken from Locant's own `get_capture`.
 - Six meta cards instead of five (a two-column grid leaves an odd card alone): Scope is added.
 - The Final Design close no longer says Settings is the only window: Before & After and Help are windows too.
+
+## Revision after the first review (2026-09-17)
+
+Malik asked why the hero was a still, and for the Highlights section to carry more images than one video.
+
+- **Hero is a reel.** A still can only show what the pointing left behind, and the pointing is the product. `locant-hero-loop.mp4`: one continuous take from scene A, 13.1 s to 23.25 s (the orb outlined with `button · oceanCurrent.product ideas` under the cursor, the click, "What should change?", the note typed, "Copied"), no camera move, cropped `1792x1008` at `(0, 420)` so the orb, the label and the note sit in the upper half, which is what shows above the fold at 1440x900. Its last half second dissolves into its first, so the loop has no seam. `locant-hero.webp` is its first frame: the poster, so nothing swaps on play, and the reduced-motion still.
+- **Highlights splits the story with the hero.** The clip now starts at the paste (`locant-agent.mp4`, scene A 27.0 s to 39.0 s: the payload in Cursor, the agent's first move, the diff in `SeedScreenshot.swift`), which is exactly what the headline claims. Under the chips, a 2x2 gallery of 4:3 stills carries the rest of the product: Any agent (Claude Code, scene E2), Before & After (scene B), The ring and Color (scene C). The old full-loop clip `locant-loop.mp4` is gone.
+- Decisions now says "the capture in the clips above", since the capture is taken in the hero and pasted in Highlights.

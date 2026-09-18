@@ -8,6 +8,10 @@ import locantBallDocked from "@/assets/locant-ball-docked.webp";
 import locantBallAwake from "@/assets/locant-ball-awake.webp";
 import locantBallReady from "@/assets/locant-ball-ready.webp";
 import locantBallRing from "@/assets/locant-ball-ring.webp";
+import locantGalleryAgent from "@/assets/locant-gallery-agent.webp";
+import locantGalleryVerify from "@/assets/locant-gallery-verify.webp";
+import locantGalleryRing from "@/assets/locant-gallery-ring.webp";
+import locantGalleryColor from "@/assets/locant-gallery-color.webp";
 import { Button } from "@/components/ui/Button";
 import { noOrphan } from "@/lib/noOrphan";
 import { FigureCaption } from "./FigureCaption";
@@ -21,7 +25,34 @@ import { Chips, ModuleCard } from "./MotiModules";
  * rounded up or inferred. The shells (ModuleCard, Chips) are MotiModules'.
  * ------------------------------------------------------------------------- */
 
+// ── Still grids ───────────────────────────────────────────────────────────────
+// Two across from sm, one per row below it, each still captioned. Every still in
+// a grid shares one intrinsic size, which reserves its box before it loads and
+// keeps the captions of a row on one baseline.
+type Still = { src: string; label: string; caption: string; alt: string };
+
+function StillGrid({ stills, width, height }: { stills: Still[]; width: number; height: number }) {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10 md:gap-x-8 md:gap-y-12">
+      {stills.map((s) => (
+        <figure key={s.label} className="flex flex-col">
+          <div className="overflow-hidden rounded-2xl bg-secondary/10">
+            <img src={s.src} alt={s.alt} width={width} height={height} loading="lazy" decoding="async" className="block h-auto w-full" />
+          </div>
+          <div className="mt-auto">
+            <FigureCaption label={s.label}>{s.caption}</FigureCaption>
+          </div>
+        </figure>
+      ))}
+    </div>
+  );
+}
+
 // ── Highlights ────────────────────────────────────────────────────────────────
+// The hero shows the pointing and the clip above this shows the agent's half,
+// so the gallery carries the rest of the product: any agent, Before & After,
+// the ring, and one of the four actions at work. All four are frames of the v4
+// film takes (scenes E2, B, C), cropped to 4:3 around the part that matters.
 const highlights = [
   "The element, not a screenshot",
   "Any Mac app, any agent",
@@ -29,8 +60,40 @@ const highlights = [
   "v0.1 to v0.4 in three hours",
 ];
 
+const gallery: Still[] = [
+  {
+    src: locantGalleryAgent,
+    label: "Any agent",
+    caption: "the same payload, pasted into Claude Code",
+    alt: "Claude Code in a terminal with a Locant capture pasted in: the image path, the Product Ideas button with its identifier, its frame and path, and the note",
+  },
+  {
+    src: locantGalleryVerify,
+    label: "Before & After",
+    caption: "the orb found again, with the diff beneath",
+    alt: "The Before & After window: the note and identifier at the top, a slider dividing the orb before and after the edit, and 1 file changed, 28 insertions, 1 deletion beneath",
+  },
+  {
+    src: locantGalleryRing,
+    label: "The ring",
+    caption: "four more actions on the same gesture",
+    alt: "The ring open over Cursor's chat, with Snap, Text, Color, and Cut around the pointing hand",
+  },
+  {
+    src: locantGalleryColor,
+    label: "Color",
+    caption: "a magnifier on the pixel, and the value copied",
+    alt: "The Color magnifier over the Oryne Ocean screen: a grid of enlarged pixels with the picked value beneath it",
+  },
+];
+
 export function LocantHighlights() {
-  return <Chips items={highlights} />;
+  return (
+    <div className="flex flex-col gap-stack">
+      <Chips items={highlights} />
+      <StillGrid stills={gallery} width={1200} height={900} />
+    </div>
+  );
 }
 
 // ── The agent's question ──────────────────────────────────────────────────────
@@ -82,7 +145,7 @@ const COL_RULE = "md:border-l md:border-case-study-module-divider";
 // A table cell is too narrow for noOrphan's five-word floor: a three-word note
 // still left its last word alone at 1440px ("Clipboard and / MCP"). The last
 // pair is glued whatever the length, and overflow-wrap is the floor under it.
-const glueLastPair = (text: string) => text.replace(/\s+(\S+)$/, " $1");
+const glueLastPair = (text: string) => text.replace(/\s+(\S+)$/, "\u00a0$1");
 
 const tools: Tool[] = [
   {
@@ -109,7 +172,7 @@ const tools: Tool[] = [
       { held: "no", note: "The agent looks for itself" },
       { held: "yes", note: "The accessibility tree" },
       { held: "part", note: "Over MCP, or in Xcode" },
-      { held: "yes", note: "Mac apps, the Simulator" },
+      { held: "yes", note: "Mac\u00a0apps, the Simulator" },
     ],
   },
   {
@@ -189,7 +252,6 @@ export function LocantLandscape() {
 // ── The overlay ───────────────────────────────────────────────────────────────
 // The product site's own captures (site/assets/overlay-*.jpg), over Calculator
 // on the Tahoe wallpaper, 1260x840. Alt text is the site's.
-type Still = { src: string; label: string; caption: string; alt: string };
 const overlayStates: Still[] = [
   {
     src: locantOverlayHover,
@@ -218,23 +280,12 @@ const overlayStates: Still[] = [
 ];
 
 export function LocantOverlay() {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10">
-      {overlayStates.map((s) => (
-        <figure key={s.label}>
-          <div className="overflow-hidden rounded-2xl bg-secondary/10">
-            <img src={s.src} alt={s.alt} width={1260} height={840} loading="lazy" decoding="async" className="block h-auto w-full" />
-          </div>
-          <FigureCaption label={s.label}>{s.caption}</FigureCaption>
-        </figure>
-      ))}
-    </div>
-  );
+  return <StillGrid stills={overlayStates} width={1260} height={840} />;
 }
 
 // ── The payload ───────────────────────────────────────────────────────────────
 // Verbatim from Locant itself: get_capture over its own MCP server for capture
-// 20260915-021609-zwec, the one pasted in the Highlights loop and found again
+// 20260915-021609-zwec, the one taken in the hero reel, pasted in Highlights, and found again
 // in the Before & After clip. The Window value is the Simulator's own window
 // title, en dash included; the negative y is real too (the Simulator sat on a
 // display above the main one). Full-ink lines are what the agent acts on.
@@ -261,7 +312,7 @@ export function LocantPayload() {
       <pre className="px-6 py-6 md:px-8 md:py-7 font-mono text-caption md:text-sm leading-relaxed whitespace-pre-wrap [overflow-wrap:anywhere]">
         {payloadLines.map((l, i) => (
           <span key={i} className={`block ${l.key ? "text-foreground" : "text-foreground-secondary"}`}>
-            {l.text || " "}
+            {l.text || "\u00a0"}
           </span>
         ))}
       </pre>
@@ -389,10 +440,10 @@ const REPORT_URL = "https://github.com/Malik1942/locant/blob/main/docs/video/10-
 // A count or a value with its unit never splits across lines ("17 / of 18" and
 // "39 / s." both happened in a quarter-width tile), so those spaces are no-break.
 const measuredTiles = [
-  { label: "Asked which orb", figure: "0 of 12", detail: "With a screenshot, 17 of 18" },
-  { label: "Time to the edit", figure: "22 s", detail: "With a screenshot, 39 s. Medians, no build" },
+  { label: "Asked which orb", figure: "0\u00a0of\u00a012", detail: "With a screenshot, 17\u00a0of\u00a018" },
+  { label: "Time to the edit", figure: "22\u00a0s", detail: "With a screenshot, 39\u00a0s. Medians, no build" },
   { label: "Session tokens", figure: "253k", detail: "With a screenshot, 312k. Medians, no build" },
-  { label: "Correct edit", figure: "30 of 30", detail: "Every run on both sides, once the question was answered" },
+  { label: "Correct edit", figure: "30\u00a0of\u00a030", detail: "Every run on both sides, once the question was answered" },
 ];
 
 export function LocantMeasured() {

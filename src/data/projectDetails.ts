@@ -109,8 +109,9 @@ import oryneHeroPoster from "@/assets/oryne-hero-poster.webp";
 import oryneFilm from "@/assets/oryne-film.mp4";
 import oryneFilmPoster from "@/assets/oryne-film-poster.webp";
 import locantHero from "@/assets/locant-hero.webp";
-import locantLoop from "@/assets/locant-loop.mp4";
-import locantLoopPoster from "@/assets/locant-loop-poster.webp";
+import locantHeroLoop from "@/assets/locant-hero-loop.mp4";
+import locantAgent from "@/assets/locant-agent.mp4";
+import locantAgentPoster from "@/assets/locant-agent-poster.webp";
 import locantBefore from "@/assets/locant-before.mp4";
 import locantBeforePoster from "@/assets/locant-before-poster.webp";
 import locantCanvas from "@/assets/locant-canvas.webp";
@@ -1236,9 +1237,15 @@ const locant: ProjectDetailSource = {
   slug: "locant",
   title: "Locant",
   heroSummary: "A Mac app for pointing a coding agent at the element you mean,\nso the words you type are only about the change.",
-  // Scene A at 21.0 s: the Product Ideas orb outlined, the note typed under it.
-  // Both halves of the product in one frame. A draft pick; see the plan.
+  // The pointing itself, which a still cannot show: the Product Ideas orb
+  // outlined with its identifier under the cursor, the click, "What should
+  // change?", the note typed, "Copied". One continuous take from scene A
+  // (13.1 s to 23.25 s), no camera move, cropped so the phone fills more of the
+  // frame; its last half second dissolves into its first, so the loop has no
+  // seam. The poster is that first frame, so nothing swaps when playback starts,
+  // and it is also the reduced-motion still.
   heroImage: locantHero,
+  heroVideo: locantHeroLoop,
   heroImageFit: "cover",
   metaCards: [
     { label: "Role", value: "0→1 Product Designer & Builder" },
@@ -1261,8 +1268,12 @@ const locant: ProjectDetailSource = {
       label: "Highlights",
       headline: "One capture, and the agent goes straight to the right file",
       body: "[[fig:0]]\n\n[[module:locant-highlights]]",
+      // The hero already shows the pointing, so this clip starts at the paste:
+      // scene A 27.0 s to 39.0 s, the payload in Cursor's input, the agent's
+      // first move, and the diff in SeedScreenshot.swift. The gallery in
+      // locant-highlights carries the rest of the product.
       figures: [
-        { type: "video", src: locantLoop, poster: locantLoopPoster, label: "The loop", caption: "point at the orb, say what should change, and paste it into Cursor" },
+        { type: "video", src: locantAgent, poster: locantAgentPoster, label: "The agent", caption: "the payload pasted into Cursor, and the edit lands in SeedScreenshot.swift" },
       ],
     },
     {
@@ -1284,7 +1295,7 @@ const locant: ProjectDetailSource = {
       id: "decisions",
       label: "Decisions",
       headline: "A pixel is a guess. An identifier can be grepped.",
-      body: "Before any code, one sentence set the feel: Locant should read like something macOS grew, in the family of the ⌘⇧4 crosshair, Live Text, and Spotlight. It appears, is used, and is gone. Three rules followed from it.\n\n· **Borrow, don't brand.** System accent, system type, system materials. The only mark of its own is the pointing hand.\n\n· **Nothing lingers.** Every surface dismisses itself, and a confirmation lasts one second.\n\n· **Quiet until approached.** Nothing pulses, bounces, or waits for you to notice it.\n\n[[fig:0]]\n\n## The accessibility tree, not the pixels\n\nEvery native app already carries the answer in its accessibility tree: a role, a label, and often the exact identifier its code uses. A pixel is a guess. An identifier is something an agent can search the code for. The overlay shows it on hover, before the click, so you know what the agent will get.\n\n[[module:locant-overlay]]\n\nIt leaves as plain Markdown with the image path first, because a terminal agent receives only the text on paste. This is the capture from the loop above, as Locant wrote it:\n\n[[module:locant-payload]]\n\n## A ladder when there is no element\n\nNot every view has a name. Views drawn in SpriteKit, Canvas, or Metal expose pixels nobody labeled. So a capture steps down a ladder, and says which rung it reached.\n\n[[module:locant-ladder]]\n\n**The agent always gets something to grep, or an honest null.**\n\n## One gesture instead of a screenshot tool\n\nIt had to replace my screenshot tool, or I would keep switching apps while polishing. Snap, Text, Color, and Cut ride the same gesture, and one rule decides what stays on disk: an action that makes an image keeps a file for 30 days, and one that makes text or a value keeps nothing.\n\n## A ball that wakes when you reach for it\n\nA hotkey is invisible and the menu bar is far. So Locant has a glass disc that tucks into the screen edge and wakes as the cursor approaches. Click it to point. Hold it, and a ring unfolds.\n\n[[module:locant-ball]]\n\nOn the whiteboard, hovering the ball opened a ring of six. Only press and hold shipped, with four segments at the compass points. Hover collided with docking at the edge and opened by accident, and 90 degrees per target is hard to miss. Settings moved to the menu bar: it was not ring material.\n\n[[fig:1]]",
+      body: "Before any code, one sentence set the feel: Locant should read like something macOS grew, in the family of the ⌘⇧4 crosshair, Live Text, and Spotlight. It appears, is used, and is gone. Three rules followed from it.\n\n· **Borrow, don't brand.** System accent, system type, system materials. The only mark of its own is the pointing hand.\n\n· **Nothing lingers.** Every surface dismisses itself, and a confirmation lasts one second.\n\n· **Quiet until approached.** Nothing pulses, bounces, or waits for you to notice it.\n\n[[fig:0]]\n\n## The accessibility tree, not the pixels\n\nEvery native app already carries the answer in its accessibility tree: a role, a label, and often the exact identifier its code uses. A pixel is a guess. An identifier is something an agent can search the code for. The overlay shows it on hover, before the click, so you know what the agent will get.\n\n[[module:locant-overlay]]\n\nIt leaves as plain Markdown with the image path first, because a terminal agent receives only the text on paste. This is the capture in the clips above, as Locant wrote it:\n\n[[module:locant-payload]]\n\n## A ladder when there is no element\n\nNot every view has a name. Views drawn in SpriteKit, Canvas, or Metal expose pixels nobody labeled. So a capture steps down a ladder, and says which rung it reached.\n\n[[module:locant-ladder]]\n\n**The agent always gets something to grep, or an honest null.**\n\n## One gesture instead of a screenshot tool\n\nIt had to replace my screenshot tool, or I would keep switching apps while polishing. Snap, Text, Color, and Cut ride the same gesture, and one rule decides what stays on disk: an action that makes an image keeps a file for 30 days, and one that makes text or a value keeps nothing.\n\n## A ball that wakes when you reach for it\n\nA hotkey is invisible and the menu bar is far. So Locant has a glass disc that tucks into the screen edge and wakes as the cursor approaches. Click it to point. Hold it, and a ring unfolds.\n\n[[module:locant-ball]]\n\nOn the whiteboard, hovering the ball opened a ring of six. Only press and hold shipped, with four segments at the compass points. Hover collided with docking at the edge and opened by accident, and 90 degrees per target is hard to miss. Settings moved to the menu bar: it was not ring material.\n\n[[fig:1]]",
       figures: [
         {
           type: "image",
