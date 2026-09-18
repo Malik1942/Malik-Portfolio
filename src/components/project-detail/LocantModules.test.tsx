@@ -1,5 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { setReducedMotionPreference } from "@/test/setup";
 import {
   AGENT_REPLY,
   LocantBall,
@@ -15,19 +16,48 @@ import {
   PAYLOAD_TEXT,
 } from "./LocantModules";
 
+// framer-motion's useInView needs IntersectionObserver, which jsdom does not
+// ship. Nothing here scrolls, so an observer that never reports is enough.
+beforeEach(() => {
+  vi.stubGlobal(
+    "IntersectionObserver",
+    class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+      takeRecords() {
+        return [];
+      }
+    },
+  );
+});
+
 describe("Locant case-study modules", () => {
-  it("shows the four highlight chips and a captioned still of each other moment", () => {
-    render(<LocantHighlights />);
+  it("plays each other moment as a silent loop, like a GIF", () => {
+    const { container } = render(<LocantHighlights />);
     for (const chip of ["The element, not a screenshot", "Any Mac app, any agent", "Asked which orb: 0 of 12 runs", "v0.1 to v0.4 in three hours"]) {
       expect(screen.getByText(chip)).toBeInTheDocument();
     }
+    const loops = container.querySelectorAll("video");
+    expect(loops).toHaveLength(4);
+    for (const loop of loops) {
+      expect(loop.loop).toBe(true);
+      expect(loop.muted).toBe(true);
+      expect(loop).not.toHaveAttribute("controls");
+      expect(loop).toHaveAttribute("poster");
+      expect(loop).toHaveAttribute("width", "1200");
+      expect(loop).toHaveAttribute("height", "900");
+    }
+    expect(screen.getByText("Before & After: one click flips between the orb before and after the edit")).toBeInTheDocument();
+  });
+
+  it("shows each loop's first frame as a still when motion is reduced", () => {
+    setReducedMotionPreference(true);
+    const { container } = render(<LocantHighlights />);
+    expect(container.querySelectorAll("video")).toHaveLength(0);
     const stills = screen.getAllByRole("img");
     expect(stills).toHaveLength(4);
-    for (const still of stills) {
-      expect(still).toHaveAttribute("width", "1200");
-      expect(still).toHaveAttribute("height", "900");
-    }
-    expect(screen.getByText("Before & After: the orb found again, with the diff beneath")).toBeInTheDocument();
+    for (const still of stills) expect(still).toHaveAttribute("width", "1200");
   });
 
   it("quotes the agent's reply to a screenshot word for word", () => {

@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+import { useInView, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Check, CircleDashed, Minus } from "lucide-react";
 import locantIcon from "@/assets/locant-icon.webp";
 import locantOverlayHover from "@/assets/locant-overlay-hover.webp";
@@ -12,6 +14,10 @@ import locantGalleryAgent from "@/assets/locant-gallery-agent.webp";
 import locantGalleryVerify from "@/assets/locant-gallery-verify.webp";
 import locantGalleryRing from "@/assets/locant-gallery-ring.webp";
 import locantGalleryColor from "@/assets/locant-gallery-color.webp";
+import locantTileAgent from "@/assets/locant-tile-agent.mp4";
+import locantTileVerify from "@/assets/locant-tile-verify.mp4";
+import locantTileRing from "@/assets/locant-tile-ring.mp4";
+import locantTileColor from "@/assets/locant-tile-color.mp4";
 import { Button } from "@/components/ui/Button";
 import { noOrphan } from "@/lib/noOrphan";
 import { FigureCaption } from "./FigureCaption";
@@ -28,16 +34,60 @@ import { Chips, ModuleCard } from "./MotiModules";
 // ── Still grids ───────────────────────────────────────────────────────────────
 // Two across from sm, one per row below it, each still captioned. Every still in
 // a grid shares one intrinsic size, which reserves its box before it loads and
-// keeps the captions of a row on one baseline.
-type Still = { src: string; label: string; caption: string; alt: string };
+// keeps the captions of a row on one baseline. A still with a `video` plays as
+// a loop instead (LoopTile).
+type Still = { src: string; label: string; caption: string; alt: string; video?: string };
+
+// A tile that behaves like a GIF: silent, looping, no controls. MP4 rather than
+// GIF because a GIF at this size runs to megabytes with banded colour, where
+// these are 60 to 250 KB. The poster is the loop's own first frame, so nothing
+// swaps when it starts. It fetches once it is within a screen of the viewport
+// and plays only while on screen, so four loops never run off-screen at once.
+// Under reduced motion the tile is that first frame and nothing moves.
+function LoopTile({ still, video, alt, width, height }: { still: string; video: string; alt: string; width: number; height: number }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const reduceMotion = useReducedMotion();
+  const near = useInView(ref, { once: true, margin: "100% 0px 100% 0px" });
+  const onScreen = useInView(ref, { amount: 0.4 });
+
+  useEffect(() => {
+    const loop = ref.current;
+    if (!loop || !near) return;
+    if (onScreen) loop.play().catch(() => {});
+    else loop.pause();
+  }, [near, onScreen]);
+
+  if (reduceMotion) {
+    return <img src={still} alt={alt} width={width} height={height} loading="lazy" decoding="async" className="block h-auto w-full" />;
+  }
+  return (
+    <video
+      ref={ref}
+      src={near ? video : undefined}
+      poster={still}
+      width={width}
+      height={height}
+      muted
+      loop
+      playsInline
+      preload="none"
+      aria-label={alt}
+      className="block h-auto w-full"
+    />
+  );
+}
 
 function StillGrid({ stills, width, height }: { stills: Still[]; width: number; height: number }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10 md:gap-x-8 md:gap-y-12">
       {stills.map((s) => (
         <figure key={s.label} className="flex flex-col">
-          <div className="overflow-hidden rounded-2xl bg-secondary/10">
-            <img src={s.src} alt={s.alt} width={width} height={height} loading="lazy" decoding="async" className="block h-auto w-full" />
+          <div className="overflow-hidden rounded-2xl bg-secondary/10" style={{ aspectRatio: `${width} / ${height}` }}>
+            {s.video ? (
+              <LoopTile still={s.src} video={s.video} alt={s.alt} width={width} height={height} />
+            ) : (
+              <img src={s.src} alt={s.alt} width={width} height={height} loading="lazy" decoding="async" className="block h-auto w-full" />
+            )}
           </div>
           <div className="mt-auto">
             <FigureCaption label={s.label}>{s.caption}</FigureCaption>
@@ -51,8 +101,12 @@ function StillGrid({ stills, width, height }: { stills: Still[]; width: number; 
 // ── Highlights ────────────────────────────────────────────────────────────────
 // The hero shows the pointing and the clip above this shows the agent's half,
 // so the gallery carries the rest of the product: any agent, Before & After,
-// the ring, and one of the four actions at work. All four are frames of the v4
-// film takes (scenes E2, B, C), cropped to 4:3 around the part that matters.
+// the ring, and one of the four actions at work. Each tile loops the one
+// interaction it names, cut from the v4 film takes (scenes E2, B, C), cropped to
+// 4:3 around the part that matters, 1200x900 at 60 fps. Each file opens on its
+// most telling frame and wraps back round to it; the one 0.4 s dissolve sits
+// where the take resets, mid-file. The Claude Code tile plays its static
+// "Pasted text" hold at 2x, the rule the Locant card reel set for dead time.
 const highlights = [
   "The element, not a screenshot",
   "Any Mac app, any agent",
@@ -63,27 +117,31 @@ const highlights = [
 const gallery: Still[] = [
   {
     src: locantGalleryAgent,
+    video: locantTileAgent,
     label: "Any agent",
     caption: "the same payload, pasted into Claude Code",
-    alt: "Claude Code in a terminal with a Locant capture pasted in: the image path, the Product Ideas button with its identifier, its frame and path, and the note",
+    alt: "A Locant payload pasted into Claude Code and sent: the image path, the Product Ideas button with its identifier, its frame and path, and the note, then Claude Code starts working",
   },
   {
     src: locantGalleryVerify,
+    video: locantTileVerify,
     label: "Before & After",
-    caption: "the orb found again, with the diff beneath",
-    alt: "The Before & After window: the note and identifier at the top, a slider dividing the orb before and after the edit, and 1 file changed, 28 insertions, 1 deletion beneath",
+    caption: "one click flips between the orb before and after the edit",
+    alt: "The Before & After window in Flip mode: each click swaps the Product Ideas orb between before the edit, small, and after it, larger with satellite dots, above 1 file changed, 28 insertions, 1 deletion",
   },
   {
     src: locantGalleryRing,
+    video: locantTileRing,
     label: "The ring",
-    caption: "four more actions on the same gesture",
-    alt: "The ring open over Cursor's chat, with Snap, Text, Color, and Cut around the pointing hand",
+    caption: "hold the ball, then release on an action",
+    alt: "The ball held down until the ring unfolds with Snap, Text, Color, and Cut, then released on Color, which opens the magnifier",
   },
   {
     src: locantGalleryColor,
+    video: locantTileColor,
     label: "Color",
     caption: "a magnifier on the pixel, and the value copied",
-    alt: "The Color magnifier over the Oryne Ocean screen: a grid of enlarged pixels with the picked value beneath it",
+    alt: "The Color magnifier on the Resurfacing card in Oryne, then a click and a Copied toast with the picked value",
   },
 ];
 
