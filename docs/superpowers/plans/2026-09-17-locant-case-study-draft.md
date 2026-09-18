@@ -138,7 +138,7 @@ Cut points were read off contact sheets of each scene:
 X264=(-c:v libx264 -preset slow -crf 24 -profile:v high -pix_fmt yuv420p -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 -movflags +faststart -an)
 SCALE="scale=1920:1080:flags=lanczos:in_range=tv:out_range=tv,fps=60,format=yuv420p,setsar=1"
 cut() { ffmpeg -v error -y -i "$1" -ss "$3" -t "$4" -vf "$SCALE" $X264 "$2"; }
-join2() { ffmpeg -v error -y -i "$1" -i "$2" -filter_complex "[0:v]$SCALE[a];[1:v]$SCALE[b];[a][b]xfade=transition=fade:duration=0.3:offset=$4[v]" -map "[v]" $X264 "$3"; }
+join2() { ffmpeg -v error -y -i "$1" -i "$2" -filter_complex "[0:v]${SCALE}[a];[1:v]${SCALE}[b];[a][b]xfade=transition=fade:duration=0.3:offset=$4[v]" -map "[v]" $X264 "$3"; }
 poster() { ffmpeg -v error -y -i "$1" -frames:v 1 "$SCR/assets/poster.png" && cwebp -quiet -q 82 "$SCR/assets/poster.png" -o "$2"; }
 ```
 
