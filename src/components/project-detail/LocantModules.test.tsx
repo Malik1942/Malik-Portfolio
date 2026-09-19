@@ -49,6 +49,7 @@ describe("Locant case-study modules", () => {
       expect(loop).toHaveAttribute("height", "900");
     }
     expect(screen.getByText("Before & After: one click flips between the orb before and after the edit")).toBeInTheDocument();
+    expect(screen.getByText("Any agent: the same payload in Cursor, Claude Code, Codex, and Antigravity")).toBeInTheDocument();
   });
 
   it("shows each loop's first frame as a still when motion is reduced", () => {

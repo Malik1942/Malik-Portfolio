@@ -40,7 +40,7 @@ type Still = { src: string; label: string; caption: string; alt: string; video?:
 
 // A tile that behaves like a GIF: silent, looping, no controls. MP4 rather than
 // GIF because a GIF at this size runs to megabytes with banded colour, where
-// these are 60 to 450 KB. The poster is the loop's own first frame, so nothing
+// these are 60 to 540 KB. The poster is the loop's own first frame, so nothing
 // swaps when it starts. It fetches once it is within a screen of the viewport
 // and plays only while on screen, so four loops never run off-screen at once.
 // Under reduced motion the tile is that first frame and nothing moves.
@@ -107,13 +107,15 @@ function StillGrid({ stills, width, height }: { stills: Still[]; width: number; 
 // frame and wraps back round to it; the one 0.4 s dissolve sits where the take
 // resets, mid-file.
 //
-// "Any agent" is three takes in one frame, on one clock: Cursor (scene A) tall on
-// the left, Claude Code (E2) and Codex (E1) stacked on the right, each pasting and
-// sending the same payload together. Three, not four: they are the agents the
-// product site lists as verified, and the only three ever recorded taking a
-// capture. Their static paste-to-send hold plays at 2x, the rule the Locant card
-// reel set for dead time. A single terminal read as a wall of text at tile size;
-// Cursor's column is where the payload stays legible.
+// "Any agent" is four takes in a 2x2, on one clock, each sending the same payload
+// together: Cursor (scene A) and Claude Code (E2) from the film, then Codex (the
+// ChatGPT app's Work mode) and Antigravity, recorded on inspire-ocean on Sep 18
+// and stopped as soon as each had started. Cursor's cell opens with the payload
+// already pasted, because its paste lands while the film's camera is still
+// moving. Every segment plays at 1x: waits are cut only where the frame is still,
+// and a cell changes its crop only at the send, where the app's own layout jumps.
+// Antigravity asked once for leave to read the capture image; the tile skips
+// that wait. Claude Code stays the terminal until there is a take of its app.
 const highlights = [
   "The element, not a screenshot",
   "Any Mac app, any agent",
@@ -127,8 +129,8 @@ const gallery: Still[] = [
     video: locantTileAgent,
     label: "Any agent",
     // A product name never breaks across lines ("Claude / Code" did at 1440).
-    caption: "the same payload in Cursor, Claude\u00a0Code, and Codex",
-    alt: "Cursor, Claude Code, and Codex in one frame, each given the same Locant payload for the Product Ideas button: it is pasted, sent, and each agent starts on the orb it names",
+    caption: "the same payload in Cursor, Claude\u00a0Code, Codex, and Antigravity",
+    alt: "Cursor, Claude Code, Codex, and Antigravity in one frame, each sent the same Locant payload for the Product Ideas button. Cursor and Codex set out to match it to the Light And Color orb, Antigravity searches for Product Ideas and opens SeedScreenshot.swift, and Claude Code starts thinking",
   },
   {
     src: locantGalleryVerify,
