@@ -111,11 +111,15 @@ function StillGrid({ stills, width, height }: { stills: Still[]; width: number; 
 // together: Cursor (scene A) and Claude Code (E2) from the film, then Codex (the
 // ChatGPT app's Work mode) and Antigravity, recorded on inspire-ocean on Sep 18
 // and stopped as soon as each had started. Cursor's cell opens with the payload
-// already pasted, because its paste lands while the film's camera is still
-// moving. Every segment plays at 1x: waits are cut only where the frame is still,
-// and a cell changes its crop only at the send, where the app's own layout jumps.
-// Antigravity asked once for leave to read the capture image; the tile skips
-// that wait. Claude Code stays the terminal until there is a take of its app.
+// already pasted, because its paste lands while the film's camera is still moving.
+// The film bakes in its real pointer, which sat parked on Cursor's payload and
+// mid-terminal in Claude Code until the send; each is covered with a clean frame
+// of the same pixels from the same take, never redrawn. The new takes were
+// recorded without a pointer. Every segment plays at 1x: waits are cut only where
+// the frame is still, and a cell changes its crop only at the send, where the
+// app's own layout jumps. Antigravity asked once for leave to read the capture
+// image; the tile skips that wait. Claude Code stays the terminal until there is a
+// take of its app.
 const highlights = [
   "The element, not a screenshot",
   "Any Mac app, any agent",
