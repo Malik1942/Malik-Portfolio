@@ -40,7 +40,7 @@ type Still = { src: string; label: string; caption: string; alt: string; video?:
 
 // A tile that behaves like a GIF: silent, looping, no controls. MP4 rather than
 // GIF because a GIF at this size runs to megabytes with banded colour, where
-// these are 60 to 250 KB. The poster is the loop's own first frame, so nothing
+// these are 60 to 450 KB. The poster is the loop's own first frame, so nothing
 // swaps when it starts. It fetches once it is within a screen of the viewport
 // and plays only while on screen, so four loops never run off-screen at once.
 // Under reduced motion the tile is that first frame and nothing moves.
@@ -102,11 +102,18 @@ function StillGrid({ stills, width, height }: { stills: Still[]; width: number; 
 // The hero shows the pointing and the clip above this shows the agent's half,
 // so the gallery carries the rest of the product: any agent, Before & After,
 // the ring, and one of the four actions at work. Each tile loops the one
-// interaction it names, cut from the v4 film takes (scenes E2, B, C), cropped to
-// 4:3 around the part that matters, 1200x900 at 60 fps. Each file opens on its
-// most telling frame and wraps back round to it; the one 0.4 s dissolve sits
-// where the take resets, mid-file. The Claude Code tile plays its static
-// "Pasted text" hold at 2x, the rule the Locant card reel set for dead time.
+// interaction it names, cut from the v4 film takes, cropped to 4:3 around the
+// part that matters, 1200x900 at 60 fps. Each file opens on its most telling
+// frame and wraps back round to it; the one 0.4 s dissolve sits where the take
+// resets, mid-file.
+//
+// "Any agent" is three takes in one frame, on one clock: Cursor (scene A) tall on
+// the left, Claude Code (E2) and Codex (E1) stacked on the right, each pasting and
+// sending the same payload together. Three, not four: they are the agents the
+// product site lists as verified, and the only three ever recorded taking a
+// capture. Their static paste-to-send hold plays at 2x, the rule the Locant card
+// reel set for dead time. A single terminal read as a wall of text at tile size;
+// Cursor's column is where the payload stays legible.
 const highlights = [
   "The element, not a screenshot",
   "Any Mac app, any agent",
@@ -119,8 +126,9 @@ const gallery: Still[] = [
     src: locantGalleryAgent,
     video: locantTileAgent,
     label: "Any agent",
-    caption: "the same payload, pasted into Claude Code",
-    alt: "A Locant payload pasted into Claude Code and sent: the image path, the Product Ideas button with its identifier, its frame and path, and the note, then Claude Code starts working",
+    // A product name never breaks across lines ("Claude / Code" did at 1440).
+    caption: "the same payload in Cursor, Claude\u00a0Code, and Codex",
+    alt: "Cursor, Claude Code, and Codex in one frame, each given the same Locant payload for the Product Ideas button: it is pasted, sent, and each agent starts on the orb it names",
   },
   {
     src: locantGalleryVerify,
