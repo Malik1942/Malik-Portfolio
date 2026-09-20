@@ -127,12 +127,12 @@ describe("Locant case-study modules", () => {
     );
   });
 
-  it("links the site and GitHub, and the film only once it has a URL", () => {
+  it("links the site, GitHub, and the pitch film", () => {
     const { rerender } = render(<LocantLinks />);
     expect(screen.getByRole("link", { name: /Visit locant\.malikzhang\.com/ })).toHaveAttribute("href", "https://locant.malikzhang.com");
     expect(screen.getByRole("link", { name: /View on GitHub/ })).toHaveAttribute("href", "https://github.com/Malik1942/locant");
+    expect(screen.getByRole("link", { name: /Watch the film/ })).toHaveAttribute("href", "https://www.youtube.com/watch?v=gIjtllxV-gI");
+    rerender(<LocantLinks filmUrl={null} />);
     expect(screen.queryByRole("link", { name: /Watch the film/ })).toBeNull();
-    rerender(<LocantLinks filmUrl="https://www.youtube.com/watch?v=abcdefghijk" />);
-    expect(screen.getByRole("link", { name: /Watch the film/ })).toHaveAttribute("href", "https://www.youtube.com/watch?v=abcdefghijk");
   });
 });

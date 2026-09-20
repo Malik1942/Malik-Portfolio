@@ -118,8 +118,8 @@ function StillGrid({ stills, width, height }: { stills: Still[]; width: number; 
 // recorded without a pointer. Every segment plays at 1x: waits are cut only where
 // the frame is still, and a cell changes its crop only at the send, where the
 // app's own layout jumps. Antigravity asked once for leave to read the capture
-// image; the tile skips that wait. Claude Code stays the terminal until there is a
-// take of its app.
+// image; the tile skips that wait. Claude Code stays the terminal: Malik settled
+// on the take that exists rather than shooting its app.
 const highlights = [
   "The element, not a screenshot",
   "Any Mac app, any agent",
@@ -547,11 +547,13 @@ export function LocantMeasured() {
 
 // ── Links ─────────────────────────────────────────────────────────────────────
 // The product site is the one live-product link, so it takes the filled pill.
-// The pitch film joins as a secondary control once Malik has uploaded it; until
-// then there is no URL and no button.
+// The three-minute pitch film joins as a secondary control. It is linked, never
+// embedded: its voice-over claims sole authorship, which the copy here does not.
+// It is unlisted on YouTube, so the link is the only way to it. Pass filmUrl as
+// null and the button is gone.
 const LOCANT_SITE_URL = "https://locant.malikzhang.com";
 const LOCANT_GITHUB_URL = "https://github.com/Malik1942/locant";
-export const LOCANT_FILM_URL: string | null = null;
+export const LOCANT_FILM_URL: string | null = "https://www.youtube.com/watch?v=gIjtllxV-gI";
 
 export function LocantLinks({ filmUrl = LOCANT_FILM_URL }: { filmUrl?: string | null }) {
   return (
