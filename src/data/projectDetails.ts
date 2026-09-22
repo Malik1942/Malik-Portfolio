@@ -108,6 +108,28 @@ import oryneHeroLoop from "@/assets/oryne-hero-loop.mp4";
 import oryneHeroPoster from "@/assets/oryne-hero-poster.webp";
 import oryneFilm from "@/assets/oryne-film.mp4";
 import oryneFilmPoster from "@/assets/oryne-film-poster.webp";
+import locantHero from "@/assets/locant-hero.webp";
+import locantHeroLoop from "@/assets/locant-hero-loop.mp4";
+import locantAgent from "@/assets/locant-agent.mp4";
+import locantAgentPoster from "@/assets/locant-agent-poster.webp";
+import locantBefore from "@/assets/locant-before.mp4";
+import locantBeforePoster from "@/assets/locant-before-poster.webp";
+import locantCanvas from "@/assets/locant-canvas.webp";
+import locantSketch from "@/assets/locant-sketch.webp";
+import locantNullElement from "@/assets/locant-null-element.webp";
+import locantSelf from "@/assets/locant-self.mp4";
+import locantSelfPoster from "@/assets/locant-self-poster.webp";
+import locantDecision from "@/assets/locant-decision.webp";
+import locantHover from "@/assets/locant-hover.mp4";
+import locantHoverPoster from "@/assets/locant-hover-poster.webp";
+import locantAgents from "@/assets/locant-agents.mp4";
+import locantAgentsPoster from "@/assets/locant-agents-poster.webp";
+import locantVerify from "@/assets/locant-verify.mp4";
+import locantVerifyPoster from "@/assets/locant-verify-poster.webp";
+import locantRing from "@/assets/locant-ring.mp4";
+import locantRingPoster from "@/assets/locant-ring-poster.webp";
+import locantSettings from "@/assets/locant-settings.webp";
+import locantMeasured from "@/assets/locant-measured.webp";
 
 type ProjectDetailSource = Omit<ProjectDetailDocument, "listSection">;
 
@@ -1205,10 +1227,139 @@ const oryne: ProjectDetailSource = {
   ],
 };
 
+// Locant, first draft (spec: docs/superpowers/specs/2026-09-17-locant-case-study-design.md).
+// Not connected to the homepage card: Locant's card still opens the product
+// site, and src/data/locantDraft.test.ts holds that line until Malik wires it.
+// Every fact traces to the Locant repo (~/Documents/Deixis), its site, git, the
+// build recording, or the published measurement. The copy rests on one split:
+// a click says which element, the note says what should change.
+const locant: ProjectDetailSource = {
+  slug: "locant",
+  title: "Locant",
+  heroSummary: "A Mac app for pointing a coding agent at the element you mean,\nso the words you type are only about the change.",
+  // The pointing itself, which a still cannot show: the Product Ideas orb
+  // outlined with its identifier under the cursor, the click, "What should
+  // change?", the note typed, "Copied". One continuous take from scene A
+  // (13.1 s to 23.25 s), no camera move, cropped so the phone fills more of the
+  // frame; its last half second dissolves into its first, so the loop has no
+  // seam. The poster is that first frame, so nothing swaps when playback starts,
+  // and it is also the reduced-motion still.
+  heroImage: locantHero,
+  heroVideo: locantHeroLoop,
+  heroImageFit: "cover",
+  metaCards: [
+    { label: "Role", value: "0→1 Product Designer & Builder" },
+    { label: "Timeline", value: "3 Hours to v0.4 · 4 Days to v0.8\nSep 13 to 16, 2026" },
+    { label: "Made For", value: "Palantir Product Design\nShow & Tell" },
+    { label: "Scope", value: "A Spec for Every Version\nInteraction and Visual Design\nSwift App and MCP Server\nSite, Film, and Measurement" },
+    { label: "Tools", value: "Swift 6 · AppKit + SwiftUI\nClaude Design · Claude Code" },
+    { label: "Output", value: "Free and Open Source · v0.8\nSigned, Notarized · MCP Server" },
+  ],
+  sections: [
+    {
+      id: "intro",
+      label: "Intro",
+      headline: "A click says which element. The note says what to change.",
+      showProjectMeta: true,
+      body: "**Locant is a free, open-source Mac app for pointing a coding agent at the exact element you mean. Click it in any app, type what should change, and the agent gets the element itself: its identifier, its frame, its place in the tree, and a crop.**\n\nI design and build my own apps end to end, and a coding agent does most of the typing. Seeing what was wrong took a second. Describing it took the rest: which screen, which component, where it sits in the tree, and then the change itself, in words the agent would read the way I meant them. That attention went into translation, not design.\n\nI made Locant for Palantir's Product Design Show & Tell. Versions 0.1 to 0.4 were built inside the three-hour window, timer running. Four days later it was at 0.8: signed, notarized, public on GitHub, and an MCP server as well.",
+    },
+    {
+      id: "highlights",
+      label: "Highlights",
+      headline: "One capture, and the agent goes straight to the right file",
+      body: "[[fig:0]]\n\n[[module:locant-highlights]]",
+      // The hero already shows the pointing, so this clip starts at the paste:
+      // scene A 27.0 s to 39.0 s, the payload in Cursor's input, the agent's
+      // first move, and the diff in SeedScreenshot.swift. The gallery in
+      // locant-highlights carries the rest of the product.
+      figures: [
+        { type: "video", src: locantAgent, poster: locantAgentPoster, label: "The agent", caption: "the payload pasted into Cursor, and the edit lands in SeedScreenshot.swift" },
+      ],
+    },
+    {
+      id: "problem",
+      label: "The Problem",
+      headline: "Every fix needed two descriptions, and the first ate the second",
+      body: "UI polish starts as something seen: a button that should be rounder, a card that needs room. A coding agent works in text and code. Every fix meant translating one into the other, and the translation was mine to do.\n\nFirst, which element: which screen, which component, where it sits in the tree, in names the agent could match to the code. Then, what should change. The first kept eating the second. By the time I had written which button, I had lost what I was actually going to say about it.\n\n[[fig:0]]\n\nA screenshot doesn't remove that work. It hands the first half to the agent. Given a crop of the phone and a note that already said how to make the change, this is what it said:\n\n[[module:locant-question]]\n\n**It understood the change, down to the mechanism. It could not know which orb. That is the half Locant takes.**",
+      figures: [
+        { type: "video", src: locantBefore, poster: locantBeforePoster, label: "Before", caption: "a whole sentence about which orb, and not yet a word about the change" },
+      ],
+    },
+    {
+      id: "landscape",
+      label: "Landscape",
+      headline: "Web tools point at elements. Mac tools send the window.",
+      body: "In September 2026, three kinds of tool handed a screen to a coding agent, and screenshot tools sat under all of them. None let a person point at one element in a native app and hand it to whichever agent they use.\n\n[[module:locant-landscape]]\n\nThat research changed three things before any code. No window capture, because two platforms already send the window. A payload of plain text with an image path, because agents handled MCP image blocks unevenly. And field names with no Apple prefix, so another platform could write the same shape.\n\n**Appshots gives your agent the window. Locant gives it the element.**",
+    },
+    {
+      id: "decisions",
+      label: "Decisions",
+      headline: "A pixel is a guess. An identifier can be grepped.",
+      body: "Before any code, one sentence set the feel: Locant should read like something macOS grew, in the family of the ⌘⇧4 crosshair, Live Text, and Spotlight. It appears, is used, and is gone. Three rules followed from it.\n\n· **Borrow, don't brand.** System accent, system type, system materials. The only mark of its own is the pointing hand.\n\n· **Nothing lingers.** Every surface dismisses itself, and a confirmation lasts one second.\n\n· **Quiet until approached.** Nothing pulses, bounces, or waits for you to notice it.\n\n[[fig:0]]\n\n## The accessibility tree, not the pixels\n\nEvery native app already carries the answer in its accessibility tree: a role, a label, and often the exact identifier its code uses. A pixel is a guess. An identifier is something an agent can search the code for. The overlay shows it on hover, before the click, so you know what the agent will get.\n\n[[module:locant-overlay]]\n\nIt leaves as plain Markdown with the image path first, because a terminal agent receives only the text on paste. This is the capture in the clips above, as Locant wrote it:\n\n[[module:locant-payload]]\n\n## A ladder when there is no element\n\nNot every view has a name. Views drawn in SpriteKit, Canvas, or Metal expose pixels nobody labeled. So a capture steps down a ladder, and says which rung it reached.\n\n[[module:locant-ladder]]\n\n**The agent always gets something to grep, or an honest null.**\n\n## One gesture instead of a screenshot tool\n\nIt had to replace my screenshot tool, or I would keep switching apps while polishing. Snap, Text, Color, and Cut ride the same gesture, and one rule decides what stays on disk: an action that makes an image keeps a file for 30 days, and one that makes text or a value keeps nothing.\n\n## A ball that wakes when you reach for it\n\nA hotkey is invisible and the menu bar is far. So Locant has a glass disc that tucks into the screen edge and wakes as the cursor approaches. Click it to point. Hold it, and a ring unfolds.\n\n[[module:locant-ball]]\n\nOn the whiteboard, hovering the ball opened a ring of six. Only press and hold shipped, with four segments at the compass points. Hover collided with docking at the edge and opened by accident, and 90 degrees per target is hard to miss. Settings moved to the menu bar: it was not ring material.\n\n[[fig:1]]",
+      figures: [
+        {
+          type: "image",
+          src: locantCanvas,
+          alt: "The Claude Design canvas titled Deixis Overlay States, showing Frame 1, Hover, over the iPhone Simulator, with the menu-bar timer reading Design Challenge 2:59:57",
+          label: "Claude Design",
+          caption: "the overlay's states, drawn before any code, three seconds into the timer",
+        },
+        {
+          type: "image",
+          src: locantSketch,
+          alt: "Whiteboard sketch: the ball at rest and docked at the screen edge, a six-segment ring labeled Hover, and a four-segment ring labeled Press & hold, release to pick/confirm",
+          label: "Whiteboard",
+          caption: "the ring on hover, and the press and hold that shipped",
+        },
+      ],
+    },
+    {
+      id: "build",
+      label: "Build",
+      headline: "Four versions inside the three-hour window",
+      body: "The research, the PRD, and the whiteboard came first. The timer started at 15:27 on September 13, and from there AI came in everywhere except the decisions: the overlay drawn in Claude Design, one spec per version written with Claude, and the Swift written by Claude Code.\n\n[[module:locant-releases]]\n\nv0.4 was tagged at 18:08, with about nineteen minutes left on the timer.\n\n## What fought back\n\nWith an hour and 42 minutes left, a capture of Oryne's orbs came back empty: no element information available. The orbs are drawn in SpriteKit, and nothing had named them.\n\n[[fig:0]]\n\nTwo things came out of that capture. The ladder, so a view with no name still gives the agent something to work from. And a fix to Oryne itself: at 17:02 its orbs were exposed to accessibility with identifiers, which is why every capture on this page can name the Product Ideas orb. Pointing at my own app showed me what it had been hiding from the accessibility tree.\n\nThe other fight was Locant seeing itself. Every capture leaves Locant's own windows out, so the overlay, the ball, and the note never land in the picture. Point at Locant's Settings, and it reads the window behind.\n\n[[fig:1]]\n\n## The product before the plumbing\n\nWith an hour and 12 minutes left, the plan said the MCP server came next. I moved it behind the product: Settings and the ball first.\n\n[[fig:2]]\n\nIt shipped in 0.7.1, on September 15, and not as the TypeScript package the PRD had planned. The server lives inside the app, started with a flag, because the captures live on the Mac, the app is already signed and updated, and nobody has to install Node.\n\n**I used Locant to build Locant. Everything after 0.4 was the product earning a second user: a first minute with no tour, a download that works, and an agent that fetches the capture itself.**",
+      figures: [
+        { type: "image", src: locantNullElement, alt: "The build recording with an hour and 42 minutes left: a Locant payload for the Oryne orb reads No element information available, beside the Library screen in the Simulator", label: "The empty capture", caption: "Oryne's orbs, with an hour and 42 minutes left" },
+        { type: "video", src: locantSelf, poster: locantSelfPoster, label: "Locant on Locant", caption: "its own Settings reads as image only, then the window behind it" },
+        { type: "image", src: locantDecision, alt: "The build recording with an hour and 12 minutes left: Malik's message asks to do the Settings window and the ball before the MCP connection, and finish the product first", label: "The call", caption: "Settings and the ball first, the MCP server after" },
+      ],
+    },
+    {
+      id: "final-design",
+      label: "Final Design",
+      headline: "One element, from pointed at to verified",
+      body: "Every clip below is a recording of the released app.\n\n[[fig:0]]\n\nThe payload is plain Markdown, so any agent takes it on paste. Locant is also its own MCP server: connect Claude Code, Cursor, or Codex in Settings, say \"fix what I just pointed at\", and the agent fetches the capture itself.\n\n[[fig:1]]\n\nAfter the edit, run the app again. Locant finds the same element by its identifier, captures it when it looks different, and keeps every iteration with the git diff beneath.\n\n[[fig:2]]\n\nThe four other actions ride the same ball. Hold it, release on one, and the result is on the clipboard.\n\n[[fig:3]]\n\nSettings had to pass for an Apple app's preferences: system controls only, and every default works on first launch.\n\n[[fig:4]]\n\n**Point, note, paste, and see what changed, without once describing which button.**",
+      figures: [
+        { type: "video", src: locantHover, poster: locantHoverPoster, label: "Hover", caption: "Calculator, a CalmMouse slider with no identifier, the orb, then a web page" },
+        { type: "video", src: locantAgents, poster: locantAgentsPoster, label: "Any agent", caption: "the same payload in the Codex app, then in Antigravity" },
+        { type: "video", src: locantVerify, poster: locantVerifyPoster, label: "Before & After", caption: "the orb found again after the edit, 1 file changed and 28 insertions" },
+        { type: "video", src: locantRing, poster: locantRingPoster, label: "The ring", caption: "hold the ball, release on Color, and pick a value from the screen" },
+        { type: "image", src: locantSettings, alt: "Locant Settings, General tab, in the dark appearance: Accessibility and Screen Recording granted, the floating ball and auto-hide on, and a daily update check" },
+      ],
+    },
+    {
+      id: "measured",
+      label: "Measured",
+      headline: "What Locant saves is the question",
+      body: "I measured one fix both ways. Same fix, same model, same repo, same note. The only difference was what got pasted: a ⌘⇧4 crop of the phone, or one Locant capture of the orb.\n\n[[module:locant-measured]]\n\n[[fig:0]]\n\n**Locant does not make the agent smarter. It removes the one thing the agent could not know from pixels.**\n\n[[module:locant-links]]",
+      figures: [
+        { type: "image", src: locantMeasured, alt: "Two panels, no build and build verified. With a screenshot the agent stopped to ask which orb in 6 of 6 and 11 of 12 runs; with Locant, 0 of 6 both times. Time from paste to the edit: screenshot medians 39 and 33 seconds, Locant 22 and 16 seconds." },
+      ],
+    },
+    {
+      id: "reflection",
+      label: "Reflection",
+      headline: "Every payload has two readers",
+      body: "Every capture is read twice: by me as I point, and by a model that sees only text. The label on the overlay is for the first reader. It says what the agent will get before I click. The image path leads the payload for the second, because a terminal agent can only open what the text tells it to.\n\n## Honest by default\n\nThe ladder names its rung instead of pretending. The agent table on the site says untested until someone has tested it. When the daily update check broke the promise of no network calls, every sentence that made the promise was rewritten to say what was true.\n\n## What is still open\n\nSafari exposes the same web attributes as Chromium and has not been exercised yet. And because the payload's field names carry no Apple prefix, a port to another platform could write the same shape.",
+    },
+  ],
+};
+
 // Authored without `listSection`: the eyebrow is filled in below from the
 // project's homepage section so the two can never disagree.
 const SOURCES: ProjectDetailSource[] = [
   oryne,
+  locant,
   moti,
   calmmouse,
   inkwork,
