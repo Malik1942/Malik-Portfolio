@@ -37,6 +37,11 @@ describe("resume data", () => {
     }
   });
 
+  it("never calls the work solo", () => {
+    const copy = [RESUME_SUMMARY, ...entries.flatMap((e) => [e.title, e.role, e.summary ?? "", ...e.bullets])];
+    for (const line of copy) expect(line).not.toMatch(/\bsolo\b/i);
+  });
+
   it("formats the phone number the way a form expects it", () => {
     expect(RESUME_CONTACT.phone).toMatch(/^\(\d{3}\) \d{3}-\d{4}$/);
   });
@@ -60,7 +65,7 @@ describe("Resume page", () => {
     expect(document.title).toBe(RESUME_PAGE_TITLE);
 
     const h2s = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
-    expect(h2s).toEqual([...RESUME_SECTIONS.map((s) => s.heading), "Skills"]);
+    expect(h2s).toEqual(["Summary", ...RESUME_SECTIONS.map((s) => s.heading), "Skills"]);
 
     // The text stream a parser reads is the DOM order: summary, then each
     // section's entries under their own heading, then skills.
@@ -92,8 +97,11 @@ describe("Resume page", () => {
   it("gives every entry and skill group a level-3 heading and every list a real list", () => {
     const { container } = renderResume();
     const entries = RESUME_SECTIONS.flatMap((s) => s.entries);
+    const entryHeadings = RESUME_SECTIONS.flatMap((s) =>
+      s.entries.map((e) => (s.titleFirst ? `${e.title}, ${e.role}` : `${e.role}, ${e.title}`)),
+    );
     const h3s = screen.getAllByRole("heading", { level: 3 }).map((h) => h.textContent);
-    expect(h3s).toEqual([...entries.map((e) => e.title), ...RESUME_SKILLS.map((g) => g.label)]);
+    expect(h3s).toEqual([...entryHeadings, ...RESUME_SKILLS.map((g) => g.label)]);
     expect(container.querySelectorAll(".resume-skill-list li")).toHaveLength(
       RESUME_SKILLS.reduce((n, g) => n + g.items.length, 0),
     );
@@ -110,6 +118,10 @@ describe("Resume page", () => {
     expect(screen.getByRole("link", { name: RESUME_CONTACT.linkedin })).toHaveAttribute(
       "href",
       `https://${RESUME_CONTACT.linkedin}`,
+    );
+    expect(screen.getByRole("link", { name: RESUME_CONTACT.github })).toHaveAttribute(
+      "href",
+      `https://${RESUME_CONTACT.github}`,
     );
     expect(screen.getByRole("link", { name: RESUME_CONTACT.phone })).toHaveAttribute("href", "tel:+12534089312");
     const download = screen.getByRole("link", { name: /download pdf/i });

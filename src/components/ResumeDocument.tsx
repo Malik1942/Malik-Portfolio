@@ -5,22 +5,19 @@ import {
   RESUME_SECTIONS,
   RESUME_SKILLS,
   RESUME_SUMMARY,
-  RESUME_TITLE,
   type ResumeEntry,
-  type ResumeSection,
 } from "@/data/resume";
 import "@/styles/resume.css";
 
 /**
  * The resume as a document: real headings, real lists, one reading order.
  *
- * The DOM order is the order a parser should read: name, title, contact,
- * summary, Experience and Work in the main column, then Education and Skills
- * in the aside. Nothing is positioned out of flow, so the printed PDF's text
- * stream follows the same order even though the aside sits beside the main
- * column on paper. Each main entry puts the organisation and its dates on one
- * line and the role on the next, the two-line shape applicant tracking
- * systems are built to read.
+ * The DOM order is the order a parser should read: name, contact, Summary,
+ * Experience, Work, Education, Skills, in one column. Nothing is positioned
+ * out of flow, so the printed PDF's text stream follows the same order. Each
+ * entry opens with "Role, Title" (Education with "School, Degree") and its
+ * dates and place right after it, the shape applicant tracking systems are
+ * built to read.
  *
  * The Copy controls beside the email and phone exist for a recruiter pasting
  * into an applicant tracking system; they are screen-only and never print.
@@ -101,63 +98,72 @@ function CopyButton({ value, label, target }: { value: string; label: string; ta
   );
 }
 
-function Entry({ entry, compact }: { entry: ResumeEntry; compact: boolean }) {
-  const when = [entry.dates, entry.location].filter(Boolean).join(" · ");
+function Entry({ entry, titleFirst }: { entry: ResumeEntry; titleFirst: boolean }) {
   return (
     <article className="resume-entry" id={`resume-${entry.id}`}>
-      <div className="resume-entry-row">
-        <h3 className="resume-entry-title">{entry.title}</h3>
-        {compact ? null : <span className="resume-entry-when">{when}</span>}
-      </div>
-      <p className="resume-entry-role">
-        {entry.role}
-        {entry.subtitle ? <span className="resume-entry-subtitle"> · {entry.subtitle}</span> : null}
+      <h3 className="resume-entry-heading">
+        {titleFirst ? (
+          <>
+            <span className="resume-entry-lead">{entry.title}</span>, {entry.role}
+          </>
+        ) : (
+          <>
+            <span className="resume-entry-lead">{entry.role}</span>, {entry.title}
+          </>
+        )}
+      </h3>
+      <p className="resume-entry-when">
+        {entry.dates ? <span>{entry.dates}</span> : null}
+        <span>{entry.location}</span>
       </p>
-      {compact ? <p className="resume-entry-when">{when}</p> : null}
-      {entry.summary ? <p className="resume-entry-summary">{entry.summary}</p> : null}
-      {entry.bullets.length > 0 ? (
-        <ul className="resume-entry-bullets">
-          {entry.bullets.map((bullet) => (
-            <li key={bullet}>{bullet}</li>
-          ))}
-        </ul>
+      {entry.summary || entry.bullets.length > 0 ? (
+        <div className="resume-entry-body">
+          {entry.summary ? <p className="resume-entry-summary">{entry.summary}</p> : null}
+          {entry.bullets.length > 0 ? (
+            <ul className="resume-entry-bullets">
+              {entry.bullets.map((bullet) => (
+                <li key={bullet}>{bullet}</li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
       ) : null}
     </article>
   );
 }
 
-function Section({ section }: { section: ResumeSection }) {
+function Section({ id, heading, children }: { id: string; heading: string; children: React.ReactNode }) {
   return (
-    <section className="resume-section" aria-labelledby={`resume-${section.id}-heading`}>
-      <h2 id={`resume-${section.id}-heading`} className="resume-section-heading">
-        {section.heading}
+    <section className="resume-section" aria-labelledby={`resume-${id}-heading`}>
+      <h2 id={`resume-${id}-heading`} className="resume-section-heading">
+        {heading}
       </h2>
-      {section.entries.map((entry) => (
-        <Entry key={entry.id} entry={entry} compact={Boolean(section.aside)} />
-      ))}
+      {children}
     </section>
   );
 }
 
 export function ResumeDocument() {
-  const main = RESUME_SECTIONS.filter((section) => !section.aside);
-  const aside = RESUME_SECTIONS.filter((section) => section.aside);
   const phoneDigits = RESUME_CONTACT.phone.replace(/\D/g, "");
   const emailRef = useRef<HTMLAnchorElement>(null);
   const phoneRef = useRef<HTMLAnchorElement>(null);
   return (
     <article className="resume-sheet" aria-label={`${RESUME_NAME} resume`}>
       <header className="resume-head">
-        <div>
-          <h1 className="resume-name">{RESUME_NAME}</h1>
-          <p className="resume-title">{RESUME_TITLE}</p>
-        </div>
+        <h1 className="resume-name">{RESUME_NAME}</h1>
         <address className="resume-contact">
+          <span className="resume-contact-item">{RESUME_CONTACT.location}</span>
           <span className="resume-contact-item">
             <a ref={emailRef} href={`mailto:${RESUME_CONTACT.email}`}>
               {RESUME_CONTACT.email}
             </a>
             <CopyButton value={RESUME_CONTACT.email} label="email" target={emailRef} />
+          </span>
+          <span className="resume-contact-item">
+            <a ref={phoneRef} href={`tel:+1${phoneDigits}`}>
+              {RESUME_CONTACT.phone}
+            </a>
+            <CopyButton value={RESUME_CONTACT.phone} label="phone number" target={phoneRef} />
           </span>
           <span className="resume-contact-item">
             <a href={`https://${RESUME_CONTACT.site}`}>{RESUME_CONTACT.site}</a>
@@ -168,45 +174,37 @@ export function ResumeDocument() {
             </a>
           </span>
           <span className="resume-contact-item">
-            <a ref={phoneRef} href={`tel:+1${phoneDigits}`}>
-              {RESUME_CONTACT.phone}
+            <a href={`https://${RESUME_CONTACT.github}`} target="_blank" rel="noopener noreferrer">
+              {RESUME_CONTACT.github}
             </a>
-            <CopyButton value={RESUME_CONTACT.phone} label="phone number" target={phoneRef} />
           </span>
         </address>
       </header>
 
-      <p className="resume-summary">{RESUME_SUMMARY}</p>
+      <Section id="summary" heading="Summary">
+        <p className="resume-summary">{RESUME_SUMMARY}</p>
+      </Section>
 
-      <div className="resume-body">
-        <div className="resume-main">
-          {main.map((section) => (
-            <Section key={section.id} section={section} />
+      {RESUME_SECTIONS.map((section) => (
+        <Section key={section.id} id={section.id} heading={section.heading}>
+          {section.entries.map((entry) => (
+            <Entry key={entry.id} entry={entry} titleFirst={Boolean(section.titleFirst)} />
           ))}
-        </div>
+        </Section>
+      ))}
 
-        <aside className="resume-aside">
-          {aside.map((section) => (
-            <Section key={section.id} section={section} />
-          ))}
-
-          <section className="resume-section" aria-labelledby="resume-skills-heading">
-            <h2 id="resume-skills-heading" className="resume-section-heading">
-              Skills
-            </h2>
-            {RESUME_SKILLS.map((group) => (
-              <div key={group.label} className="resume-skill-group">
-                <h3 className="resume-skill-label">{group.label}</h3>
-                <ul className="resume-skill-list">
-                  {group.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </section>
-        </aside>
-      </div>
+      <Section id="skills" heading="Skills">
+        {RESUME_SKILLS.map((group) => (
+          <div key={group.label} className="resume-skill-group">
+            <h3 className="resume-skill-label">{group.label}</h3>
+            <ul className="resume-skill-list">
+              {group.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </Section>
     </article>
   );
 }

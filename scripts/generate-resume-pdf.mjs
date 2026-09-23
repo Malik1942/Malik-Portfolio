@@ -7,13 +7,13 @@
  * fonts, link annotations, and a tagged structure tree, so an applicant
  * tracking system reads it in the same order a person does. Run it after
  * any edit to the resume data or stylesheet and commit the PDF with them.
- * It refuses to write a PDF that runs past one Letter page.
+ * It refuses to keep a PDF that runs past two Letter pages.
  *
  * Requires Playwright's Chromium: npx playwright install chromium
  */
 import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
-import { stat } from "node:fs/promises";
+import { writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -22,7 +22,7 @@ const ROOT = join(__dirname, "..");
 const PORT = 5175;
 const BASE_URL = `http://localhost:${PORT}`;
 const OUT_PATH = join(ROOT, "public", "malik-resume-2026.pdf");
-const PAGE_HEIGHT_PX = 11 * 96;
+const MAX_PAGES = 2;
 
 async function waitForServer(url, timeout = 30_000) {
   const deadline = Date.now() + timeout;
@@ -59,18 +59,8 @@ async function main() {
     await page.waitForFunction(() => !document.getElementById("loading-screen"), { timeout: 10_000 });
 
     const title = await page.title();
-    const sheetHeight = await page.evaluate(
-      () => document.querySelector(".resume-sheet").getBoundingClientRect().height,
-    );
-    if (sheetHeight > PAGE_HEIGHT_PX) {
-      throw new Error(
-        `The sheet is ${Math.round(sheetHeight)}px tall in print media, more than one Letter page (${PAGE_HEIGHT_PX}px). ` +
-          "Tighten the print rules in src/styles/resume.css before regenerating; the resume is one page.",
-      );
-    }
 
-    await page.pdf({
-      path: OUT_PATH,
+    const pdf = await page.pdf({
       preferCSSPageSize: true,
       printBackground: true,
       tagged: true,
@@ -78,9 +68,19 @@ async function main() {
     });
     await browser.close();
 
-    const { size } = await stat(OUT_PATH);
+    // Chromium writes each page as its own `/Type /Page` object. Count before
+    // writing, so a failed run leaves the committed PDF alone.
+    const pages = (pdf.toString("latin1").match(/\/Type\s*\/Page\b/g) ?? []).length;
+    if (pages > MAX_PAGES) {
+      throw new Error(
+        `The resume prints to ${pages} Letter pages, more than ${MAX_PAGES}. ` +
+          "Tighten the print rules in src/styles/resume.css or the content before regenerating.",
+      );
+    }
+    await writeFile(OUT_PATH, pdf);
+
     console.log(`\nResume PDF saved → ${OUT_PATH}`);
-    console.log(`Title: ${title}; sheet ${Math.round(sheetHeight)}px of ${PAGE_HEIGHT_PX}px; ${Math.round(size / 1024)} KB`);
+    console.log(`Title: ${title}; ${pages} of ${MAX_PAGES} pages; ${Math.round(pdf.length / 1024)} KB`);
   } finally {
     server.kill("SIGTERM");
   }
