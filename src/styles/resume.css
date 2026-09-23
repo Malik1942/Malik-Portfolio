@@ -1,7 +1,7 @@
 /* The resume document.
    One stylesheet serves the /resume page and the printed PDF. Every size is
    an em of the document root, so the screen and print versions differ only
-   in that root: the sheet reads at 15px on screen and 8.5pt on paper. The
+   in that root: the sheet reads at 15px on screen and 9.5pt on paper. The
    colours are the component.resume tokens, a light palette on purpose: the
    document is paper inside the site's dark canvas.
 
@@ -9,8 +9,9 @@
    normalise U+FB02 would miss "Workflows" and "Flows" in a keyword match.
 
    Print: the sheet is the page. @page has no margin, so the padding here is
-   the printed margin and the geometry is identical in a browser's print
-   dialog and in scripts/generate-resume-pdf.mjs. */
+   the printed margin, cloned onto each page the sheet breaks across, and the
+   geometry is identical in a browser's print dialog and in
+   scripts/generate-resume-pdf.mjs. */
 
 .resume-sheet {
   background: hsl(var(--component-resume-paper));
@@ -71,14 +72,15 @@
   font-size: 0.95em;
   line-height: 1.45;
   color: hsl(var(--component-resume-ink-tertiary));
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  column-gap: 1.6em;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.2em;
   row-gap: 0.1em;
 }
 @media (min-width: 640px) {
   .resume-contact {
     text-align: right;
+    display: grid;
     grid-template-columns: 1fr;
     column-gap: 0;
   }
@@ -125,19 +127,6 @@
   margin: 1em 0 0;
   max-width: 68em;
   color: hsl(var(--component-resume-ink-secondary));
-}
-
-/* Body: the main column and, from md up, the aside beside it. */
-.resume-body {
-  display: grid;
-  grid-template-columns: 1fr;
-  column-gap: 2.6em;
-  align-items: start;
-}
-@media (min-width: 768px) {
-  .resume-body {
-    grid-template-columns: 1fr 13.5em;
-  }
 }
 
 /* Sections: a red uppercase heading over a hairline. */
@@ -204,40 +193,35 @@
   color: hsl(var(--component-resume-ink-tertiary));
 }
 
-/* Aside: Education entries stack their lines; Skills list one item per line,
-   set tighter than the gap between groups so each group reads as one unit. */
-.resume-aside .resume-entry-title {
-  font-size: 1em;
-}
-.resume-aside .resume-entry-role {
-  font-weight: var(--font-weight-regular);
-  color: hsl(var(--component-resume-ink-secondary));
-}
-.resume-aside .resume-entry-when {
-  white-space: normal;
-}
+/* Skills: each group is one run of text, "Label: item, item, item". The
+   colon and commas are drawn by the stylesheet so the data stays a list. */
 .resume-skill-group + .resume-skill-group {
-  margin-top: 1em;
+  margin-top: 0.35em;
 }
 .resume-skill-label {
-  margin: 0 0 0.2em;
+  display: inline;
+  margin: 0;
   font-size: 1em;
   font-weight: var(--font-weight-semibold);
 }
+.resume-skill-label::after {
+  content: ": ";
+}
 .resume-skill-list {
+  display: inline;
   margin: 0;
   padding: 0;
   list-style: none;
   color: hsl(var(--component-resume-ink-secondary));
 }
 .resume-skill-list li {
-  line-height: 1.3;
+  display: inline;
 }
-.resume-aside .resume-entry + .resume-entry {
-  margin-top: 0.6em;
+.resume-skill-list li + li::before {
+  content: ", ";
 }
 
-/* Print: no site chrome, the sheet is a US Letter page. */
+/* Print: no site chrome, the sheet runs to two US Letter pages at most. */
 @page {
   size: letter;
   margin: 0;
@@ -247,24 +231,27 @@
   body {
     background: hsl(var(--component-resume-paper)) !important;
   }
+  /* The site's body clips horizontal overflow, which makes it a scroll
+     container; across a page break that clips the sheet. */
+  body {
+    overflow: visible !important;
+  }
   .resume-page-chrome,
   .resume-copy {
     display: none !important;
   }
   .resume-sheet {
-    font-size: 8.5pt;
-    line-height: 1.28;
+    font-size: 9.5pt;
+    line-height: 1.3;
     width: 8.5in;
     max-width: none;
     min-height: 11in;
     margin: 0;
-    padding: 0.42in 0.5in;
+    padding: 0.5in 0.55in;
     border-radius: 0;
     box-sizing: border-box;
-  }
-  .resume-body {
-    grid-template-columns: 1fr 12.5em;
-    column-gap: 2em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
   .resume-section {
     margin-top: 1.2em;
@@ -279,7 +266,7 @@
     margin-top: 0.8em;
   }
   .resume-skill-group + .resume-skill-group {
-    margin-top: 0.8em;
+    margin-top: 0.3em;
   }
   .resume-entry,
   .resume-skill-group {

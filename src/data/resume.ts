@@ -13,19 +13,18 @@
  *   range ends in `Present`. The data test enforces the shape.
  * - Each entry is one organisation or project (`title`), one role, and one
  *   place. A subtitle carries the award or the project's one-line frame.
- * - Reading order is header, summary, Experience, Work, Education, Skills.
- *   Education and Skills sit in a side column on the printed page, but they
- *   come after the main column in the DOM, so the PDF's text stream and a
- *   screen reader both meet them last, whole, under their own headings.
+ * - Reading order is header, summary, Experience, Work, Education, Skills,
+ *   in one column on screen and on paper.
  * - Bullets are plain sentences without a trailing period. The renderer owns
  *   the list markers.
  */
 
 export interface ResumeContact {
   email: string;
+  phone: string;
   site: string;
   linkedin: string;
-  phone: string;
+  github: string;
 }
 
 export interface ResumeEntry {
@@ -45,8 +44,6 @@ export interface ResumeEntry {
 export interface ResumeSection {
   id: string;
   heading: string;
-  /** Rendered in the narrow right column beside Experience and Work, after them in reading order. */
-  aside?: boolean;
   entries: ResumeEntry[];
 }
 
@@ -61,17 +58,18 @@ export const RESUME_PDF_PATH = "/malik-resume-2026.pdf";
 /** Shown in the page's top bar so a recruiter knows the document is current. Update with the content. */
 export const RESUME_UPDATED = "Sep 2026";
 export const RESUME_DESCRIPTION =
-  "Resume of Malik Zhang, Product Designer in Seattle: experience, work, education, and skills, with a one-page PDF to download.";
+  "Resume of Malik Zhang, Product Designer in Seattle: experience, work, education, and skills, with a PDF to download.";
 
 export const RESUME_CONTACT: ResumeContact = {
   email: "Malikzhang19@gmail.com",
+  phone: "(253) 408-9312",
   site: "malikzhang.com",
   linkedin: "linkedin.com/in/malik-zhang",
-  phone: "(253) 408-9312",
+  github: "github.com/Malik1942",
 };
 
 export const RESUME_SUMMARY =
-  "Product Designer bridging HCI and Industrial Design, shipping products since 2021. Turns dense, technical data into interfaces people can act on in seconds, prototyping in code to build alongside engineers and researchers.";
+  "Product designer who ships what he designs. Two AI-native iOS apps on the App Store, a signed open-source macOS tool for coding agents, and an internal system a graduate program runs its operations on, each taken from problem framing through high-fidelity UI to production code. Trained in HCI and Industrial Design, works daily in Claude Code, Cursor, and Codex CLI, and settles design decisions by building both options and testing them rather than arguing in mockups.";
 
 export const RESUME_SECTIONS: ResumeSection[] = [
   {
@@ -79,63 +77,70 @@ export const RESUME_SECTIONS: ResumeSection[] = [
     heading: "Experience",
     entries: [
       {
-        id: "neuralyfe",
-        title: "NeuraLyfe",
+        id: "locant",
+        title: "Locant",
         role: "Product Designer",
-        subtitle: "FigBuild 2026 · 1st Place of 690 Teams · $10K Grand Prize",
-        dates: "Mar 2026",
+        dates: "Sep 2026",
         location: "Seattle, WA",
         summary:
-          "Designed an AI-enabled neurotechnology decision-support system that translates helmet impact data into real-time neurological risk insights for sideline medical staff.",
+          "Open-source macOS tool, designed and built end to end: point at one UI element in any app and hand a coding agent structured data about it instead of a screenshot. Signed, notarized, and shipped with its own launch site and three-minute film.",
         bullets: [
-          "Structured the diagnosis flow into three progressive views so non-specialist staff can act within seconds",
-          "Prototyped real-time risk monitoring in Figma Make, pairing live sensor data with AI-generated summaries",
-          "Encoded neurological metrics into visual signals and alert states readable at a glance",
-        ],
-      },
-      {
-        id: "spatial-editor",
-        title: "Spatial Editor",
-        role: "Product Designer",
-        subtitle: "Capstone Project · New Paradigm for XR Text Input",
-        dates: "Jan 2026 – Present",
-        location: "Seattle, WA",
-        summary:
-          "Designed a new interaction paradigm for text input in XR, rethinking current high-friction methods through faster, multimodal alternatives.",
-        bullets: [
-          "Defined the problem space, identifying text input as XR's highest-friction task through a competitive teardown of 2 input methods",
-          "Observed 8 Vision Pro and Quest users and ran interviews to map real-world friction patterns",
-          "Prototyped 2 interaction concepts in Xcode, converging on a multimodal model that pairs predictive AI with gaze-led targeting",
-          "Validated the model with 10 users in usability testing",
+          "Designed the whole surface, from a double-tap Control gesture and hover overlay to a five-rung fallback ladder that names which rung it reached instead of failing silently, so the tool stays honest about its own confidence",
+          "Scoped it to exactly two system permissions, Accessibility and Screen Recording, with no third prompt, no account, and no telemetry, and wrote the disclosure so a user reading the prompt can tell what never leaves the machine",
+          "Built the integration as an MCP server verified end to end with Codex CLI, Claude Code, and Cursor, and published a compatibility matrix stating what is verified and what is untested",
+          "Went from nothing to a working version in three hours and has shipped through v0.7, then measured it against the workflow it replaced across 30 runs: clarifying questions fell from 17 of 18 to 0 of 12 and median time to edit from 39s to 22s, with the method and caveats published",
         ],
       },
       {
         id: "moti-oryne",
-        title: "Moti: Plan · Oryne",
-        role: "Product Designer + iOS Developer",
-        subtitle: "Two iOS Apps Shipped Solo to the App Store",
+        title: "Moti: Plan, and Oryne",
+        role: "Product Designer",
         dates: "2025 – Present",
         location: "Seattle, WA",
         summary:
-          "Designed and built Moti, an AI-native planning tool, and Oryne, an inspiration-capture app built on frictionless, category-free thought capture.",
+          "Two AI-native iOS apps designed, built, and shipped end to end, an inspiration-capture tool and a planning tool, from concept through App Store review and the iteration that followed.",
         bullets: [
-          "Owned end-to-end design and build in SwiftUI and SwiftData, using on-device Apple Intelligence to organize captured thoughts privately, without cloud processing",
-          "Localized end-to-end for the Chinese market with a 257-key, human-reviewed Simplified Chinese localization",
+          "Designed Oryne around one decision about feel, that capturing a thought should take less time than having it, and cut everything standing between the impulse and the record",
+          "Owned flows, interactions, and visual design end to end, from interaction model to high-fidelity screens, motion, and gesture, and on to production SwiftUI",
+          "Designed the AI features so on-device intelligence behaves predictably and the user can always tell what it did, treating the feel of an AI feature as a design decision rather than a model output",
         ],
       },
       {
-        id: "aura",
-        title: "Aura",
-        role: "Product + ID",
-        subtitle: "Motion Sickness Relief System",
-        dates: "Sep 2025 – Dec 2025",
+        id: "neuralyfe",
+        title: "NeuraLyfe",
+        role: "Product Designer",
+        dates: "Mar 2026",
+        location: "Seattle, WA",
+        subtitle: "FigBuild 2026 · 1st Place of 690 Teams · $10K Grand Prize",
+        summary:
+          "Four-day build of a decision system turning a live helmet sensor stream into guidance for sideline medical staff.",
+        bullets: [
+          "Structured the stream into three progressive views readable within seconds by someone making a consequential call under pressure, on a reusable set of visual signals and states",
+          "Designed the protocol as five explicit states and decided which were advisory and which the system enforces, making removal non-overridable so a critical alert could not be dismissed in the moment",
+          "Presented the reasoning and the trade-offs behind each state to judges and cross-functional teammates",
+        ],
+      },
+      {
+        id: "uw-equipment-system",
+        title: "UW MHCI+D Equipment System",
+        role: "Product Designer",
+        dates: "Sep 2025 – Aug 2026",
         location: "Seattle, WA",
         summary:
-          "Designed a sensor-driven wearable that reduces motion sickness through anticipatory sensory feedback, intervening before symptoms onset.",
+          "Zero-to-one internal system for a graduate program, designed and launched end to end, that the program now runs its equipment operations on.",
         bullets: [
-          "Reframed relief from reactive treatment to anticipatory care, using real-time HRV data to detect early autonomic stress before discomfort begins",
-          "Designed the sensing-to-feedback loop, triggering 100 Hz sound stimulation grounded in published vestibular research on motion sickness",
-          "Defined the wearable form factor for inflight use, balancing sensor placement against long-haul wear comfort",
+          "Designed role-based access for administrators, members, and read-only users, and modeled the request and return workflow as explicit states with approvals and shift handoffs",
+          "Built the admin surface around a dense filterable table with bulk actions, then ran it as its administrator as well as its designer, so every edge case I had not designed for came back to me",
+        ],
+      },
+      {
+        id: "inkwork-calmmouse",
+        title: "Inkwork and CalmMouse",
+        role: "Product Designer",
+        dates: "2026",
+        location: "Seattle, WA",
+        bullets: [
+          "Two open-source products built end to end, each with its own visual language and launch site: Inkwork, a styled QR code generator in React, TypeScript, and Vite, redesigned from an AI-generated first draft into a product with a point of view; and CalmMouse, a Swift macOS utility built with Claude Code",
         ],
       },
     ],
@@ -148,13 +153,9 @@ export const RESUME_SECTIONS: ResumeSection[] = [
         id: "uw-mhcid",
         title: "UW MHCI+D",
         role: "Technology and Equipment Manager",
-        dates: "Sep 2025 – Present",
+        dates: "Sep 2025 – Aug 2026",
         location: "Seattle, WA",
-        bullets: [
-          "Designed an online inventory system to streamline access to equipment",
-          "Supported prototyping and equipment access for student design work",
-          "Maintained studio technology operations for project development",
-        ],
+        bullets: ["Ran the program's equipment operations and designed and launched the system above to run them"],
       },
       {
         id: "ikea",
@@ -163,19 +164,17 @@ export const RESUME_SECTIONS: ResumeSection[] = [
         dates: "Mar 2025 – Aug 2025",
         location: "Hangzhou, China",
         bullets: [
-          "Contributed to interaction design for retail and service experiences, supporting accessible, user-centered solutions",
-          "Supported research and concept development with cross-functional partners",
+          "Contributed interaction design for retail and service experiences, working with cross-functional product and engineering partners",
         ],
       },
       {
         id: "focused-photonics",
-        title: "Focused Photonics Inc.",
+        title: "Focused Photonics",
         role: "Product Designer Intern",
         dates: "Jun 2024 – Sep 2024",
         location: "Hangzhou, China",
         bullets: [
-          "Contributed to form and interaction design for monitoring devices",
-          "Translated technical requirements into usable product concepts",
+          "Designed form and interaction for monitoring instruments, translating technical constraints into usable product concepts",
         ],
       },
     ],
@@ -183,19 +182,18 @@ export const RESUME_SECTIONS: ResumeSection[] = [
   {
     id: "education",
     heading: "Education",
-    aside: true,
     entries: [
       {
         id: "uw",
         title: "University of Washington",
-        role: "Master of Human Computer Interaction + Design",
+        role: "MHCI+D in Human Computer Interaction + Design",
         location: "Seattle, WA",
         bullets: [],
       },
       {
         id: "zjut",
         title: "Zhejiang University of Technology",
-        role: "B.E., Industrial Design",
+        role: "B.E. in Industrial Design",
         location: "Hangzhou, China",
         bullets: [],
       },
@@ -205,62 +203,59 @@ export const RESUME_SECTIONS: ResumeSection[] = [
 
 export const RESUME_SKILLS: ResumeSkillGroup[] = [
   {
-    label: "Strategy",
-    items: [
-      "Problem Framing",
-      "Product Strategy",
-      "Opportunity Mapping",
-      "Design Principles",
-      "Trade-off Analysis",
-      "Storytelling, Critique",
-      "Stakeholder Alignment",
-    ],
-  },
-  {
-    label: "Design",
+    label: "Craft",
     items: [
       "End-to-End Product Design",
       "Interaction Design",
-      "Data-Dense Interfaces",
-      "Data Visualization",
-      "Information Design",
-      "Query, Filter, Alert Flows",
-      "Systems Thinking",
-      "Design Systems",
+      "Visual Design",
+      "Motion and Transitions",
+      "Typography and Layout",
+      "Information Architecture",
       "Accessibility (WCAG)",
-      "Rapid Prototyping",
     ],
+  },
+  {
+    label: "Designing for AI Systems",
+    items: [
+      "AI Features as Core UX",
+      "Predictable Behavior for Non-Deterministic Systems",
+      "Confidence and Fallback Reporting",
+      "Override and Enforcement Decisions",
+      "Agent Integration (MCP)",
+    ],
+  },
+  {
+    label: "Shipping in Code",
+    items: [
+      "Swift",
+      "SwiftUI",
+      "Xcode",
+      "React",
+      "TypeScript",
+      "Vite",
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Python",
+      "Git and GitHub",
+      "App Store and Signed macOS Release",
+    ],
+  },
+  {
+    label: "AI-First Workflow",
+    items: ["Claude Code", "Cursor", "Codex CLI", "Figma Make", "Spec and Context Engineering"],
   },
   {
     label: "Research",
     items: [
-      "User Research, Interviews",
-      "Research Synthesis",
-      "Usability Testing, A/B",
-      "Product and Usage Metrics",
-      "Contextual Inquiry",
-      "Competitive Analysis",
-      "Journey Maps, User Flows",
-    ],
-  },
-  {
-    label: "AI Workflows",
-    items: [
-      "AI-Native Product Design",
-      "Human-AI Interaction",
-      "AI Prototyping, Ideation",
-      "LLM Design Workflows",
-      "Claude Code, Cursor, Codex",
+      "Moderated Usability Testing",
+      "User Interviews",
+      "Contextual Observation",
+      "Controlled Comparison Studies",
     ],
   },
   {
     label: "Tools",
-    items: [
-      "Figma, Figma Make",
-      "Xcode, SwiftUI, Unity",
-      "HTML, CSS, Arduino",
-      "Photoshop, After Effects",
-      "Premiere Pro, Keyshot",
-    ],
+    items: ["Figma", "Figma Make", "Photoshop", "After Effects", "Rhino", "Keyshot"],
   },
 ];

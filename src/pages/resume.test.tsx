@@ -37,6 +37,14 @@ describe("resume data", () => {
     }
   });
 
+  it("never calls the work solo", () => {
+    const copy = [
+      RESUME_SUMMARY,
+      ...entries.flatMap((e) => [e.title, e.role, e.subtitle ?? "", e.summary ?? "", ...e.bullets]),
+    ];
+    for (const line of copy) expect(line).not.toMatch(/\bsolo\b/i);
+  });
+
   it("formats the phone number the way a form expects it", () => {
     expect(RESUME_CONTACT.phone).toMatch(/^\(\d{3}\) \d{3}-\d{4}$/);
   });
@@ -110,6 +118,10 @@ describe("Resume page", () => {
     expect(screen.getByRole("link", { name: RESUME_CONTACT.linkedin })).toHaveAttribute(
       "href",
       `https://${RESUME_CONTACT.linkedin}`,
+    );
+    expect(screen.getByRole("link", { name: RESUME_CONTACT.github })).toHaveAttribute(
+      "href",
+      `https://${RESUME_CONTACT.github}`,
     );
     expect(screen.getByRole("link", { name: RESUME_CONTACT.phone })).toHaveAttribute("href", "tel:+12534089312");
     const download = screen.getByRole("link", { name: /download pdf/i });
