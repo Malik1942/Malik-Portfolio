@@ -11,7 +11,7 @@ export const tokenSourceCommit =
     : "development";
 export const tokenBundle: TokenBundle = {
   "schemaVersion": 1,
-  "tokenHash": "cf35cd9e",
+  "tokenHash": "a7ca9558",
   "documents": {
     "primitive.tokens.json": {
       "color": {
@@ -142,6 +142,18 @@ export const tokenBundle: TokenBundle = {
               ],
               "hex": "#db4348"
             }
+          },
+          "resume": {
+            "$description": "Deep red that sections the resume on white paper; the one accent the document carries.",
+            "$value": {
+              "colorSpace": "hsl",
+              "components": [
+                0.3,
+                100,
+                40
+              ],
+              "hex": "#cc0100"
+            }
           }
         },
         "gold": {
@@ -245,21 +257,6 @@ export const tokenBundle: TokenBundle = {
                 5
               ],
               "hex": "#0c0c0d"
-            }
-          },
-          "$type": "color"
-        },
-        "green": {
-          "700": {
-            "$description": "Deep green that sections the resume on white paper; the one accent the document carries.",
-            "$value": {
-              "colorSpace": "hsl",
-              "components": [
-                158,
-                100,
-                23
-              ],
-              "hex": "#00754a"
             }
           },
           "$type": "color"
@@ -1001,7 +998,7 @@ export const tokenBundle: TokenBundle = {
           "accent": {
             "$type": "color",
             "$description": "Section headings and the title line, the resume's one accent.",
-            "$value": "{color.green.700}"
+            "$value": "{color.red.resume}"
           },
           "rule": {
             "$type": "color",
@@ -1391,35 +1388,6 @@ export const tokenBundle: TokenBundle = {
       ]
     },
     {
-      "path": "color.green.700",
-      "sourceFile": "primitive.tokens.json",
-      "type": "color",
-      "value": {
-        "colorSpace": "hsl",
-        "components": [
-          158,
-          100,
-          23
-        ],
-        "hex": "#00754a"
-      },
-      "resolvedValue": {
-        "colorSpace": "hsl",
-        "components": [
-          158,
-          100,
-          23
-        ],
-        "hex": "#00754a"
-      },
-      "description": "Deep green that sections the resume on white paper; the one accent the document carries.",
-      "cssVariable": "--color-green-700",
-      "cssValue": "158 100% 23%",
-      "dependents": [
-        "component.resume.accent"
-      ]
-    },
-    {
       "path": "color.neutral.000",
       "sourceFile": "primitive.tokens.json",
       "type": "color",
@@ -1662,6 +1630,35 @@ export const tokenBundle: TokenBundle = {
       "cssValue": "3 82% 53%",
       "dependents": [
         "color.action.destructive"
+      ]
+    },
+    {
+      "path": "color.red.resume",
+      "sourceFile": "primitive.tokens.json",
+      "type": "color",
+      "value": {
+        "colorSpace": "hsl",
+        "components": [
+          0.3,
+          100,
+          40
+        ],
+        "hex": "#cc0100"
+      },
+      "resolvedValue": {
+        "colorSpace": "hsl",
+        "components": [
+          0.3,
+          100,
+          40
+        ],
+        "hex": "#cc0100"
+      },
+      "description": "Deep red that sections the resume on white paper; the one accent the document carries.",
+      "cssVariable": "--color-red-resume",
+      "cssValue": "0.3 100% 40%",
+      "dependents": [
+        "component.resume.accent"
       ]
     },
     {
@@ -2294,20 +2291,20 @@ export const tokenBundle: TokenBundle = {
       "path": "component.resume.accent",
       "sourceFile": "component.tokens.json",
       "type": "color",
-      "value": "{color.green.700}",
+      "value": "{color.red.resume}",
       "resolvedValue": {
         "colorSpace": "hsl",
         "components": [
-          158,
+          0.3,
           100,
-          23
+          40
         ],
-        "hex": "#00754a"
+        "hex": "#cc0100"
       },
       "description": "Section headings and the title line, the resume's one accent.",
       "cssVariable": "--component-resume-accent",
-      "cssValue": "158 100% 23%",
-      "aliasOf": "color.green.700",
+      "cssValue": "0.3 100% 40%",
+      "aliasOf": "color.red.resume",
       "dependents": []
     },
     {
