@@ -16,7 +16,6 @@
   --color-focus-ring: 40 6% 90% / 0.4;
   --color-focus-ring-strong: 40 6% 90% / 0.6;
   --color-gold-500: 36 40% 60%;
-  --color-green-700: 158 100% 23%;
   --color-neutral-000: 0 0% 100%;
   --color-neutral-1000: 0 0% 0%;
   --color-neutral-820: 0 0% 14%;
@@ -25,6 +24,7 @@
   --color-neutral-925: 0 0% 6%;
   --color-neutral-950: 0 0% 4%;
   --color-red-danger: 3 82% 53%;
+  --color-red-resume: 0.3 100% 40%;
   --color-red-selected-work: 358 68% 56%;
   --color-slate-400: 215 20.22% 65.1%;
   --color-status-positive: 158.11 64.37% 51.57%;
@@ -54,7 +54,7 @@
   --component-project-card-lens-dim: 0.3;
   --component-project-card-rest-dim: 0.88;
   --component-project-card-surface: 0 0% 8% / 0.15;
-  --component-resume-accent: 158 100% 23%;
+  --component-resume-accent: 0.3 100% 40%;
   --component-resume-ink: 0 0% 8%;
   --component-resume-ink-secondary: 0 0% 8% / 0.72;
   --component-resume-ink-tertiary: 0 0% 8% / 0.55;

@@ -131,7 +131,7 @@
       "accent": {
         "$type": "color",
         "$description": "Section headings and the title line, the resume's one accent.",
-        "$value": "{color.green.700}"
+        "$value": "{color.red.resume}"
       },
       "rule": {
         "$type": "color",
