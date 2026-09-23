@@ -11,17 +11,15 @@
  * Conventions that keep the document parseable:
  * - Dates are `Mon YYYY` or `YYYY`, ranges join with an en dash, and an open
  *   range ends in `Present`. The data test enforces the shape.
- * - Each entry is one role at one organisation or project, in one place. Its
- *   heading reads "Role, Title", the shape applicant tracking systems expect;
- *   Education reads "School, Degree".
- * - Reading order is header, Summary, Experience, Work, Education, Skills, in
- *   one column on screen and on paper.
+ * - Each entry is one organisation or project (`title`), one role, and one
+ *   place. A subtitle carries the award or the project's one-line frame.
+ * - Reading order is header, summary, Experience, Work, Education, Skills,
+ *   in one column on screen and on paper.
  * - Bullets are plain sentences without a trailing period. The renderer owns
  *   the list markers.
  */
 
 export interface ResumeContact {
-  location: string;
   email: string;
   phone: string;
   site: string;
@@ -31,9 +29,11 @@ export interface ResumeContact {
 
 export interface ResumeEntry {
   id: string;
-  /** Organisation or project name; follows the role in the entry's heading. */
+  /** Organisation or project name; the entry's heading. */
   title: string;
   role: string;
+  /** Award line or one-line frame under the role. */
+  subtitle?: string;
   /** `Mon YYYY`, `YYYY`, or a range of either joined by an en dash. Education carries none by choice. */
   dates?: string;
   location: string;
@@ -44,8 +44,6 @@ export interface ResumeEntry {
 export interface ResumeSection {
   id: string;
   heading: string;
-  /** Lead each heading with the title, "School, Degree", instead of "Role, Title". */
-  titleFirst?: boolean;
   entries: ResumeEntry[];
 }
 
@@ -55,6 +53,7 @@ export interface ResumeSkillGroup {
 }
 
 export const RESUME_NAME = "Malik Zhang";
+export const RESUME_TITLE = "Product Designer";
 export const RESUME_PDF_PATH = "/malik-resume-2026.pdf";
 /** Shown in the page's top bar so a recruiter knows the document is current. Update with the content. */
 export const RESUME_UPDATED = "Sep 2026";
@@ -62,7 +61,6 @@ export const RESUME_DESCRIPTION =
   "Resume of Malik Zhang, Product Designer in Seattle: experience, work, education, and skills, with a PDF to download.";
 
 export const RESUME_CONTACT: ResumeContact = {
-  location: "Seattle, WA",
   email: "Malikzhang19@gmail.com",
   phone: "(253) 408-9312",
   site: "malikzhang.com",
@@ -113,8 +111,9 @@ export const RESUME_SECTIONS: ResumeSection[] = [
         role: "Product Designer",
         dates: "Mar 2026",
         location: "Seattle, WA",
+        subtitle: "FigBuild 2026 · 1st Place of 690 Teams · $10K Grand Prize",
         summary:
-          "FigBuild 2026, 1st Place of 690 Teams, $10K Grand Prize. Four-day build of a decision system turning a live helmet sensor stream into guidance for sideline medical staff.",
+          "Four-day build of a decision system turning a live helmet sensor stream into guidance for sideline medical staff.",
         bullets: [
           "Structured the stream into three progressive views readable within seconds by someone making a consequential call under pressure, on a reusable set of visual signals and states",
           "Designed the protocol as five explicit states and decided which were advisory and which the system enforces, making removal non-overridable so a critical alert could not be dismissed in the moment",
@@ -183,7 +182,6 @@ export const RESUME_SECTIONS: ResumeSection[] = [
   {
     id: "education",
     heading: "Education",
-    titleFirst: true,
     entries: [
       {
         id: "uw",

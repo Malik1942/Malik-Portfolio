@@ -39,7 +39,7 @@ const Resume = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background print:bg-transparent flex flex-col">
       <div className="resume-page-chrome flex items-center justify-between gap-4 px-6 md:px-10 py-4 border-b border-hairline bg-background z-10">
         <BackLink onClick={() => navigate("/")} aria-label="Back to home" family="mono">
           Back

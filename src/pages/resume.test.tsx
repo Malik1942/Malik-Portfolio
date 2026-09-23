@@ -38,7 +38,10 @@ describe("resume data", () => {
   });
 
   it("never calls the work solo", () => {
-    const copy = [RESUME_SUMMARY, ...entries.flatMap((e) => [e.title, e.role, e.summary ?? "", ...e.bullets])];
+    const copy = [
+      RESUME_SUMMARY,
+      ...entries.flatMap((e) => [e.title, e.role, e.subtitle ?? "", e.summary ?? "", ...e.bullets]),
+    ];
     for (const line of copy) expect(line).not.toMatch(/\bsolo\b/i);
   });
 
@@ -65,7 +68,7 @@ describe("Resume page", () => {
     expect(document.title).toBe(RESUME_PAGE_TITLE);
 
     const h2s = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
-    expect(h2s).toEqual(["Summary", ...RESUME_SECTIONS.map((s) => s.heading), "Skills"]);
+    expect(h2s).toEqual([...RESUME_SECTIONS.map((s) => s.heading), "Skills"]);
 
     // The text stream a parser reads is the DOM order: summary, then each
     // section's entries under their own heading, then skills.
@@ -97,11 +100,8 @@ describe("Resume page", () => {
   it("gives every entry and skill group a level-3 heading and every list a real list", () => {
     const { container } = renderResume();
     const entries = RESUME_SECTIONS.flatMap((s) => s.entries);
-    const entryHeadings = RESUME_SECTIONS.flatMap((s) =>
-      s.entries.map((e) => (s.titleFirst ? `${e.title}, ${e.role}` : `${e.role}, ${e.title}`)),
-    );
     const h3s = screen.getAllByRole("heading", { level: 3 }).map((h) => h.textContent);
-    expect(h3s).toEqual([...entryHeadings, ...RESUME_SKILLS.map((g) => g.label)]);
+    expect(h3s).toEqual([...entries.map((e) => e.title), ...RESUME_SKILLS.map((g) => g.label)]);
     expect(container.querySelectorAll(".resume-skill-list li")).toHaveLength(
       RESUME_SKILLS.reduce((n, g) => n + g.items.length, 0),
     );

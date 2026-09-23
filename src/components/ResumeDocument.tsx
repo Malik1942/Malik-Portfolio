@@ -5,18 +5,20 @@ import {
   RESUME_SECTIONS,
   RESUME_SKILLS,
   RESUME_SUMMARY,
+  RESUME_TITLE,
   type ResumeEntry,
+  type ResumeSection,
 } from "@/data/resume";
 import "@/styles/resume.css";
 
 /**
  * The resume as a document: real headings, real lists, one reading order.
  *
- * The DOM order is the order a parser should read: name, contact, Summary,
- * Experience, Work, Education, Skills, in one column. Nothing is positioned
- * out of flow, so the printed PDF's text stream follows the same order. Each
- * entry opens with "Role, Title" (Education with "School, Degree") and its
- * dates and place right after it, the shape applicant tracking systems are
+ * The DOM order is the order a parser should read: name, title, contact,
+ * summary, then Experience, Work, Education, and Skills in one column. Nothing
+ * is positioned out of flow, so the printed PDF's text stream follows the
+ * same order. Each entry puts the organisation and its dates on one line and
+ * the role on the next, the two-line shape applicant tracking systems are
  * built to read.
  *
  * The Copy controls beside the email and phone exist for a recruiter pasting
@@ -98,47 +100,39 @@ function CopyButton({ value, label, target }: { value: string; label: string; ta
   );
 }
 
-function Entry({ entry, titleFirst }: { entry: ResumeEntry; titleFirst: boolean }) {
+function Entry({ entry }: { entry: ResumeEntry }) {
+  const when = [entry.dates, entry.location].filter(Boolean).join(" · ");
   return (
     <article className="resume-entry" id={`resume-${entry.id}`}>
-      <h3 className="resume-entry-heading">
-        {titleFirst ? (
-          <>
-            <span className="resume-entry-lead">{entry.title}</span>, {entry.role}
-          </>
-        ) : (
-          <>
-            <span className="resume-entry-lead">{entry.role}</span>, {entry.title}
-          </>
-        )}
-      </h3>
-      <p className="resume-entry-when">
-        {entry.dates ? <span>{entry.dates}</span> : null}
-        <span>{entry.location}</span>
+      <div className="resume-entry-row">
+        <h3 className="resume-entry-title">{entry.title}</h3>
+        <span className="resume-entry-when">{when}</span>
+      </div>
+      <p className="resume-entry-role">
+        {entry.role}
+        {entry.subtitle ? <span className="resume-entry-subtitle"> · {entry.subtitle}</span> : null}
       </p>
-      {entry.summary || entry.bullets.length > 0 ? (
-        <div className="resume-entry-body">
-          {entry.summary ? <p className="resume-entry-summary">{entry.summary}</p> : null}
-          {entry.bullets.length > 0 ? (
-            <ul className="resume-entry-bullets">
-              {entry.bullets.map((bullet) => (
-                <li key={bullet}>{bullet}</li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
+      {entry.summary ? <p className="resume-entry-summary">{entry.summary}</p> : null}
+      {entry.bullets.length > 0 ? (
+        <ul className="resume-entry-bullets">
+          {entry.bullets.map((bullet) => (
+            <li key={bullet}>{bullet}</li>
+          ))}
+        </ul>
       ) : null}
     </article>
   );
 }
 
-function Section({ id, heading, children }: { id: string; heading: string; children: React.ReactNode }) {
+function Section({ section }: { section: ResumeSection }) {
   return (
-    <section className="resume-section" aria-labelledby={`resume-${id}-heading`}>
-      <h2 id={`resume-${id}-heading`} className="resume-section-heading">
-        {heading}
+    <section className="resume-section" aria-labelledby={`resume-${section.id}-heading`}>
+      <h2 id={`resume-${section.id}-heading`} className="resume-section-heading">
+        {section.heading}
       </h2>
-      {children}
+      {section.entries.map((entry) => (
+        <Entry key={entry.id} entry={entry} />
+      ))}
     </section>
   );
 }
@@ -150,20 +144,16 @@ export function ResumeDocument() {
   return (
     <article className="resume-sheet" aria-label={`${RESUME_NAME} resume`}>
       <header className="resume-head">
-        <h1 className="resume-name">{RESUME_NAME}</h1>
+        <div>
+          <h1 className="resume-name">{RESUME_NAME}</h1>
+          <p className="resume-title">{RESUME_TITLE}</p>
+        </div>
         <address className="resume-contact">
-          <span className="resume-contact-item">{RESUME_CONTACT.location}</span>
           <span className="resume-contact-item">
             <a ref={emailRef} href={`mailto:${RESUME_CONTACT.email}`}>
               {RESUME_CONTACT.email}
             </a>
             <CopyButton value={RESUME_CONTACT.email} label="email" target={emailRef} />
-          </span>
-          <span className="resume-contact-item">
-            <a ref={phoneRef} href={`tel:+1${phoneDigits}`}>
-              {RESUME_CONTACT.phone}
-            </a>
-            <CopyButton value={RESUME_CONTACT.phone} label="phone number" target={phoneRef} />
           </span>
           <span className="resume-contact-item">
             <a href={`https://${RESUME_CONTACT.site}`}>{RESUME_CONTACT.site}</a>
@@ -178,22 +168,25 @@ export function ResumeDocument() {
               {RESUME_CONTACT.github}
             </a>
           </span>
+          <span className="resume-contact-item">
+            <a ref={phoneRef} href={`tel:+1${phoneDigits}`}>
+              {RESUME_CONTACT.phone}
+            </a>
+            <CopyButton value={RESUME_CONTACT.phone} label="phone number" target={phoneRef} />
+          </span>
         </address>
       </header>
 
-      <Section id="summary" heading="Summary">
-        <p className="resume-summary">{RESUME_SUMMARY}</p>
-      </Section>
+      <p className="resume-summary">{RESUME_SUMMARY}</p>
 
       {RESUME_SECTIONS.map((section) => (
-        <Section key={section.id} id={section.id} heading={section.heading}>
-          {section.entries.map((entry) => (
-            <Entry key={entry.id} entry={entry} titleFirst={Boolean(section.titleFirst)} />
-          ))}
-        </Section>
+        <Section key={section.id} section={section} />
       ))}
 
-      <Section id="skills" heading="Skills">
+      <section className="resume-section" aria-labelledby="resume-skills-heading">
+        <h2 id="resume-skills-heading" className="resume-section-heading">
+          Skills
+        </h2>
         {RESUME_SKILLS.map((group) => (
           <div key={group.label} className="resume-skill-group">
             <h3 className="resume-skill-label">{group.label}</h3>
@@ -204,7 +197,7 @@ export function ResumeDocument() {
             </ul>
           </div>
         ))}
-      </Section>
+      </section>
     </article>
   );
 }
