@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 import { Link } from "react-router-dom";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useIsBelow, useIsMobile } from "@/hooks/useIsMobile";
+import { useCanHover } from "@/hooks/useCanHover";
 import { usePageLoaded } from "@/hooks/usePageLoaded";
 import { noOrphan } from "@/lib/noOrphan";
 import { SECTIONS, type SectionKey } from "@/lib/sections";
@@ -131,9 +132,12 @@ const CardMedia = ({
   const shouldReduceMotion = useReducedMotion();
   const hasVideo = !!project.coverVideo && !shouldReduceMotion;
   // Layered hover motion, for a cover that animates one of its own elements
-  // instead of playing a reel. Reduced motion drops back to the flat cover.
+  // instead of playing a reel. Reduced motion drops back to the flat cover, and
+  // so does a touch screen: with no hover to bring the mark in, the layered
+  // cover would be a title card that never shows its title.
+  const canHover = useCanHover();
   const hasMark =
-    !hasVideo && !shouldReduceMotion && !!project.coverPlate && !!project.coverMark;
+    !hasVideo && !shouldReduceMotion && canHover && !!project.coverPlate && !!project.coverMark;
 
   // ── Cover video playback ──
   // Hover-only, and it does not loop. Arrival is not a request to watch the
