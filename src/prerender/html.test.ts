@@ -14,10 +14,10 @@ const SHELL = `<!doctype html><html><head>
 <meta property="og:title" content="Home – Site">
 <meta property="og:description" content="Home description">
 <meta property="og:url" content="https://www.malikzhang.com">
-<meta property="og:image" content="https://www.malikzhang.com/og-image.png">
+<meta property="og:image" content="https://www.malikzhang.com/og-image.jpg">
 <meta name="twitter:title" content="Home – Site">
 <meta name="twitter:description" content="Home description">
-<meta name="twitter:image" content="https://www.malikzhang.com/og-image.png">
+<meta name="twitter:image" content="https://www.malikzhang.com/og-image.jpg">
 </head><body><div id="root"></div></body></html>`;
 
 describe("applyRouteMeta", () => {
@@ -46,7 +46,7 @@ describe("applyRouteMeta", () => {
     expect(html).toContain('<meta name="description" content="Home description">');
     expect(html).toContain('<link rel="canonical" href="https://www.malikzhang.com/about">');
     expect(html).toContain('<meta property="og:url" content="https://www.malikzhang.com/about">');
-    expect(html).toContain('<meta property="og:image" content="https://www.malikzhang.com/og-image.png">');
+    expect(html).toContain('<meta property="og:image" content="https://www.malikzhang.com/og-image.jpg">');
   });
 
   it("fails the build when the shell has lost a tag", () => {
