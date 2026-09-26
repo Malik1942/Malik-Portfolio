@@ -81,6 +81,14 @@ interface ProjectListProps {
 // rows do not use it — they stay at each cover's own shape.
 const GRID_COVER_ASPECT = "16/9";
 
+// A Selected Work frame plays its cover motion once by itself when the visitor
+// settles on it. "Settles" is most of the frame on screen for a moment: a flick
+// or a hero-dot jump carries a frame through that zone in about 150ms, so a
+// frame that is only passing never starts, while one the visitor has stopped
+// on starts after a beat, which reads as the card answering the arrival.
+export const AUTOPLAY_DWELL_MS = 300;
+const AUTOPLAY_AMOUNT = 0.6;
+
 // ─── Media helper (shared) ────────────────────────────────────────────────────
 // Default: w-full h-auto — container scales to the image's natural ratio.
 // When aspectRatio is provided the container uses that fixed ratio with object-cover,
@@ -91,6 +99,7 @@ const CardMedia = ({
   aspectRatio,
   cornerGlyph,
   overlay,
+  autoplayOnce = false,
   marginClass = "mb-6",
 }: {
   project: ProjectCardData;
@@ -101,6 +110,9 @@ const CardMedia = ({
   /** Something laid over the whole frame, inside its rounded clip (the
    *  hover caption). Rendered above the hover tint. */
   overlay?: ReactNode;
+  /** Play the cover motion once by itself on the first settled arrival
+   *  (Selected Work). Everywhere else the cover waits for hover. */
+  autoplayOnce?: boolean;
   marginClass?: string;
 }) => {
   const forced = !!aspectRatio;
@@ -140,8 +152,9 @@ const CardMedia = ({
     !hasVideo && !shouldReduceMotion && canHover && !!project.coverPlate && !!project.coverMark;
 
   // ── Cover video playback ──
-  // Hover-only, and it does not loop. Arrival is not a request to watch the
-  // reel; hovering is. The clip is fetched once the card is within a viewport
+  // Driven by hover, and it does not loop. The one exception is Selected Work,
+  // which plays each reel once by itself (see "Once by itself" below). The clip
+  // is fetched once the card is within a viewport
   // of the screen (or the pointer enters), so hover can start without waiting
   // on the download. Latched: once fetching, it stays fetched — leaving the
   // neighbourhood must never yank the src back out of a video that may already
@@ -167,12 +180,31 @@ const CardMedia = ({
     const still = stillRef.current;
     if (still && still.complete && still.naturalWidth > 0) setStillLoaded(true);
   }, []);
+
+  // ── Once by itself ──
+  // Selected Work on a device that can hover: the first time the visitor
+  // settles on the frame, the reel plays through once, or Aura's wordmark
+  // reveals. The reels close on their own title card, so a reel that has run
+  // through rests on its last frame instead of cutting back to the still, and
+  // the revealed wordmark stays, for the same reason: both end on the cover.
+  // After that the card belongs to hover again. Scrolling the frame fully
+  // away mid-reel parks it on the still, and the next settled arrival plays
+  // it again: "once" means once seen through. The pointer crossing the card
+  // while the reel plays does not cut it. Touch screens are out: the site's
+  // desktop motion is hover, and a phone gets the flat cover.
+  const autoplays = autoplayOnce && canHover && (hasVideo || hasMark);
+  const mostlyOnScreen = useInView(mediaRef, { amount: AUTOPLAY_AMOUNT });
+  const onScreen = useInView(mediaRef);
+  const [autoplay, setAutoplay] = useState<"waiting" | "playing" | "done">("waiting");
+  // The reel ran through by itself and is holding its closing frame.
+  const [resting, setResting] = useState(false);
+
   const [fetchVideo, setFetchVideo] = useState(false);
   useEffect(() => {
-    if (hasVideo && (hovered || (mediaNear && pageLoaded && stillLoaded))) {
+    if (hasVideo && (hovered || autoplay === "playing" || (mediaNear && pageLoaded && stillLoaded))) {
       setFetchVideo(true);
     }
-  }, [hasVideo, mediaNear, hovered, pageLoaded, stillLoaded]);
+  }, [hasVideo, mediaNear, hovered, autoplay, pageLoaded, stillLoaded]);
 
   const playFromStart = useCallback(() => {
     const video = videoRef.current;
@@ -184,13 +216,15 @@ const CardMedia = ({
   // Play on the pointer *entering* the card, not on every render where it
   // happens to already be inside — otherwise a re-render mid-reel restarts it.
   // Leaving pauses and rewinds; the still on top is what the visitor sees.
+  // A reel that is playing by itself is left alone either way.
   const wasHovered = useRef(false);
   useEffect(() => {
     const entered = hovered && !wasHovered.current;
     const left = !hovered && wasHovered.current;
     wasHovered.current = hovered;
-    if (!hasVideo) return;
+    if (!hasVideo || autoplay === "playing") return;
     if (entered) {
+      setResting(false);
       playFromStart();
       return;
     }
@@ -200,18 +234,53 @@ const CardMedia = ({
       video.pause();
       video.currentTime = 0;
     }
-  }, [hovered, hasVideo, playFromStart]);
+  }, [hovered, hasVideo, autoplay, playFromStart]);
+
+  // Settled arrival: start after the dwell, unless the frame moves on first.
+  // A pointer already on the card has started the reel through hover, so the
+  // arrival only counts it as played.
+  useEffect(() => {
+    if (!autoplays || !pageLoaded || !mostlyOnScreen || autoplay !== "waiting") return;
+    const timer = setTimeout(() => {
+      setAutoplay(hasVideo && !wasHovered.current ? "playing" : "done");
+    }, AUTOPLAY_DWELL_MS);
+    return () => clearTimeout(timer);
+  }, [autoplays, pageLoaded, mostlyOnScreen, autoplay, hasVideo]);
+
+  useEffect(() => {
+    if (autoplay === "playing") playFromStart();
+  }, [autoplay, playFromStart]);
+
+  // Scrolled fully away mid-reel: park on the still, and let the next settled
+  // arrival play it again.
+  useEffect(() => {
+    if (autoplay !== "playing" || onScreen) return;
+    const video = videoRef.current;
+    if (video) {
+      video.pause();
+      video.currentTime = 0;
+    }
+    setAutoplay("waiting");
+  }, [autoplay, onScreen]);
+
+  const handleEnded = () => {
+    if (autoplay !== "playing") return;
+    setAutoplay("done");
+    setResting(true);
+  };
 
   // The play request above can come before the fetch gate has opened (a hover
   // in the first second of a visit), and then it found a video with no src.
-  // Start the reel the moment the src is attached, if the pointer is still on
-  // the card.
+  // Start the reel the moment the src is attached, if it is still wanted.
   const wasFetching = useRef(false);
   useEffect(() => {
     const attached = fetchVideo && !wasFetching.current;
     wasFetching.current = fetchVideo;
-    if (attached && hovered) playFromStart();
-  }, [fetchVideo, hovered, playFromStart]);
+    if (attached && (hovered || autoplay === "playing")) playFromStart();
+  }, [fetchVideo, hovered, autoplay, playFromStart]);
+
+  const reelShowing = hovered || autoplay === "playing" || resting;
+  const markShown = hovered || (autoplays && autoplay === "done");
 
   // No lift on hover. The cover used to scale up 3% while the pointer was
   // on it; with the caption now living inside the frame the picture is the
@@ -231,6 +300,7 @@ const CardMedia = ({
             src={fetchVideo ? project.coverVideo : undefined}
             poster={project.coverImage}
             muted playsInline preload="auto"
+            onEnded={handleEnded}
             className={mediaClass}
           />
           {project.coverImage ? (
@@ -243,7 +313,7 @@ const CardMedia = ({
               // A still that fails must not hold the reel back forever.
               onError={() => setStillLoaded(true)}
               className={`${mediaClass} pointer-events-none absolute inset-0`}
-              style={{ opacity: hovered ? 0 : 1 }}
+              style={{ opacity: reelShowing ? 0 : 1 }}
             />
           ) : null}
         </>
@@ -271,13 +341,14 @@ const CardMedia = ({
             loading="lazy"
             decoding="async"
             className={`${mediaClass} pointer-events-none absolute inset-0`}
+            data-mark={markShown ? "shown" : "hidden"}
             initial={false}
             // Only opacity and the wipe are animated: neither layer moves, so
             // the mark stays in register with the photograph it was matted
             // out of.
             animate={{
-              opacity: hovered ? 1 : 0,
-              clipPath: hovered ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",
+              opacity: markShown ? 1 : 0,
+              clipPath: markShown ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",
             }}
             transition={{
               opacity: MOTION.fade,
@@ -375,9 +446,11 @@ const captionGround = (near: boolean, transition: Transition) => (
 );
 
 // The lower part of a frame that counts as "at the caption": the pointer
-// below this fraction of the card's height (the bottom 30%) unfolds the
-// full caption.
-const CAPTION_ZONE_FROM = 0.7;
+// below this fraction of the card's height (the bottom 35%) unfolds the
+// full caption. The line sits well above the title on every frame size, so
+// moving toward the words unfolds them before the pointer arrives; a pointer
+// resting mid-card still leaves the picture uncovered.
+const CAPTION_ZONE_FROM = 0.65;
 
 // ─── Chips ────────────────────────────────────────────────────────────────────
 // Rendered in the metadata line after role and year, never above the title.
@@ -980,6 +1053,7 @@ export const ProjectCard = ({
           aspectRatio={tile ? GRID_COVER_ASPECT : aspectRatio}
           cornerGlyph={cornerGlyphFor(project.destination)}
           overlay={captionUnder ? undefined : overlayCaption}
+          autoplayOnce={featured}
           marginClass=""
         />
         {captionUnder ? underCaption : null}
