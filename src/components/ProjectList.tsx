@@ -654,9 +654,11 @@ export const ProjectCard = ({
   // visitor scrolls through empty frames and the work turns up after they
   // stop. So the pace is read once, when the entrance fires. If the page
   // will move more than a screen while the entrance plays, it could never be
-  // seen settling anyway, and the card fades straight in instead; its rise
-  // and scale snap while it is still transparent, so the snap is not seen.
-  // At a reading pace nothing changes.
+  // seen settling anyway, and the card takes a quicker cut of the same
+  // entrance: the same rise, scale and curves at 40% of the time, the fade
+  // still two thirds the length of the motion, so it reads as the same
+  // gesture made faster rather than a different one. At a reading pace
+  // nothing changes.
   useEffect(() => trackScrollSpeed(), []);
   const fastScrollReveal = useRef<boolean | null>(null);
   if (revealed && fastScrollReveal.current === null) {
@@ -666,19 +668,35 @@ export const ProjectCard = ({
   }
   const entranceDelay = rowDelay + globalIndex * 0.1;
   const entrance: Transition = fastScrollReveal.current
-    ? { duration: 0, opacity: { duration: DURATION.fast, ease: EASE.settle } }
+    ? {
+        duration: DURATION.medium,
+        ease: EASE.enter,
+        opacity: { duration: DURATION.fast, ease: EASE.settle },
+      }
     : {
         duration: DURATION.reveal,
         ease: EASE.enter,
         delay: entranceDelay,
         opacity: { duration: DURATION.slow, ease: EASE.settle, delay: entranceDelay },
       };
+  // The quicker entrance scales a large card while the page is already
+  // moving fast, and Chrome redraws an unpromoted layer at every step of a
+  // scale; that cost a couple of frames per flick. The card is promoted to
+  // its own layer for the entrance only and released when it lands, so the
+  // cover is redrawn at full size rather than kept at the scale it was
+  // promoted at.
+  const [entranceLanded, setEntranceLanded] = useState(false);
+  const promoteForEntrance = fastScrollReveal.current === true && !entranceLanded;
   const entranceProps = {
     initial: { opacity: 0, scale: 0.94, y: 40 },
     animate: { opacity: revealed ? 1 : 0, scale: revealed ? 1 : 0.94, y: revealed ? 0 : 40 },
     transition: entrance,
+    onAnimationComplete: (target: { opacity?: number }) => {
+      if (target.opacity === 1) setEntranceLanded(true);
+    },
     "data-reveal": fastScrollReveal.current ? "fast-scroll" : undefined,
   };
+  const entranceStyle = promoteForEntrance ? { willChange: "transform" } : undefined;
 
   // Shared by both card layouts below. `relative` anchors the stretched CardLink.
   const arrivalProps = {
@@ -919,6 +937,7 @@ export const ProjectCard = ({
         ref={ref}
         id={projectId ? `project-${projectId}` : undefined}
         {...entranceProps}
+        style={entranceStyle}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         data-clickable={project.destination?.kind === "placeholder" ? "false" : "true"}
@@ -941,7 +960,7 @@ export const ProjectCard = ({
       ref={ref}
       id={projectId ? `project-${projectId}` : undefined}
       {...entranceProps}
-      style={maxWidth ? { maxWidth } : undefined}
+      style={maxWidth || entranceStyle ? { maxWidth, ...entranceStyle } : undefined}
       onMouseEnter={handleEnter}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}

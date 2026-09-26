@@ -1,4 +1,4 @@
-import { cleanup, render } from "@testing-library/react";
+import { cleanup, render, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
@@ -67,10 +67,36 @@ describe("card entrance and scroll speed", () => {
     expect(container.querySelector("#project-aura")).not.toHaveAttribute("data-reveal");
   });
 
-  it("fades straight in when the page would outrun the entrance", () => {
+  it("takes the quicker entrance when the page would outrun the full one", () => {
     // jsdom's window is 768px tall; 0.75s at 5000px/s is 3750px.
     scrollingAt(5000);
     const { container } = renderCard();
     expect(container.querySelector("#project-aura")).toHaveAttribute("data-reveal", "fast-scroll");
+  });
+
+  it("keeps the rise and scale on the quicker entrance instead of snapping them", async () => {
+    scrollingAt(5000);
+    const { container } = renderCard();
+    const card = container.querySelector("#project-aura") as HTMLElement;
+    // A frame or two in, a snapped transform would already read "none".
+    await new Promise((resolve) => setTimeout(resolve, 40));
+    expect(card.style.transform).toMatch(/translateY|scale/);
+    // And it still lands where the full entrance does.
+    await waitFor(() => expect(card.style.transform).toBe("none"), { timeout: 1500 });
+  });
+
+  it("promotes the card to its own layer only while the quicker entrance plays", async () => {
+    scrollingAt(5000);
+    const { container } = renderCard();
+    const card = container.querySelector("#project-aura") as HTMLElement;
+    expect(card.style.willChange).toBe("transform");
+    // Released on landing, so the cover is redrawn at full size, not left at
+    // the scale it had when it was promoted.
+    await waitFor(() => expect(card.style.willChange).toBe(""), { timeout: 1500 });
+  });
+
+  it("leaves the full entrance unpromoted, as it always was", () => {
+    const { container } = renderCard();
+    expect((container.querySelector("#project-aura") as HTMLElement).style.willChange).toBe("");
   });
 });
