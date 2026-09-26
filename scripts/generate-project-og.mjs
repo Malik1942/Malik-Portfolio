@@ -13,6 +13,7 @@ import { chromium } from "@playwright/test";
 import { mkdir, readFile } from "node:fs/promises";
 import { dirname, extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { screenshotOgJpeg } from "./og-jpeg.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = join(ROOT, "dist");
@@ -43,8 +44,8 @@ async function main() {
     );
     await page.waitForFunction(() => document.images[0]?.complete);
     const out = join(OUT_DIR, `${slug}.jpg`);
-    await page.screenshot({ path: out, type: "jpeg", quality: 88, clip: { x: 0, y: 0, width: WIDTH, height: HEIGHT } });
-    console.log(`  ${slug.padEnd(14)} ← ${cover}`);
+    const { quality, bytes, width } = await screenshotOgJpeg(page, { x: 0, y: 0, width: WIDTH, height: HEIGHT }, out);
+    console.log(`  ${slug.padEnd(14)} ← ${cover}  (${width}px q${quality}, ${(bytes / 1024).toFixed(1)} KB)`);
   }
 
   await browser.close();

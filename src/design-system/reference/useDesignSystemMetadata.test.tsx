@@ -81,7 +81,7 @@ describe("useDesignSystemMetadata", () => {
     });
     const ogImage = addHeadElement("meta", {
       property: "og:image",
-      content: "https://www.malikzhang.com/og-image.png",
+      content: "https://www.malikzhang.com/og-image.jpg",
     });
     const author = addHeadElement("meta", { name: "author", content: "Malik Zhang" });
 
@@ -97,7 +97,7 @@ describe("useDesignSystemMetadata", () => {
     expect(document.querySelector('meta[name="twitter:description"]')).toBeNull();
     expect(document.head).toContainElement(ogImage);
     expect(document.head).toContainElement(author);
-    expect(ogImage).toHaveAttribute("content", "https://www.malikzhang.com/og-image.png");
+    expect(ogImage).toHaveAttribute("content", "https://www.malikzhang.com/og-image.jpg");
   });
 
   it("removes the title node when the route created it", () => {

@@ -20,4 +20,4 @@ export const ABOUT_DESCRIPTION =
   "Who I am, how I build, and what I care about: an AI-native product designer in Seattle who starts with the real problem and builds the answer end to end.";
 
 /** The share image for every page that has no image of its own. */
-export const DEFAULT_OG_IMAGE = "/og-image.png";
+export const DEFAULT_OG_IMAGE = "/og-image.jpg";

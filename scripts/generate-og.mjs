@@ -1,5 +1,5 @@
 /**
- * Generates public/og-image.png by screenshotting the hero section.
+ * Generates public/og-image.jpg by screenshotting the hero section.
  * Usage: node scripts/generate-og.mjs
  *
  * Requires: @playwright/test installed (already in devDependencies)
@@ -9,6 +9,7 @@ import { chromium } from '@playwright/test';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { screenshotOgJpeg } from './og-jpeg.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -92,13 +93,10 @@ async function main() {
       content: '[aria-label="Scroll to projects"] { display: none !important; }',
     });
 
-    const outPath = join(ROOT, 'public', 'og-image.png');
-    await page.screenshot({
-      path: outPath,
-      clip: { x: 0, y: 0, width: 1200, height: 630 },
-    });
+    const outPath = join(ROOT, 'public', 'og-image.jpg');
+    const { quality, bytes, width } = await screenshotOgJpeg(page, { x: 0, y: 0, width: 1200, height: 630 }, outPath);
 
-    console.log(`\nOG image saved → ${outPath}`);
+    console.log(`\nOG image saved → ${outPath} (${width}px q${quality}, ${(bytes / 1024).toFixed(1)} KB)`);
     await browser.close();
   } finally {
     server.kill('SIGTERM');
