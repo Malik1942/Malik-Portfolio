@@ -20,6 +20,7 @@ import { VideoLightbox, type LightboxVideo } from "./VideoLightbox";
 import { useLens } from "./Lens";
 import { lensMatch } from "@/lib/lens";
 import { DURATION, EASE, MOTION } from "@/design-system/system/motion";
+import { outrunsEntrance, scrollSpeed, trackScrollSpeed } from "@/lib/scrollSpeed";
 import { PAGE_COLUMN, PAGE_GUTTERS } from "@/design-system/system/layout";
 import type { Transition } from "framer-motion";
 
@@ -646,6 +647,39 @@ export const ProjectCard = ({
   }, [projectId]);
 
   const revealed = inView || arriving;
+
+  // ── Entrance ──
+  // The card rises, grows and fades in as it enters. That takes most of a
+  // second, and on a fast flick the card is past before it finishes: the
+  // visitor scrolls through empty frames and the work turns up after they
+  // stop. So the pace is read once, when the entrance fires. If the page
+  // will move more than a screen while the entrance plays, it could never be
+  // seen settling anyway, and the card fades straight in instead; its rise
+  // and scale snap while it is still transparent, so the snap is not seen.
+  // At a reading pace nothing changes.
+  useEffect(() => trackScrollSpeed(), []);
+  const fastScrollReveal = useRef<boolean | null>(null);
+  if (revealed && fastScrollReveal.current === null) {
+    fastScrollReveal.current =
+      typeof window !== "undefined" &&
+      outrunsEntrance(scrollSpeed(), window.innerHeight, DURATION.reveal);
+  }
+  const entranceDelay = rowDelay + globalIndex * 0.1;
+  const entrance: Transition = fastScrollReveal.current
+    ? { duration: 0, opacity: { duration: DURATION.fast, ease: EASE.settle } }
+    : {
+        duration: DURATION.reveal,
+        ease: EASE.enter,
+        delay: entranceDelay,
+        opacity: { duration: DURATION.slow, ease: EASE.settle, delay: entranceDelay },
+      };
+  const entranceProps = {
+    initial: { opacity: 0, scale: 0.94, y: 40 },
+    animate: { opacity: revealed ? 1 : 0, scale: revealed ? 1 : 0.94, y: revealed ? 0 : 40 },
+    transition: entrance,
+    "data-reveal": fastScrollReveal.current ? "fast-scroll" : undefined,
+  };
+
   // Shared by both card layouts below. `relative` anchors the stretched CardLink.
   const arrivalProps = {
     className: arriving ? "relative project-row-arriving" : "relative",
@@ -884,14 +918,7 @@ export const ProjectCard = ({
       <motion.div
         ref={ref}
         id={projectId ? `project-${projectId}` : undefined}
-        initial={{ opacity: 0, scale: 0.94, y: 40 }}
-        animate={{ opacity: revealed ? 1 : 0, scale: revealed ? 1 : 0.94, y: revealed ? 0 : 40 }}
-        transition={{
-          duration: DURATION.reveal,
-          ease: EASE.enter,
-          delay: rowDelay + globalIndex * 0.1,
-          opacity: { duration: DURATION.slow, ease: EASE.settle, delay: rowDelay + globalIndex * 0.1 },
-        }}
+        {...entranceProps}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         data-clickable={project.destination?.kind === "placeholder" ? "false" : "true"}
@@ -913,14 +940,7 @@ export const ProjectCard = ({
     <motion.div
       ref={ref}
       id={projectId ? `project-${projectId}` : undefined}
-      initial={{ opacity: 0, scale: 0.94, y: 40 }}
-      animate={{ opacity: revealed ? 1 : 0, scale: revealed ? 1 : 0.94, y: revealed ? 0 : 40 }}
-      transition={{
-        duration: DURATION.reveal,
-        ease: EASE.enter,
-        delay: rowDelay + globalIndex * 0.1,
-        opacity: { duration: DURATION.slow, ease: EASE.settle, delay: rowDelay + globalIndex * 0.1 },
-      }}
+      {...entranceProps}
       style={maxWidth ? { maxWidth } : undefined}
       onMouseEnter={handleEnter}
       onMouseMove={handleMove}
@@ -966,7 +986,10 @@ const TwoColGrid = ({
         project={p}
         projectId={p.id}
         dotClass={dotClass}
-        globalIndex={startGlobalIndex + i}
+        // The pair arrives left then right. The stagger restarts on every
+        // row: rows enter one at a time, so counting down the whole grid
+        // only made each later pair wait longer after it was already in view.
+        globalIndex={startGlobalIndex + (i % 2)}
         rowDelay={(i % 2) * 0.06}
         aspectRatio={GRID_COVER_ASPECT}
         restOpacity={restOpacity}
@@ -1061,8 +1084,11 @@ const SelectedWorkList = ({
           restores the 40px above the first frame. */}
       {intro ? <div className="-mt-6 mb-10">{intro}</div> : null}
       <div className="flex flex-col gap-y-section">
-        {projects.map((p, i) => (
-          <ProjectCard key={p.id ?? p.title} project={p} projectId={p.id} dotClass={dotClass} globalIndex={i} featured />
+        {/* No stagger: each frame is most of a screen tall, so they enter one
+            at a time, and a wait counted by position only made every later
+            frame hesitate after it was already in view. */}
+        {projects.map((p) => (
+          <ProjectCard key={p.id ?? p.title} project={p} projectId={p.id} dotClass={dotClass} globalIndex={0} featured />
         ))}
       </div>
     </div>
