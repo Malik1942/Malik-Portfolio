@@ -25,6 +25,9 @@ dist-ssr
 !.vscode/extensions.json
 .claude/*
 !.claude/launch.json
+!.claude/settings.json
+!.claude/hooks/
+!.claude/hooks/**
 .idea
 .DS_Store
 *.suo
