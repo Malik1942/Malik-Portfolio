@@ -977,7 +977,8 @@ export function LocantFix() {
 // (20); a wrong copy changed at any point, 14 and 0; right with no reply, 4 and
 // 19; cost per run, medians, $1.258 and $0.549 (totals $22.54 and $10.95 for 20
 // runs). Each tile draws its own scale: counts out of 20, time and cost against
-// the screenshot side's value.
+// the screenshot side's value. Two across at most: at four, three labels wrapped
+// to two lines and one did not, so the figures sat at different heights.
 const REPORT_URL = "https://github.com/Malik1942/locant/blob/main/docs/video/11-measurement-worktrees.md";
 type Side = { value: string; share: number };
 type Tile = { label: string; figure: string; shot: Side; locant: Side };
@@ -1010,7 +1011,7 @@ export function LocantMeasured() {
       <div className="px-6 pt-6 md:px-7 md:pt-7">
         <Legend />
       </div>
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px border-t border-case-study-module-divider bg-case-study-module-divider">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-px border-t border-case-study-module-divider bg-case-study-module-divider">
         {measuredTiles.map((t) => (
           <div key={t.label} data-tile={t.label} className="flex flex-col gap-4 bg-surface-inset px-6 py-6 md:px-7 md:py-8">
             <p className="text-caption font-mono uppercase tracking-eyebrow text-foreground-tertiary">{t.label}</p>
@@ -1149,8 +1150,13 @@ export function LocantPairs() {
         <div className={`grid ${PAIR_COLS} gap-x-6`}>
           <span className="hidden md:block" />
           <div className="relative h-5 font-mono text-caption tabular-nums text-foreground-tertiary">
+            {/* Below sm the odd ticks drop out: at 375px "150 s" ran into "never". */}
             {TICKS.map((t, i) => (
-              <span key={t} className={`absolute top-1 ${i === 0 ? "" : "-translate-x-1/2"}`} style={{ left: pct(xOf(t)) }}>
+              <span
+                key={t}
+                className={`absolute top-1 ${i === 0 ? "" : "-translate-x-1/2"} ${i % 2 ? "hidden sm:inline" : ""}`}
+                style={{ left: pct(xOf(t)) }}
+              >
                 {t === 0 ? "0" : `${t} s`}
               </span>
             ))}
@@ -1160,27 +1166,31 @@ export function LocantPairs() {
           </div>
         </div>
       </div>
-      <table className="sr-only">
-        <caption>Round two, time to the first change in the right file, in seconds, for each of the 20 pairs</caption>
-        <thead>
-          <tr>
-            <th scope="col">Task</th>
-            <th scope="col">Pair</th>
-            <th scope="col">Screenshot + prompt</th>
-            <th scope="col">Locant capture</th>
-          </tr>
-        </thead>
-        <tbody>
-          {PAIRS.map((p) => (
-            <tr key={p.pair}>
-              <td>{`${p.task}, ${PAIR_TASKS.find((t) => t.id === p.task)?.name}`}</td>
-              <td>{p.pair}</td>
-              <td>{p.shot === null ? "never reached it" : Math.round(p.shot)}</td>
-              <td>{Math.round(p.locant)}</td>
+      {/* sr-only sits on a wrapper: a table ignores the 1px width and the
+          overflow clip, and at 375px this one widened the page to 638px. */}
+      <div className="sr-only">
+        <table>
+          <caption>Round two, time to the first change in the right file, in seconds, for each of the 20 pairs</caption>
+          <thead>
+            <tr>
+              <th scope="col">Task</th>
+              <th scope="col">Pair</th>
+              <th scope="col">Screenshot + prompt</th>
+              <th scope="col">Locant capture</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {PAIRS.map((p) => (
+              <tr key={p.pair}>
+                <td>{`${p.task}, ${PAIR_TASKS.find((t) => t.id === p.task)?.name}`}</td>
+                <td>{p.pair}</td>
+                <td>{p.shot === null ? "never reached it" : Math.round(p.shot)}</td>
+                <td>{Math.round(p.locant)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </ModuleCard>
   );
 }

@@ -1281,7 +1281,7 @@ const locant: ProjectDetailSource = {
     {
       id: "problem",
       label: "The Problem",
-      headline: "The hard part wasn't the fix. It was saying which one.",
+      headline: "The hard part wasn’t the fix. It was saying which one.",
       body: "Locant is for makers who build with agents and tweak layout and visuals by talking to one: designers who prototype in code, design engineers, and indie developers. It started with my own friction, building Oryne that way.\n\nUI polish starts as something seen: a button that should be rounder, a card that needs room. A coding agent works in text and code. Every fix meant translating one into the other, and the translation was mine to do.\n\nFirst, which element: which screen, which component, where it sits in the tree, in names the agent could match to the code. Then, what should change. The first kept eating the second. By the time I had written which button, I had lost what I was actually going to say about it.\n\n[[fig:0]]\n\nA screenshot doesn't remove that work. It hands the first half to the agent. I gave Claude Code a screenshot of the Simulator and a note that already said how to make the change. This is what came back:\n\n[[module:locant-question]]\n\n**It understood the change, down to the mechanism. It could not know which orb. That is the half Locant takes.**",
       figures: [
         { type: "video", src: locantBefore, poster: locantBeforePoster, label: "Before", caption: "a whole sentence about which orb, and not yet a word about the change" },
@@ -1351,7 +1351,7 @@ const locant: ProjectDetailSource = {
     {
       id: "reflection",
       label: "Reflection",
-      headline: "Three calls I'd make again",
+      headline: "Three calls I’d make again",
       body: "[[module:locant-calls]]\n\n## Understand the constraints. Scope, then build.\n\nEach of those calls started from a constraint I understood before building: a timer, two platforms that already sent the window, and a send that cannot be taken back. The scope came out of the constraint, and the build followed the scope.\n\n## Every payload has two readers\n\nEvery capture is read twice: by me as I point, and by a model that sees only text. The label on the overlay is for the first reader. It says what the agent will get before I click. The image path leads the payload for the second, because a terminal agent can only open what the text tells it to.\n\n## Honest by default\n\nThe ladder names its rung instead of pretending. The agent table on the site says untested until someone has tested it. When the daily update check broke the promise of no network calls, every sentence that made the promise was rewritten to say what was true. And the site publishes the round that found Locant short, beside the round that fixed it.\n\n## After 1.0\n\n0.9 is the release candidate, the version for feedback from Macs that are not mine. After 1.0: promote it, get more people using it, and polish from their feedback. Safari exposes the same web attributes as Chromium and has not been exercised yet, and because the payload's field names carry no Apple prefix, a port to another platform could write the same shape.",
     },
   ],
