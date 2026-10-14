@@ -224,10 +224,13 @@ describe("Locant case-study modules", () => {
     expect(within(table).getAllByText("never reached it")).toHaveLength(4);
   });
 
-  it("closes on the three calls, in the deck's order", () => {
+  it("closes on the three calls, in the order they were made", () => {
     render(<LocantCalls />);
-    const titles = ["Cut the MCP server, shipped text plus an image path", "The element, not the window", "Removed auto-send after it interrupted a live chat"];
-    for (const t of titles) expect(screen.getByText(t)).toBeInTheDocument();
+    const titles = ["The element, not the window", "Cut the MCP server, shipped text plus an image path", "Removed auto-send after it interrupted a live chat"];
+    const cards = titles.map((t) => screen.getByText(t));
+    for (let i = 1; i < cards.length; i++) {
+      expect(cards[i - 1].compareDocumentPosition(cards[i]) & Node.DOCUMENT_POSITION_FOLLOWING, `${titles[i]} after ${titles[i - 1]}`).toBeTruthy();
+    }
   });
 
   it("links the site, GitHub, and the pitch film", () => {

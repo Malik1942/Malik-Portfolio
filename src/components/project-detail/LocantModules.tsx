@@ -1196,21 +1196,24 @@ export function LocantPairs() {
 }
 
 // ── Three calls ───────────────────────────────────────────────────────────────
-// The deck's close ("Three calls I'd make again"), in its order and its words,
-// with where each call was made in place of the deck's agenda labels.
+// The deck's close ("Three calls I'd make again") in its words, with where each
+// call was made in place of the deck's agenda labels. The deck led with the MCP
+// cut; here the three run in the order they were made (before any code, inside
+// the three hours, in daily use), because each card opens on its moment and
+// the numbers read as a sequence.
 const calls: GridItem[] = [
   {
     num: "01",
-    title: "Cut the MCP server, shipped text plus an image path",
-    desc: "Inside the three hours. The pointing was the core; the server could wait, and when it came, it saved one paste.",
-    icon: Scissors,
+    title: "The element, not the window",
+    desc: "Before any code. Two platforms already sent the window, and nothing sent the one element a fix is about.",
+    icon: Crosshair,
     accent: "violet",
   },
   {
     num: "02",
-    title: "The element, not the window",
-    desc: "Before any code. Two platforms already sent the window, and nothing sent the one element a fix is about.",
-    icon: Crosshair,
+    title: "Cut the MCP server, shipped text plus an image path",
+    desc: "Inside the three hours. The pointing was the core; the server could wait, and when it came, it saved one paste.",
+    icon: Scissors,
     accent: "emerald",
   },
   {

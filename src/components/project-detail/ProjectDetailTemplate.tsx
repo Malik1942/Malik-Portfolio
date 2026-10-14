@@ -645,7 +645,14 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                         {s.label}
                       </p>
                     ) : null}
-                    <h2 className="font-display text-heading md:text-display font-light text-foreground mb-stack">
+                    {/* A headline with an authored "\n" breaks there from md up (the
+                        hero summary does the same): balanced wrapping alone splits
+                        "the / fix" and "An / identifier". Below md it wraps freely. */}
+                    <h2
+                      className={`font-display text-heading md:text-display font-light text-foreground mb-stack ${
+                        s.headline?.includes("\n") ? "md:whitespace-pre-line" : ""
+                      }`}
+                    >
                       {noOrphan(s.headline ?? s.label)}
                     </h2>
                     {s.introBlock ? (
