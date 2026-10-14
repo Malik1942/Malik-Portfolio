@@ -53,15 +53,23 @@ import {
 } from "./OryneModules";
 import {
   LocantBall,
+  LocantCalls,
+  LocantFix,
   LocantHighlights,
   LocantLadder,
   LocantLandscape,
   LocantLinks,
+  LocantLoop,
   LocantMeasured,
   LocantOverlay,
+  LocantPairs,
   LocantPayload,
+  LocantPlan,
   LocantQuestion,
   LocantReleases,
+  LocantRing,
+  LocantTestSetup,
+  LocantTurn,
 } from "./LocantModules";
 import { InkworkSymptoms, InkworkSequence, InkworkThemes, InkworkTryCta, InkworkSkillLink, InkworkCta } from "./InkworkModules";
 import {
@@ -231,12 +239,20 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "locant-highlights": <LocantHighlights />,
   "locant-question": <LocantQuestion />,
   "locant-landscape": <LocantLandscape />,
+  "locant-turn": <LocantTurn />,
   "locant-overlay": <LocantOverlay />,
   "locant-payload": <LocantPayload />,
   "locant-ladder": <LocantLadder />,
   "locant-ball": <LocantBall />,
+  "locant-ring": <LocantRing />,
+  "locant-plan": <LocantPlan />,
   "locant-releases": <LocantReleases />,
+  "locant-loop": <LocantLoop />,
+  "locant-test-setup": <LocantTestSetup />,
+  "locant-fix": <LocantFix />,
   "locant-measured": <LocantMeasured />,
+  "locant-pairs": <LocantPairs />,
+  "locant-calls": <LocantCalls />,
   "locant-links": <LocantLinks />,
   "inkwork-symptoms": <InkworkSymptoms />,
   "inkwork-sequence": <InkworkSequence />,
@@ -629,7 +645,14 @@ export function ProjectDetailTemplate({ project, onBack, onMainProjectsClick }: 
                         {s.label}
                       </p>
                     ) : null}
-                    <h2 className="font-display text-heading md:text-display font-light text-foreground mb-stack">
+                    {/* A headline with an authored "\n" breaks there from md up (the
+                        hero summary does the same): balanced wrapping alone splits
+                        "the / fix" and "An / identifier". Below md it wraps freely. */}
+                    <h2
+                      className={`font-display text-heading md:text-display font-light text-foreground mb-stack ${
+                        s.headline?.includes("\n") ? "md:whitespace-pre-line" : ""
+                      }`}
+                    >
                       {noOrphan(s.headline ?? s.label)}
                     </h2>
                     {s.introBlock ? (

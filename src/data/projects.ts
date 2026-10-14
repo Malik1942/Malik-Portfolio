@@ -213,8 +213,10 @@ export const PROJECTS: readonly Project[] = [
     // The cover already prints "Point, don't describe." and the line under it,
     // so neither of these repeats the pitch: the signal names the category and
     // the description carries the evidence. Both numbers are Locant's own
-    // published measurement (30 runs, order alternated, repo reset between).
-    description: "Free and open source for macOS. Given a screenshot, the agent stopped to ask which element in 17 of 18 runs; given a Locant capture, 0 of 12.",
+    // published measurement, the worktree test the product site now leads with
+    // (docs/video/11-measurement-worktrees.md: 20 pairs, order alternated,
+    // graded blind), and the sentence is the site's proof line word for word.
+    description: "Free and open source for macOS. Given a screenshot, the agent changed the wrong worktree's code in 14 of 20 runs; given a Locant capture, 0 of 20.",
     role: "0→1 Product Designer & Builder",
     coverImage: locantCard,
     // 2560x1440, the size the product site serves its own hero at.
