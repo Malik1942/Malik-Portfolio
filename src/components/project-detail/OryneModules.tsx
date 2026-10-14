@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { useInView, useReducedMotion } from "framer-motion";
 import { noOrphan } from "@/lib/noOrphan";
 import {
@@ -24,9 +24,12 @@ import {
   Check,
   Minus,
   CircleDashed,
+  Play,
   type LucideIcon,
 } from "lucide-react";
 import { FigureCaption } from "./FigureCaption";
+import { FigureTitle } from "./FigureTitle";
+import { VideoLightbox, type LightboxVideo } from "@/components/VideoLightbox";
 import { NotionMark } from "./motiBrandMarks";
 import { PinterestMark, MilanoteMark, AppleMark, MymindMark } from "./oryneBrandMarks";
 import oryneMark from "@/assets/mark-oryne.png";
@@ -56,6 +59,14 @@ import oryneClipResurfacing from "@/assets/oryne-clip-resurfacing.mp4";
 import oryneClipResurfacingPoster from "@/assets/oryne-clip-resurfacing-poster.webp";
 import oryneClipBranch from "@/assets/oryne-clip-branch.mp4";
 import oryneClipBranchPoster from "@/assets/oryne-clip-branch-poster.webp";
+import oryneStepCatch from "@/assets/oryne-step-catch.mp4";
+import oryneStepCatchPoster from "@/assets/oryne-step-catch-poster.webp";
+import oryneStepRelease from "@/assets/oryne-step-release.mp4";
+import oryneStepReleasePoster from "@/assets/oryne-step-release-poster.webp";
+import oryneStepCurrent from "@/assets/oryne-step-current.mp4";
+import oryneStepCurrentPoster from "@/assets/oryne-step-current-poster.webp";
+import oryneFilm from "@/assets/oryne-film.mp4";
+import oryneFilmPoster from "@/assets/oryne-film-poster.webp";
 import { Button } from "@/components/ui/Button";
 
 /* ---------------------------------------------------------------------------
@@ -90,7 +101,13 @@ export function OryneAppStoreCta() {
   );
 }
 
-/* ── 2) Highlights — chips + pull-quote (the film sits above, as a figure) ─── */
+/* ── 2) Highlights — chips, the walkthrough, and the film behind a button ─── */
+// The product itself in four steps first, then six credentials a recruiter
+// takes in at a glance, then the film for whoever wants the long version. The
+// steps lead because the section exists to be understood in twenty seconds,
+// and on a phone the chips alone run six rows deep. The 80 s film used to
+// autoplay here as the section's figure; at that length it was the wrong
+// first thing to meet, so it opens in the lightbox on request instead.
 const hookHighlights = [
   "Live on the App Store",
   "First commit to 1.0 in 23 days",
@@ -99,11 +116,137 @@ const hookHighlights = [
   "Intelligence runs on the device",
   "English and Simplified Chinese",
 ];
+const film: LightboxVideo = {
+  src: oryneFilm,
+  poster: oryneFilmPoster,
+  title: "The Oryne film",
+  caption: "The launch film, 80 seconds: catch inspiration before it drifts.",
+};
+
+// One thought, caught to returned, as four clips of about four seconds, each
+// titled above its clip so the flow reads from the titles alone in the time
+// the clips take to play once. Steps 01 to 03 are one continuous take of the
+// shipped app (the launch film's scene 1 and 2, ~/Desktop/oryne-launch/takes/A.mp4,
+// recorded 2026-09-25 on the seeded simulator): the same thought typed,
+// released, named by the phone, and found in its current. Step 04 is the
+// resurfacing clip The Idea also plays, because a thought coming back is the
+// same moment wherever it is shown. All four wear the iPhone mockup every
+// still wears, at the geometry FeatureClip documents below (660x1350, the
+// plate baked to surface-inset), so a step sits at exactly a screen's size and
+// has to stay on a surface-inset cell. Silent loops with no controls, like a
+// GIF; under reduced motion each is its poster.
+type Step = { num: string; label: string; title: string; src: string; poster: string; alt: string };
+const steps: Step[] = [
+  {
+    num: "01",
+    label: "Catch",
+    title: "Type it or say it, in under two seconds",
+    src: oryneStepCatch,
+    poster: oryneStepCatchPoster,
+    alt: "The Thought capture sheet as a sentence is typed into it: The room feels slower when the light turns warm",
+  },
+  {
+    num: "02",
+    label: "Let go",
+    title: "Release it, and the phone names it",
+    src: oryneStepRelease,
+    poster: oryneStepReleasePoster,
+    alt: "Release into the Ocean is tapped, and a card reads Understood as Warm Light Slows Time, drifts near Golden hour on the walk home",
+  },
+  {
+    num: "03",
+    label: "Drift",
+    title: "It joins a current of related thoughts",
+    src: oryneStepCurrent,
+    poster: oryneStepCurrentPoster,
+    alt: "A long press on the Light And Color current opens its sheet: four thoughts drift here, the new one among them",
+  },
+  {
+    num: "04",
+    label: "Return",
+    title: "A forgotten thought rises on its own",
+    src: oryneClipResurfacing,
+    poster: oryneClipResurfacingPoster,
+    alt: "The Ocean, and a thought from last month rising on its own, opened as Catching a thought that drifted away",
+  },
+];
+const STEP_CLIP_WIDTH = 660;
+const STEP_CLIP_HEIGHT = 1350;
+function StepClip({ step }: { step: Step }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const reduced = useReducedMotion();
+  // Buffer a viewport early so the loop plays on arrival instead of stalling
+  // on its poster; play only while on screen, so four loops never run unseen.
+  const near = useInView(videoRef, { once: true, margin: "100% 0px 100% 0px" });
+  const onScreen = useInView(videoRef, { amount: 0.4 });
+
+  useEffect(() => {
+    const loop = videoRef.current;
+    if (!loop || !near || reduced) return;
+    if (onScreen) loop.play().catch(() => {});
+    else loop.pause();
+  }, [near, onScreen, reduced]);
+
+  return (
+    /* A subgrid of the walkthrough's two rows, so a title that wraps on a
+       narrow cell still leaves every phone on one top edge; the cell keeps
+       no gap of its own between title and clip, the title's margin sets it. */
+    <figure className="grid grid-rows-subgrid row-span-2 gap-y-0 bg-surface-inset px-6 py-7 md:px-8 md:py-8">
+      <FigureTitle num={step.num} label={step.label}>{step.title}</FigureTitle>
+      <div className={SCREEN_FIGURE_WIDTH}>
+        {reduced ? (
+          <img
+            src={step.poster}
+            alt={step.alt}
+            width={STEP_CLIP_WIDTH}
+            height={STEP_CLIP_HEIGHT}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-auto block"
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            src={near ? step.src : undefined}
+            poster={step.poster}
+            width={STEP_CLIP_WIDTH}
+            height={STEP_CLIP_HEIGHT}
+            muted
+            loop
+            playsInline
+            preload="none"
+            aria-label={step.alt}
+            className="w-full h-auto block"
+          />
+        )}
+      </div>
+    </figure>
+  );
+}
+export function OryneWalkthrough() {
+  return (
+    <ModuleCard>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-case-study-module-divider">
+        {steps.map((step) => (
+          <StepClip key={step.num} step={step} />
+        ))}
+      </div>
+    </ModuleCard>
+  );
+}
 export function OryneHook() {
+  const [open, setOpen] = useState<LightboxVideo | null>(null);
+  const close = useCallback(() => setOpen(null), []);
   return (
     <div className="flex flex-col gap-stack">
+      <OryneWalkthrough />
       <Chips items={hookHighlights} />
-      <PullQuote>Lists are excellent at storing thoughts. They were never meant to remember them.</PullQuote>
+      <div className="flex justify-center">
+        <Button tone="secondary" icon={<Play strokeWidth={1.8} />} iconPosition="leading" onClick={() => setOpen(film)}>
+          Watch the 80-second film
+        </Button>
+      </div>
+      <VideoLightbox video={open} onClose={close} />
     </div>
   );
 }

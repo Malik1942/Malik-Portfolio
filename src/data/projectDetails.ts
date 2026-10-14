@@ -106,8 +106,6 @@ import rangerDetailThruster from "@/assets/ranger-detail-thruster.webp";
 import rangerDetailCharge from "@/assets/ranger-detail-charge.webp";
 import oryneHeroLoop from "@/assets/oryne-hero-loop.mp4";
 import oryneHeroPoster from "@/assets/oryne-hero-poster.webp";
-import oryneFilm from "@/assets/oryne-film.mp4";
-import oryneFilmPoster from "@/assets/oryne-film-poster.webp";
 import locantHero from "@/assets/locant-hero.webp";
 import locantHeroLoop from "@/assets/locant-hero-loop.mp4";
 import locantAgent from "@/assets/locant-agent.mp4";
@@ -1120,9 +1118,9 @@ const ranger: ProjectDetailSource = {
   ],
 };
 
-// Real Oryne case study. Imagery lives in src/assets (oryne-*.webp, the film as
-// oryne-film.mp4); the rich section blocks live in OryneModules.tsx and render via
-// the [[module:oryne-*]] refs. Every date and claim is verified against the App Store
+// Real Oryne case study. Imagery lives in src/assets (oryne-*.webp, the walkthrough
+// clips as oryne-step-*.mp4, the film as oryne-film.mp4); the rich section blocks
+// live in OryneModules.tsx and render via the [[module:oryne-*]] refs. Every date and claim is verified against the App Store
 // listing and the app's git history.
 const oryne: ProjectDetailSource = {
   slug: "oryne",
@@ -1166,15 +1164,20 @@ const oryne: ProjectDetailSource = {
       label: "Overview",
       headline: "An app where thoughts come back on their own",
       showProjectMeta: true,
-      body: "**Oryne is an inspiration-capture app for iOS. Thoughts don't sit in rows; they float.** Speak or type one, release it, and the device names it, drifts it next to its relatives, and brings it back when it matters again.\n\n[[module:oryne-tags]]",
+      // Plain words first: what it is and who it is for, then what happens to
+      // a thought, in one breath. The metaphor ("they float") waits for The
+      // Idea; a first visit needs the context before the poetry.
+      body: "**Oryne is an iPhone app for people whose best ideas get lost in a notes list.** Say or type a thought and let it go. The phone names it, drifts it next to related thoughts, and brings it back on a day it might matter.\n\n[[module:oryne-tags]]",
       afterMetaModule: "oryne-app-store",
     },
     {
       id: "highlights",
       label: "Highlights",
       headline: "Let a thought go, and it finds its way back",
-      figures: [{ type: "video", src: oryneFilm, poster: oryneFilmPoster }],
-      body: "[[fig:0]]\n\n[[module:oryne-hook]]",
+      // The hook is the walkthrough: one thought in four short clips, titled so
+      // the flow reads in the time they take to play. The 80 s film used to
+      // autoplay here and opens from a button in the module instead.
+      body: "[[module:oryne-hook]]",
     },
     {
       id: "problem",
