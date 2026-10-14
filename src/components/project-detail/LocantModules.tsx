@@ -186,7 +186,7 @@ const gallery: Still[] = [
     video: locantTileAgent,
     label: "Any agent",
     // A product name never breaks across lines ("Claude / Code" did at 1440).
-    caption: "The same payload in Cursor, Claude Code, Codex, and Antigravity",
+    caption: "The same payload in Cursor, Claude\u00a0Code, Codex, and Antigravity",
     alt: "Cursor, Claude Code, Codex, and Antigravity in one frame, each sent the same Locant payload for the Product Ideas button. Cursor and Codex set out to match it to the Light And Color orb, Antigravity searches for Product Ideas and opens SeedScreenshot.swift, and Claude Code starts thinking",
   },
   {
