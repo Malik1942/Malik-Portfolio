@@ -1273,7 +1273,7 @@ const locant: ProjectDetailSource = {
       // first move, and the diff in SeedScreenshot.swift. The gallery in
       // locant-highlights carries the rest of the product.
       figures: [
-        { type: "video", src: locantAgent, poster: locantAgentPoster, label: "The agent", caption: "the payload pasted into Cursor, and the edit lands in SeedScreenshot.swift" },
+        { type: "video", src: locantAgent, poster: locantAgentPoster, label: "The agent", caption: "The payload pasted into Cursor, and the edit lands in SeedScreenshot.swift", placement: "above" },
       ],
     },
     {

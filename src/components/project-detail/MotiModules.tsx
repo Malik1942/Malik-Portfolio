@@ -1,6 +1,7 @@
 import type { ComponentType, ReactNode } from "react";
 import { noOrphan } from "@/lib/noOrphan";
 import { FigureCaption } from "./FigureCaption";
+import { FigureTitle } from "./FigureTitle";
 import { ChatGptMark, MotionMark, NotionMark, SunsamaMark, TodoistMark } from "./motiBrandMarks";
 import {
   Inbox,
@@ -222,20 +223,21 @@ const hookHighlights = [
 ];
 // Two surfaces the seven beats do not carry: the Projects tab, and the typed way
 // in (beat 01 shows the spoken one). Recaptured in dark mode from the shipped 2.0
-// build, so nothing here comes from the product film.
-type Surface = { src: string; alt: string; label: string; caption: string };
+// build, so nothing here comes from the product film. Each is titled above its
+// screen, the Highlights convention on every case study.
+type Surface = { src: string; alt: string; label: string; title: string };
 const surfaces: Surface[] = [
   {
     src: motiProjects,
     alt: "The Projects tab listing Move, Launch, Parents, Fitness and Reading with their active counts and next dates",
     label: "Projects",
-    caption: "every project with its active count, its next date, and how far it has run",
+    title: "Every project with its active count, its next date, and how far it has run",
   },
   {
     src: motiCapture,
     alt: "The Add to Timeline sheet holding a lowercase, unpunctuated sentence, with Submit enabled and a mic button",
     label: "Add to Timeline",
-    caption: "lowercase, unpunctuated, exactly as you would say it, and Submit is the only next step",
+    title: "Lowercase, unpunctuated, exactly as you would say it, and Submit is the only next step",
   },
 ];
 export function MotiHook() {
@@ -244,13 +246,13 @@ export function MotiHook() {
       <Chips items={hookHighlights} />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-9 md:gap-x-8 md:gap-y-12">
         {surfaces.map((f) => (
-          <figure key={f.src} className={`${SCREEN_FIGURE_WIDTH} flex flex-col`}>
+          /* A subgrid of the pair's rows: titles of unequal length still leave
+             the two phones on one top edge, and the pair keeps its own gap (none)
+             between title and screen so the title's bottom margin sets that. */
+          <figure key={f.src} className={`${SCREEN_FIGURE_WIDTH} grid grid-rows-subgrid row-span-2 gap-y-0`}>
+            <FigureTitle label={f.label}>{f.title}</FigureTitle>
             <div className="overflow-hidden rounded-2xl bg-secondary/10">
               <img src={f.src} alt={f.alt} loading="lazy" decoding="async" className="w-full h-auto block" />
-            </div>
-            {/* mt-auto: captions of unequal length still sit on one baseline per row. */}
-            <div className="mt-auto">
-              <FigureCaption label={f.label}>{f.caption}</FigureCaption>
             </div>
           </figure>
         ))}

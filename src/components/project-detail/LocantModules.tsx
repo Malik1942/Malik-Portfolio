@@ -21,6 +21,7 @@ import locantTileColor from "@/assets/locant-tile-color.mp4";
 import { Button } from "@/components/ui/Button";
 import { noOrphan } from "@/lib/noOrphan";
 import { FigureCaption } from "./FigureCaption";
+import { FigureTitle } from "./FigureTitle";
 import { Chips, ModuleCard } from "./MotiModules";
 
 /* ---------------------------------------------------------------------------
@@ -35,7 +36,9 @@ import { Chips, ModuleCard } from "./MotiModules";
 // Two across from sm, one per row below it, each still captioned. Every still in
 // a grid shares one intrinsic size, which reserves its box before it loads and
 // keeps the captions of a row on one baseline. A still with a `video` plays as
-// a loop instead (LoopTile).
+// a loop instead (LoopTile). A `titled` grid is the Highlights form: the same
+// words set above the still as its title, on a subgrid so titles of unequal
+// length leave the row's stills on one top edge.
 type Still = { src: string; label: string; caption: string; alt: string; video?: string };
 
 // A tile that behaves like a GIF: silent, looping, no controls. MP4 rather than
@@ -77,11 +80,12 @@ function LoopTile({ still, video, alt, width, height }: { still: string; video: 
   );
 }
 
-function StillGrid({ stills, width, height }: { stills: Still[]; width: number; height: number }) {
+function StillGrid({ stills, width, height, titled }: { stills: Still[]; width: number; height: number; titled?: boolean }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10 md:gap-x-8 md:gap-y-12">
       {stills.map((s) => (
-        <figure key={s.label} className="flex flex-col">
+        <figure key={s.label} className={titled ? "grid grid-rows-subgrid row-span-2 gap-y-0" : "flex flex-col"}>
+          {titled ? <FigureTitle label={s.label}>{s.caption}</FigureTitle> : null}
           <div className="overflow-hidden rounded-2xl bg-secondary/10" style={{ aspectRatio: `${width} / ${height}` }}>
             {s.video ? (
               <LoopTile still={s.src} video={s.video} alt={s.alt} width={width} height={height} />
@@ -89,9 +93,11 @@ function StillGrid({ stills, width, height }: { stills: Still[]; width: number; 
               <img src={s.src} alt={s.alt} width={width} height={height} loading="lazy" decoding="async" className="block h-auto w-full" />
             )}
           </div>
-          <div className="mt-auto">
-            <FigureCaption label={s.label}>{s.caption}</FigureCaption>
-          </div>
+          {titled ? null : (
+            <div className="mt-auto">
+              <FigureCaption label={s.label}>{s.caption}</FigureCaption>
+            </div>
+          )}
         </figure>
       ))}
     </div>
@@ -133,28 +139,28 @@ const gallery: Still[] = [
     video: locantTileAgent,
     label: "Any agent",
     // A product name never breaks across lines ("Claude / Code" did at 1440).
-    caption: "the same payload in Cursor, Claude\u00a0Code, Codex, and Antigravity",
+    caption: "The same payload in Cursor, Claude\u00a0Code, Codex, and Antigravity",
     alt: "Cursor, Claude Code, Codex, and Antigravity in one frame, each sent the same Locant payload for the Product Ideas button. Cursor and Codex set out to match it to the Light And Color orb, Antigravity searches for Product Ideas and opens SeedScreenshot.swift, and Claude Code starts thinking",
   },
   {
     src: locantGalleryVerify,
     video: locantTileVerify,
     label: "Before & After",
-    caption: "one click flips between the orb before and after the edit",
+    caption: "One click flips between the orb before and after the edit",
     alt: "The Before & After window in Flip mode: each click swaps the Product Ideas orb between before the edit, small, and after it, larger with satellite dots, above 1 file changed, 28 insertions, 1 deletion",
   },
   {
     src: locantGalleryRing,
     video: locantTileRing,
     label: "The ring",
-    caption: "hold the ball, then release on an action",
+    caption: "Hold the ball, then release on an action",
     alt: "The ball held down until the ring unfolds with Snap, Text, Color, and Cut, then released on Color, which opens the magnifier",
   },
   {
     src: locantGalleryColor,
     video: locantTileColor,
     label: "Color",
-    caption: "a magnifier on the pixel, and the value copied",
+    caption: "A magnifier on the pixel, and the value copied",
     alt: "The Color magnifier on the Resurfacing card in Oryne, then a click and a Copied toast with the picked value",
   },
 ];
@@ -163,7 +169,7 @@ export function LocantHighlights() {
   return (
     <div className="flex flex-col gap-stack">
       <Chips items={highlights} />
-      <StillGrid stills={gallery} width={1200} height={900} />
+      <StillGrid stills={gallery} width={1200} height={900} titled />
     </div>
   );
 }
