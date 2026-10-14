@@ -56,7 +56,7 @@ export const RESUME_NAME = "Malik Zhang";
 export const RESUME_TITLE = "Product Designer";
 export const RESUME_PDF_PATH = "/malik-resume-2026.pdf";
 /** Shown in the page's top bar so a recruiter knows the document is current. Update with the content. */
-export const RESUME_UPDATED = "Sep 2026";
+export const RESUME_UPDATED = "Oct 2026";
 export const RESUME_DESCRIPTION =
   "Resume of Malik Zhang, Product Designer in Seattle: experience, work, education, and skills, with a PDF to download.";
 
@@ -88,7 +88,7 @@ export const RESUME_SECTIONS: ResumeSection[] = [
           "Designed the whole surface, from a double-tap Control gesture and hover overlay to a five-rung fallback ladder that names which rung it reached instead of failing silently, so the tool stays honest about its own confidence",
           "Scoped it to exactly two system permissions, Accessibility and Screen Recording, with no third prompt, no account, and no telemetry, and wrote the disclosure so a user reading the prompt can tell what never leaves the machine",
           "Built the integration as an MCP server verified end to end with Codex CLI, Claude Code, and Cursor, and published a compatibility matrix stating what is verified and what is untested",
-          "Went from nothing to a working version in three hours and has shipped through v0.7, then measured it against the workflow it replaced across 30 runs: clarifying questions fell from 17 of 18 to 0 of 12 and median time to edit from 39s to 22s, with the method and caveats published",
+          "Went from nothing to a working version in three hours and has shipped through v0.9.2, then ran a 40-run paired test against the screenshot workflow it replaced: the agent changed the wrong checkout's code in 14 of 20 runs with a screenshot and 0 of 20 with Locant, and reached the right file in a median 39s instead of 80s at about half the cost, after a first round found Locant short and one added sentence fixed it",
         ],
       },
       {
