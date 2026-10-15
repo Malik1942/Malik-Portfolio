@@ -20,22 +20,22 @@ const artifacts = [
   {
     src: auraScene4,
     alt: "Aura in-flight support scene",
-    caption: "Proactive support, in the moment it matters most",
+    title: "Proactive support, in the moment it matters most",
   },
   {
     src: auraBud1,
     alt: "Aura Buds product render",
-    caption: "Aura Buds: sensing and 100 Hz audio in a familiar form",
+    title: "Aura Buds: sensing and 100 Hz audio in a familiar form",
   },
   {
     src: auraApp1,
     alt: "Aura app interface showing setup, trip context, support preferences, and at-a-glance status",
-    caption: "The app: quiet preparation and status at a glance",
+    title: "The app: quiet preparation and status at a glance",
   },
   {
     src: auraSystem1,
     alt: "Aura system architecture",
-    caption: "The adaptive system: sensing, prediction, and support working as one",
+    title: "The adaptive system: sensing, prediction, and support working as one",
   },
 ];
 

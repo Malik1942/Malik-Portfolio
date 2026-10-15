@@ -19,17 +19,17 @@ const artifacts = [
   {
     src: rangerFront,
     alt: "Front elevation of RANGER showing the wide hull, twin side thruster pods, sensor bay, and camera gimbals",
-    caption: "The final form: a wide hull between two vectoring thruster pods",
+    title: "The final form: a wide hull between two vectoring thruster pods",
   },
   {
     src: rangerDetailPod,
     alt: "Close-up of the underside sensor bay, showing the ghost net positioning module between two camera pods",
-    caption: "The underside, where every sensor that finds a net is mounted",
+    title: "The underside, where every sensor that finds a net is mounted",
   },
   {
     src: rangerDetailGimbal,
     alt: "Close-up of a gimballed camera pod mounted beneath the hull",
-    caption: "A gimballed camera, because a net has to be seen before it can be caught",
+    title: "A gimballed camera, because a net has to be seen before it can be caught",
   },
 ];
 

@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useInView } from "framer-motion";
 import type { ProjectSectionFigure } from "@/types/projectDetail";
 import { FigureCaption } from "./FigureCaption";
+import { FigureTitle } from "./FigureTitle";
 
 function toEmbedUrl(url: string): string {
   const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
@@ -55,6 +56,14 @@ export function ProjectMediaFrame({ fig }: { fig: ProjectSectionFigure }) {
 
   if (!captioned?.caption) {
     return <figure data-testid="project-media-frame" className={frameClass}>{media}</figure>;
+  }
+  if (captioned.placement === "above") {
+    return (
+      <figure data-testid="project-media-frame">
+        <FigureTitle label={captioned.label}>{captioned.caption}</FigureTitle>
+        <div className={frameClass}>{media}</div>
+      </figure>
+    );
   }
   return (
     <figure data-testid="project-media-frame">

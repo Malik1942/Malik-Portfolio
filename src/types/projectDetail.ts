@@ -29,7 +29,15 @@ export type IntroBlock = {
  *  the frame and nothing under it. Where a caption is given it uses the shared
  *  `FigureCaption`, so an image in a `figures:` array reads the same as one
  *  inside a module. Keep `label` to two or three words. */
-type FigureCaptionFields = { label?: string; caption?: string };
+type FigureCaptionFields = {
+  label?: string;
+  caption?: string;
+  /** Where the caption sits. `below` (the default) is the centred caption under
+   *  the frame. `above` sets it over the frame as the figure's title, the form
+   *  every Highlights gallery takes; a figure placed in a Highlights section
+   *  should say so here so it reads like the gallery beside it. */
+  placement?: "above" | "below";
+};
 
 export type ProjectSectionFigure =
   | ({ type?: "image"; src: string; alt: string; full?: boolean } & FigureCaptionFields)

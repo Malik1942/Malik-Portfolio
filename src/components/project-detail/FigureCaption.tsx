@@ -7,9 +7,11 @@ import { noOrphan } from "@/lib/noOrphan";
  * reading size, in the primary text color. No dashes: Malik reads a long dash
  * as a tic, so the label and the clause are joined the way a sentence would be.
  *
- * NeuraLyfe's highlight gallery set this format; Moti and Oryne now share it,
- * so a caption looks the same on every case study. Keep `label` to two or
- * three words and `children` to a single clause.
+ * NeuraLyfe's highlight gallery set this format and Moti and Oryne shared it;
+ * since Oct 2026 every Highlights gallery sets its words above the media as a
+ * title instead (`FigureTitle`), and this caption is the form for figures in
+ * the sections below. Keep `label` to two or three words and `children` to a
+ * single clause.
  */
 export function FigureCaption({ label, children }: { label?: string; children: string }) {
   const text = label ? `${label}: ${children}` : children;

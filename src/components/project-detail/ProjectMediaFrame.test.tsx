@@ -25,6 +25,20 @@ describe("ProjectMediaFrame", () => {
     expect(screen.getByTestId("project-media-frame")).not.toHaveClass("rounded-2xl");
   });
 
+  it("sets a caption placed above the frame as the figure's title", () => {
+    const { container } = render(
+      <ProjectMediaFrame
+        fig={{ type: "image", src: "/placeholder.jpg", alt: "Research board", label: "Research board", caption: "The wall after synthesis", placement: "above" }}
+      />,
+    );
+
+    const title = container.querySelector("figcaption") as HTMLElement;
+    expect(title).toHaveTextContent("Research board");
+    expect(title).toHaveTextContent("The wall after synthesis");
+    expect(title.compareDocumentPosition(screen.getByRole("img")) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.queryByText("Research board: The wall after synthesis")).toBeNull();
+  });
+
   it("renders an embed as a bare 16:9 frame with no caption", () => {
     render(<ProjectMediaFrame fig={{ type: "embed", url: "https://youtu.be/dQw4w9WgXcQ", title: "Demo reel" }} />);
 

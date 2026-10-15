@@ -7,13 +7,14 @@ import neuralyfeHalo from "@/assets/neuralyfe-halo.mp4";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Chips, PullQuote } from "./MotiModules";
-import { FigureCaption } from "./FigureCaption";
+import { FigureTitle } from "./FigureTitle";
 import { noOrphan } from "@/lib/noOrphan";
 
 // NeuraLyfe's case-study hook — mirrors Moti's / Aura's hook (highlight chips →
 // pull-quote → artifact gallery). NeuraLyfe's artifacts are its interactive
 // screens, so the gallery autoplays the four product videos stacked one per row,
-// each a full-width main visual at its natural landscape ratio (no crop). Copy is
+// each a full-width main visual at its natural landscape ratio (no crop), with
+// its title set above the clip so the gallery reads by titles alone. Copy is
 // drawn from the case study + the Devpost submission.
 const highlights = [
   "CTE in 91% of examined NFL players",
@@ -26,10 +27,10 @@ const highlights = [
 // the clip's exact ratio before any bytes arrive, so the page never reflows as
 // the videos come in.
 const artifacts = [
-  { src: neuralyfeRoster, width: 1396, height: 1080, label: "Roster View", caption: "triage the whole team at a glance" },
-  { src: neuralyfeBrain, width: 1472, height: 1080, label: "Brain View", caption: "where neurological stress is building" },
-  { src: neuralyfeReplay, width: 1636, height: 1080, label: "Impact Replay", caption: "trace an alert back to the play" },
-  { src: neuralyfeHalo, width: 1920, height: 1200, label: "Halo", caption: "the sensing layer of EEG, biomarkers, and an impact camera" },
+  { src: neuralyfeRoster, width: 1396, height: 1080, label: "Roster View", title: "Triage the whole team at a glance" },
+  { src: neuralyfeBrain, width: 1472, height: 1080, label: "Brain View", title: "Where neurological stress is building" },
+  { src: neuralyfeReplay, width: 1636, height: 1080, label: "Impact Replay", title: "Trace an alert back to the play" },
+  { src: neuralyfeHalo, width: 1920, height: 1200, label: "Halo", title: "The sensing layer of EEG, biomarkers, and an impact camera" },
 ];
 
 // The four clips add up to ~13 MB. With `autoPlay` on the elements they all began
@@ -50,13 +51,13 @@ function NeuraLyfeArtifact({
   width,
   height,
   label,
-  caption,
+  title,
 }: {
   src: string;
   width: number;
   height: number;
   label: string;
-  caption: string;
+  title: string;
 }) {
   const boxRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -103,6 +104,7 @@ function NeuraLyfeArtifact({
 
   return (
     <figure>
+      <FigureTitle label={label}>{title}</FigureTitle>
       <div
         ref={boxRef}
         className="overflow-hidden rounded-2xl bg-secondary/10"
@@ -121,7 +123,6 @@ function NeuraLyfeArtifact({
           className="w-full h-auto block"
         />
       </div>
-      <FigureCaption label={label}>{caption}</FigureCaption>
     </figure>
   );
 }

@@ -68,8 +68,15 @@ describe("Locant case-study modules", () => {
       expect(loop).toHaveAttribute("width", "1200");
       expect(loop).toHaveAttribute("height", "900");
     }
-    expect(screen.getByText("Before & After: one click flips between the orb before and after the edit")).toBeInTheDocument();
-    expect(screen.getByText("Any agent: the same payload in Cursor, Claude Code, Codex, and Antigravity")).toBeInTheDocument();
+    // Each loop is titled above the frame, not captioned under it: the
+    // label as an eyebrow, the words as the title, both before the video.
+    expect(screen.getByText("One click flips between the orb before and after the edit")).toBeInTheDocument();
+    const anyAgent = screen.getByText("The same payload in Cursor, Claude Code, Codex, and Antigravity");
+    const figure = anyAgent.closest("figure") as HTMLElement;
+    expect(within(figure).getByText("Any agent")).toBeInTheDocument();
+    const title = figure.querySelector("figcaption") as HTMLElement;
+    const loop = figure.querySelector("video") as HTMLElement;
+    expect(title.compareDocumentPosition(loop) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it("shows each loop's first frame as a still when motion is reduced", () => {

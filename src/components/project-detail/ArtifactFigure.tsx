@@ -1,13 +1,16 @@
-import { noOrphan } from "@/lib/noOrphan";
+import { FigureTitle } from "./FigureTitle";
 
 /**
- * A captioned still in a case study's Highlights: the image in a rounded well,
- * the caption centred beneath. Five case studies each carried a copy of this
- * and the copies were identical, so it lives once here.
+ * A titled still in a case study's Highlights: the title above, the image in
+ * a rounded well under it. Five case studies each carried a copy of this and
+ * the copies were identical, so it lives once here. The title used to be a
+ * caption centred under the image; it moved above the frame (Oct 2026) so a
+ * reader skimming the gallery knows what each artifact is before looking.
  */
-export function ArtifactFigure({ src, alt, caption }: { src: string; alt: string; caption: string }) {
+export function ArtifactFigure({ src, alt, title }: { src: string; alt: string; title: string }) {
   return (
     <figure>
+      <FigureTitle>{title}</FigureTitle>
       <div className="overflow-hidden rounded-2xl bg-secondary/10">
         <img
           src={src}
@@ -17,9 +20,6 @@ export function ArtifactFigure({ src, alt, caption }: { src: string; alt: string
           className="w-full h-auto block"
         />
       </div>
-      <figcaption className="mt-caption text-base md:text-xl text-foreground text-center leading-relaxed">
-        {noOrphan(caption)}
-      </figcaption>
     </figure>
   );
 }

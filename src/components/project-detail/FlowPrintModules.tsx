@@ -31,17 +31,17 @@ const artifacts = [
   {
     src: flowprintWelcomeUi,
     alt: "FlowPrint welcome screen asking how experienced you are with 3D printing, with First time user and Pro user",
-    caption: "The only fork: first-time walks setup, Pro goes home",
+    title: "The only fork: first-time walks setup, Pro goes home",
   },
   {
     src: flowprintHomeUi,
     alt: "FlowPrint home on the printer screen: the machine in view, Tap to Start Printing, AMS spools, and head temperature",
-    caption: "Home is the idle machine, not a dashboard of parts",
+    title: "Home is the idle machine, not a dashboard of parts",
   },
   {
     src: flowprintFinishedUi,
     alt: "FlowPrint finished-printing screen with a green printed bust and the title Finished Printing",
-    caption: "The first print ends in a part, then a two-card summary",
+    title: "The first print ends in a part, then a two-card summary",
   },
 ];
 

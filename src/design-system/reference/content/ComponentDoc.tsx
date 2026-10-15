@@ -580,11 +580,13 @@ export const COMPONENT_DOCS: Record<string, ComponentDocEntry> = {
         { name: "title", type: "string", description: "Embed only. The iframe's accessible name." },
         { name: "caption", type: "string", description: "Image and video only. One clause under the frame; absent, the frame renders alone." },
         { name: "label", type: "string", description: "Image and video only. Two or three words naming the artifact, joined to the caption with a colon." },
+        { name: "placement", type: '"above" | "below"', default: '"below"', description: "Image and video only. Above sets the words over the frame as its title, the Highlights form, with the label as an eyebrow." },
       ],
     },
     tokens: ["color.surface.secondary", "color.background.canvas", "radius.large"],
     pairings: [
       { partner: "Figure caption", relationship: "The caption follows the frame inside the same figure: an optional label, a colon, one clause." },
+      { partner: "Figure title", relationship: "In a Highlights gallery the same words lead the frame instead: the label as an eyebrow, one sentence-case line above the media." },
       { partner: "Image lightbox", relationship: "Images inside the case-study root open in the lightbox through a delegated click; the frame does not know about it." },
       { partner: "Case-study structure", relationship: "Every figure in a section renders through the frame, so the media rhythm is the template's, not the author's." },
     ],
