@@ -25,10 +25,10 @@ afterEach(() => {
 });
 
 const stepTitles = [
-  "Type it or say it, in under two seconds",
-  "Release it, and the phone names it",
+  "Tap the bar to type, or hold the disc to whisper",
+  "Release it, and it is carried into the sea",
   "It joins a current of related thoughts",
-  "A forgotten thought rises on its own",
+  "One thought comes back a day. Rest it, and the next rises",
 ];
 
 describe("Oryne Highlights", () => {

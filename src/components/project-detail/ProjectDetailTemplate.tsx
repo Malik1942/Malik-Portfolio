@@ -50,6 +50,9 @@ import {
   OrynePrivacy,
   OryneShipping,
   OryneTakeaways,
+  OryneRefocus,
+  OryneMaterial,
+  OryneUsability,
 } from "./OryneModules";
 import {
   LocantBall,
@@ -235,6 +238,9 @@ const INLINE_MODULES: Record<string, React.ReactNode> = {
   "oryne-competitive": <OryneCompetitive />,
   "oryne-privacy": <OrynePrivacy />,
   "oryne-shipping": <OryneShipping />,
+  "oryne-refocus": <OryneRefocus />,
+  "oryne-material": <OryneMaterial />,
+  "oryne-usability": <OryneUsability />,
   "oryne-takeaways": <OryneTakeaways />,
   "locant-highlights": <LocantHighlights />,
   "locant-question": <LocantQuestion />,
