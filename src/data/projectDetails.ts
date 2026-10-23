@@ -1117,10 +1117,12 @@ const ranger: ProjectDetailSource = {
   ],
 };
 
-// Real Oryne case study. Imagery lives in src/assets (oryne-*.webp, the walkthrough
-// clips as oryne-step-*.mp4, the film as oryne-film.mp4); the rich section blocks
-// live in OryneModules.tsx and render via the [[module:oryne-*]] refs. Every date and claim is verified against the App Store
-// listing and the app's git history.
+// Real Oryne case study, rewritten for 2.0 on 2026-10-21. Imagery lives in
+// src/assets (oryne-*.webp, the walkthrough clips as oryne-step-*.mp4, the
+// film as oryne-film.mp4); the rich section blocks live in OryneModules.tsx and
+// render via the [[module:oryne-*]] refs. Every date and claim is verified
+// against the App Store listing, the app's git history, and the spec and test
+// write-up in its repository (docs/plans/phone-refocus).
 const oryne: ProjectDetailSource = {
   slug: "oryne",
   title: "Oryne",
@@ -1129,32 +1131,32 @@ const oryne: ProjectDetailSource = {
   // starts and the reduced-motion still is the title card it opens on: the icon
   // and wordmark at rest beside the phone, the way Moti's reel opens.
   heroImage: oryneHeroPoster,
-  // The product's whole loop on a real phone, in four acts: catch a thought
-  // with the Action Button, watch a current gather, meet one that drifted
-  // back, and ask the Ocean a question. The camera holds wide on the title,
-  // pushes into the screen until it fills the frame, pans to follow the action
-  // through each act, and pulls back out at the end. Composited at 4800x2700
-  // so that push never has to upscale.
+  // The 2.0 loop in four takes, centred and still, title card at both ends:
+  // the bar tapped and a thought typed and released into Tide, a current
+  // opened, Let it rest, and one question to Ask with its answer. Cut from
+  // continuous simulator takes with only the still stretches dropped, joined
+  // by half-second dissolves; no camera movement, by Malik's standing rule.
   heroVideo: oryneHeroLoop,
   heroImageFit: "cover",
   metaCards: [
     { label: "Role", value: "0→1 Product Designer & Builder" },
-    { label: "Timeline", value: "June 2026–Present" },
+    { label: "Timeline", value: "June 2026–Present\n2.0 in October 2026" },
     // Two authored lines: the platform, then the intelligence and the agent. One
     // line is 62 characters and wraps mid-list at desktop width, leaving a lone
     // separator at the start of line two.
     { label: "Tools", value: "SwiftUI · SwiftData + CloudKit\nFoundation Models · Claude Code" },
-    { label: "Output", value: "Live on the App Store · v1.5 · English & Chinese" },
+    { label: "Output", value: "Live on the App Store · v1.5 · English & Chinese\n2.0 with Apple Watch, built and prepared" },
   ],
   // The arc: the problem (lists bury), the competitive landscape (everyone
   // holds two of the three), the idea that gap made room for, the principles the
   // idea was written into, the versions and releases it took to get there, the
-  // shipped flow, and the privacy position underneath it all.
-  // There is no research section, by decision: this project has no generative
-  // research, and the feasibility work that used to sit here (embedding floor,
-  // the bilingual sweep, the two speech questions) was cut because it read as
-  // engineering evidence rather than design. Do not reintroduce it as "Research";
-  // if it comes back it needs its own honest label and a reason to be read.
+  // refocus that took the map off the phone three months later, the shipped 2.0
+  // flow, and the privacy position underneath it all.
+  // There is no generative-research section, by decision: the feasibility work
+  // (embedding floor, the bilingual sweep, the two speech questions) was cut in
+  // September because it read as engineering evidence rather than design. The
+  // usability test inside The Refocus is the one piece of evaluation shown, and
+  // the copy says what it was: three AI testers on simulators, no human yet.
   // Every section close hands off to the next, so reordering means rewriting
   // the closes.
   sections: [
@@ -1164,18 +1166,19 @@ const oryne: ProjectDetailSource = {
       headline: "An app where thoughts come back on their own",
       showProjectMeta: true,
       // Plain words first: what it is and who it is for, then what happens to
-      // a thought, in one breath. The metaphor ("they float") waits for The
-      // Idea; a first visit needs the context before the poetry.
-      body: "**Oryne is an iPhone app for people whose best ideas get lost in a notes list.** Say or type a thought and let it go. The phone names it, drifts it next to related thoughts, and brings it back on a day it might matter.\n\n[[module:oryne-tags]]",
+      // a thought, in one breath, then the shape of the year. The metaphor
+      // ("they float") waits for The Idea; a first visit needs the context
+      // before the poetry.
+      body: "**Oryne is an iPhone app for people whose best ideas get lost in a notes list.** Say or type a thought and let it go. The phone names it, drifts it next to related thoughts, and brings it back on a day it might matter.\n\nVersion 1 reached the App Store in July 2026 and went through five releases in two weeks. Three months of carrying it changed what the phone was for, and in October it was rebuilt around one gesture and three tabs, with an Apple Watch app beside it.\n\n[[module:oryne-tags]]",
       afterMetaModule: "oryne-app-store",
     },
     {
       id: "highlights",
       label: "Highlights",
-      headline: "Let a thought go, and it finds its way back",
-      // The hook is the walkthrough: one thought in four short clips, titled so
-      // the flow reads in the time they take to play. The 80 s film used to
-      // autoplay here and opens from a button in the module instead.
+      headline: "Hold to speak, let go, and it finds its way back",
+      // The hook is the walkthrough: one thought in four short clips of the
+      // 2.0 build, titled so the flow reads in the time they take to play.
+      // The version 1 launch film opens from a button in the module instead.
       body: "[[module:oryne-hook]]",
     },
     {
@@ -1194,37 +1197,48 @@ const oryne: ProjectDetailSource = {
       id: "idea",
       label: "The Idea",
       headline: "Your mind as an ocean, and every decision derived from it",
-      body: "The gap was a tool that catches a thought, gives it a place, and brings it back. Water does all three without a filing system: things drift, related ones gather, and what sank comes up again on its own. So the mind became an ocean, and a thought became something you let go of rather than something you put away.\n\nThat only helps if the metaphor makes decisions, so it was held to one rule: every interaction has to be explainable as how water works, never as how apps work. Capture is a thought falling into the ocean. Categorization is a thought flowing into a current, and that is the literal copy in the app, because \u201cassign to category\u201d would have been the list sneaking back in through the language.\n\n[[module:oryne-idea]]\n\n**A field that feels alive is illegible by default. So the Ocean is for encountering, the Library is for finding, and neither pretends to be the other. A metaphor that settles questions this large should not live in one person's head, so it was written down as rules.**",
+      body: "The gap was a tool that catches a thought, gives it a place, and brings it back. Water does all three without a filing system: things drift, related ones gather, and what sank comes up again on its own. So the mind became an ocean, and a thought became something you let go of rather than something you put away.\n\nThat only helps if the metaphor makes decisions, so it was held to one rule: every interaction has to be explainable as how water works, never as how apps work. Capture is a thought falling into the ocean. Categorization is a thought flowing into a current, and that is the literal copy in the app, because “assign to category” would have been the list sneaking back in through the language.\n\n[[module:oryne-idea]]\n\n**A field that feels alive is illegible by default. So Tide is for encountering, the Library is for finding, and neither pretends to be the other. A metaphor that settles questions this large should not live in one person's head, so it was written down as rules.**",
     },
     {
       id: "principles",
       label: "Principles",
-      headline: "Eight principles, each with a test it has to pass",
-      body: "Two days into the native build I wrote the metaphor down as eight principles and put the file in the repository next to the code. Each one ends in a question, and the question is the whole point: a review can cite \u201cviolates Trust, confirmation before verification\u201d instead of \u201cfeels wrong,\u201d and if the answer is yes, the change does not ship. Five belong to one of the four places. Three hold everywhere.\n\n[[module:oryne-principles]]\n\n**A principle without a test is a mood. These eight were written for the third version of this idea. The two versions before it are why there was anything to write.**",
+      headline: "Eight principles with a test each, and a ninth test for the phone",
+      body: "Two days into the native build I wrote the metaphor down as eight principles and put the file in the repository next to the code. Each one ends in a question, and the question is the whole point: a review can cite “violates Trust, confirmation before verification” instead of “feels wrong,” and if the answer is yes, the change does not ship. Five belong to one of the four places. Three hold everywhere.\n\nFour months later the file was amended before the second version's code landed, not after. The phone got a test of its own, and the map failed it.\n\n[[module:oryne-principles]]\n\n**A principle without a test is a mood. These eight were written for the third version of this idea. The two versions before it are why there was anything to write.**",
     },
     {
       id: "iterations",
       label: "Iterations",
       headline: "Three versions before the ocean moved, six releases after",
-      body: "The metaphor arrived before the product did. It went through a web prototype, a set of wireframes, and a first native build before the Ocean looked like water, and each version kept something the next one still has.\n\n[[module:oryne-iterations]]\n\nWhat survived all three was the skeleton: four verbs, four tabs, and a long press.\n\nShipping did not end the iteration, it changed the clock. I had never written production Swift. Twenty-three days after the first commit Oryne was on the App Store, and five more releases followed within two weeks, each closing something the last had left open.\n\nThe agent wrote the code. I designed the review, because when the author and the reviewer share the same blind spots you do not have a review. You have a rubber stamp with extra steps.\n\n[[module:oryne-shipping]]\n\n**Speed was the agent's job. Judgment stayed mine, and the gates exist so that nothing irreversible ever happens at machine speed.**",
+      body: "The metaphor arrived before the product did. It went through a web prototype, a set of wireframes, and a first native build before the Ocean looked like water, and each version kept something the next one still has.\n\n[[module:oryne-iterations]]\n\nWhat survived all three was the skeleton: four verbs, four tabs, and a long press. The four tabs lasted until October.\n\nShipping did not end the iteration, it changed the clock. I had never written production Swift. Twenty-three days after the first commit Oryne was on the App Store, and five more releases followed within two weeks, each closing something the last had left open.\n\nThe agent wrote the code. I designed the review, because when the author and the reviewer share the same blind spots you do not have a review. You have a rubber stamp with extra steps.\n\n[[module:oryne-shipping]]\n\n**Speed was the agent's job. Judgment stayed mine, and the gates exist so that nothing irreversible ever happens at machine speed. The hardest judgment came three months later, and it was about my favourite feature.**",
+    },
+    {
+      id: "refocus",
+      label: "The Refocus",
+      headline: "Three months in, the map left the phone",
+      // Dates and facts: the spec (2026-10-17) records a product conversation
+      // of 10-15 to 10-17; the branch's first commit is 10-17 19:24 and its
+      // last 10-19 01:46, merged as the app repository's PR #7 on 10-19; the
+      // watch build was tagged 10-20. The line counts are git's, Swift files
+      // only. The usability test is the repository's own write-up of 10-18.
+      body: "By October I had carried Oryne for three months, and the honest reading was that the phone was never where ideas got explored. A phone is glanced at. What it is for is intake and the quick return: catch a thought in one gesture, and see what came back today. Everything that needed more than a glance was in the way of that.\n\nSo one test was written down before any code: would this need more than a glance or one gesture on a phone? Then it belongs on the desk. The explorable map, the four-mode Ask, the Capture tab, and the review beat after a whisper all failed it.\n\n[[module:oryne-refocus]]\n\nThe map was the feature I was proudest of. It was also the one that answered no question a phone gets asked. Over the weekend of October 17 to 19 it left, and Tide took its place: a page you can read in three seconds. The Capture tab became a bar, voice became a gesture, and Ask became one question with one grounded answer. The next day a watch app joined it, because the wrist is where a thought is cheapest to catch.\n\n## A quieter material\n\nThe second version also stopped rendering. Version 1 painted glass, rims, and light on everything. 2.0 is flat fills, with Liquid Glass only on the layer that floats over content, one lamp in the water behind the resurfacing thought, and New York, Apple's serif, in the three moments that name what a page is about. Spacing does the grouping: one gutter, tight items, sections far apart. Every control is 44 points tall.\n\n[[module:oryne-material]]\n\n## Tested before a person saw it\n\nOn October 18 three AI testers ran the build on simulators of their own: a first-time English user, a returning bilingual user, and a heuristic reviewer with Nielsen's list and the HIG. Their verdict was blunt. The set of functions is close to enough, and the reliability is not.\n\n[[module:oryne-usability]]\n\n**Fifteen of their findings were fixed in the pass that followed, and the missing Chinese strings two days later. The two they called blockers, a deleted thought that cannot come back and an Ask that cannot reliably re-find your own idea, are the top of the list for 2.1. No person has tested 2.0 yet. The list is what they will meet.**",
     },
     {
       id: "final-design",
       label: "Final Design",
       headline: "One thought, from caught to returned",
-      body: "One thought, start to finish, and the decisions underneath. Every screen is the shipped app.\n\n[[module:oryne-flow]]\n\n**Capture in under two seconds from anywhere. If a change would make someone hesitate before capturing, the answer is no. And what you are willing to capture in the first place depends entirely on where you believe it goes.**",
+      body: "One thought, start to finish, and the decisions underneath. Every screen is the 2.0 build.\n\n[[module:oryne-flow]]\n\n**Capture in one gesture from anywhere. If a change would make someone hesitate before capturing, the answer is no. And what you are willing to capture in the first place depends entirely on where you believe it goes.**",
     },
     {
       id: "privacy",
       label: "Privacy",
       headline: "Nothing you capture leaves the phone",
-      body: "An inspiration tool only works if you will feed it your half-formed, 2 a.m. thoughts, so nothing you capture transits a server I can read.\n\nOn-device models are smaller than the cloud's, and classification, kinship, and resurfacing were all designed around what local intelligence can actually do rather than what a server could have done. I would make the same trade again.\n\n[[module:oryne-privacy]]\n\n**On-device is not a spec-sheet line. It is the precondition for the honesty the whole product depends on.**",
+      body: "An inspiration tool only works if you will feed it your half-formed, 2 a.m. thoughts, so nothing you capture transits a server I can read.\n\nOn-device models are smaller than the cloud's, and classification, kinship, resurfacing, and now summaries were all designed around what local intelligence can actually do rather than what a server could have done. Cloud transcription was ruled out again in 2.0, when a bilingual take started running through both on-device recognizers instead. I would make the same trade again.\n\n[[module:oryne-privacy]]\n\n**On-device is not a spec-sheet line. It is the precondition for the honesty the whole product depends on.**",
     },
     {
       id: "learned",
       label: "What the Ocean Taught Me",
       headline: "Nearly every choice trades control for encounter",
-      body: "Nearly every choice trades control for encounter: browsing over managing, drift over sorting, restraint over reach. That is the trade I keep wanting to make, and probably the most honest description of the kind of designer I am.\n\n[[module:oryne-takeaways]]",
+      body: "Nearly every choice trades control for encounter: browsing over managing, drift over sorting, restraint over reach. That is the trade I keep wanting to make, and probably the most honest description of the kind of designer I am. The hardest version of it was taking my own favourite feature off the phone.\n\n[[module:oryne-takeaways]]",
     },
   ],
 };
