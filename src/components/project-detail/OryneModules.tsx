@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import { useInView, useReducedMotion } from "framer-motion";
 import { noOrphan } from "@/lib/noOrphan";
 import {
@@ -48,6 +48,17 @@ import oryneStepCurrentPoster from "@/assets/oryne-step-current-poster.webp";
 import oryneStepRest from "@/assets/oryne-step-rest.mp4";
 import oryneStepRestPoster from "@/assets/oryne-step-rest-poster.webp";
 import oryneFilm from "@/assets/oryne-film.mp4";
+import oryneFilmTilePoster from "@/assets/oryne-film-tile-poster.webp";
+import oryneFilmOnboarding from "@/assets/oryne-film-onboarding.mp4";
+import oryneFilmOnboardingPoster from "@/assets/oryne-film-onboarding-poster.webp";
+import oryneFilmOcean from "@/assets/oryne-film-ocean.mp4";
+import oryneFilmOceanPoster from "@/assets/oryne-film-ocean-poster.webp";
+import oryneProtoCanvas from "@/assets/oryne-proto-canvas.webp";
+import oryneWireOceanLayouts from "@/assets/oryne-wire-ocean-layouts.webp";
+import oryneAppStoreCapture from "@/assets/oryne-appstore-1.webp";
+import oryneAppStoreOcean from "@/assets/oryne-appstore-2.webp";
+import oryneAppStoreAsk from "@/assets/oryne-appstore-8.webp";
+import oryneAppStoreLibrary from "@/assets/oryne-appstore-9.webp";
 import oryneFilmPoster from "@/assets/oryne-film-poster.webp";
 import { Button } from "@/components/ui/Button";
 
@@ -102,10 +113,11 @@ export function OryneAppStoreCta() {
   );
 }
 
-/* ── 2) Highlights — the walkthrough, chips, and the film behind a button ── */
+/* ── 2) Highlights — the walkthrough and the chips ───────────────────────── */
 // The product itself in four steps first, then six credentials a recruiter
-// takes in at a glance, then the film for whoever wants the long version. The
-// steps lead because the section exists to be understood in twenty seconds.
+// takes in at a glance. The steps lead because the section exists to be
+// understood in twenty seconds. The launch film lives in Version 1, where it
+// belongs in time, as a poster that opens the video lightbox.
 const hookHighlights = [
   "Live on the App Store",
   "First commit to 1.0 in 23 days",
@@ -114,12 +126,6 @@ const hookHighlights = [
   "Intelligence runs on the device",
   "English and Simplified Chinese",
 ];
-const film: LightboxVideo = {
-  src: oryneFilm,
-  poster: oryneFilmPoster,
-  title: "The Oryne film",
-  caption: "The version 1 launch film, 80 seconds: catch inspiration before it drifts.",
-};
 
 // One thought, caught to returned, as four clips of a few seconds, each
 // titled above its clip so the flow reads from the titles alone in the time
@@ -232,30 +238,96 @@ export function OryneWalkthrough() {
   );
 }
 export function OryneHook() {
-  const [open, setOpen] = useState<LightboxVideo | null>(null);
-  const close = useCallback(() => setOpen(null), []);
   return (
     <div className="flex flex-col gap-stack">
       <OryneWalkthrough />
       <Chips items={hookHighlights} />
-      <div className="flex justify-center">
-        <Button tone="secondary" icon={<Play strokeWidth={1.8} />} iconPosition="leading" onClick={() => setOpen(film)}>
-          Watch the 80-second film
-        </Button>
-      </div>
-      <VideoLightbox video={open} onClose={close} />
     </div>
   );
 }
 
-/* ── 3) The Problem — three pillars ─────────────────────────────────────── */
+/* ── Film loops — two moments cut from the version 1 launch film ────────── */
+// The 1.0 app no longer runs anywhere, so these are the only moving record of
+// it: cut from oryne-film.mp4 (1920x1080) as a 640x1080 column centred on the
+// phone, with the film's own black ground and glow. Onboarding is 4.5 to 11.4
+// s, the three pages before Fast Capture. The Ocean is 28 to 35 s: an orb held
+// on the 1.0 field, its current opening, and the film's own push into the
+// sheet. Re-cut from the film, never re-rendered, so what is shown is what
+// shipped. Silent loops, played only while on screen; the poster stands in
+// under reduced motion.
+type FilmLoopClip = { src: string; poster: string; alt: string; label: string; caption: string };
+const FILM_LOOP_WIDTH = 640;
+const FILM_LOOP_HEIGHT = 1080;
+function FilmLoop({ clip }: { clip: FilmLoopClip }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const reduced = useReducedMotion();
+  const near = useInView(videoRef, { once: true, margin: "100% 0px 100% 0px" });
+  const onScreen = useInView(videoRef, { amount: 0.4 });
+
+  useEffect(() => {
+    const loop = videoRef.current;
+    if (!loop || !near || reduced) return;
+    if (onScreen) loop.play().catch(() => {});
+    else loop.pause();
+  }, [near, onScreen, reduced]);
+
+  return (
+    <figure className={`${SCREEN_FIGURE_WIDTH} flex flex-col`}>
+      <div className="overflow-hidden rounded-2xl bg-secondary/10">
+        {reduced ? (
+          <img src={clip.poster} alt={clip.alt} width={FILM_LOOP_WIDTH} height={FILM_LOOP_HEIGHT} loading="lazy" decoding="async" className="w-full h-auto block" />
+        ) : (
+          <video
+            ref={videoRef}
+            src={near ? clip.src : undefined}
+            poster={clip.poster}
+            width={FILM_LOOP_WIDTH}
+            height={FILM_LOOP_HEIGHT}
+            muted
+            loop
+            playsInline
+            preload="none"
+            aria-label={clip.alt}
+            className="w-full h-auto block"
+          />
+        )}
+      </div>
+      <FigureCaption label={clip.label}>{clip.caption}</FigureCaption>
+    </figure>
+  );
+}
+const onboardingLoop: FilmLoopClip = {
+  src: oryneFilmOnboarding,
+  poster: oryneFilmOnboardingPoster,
+  alt: "Version 1 onboarding: Not another notes app, then Catch fragments before they disappear, then The Ocean gives back",
+  label: "Onboarding, 1.0",
+  caption: "the first thing the app says is what it is not",
+};
+const oceanLoop: FilmLoopClip = {
+  src: oryneFilmOcean,
+  poster: oryneFilmOceanPoster,
+  alt: "The 1.0 Ocean: orbs on a dark field, one held until it glows, and its current, Creative Direction, opening as a sheet of eight thoughts",
+  label: "The first build",
+  caption: "hold an orb, and the current it belongs to opens",
+};
+
+/* ── 3) The Problem — the app's first screen, then three pillars ───────── */
 const problemPillars: GridItem[] = [
   { num: "01", title: "The List Buries", desc: "Neat, chronological, and never scrolled back through.", icon: Layers, accent: "violet" },
   { num: "02", title: "Memory Is Not a Timeline", desc: "A thought returns because something today rhymes with it.", icon: Waves, accent: "emerald" },
   { num: "03", title: "The Moment Is Too Short", desc: "Unlock, open, find the note. The thought is already gone.", icon: Zap, accent: "slate" },
 ];
 export function OryneProblem() {
-  return <CardGrid items={problemPillars} colsClass="grid-cols-1 sm:grid-cols-3" />;
+  return (
+    <div className="flex flex-col gap-8 md:gap-10">
+      <ModuleCard>
+        <div className="bg-surface-inset px-6 py-7 md:px-8 md:py-8">
+          <FilmLoop clip={onboardingLoop} />
+        </div>
+      </ModuleCard>
+      <CardGrid items={problemPillars} colsClass="grid-cols-1 sm:grid-cols-3" />
+    </div>
+  );
 }
 
 /* ── 4) The Idea — the vocabulary as a specimen board ───────────────────── */
@@ -274,9 +346,46 @@ const vocabulary: VocabularyTerm[] = [
   { term: "Resurfacing", meaning: "One forgotten thought rises per day. Rest it, and the next does.", inApp: "“Let it rest”" },
   { term: "Ask the Ocean", meaning: "A question answered only from your own thoughts.", inApp: "“Nothing in your Ocean matches this yet”" },
 ];
+// The metaphor took three tries to look like water, shown in order: the
+// Lovable web prototype captured live on 2026-09-08, the Claude Design
+// wireframe row of four Ocean layouts (2026-05-24, rendered at 2x), and the
+// first build's Ocean in motion from the launch film.
+function WideFigure({ src, alt, label, caption }: ArtifactItem) {
+  return (
+    <figure className="bg-surface-inset px-6 py-7 md:px-8 md:py-8">
+      <div className="overflow-hidden rounded-2xl bg-secondary/10">
+        <img src={src} alt={alt} loading="lazy" decoding="async" className="w-full h-auto block" />
+      </div>
+      <FigureCaption label={label}>{caption}</FigureCaption>
+    </figure>
+  );
+}
+function IdeaTries() {
+  return (
+    <ModuleCard header="Three Tries Before It Looked Like Water">
+      <div className="flex flex-col divide-y divide-case-study-module-divider">
+        <WideFigure
+          src={oryneProtoCanvas}
+          alt="The InspireOcean web prototype: note cards scattered on a dotted canvas with a search bar and Add and Rediscover buttons"
+          label="Web prototype"
+          caption="cards wherever you dropped them, a whiteboard rather than water"
+        />
+        <WideFigure
+          src={oryneWireOceanLayouts}
+          alt="Wireframe row: four Ocean layouts side by side, Drift, Cluster, Depth, and Timeline, each as a phone screen"
+          label="Wireframes"
+          caption="four layouts for the Ocean, from most like water to most legible"
+        />
+        <div className="bg-surface-inset px-6 py-7 md:px-8 md:py-8">
+          <FilmLoop clip={oceanLoop} />
+        </div>
+      </div>
+    </ModuleCard>
+  );
+}
 // Hairline grid: the divider colour shows through the 1px gaps, and each cell
 // paints the card surface back over it.
-export function OryneIdea() {
+function VocabularyGrid() {
   return (
     <ModuleCard>
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-px bg-case-study-module-divider">
@@ -291,8 +400,92 @@ export function OryneIdea() {
     </ModuleCard>
   );
 }
+export function OryneIdea() {
+  return (
+    <div className="flex flex-col gap-8 md:gap-10">
+      <IdeaTries />
+      <VocabularyGrid />
+    </div>
+  );
+}
 
-/* ── 5) Version 1 — the releases, in five rows ──────────────────────────── */
+/* ── 5) Version 1 — the launch film, the 1.0 listing, the releases ─────── */
+// The film is media, so it renders the way the design system renders a reel
+// on a case study: a poster in the media frame (large radius, secondary wash)
+// that opens the video lightbox with sound. The tile's poster is the film's
+// opening title card (3.5 s), not its end card: the end card carries an App
+// Store badge that would read as a second link. The play disc is the project
+// card's corner video glyph at poster size, same material, same corner, so
+// it never sits on the title. The click stops at the tile so the page's
+// delegated image lightbox never opens the poster too.
+const film: LightboxVideo = {
+  src: oryneFilm,
+  poster: oryneFilmPoster,
+  title: "The Oryne film",
+  caption: "The version 1 launch film, 80 seconds: catch inspiration before it drifts.",
+};
+function FilmTile() {
+  const [open, setOpen] = useState<LightboxVideo | null>(null);
+  const close = useCallback(() => setOpen(null), []);
+  const play = (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    setOpen(film);
+  };
+  return (
+    <figure>
+      <button
+        type="button"
+        onClick={play}
+        aria-label="Watch the 80-second film"
+        className="group relative block w-full overflow-hidden rounded-2xl bg-secondary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      >
+        <img src={oryneFilmTilePoster} alt="" width={1920} height={1080} loading="lazy" decoding="async" className="w-full h-auto block" />
+        <span
+          aria-hidden="true"
+          className="absolute left-4 bottom-4 md:left-6 md:bottom-6 flex h-12 w-12 items-center justify-center rounded-full border border-hairline bg-background/75 text-foreground-secondary backdrop-blur-sm transition-colors duration-fast ease-settle group-hover:border-border group-hover:text-foreground"
+        >
+          <Play className="ml-0.5 h-4 w-4" strokeWidth={2} fill="currentColor" />
+        </span>
+      </button>
+      <FigureCaption label="Launch film">80 seconds of version 1, with sound</FigureCaption>
+      <VideoLightbox video={open} onClose={close} />
+    </figure>
+  );
+}
+// The 1.0 App Store set, exported 2026-06-28 for the July 2 release (the
+// originals are in ~/Documents/Oryne App Store, Frames 1, 2, 8, and 9),
+// resized to 900 wide. One frame per tab, in tab order, so the row reads as
+// the four-tab app the refocus later took apart. The marketing lines are
+// baked into the frames, so each frame carries only its tab name, as a small
+// mono label above it, the vocabulary grid's label style.
+type ListingFrame = { src: string; alt: string; tab: string };
+const listing: ListingFrame[] = [
+  { src: oryneAppStoreCapture, alt: "1.0 App Store frame: the Capture tab with a typed thought and Release into the Ocean, titled Never lose a fleeting idea", tab: "Capture" },
+  { src: oryneAppStoreOcean, alt: "1.0 App Store frame: the Ocean as a field of named orbs, titled Watch your thinking take shape", tab: "Ocean" },
+  { src: oryneAppStoreAsk, alt: "1.0 App Store frame: Ask the Ocean with Search, Synthesis, Expansion, and Research lenses, titled Talk to your second brain", tab: "Ask" },
+  { src: oryneAppStoreLibrary, alt: "1.0 App Store frame: the Library as a list grouped by day, titled Every idea, back when you need it", tab: "Library" },
+];
+export function OryneLaunch() {
+  return (
+    <div className="flex flex-col gap-8 md:gap-10">
+      <FilmTile />
+      <ModuleCard header="The 1.0 Listing, One Frame per Tab">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-case-study-module-divider">
+          {listing.map((frame) => (
+            <figure key={frame.tab} className="flex flex-col gap-3 bg-surface-inset px-4 py-5 md:px-5 md:py-6">
+              <figcaption className="text-label uppercase tracking-eyebrow text-foreground-tertiary font-mono text-center">{frame.tab}</figcaption>
+              <div className="overflow-hidden rounded-2xl bg-secondary/10">
+                <img src={frame.src} alt={frame.alt} width={900} height={1948} loading="lazy" decoding="async" className="w-full h-auto block" />
+              </div>
+            </figure>
+          ))}
+        </div>
+      </ModuleCard>
+    </div>
+  );
+}
+
+/* ── 5b) Version 1 — the releases, in five rows ─────────────────────────── */
 // The July rows are the App Store version history, with 1.1 to 1.5 folded
 // into one row because what matters to the story is the pace, not each
 // change. The October rows are the two 2.0 builds tagged in the repository

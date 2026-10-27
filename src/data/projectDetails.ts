@@ -1150,9 +1150,9 @@ const oryne: ProjectDetailSource = {
   ],
   // One story, the October refocus that took the Ocean map off the phone, with
   // a short run-up (problem, idea, version 1) and a short consequence (the 2.0
-  // flow, privacy, what it taught). Each section is one paragraph or two and
-  // one module, so the page scans; the refocus is the only section allowed
-  // subheadings. The competitive matrix, the principle grid, and the
+  // flow, privacy, what it taught). Each section is a paragraph or two and
+  // its artifacts, so the page scans and no section is text alone; the
+  // refocus is the only section allowed subheadings. The competitive matrix, the principle grid, and the
   // prototype-and-wireframe archive were cut on 2026-10-27 for weight (PR #66
   // has them). There is no generative-research section, by decision; the
   // usability test inside The Refocus is the one piece of evaluation shown, and
@@ -1184,8 +1184,9 @@ const oryne: ProjectDetailSource = {
       id: "problem",
       label: "The Problem",
       headline: "Every notes app buries what it promised to keep",
-      // The competitive matrix used to follow this section. Its finding is now
-      // the close: five tools, each holding at most two of the three.
+      // The artifact is the 1.0 onboarding, cut from the launch film: the
+      // app's first screen states the problem by saying what it is not. The
+      // competitive matrix used to follow; its finding is now the close.
       body: "Every notes app promises to keep your thoughts, and every one breaks the promise the same way: not by losing them, but by burying them in a list you never scroll back through. Lists optimize for putting things in. Minds optimize for things coming back.\n\n[[module:oryne-problem]]\n\n**Pinterest, Milanote, mymind, Freeform, Notion: each catches a thought fast, gives it a place to look around in, or brings it back unasked. None does all three for a thought of your own.**",
     },
     {
@@ -1194,6 +1195,8 @@ const oryne: ProjectDetailSource = {
       headline: "Your mind as an ocean, and every decision derived from it",
       // The eight principles are one sentence here. The one that matters to
       // the story, the phone test, is quoted in full where it did its work.
+      // The module shows the three tries in order (web prototype, wireframes,
+      // the first build moving), then the vocabulary.
       body: "Water does all three without a filing system: things drift, related ones gather, and what sank comes up again on its own. So the mind became an ocean, and a thought became something you let go of rather than something you put away.\n\nThe metaphor was held to one rule: every interaction has to be explainable as how water works, never as how apps work. Two days into the build I wrote it down as eight principles, each ending in a test a review can cite, and put the file in the repository next to the code.\n\n[[module:oryne-idea]]",
     },
     {
@@ -1201,9 +1204,10 @@ const oryne: ProjectDetailSource = {
       label: "Version 1",
       headline: "Twenty-three days to the App Store, then five releases in two weeks",
       // The author-and-auditor workflow is one sentence now; the four-card grid
-      // that spelled it out went with the trim. The close hands the map to the
-      // refocus.
-      body: "I had never written production Swift. The agent wrote the code and I designed the review: an auditor reading cold from a separate context, and a gate that lets nothing irreversible happen at machine speed. The first build had four tabs, Capture, Ocean, Ask, and Library, and the Ocean was a map of glass orbs that drifted in currents and lit up their relatives on a long press.\n\n[[module:oryne-releases]]\n\n**The map was the feature I was proudest of. Three months of carrying it taught me it answered no question a phone gets asked.**",
+      // that spelled it out went with the trim. The launch film and the 1.0
+      // App Store frames come before the release table. The close hands the
+      // map to the refocus.
+      body: "I had never written production Swift. The agent wrote the code and I designed the review: an auditor reading cold from a separate context, and a gate that lets nothing irreversible happen at machine speed. The first build had four tabs, Capture, Ocean, Ask, and Library, and the Ocean was a map of glass orbs that drifted in currents and lit up their relatives on a long press.\n\n[[module:oryne-launch]]\n\n[[module:oryne-releases]]\n\n**The map was the feature I was proudest of. Three months of carrying it taught me it answered no question a phone gets asked.**",
     },
     {
       id: "refocus",
