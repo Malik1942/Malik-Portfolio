@@ -23,8 +23,8 @@ The portfolio already has a recognizable visual language, but its decisions are 
 
 - Preserve the current React, Vite, TypeScript, Tailwind CSS, Framer Motion, React Router, Vitest, and Vercel stack.
 - Follow the Design Tokens Community Group 2025.10 Format, Color, and Resolver guidance where applicable.
-- Reference VMedium's philosophy and information architecture: one source of truth, a sticky grouped rail, one focused hash-linked section at a time, previous/next navigation, real specimens, and concise usage guidance.
-- Borrow VMedium's restrained foundation tables and contextual component demonstrations without copying its visual identity or catalog size.
+- Follow a focused-reference information architecture: one source of truth, a sticky grouped rail, one focused hash-linked section at a time, previous/next navigation, real specimens, and concise usage guidance.
+- Keep foundation tables restrained and component demonstrations contextual, with a catalog no larger than the portfolio actually uses.
 - Preserve Malik's visual identity and expressive experiences, especially DotGrid and the About experience.
 - Production publishing must use the GitHub API to open a pull request from a new branch.
 - The existing application has no backend; the only new server-side infrastructure in v1 is the narrow authenticated publish capability.

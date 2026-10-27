@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Replace the public token Playground with a curated VMedium-inspired foundation reference and component lineup while preserving the unlisted Admin authoring and GitHub PR publishing workflow.
+**Goal:** Replace the public token Playground with a curated foundation reference and component lineup while preserving the unlisted Admin authoring and GitHub PR publishing workflow.
 
 **Architecture:** The public section registry will contain only Overview, curated Foundations, Component Lineup and component documentation, and Patterns. Color and Typography receive focused renderers backed by the generated token manifest. The existing token controls, draft runtime, preview, and publish dialog move behind a footer-triggered Admin authoring dialog and remain absent from the public section sequence.
 
@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - Preserve the current portfolio design and generated DTCG token source of truth.
-- Borrow VMedium's restrained tables, grouped rail, and contextual component demonstrations without copying its visual identity or generic catalog.
+- Use restrained tables, a grouped rail, and contextual component demonstrations instead of a generic catalog.
 - No public token inputs, numeric HSL editor, production/draft labels, reset/export actions, contrast diagnostics, or embedded full-site preview.
 - Preserve `/design-system?admin=1` as an unlisted authoring entry and keep the authenticated GitHub PR endpoint as the only server security boundary.
 - Do not add sessions, OAuth, server drafts, databases, version history, rollback UI, or new dependencies.

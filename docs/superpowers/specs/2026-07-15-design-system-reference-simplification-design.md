@@ -88,7 +88,7 @@ There are no inputs, sliders, HSL channels, reset actions, draft values, or Adva
 
 ## 6. Typography foundation
 
-Typography borrows VMedium's structural restraint: thin ruled rows, stable columns, quiet technical labels, and a live specimen whose scale is the dominant information.
+Typography uses structural restraint: thin ruled rows, stable columns, quiet technical labels, and a live specimen whose scale is the dominant information.
 
 ### Type scale
 
@@ -116,7 +116,7 @@ Typography remains read-only. There are no numeric inputs or editable family sel
 
 ## 7. Component lineup and contextual demonstrations
 
-The first Components section is **Component lineup**, following VMedium's group-overview idea without reproducing its generic UI catalog.
+The first Components section is **Component lineup**, a group overview rather than a generic UI catalog.
 
 The lineup presents the seven portfolio components in a compact list or grid. Each entry contains name, one-line purpose, maturity/context, and a hash link to its documentation page. It uses real portfolio vocabulary and no placeholder components.
 
@@ -190,8 +190,7 @@ Browser QA covers 320, 768, 1440, and ultrawide widths; keyboard navigation; has
 
 ## 12. Explicit non-goals
 
-- A generic component library matching VMedium's catalog.
-- Copying VMedium's visual design, type scale, or component APIs.
+- A generic component library catalog.
 - Editing production portfolio components unrelated to reference presentation.
 - Removing DTCG tokens or generated CSS from the portfolio.
 - Changing the GitHub PR publishing contract.

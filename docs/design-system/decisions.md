@@ -2,11 +2,11 @@
 
 - Use DTCG JSON as the canonical source and generate platform outputs, because the system must remain portable and standards-aligned.
 - Organize tokens as primitive, semantic, and narrowly scoped component layers, because raw values, intent, and exceptional ownership solve different problems.
-- Reference VMedium's focused rail and specimen structure without copying its visual styling, because its information architecture is strong while Malik's identity should remain distinct.
+- Structure the reference as a focused rail with real specimens, styled in the portfolio's own visual language, because that information architecture keeps the system legible while Malik's identity stays distinct.
 - Remove the live token workbench from the public reference, because its technical density distracts from the portfolio system rather than clarifying it.
 - Preserve token authoring as an unlisted Admin workflow, because Malik still needs the Git-backed publishing path while visitors do not need its controls.
 - Present color as semantic role groups and typography as a ruled live specimen scale, because foundations should communicate hierarchy before implementation detail.
-- Add a component lineup inside the Components group and keep interaction contextual to each component, because VMedium's page-level demonstrations are clearer than one universal playground.
+- Add a component lineup inside the Components group and keep interaction contextual to each component, because page-level demonstrations are clearer than one universal playground.
 - Keep production values visibly separate from local draft values, because visitors must always understand which state is authoritative.
 - Apply full-site previews only in explicit preview mode, because a stored draft should never unexpectedly alter an ordinary portfolio visit.
 - Treat DotGrid and the About experience as expressive patterns, because forcing them into generic primitives would erase their intended character.

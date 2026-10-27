@@ -8,7 +8,7 @@
 
 ## 1. Summary
 
-Build a public, living design-system reference extracted from the current portfolio. The reference uses the structure and philosophy of [VMedium's design system](https://www.vmedium.xyz/design-system): one generated source of truth, a sticky grouped rail, one hash-addressable section rendered at a time, previous/next navigation, concise guidance, and specimens made from production components.
+Build a public, living design-system reference extracted from the current portfolio. The reference is built as a focused reference: one generated source of truth, a sticky grouped rail, one hash-addressable section rendered at a time, previous/next navigation, concise guidance, and specimens made from production components.
 
 The distinguishing feature is a public browser-local workbench. Anyone can adjust supported design tokens and watch the real portfolio respond. Those changes stay in the visitor's browser, can be reset, and can be exported as DTCG JSON.
 
@@ -50,7 +50,7 @@ Documentation imports the production components wherever a reusable component bo
 
 ### 4.3 Focus over catalog density
 
-Like VMedium, the page presents one selected section at a time. A sticky rail provides the complete hierarchy, the URL hash preserves deep links, and previous/next actions maintain a guided reading path.
+The page presents one selected section at a time. A sticky rail provides the complete hierarchy, the URL hash preserves deep links, and previous/next actions maintain a guided reading path.
 
 ### 4.4 Show cause and effect
 
@@ -97,7 +97,7 @@ Repeated decisions become foundations, semantic tokens, or reusable components. 
 
 ## 6. Information architecture
 
-The global structure follows VMedium's focused, grouped rail. The visual treatment follows Malik's portfolio rather than imitating VMedium.
+The global structure is a focused, grouped rail. The visual treatment follows Malik's portfolio.
 
 ### Overview
 
@@ -395,7 +395,7 @@ Export produces a complete DTCG JSON bundle with the local overrides applied whi
 
 ### 11.1 Client behavior
 
-The footer contains a discreet `Admin` action, echoing VMedium's separation of reference content from publishing authority. Selecting it opens the publish dialog.
+The footer contains a discreet `Admin` action, separating reference content from publishing authority. Selecting it opens the publish dialog.
 
 The v1 dialog requests:
 
@@ -550,7 +550,7 @@ The endpoint never merges the pull request and never writes directly to `main`.
 1. **Inventory and baselines** — record current decisions, consumers, and representative screenshots.
 2. **Token foundation** — author DTCG files, validation, generation, and typed metadata.
 3. **No-drift migration** — move existing color, typography, spacing/layout, radius/border, and motion consumers onto generated tokens in reviewable slices.
-4. **Reference shell** — add `/design-system`, VMedium-inspired rail, hashes, overview, and section navigation.
+4. **Reference shell** — add `/design-system`, the grouped rail, hashes, overview, and section navigation.
 5. **Foundations and specimens** — document real values and production components.
 6. **Public workbench** — add local drafts, controls, embedded preview, full-site preview mode, diff, validation, reset, and export.
 7. **PR publishing** — add the single authenticated serverless function and GitHub pull-request workflow.
@@ -563,7 +563,7 @@ Each migration slice must pass its relevant tests and visual comparison before t
 - `/design-system` is directly accessible and deep-linkable by section hash.
 - The portfolio footer exposes the route without adding another primary-header item.
 - Route-specific metadata, canonical URL, and sitemap entry identify the public reference correctly.
-- Its grouped rail, single-section rendering, and previous/next behavior follow the approved VMedium-inspired model.
+- Its grouped rail, single-section rendering, and previous/next behavior follow the approved focused-reference model.
 - The page documents Malik's actual foundations, components, and patterns rather than a generic inventory.
 - DTCG token files are the only hand-edited source of supported design values.
 - Invalid tokens, type mismatches, missing aliases, and cycles fail the build.
