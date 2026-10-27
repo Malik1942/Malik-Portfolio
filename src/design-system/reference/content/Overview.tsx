@@ -1,3 +1,5 @@
+import { noOrphan } from "@/lib/noOrphan";
+
 const PRINCIPLES = [
   ["One source of truth", "DTCG JSON owns supported values and intent. CSS and typed metadata are generated artifacts."],
   ["Real artifacts over replicas", "Reference production boundaries and evaluate expressive work in the portfolio context where it actually lives."],
@@ -23,8 +25,7 @@ export function OverviewContent() {
   return (
     <div data-testid="reference-overview" className="space-y-14 md:space-y-16">
       <div className="max-w-reading space-y-5 text-base leading-relaxed text-foreground-secondary md:text-xl">
-        <p>This is the working language behind Malik’s portfolio: the decisions that repeat, the artifacts that carry them, and the expressive patterns that remain intentionally art-directed.</p>
-        <p>Its structure follows VMedium’s focused-reference philosophy, but its content, rhythm, and specimens come from this portfolio’s production system.</p>
+        <p>{noOrphan("This is the working language behind Malik’s portfolio: the decisions that repeat, the artifacts that carry them, and the expressive patterns that remain intentionally art-directed.")}</p>
       </div>
 
       <section aria-labelledby="principles-heading">

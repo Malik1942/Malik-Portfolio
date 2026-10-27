@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Extract Malik's current portfolio design language into DTCG token files, publish a VMedium-inspired living reference and local workbench at `/design-system`, and let an authenticated admin open token-change pull requests through the GitHub API.
+**Goal:** Extract Malik's current portfolio design language into DTCG token files, publish a focused living reference and local workbench at `/design-system`, and let an authenticated admin open token-change pull requests through the GitHub API.
 
 **Architecture:** Three DTCG source files compile into CSS custom properties and typed browser metadata through a small shared TypeScript compiler. The public React design-system route consumes that metadata for focused hash-linked documentation and browser-local previews. A single Vercel Web Handler independently validates an override patch, creates a Git commit on a new branch through GitHub's Git Database API, and opens a PR against `main`.
 
@@ -567,7 +567,7 @@ git commit -m "feat: add local token preview runtime"
 
 ---
 
-### Task 5: Add the VMedium-inspired reference shell and route
+### Task 5: Add the reference shell and route
 
 **Files:**
 - Create: `src/design-system/reference/sectionModel.ts`
