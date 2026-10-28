@@ -4,9 +4,6 @@ import { noOrphan } from "@/lib/noOrphan";
 import {
   ArrowUpRight,
   ArrowRight,
-  Waves,
-  Layers,
-  Zap,
   Ban,
   Cpu,
   AudioLines,
@@ -49,8 +46,10 @@ import oryneStepRest from "@/assets/oryne-step-rest.mp4";
 import oryneStepRestPoster from "@/assets/oryne-step-rest-poster.webp";
 import oryneFilm from "@/assets/oryne-film.mp4";
 import oryneFilmTilePoster from "@/assets/oryne-film-tile-poster.webp";
-import oryneFilmOnboarding from "@/assets/oryne-film-onboarding.mp4";
-import oryneFilmOnboardingPoster from "@/assets/oryne-film-onboarding-poster.webp";
+import oryneProblemMoment from "@/assets/oryne-problem-moment.mp4";
+import oryneProblemMomentPoster from "@/assets/oryne-problem-moment-poster.webp";
+import oryneProblemList from "@/assets/oryne-problem-list.mp4";
+import oryneProblemListPoster from "@/assets/oryne-problem-list-poster.webp";
 import oryneFilmOcean from "@/assets/oryne-film-ocean.mp4";
 import oryneFilmOceanPoster from "@/assets/oryne-film-ocean-poster.webp";
 import oryneProtoCanvas from "@/assets/oryne-proto-canvas.webp";
@@ -246,11 +245,10 @@ export function OryneHook() {
   );
 }
 
-/* ── Film loops — two moments cut from the version 1 launch film ────────── */
-// The 1.0 app no longer runs anywhere, so these are the only moving record of
+/* ── Film loop — the 1.0 Ocean, cut from the version 1 launch film ──────── */
+// The 1.0 app no longer runs anywhere, so this is the only moving record of
 // it: cut from oryne-film.mp4 (1920x1080) as a 640x1080 column centred on the
-// phone, with the film's own black ground and glow. Onboarding is 4.5 to 11.4
-// s, the three pages before Fast Capture. The Ocean is 28 to 35 s: an orb held
+// phone, with the film's own black ground and glow, 28 to 35 s: an orb held
 // on the 1.0 field, its current opening, and the film's own push into the
 // sheet. Re-cut from the film, never re-rendered, so what is shown is what
 // shipped. Silent loops, played only while on screen; the poster stands in
@@ -296,13 +294,6 @@ function FilmLoop({ clip }: { clip: FilmLoopClip }) {
     </figure>
   );
 }
-const onboardingLoop: FilmLoopClip = {
-  src: oryneFilmOnboarding,
-  poster: oryneFilmOnboardingPoster,
-  alt: "Version 1 onboarding: Not another notes app, then Catch fragments before they disappear, then The Ocean gives back",
-  label: "Onboarding, 1.0",
-  caption: "the first thing the app says is what it is not",
-};
 const oceanLoop: FilmLoopClip = {
   src: oryneFilmOcean,
   poster: oryneFilmOceanPoster,
@@ -311,22 +302,42 @@ const oceanLoop: FilmLoopClip = {
   caption: "hold an orb, and the current it belongs to opens",
 };
 
-/* ── 3) The Problem — the app's first screen, then three pillars ───────── */
-const problemPillars: GridItem[] = [
-  { num: "01", title: "The List Buries", desc: "Neat, chronological, and never scrolled back through.", icon: Layers, accent: "violet" },
-  { num: "02", title: "Memory Is Not a Timeline", desc: "A thought returns because something today rhymes with it.", icon: Waves, accent: "emerald" },
-  { num: "03", title: "The Moment Is Too Short", desc: "Unlock, open, find the note. The thought is already gone.", icon: Zap, accent: "slate" },
+/* ── 3) The Problem — two ways a thought gets lost ─────────────────────── */
+// Two scenarios, not screenshots of any real app: a generic phone and a
+// generic notes list, drawn in HTML and rendered frame by frame by
+// scripts/oryne-problem-scenes (scene.html holds the timing, render.mjs the
+// capture). One is the thought that fades in the eight seconds it takes to
+// unlock, find the app, and open a note; the other is the thought that was
+// kept and then buried as every new note lands on top. They use the
+// walkthrough's 660x1350 geometry and surface-inset plate, so they sit in the
+// same titled cells as the Highlights clips and reuse StepClip.
+const problemScenes: Step[] = [
+  {
+    num: "01",
+    label: "Lost in the moment",
+    title: "By the time a note opens, the thought is gone",
+    src: oryneProblemMoment,
+    poster: oryneProblemMomentPoster,
+    alt: "A thought, What if a calendar showed energy, not hours, fades word by word while a phone is unlocked, an app is found, and an empty note opens, eight seconds in all",
+  },
+  {
+    num: "02",
+    label: "Lost in the list",
+    title: "Kept, then buried as every new note lands on top",
+    src: oryneProblemList,
+    poster: oryneProblemListPoster,
+    alt: "A notes list where the note Warm light slows the room, from March 3, is pushed down by groceries, a dentist reminder, and a dozen more until it leaves the screen three months later",
+  },
 ];
 export function OryneProblem() {
   return (
-    <div className="flex flex-col gap-8 md:gap-10">
-      <ModuleCard>
-        <div className="bg-surface-inset px-6 py-7 md:px-8 md:py-8">
-          <FilmLoop clip={onboardingLoop} />
-        </div>
-      </ModuleCard>
-      <CardGrid items={problemPillars} colsClass="grid-cols-1 sm:grid-cols-3" />
-    </div>
+    <ModuleCard>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-case-study-module-divider">
+        {problemScenes.map((scene) => (
+          <StepClip key={scene.num} step={scene} />
+        ))}
+      </div>
+    </ModuleCard>
   );
 }
 

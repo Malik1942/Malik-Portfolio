@@ -1137,6 +1137,11 @@ const oryne: ProjectDetailSource = {
   // opened, Let it rest, and one question to Ask with its answer. Cut from
   // continuous simulator takes with only the still stretches dropped, joined
   // by half-second dissolves; no camera movement, by Malik's standing rule.
+  // The background was re-plated on 2026-10-27 by
+  // scripts/clean-reel-background.py: the first encode had starved the dark
+  // gradient into blocks, so a smooth plate with fine grain replaced it, the
+  // screen recording's square corners outside the frame went with it, and the
+  // phone and title card kept their own pixels. The card reel got the same.
   heroVideo: oryneHeroLoop,
   heroImageFit: "cover",
   metaCards: [
@@ -1184,10 +1189,10 @@ const oryne: ProjectDetailSource = {
       id: "problem",
       label: "The Problem",
       headline: "Every notes app buries what it promised to keep",
-      // The artifact is the 1.0 onboarding, cut from the launch film: the
-      // app's first screen states the problem by saying what it is not. The
-      // competitive matrix used to follow; its finding is now the close.
-      body: "Every notes app promises to keep your thoughts, and every one breaks the promise the same way: not by losing them, but by burying them in a list you never scroll back through. Lists optimize for putting things in. Minds optimize for things coming back.\n\n[[module:oryne-problem]]\n\n**Pinterest, Milanote, mymind, Freeform, Notion: each catches a thought fast, gives it a place to look around in, or brings it back unasked. None does all three for a thought of your own.**",
+      // Two scenario loops carry the problem: a thought lost in the seconds
+      // before a note opens, and a kept one buried by every note after it.
+      // The competitive matrix used to follow; its finding is now the close.
+      body: "A thought gets lost in two places. First in the seconds it takes to unlock, find the app, and open a note. Then, if it made it in, in the list it lands in, where every new note pushes it further down. Lists optimize for putting things in. Minds optimize for things coming back.\n\n[[module:oryne-problem]]\n\n**Pinterest, Milanote, mymind, Freeform, Notion: each catches a thought fast, gives it a place to look around in, or brings it back unasked. None does all three for a thought of your own.**",
     },
     {
       id: "idea",
