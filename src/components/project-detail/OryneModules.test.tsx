@@ -1,7 +1,7 @@
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { setReducedMotionPreference } from "@/test/setup";
-import { OryneHook } from "./OryneModules";
+import { OryneHook, OryneLaunch } from "./OryneModules";
 
 // framer-motion's useInView needs IntersectionObserver, which jsdom does not
 // ship. Nothing here scrolls, so an observer that never reports is enough.
@@ -64,9 +64,11 @@ describe("Oryne Highlights", () => {
     expect(container.querySelectorAll("video")).toHaveLength(0);
     expect(screen.getAllByRole("img")).toHaveLength(4);
   });
+});
 
-  it("keeps the film off the page until the button is pressed", () => {
-    render(<OryneHook />);
+describe("Oryne Version 1", () => {
+  it("keeps the film off the page until its poster is pressed", () => {
+    render(<OryneLaunch />);
     expect(screen.queryByRole("dialog")).toBeNull();
 
     fireEvent.click(screen.getByRole("button", { name: "Watch the 80-second film" }));
@@ -75,5 +77,11 @@ describe("Oryne Highlights", () => {
     const film = dialog.querySelector("video") as HTMLVideoElement;
     expect(film).toHaveAttribute("controls");
     expect(film.muted).toBe(false);
+  });
+
+  it("shows the 1.0 listing as one frame per tab, in tab order", () => {
+    render(<OryneLaunch />);
+    const frames = screen.getAllByRole("img").filter((img) => img.getAttribute("alt")?.startsWith("1.0 App Store frame"));
+    expect(frames.map((img) => img.closest("figure")?.querySelector("figcaption")?.textContent)).toEqual(["Capture", "Ocean", "Ask", "Library"]);
   });
 });

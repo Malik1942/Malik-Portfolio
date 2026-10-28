@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --plate: rgb(12, 12, 13);
+    --ink: rgba(255, 255, 255, 0.94);
+    --ink-2: rgba(255, 255, 255, 0.62);
+    --ink-3: rgba(255, 255, 255, 0.38);
+    --line: rgba(255, 255, 255, 0.09);
+    --row: rgba(255, 255, 255, 0.055);
+    --warm: rgb(232, 178, 112);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 660px; height: 1350px; background: var(--plate); overflow: hidden; }
+  body { font-family: -apple-system, system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  /* The thought, above the phone */
+  .head { position: absolute; left: 60px; right: 60px; top: 70px; height: 300px; }
+  .kicker { font: 500 19px/1 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); display: flex; justify-content: space-between; }
+  .thought { margin-top: 30px; font-family: "Iowan Old Style", Georgia, serif; font-style: italic; font-size: 44px; line-height: 1.22; color: var(--ink); }
+  .thought span { transition: none; }
+  .timer { font-variant-numeric: tabular-nums; }
+
+  /* An abstract phone, cropped by the bottom of the frame */
+  .phone { position: absolute; left: 95px; top: 330px; width: 470px; height: 1010px; border-radius: 70px; background: #000; box-shadow: 0 0 0 2px rgba(255,255,255,0.16), 0 0 0 9px #050506, 0 0 0 10.5px rgba(255,255,255,0.10); overflow: hidden; }
+  .island { position: absolute; left: 50%; top: 18px; width: 120px; height: 34px; margin-left: -60px; border-radius: 20px; background: #050506; z-index: 5; }
+  .status { position: absolute; left: 40px; right: 40px; top: 24px; display: flex; justify-content: space-between; font: 600 20px/1 -apple-system, system-ui, sans-serif; color: var(--ink); z-index: 4; }
+  .screen { position: absolute; inset: 0; opacity: 0; }
+
+  /* Lock */
+  .lock .clock { position: absolute; top: 120px; width: 100%; text-align: center; font: 200 112px/1 -apple-system, system-ui, sans-serif; letter-spacing: -2px; }
+  .lock .date { position: absolute; top: 96px; width: 100%; text-align: center; font: 500 22px/1 -apple-system, system-ui, sans-serif; color: var(--ink-2); }
+  .lock .face { position: absolute; top: 420px; left: 50%; width: 76px; height: 76px; margin-left: -38px; border-radius: 22px; border: 3px solid var(--ink-2); }
+  .lock .hint { position: absolute; top: 520px; width: 100%; text-align: center; font: 500 20px/1 -apple-system, system-ui, sans-serif; color: var(--ink-3); }
+
+  /* Home */
+  .grid { position: absolute; top: 110px; left: 38px; right: 38px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px 26px; }
+  .app { aspect-ratio: 1; border-radius: 22px; background: rgba(255,255,255,0.10); }
+  .app.target { background: rgba(255,255,255,0.22); }
+  .tap { position: absolute; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; background: rgba(255,255,255,0.35); opacity: 0; }
+
+  /* Notes list */
+  .bar { position: absolute; top: 76px; left: 32px; right: 32px; display: flex; justify-content: space-between; align-items: center; }
+  .title { font: 700 44px/1 -apple-system, system-ui, sans-serif; }
+  .plus { width: 54px; height: 54px; border-radius: 50%; background: rgba(255,255,255,0.12); display: grid; place-items: center; font: 300 40px/1 -apple-system, system-ui, sans-serif; color: var(--ink); }
+  .search { position: absolute; top: 148px; left: 32px; right: 32px; height: 50px; border-radius: 14px; background: rgba(255,255,255,0.08); color: var(--ink-3); font: 400 21px/50px -apple-system, system-ui, sans-serif; padding-left: 20px; }
+  .rows { position: absolute; top: 222px; left: 32px; right: 32px; bottom: 0; overflow: hidden; }
+  .rowwrap { position: absolute; left: 0; right: 0; top: 0; }
+  .r { position: absolute; left: 0; right: 0; height: 92px; border-bottom: 1.5px solid var(--line); padding: 16px 4px 0; }
+  .r b { display: block; font: 600 24px/1.2 -apple-system, system-ui, sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .r i { display: block; margin-top: 8px; font: 400 19px/1.2 -apple-system, system-ui, sans-serif; font-style: normal; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .r.idea { background: linear-gradient(90deg, rgba(232,178,112,0.16), rgba(232,178,112,0.02)); border-radius: 12px; border-bottom-color: transparent; padding-left: 16px; }
+  .r.idea b { color: var(--warm); }
+  .thumb { position: absolute; right: 6px; top: 230px; width: 5px; border-radius: 3px; background: rgba(255,255,255,0.35); }
+
+  /* Empty note */
+  .note .back { position: absolute; top: 80px; left: 32px; font: 400 24px/1 -apple-system, system-ui, sans-serif; color: var(--warm); }
+  .note .line { position: absolute; top: 150px; left: 36px; font: 600 34px/1 -apple-system, system-ui, sans-serif; color: var(--ink-3); }
+  .caret { position: absolute; top: 146px; left: 34px; width: 3px; height: 44px; background: var(--warm); border-radius: 2px; }
+  .fade { position: absolute; left: 0; right: 0; bottom: 0; height: 300px; background: linear-gradient(rgba(12,12,13,0), var(--plate) 85%); z-index: 10; }
+  #content { position: absolute; inset: 0; }
+</style>
+</head>
+<body>
+<div class="head">
+  <div class="kicker"><span id="k1"></span><span id="k2" class="timer"></span></div>
+  <div class="thought" id="thought"></div>
+</div>
+<div class="phone">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><span>●●●</span></div>
+  <div id="content"><div class="screen lock" id="lock"><div class="date">Tuesday 3 March</div><div class="clock">9:41</div><div class="face"></div><div class="hint">Unlocking</div></div>
+  <div class="screen home" id="home"><div class="grid" id="grid"></div><div class="tap" id="tap"></div></div>
+  <div class="screen list" id="list">
+    <div class="bar"><span class="title">Notes</span><span class="plus" id="plus">+</span></div>
+    <div class="search">Search</div>
+    <div class="rows"><div class="rowwrap" id="rows"></div></div>
+    <div class="thumb" id="thumb"></div>
+  </div>
+  <div class="screen note" id="note"><div class="back">‹ Notes</div><div class="caret" id="caret"></div><div class="line" id="noteline"></div></div></div>
+</div>
+<div class="fade"></div>
+<script>
+const scene = new URLSearchParams(location.search).get("scene") || "a";
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const ease = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const ramp = (t, a, b) => ease((t - a) / (b - a));
+const show = (el, o) => { el.style.opacity = o; };
+
+for (let i = 0; i < 20; i++) { const d = document.createElement("div"); d.className = "app" + (i === 9 ? " target" : ""); $("grid").appendChild(d); }
+
+const THOUGHT_A = "What if a calendar showed energy, not hours?";
+const words = THOUGHT_A.split(" ");
+$("thought").innerHTML = words.map((w) => `<span>${w}</span>`).join(" ");
+const spans = [...$("thought").querySelectorAll("span")];
+
+// Scene B: the list. Index 0 is the idea; later notes are prepended above it.
+const IDEA = { t: "Warm light slows the room", p: "Mar 3  ·  the lamp at dusk, everything quieter", idea: true };
+const LATER = [
+  ["Groceries", "Mar 5  ·  oat milk, lemons, rice"], ["Dentist", "Mar 9  ·  Tuesday 3 pm"], ["Wi-Fi at the studio", "Mar 14  ·  network and password"],
+  ["Book list", "Mar 22  ·  three from the podcast"], ["Meeting notes", "Apr 2  ·  roadmap, owners, dates"], ["Parking", "Apr 9  ·  level 3, row F"],
+  ["Gift ideas", "Apr 18  ·  for Sam"], ["To do", "Apr 30  ·  taxes, plants, call home"], ["Recipe", "May 11  ·  the soup from Sunday"],
+  ["Flight", "May 20  ·  confirmation code"], ["Workout", "May 29  ·  week 4"], ["Groceries", "Jun 3  ·  coffee, eggs, bread"],
+];
+const ROW = 92;
+const allRows = [IDEA, ...LATER.map(([t, p]) => ({ t, p }))];
+allRows.forEach((r, i) => {
+  const d = document.createElement("div");
+  d.className = "r" + (r.idea ? " idea" : "");
+  d.innerHTML = `<b>${r.t}</b><i>${r.p}</i>`;
+  d.dataset.i = i;
+  $("rows").appendChild(d);
+});
+const rowEls = [...$("rows").children];
+
+function renderA(t) {
+  // 0.0 thought arrives · 1.0 unlock · 2.2 home, tap · 3.5 notes, plus · 4.6 empty note · thought gone by 5.2
+  $("k1").textContent = t < 5.4 ? "A thought, on the walk home" : "Eight seconds later";
+  const secs = Math.floor(clamp((t - 0.6) / 0.62, 0, 8));
+  $("k2").textContent = t < 0.6 ? "" : `0:0${secs}`;
+  show($("thought"), ramp(t, 0, 0.6));
+  spans.forEach((s, i) => {
+    const start = 1.6 + i * 0.42;
+    const f = ramp(t, start, start + 0.9);
+    s.style.opacity = String(1 - f);
+    s.style.filter = `blur(${f * 7}px)`;
+  });
+  show($("lock"), ramp(t, 0.6, 1.0) * (1 - ramp(t, 2.0, 2.3)));
+  show($("home"), ramp(t, 2.0, 2.3) * (1 - ramp(t, 3.3, 3.6)));
+  const tap = $("tap"), app = $("grid").children[9].getBoundingClientRect(), ph = document.querySelector(".phone").getBoundingClientRect();
+  tap.style.left = `${app.left - ph.left + app.width / 2}px`; tap.style.top = `${app.top - ph.top + app.height / 2}px`;
+  const tp = clamp((t - 2.9) / 0.4);
+  tap.style.opacity = tp > 0 && tp < 1 ? String(0.9 * (1 - tp)) : "0";
+  tap.style.transform = `scale(${0.6 + tp * 0.8})`;
+  show($("list"), ramp(t, 3.3, 3.6) * (1 - ramp(t, 4.4, 4.7)));
+  rowEls.forEach((el, i) => { el.style.top = `${(allRows.length - 1 - i) * ROW}px`; });
+  const pp = clamp((t - 4.0) / 0.35);
+  $("plus").style.background = `rgba(255,255,255,${0.12 + 0.25 * Math.sin(Math.PI * pp)})`;
+  show($("note"), ramp(t, 4.4, 4.7));
+  $("caret").style.opacity = t > 4.6 && Math.floor((t - 4.6) / 0.5) % 2 === 0 ? "1" : "0";
+  $("noteline").textContent = "";
+  show($("thumb"), 0);
+}
+
+function renderB(t) {
+  // 0.0 the idea is noted · 0.9 to 5.3 a new note lands on top every 0.36 s · the idea leaves the screen
+  const landed = LATER.length * clamp((t - 0.9) / 4.4);
+  const n = Math.floor(landed), frac = ease(landed - n);
+  const shown = Math.min(LATER.length, n + (frac > 0 ? 1 : 0));
+  const dateIdx = Math.max(0, Math.min(LATER.length - 1, n - 1));
+  $("k1").textContent = t < 5.4 ? "A thought worth keeping" : "Three months later";
+  $("k2").textContent = n === 0 ? "Mar 3" : LATER[dateIdx][1].split("  ")[0];
+  $("thought").innerHTML = "Warm light slows the room.";
+  $("thought").style.color = "var(--warm)";
+  show($("thought"), ramp(t, 0, 0.5));
+  show($("lock"), 0); show($("home"), 0); show($("note"), 0);
+  show($("list"), 1);
+  $("thought").style.opacity = String(ramp(t, 0, 0.5) * (1 - 0.55 * ramp(t, 4.4, 5.4)));
+  // rows: row k (k=0 idea) sits at position (number of later rows landed above it)
+  rowEls.forEach((el, k) => {
+    if (k === 0) { el.style.top = `${(n + frac) * ROW}px`; el.style.opacity = "1"; return; }
+    const order = k - 1; // order this note landed
+    if (order >= shown) { el.style.opacity = "0"; return; }
+    const above = n - 1 - order; // later notes landed above this one
+    const isNewest = order === n && frac > 0;
+    const y = isNewest ? (frac - 1) * ROW * 0.6 : (above + (frac > 0 && order < n ? frac : 0)) * ROW;
+    el.style.top = `${y}px`;
+    el.style.opacity = isNewest ? String(frac) : "1";
+  });
+  const total = 1 + n + frac;
+  const thumbH = clamp(700 / (1 + total * 0.9), 70, 520);
+  $("thumb").style.height = `${thumbH}px`;
+  show($("thumb"), 0.9 * ramp(t, 0.9, 1.3) * (1 - ramp(t, 6.4, 6.8)));
+}
+
+window.render = (t) => {
+  if (scene === "a") renderA(t); else renderB(t);
+  // The loop seam: the words and the screen fade together; the phone stays.
+  const seam = ramp(t, 0, 0.35) * (1 - ramp(t, 6.55, 6.95));
+  document.querySelector(".head").style.opacity = String(seam);
+  $("content").style.opacity = String(seam);
+};
+window.render(0);
+</script>
+</body>
+</html>
