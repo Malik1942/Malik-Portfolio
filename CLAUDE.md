@@ -1,5 +1,7 @@
 # Repo notes
 
+The Stop hook in `.claude/hooks/green-build.sh` enforces the green-build rule: `npm test` must pass before Claude stops.
+
 ## Do not change the hero dot → project animation
 
 The animation that runs when you click a project dot in the hero canvas is
