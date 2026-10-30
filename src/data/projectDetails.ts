@@ -1243,8 +1243,6 @@ const oryne: ProjectDetailSource = {
 // Locant (spec: docs/superpowers/specs/2026-09-17-locant-case-study-design.md),
 // refined from the Palantir deck on 2026-10-03
 // (docs/superpowers/specs/2026-10-03-locant-case-study-refine-design.md).
-// Not connected to the homepage card: Locant's card still opens the product
-// site, and src/data/locantDraft.test.ts holds that line until Malik wires it.
 // Every fact traces to the Locant repo (~/Documents/Locant), its site, git, the
 // build recording, the raw measurement data, or the deck; where the deck and a
 // source disagree, the source wins. The copy rests on one split: a click says

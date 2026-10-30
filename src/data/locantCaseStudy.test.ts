@@ -2,10 +2,7 @@ import { describe, expect, it } from "vitest";
 import { getProjectDetail } from "./projectDetails";
 import { getProject } from "./projects";
 
-// The Locant case study is a draft on its own branch. Until Malik wires it to
-// the card, the card keeps opening the product site, and the second test holds
-// that line. Delete that test in the change that connects them.
-describe("Locant case study draft", () => {
+describe("Locant case study", () => {
   const doc = getProjectDetail("locant");
 
   it("tells the story in the spec's nine sections, each headed by a claim", () => {
@@ -29,8 +26,8 @@ describe("Locant case study draft", () => {
     expect(doc!.heroImage).toBeTruthy();
   });
 
-  it("is not connected to the card yet: the card still opens the product site", () => {
-    expect(getProject("locant")?.destination).toEqual({ kind: "external", url: "https://locant.malikzhang.com" });
+  it("is where the homepage card goes", () => {
+    expect(getProject("locant")?.destination).toEqual({ kind: "case-study" });
   });
 
   it("keeps Malik's copy rules: no clause dashes, and never solo", () => {

@@ -170,9 +170,7 @@ const CASE_STUDY: ProjectDestination = { kind: "case-study" };
 // clicking one highlights every project that carries it, across all three
 // sections. Order matters — a Studio tile shows only its first two.
 export const PROJECTS: readonly Project[] = [
-  // ── Selected Work: the work to read first. Four are full case studies; Locant
-  //    is the one card that leaves the site, because the product's own page is
-  //    already the better account of it (see its `destination`). ──
+  // ── Selected Work: the work to read first. All five are full case studies. ──
   {
     id: "oryne",
     title: "Oryne",
@@ -200,15 +198,11 @@ export const PROJECTS: readonly Project[] = [
     title: "Locant",
     section: "selected",
     skills: ["AI-Native", "Design Engineering"],
-    // The card opens locant.malikzhang.com, so the chip is the other real
-    // destination rather than a second copy of the same one. It is also what
-    // puts Locant inside the Shipped lens, which reads outbound links and not
-    // chips (see lib/lens.ts): shipping is a fact, never a skill.
+    // The GitHub chip is what puts Locant inside the Shipped lens, which reads
+    // outbound links and not chips (see lib/lens.ts): shipping is a fact, never
+    // a skill.
     links: [{ label: "GitHub", url: "https://github.com/Malik1942/locant" }],
-    // The one Selected Work card with no case study. Its own page already tells
-    // the story better than a retelling would, down to the measured comparison,
-    // so the card goes there instead of to /project/locant.
-    destination: { kind: "external", url: "https://locant.malikzhang.com" },
+    destination: CASE_STUDY,
     signal: "A pointing device for coding agents",
     // The cover already prints "Point, don't describe." and the line under it,
     // so neither of these repeats the pitch: the signal names the category and
