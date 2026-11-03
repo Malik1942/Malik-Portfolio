@@ -26,12 +26,16 @@ import { VideoLightbox, type LightboxVideo } from "@/components/VideoLightbox";
 import { CardGrid, Chips, ModuleCard, PullQuote, SCREEN_FIGURE_WIDTH, type ArtifactItem, type GridItem } from "./MotiModules";
 import oryneTide from "@/assets/oryne-tide.webp";
 import oryneCaptureTyped from "@/assets/oryne-capture-typed.webp";
-import oryneWhisperHold from "@/assets/oryne-whisper-hold.webp";
-import oryneToast from "@/assets/oryne-toast.webp";
 import oryneThought from "@/assets/oryne-thought.webp";
-import oryneLibrary from "@/assets/oryne-library.webp";
 import oryneAskAnswer from "@/assets/oryne-ask-answer.webp";
-import oryneWatchCaught from "@/assets/oryne-watch-caught.webp";
+import oryne21Catch from "@/assets/oryne-21-capture-link.webp";
+import oryne21Toast from "@/assets/oryne-21-toast.webp";
+import oryne21Current from "@/assets/oryne-21-current.webp";
+import oryne21Tide from "@/assets/oryne-21-tide.webp";
+import oryne21Thought from "@/assets/oryne-21-thought.webp";
+import oryne21Link from "@/assets/oryne-21-link-thought.webp";
+import oryne21Library from "@/assets/oryne-21-library.webp";
+import oryne21Watch from "@/assets/oryne-21-watch-today.webp";
 import oryneOneOcean from "@/assets/oryne-ocean.webp";
 import oryneOneCapture from "@/assets/oryne-one-capture.webp";
 import oryneOneAsk from "@/assets/oryne-one-ask.webp";
@@ -496,19 +500,21 @@ export function OryneLaunch() {
   );
 }
 
-/* ── 5b) Version 1 — the releases, in five rows ─────────────────────────── */
+/* ── 5b) Version 1 — the releases, in six rows ──────────────────────────── */
 // The July rows are the App Store version history, with 1.1 to 1.5 folded
 // into one row because what matters to the story is the pace, not each
 // change. The October rows are the two 2.0 builds tagged in the repository
-// (Release 2.0 build 1 on 10-19, build 2 with the watch app on 10-20). The
-// listing still showed 1.5 when this was written, so the close says prepared,
-// not shipped. Do not add a "why" to a row that the history does not say.
+// (Release 2.0 build 1 on 10-19, build 2 with the watch app on 10-20), and the
+// 2.1 row is the app repository's history from 10-22 to 11-02. The listing has
+// shown 2.0 since 10-21 and 2.1 is not on it yet, so the close says built, not
+// shipped, for 2.1. Do not add a "why" to a row that the history does not say.
 const releases = [
   { date: "Jun 9", tag: "First commit", text: "Four tabs by the end of day one: Capture, Ocean, Ask, and Library." },
   { date: "Jul 2", tag: "1.0", text: "On the App Store, 23 days in." },
   { date: "Jul 4–17", tag: "1.1 to 1.5", text: "Five releases in two weeks: currents that breathe, export, a waterfall Library, Chinese and English transcribed on the device." },
   { date: "Oct 19", tag: "2.0", text: "Three tabs, one gesture, Ask as one answer. Built over a weekend." },
   { date: "Oct 20", tag: "2.0 (2)", text: "Oryne on Apple Watch: a whisper from the wrist reaches the phone on its own." },
+  { date: "Oct 22–Nov 2", tag: "2.1", text: "Pictures and links in the bar, a redesigned Library and watch, sharing a thought, and a new identity." },
 ];
 export function OryneReleases() {
   return (
@@ -528,7 +534,7 @@ export function OryneReleases() {
         ))}
         <div className="flex items-start gap-3 px-6 py-4 md:px-8 md:py-5">
           <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-success" strokeWidth={1.6} />
-          <p className="text-sm md:text-base font-medium leading-relaxed text-foreground">1.5 live on the App Store. 2.0 built, screenshotted, and written up for it.</p>
+          <p className="text-sm md:text-base font-medium leading-relaxed text-foreground">2.0 live on the App Store since October 21. 2.1 built, not yet released.</p>
         </div>
       </div>
     </ModuleCard>
@@ -682,25 +688,27 @@ export function OryneUsability() {
   );
 }
 
-/* ── 7) Final Design — one thought, six screens ───────────────────────── */
-// The whole product as six screens, two across, in the order a thought meets
-// them. Each is a real screen from the 2.0 build and the caption says what
-// happens on it. Step 01 shows the simulator's listening state; a simulator
-// hears no speech, so the line under the disc is the app's own "Words will
-// follow." rather than live words, and the caption stays honest about what
-// the still can show. Six, not sixteen: the entry points, onboarding, Nearby,
-// the Library menu, and Summarize were cut for weight, and a current opening
-// and Ask answering are already on the page, in the walkthrough and in the
-// 1.5-against-2.0 pairs. Two columns, not four: at the reading width a
+/* ── 7) Final Design — one thought, eight screens ─────────────────────── */
+// The whole product as eight screens, two across, in the order a thought
+// meets them. Each is a real screen from the 2.1 build, recaptured on
+// 2026-11-02 with the app repository's screenshot seed, and the caption says
+// what happens on it. The new thought in 01 and 02 was typed and released on
+// the simulator, and the phone named it; 02 releases words only, because a
+// link released there fetches the real site's own preview. The watch is the
+// repository's DEBUG demo of its Today page, taken at 9:41 by the clock trick
+// in Scripts/watch-screens. Ask is left out: its 1.5-against-2.0 pair is
+// already on the page. Two columns, not four: at the reading width a
 // four-across phone is a thumbnail and its caption wraps a word per line.
 type FlowStep = ArtifactItem & { num: string; title: string };
 const flow: FlowStep[] = [
-  { num: "01", title: "Hold", src: oryneWhisperHold, alt: "The capture bar while the disc is held: an X at the leading end, the line Words will follow, and the disc showing level bars", label: "Whisper", caption: "hold the disc and the phone listens; lift, and the whisper is caught" },
-  { num: "02", title: "Let go", src: oryneToast, alt: "Tide after a release: a toast reading Carried into the sea with an Undo, and the new thought already under Drifted in", label: "Carried into the sea", caption: "saved before anything says so, then ten seconds to undo" },
-  { num: "03", title: "Name", src: oryneThought, alt: "The thought's page: Thought, 47 seconds ago, Light And Color, the title Warmth turns slow room in New York, the words, three themes, and Nearby", label: "Thought", caption: "the device names it, finds its themes, and places it in a current" },
-  { num: "04", title: "Return", src: oryneTide, alt: "Tide: Resurfacing, a thought from three weeks ago with its picture, Nearby and Let it rest, then Drifted in and the capture bar", label: "Tide", caption: "the home page: what came back today, what drifted in, your currents" },
-  { num: "05", title: "Find", src: oryneLibrary, alt: "The Library sorted by Related: a masonry of cards with the newest thought first beside its sunset neighbours", label: "Library", caption: "a waterfall of cards, by time or by meaning" },
-  { num: "06", title: "The Wrist", src: oryneWatchCaught, alt: "The Oryne watch app after a whisper: a check mark, Caught, and an Undo button", label: "Apple Watch", caption: "press, speak, lift; the whisper reaches the phone on its own" },
+  { num: "01", title: "Catch", src: oryne21Catch, alt: "Tide with the capture bar risen above the keyboard: a sentence about blue hour typed into it, and the Wikipedia link at its end already shown as a tile above the words", label: "The bar", caption: "a link in the words becomes a card before release" },
+  { num: "02", title: "Let go", src: oryne21Toast, alt: "Tide after a release: a toast reading Carried into the sea with an Undo, and the new thought, named Streetlights on early, first under Drifted in", label: "Carried into the sea", caption: "saved before anything says so, and named on the phone" },
+  { num: "03", title: "Drift", src: oryne21Current, alt: "The Light and Color current opened full height: a Summarize button and four thoughts, three of them with their photographs", label: "A current", caption: "related thoughts gather on their own" },
+  { num: "04", title: "Return", src: oryne21Tide, alt: "Tide in 2.1: Resurfacing over a photograph of a brick street at golden hour, the thought Golden hour on the walk home in New York, Nearby and Let it rest, then Drifted in", label: "Tide", caption: "today's thought stands on its own photograph" },
+  { num: "05", title: "Open", src: oryne21Thought, alt: "The page of Golden hour on the walk home: its photograph, one meta line, the title and words in New York, Themes, and Nearby", label: "A thought", caption: "the picture, then your words in serif" },
+  { num: "06", title: "Keep a link", src: oryne21Link, alt: "The page of Apple Design Principles: a link card with its cover and developer.apple.com, the words in New York, a line from the page, Themes, and Nearby", label: "Link card", caption: "the card carries the link, the words stay yours" },
+  { num: "07", title: "Find", src: oryne21Library, alt: "The Library grid: cards for Desk at 6pm, Sunset gradient study, Golden hour on the walk home, Are.na Editorial and Apple Design Principles, each with its picture", label: "Library", caption: "photographs, link covers, and words in one waterfall" },
+  { num: "08", title: "The Wrist", src: oryne21Watch, alt: "The Oryne watch app's Today page: Warm to cool, not a filter in New York, with its words under it", label: "Apple Watch", caption: "today's thought, read at a glance" },
 ];
 function FlowStepFigure({ step }: { step: FlowStep }) {
   return (
