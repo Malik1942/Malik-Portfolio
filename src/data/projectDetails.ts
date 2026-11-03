@@ -1123,7 +1123,11 @@ const ranger: ProjectDetailSource = {
 // section blocks live in OryneModules.tsx and render via the [[module:oryne-*]]
 // refs. Every date and claim is verified against the App Store listing, the
 // app's git history, and the spec and test write-up in its repository
-// (docs/plans/phone-refocus).
+// (docs/plans/phone-refocus). The Refocus's pairs keep their 2.0 stills; Final
+// Design shows the 2.1 build, recaptured on 2026-11-02 from the app
+// repository's am/tide-stage-round4 (c15c258) with its screenshot seed, whose
+// photographs and link covers are generated art, never a linked site's own
+// branding (design/screenshot-seed/README.md there).
 const oryne: ProjectDetailSource = {
   slug: "oryne",
   title: "Oryne",
@@ -1151,7 +1155,7 @@ const oryne: ProjectDetailSource = {
     // line is 62 characters and wraps mid-list at desktop width, leaving a lone
     // separator at the start of line two.
     { label: "Tools", value: "SwiftUI · SwiftData + CloudKit\nFoundation Models · Claude Code" },
-    { label: "Output", value: "Live on the App Store · v1.5 · English & Chinese\n2.0 with Apple Watch, built and prepared" },
+    { label: "Output", value: "Live on the App Store · v2.0 · English & Chinese\nWith Apple Watch · 2.1 built" },
   ],
   // One story, the October refocus that took the Ocean map off the phone, with
   // a short run-up (problem, idea, version 1) and a short consequence (the 2.0
@@ -1229,7 +1233,7 @@ const oryne: ProjectDetailSource = {
       id: "final-design",
       label: "Final Design",
       headline: "One thought, from caught to returned",
-      body: "Six screens of the 2.0 build, in the order a thought meets them.\n\n[[module:oryne-flow]]\n\n**Capture in one gesture from anywhere. If a change would make someone hesitate before capturing, the answer is no. And what you are willing to capture depends entirely on where you believe it goes.**\n\n## Nothing you capture leaves the phone\n\nAn inspiration tool only works if you will feed it your half-formed, 2 a.m. thoughts, so nothing you capture transits a server I can read. Naming, kinship, resurfacing, summaries, and transcription were all designed around what on-device intelligence can actually do rather than what a server could have done. I would make the same trade again.\n\n[[module:oryne-privacy]]",
+      body: "Eight screens of the 2.1 build, the release after 2.0, in the order a thought meets them.\n\n[[module:oryne-flow]]\n\n**Capture in one gesture from anywhere. If a change would make someone hesitate before capturing, the answer is no. And what you are willing to capture depends entirely on where you believe it goes.**\n\n## Nothing you capture leaves the phone\n\nAn inspiration tool only works if you will feed it your half-formed, 2 a.m. thoughts, so nothing you capture transits a server I can read. Naming, kinship, resurfacing, summaries, and transcription were all designed around what on-device intelligence can actually do rather than what a server could have done. I would make the same trade again.\n\n[[module:oryne-privacy]]",
     },
     {
       id: "learned",
