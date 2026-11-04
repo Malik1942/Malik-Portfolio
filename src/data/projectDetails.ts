@@ -1136,16 +1136,15 @@ const oryne: ProjectDetailSource = {
   // starts and the reduced-motion still is the title card it opens on: the icon
   // and wordmark at rest beside the phone, the way Moti's reel opens.
   heroImage: oryneHeroPoster,
-  // The 2.0 loop in four takes, centred and still, title card at both ends:
-  // the bar tapped and a thought typed and released into Tide, a current
-  // opened, Let it rest, and one question to Ask with its answer. Cut from
-  // continuous simulator takes with only the still stretches dropped, joined
-  // by half-second dissolves; no camera movement, by Malik's standing rule.
-  // The background was re-plated on 2026-10-27 by
-  // scripts/clean-reel-background.py: the first encode had starved the dark
-  // gradient into blocks, so a smooth plate with fine grain replaced it, the
-  // screen recording's square corners outside the frame went with it, and the
-  // phone and title card kept their own pixels. The card reel got the same.
+  // The 2.1 loop, recaptured on 2026-11-03 from the app repository's main
+  // (c788b01, the eased caption scrim) with its screenshot seed: the bar
+  // tapped and a thought typed and released into Tide, its current opened,
+  // Let it rest on Apple Design Principles with Are.na Editorial rising, then
+  // the Library scrolled to its covers and Golden hour opened. Centred and
+  // still, title card at both ends, cut from continuous simulator takes with
+  // only the still stretches dropped and joined by half-second dissolves; no
+  // camera movement, by Malik's standing rule. The ground and title card are
+  // the 2.0 loop's own frames, so the plate cleaned on 2026-10-27 carries over.
   heroVideo: oryneHeroLoop,
   heroImageFit: "cover",
   metaCards: [
