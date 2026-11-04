@@ -132,14 +132,17 @@ const hookHighlights = [
 
 // One thought, caught to returned, as four clips of a few seconds, each
 // titled above its clip so the flow reads from the titles alone in the time
-// the clips take to play once. Steps 01 and 02 are one continuous take of the
-// 2.0 build: the bar tapped, a thought typed in three bursts, released, named
-// by the phone, and carried into the sea with its Undo. Step 03 scrolls Tide
-// to its currents and opens the one the thought flowed into. Step 04 is Let
-// it rest: today's resurfaced thought sinks and the next rises. All four wear
-// the iPhone mockup every still wears (660x1350, the plate baked to
-// surface-inset), so a step sits at exactly a screen's size and has to stay on
-// a surface-inset cell. Silent loops with no controls, like a GIF; under
+// the clips take to play once. Recaptured on 2026-11-03 from the 2.1 build
+// with the app repository's screenshot seed, so they show the same app as
+// Final Design. Steps 01 and 02 are one continuous take: the bar tapped, a
+// thought typed in three bursts, released, named by the phone, and carried
+// into the sea with its Undo. Step 03 scrolls Tide to its currents and opens
+// the one the thought flowed into. Step 04 is Let it rest: today's resurfaced
+// link sinks and Golden hour rises on its photograph, taken on app main
+// c788b01 so the light cover fades into the caption instead of stopping at a
+// hard edge. All four wear the iPhone mockup every still wears (660x1350, the
+// plate baked to surface-inset), so a step sits at exactly a screen's size and
+// has to stay on a surface-inset cell. Silent loops with no controls, like a GIF; under
 // reduced motion each is its poster.
 type Step = { num: string; label: string; title: string; src: string; poster: string; alt: string };
 const steps: Step[] = [
@@ -149,7 +152,7 @@ const steps: Step[] = [
     title: "Tap the bar to type, or hold the disc to whisper",
     src: oryneStepCatch,
     poster: oryneStepCatchPoster,
-    alt: "Tide, the capture bar tapped, and a sentence typed into its capsule above the keyboard: The room feels slower when the light turns warm",
+    alt: "Tide under the golden-hour photograph of today's thought, the capture bar tapped, and a sentence typed into it: The room feels slower when the light turns warm",
   },
   {
     num: "02",
@@ -157,7 +160,7 @@ const steps: Step[] = [
     title: "Release it, and it is carried into the sea",
     src: oryneStepLetgo,
     poster: oryneStepLetgoPoster,
-    alt: "The release arrow is tapped, the words settle, and a toast reads Carried into the sea with an Undo, as the named thought appears under Drifted in",
+    alt: "The release arrow is tapped, a toast reads Carried into the sea with an Undo, and the phone names the new thought Warm Light Slows Time, first under Drifted in",
   },
   {
     num: "03",
@@ -165,7 +168,7 @@ const steps: Step[] = [
     title: "It joins a current of related thoughts",
     src: oryneStepCurrent,
     poster: oryneStepCurrentPoster,
-    alt: "Tide scrolled to its Currents, Light And Color tapped, and its sheet opening with the new thought first among five",
+    alt: "Tide scrolled to its Currents, Light and Color tapped, and its sheet opening with Warm Light Slows Time first, above thoughts with their photographs",
   },
   {
     num: "04",
@@ -173,7 +176,7 @@ const steps: Step[] = [
     title: "One thought comes back a day. Rest it, and the next rises",
     src: oryneStepRest,
     poster: oryneStepRestPoster,
-    alt: "Let it rest is tapped on Tide: today's resurfaced thought sinks and fades, and Warm to cool, not a filter rises in its place",
+    alt: "Let it rest is tapped on Apple Design Principles, today's resurfaced link: it sinks and fades, and Golden hour on the walk home rises on its photograph",
   },
 ];
 const STEP_CLIP_WIDTH = 660;
