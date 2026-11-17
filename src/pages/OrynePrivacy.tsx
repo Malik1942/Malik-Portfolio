@@ -1,21 +1,26 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import Footer from "@/components/Footer";
 import { BackLink } from "@/components/ui/BackLink";
-import { Button } from "@/components/ui/Button";
 import { TextLink } from "@/components/ui/TextLink";
 
-const SUPPORT_EMAIL = "malikdes9gn@gmail.com";
-const EFFECTIVE_DATE = "June 28, 2026";
+/** Oryne's privacy policy lives on Oryne's own site. `vercel.json` redirects this
+ *  address there; this page covers a visit that arrives without asking the server. */
+const POLICY_URL = "https://oryne.malikzhang.com/privacy";
 
 export const PAGE_TITLE = "Oryne Privacy Policy";
 export const PAGE_DESCRIPTION =
-  "Oryne keeps your data with you. Your thoughts, notes, voice transcripts, and images stay on your device and sync only through your own private iCloud. Nothing is sold, and every AI feature runs on-device.";
+  "Oryne's privacy policy has moved to oryne.malikzhang.com/privacy.";
 
 const OrynePrivacy = () => {
   const navigate = useNavigate();
 
   usePageMeta(PAGE_TITLE, PAGE_DESCRIPTION);
+
+  useEffect(() => {
+    window.location.replace(POLICY_URL);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -29,7 +34,6 @@ const OrynePrivacy = () => {
 
       <main className="flex-1 px-6 md:px-16 lg:px-24 pt-16 md:pt-24 pb-8">
         <div className="max-w-reading mx-auto">
-          {/* Intro */}
           <header>
             <span className="text-label uppercase tracking-eyebrow text-foreground-tertiary block mb-6">
               Privacy
@@ -37,164 +41,14 @@ const OrynePrivacy = () => {
             <h1 className="font-display text-title md:text-display font-light text-foreground mb-5">
               Oryne Privacy Policy
             </h1>
-            <p className="text-caption font-mono text-foreground-tertiary mb-8">
-              Effective {EFFECTIVE_DATE}
-            </p>
-            <p className="text-base md:text-xl text-foreground-secondary leading-relaxed max-w-[62ch]">
-              Oryne is built so your captures stay yours. What you create stays on your device and
-              syncs only through your own private iCloud. Oryne does not sell your data, and does
-              not use your content for advertising. Every AI feature runs on your device.
-            </p>
-          </header>
-
-          {/* The short version */}
-          <section aria-labelledby="summary-heading" className="mt-12 md:mt-14">
-            <h2 id="summary-heading" className="sr-only">
-              Summary
-            </h2>
-            <div className="rounded-lg border border-border bg-card/40 p-6 md:p-8">
-              <ul className="space-y-3 text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
-                <li>Your thoughts, notes, voice transcripts, and images stay on your device.</li>
-                <li>They sync across your devices only through your own private iCloud, which the developer cannot access.</li>
-                <li>All AI (link summaries, themes, titles, and Ask the Ocean) runs on-device.</li>
-                <li>No user content is ever sent to an external, third-party, or cloud AI service.</li>
-                <li>Nothing is sold, mined, or used for advertising.</li>
-              </ul>
-            </div>
-          </section>
-
-          {/* Storage and sync */}
-          <section aria-labelledby="storage-heading" className="mt-section">
-            <h2
-              id="storage-heading"
-              className="text-xl md:text-title font-light text-foreground mb-5"
-            >
-              What Oryne stores, and where
-            </h2>
-            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
-              Oryne stores the things you capture: your thoughts, notes, voice transcripts, and
-              imported images. These are stored on your device. Oryne syncs them through your own
-              private iCloud (Apple's CloudKit), so they stay in sync across the devices signed in
-              to your Apple Account. This sync is part of the app today. The developer cannot access
-              this data. It stays within your private iCloud, and it is never stored on or routed
-              through any developer server.
-            </p>
-          </section>
-
-          {/* AI processing */}
-          <section aria-labelledby="ai-heading" className="mt-section">
-            <h2
-              id="ai-heading"
-              className="text-xl md:text-title font-light text-foreground mb-5"
-            >
-              How AI works in Oryne
-            </h2>
-            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
-              All of Oryne's AI features run on your device using Apple's on-device intelligence.
-              This includes link summaries, themes, titles, and Ask the Ocean. No user content is
-              sent to any external, third-party, or cloud AI service, for any feature. Your captures
-              are read and organized on-device, and they stay there.
-            </p>
-          </section>
-
-          {/* Microphone and photos */}
-          <section aria-labelledby="permissions-heading" className="mt-section">
-            <h2
-              id="permissions-heading"
-              className="text-xl md:text-title font-light text-foreground mb-5"
-            >
-              Microphone and photos
-            </h2>
-            <dl className="divide-y divide-border">
-              <div className="py-6 first:pt-0">
-                <dt className="text-base md:text-xl text-foreground tracking-tight mb-2">Microphone</dt>
-                <dd className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
-                  Oryne uses the microphone only for voice capture, and only when you record. The
-                  audio is transcribed on your device so you can capture a thought by speaking.
-                </dd>
-              </div>
-              <div className="py-6">
-                <dt className="text-base md:text-xl text-foreground tracking-tight mb-2">Photos</dt>
-                <dd className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
-                  Oryne accesses your photos only when you choose to import or attach an image. It
-                  does not browse or read your photo library in the background.
-                </dd>
-              </div>
-            </dl>
-          </section>
-
-          {/* Selling and advertising */}
-          <section aria-labelledby="selling-heading" className="mt-section">
-            <h2
-              id="selling-heading"
-              className="text-xl md:text-title font-light text-foreground mb-5"
-            >
-              No selling, no advertising
-            </h2>
-            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
-              Oryne does not sell your data. Oryne does not use your content for advertising. There
-              is no tracking and no advertising profile. Because your content stays on your device
-              and within your own private iCloud, there is nothing for the developer to collect,
-              mine, or share.
-            </p>
-          </section>
-
-          {/* Deleting your content */}
-          <section aria-labelledby="deletion-heading" className="mt-section">
-            <h2
-              id="deletion-heading"
-              className="text-xl md:text-title font-light text-foreground mb-5"
-            >
-              Deleting your content
-            </h2>
-            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
-              You are in control of your content. You can delete it in the app by deleting the
-              captures or thoughts you no longer want. Deleting a thought removes it from your
-              device and from your private iCloud sync across your devices.
-            </p>
-          </section>
-
-          {/* Changes */}
-          <section aria-labelledby="changes-heading" className="mt-section">
-            <h2
-              id="changes-heading"
-              className="text-xl md:text-title font-light text-foreground mb-5"
-            >
-              Changes to this policy
-            </h2>
-            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed max-w-measure">
-              This policy describes how Oryne works today. If the app changes in a way that affects
-              your privacy, this page will be updated with a new effective date before that change
-              ships.
-            </p>
-          </section>
-
-          {/* Contact */}
-          <section aria-labelledby="contact-heading" className="mt-section">
-            <h2
-              id="contact-heading"
-              className="text-xl md:text-title font-light text-foreground mb-4"
-            >
-              Contact
-            </h2>
-            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed mb-6 max-w-[62ch]">
-              Questions about privacy or anything in this policy? Reach the Oryne team directly.
-            </p>
-            <Button href={`mailto:${SUPPORT_EMAIL}`} tone="secondary" iconPosition="leading" icon={<svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} > <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /> </svg>}>
-              {SUPPORT_EMAIL}
-            </Button>
-          </section>
-
-          {/* Cross-link to the support page */}
-          <div className="mt-14 md:mt-16 pt-8 border-t border-border">
-            <p className="text-sm text-foreground-tertiary">
-              Need help using Oryne? Visit{" "}
-              <TextLink href="/oryne/support" tone="secondary">
-                  Oryne Support
-                </TextLink>
+            <p className="text-sm md:text-base text-foreground-secondary leading-relaxed">
+              The policy has moved to{" "}
+              <TextLink href={POLICY_URL} tone="secondary">
+                oryne.malikzhang.com/privacy
+              </TextLink>
               .
             </p>
-          </div>
+          </header>
         </div>
       </main>
 

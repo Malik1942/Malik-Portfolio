@@ -1,4 +1,8 @@
 {
+  "redirects": [
+    { "source": "/oryne/privacy", "destination": "https://oryne.malikzhang.com/privacy", "permanent": true },
+    { "source": "/oryne/privacy/", "destination": "https://oryne.malikzhang.com/privacy", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
