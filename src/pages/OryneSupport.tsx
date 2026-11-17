@@ -44,10 +44,12 @@ const FAQS: Faq[] = [
     q: "Is my data private?",
     a: (
       <>
-        Privacy is the default, not a setting. The intelligence that titles, themes, and connects
-        your Thoughts runs on your device. Your Whispers sync through your own private iCloud, tied
-        to your Apple Account, so they move between your devices without passing through our
-        servers. Nothing you capture is mined, profiled, or sold.
+        Privacy is the default. The intelligence that titles, themes, and connects your Thoughts
+        runs on your device. Your Whispers sync through your own private iCloud, tied to your Apple
+        Account, so they move between your devices without passing through our servers. One
+        optional setting, Cloud AI, is off until you turn it on: with it on, Anthropic's Claude
+        reads your long notes and what a question draws on, through a server of Oryne's that keeps
+        none of it. Nothing you capture is mined, profiled, or sold.
       </>
     ),
   },
@@ -168,8 +170,10 @@ const OryneSupport = () => {
                 Oryne is built so your Thoughts stay yours. The intelligence that titles, themes,
                 and connects your Whispers runs on your device. Your captures sync only through your
                 own private iCloud, tied to your Apple Account, so they reach your other devices
-                without living on our servers. There is no tracking, no advertising profile, and
-                nothing about what you capture is mined or sold.
+                without living on our servers. Cloud AI is optional and off until you turn it on
+                in Settings: with it on, Anthropic's Claude reads your long notes and what a
+                question draws on, and Oryne's server keeps none of it. There is no tracking, no
+                advertising profile, and nothing about what you capture is mined or sold.
               </p>
             </div>
           </section>
@@ -195,7 +199,7 @@ const OryneSupport = () => {
           <div className="mt-14 md:mt-16 pt-8 border-t border-border">
             <p className="text-sm text-foreground-tertiary">
               Read how Oryne handles your data in our{" "}
-              <TextLink href="/oryne/privacy" tone="secondary">
+              <TextLink href="https://oryne.malikzhang.com/privacy" tone="secondary">
                   Privacy Policy
                 </TextLink>
               .
